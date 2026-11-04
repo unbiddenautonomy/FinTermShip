@@ -114,7 +114,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
       if (!correct) {
         setMissed((m) => (m.includes(q.termId) ? m : [...m, q.termId]));
         // One retry per question, at the end of the lesson.
-        if (!item.retry) setItems((list) => [...list, { q: retryQuestion(q, rng), retry: true }]);
+        if (!item.retry) setItems((list) => [...list, { q: retryQuestion(q, rng, new Set(Object.keys(progressRef.current.terms))), retry: true }]);
       }
     },
     [q, item, picked, today, rng, onProgress, score],

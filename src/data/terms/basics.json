@@ -10,12 +10,12 @@
     },
     {
       "id": "b2",
-      "name": "Returns and P&L",
+      "name": "Positions, returns and P&L",
       "core": true
     },
     {
       "id": "b3",
-      "name": "Big numbers and value",
+      "name": "Value, premiums and discounts",
       "core": false
     },
     {
@@ -153,49 +153,6 @@
       "difficulty": 1
     },
     {
-      "id": "basis-point",
-      "term": "basis point",
-      "aliases": [
-        "bps",
-        "bp",
-        "bips"
-      ],
-      "said": "bips (for bps)",
-      "speak": "basis point",
-      "unit": "b1",
-      "short": "One hundredth of a percent (0.01%)",
-      "definition": "One hundredth of one percent (0.01%). Used for interest rates, spreads, costs and small returns.",
-      "examples": [
-        "The RBI cut the repo rate by 25 bips.",
-        "We're paying 3 bips in brokerage on this order."
-      ],
-      "fill": "One ____ equals 0.01%, so 25 of them make a quarter of a percent.",
-      "confusables": [
-        "percentage-point",
-        "spread"
-      ],
-      "wrong": [
-        "One tenth of a percent",
-        "One percent of a company's shares",
-        "The smallest price step a stock can move"
-      ],
-      "formula": "100 basis points = 1%",
-      "difficulty": 1,
-      "calcs": [
-        {
-          "q": "A bond yield rises from 6.85% to 7.10%. How many basis points is that?",
-          "options": [
-            "25",
-            "0.25",
-            "2.5",
-            "250"
-          ],
-          "answer": 0,
-          "why": "0.25 percentage points × 100 = 25 basis points."
-        }
-      ]
-    },
-    {
       "id": "liquidity",
       "term": "liquidity",
       "unit": "b1",
@@ -242,6 +199,73 @@
       "difficulty": 1
     },
     {
+      "id": "lakh",
+      "term": "lakh",
+      "unit": "b1",
+      "short": "1,00,000 (one hundred thousand)",
+      "definition": "Indian unit for one hundred thousand, written 1,00,000. Ten lakh make one million.",
+      "examples": [
+        "The minimum ticket size for the PMS is ₹50 lakh."
+      ],
+      "fill": "₹1,00,000 is one ____.",
+      "confusables": [
+        "crore"
+      ],
+      "wrong": [
+        "One million (10,00,000)",
+        "Ten thousand (10,000)",
+        "Ten million (1,00,00,000)"
+      ],
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "₹25 lakh is how much in millions?",
+          "options": [
+            "2.5 million",
+            "25 million",
+            "0.25 million",
+            "250 million"
+          ],
+          "answer": 0,
+          "why": "1 lakh = 100,000, so 25 lakh = 2,500,000 = 2.5 million."
+        }
+      ]
+    },
+    {
+      "id": "crore",
+      "term": "crore",
+      "unit": "b1",
+      "short": "1,00,00,000 (ten million)",
+      "definition": "Indian unit for ten million, written 1,00,00,000. 100 crore make one billion.",
+      "examples": [
+        "The block was ₹1,200 crore, or 12 billion rupees."
+      ],
+      "fill": "₹100 ____ equals one billion rupees.",
+      "confusables": [
+        "lakh"
+      ],
+      "wrong": [
+        "One hundred thousand (1,00,000)",
+        "One billion (100,00,00,000)",
+        "One million (10,00,000)"
+      ],
+      "note": "Global investors think in millions and billions: ₹1 lakh crore is ₹1 trillion.",
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "How many lakh make one crore?",
+          "options": [
+            "100",
+            "10",
+            "1,000",
+            "10,000"
+          ],
+          "answer": 0,
+          "why": "1 crore = 100 lakh = 10 million."
+        }
+      ]
+    },
+    {
       "id": "market-cap",
       "term": "market capitalisation",
       "aliases": [
@@ -278,6 +302,93 @@
           ],
           "answer": 0,
           "why": "50 crore × ₹400 = ₹20,000 crore."
+        }
+      ]
+    },
+    {
+      "id": "basis-point",
+      "term": "basis point",
+      "aliases": [
+        "bps",
+        "bp",
+        "bips"
+      ],
+      "said": "bips (for bps)",
+      "speak": "basis point",
+      "unit": "b1",
+      "short": "One hundredth of a percent (0.01%)",
+      "definition": "One hundredth of one percent (0.01%). Used for interest rates, spreads, costs and small returns.",
+      "examples": [
+        "The RBI cut the repo rate by 25 bips.",
+        "We're paying 3 bips in brokerage on this order."
+      ],
+      "fill": "One ____ equals 0.01%, so 25 of them make a quarter of a percent.",
+      "confusables": [
+        "percentage-point",
+        "spread"
+      ],
+      "wrong": [
+        "One tenth of a percent",
+        "One percent of a company's shares",
+        "The smallest price step a stock can move"
+      ],
+      "formula": "100 basis points = 1%",
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "A bond yield rises from 6.85% to 7.10%. How many basis points is that?",
+          "options": [
+            "25",
+            "0.25",
+            "2.5",
+            "250"
+          ],
+          "answer": 0,
+          "why": "0.25 percentage points × 100 = 25 basis points."
+        }
+      ]
+    },
+    {
+      "id": "percentage-point",
+      "term": "percentage point",
+      "aliases": [
+        "ppt",
+        "pp"
+      ],
+      "unit": "b1",
+      "short": "Plain difference between two percentages",
+      "definition": "The plain difference between two percentages. A move from 10% to 12% is 2 percentage points, even though it is a 20% increase.",
+      "examples": [
+        "Promoter holding fell 3 percentage points to 51%."
+      ],
+      "fill": "If a bank's bad-loan ratio goes from 4% to 5%, it has risen by one ____.",
+      "confusables": [
+        "basis-point"
+      ],
+      "wrong": [
+        "One hundredth of a percent",
+        "A percentage change relative to the starting value",
+        "A point on the Nifty or Sensex"
+      ],
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "A loan rate goes from 8% to 10%. That's 2 percentage points. How much higher is it in percent terms?",
+          "options": [
+            "25%",
+            "2%",
+            "20%",
+            "10%"
+          ],
+          "answer": 0,
+          "why": "2 ÷ 8 = 0.25, so the rate is 25% higher."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A rate going from 4% to 5% is a 1% rise.",
+          "a": false,
+          "why": "It is a 1 percentage point rise, which is 25% in relative terms."
         }
       ]
     },
@@ -339,7 +450,7 @@
     {
       "id": "position",
       "term": "position",
-      "unit": "b1",
+      "unit": "b2",
       "short": "What you currently hold",
       "definition": "The amount of a security you hold, long or short.",
       "examples": [
@@ -535,6 +646,30 @@
       ]
     },
     {
+      "id": "volatility",
+      "term": "volatility",
+      "aliases": [
+        "vol"
+      ],
+      "unit": "b2",
+      "short": "How much prices swing",
+      "definition": "How much and how fast a price moves up and down. Higher volatility means bigger swings and more risk.",
+      "examples": [
+        "Volatility spiked ahead of the election results."
+      ],
+      "fill": "Small caps can swing 5% in a day, so their ____ is much higher than that of large caps.",
+      "confusables": [
+        "liquidity",
+        "volume"
+      ],
+      "wrong": [
+        "How many shares trade in a day",
+        "How quickly a company grows",
+        "The gap between the bid and the ask"
+      ],
+      "difficulty": 1
+    },
+    {
       "id": "dividend",
       "term": "dividend",
       "unit": "b2",
@@ -699,117 +834,6 @@
       ]
     },
     {
-      "id": "lakh",
-      "term": "lakh",
-      "unit": "b3",
-      "short": "1,00,000 (one hundred thousand)",
-      "definition": "Indian unit for one hundred thousand, written 1,00,000. Ten lakh make one million.",
-      "examples": [
-        "The minimum ticket size for the PMS is ₹50 lakh."
-      ],
-      "fill": "₹1,00,000 is one ____.",
-      "confusables": [
-        "crore"
-      ],
-      "wrong": [
-        "One million (10,00,000)",
-        "Ten thousand (10,000)",
-        "Ten million (1,00,00,000)"
-      ],
-      "difficulty": 1,
-      "calcs": [
-        {
-          "q": "₹25 lakh is how much in millions?",
-          "options": [
-            "2.5 million",
-            "25 million",
-            "0.25 million",
-            "250 million"
-          ],
-          "answer": 0,
-          "why": "1 lakh = 100,000, so 25 lakh = 2,500,000 = 2.5 million."
-        }
-      ]
-    },
-    {
-      "id": "crore",
-      "term": "crore",
-      "unit": "b3",
-      "short": "1,00,00,000 (ten million)",
-      "definition": "Indian unit for ten million, written 1,00,00,000. 100 crore make one billion.",
-      "examples": [
-        "The block was ₹1,200 crore, or 12 billion rupees."
-      ],
-      "fill": "₹100 ____ equals one billion rupees.",
-      "confusables": [
-        "lakh"
-      ],
-      "wrong": [
-        "One hundred thousand (1,00,000)",
-        "One billion (100,00,00,000)",
-        "One million (10,00,000)"
-      ],
-      "note": "Global investors think in millions and billions: ₹1 lakh crore is ₹1 trillion.",
-      "difficulty": 1,
-      "calcs": [
-        {
-          "q": "How many lakh make one crore?",
-          "options": [
-            "100",
-            "10",
-            "1,000",
-            "10,000"
-          ],
-          "answer": 0,
-          "why": "1 crore = 100 lakh = 10 million."
-        }
-      ]
-    },
-    {
-      "id": "percentage-point",
-      "term": "percentage point",
-      "aliases": [
-        "ppt",
-        "pp"
-      ],
-      "unit": "b3",
-      "short": "Plain difference between two percentages",
-      "definition": "The plain difference between two percentages. A move from 10% to 12% is 2 percentage points, even though it is a 20% increase.",
-      "examples": [
-        "Promoter holding fell 3 percentage points to 51%."
-      ],
-      "fill": "If a bank's bad-loan ratio goes from 4% to 5%, it has risen by one ____.",
-      "confusables": [
-        "basis-point"
-      ],
-      "wrong": [
-        "One hundredth of a percent",
-        "A percentage change relative to the starting value",
-        "A point on the Nifty or Sensex"
-      ],
-      "difficulty": 2,
-      "calcs": [
-        {
-          "q": "A loan rate goes from 8% to 10%. That's 2 percentage points. How much higher is it in percent terms?",
-          "options": [
-            "25%",
-            "2%",
-            "20%",
-            "10%"
-          ],
-          "answer": 0,
-          "why": "2 ÷ 8 = 0.25, so the rate is 25% higher."
-        }
-      ],
-      "tf": [
-        {
-          "s": "A rate going from 4% to 5% is a 1% rise.",
-          "a": false,
-          "why": "It is a 1 percentage point rise, which is 25% in relative terms."
-        }
-      ]
-    },
-    {
       "id": "face-value",
       "term": "face value",
       "aliases": [
@@ -856,6 +880,28 @@
       "difficulty": 2
     },
     {
+      "id": "fair-value",
+      "term": "fair value",
+      "unit": "b3",
+      "short": "Estimate of what it's really worth",
+      "definition": "An estimate of what an asset is really worth, from a valuation model or pricing formula, compared with its market price.",
+      "examples": [
+        "Our fair value for the stock is ₹1,400, so we see 20% upside."
+      ],
+      "fill": "Analysts compare the market price with their estimate of ____ to decide if a stock is cheap.",
+      "confusables": [
+        "book-value",
+        "market-cap",
+        "face-value"
+      ],
+      "wrong": [
+        "The price agreed between two friends",
+        "A price fixed by SEBI for every IPO",
+        "The average price over the last year"
+      ],
+      "difficulty": 2
+    },
+    {
       "id": "premium",
       "term": "premium",
       "unit": "b3",
@@ -886,7 +932,7 @@
       "examples": [
         "The holding company trades at a 50% discount to the value of its stakes."
       ],
-      "fill": "The QIP was priced at a 5% ____ to the market price to attract big investors.",
+      "fill": "The share sale was priced at a 5% ____ to the market price to attract big investors.",
       "confusables": [
         "premium",
         "fair-value"
@@ -897,28 +943,6 @@
         "Trading above a reference value"
       ],
       "difficulty": 1
-    },
-    {
-      "id": "fair-value",
-      "term": "fair value",
-      "unit": "b3",
-      "short": "Estimate of what it's really worth",
-      "definition": "An estimate of what an asset is really worth, from a valuation model or pricing formula, compared with its market price.",
-      "examples": [
-        "Our fair value for the stock is ₹1,400, so we see 20% upside."
-      ],
-      "fill": "Analysts compare the market price with their estimate of ____ to decide if a stock is cheap.",
-      "confusables": [
-        "book-value",
-        "market-cap",
-        "face-value"
-      ],
-      "wrong": [
-        "The price agreed between two friends",
-        "A price fixed by SEBI for every IPO",
-        "The average price over the last year"
-      ],
-      "difficulty": 2
     },
     {
       "id": "upside",
@@ -1373,30 +1397,6 @@
         "The time left until a contract expires"
       ],
       "difficulty": 2
-    },
-    {
-      "id": "volatility",
-      "term": "volatility",
-      "aliases": [
-        "vol"
-      ],
-      "unit": "b5",
-      "short": "How much prices swing",
-      "definition": "How much and how fast a price moves up and down. Higher volatility means bigger swings and more risk.",
-      "examples": [
-        "Volatility spiked ahead of the election results."
-      ],
-      "fill": "Small caps can swing 5% in a day, so their ____ is much higher than that of large caps.",
-      "confusables": [
-        "liquidity",
-        "volume"
-      ],
-      "wrong": [
-        "How many shares trade in a day",
-        "How quickly a company grows",
-        "The gap between the bid and the ask"
-      ],
-      "difficulty": 1
     },
     {
       "id": "asset-class",

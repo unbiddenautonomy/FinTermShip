@@ -25,23 +25,30 @@ export function shuffle<T>(items: T[], rng: Rng): T[] {
 }
 
 /**
- * Wrong options that tempt: the term's own confusables first,
- * then terms from the same unit, then the same category.
+ * Wrong options that tempt: the term's own confusables first, then terms from the
+ * same unit, then the same category. When `known` is given (terms the learner has
+ * met, plus this lesson's new ones), known terms come first at each level, so a
+ * newcomer is not shown names they have never seen.
  */
-export function distractorTerms(term: Term, count: number, rng: Rng): Term[] {
+export function distractorTerms(term: Term, count: number, rng: Rng, known?: Set<string>): Term[] {
   const picked: Term[] = [];
   const seen = new Set([term.id]);
-  const add = (t: Term | undefined) => {
+  const add = (t: Term | undefined, knownOnly: boolean) => {
     if (!t || seen.has(t.id) || picked.length >= count) return;
+    if (knownOnly && known && !known.has(t.id)) return;
     seen.add(t.id);
     picked.push(t);
   };
-  for (const id of shuffle(term.confusables, rng)) add(termById.get(id));
   const cat = categoryOfTerm.get(term.id);
-  if (cat) {
-    for (const t of shuffle(cat.terms.filter((x) => x.unit === term.unit), rng)) add(t);
-    for (const t of shuffle(cat.terms, rng)) add(t);
+  const confusables = shuffle(term.confusables, rng).map((id) => termById.get(id));
+  const sameUnit = cat ? shuffle(cat.terms.filter((x) => x.unit === term.unit), rng) : [];
+  const sameCat = cat ? shuffle(cat.terms, rng) : [];
+  const tiers = known ? [true, false] : [false];
+  for (const knownOnly of tiers) {
+    for (const t of confusables) add(t, knownOnly);
+    for (const t of sameUnit) add(t, knownOnly);
   }
+  for (const knownOnly of tiers) for (const t of sameCat) add(t, knownOnly);
   return picked;
 }
 
@@ -92,14 +99,14 @@ export function promptFor(term: Term): string {
 }
 
 /** Pick the term: read the definition, choose the term (options are term ids). */
-export function termQuestion(term: Term, rng: Rng, review = false): Question {
-  const wrong = distractorTerms(term, 3, rng).map((t) => t.id);
+export function termQuestion(term: Term, rng: Rng, review = false, known?: Set<string>): Question {
+  const wrong = distractorTerms(term, 3, rng, known).map((t) => t.id);
   return { kind: 'term', termId: term.id, review, ...withAnswer(term.id, wrong, rng) };
 }
 
 /** Fill the gap: a desk sentence with the term blanked out (options are term ids). */
-export function fillQuestion(term: Term, rng: Rng, review = false): Question {
-  const wrong = distractorTerms(term, 3, rng).map((t) => t.id);
+export function fillQuestion(term: Term, rng: Rng, review = false, known?: Set<string>): Question {
+  const wrong = distractorTerms(term, 3, rng, known).map((t) => t.id);
   return { kind: 'fill', termId: term.id, review, ...withAnswer(term.id, wrong, rng) };
 }
 
@@ -133,17 +140,17 @@ export function tfQuestion(term: Term, rng: Rng, review = false): Question | nul
  * Early steps check recognition; later steps make the learner use the term:
  * in a sentence, in a sum, or against a common misreading.
  */
-export function reviewQuestion(term: Term, step: number, rng: Rng): Question {
+export function reviewQuestion(term: Term, step: number, rng: Rng, known?: Set<string>): Question {
   const r = rng();
-  if (step <= 1) return r < 0.5 ? meaningQuestion(term, rng, true) : termQuestion(term, rng, true);
-  if (step === 2) return (r < 0.35 && tfQuestion(term, rng, true)) || termQuestion(term, rng, true);
+  if (step <= 1) return r < 0.5 ? meaningQuestion(term, rng, true) : termQuestion(term, rng, true, known);
+  if (step === 2) return (r < 0.35 && tfQuestion(term, rng, true)) || termQuestion(term, rng, true, known);
   if (r < 0.5 && term.calcs?.length) return calcQuestion(term, rng, true)!;
   if (r > 0.8 && term.tf?.length) return tfQuestion(term, rng, true)!;
-  return fillQuestion(term, rng, true);
+  return fillQuestion(term, rng, true, known);
 }
 
 /** A fresh version of a missed question for the retry at the end of a lesson. */
-export function retryQuestion(q: Question, rng: Rng): Question {
+export function retryQuestion(q: Question, rng: Rng, known?: Set<string>): Question {
   if (q.kind === 'intro' || q.kind === 'match') return q;
   const t = termById.get(q.termId);
   if (!t) return q;
@@ -151,9 +158,9 @@ export function retryQuestion(q: Question, rng: Rng): Question {
     case 'meaning':
       return meaningQuestion(t, rng);
     case 'term':
-      return termQuestion(t, rng);
+      return termQuestion(t, rng, false, known);
     case 'fill':
-      return fillQuestion(t, rng);
+      return fillQuestion(t, rng, false, known);
     case 'calc':
       // Same sum, reshuffled: the worked answer was just shown, so this checks it stuck.
       return { ...q, review: false, ...withAnswer(q.options[q.answer], q.options.filter((_, i) => i !== q.answer), rng) };

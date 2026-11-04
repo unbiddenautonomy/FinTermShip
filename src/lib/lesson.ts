@@ -1,6 +1,6 @@
 import { pathTermIds, termById } from './content';
 import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, tfQuestion, type Rng } from './questions';
-import { dueTermIds, newLeftToday, reviewsLeftToday } from './scheduler';
+import { dueTermIds, newLeftToday, reviewOverflow, reviewsLeftToday } from './scheduler';
 import type { Progress, Question, Term } from './types';
 
 export const NEW_PER_LESSON = 4;
@@ -24,12 +24,14 @@ export interface TodayStatus {
   due: number;
   newLeft: number;
   newAvailable: number;
+  /** True when reviews have piled up and new terms are slowed until they clear. */
+  slowed: boolean;
 }
 
 export function todayStatus(p: Progress, today: string): TodayStatus {
   const due = Math.min(dueTermIds(p, today).length, reviewsLeftToday(p, today));
   const newAvailable = pathTermIds.filter((id) => !p.terms[id]).length;
-  return { due, newLeft: Math.min(newLeftToday(p, today), newAvailable), newAvailable };
+  return { due, newLeft: Math.min(newLeftToday(p, today), newAvailable), newAvailable, slowed: reviewOverflow(p, today) > 0 };
 }
 
 /**
@@ -57,7 +59,8 @@ function terms(ids: string[]): Term[] {
 }
 
 function reviewLessonQuestions(p: Progress, reviewIds: string[], rng: Rng): Question[] {
-  const qs: Question[] = shuffle(terms(reviewIds), rng).map((t) => reviewQuestion(t, p.terms[t.id]?.step ?? 1, rng));
+  const known = new Set(Object.keys(p.terms));
+  const qs: Question[] = shuffle(terms(reviewIds), rng).map((t) => reviewQuestion(t, p.terms[t.id]?.step ?? 1, rng, known));
   // A match round in the middle keeps a long review from feeling like flashcards.
   if (reviewIds.length >= 5) {
     const pairs = shuffle(terms(reviewIds), rng).slice(0, 5);
@@ -72,7 +75,8 @@ function reviewLessonQuestions(p: Progress, reviewIds: string[], rng: Rng): Ques
  */
 function newLessonQuestions(p: Progress, newIds: string[], reviewIds: string[], rng: Rng): Question[] {
   const fresh = terms(newIds);
-  const reviews = terms(reviewIds).map((t) => reviewQuestion(t, p.terms[t.id]?.step ?? 1, rng));
+  const known = new Set([...Object.keys(p.terms), ...newIds]);
+  const reviews = terms(reviewIds).map((t) => reviewQuestion(t, p.terms[t.id]?.step ?? 1, rng, known));
   const qs: Question[] = [];
   const takeReview = () => {
     const r = reviews.shift();
@@ -82,11 +86,11 @@ function newLessonQuestions(p: Progress, newIds: string[], reviewIds: string[], 
   fresh.forEach((t, i) => {
     qs.push({ kind: 'intro', termId: t.id });
     qs.push(meaningQuestion(t, rng));
-    if (i > 0) qs.push(termQuestion(fresh[i - 1], rng));
+    if (i > 0) qs.push(termQuestion(fresh[i - 1], rng, false, known));
     if (i === 1) takeReview();
   });
   const last = fresh[fresh.length - 1];
-  if (last) qs.push(termQuestion(last, rng));
+  if (last) qs.push(termQuestion(last, rng, false, known));
   takeReview();
 
   // Match pairs needs 4 or 5 terms: the new ones, topped up with known neighbours.
@@ -100,7 +104,7 @@ function newLessonQuestions(p: Progress, newIds: string[], reviewIds: string[], 
   takeReview();
 
   // Two fill-the-gap questions on new terms to start using them in sentences.
-  for (const t of shuffle(fresh, rng).slice(0, 2)) qs.push(fillQuestion(t, rng));
+  for (const t of shuffle(fresh, rng).slice(0, 2)) qs.push(fillQuestion(t, rng, false, known));
   takeReview();
 
   // Then put the new terms to work: up to two worked sums or true/false checks.
