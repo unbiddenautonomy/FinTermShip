@@ -1,148 +1,211 @@
 import { categories, coreTermIds, path } from '../lib/content';
+import { addDays, daysBetween } from '../lib/dates';
 import { todayStatus } from '../lib/lesson';
 import { currentStreak, dayStats, isKnown } from '../lib/scheduler';
-import { daysBetween } from '../lib/dates';
 import type { Progress } from '../lib/types';
-import { Bar, Button, Card } from './ui';
+import { Bolt, Check, Flame, Logo } from './icons';
+import { Bar, Button, Card, Pill, Ring, SectionTitle } from './ui';
 
 interface Props {
   progress: Progress;
   today: string;
   onStart: (ignoreNewCap: boolean) => void;
-  onOpen: (screen: 'glossary' | 'settings') => void;
+  onOpenSettings: () => void;
   showInstallHint: boolean;
 }
 
-export function Home({ progress, today, onStart, onOpen, showInstallHint }: Props) {
+const TOTAL_CATEGORIES = 17;
+
+export function Home({ progress, today, onStart, onOpenSettings, showInstallHint }: Props) {
   const status = todayStatus(progress, today);
   const streak = currentStreak(progress, today);
   const todayStats = dayStats(progress, today);
-  const coreMet = coreTermIds.filter((id) => progress.terms[id]).length;
-  const sweepDone = coreMet === coreTermIds.length;
+  const goal = progress.settings.newPerDay;
   const hasWork = status.due > 0 || status.newLeft > 0;
   const metCount = Object.keys(progress.terms).length;
-  const backupDue =
-    metCount >= 20 && (!progress.lastBackup || daysBetween(progress.lastBackup, today) >= 7);
+  const backupDue = metCount >= 20 && (!progress.lastBackup || daysBetween(progress.lastBackup, today) >= 7);
+  const practisedToday = todayStats.lessons > 0;
+
+  const headline = !hasWork
+    ? status.newAvailable === 0
+      ? 'Every term met'
+      : 'Daily goal done'
+    : practisedToday
+      ? 'Keep it going'
+      : 'Ready for today?';
+  const subline = !hasWork
+    ? status.newAvailable === 0
+      ? 'Reviews will come back on schedule.'
+      : 'Nice work. Come back tomorrow, or learn a few more.'
+    : [status.due ? `${status.due} review${status.due === 1 ? '' : 's'} due` : null, status.newLeft ? `${status.newLeft} new term${status.newLeft === 1 ? '' : 's'} left` : null]
+        .filter(Boolean)
+        .join(' · ');
 
   return (
-    <div className="mx-auto max-w-xl space-y-5 px-4 pb-16 pt-6">
+    <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5">
       <header className="flex items-center justify-between">
-        <h1 className="text-2xl font-black tracking-tight text-brand-600 dark:text-brand-400">FinTermShip</h1>
-        <div className="flex items-center gap-4 text-sm font-bold">
-          <span className="text-amber-600 dark:text-amber-400" title="Days in a row">
-            {streak} day streak
+        <div className="flex items-center gap-2.5">
+          <Logo className="h-8 w-8" />
+          <span className="text-xl font-extrabold tracking-tight text-ink">FinTermShip</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span
+            className={`num inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-extrabold ${practisedToday ? 'bg-amber-soft text-amber-ink' : 'bg-sunken text-ink-3'}`}
+            title="Days in a row"
+            aria-label={`${streak} day streak`}
+          >
+            <Flame className="h-4 w-4" />
+            {streak}
           </span>
-          <span className="text-sky-600 dark:text-sky-400">{progress.xp} XP</span>
+          <span className="num inline-flex items-center gap-1 rounded-full bg-sky-soft px-3 py-1.5 text-sm font-extrabold text-sky-ink" aria-label={`${progress.xp} XP`}>
+            <Bolt className="h-4 w-4" />
+            {progress.xp}
+          </span>
         </div>
       </header>
 
       {showInstallHint && (
-        <Card className="border-amber-300 bg-amber-50 text-sm text-amber-900 dark:border-amber-700 dark:bg-amber-950 dark:text-amber-200">
+        <div className="rounded-2xl border border-amber/40 bg-amber-soft px-4 py-3 text-sm leading-relaxed text-amber-ink">
           On iPhone, tap Share, then <b>Add to Home Screen</b>. Safari can clear a website's saved progress after 7 days unused; the home screen app keeps it.
-        </Card>
+        </div>
       )}
 
-      <Card>
-        <p className="text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Today</p>
-        <div className="mt-2 flex gap-6 text-slate-800 dark:text-slate-100">
-          <div>
-            <p className="text-3xl font-black">{status.due}</p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">reviews due</p>
-          </div>
-          <div>
-            <p className="text-3xl font-black">{status.newLeft}</p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">new terms left</p>
-          </div>
-          <div>
-            <p className="text-3xl font-black">{todayStats.lessons}</p>
-            <p className="text-sm text-slate-500 dark:text-slate-400">lessons done</p>
+      <Card className="space-y-5">
+        <div className="flex items-center gap-5">
+          <Ring value={todayStats.newTerms} max={goal} size={92} stroke={9} label={`${todayStats.newTerms} of ${goal} new terms today`}>
+            <div className="text-center leading-none">
+              <p className="num text-2xl font-extrabold text-ink">{todayStats.newTerms}</p>
+              <p className="mt-1 text-[11px] font-bold text-ink-3">of {goal} new</p>
+            </div>
+          </Ring>
+          <div className="min-w-0">
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">Today</p>
+            <p className="mt-1 text-xl font-extrabold text-ink">{headline}</p>
+            <p className="mt-1 text-sm leading-snug text-ink-2">{subline}</p>
           </div>
         </div>
-        <div className="mt-5 space-y-3">
-          {hasWork ? (
-            <Button onClick={() => onStart(false)} className="w-full text-lg">
-              {todayStats.lessons ? 'Continue today’s session' : 'Start today’s session'}
+
+        <WeekStrip progress={progress} today={today} />
+
+        {hasWork ? (
+          <Button onClick={() => onStart(false)} className="w-full text-base">
+            {practisedToday ? 'Continue' : 'Start lesson'}
+          </Button>
+        ) : (
+          status.newAvailable > 0 && (
+            <Button variant="secondary" onClick={() => onStart(true)} className="w-full">
+              Learn 4 more terms
             </Button>
-          ) : (
-            <>
-              <p className="rounded-2xl bg-brand-50 p-3 text-center font-semibold text-brand-700 dark:bg-[#05291a] dark:text-brand-400">
-                {status.newAvailable === 0 ? 'You have met every term so far. Reviews will come back on schedule.' : 'Daily goal done. Nice work.'}
-              </p>
-              {status.newAvailable > 0 && (
-                <Button variant="secondary" onClick={() => onStart(true)} className="w-full">
-                  Learn 4 more terms
-                </Button>
-              )}
-            </>
-          )}
-        </div>
+          )
+        )}
       </Card>
 
-      <Card>
-        <div className="mb-2">
-          <p className="font-bold text-slate-800 dark:text-slate-100">{sweepDone ? 'Core sweep complete' : 'Pass 1: core sweep'}</p>
-          <p className="text-sm text-slate-500 dark:text-slate-400">
-            {coreMet} of {coreTermIds.length} common terms met
-          </p>
-        </div>
-        <Bar value={coreMet} max={coreTermIds.length} />
-        <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-          {sweepDone
-            ? 'Pass 2 now goes deeper, category by category.'
-            : 'Meet the common terms of every area first, then go deeper.'}
-        </p>
-      </Card>
-
-      <section className="space-y-3">
-        <h2 className="text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Your path</h2>
-        {[1, 2].map((pass) => (
-          <div key={pass} className="space-y-2">
-            <p className="text-xs font-bold uppercase tracking-wide text-slate-400">{pass === 1 ? 'Pass 1 · core' : 'Pass 2 · deeper'}</p>
-            {path
-              .filter((p) => p.pass === pass)
-              .map((p) => {
-                const met = p.terms.filter((t) => progress.terms[t.id]).length;
-                const known = p.terms.filter((t) => isKnown(progress.terms[t.id])).length;
-                const complete = met === p.terms.length;
-                return (
-                  <div
-                    key={p.unit.id}
-                    className={`flex items-center gap-3 rounded-2xl border-2 p-3 ${complete ? 'border-brand-200 bg-brand-50/60 dark:border-brand-700/50 dark:bg-[#05291a]/60' : 'border-slate-200 bg-white dark:border-slate-700 dark:bg-slate-800'}`}
-                  >
-                    <div className="min-w-0 flex-1">
-                      <p className="truncate font-semibold text-slate-800 dark:text-slate-100">{p.unit.name}</p>
-                      <p className="truncate text-xs text-slate-500 dark:text-slate-400">{p.category.name}</p>
-                    </div>
-                    <div className="w-28 shrink-0">
-                      <Bar value={met} max={p.terms.length} className="h-2" />
-                      <p className="mt-1 text-right text-xs text-slate-500 dark:text-slate-400">
-                        {met}/{p.terms.length} met · {known} known
-                      </p>
-                    </div>
-                  </div>
-                );
-              })}
-          </div>
-        ))}
-        <p className="text-xs text-slate-500 dark:text-slate-400">
-          {categories.length} of 16 categories are in this first version. "Known" means a term has climbed to step 4 of 6 on the review ladder.
-        </p>
-      </section>
+      <LearningPath progress={progress} />
 
       {backupDue && (
-        <Card className="text-sm text-slate-700 dark:text-slate-200">
-          Your progress is saved on this device only. <button className="font-bold text-brand-600 underline dark:text-brand-400" onClick={() => onOpen('settings')}>Save a backup file</button> once a week to be safe.
-        </Card>
+        <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-sm text-ink-2">
+          <span className="flex-1">Progress lives on this device only. Save a backup once a week to be safe.</span>
+          <button className="shrink-0 font-extrabold text-brand-ink" onClick={onOpenSettings}>
+            Back up
+          </button>
+        </div>
       )}
 
-      <nav className="grid grid-cols-2 gap-3">
-        <Button variant="secondary" onClick={() => onOpen('glossary')}>
-          Glossary
-        </Button>
-        <Button variant="secondary" onClick={() => onOpen('settings')}>
-          Settings
-        </Button>
-      </nav>
+      <p className="px-1 text-xs leading-relaxed text-ink-3">
+        {categories.length} of {TOTAL_CATEGORIES} categories are ready. A term counts as known once it reaches step 4 of 6 on the review ladder.
+      </p>
+    </div>
+  );
+}
+
+function WeekStrip({ progress, today }: { progress: Progress; today: string }) {
+  const days = Array.from({ length: 7 }, (_, i) => addDays(today, i - 6));
+  return (
+    <div className="flex justify-between rounded-2xl bg-sunken px-3 py-2.5">
+      {days.map((d) => {
+        const done = (progress.days[d]?.lessons ?? 0) > 0;
+        const [y, m, dd] = d.split('-').map(Number);
+        const letter = new Date(y, m - 1, dd).toLocaleDateString('en-IN', { weekday: 'narrow' });
+        const isToday = d === today;
+        return (
+          <div key={d} className="flex flex-col items-center gap-1.5">
+            <span className={`text-[11px] font-bold ${isToday ? 'text-ink' : 'text-ink-3'}`}>{letter}</span>
+            <span
+              className={`flex h-6 w-6 items-center justify-center rounded-full ${done ? 'bg-amber text-white' : isToday ? 'border-2 border-dashed border-amber/60' : 'bg-line/70'}`}
+              aria-label={`${d}${done ? ', practised' : ''}`}
+            >
+              {done && <Flame className="h-3.5 w-3.5" />}
+            </span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function LearningPath({ progress }: { progress: Progress }) {
+  const coreMet = coreTermIds.filter((id) => progress.terms[id]).length;
+  const rows = path.map((p) => {
+    const met = p.terms.filter((t) => progress.terms[t.id]).length;
+    const known = p.terms.filter((t) => isKnown(progress.terms[t.id])).length;
+    return { ...p, met, known, total: p.terms.length };
+  });
+  const currentIdx = rows.findIndex((r) => r.met < r.total);
+
+  return (
+    <div className="space-y-6">
+      {([1, 2] as const).map((pass) => {
+        const passRows = rows.map((r, i) => ({ ...r, i })).filter((r) => r.pass === pass);
+        const met = passRows.reduce((n, r) => n + r.met, 0);
+        const total = passRows.reduce((n, r) => n + r.total, 0);
+        return (
+          <section key={pass}>
+            <SectionTitle aside={`${pass === 1 ? coreMet : met} of ${total} met`}>{pass === 1 ? 'Pass 1 · Core sweep' : 'Pass 2 · Go deeper'}</SectionTitle>
+            <p className="-mt-1 mb-3 px-1 text-sm text-ink-2">
+              {pass === 1 ? 'The most common terms from every area, first.' : 'Each area in depth, including higher-order Greeks and research statistics.'}
+            </p>
+            {pass === 1 && <Bar value={coreMet} max={total} className="mb-4 h-1.5" label="Core sweep progress" />}
+            <ol className="relative">
+              {passRows.map((r, n) => {
+                const complete = r.met === r.total;
+                const current = r.i === currentIdx;
+                return (
+                  <li key={r.unit.id} className="relative flex gap-4 pb-3">
+                    {n < passRows.length - 1 && (
+                      <span className={`absolute left-[23px] top-12 h-[calc(100%-36px)] w-0.5 ${complete ? 'bg-brand/40' : 'bg-line'}`} aria-hidden="true" />
+                    )}
+                    <div className="relative z-10">
+                      {complete ? (
+                        <span className="flex h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-press">
+                          <Check className="h-6 w-6" />
+                        </span>
+                      ) : (
+                        <Ring value={r.met} max={r.total} size={48} stroke={5} tone={current ? 'brand' : 'sky'}>
+                          <span className={`num text-sm font-extrabold ${current ? 'text-brand-ink' : r.met ? 'text-ink-2' : 'text-ink-3'}`}>{r.i + 1}</span>
+                        </Ring>
+                      )}
+                    </div>
+                    <div
+                      className={`min-w-0 flex-1 rounded-2xl border px-4 py-3 ${current ? 'border-brand/50 bg-brand-soft/50' : 'border-line bg-surface'}`}
+                    >
+                      <div className="flex items-center gap-2">
+                        <p className="min-w-0 flex-1 truncate font-bold text-ink">{r.unit.name}</p>
+                        {current && <Pill tone="brand">Up next</Pill>}
+                      </div>
+                      <p className="mt-0.5 flex items-center justify-between gap-2 text-xs text-ink-3">
+                        <span className="truncate">{r.category.name}</span>
+                        <span className="num shrink-0 font-semibold">
+                          {r.met}/{r.total} met{r.known ? ` · ${r.known} known` : ''}
+                        </span>
+                      </p>
+                    </div>
+                  </li>
+                );
+              })}
+            </ol>
+          </section>
+        );
+      })}
     </div>
   );
 }

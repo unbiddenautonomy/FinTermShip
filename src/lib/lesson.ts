@@ -1,5 +1,5 @@
 import { pathTermIds, termById } from './content';
-import { matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, fillQuestion, type Rng } from './questions';
+import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, tfQuestion, type Rng } from './questions';
 import { dueTermIds, newLeftToday, reviewsLeftToday } from './scheduler';
 import type { Progress, Question, Term } from './types';
 
@@ -102,6 +102,17 @@ function newLessonQuestions(p: Progress, newIds: string[], reviewIds: string[], 
   // Two fill-the-gap questions on new terms to start using them in sentences.
   for (const t of shuffle(fresh, rng).slice(0, 2)) qs.push(fillQuestion(t, rng));
   takeReview();
+
+  // Then put the new terms to work: up to two worked sums or true/false checks.
+  const apply: Question[] = [];
+  for (const t of fresh) {
+    const q = calcQuestion(t, rng) ?? tfQuestion(t, rng);
+    if (q) apply.push(q);
+  }
+  for (const q of shuffle(apply, rng).slice(0, 2)) {
+    qs.push(q);
+    takeReview();
+  }
   while (reviews.length) takeReview();
   return qs;
 }

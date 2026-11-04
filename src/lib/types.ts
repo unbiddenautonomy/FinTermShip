@@ -18,6 +18,23 @@ export interface Term {
   difficulty: number;
   asOf?: string;
   source?: string;
+  /** Worked numbers. The right option is always written first and shuffled at runtime. */
+  calcs?: Calc[];
+  /** True or false statements that test a common misreading. */
+  tf?: TrueFalse[];
+}
+
+export interface Calc {
+  q: string;
+  options: string[];
+  answer: number;
+  why: string;
+}
+
+export interface TrueFalse {
+  s: string;
+  a: boolean;
+  why?: string;
 }
 
 export interface Unit {
@@ -76,6 +93,8 @@ export type Question =
   | { kind: 'meaning'; termId: string; options: string[]; answer: number; review: boolean }
   | { kind: 'term'; termId: string; options: string[]; answer: number; review: boolean }
   | { kind: 'fill'; termId: string; options: string[]; answer: number; review: boolean }
+  | { kind: 'calc'; termId: string; prompt: string; why: string; options: string[]; answer: number; review: boolean }
+  | { kind: 'tf'; termId: string; prompt: string; why?: string; options: string[]; answer: number; review: boolean }
   | { kind: 'match'; termIds: string[]; right: string[] };
 
 export type ScoredQuestion = Exclude<Question, { kind: 'intro' } | { kind: 'match' }>;
