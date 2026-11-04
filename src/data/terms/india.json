@@ -83,6 +83,117 @@
       "difficulty": 1
     },
     {
+      "id": "cash-segment",
+      "term": "cash segment",
+      "aliases": [
+        "cash market",
+        "equity segment"
+      ],
+      "unit": "i1",
+      "short": "Where shares themselves trade",
+      "definition": "The part of an exchange where shares themselves are bought and sold, for delivery or intraday, as opposed to the derivatives (F&O) segment.",
+      "examples": [
+        "Cash market volumes are a fraction of F&O volumes."
+      ],
+      "fill": "Buying shares to hold for the long term happens in the ____, not in F&O.",
+      "confusables": [
+        "fno"
+      ],
+      "wrong": [
+        "The segment for currency trading",
+        "Trading paid for with physical cash",
+        "The segment for government bonds"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "fno",
+      "term": "F&O",
+      "aliases": [
+        "futures and options",
+        "derivatives segment"
+      ],
+      "said": "F and O",
+      "speak": "F and O",
+      "unit": "i1",
+      "short": "Futures and options segment",
+      "definition": "Futures and options: the derivatives segment of an exchange, where contracts on indices and stocks are traded.",
+      "examples": [
+        "SEBI tightened F&O rules to cut retail losses."
+      ],
+      "fill": "Contracts like Nifty futures and Bank Nifty options trade in the ____ segment.",
+      "confusables": [
+        "cash-segment"
+      ],
+      "wrong": [
+        "Fixed income and other bonds",
+        "The segment where shares are delivered",
+        "A list of foreign-owned companies"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "promoter",
+      "term": "promoter",
+      "aliases": [
+        "promoter group"
+      ],
+      "unit": "i1",
+      "short": "Founder or controlling shareholder",
+      "definition": "The founder, family or parent company that controls an Indian listed company, as declared in its filings.",
+      "examples": [
+        "Promoters own 55% and haven't sold a share."
+      ],
+      "fill": "In India, the founding family that controls a listed company is called its ____.",
+      "confusables": [
+        "hni",
+        "promoter-pledge"
+      ],
+      "wrong": [
+        "A marketing firm hired for an IPO",
+        "A broker who recommends a stock",
+        "Any shareholder with more than 1%"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "free-float",
+      "term": "free float",
+      "aliases": [
+        "free-float market cap"
+      ],
+      "unit": "i1",
+      "short": "Shares available to the public",
+      "definition": "The shares freely available to trade, leaving out promoter holdings and other locked-in shares. Indices like the Nifty 50 weight companies by free-float market cap.",
+      "examples": [
+        "With promoters holding 75%, the free float is small."
+      ],
+      "fill": "A company whose promoters hold 90% of the shares has a very small ____.",
+      "confusables": [
+        "market-cap",
+        "promoter"
+      ],
+      "wrong": [
+        "The total number of shares issued",
+        "Shares that pay no dividend",
+        "Cash a company keeps outside its business"
+      ],
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "A company is worth ₹1 lakh crore and promoters hold 60%. Its free-float market cap is about?",
+          "options": [
+            "₹40,000 crore",
+            "₹60,000 crore",
+            "₹1 lakh crore",
+            "₹16,000 crore"
+          ],
+          "answer": 0,
+          "why": "Only the roughly 40% not held by promoters counts: 40% of ₹1 lakh crore."
+        }
+      ]
+    },
+    {
       "id": "nifty-50",
       "term": "Nifty 50",
       "aliases": [
@@ -158,7 +269,7 @@
       "term": "large cap",
       "unit": "i1",
       "short": "Top 100 companies by market cap",
-      "definition": "In India, the 100 largest listed companies by full market cap, under SEBI's classification for mutual funds. AMFI updates the list every six months.",
+      "definition": "In India, the 100 largest listed companies by full market cap, under the classification that SEBI, the market regulator, sets for mutual funds. AMFI updates the list every six months.",
       "examples": [
         "Large caps held up better than small caps in the sell-off."
       ],
@@ -181,7 +292,7 @@
       "term": "mid cap",
       "unit": "i1",
       "short": "Companies ranked 101 to 250",
-      "definition": "In India, companies ranked 101st to 250th by full market cap, under SEBI's classification for mutual funds.",
+      "definition": "In India, companies ranked 101st to 250th by full market cap, under the same SEBI classification.",
       "examples": [
         "Mid caps have rallied 40% this year."
       ],
@@ -220,93 +331,6 @@
       ],
       "asOf": "2026-11",
       "source": "https://support.zerodha.com/category/trading-and-markets/trading-faqs/trading-categories-and-groups/articles/large-mid-and-small-cap",
-      "difficulty": 1
-    },
-    {
-      "id": "free-float",
-      "term": "free float",
-      "aliases": [
-        "free-float market cap"
-      ],
-      "unit": "i1",
-      "short": "Shares available to the public",
-      "definition": "The shares freely available to trade, leaving out promoter holdings and other locked-in shares. Indices like the Nifty 50 weight companies by free-float market cap.",
-      "examples": [
-        "With promoters holding 75%, the free float is small."
-      ],
-      "fill": "A company whose promoters hold 90% of the shares has a very small ____.",
-      "confusables": [
-        "market-cap",
-        "promoter"
-      ],
-      "wrong": [
-        "The total number of shares issued",
-        "Shares that pay no dividend",
-        "Cash a company keeps outside its business"
-      ],
-      "difficulty": 2,
-      "calcs": [
-        {
-          "q": "A company is worth ₹1 lakh crore and promoters hold 60%. Its free-float market cap is about?",
-          "options": [
-            "₹40,000 crore",
-            "₹60,000 crore",
-            "₹1 lakh crore",
-            "₹16,000 crore"
-          ],
-          "answer": 0,
-          "why": "Only the roughly 40% not held by promoters counts: 40% of ₹1 lakh crore."
-        }
-      ]
-    },
-    {
-      "id": "cash-segment",
-      "term": "cash segment",
-      "aliases": [
-        "cash market",
-        "equity segment"
-      ],
-      "unit": "i1",
-      "short": "Where shares themselves trade",
-      "definition": "The part of an exchange where shares themselves are bought and sold, for delivery or intraday, as opposed to the derivatives (F&O) segment.",
-      "examples": [
-        "Cash market volumes are a fraction of F&O volumes."
-      ],
-      "fill": "Buying shares to hold in your demat account happens in the ____, not in F&O.",
-      "confusables": [
-        "fno"
-      ],
-      "wrong": [
-        "The segment for currency trading",
-        "Trading paid for with physical cash",
-        "The segment for government bonds"
-      ],
-      "difficulty": 1
-    },
-    {
-      "id": "fno",
-      "term": "F&O",
-      "aliases": [
-        "futures and options",
-        "derivatives segment"
-      ],
-      "said": "F and O",
-      "speak": "F and O",
-      "unit": "i1",
-      "short": "Futures and options segment",
-      "definition": "Futures and options: the derivatives segment of an exchange, where contracts on indices and stocks are traded.",
-      "examples": [
-        "SEBI tightened F&O rules to cut retail losses."
-      ],
-      "fill": "Contracts like Nifty futures and Bank Nifty options trade in the ____ segment.",
-      "confusables": [
-        "cash-segment"
-      ],
-      "wrong": [
-        "Fixed income and other bonds",
-        "The segment where shares are delivered",
-        "A list of foreign-owned companies"
-      ],
       "difficulty": 1
     },
     {
@@ -361,46 +385,26 @@
       "difficulty": 1
     },
     {
-      "id": "demat-account",
-      "term": "demat account",
-      "said": "dee-mat",
-      "unit": "i2",
-      "short": "Electronic account that holds your shares",
-      "definition": "An account that holds shares and other securities in electronic (dematerialised) form, opened through a depository participant.",
-      "examples": [
-        "The shares will be credited to your demat account on listing day."
+      "id": "stockbroker",
+      "term": "stockbroker",
+      "aliases": [
+        "broker"
       ],
-      "fill": "After you buy shares, they are held in your ____, not in your bank account.",
+      "unit": "i2",
+      "short": "Firm that places your trades",
+      "definition": "A firm registered with SEBI and a member of an exchange, which places orders on the exchange for its clients.",
+      "examples": [
+        "Discount brokers charge a flat fee per order."
+      ],
+      "fill": "Retail investors can't trade directly on NSE; they go through a ____.",
       "confusables": [
-        "trading-account",
         "dp",
-        "depository"
+        "nse"
       ],
       "wrong": [
-        "A bank account for paying brokers",
-        "An account for trading derivatives only",
-        "A tax-saving account for investments"
-      ],
-      "difficulty": 1
-    },
-    {
-      "id": "trading-account",
-      "term": "trading account",
-      "unit": "i2",
-      "short": "Broker account used to place orders",
-      "definition": "The account with your broker that you use to place buy and sell orders. It is linked to your demat account, which holds shares, and your bank account, which holds money.",
-      "examples": [
-        "Add funds to the trading account before the market opens."
-      ],
-      "fill": "You place orders through your ____, while the shares themselves sit in your demat account.",
-      "confusables": [
-        "demat-account",
-        "stockbroker"
-      ],
-      "wrong": [
-        "The account that holds your shares",
-        "An account at the exchange in your own name",
-        "A savings account with a higher interest rate"
+        "The person who sets a stock's price",
+        "A bank that lends to companies",
+        "An analyst who rates stocks"
       ],
       "difficulty": 1
     },
@@ -424,6 +428,29 @@
         "The company that settles trades and guarantees them"
       ],
       "difficulty": 2
+    },
+    {
+      "id": "demat-account",
+      "term": "demat account",
+      "said": "dee-mat",
+      "unit": "i2",
+      "short": "Electronic account that holds your shares",
+      "definition": "An account that holds shares and other securities in electronic (dematerialised) form, opened through a depository participant.",
+      "examples": [
+        "The shares will be credited to your demat account on listing day."
+      ],
+      "fill": "After you buy shares, they are held in your ____, not in your bank account.",
+      "confusables": [
+        "trading-account",
+        "dp",
+        "depository"
+      ],
+      "wrong": [
+        "A bank account for paying brokers",
+        "An account for trading derivatives only",
+        "A tax-saving account for investments"
+      ],
+      "difficulty": 1
     },
     {
       "id": "dp",
@@ -452,26 +479,23 @@
       "difficulty": 2
     },
     {
-      "id": "stockbroker",
-      "term": "stockbroker",
-      "aliases": [
-        "broker"
-      ],
+      "id": "trading-account",
+      "term": "trading account",
       "unit": "i2",
-      "short": "Firm that places your trades",
-      "definition": "A firm registered with SEBI and a member of an exchange, which places orders on the exchange for its clients.",
+      "short": "Broker account used to place orders",
+      "definition": "The account with your broker that you use to place buy and sell orders. It is linked to your demat account, which holds shares, and your bank account, which holds money.",
       "examples": [
-        "Discount brokers charge a flat fee per order."
+        "Add funds to the trading account before the market opens."
       ],
-      "fill": "Retail investors can't trade directly on NSE; they go through a ____.",
+      "fill": "You place orders through your ____, while the shares themselves sit in your demat account.",
       "confusables": [
-        "dp",
-        "nse"
+        "demat-account",
+        "stockbroker"
       ],
       "wrong": [
-        "The person who sets a stock's price",
-        "A bank that lends to companies",
-        "An analyst who rates stocks"
+        "The account that holds your shares",
+        "An account at the exchange in your own name",
+        "A savings account with a higher interest rate"
       ],
       "difficulty": 1
     },
@@ -790,30 +814,6 @@
         "The regulator for mutual funds"
       ],
       "note": "On a demat statement, AMC can also mean annual maintenance charge.",
-      "difficulty": 1
-    },
-    {
-      "id": "promoter",
-      "term": "promoter",
-      "aliases": [
-        "promoter group"
-      ],
-      "unit": "i3",
-      "short": "Founder or controlling shareholder",
-      "definition": "The founder, family or parent company that controls an Indian listed company, as declared in its filings.",
-      "examples": [
-        "Promoters own 55% and haven't sold a share."
-      ],
-      "fill": "In India, the founding family that controls a listed company is called its ____.",
-      "confusables": [
-        "hni",
-        "promoter-pledge"
-      ],
-      "wrong": [
-        "A marketing firm hired for an IPO",
-        "A broker who recommends a stock",
-        "Any shareholder with more than 1%"
-      ],
       "difficulty": 1
     },
     {
