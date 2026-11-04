@@ -37,22 +37,21 @@ export function MatchPairs({ termIds, right, onDone }: Props) {
     }
   };
 
-  const base = 'w-full rounded-2xl border-2 px-3 py-3 text-left text-sm font-semibold transition min-h-[3.5rem]';
-  const idle = 'border-slate-200 bg-white text-slate-800 shadow-[0_3px_0_0_#e2e8f0] dark:border-slate-700 dark:bg-slate-800 dark:text-slate-100 dark:shadow-[0_3px_0_0_#334155]';
-  const sel = 'border-sky-400 bg-sky-50 text-sky-800 dark:bg-sky-900/40 dark:text-sky-200';
-  const ok = 'border-transparent bg-slate-100 text-slate-300 dark:bg-slate-800/40 dark:text-slate-600';
-  const bad = 'border-rose-400 bg-rose-50 text-rose-700 dark:bg-[#2b0a12] dark:text-rose-300';
+  const base = 'w-full min-h-[3.75rem] rounded-2xl border-2 px-3 py-3 text-left text-sm font-bold leading-snug transition';
+  const idle = 'border-line bg-surface text-ink shadow-press-line active:translate-y-[1px] active:shadow-none';
+  const sel = 'border-sky bg-sky-soft text-sky-ink';
+  const ok = 'border-transparent bg-sunken text-ink-3/60';
+  const bad = 'animate-shake border-bad bg-bad-soft text-bad-ink';
 
   return (
     <div>
-      <p className="mb-4 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">Match the pairs</p>
       <div className="grid grid-cols-[2fr_3fr] gap-3">
         <div className="space-y-3">
           {termIds.map((id) => {
             const done = matched.includes(id);
             const style = done ? ok : flash?.l === id ? bad : left === id ? sel : idle;
             return (
-              <button key={id} type="button" disabled={done} onClick={() => setLeft(id)} className={`${base} ${style}`}>
+              <button key={id} type="button" disabled={done} onClick={() => setLeft(id)} className={`${base} ${style}`} aria-pressed={left === id}>
                 {termById.get(id)?.term}
               </button>
             );
@@ -63,14 +62,14 @@ export function MatchPairs({ termIds, right, onDone }: Props) {
             const done = matched.includes(id);
             const style = done ? ok : flash?.r === id ? bad : idle;
             return (
-              <button key={id} type="button" disabled={done || !left} onClick={() => pickRight(id)} className={`${base} ${style} font-medium`}>
+              <button key={id} type="button" disabled={done || !left} onClick={() => pickRight(id)} className={`${base} ${style} font-semibold`}>
                 {tidyOption(termById.get(id)?.short ?? '')}
               </button>
             );
           })}
         </div>
       </div>
-      <p className="mt-4 text-sm text-slate-500 dark:text-slate-400">Tap a term on the left, then its meaning on the right.</p>
+      <p className="mt-5 text-sm text-ink-3">Tap a term on the left, then its meaning on the right.</p>
     </div>
   );
 }

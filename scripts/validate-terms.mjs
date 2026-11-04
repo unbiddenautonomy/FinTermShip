@@ -30,6 +30,16 @@ for (const file of files) {
     if (t.short.length > 48) errors.push(`${where}: short gloss too long (${t.short.length} chars)`);
     if (![1, 2, 3].includes(t.difficulty)) errors.push(`${where}: difficulty must be 1, 2 or 3`);
     if (t.asOf && !t.source) errors.push(`${where}: asOf without a source`);
+    for (const [i, c] of (t.calcs || []).entries()) {
+      const at = `${where} calc ${i + 1}`;
+      if (!c.q || !c.why) errors.push(`${at}: needs q and why`);
+      if (!Array.isArray(c.options) || c.options.length !== 4) errors.push(`${at}: needs exactly 4 options`);
+      else if (new Set(c.options).size !== 4) errors.push(`${at}: options must be different`);
+      if (c.answer !== 0) errors.push(`${at}: write the right option first (answer 0)`);
+    }
+    for (const [i, f] of (t.tf || []).entries()) {
+      if (!f.s || typeof f.a !== 'boolean') errors.push(`${where} tf ${i + 1}: needs s and a true/false answer`);
+    }
     if (allIds.has(t.id)) errors.push(`${where}: duplicate id (also in ${allIds.get(t.id)})`);
     allIds.set(t.id, file);
     const key = t.term.toLowerCase();
@@ -46,7 +56,9 @@ for (const cat of categories) {
   }
   const coreUnits = cat.units.filter((u) => u.core).map((u) => u.id);
   const coreCount = cat.terms.filter((t) => coreUnits.includes(t.unit)).length;
-  console.log(`${cat.name}: ${cat.terms.length} terms, ${coreCount} core`);
+  const calcs = cat.terms.reduce((n, t) => n + (t.calcs?.length ?? 0), 0);
+  const tfs = cat.terms.reduce((n, t) => n + (t.tf?.length ?? 0), 0);
+  console.log(`${cat.name}: ${cat.terms.length} terms, ${coreCount} core, ${calcs} worked sums, ${tfs} true/false`);
 }
 if (errors.length) {
   console.error(`\n${errors.length} problem(s):\n- ` + errors.join('\n- '));

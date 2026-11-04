@@ -244,7 +244,20 @@
         "Shares that pay no dividend",
         "Cash a company keeps outside its business"
       ],
-      "difficulty": 2
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "A company is worth ₹1 lakh crore and promoters hold 60%. Its free-float market cap is about?",
+          "options": [
+            "₹40,000 crore",
+            "₹60,000 crore",
+            "₹1 lakh crore",
+            "₹16,000 crore"
+          ],
+          "answer": 0,
+          "why": "Only the roughly 40% not held by promoters counts: 40% of ₹1 lakh crore."
+        }
+      ]
     },
     {
       "id": "cash-segment",
@@ -825,7 +838,14 @@
         "A promoter's commitment to buy more shares",
         "A donation by promoters to charity"
       ],
-      "difficulty": 2
+      "difficulty": 2,
+      "tf": [
+        {
+          "s": "A sharp fall in the share price can force pledged promoter shares to be sold.",
+          "a": true,
+          "why": "Lenders sell pledged shares when their value drops below the loan's cover."
+        }
+      ]
     },
     {
       "id": "circuit-limit",
@@ -853,7 +873,20 @@
       ],
       "asOf": "2026-11",
       "source": "https://support.geojit.com/support/solutions/articles/89000007110-what-are-price-bands-and-circuit-breakers-",
-      "difficulty": 2
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "A stock closed at ₹200 and has a 5% price band. What is the highest price it can trade at today?",
+          "options": [
+            "₹210",
+            "₹205",
+            "₹250",
+            "₹200.05"
+          ],
+          "answer": 0,
+          "why": "5% of ₹200 is ₹10, so the upper limit is ₹210."
+        }
+      ]
     },
     {
       "id": "upper-circuit",
@@ -874,7 +907,13 @@
         "The highest price in 52 weeks",
         "When the whole market halts"
       ],
-      "difficulty": 1
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "A stock stuck at its upper circuit has plenty of buyers but almost no sellers.",
+          "a": true
+        }
+      ]
     },
     {
       "id": "lower-circuit",
@@ -1215,7 +1254,26 @@
         "A special dividend paid in cash",
         "Shares given to promoters as a reward"
       ],
-      "difficulty": 1
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "You own 100 shares at ₹600. After a 1:1 bonus, what do you hold?",
+          "options": [
+            "200 shares at about ₹300",
+            "200 shares at ₹600",
+            "100 shares at ₹300",
+            "150 shares at about ₹400"
+          ],
+          "answer": 0,
+          "why": "The share count doubles and the price roughly halves, so the holding is still worth about ₹60,000."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A 1:1 bonus issue gives you one extra share for every share you hold.",
+          "a": true
+        }
+      ]
     },
     {
       "id": "stock-split",
@@ -1240,7 +1298,27 @@
         "A promoter selling half their shares"
       ],
       "note": "A bonus issue comes out of reserves; a split only changes the face value.",
-      "difficulty": 1
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "You hold 50 shares at ₹2,000. The stock splits from ₹10 to ₹2 face value. What do you hold now?",
+          "options": [
+            "250 shares at about ₹400",
+            "50 shares at ₹400",
+            "250 shares at ₹2,000",
+            "10 shares at ₹10,000"
+          ],
+          "answer": 0,
+          "why": "Face value ÷ 5 means 5 times the shares at a fifth of the price."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A stock split makes your holding worth more.",
+          "a": false,
+          "why": "You get more shares at a lower price; the total value stays the same."
+        }
+      ]
     },
     {
       "id": "record-date",

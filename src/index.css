@@ -2,12 +2,113 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Colour tokens as RGB triplets so Tailwind can add opacity. */
 :root {
-  color-scheme: light dark;
+  color-scheme: light;
+  --bg: 246 247 249;
+  --surface: 255 255 255;
+  --sunken: 240 242 245;
+  --line: 226 229 235;
+  --ink: 16 24 40;
+  --ink-2: 71 84 103;
+  --ink-3: 132 142 160;
+  --brand: 18 183 106;
+  --brand-strong: 3 135 76;
+  --brand-soft: 231 250 240;
+  --brand-ink: 2 122 72;
+  --bad: 240 68 56;
+  --bad-strong: 180 35 24;
+  --bad-soft: 254 240 238;
+  --bad-ink: 180 35 24;
+  --sky: 46 144 250;
+  --sky-soft: 235 245 255;
+  --sky-ink: 23 92 211;
+  --amber: 247 144 9;
+  --amber-soft: 255 247 230;
+  --amber-ink: 181 71 8;
+  --violet: 122 90 248;
+  --violet-soft: 243 241 255;
+  --violet-ink: 89 37 220;
   -webkit-tap-highlight-color: transparent;
 }
 
+/* Dark mode follows the device, unless a page sets data-theme on <html>. */
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    color-scheme: dark;
+    --bg: 11 15 25;
+    --surface: 21 26 37;
+    --sunken: 29 35 48;
+    --line: 45 52 66;
+    --ink: 243 244 246;
+    --ink-2: 200 204 212;
+    --ink-3: 130 137 150;
+    --brand: 23 178 106;
+    --brand-strong: 6 118 71;
+    --brand-soft: 6 46 31;
+    --brand-ink: 117 224 167;
+    --bad: 240 68 56;
+    --bad-strong: 145 32 24;
+    --bad-soft: 56 18 18;
+    --bad-ink: 253 162 155;
+    --sky: 83 177 253;
+    --sky-soft: 16 40 80;
+    --sky-ink: 132 202 255;
+    --amber: 253 176 34;
+    --amber-soft: 66 32 8;
+    --amber-ink: 254 200 75;
+    --violet: 155 138 251;
+    --violet-soft: 36 22 84;
+    --violet-ink: 189 180 254;
+  }
+}
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --bg: 11 15 25;
+  --surface: 21 26 37;
+  --sunken: 29 35 48;
+  --line: 45 52 66;
+  --ink: 243 244 246;
+  --ink-2: 200 204 212;
+  --ink-3: 130 137 150;
+  --brand: 23 178 106;
+  --brand-strong: 6 118 71;
+  --brand-soft: 6 46 31;
+  --brand-ink: 117 224 167;
+  --bad: 240 68 56;
+  --bad-strong: 145 32 24;
+  --bad-soft: 56 18 18;
+  --bad-ink: 253 162 155;
+  --sky: 83 177 253;
+  --sky-soft: 16 40 80;
+  --sky-ink: 132 202 255;
+  --amber: 253 176 34;
+  --amber-soft: 66 32 8;
+  --amber-ink: 254 200 75;
+  --violet: 155 138 251;
+  --violet-soft: 36 22 84;
+  --violet-ink: 189 180 254;
+}
+
 body {
-  @apply bg-slate-50 text-slate-900 antialiased dark:bg-slate-900 dark:text-slate-100;
-  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  @apply bg-bg text-ink antialiased;
+  font-family: Manrope, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+}
+
+.num {
+  font-variant-numeric: tabular-nums;
+}
+
+.pb-safe {
+  padding-bottom: max(1rem, env(safe-area-inset-bottom));
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 1ms !important;
+    transition-duration: 1ms !important;
+  }
 }

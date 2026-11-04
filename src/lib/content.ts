@@ -1,8 +1,10 @@
 import basics from '../data/terms/basics.json';
 import india from '../data/terms/india.json';
+import options from '../data/terms/options.json';
+import quant from '../data/terms/quant.json';
 import type { Category, Term, Unit } from './types';
 
-export const categories: Category[] = ([basics, india] as Category[]).sort((a, b) => a.order - b.order);
+export const categories: Category[] = ([basics, india, options, quant] as Category[]).sort((a, b) => a.order - b.order);
 
 export const termById = new Map<string, Term>();
 export const unitById = new Map<string, Unit & { categoryId: string }>();

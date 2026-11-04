@@ -1,6 +1,9 @@
 import type { ReactNode } from 'react';
 import { canSpeak, speakTerm } from '../lib/speech';
 import type { Term } from '../lib/types';
+import { Speaker } from './icons';
+
+export type Tone = 'brand' | 'sky' | 'amber' | 'violet' | 'bad' | 'ink';
 
 export function Button({
   children,
@@ -19,70 +22,184 @@ export function Button({
 }) {
   const styles = {
     primary:
-      'bg-brand-500 text-white shadow-[0_4px_0_0_#027a48] active:translate-y-[2px] active:shadow-[0_2px_0_0_#027a48] hover:bg-brand-600 disabled:bg-slate-300 disabled:shadow-none dark:disabled:bg-slate-700',
-    secondary:
-      'bg-white text-slate-800 border-2 border-slate-200 shadow-[0_3px_0_0_#e2e8f0] active:translate-y-[2px] active:shadow-none hover:bg-slate-50 dark:bg-slate-800 dark:text-slate-100 dark:border-slate-700 dark:shadow-[0_3px_0_0_#334155] dark:hover:bg-slate-700',
-    ghost: 'text-slate-600 hover:bg-slate-100 dark:text-slate-300 dark:hover:bg-slate-800',
-    danger: 'bg-rose-600 text-white hover:bg-rose-700',
+      'bg-brand text-white shadow-press hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-line disabled:text-ink-3 disabled:shadow-none',
+    secondary: 'bg-surface text-ink border border-line shadow-press-line hover:bg-sunken active:translate-y-[1px] active:shadow-none',
+    ghost: 'text-ink-2 hover:bg-sunken',
+    danger: 'bg-bad text-white shadow-press-bad active:translate-y-[2px] active:shadow-none',
   }[variant];
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`rounded-2xl px-5 py-3 font-bold tracking-wide transition disabled:cursor-not-allowed ${styles} ${className}`}
+      className={`inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-[15px] font-extrabold tracking-wide transition disabled:cursor-not-allowed ${styles} ${className}`}
     >
       {children}
     </button>
   );
 }
 
-export function Bar({ value, max, className = '', tone = 'brand' }: { value: number; max: number; className?: string; tone?: 'brand' | 'sky' }) {
+const barFill: Record<Tone, string> = {
+  brand: 'bg-brand',
+  sky: 'bg-sky',
+  amber: 'bg-amber',
+  violet: 'bg-violet',
+  bad: 'bg-bad',
+  ink: 'bg-ink-3',
+};
+
+export function Bar({ value, max, className = 'h-2', tone = 'brand', label }: { value: number; max: number; className?: string; tone?: Tone; label?: string }) {
   const pct = max > 0 ? Math.min(100, Math.round((value / max) * 100)) : 0;
-  const fill = tone === 'brand' ? 'bg-brand-500' : 'bg-sky-500';
   return (
-    <div className={`h-3 w-full overflow-hidden rounded-full bg-slate-200 dark:bg-slate-700 ${className}`} role="progressbar" aria-valuenow={value} aria-valuemax={max}>
-      <div className={`h-full rounded-full ${fill} transition-all duration-300`} style={{ width: `${pct}%` }} />
+    <div
+      className={`w-full overflow-hidden rounded-full bg-sunken ${className}`}
+      role="progressbar"
+      aria-valuenow={value}
+      aria-valuemin={0}
+      aria-valuemax={max}
+      aria-label={label}
+    >
+      <div className={`h-full rounded-full ${barFill[tone]} transition-[width] duration-500 ease-out`} style={{ width: `${pct}%` }} />
     </div>
   );
 }
 
-export function SpeakButton({ term, enabled }: { term: Term; enabled: boolean }) {
+const ringStroke: Record<Tone, string> = {
+  brand: 'stroke-brand',
+  sky: 'stroke-sky',
+  amber: 'stroke-amber',
+  violet: 'stroke-violet',
+  bad: 'stroke-bad',
+  ink: 'stroke-ink-3',
+};
+
+/** Circular progress, used for the daily goal, path units and results. */
+export function Ring({
+  value,
+  max,
+  size = 64,
+  stroke = 6,
+  tone = 'brand',
+  children,
+  label,
+}: {
+  value: number;
+  max: number;
+  size?: number;
+  stroke?: number;
+  tone?: Tone;
+  children?: ReactNode;
+  label?: string;
+}) {
+  const r = (size - stroke) / 2;
+  const c = 2 * Math.PI * r;
+  const pct = max > 0 ? Math.min(1, value / max) : 0;
+  return (
+    <div className="relative inline-flex shrink-0 items-center justify-center" style={{ width: size, height: size }} role="img" aria-label={label}>
+      <svg width={size} height={size} className="-rotate-90" aria-hidden="true">
+        <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={stroke} className="stroke-sunken" />
+        <circle
+          cx={size / 2}
+          cy={size / 2}
+          r={r}
+          fill="none"
+          strokeWidth={stroke}
+          strokeLinecap="round"
+          strokeDasharray={c}
+          strokeDashoffset={c * (1 - pct)}
+          className={`${ringStroke[tone]} transition-[stroke-dashoffset] duration-700 ease-out`}
+          style={{ opacity: pct === 0 ? 0 : 1 }}
+        />
+      </svg>
+      <div className="absolute inset-0 flex items-center justify-center">{children}</div>
+    </div>
+  );
+}
+
+const pillTone: Record<Tone, string> = {
+  brand: 'bg-brand-soft text-brand-ink',
+  sky: 'bg-sky-soft text-sky-ink',
+  amber: 'bg-amber-soft text-amber-ink',
+  violet: 'bg-violet-soft text-violet-ink',
+  bad: 'bg-bad-soft text-bad-ink',
+  ink: 'bg-sunken text-ink-2',
+};
+
+export function Pill({ tone = 'ink', icon, children, className = '' }: { tone?: Tone; icon?: ReactNode; children: ReactNode; className?: string }) {
+  return (
+    <span className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-extrabold uppercase tracking-wider ${pillTone[tone]} ${className}`}>
+      {icon}
+      {children}
+    </span>
+  );
+}
+
+export function SpeakButton({ term, enabled, size = 'md' }: { term: Term; enabled: boolean; size?: 'sm' | 'md' }) {
   if (!enabled || !canSpeak()) return null;
+  const dims = size === 'sm' ? 'h-8 w-8' : 'h-10 w-10';
   return (
     <button
       type="button"
       onClick={() => speakTerm(term)}
-      className="inline-flex h-10 w-10 items-center justify-center rounded-xl bg-sky-100 text-sky-700 hover:bg-sky-200 dark:bg-sky-900/50 dark:text-sky-300"
+      className={`inline-flex ${dims} shrink-0 items-center justify-center rounded-xl bg-sky-soft text-sky-ink transition hover:brightness-95 active:scale-95`}
       aria-label={`Hear "${term.term}"`}
       title="Hear it"
     >
-      <svg viewBox="0 0 24 24" className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-        <path d="M11 5 6 9H2v6h4l5 4V5Z" />
-        <path d="M15.5 8.5a5 5 0 0 1 0 7" />
-        <path d="M19 5a10 10 0 0 1 0 14" />
-      </svg>
+      <Speaker className={size === 'sm' ? 'h-4 w-4' : 'h-5 w-5'} />
     </button>
   );
 }
 
 export function Card({ children, className = '' }: { children: ReactNode; className?: string }) {
-  return <div className={`rounded-3xl border-2 border-slate-200 bg-white p-5 dark:border-slate-700 dark:bg-slate-800 ${className}`}>{children}</div>;
+  return <div className={`rounded-3xl border border-line bg-surface p-5 shadow-card ${className}`}>{children}</div>;
+}
+
+export function SectionTitle({ children, aside }: { children: ReactNode; aside?: ReactNode }) {
+  return (
+    <div className="mb-3 flex items-baseline justify-between gap-3 px-1">
+      <h2 className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">{children}</h2>
+      {aside && <span className="text-xs font-semibold text-ink-3">{aside}</span>}
+    </div>
+  );
+}
+
+/** Six dots for the six review steps. */
+export function StepDots({ step }: { step: number }) {
+  return (
+    <span className="inline-flex gap-[3px]" aria-label={`Step ${step} of 6`} role="img">
+      {[1, 2, 3, 4, 5, 6].map((i) => (
+        <span key={i} className={`h-1.5 w-1.5 rounded-full ${i <= step ? (step >= 4 ? 'bg-brand' : 'bg-sky') : 'bg-line'}`} />
+      ))}
+    </span>
+  );
+}
+
+export function Toggle({ checked, onChange, label }: { checked: boolean; onChange: (v: boolean) => void; label: string }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      onClick={() => onChange(!checked)}
+      className={`relative h-7 w-12 shrink-0 rounded-full transition ${checked ? 'bg-brand' : 'bg-line'}`}
+    >
+      <span className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-all ${checked ? 'left-[22px]' : 'left-0.5'}`} />
+    </button>
+  );
 }
 
 export function TermDetails({ term, showExamples = 2 }: { term: Term; showExamples?: number }) {
   return (
-    <div className="space-y-3 text-slate-700 dark:text-slate-200">
-      <p className="text-lg leading-snug">{term.definition}</p>
-      {term.formula && (
-        <p className="rounded-xl bg-slate-100 px-3 py-2 font-mono text-sm dark:bg-slate-900">{term.formula}</p>
-      )}
+    <div className="space-y-4">
+      <p className="text-[17px] leading-relaxed text-ink">{term.definition}</p>
+      {term.formula && <p className="rounded-xl bg-sunken px-3 py-2 font-mono text-[13px] text-ink-2">{term.formula}</p>}
       {term.examples.slice(0, showExamples).map((ex) => (
-        <p key={ex} className="border-l-4 border-brand-400 pl-3 italic text-slate-600 dark:text-slate-300">
-          “{ex}”
-        </p>
+        <figure key={ex} className="rounded-2xl border-l-4 border-brand bg-brand-soft/60 px-4 py-3">
+          <p className="text-[15px] leading-relaxed text-ink-2">“{ex}”</p>
+        </figure>
       ))}
-      {term.note && <p className="text-sm text-slate-500 dark:text-slate-400">{term.note}</p>}
+      {term.note && <p className="text-sm leading-relaxed text-ink-3">{term.note}</p>}
     </div>
   );
 }
@@ -104,12 +221,12 @@ export function ConfirmDialog({
   onCancel: () => void;
 }) {
   return (
-    <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/50 p-4 sm:items-center" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
-      <div className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-xl dark:bg-slate-800">
-        <p id="confirm-title" className="text-lg font-extrabold text-slate-900 dark:text-white">
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/40 p-4 backdrop-blur-[2px] sm:items-center" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <div className="w-full max-w-sm animate-pop rounded-3xl bg-surface p-6 shadow-xl">
+        <p id="confirm-title" className="text-lg font-extrabold text-ink">
           {title}
         </p>
-        {body && <p className="mt-2 text-slate-600 dark:text-slate-300">{body}</p>}
+        {body && <p className="mt-2 leading-relaxed text-ink-2">{body}</p>}
         <div className="mt-6 grid grid-cols-2 gap-3">
           <Button variant="secondary" onClick={onCancel}>
             Cancel
