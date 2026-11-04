@@ -86,3 +86,39 @@ export function TermDetails({ term, showExamples = 2 }: { term: Term; showExampl
     </div>
   );
 }
+
+/** In-app confirmation, used instead of window.confirm (which some embedded views block). */
+export function ConfirmDialog({
+  title,
+  body,
+  confirmLabel,
+  danger,
+  onConfirm,
+  onCancel,
+}: {
+  title: string;
+  body?: string;
+  confirmLabel: string;
+  danger?: boolean;
+  onConfirm: () => void;
+  onCancel: () => void;
+}) {
+  return (
+    <div className="fixed inset-0 z-50 flex items-end justify-center bg-slate-900/50 p-4 sm:items-center" role="dialog" aria-modal="true" aria-labelledby="confirm-title">
+      <div className="w-full max-w-sm rounded-3xl bg-white p-6 shadow-xl dark:bg-slate-800">
+        <p id="confirm-title" className="text-lg font-extrabold text-slate-900 dark:text-white">
+          {title}
+        </p>
+        {body && <p className="mt-2 text-slate-600 dark:text-slate-300">{body}</p>}
+        <div className="mt-6 grid grid-cols-2 gap-3">
+          <Button variant="secondary" onClick={onCancel}>
+            Cancel
+          </Button>
+          <Button variant={danger ? 'danger' : 'primary'} onClick={onConfirm}>
+            {confirmLabel}
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
+}

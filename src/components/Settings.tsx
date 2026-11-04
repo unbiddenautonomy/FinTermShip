@@ -3,7 +3,7 @@ import { exportProgress, readBackupFile } from '../lib/storage';
 import { newProgress } from '../lib/scheduler';
 import { canSpeak, speak } from '../lib/speech';
 import type { Progress } from '../lib/types';
-import { Button, Card } from './ui';
+import { Button, Card, ConfirmDialog } from './ui';
 
 interface Props {
   progress: Progress;
@@ -18,6 +18,9 @@ const NEW_OPTIONS = [5, 10, 15, 20, 30, 40];
 export function Settings({ progress, today, persisted, onChange, onBack }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState<string | null>(null);
+  const [pending, setPending] = useState<Progress | null>(null);
+  const [confirmReset, setConfirmReset] = useState(false);
+  const [pasted, setPasted] = useState('');
   const s = progress.settings;
 
   return (
@@ -102,16 +105,54 @@ export function Settings({ progress, today, persisted, onChange, onBack }: Props
             e.target.value = '';
             if (!file) return;
             try {
-              const p = await readBackupFile(file);
-              if (window.confirm('Replace the progress on this device with the backup?')) {
-                onChange(p);
-                setMessage('Backup loaded.');
-              }
+              setPending(await readBackupFile(file));
             } catch (err) {
               setMessage(err instanceof Error ? err.message : 'Could not read that file.');
             }
           }}
         />
+        <Button
+          variant="ghost"
+          className="w-full !px-0 text-sm"
+          onClick={async () => {
+            try {
+              await navigator.clipboard.writeText(JSON.stringify(progress));
+              onChange({ ...progress, lastBackup: today });
+              setMessage('Backup copied. Paste it into a note or email to yourself.');
+            } catch {
+              setMessage('This browser blocked copying. Use Save backup instead.');
+            }
+          }}
+        >
+          Copy backup as text instead
+        </Button>
+        <details className="text-sm text-slate-600 dark:text-slate-300">
+          <summary className="cursor-pointer font-semibold">Restore from copied text</summary>
+          <label htmlFor="pasted-backup" className="mt-2 block">
+            Paste the backup text here:
+          </label>
+          <textarea
+            id="pasted-backup"
+            value={pasted}
+            onChange={(e) => setPasted(e.target.value)}
+            rows={3}
+            className="mt-1 w-full rounded-xl border-2 border-slate-200 bg-white p-2 font-mono text-xs dark:border-slate-700 dark:bg-slate-900"
+          />
+          <Button
+            variant="secondary"
+            className="mt-2"
+            disabled={!pasted.trim()}
+            onClick={async () => {
+              try {
+                setPending(await readBackupFile(new File([pasted], 'backup.json')));
+              } catch {
+                setMessage('That text is not a FinTermShip backup.');
+              }
+            }}
+          >
+            Restore
+          </Button>
+        </details>
         {message && <p className="text-sm font-semibold text-brand-700 dark:text-brand-400">{message}</p>}
       </Card>
 
@@ -120,13 +161,40 @@ export function Settings({ progress, today, persisted, onChange, onBack }: Props
         <p className="mb-3 text-sm text-slate-500 dark:text-slate-400">Erases all progress on this device.</p>
         <Button
           variant="danger"
-          onClick={() => {
-            if (window.confirm('Erase all progress on this device? This cannot be undone.')) onChange({ ...newProgress(), settings: s });
-          }}
+          onClick={() => setConfirmReset(true)}
         >
           Reset progress
         </Button>
       </Card>
+
+      {pending && (
+        <ConfirmDialog
+          title="Replace your progress?"
+          body="The progress on this device will be replaced by the backup."
+          confirmLabel="Replace"
+          onConfirm={() => {
+            onChange(pending);
+            setPending(null);
+            setPasted('');
+            setMessage('Backup loaded.');
+          }}
+          onCancel={() => setPending(null)}
+        />
+      )}
+      {confirmReset && (
+        <ConfirmDialog
+          title="Erase all progress?"
+          body="This erases everything on this device and cannot be undone."
+          confirmLabel="Erase"
+          danger
+          onConfirm={() => {
+            onChange({ ...newProgress(), settings: s });
+            setConfirmReset(false);
+            setMessage('Progress erased.');
+          }}
+          onCancel={() => setConfirmReset(false)}
+        />
+      )}
 
       <p className="px-1 text-xs text-slate-400">
         FinTermShip is a learning tool, not investment advice. Facts that change, such as rules and tax rates, show the date they were last checked in the glossary.
