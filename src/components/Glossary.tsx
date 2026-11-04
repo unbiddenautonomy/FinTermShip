@@ -1,50 +1,93 @@
-import { useMemo, useState } from 'react';
-import { categories, isCore } from '../lib/content';
+import { useMemo, useState, type ReactNode } from 'react';
+import { categories, isCore, termById } from '../lib/content';
 import type { Progress } from '../lib/types';
-import { SpeakButton, TermDetails } from './ui';
+import { ChevronDown, Search } from './icons';
+import { Pill, SpeakButton, StepDots, TermDetails } from './ui';
 
-export function Glossary({ progress, onBack }: { progress: Progress; onBack: () => void }) {
+type Filter = 'all' | 'met' | 'trouble';
+
+export function Glossary({ progress }: { progress: Progress }) {
   const [query, setQuery] = useState('');
+  const [cat, setCat] = useState<string>('all');
+  const [filter, setFilter] = useState<Filter>('all');
   const [open, setOpen] = useState<string | null>(null);
   const q = query.trim().toLowerCase();
 
   const groups = useMemo(
     () =>
-      categories.map((c) => ({
-        cat: c,
-        terms: c.terms
-          .filter(
-            (t) =>
-              !q ||
-              t.term.toLowerCase().includes(q) ||
-              t.aliases?.some((a) => a.toLowerCase().includes(q)) ||
-              t.short.toLowerCase().includes(q),
-          )
-          .sort((a, b) => a.term.localeCompare(b.term)),
-      })),
-    [q],
+      categories
+        .filter((c) => cat === 'all' || c.id === cat)
+        .map((c) => ({
+          cat: c,
+          terms: c.terms
+            .filter((t) => {
+              const s = progress.terms[t.id];
+              if (filter === 'met' && !s) return false;
+              if (filter === 'trouble' && !s?.trouble && !(s && s.wrong > s.correct)) return false;
+              return (
+                !q ||
+                t.term.toLowerCase().includes(q) ||
+                t.aliases?.some((a) => a.toLowerCase().includes(q)) ||
+                t.short.toLowerCase().includes(q)
+              );
+            })
+            .sort((a, b) => a.term.localeCompare(b.term)),
+        })),
+    [q, cat, filter, progress.terms],
   );
+  const shown = groups.reduce((n, g) => n + g.terms.length, 0);
 
   return (
-    <div className="mx-auto max-w-xl px-4 pb-16 pt-6">
-      <div className="mb-4 flex items-center gap-3">
-        <button onClick={onBack} className="rounded-lg px-2 py-1 font-bold text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800">
-          ← Back
-        </button>
-        <h1 className="text-2xl font-black text-slate-800 dark:text-white">Glossary</h1>
+    <div className="mx-auto max-w-xl px-4 pb-32 pt-5">
+      <div className="mb-4 flex items-baseline justify-between">
+        <h1 className="text-2xl font-extrabold tracking-tight text-ink">Glossary</h1>
+        <span className="num text-sm font-semibold text-ink-3">{termById.size} terms</span>
       </div>
-      <input
-        type="search"
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-        placeholder="Search terms"
-        className="mb-5 w-full rounded-2xl border-2 border-slate-200 bg-white px-4 py-3 text-base outline-none focus:border-sky-400 dark:border-slate-700 dark:bg-slate-800 dark:text-white"
-      />
-      {groups.map(({ cat, terms }) =>
+
+      <div className="sticky top-0 z-20 -mx-4 space-y-3 bg-bg/95 px-4 pb-3 pt-1 backdrop-blur">
+        <label className="flex items-center gap-2 rounded-2xl border border-line bg-surface px-4 py-3 focus-within:border-sky">
+          <Search className="h-5 w-5 shrink-0 text-ink-3" />
+          <input
+            type="search"
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search terms, aliases or meanings"
+            aria-label="Search terms"
+            className="w-full bg-transparent text-base text-ink outline-none placeholder:text-ink-3"
+          />
+        </label>
+        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none]">
+          <Chip active={cat === 'all'} onClick={() => setCat('all')}>
+            All areas
+          </Chip>
+          {categories.map((c) => (
+            <Chip key={c.id} active={cat === c.id} onClick={() => setCat(c.id)}>
+              {c.name}
+            </Chip>
+          ))}
+        </div>
+        <div className="flex gap-1 rounded-xl bg-sunken p-1 text-sm font-bold">
+          {(['all', 'met', 'trouble'] as Filter[]).map((f) => (
+            <button
+              key={f}
+              type="button"
+              onClick={() => setFilter(f)}
+              className={`flex-1 rounded-lg py-1.5 transition ${filter === f ? 'bg-surface text-ink shadow-card' : 'text-ink-3'}`}
+              aria-pressed={filter === f}
+            >
+              {f === 'all' ? 'All' : f === 'met' ? 'Met' : 'Needs work'}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {shown === 0 && <p className="mt-10 text-center text-ink-3">{filter === 'all' ? 'No terms match.' : filter === 'met' ? 'No terms met yet in this view.' : 'Nothing needs work here. Nice.'}</p>}
+
+      {groups.map(({ cat: c, terms }) =>
         terms.length ? (
-          <section key={cat.id} className="mb-6">
-            <h2 className="mb-2 text-sm font-bold uppercase tracking-wide text-slate-500 dark:text-slate-400">{cat.name}</h2>
-            <ul className="divide-y-2 divide-slate-100 overflow-hidden rounded-2xl border-2 border-slate-200 bg-white dark:divide-slate-700 dark:border-slate-700 dark:bg-slate-800">
+          <section key={c.id} className="mt-4">
+            <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">{c.name}</h2>
+            <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
               {terms.map((t) => {
                 const s = progress.terms[t.id];
                 const expanded = open === t.id;
@@ -52,34 +95,53 @@ export function Glossary({ progress, onBack }: { progress: Progress; onBack: () 
                   <li key={t.id}>
                     <button
                       onClick={() => setOpen(expanded ? null : t.id)}
-                      className="flex w-full items-center gap-3 px-4 py-3 text-left hover:bg-slate-50 dark:hover:bg-slate-700/50"
+                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-sunken/60"
                       aria-expanded={expanded}
                     >
                       <span className="min-w-0 flex-1">
-                        <span className="font-semibold text-slate-800 dark:text-slate-100">{t.term}</span>
-                        {isCore(t.id) && <span className="ml-2 rounded bg-brand-100 px-1.5 py-0.5 text-[10px] font-bold uppercase text-brand-700 dark:bg-brand-700/30 dark:text-brand-400">core</span>}
-                        <span className="block truncate text-sm text-slate-500 dark:text-slate-400">{t.short}</span>
+                        <span className="flex items-center gap-2">
+                          <span className="truncate font-bold text-ink">{t.term}</span>
+                          {isCore(t.id) && (
+                            <span className="rounded-md bg-brand-soft px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-brand-ink">core</span>
+                          )}
+                          {(t.calcs?.length ?? 0) > 0 && (
+                            <span className="rounded-md bg-violet-soft px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-violet-ink">sums</span>
+                          )}
+                        </span>
+                        <span className="block truncate text-sm text-ink-3">{t.short}</span>
                       </span>
-                      <span className="shrink-0 text-xs text-slate-400">{s ? `step ${s.step}` : 'not met'}</span>
+                      <span className="flex shrink-0 items-center gap-2">
+                        {s ? <StepDots step={s.step} /> : <span className="text-xs font-semibold text-ink-3">not met</span>}
+                        <ChevronDown className={`h-4 w-4 text-ink-3 transition ${expanded ? 'rotate-180' : ''}`} />
+                      </span>
                     </button>
                     {expanded && (
-                      <div className="space-y-3 px-4 pb-4">
-                        <div className="flex items-center gap-3 text-sm text-slate-500 dark:text-slate-400">
-                          <SpeakButton term={t} enabled={progress.settings.voice} />
-                          <span>
-                            {t.said ? `Say it: ${t.said}` : ''}
-                            {t.aliases?.length ? `${t.said ? ' · ' : ''}Also: ${t.aliases.join(', ')}` : ''}
-                          </span>
-                        </div>
+                      <div className="space-y-4 bg-sunken/40 px-4 pb-5 pt-3">
+                        {(t.said || t.aliases?.length || progress.settings.voice) && (
+                          <div className="flex items-center gap-3 text-sm text-ink-3">
+                            <SpeakButton term={t} enabled={progress.settings.voice} size="sm" />
+                            <span>
+                              {t.said ? `Say it: ${t.said}` : ''}
+                              {t.aliases?.length ? `${t.said ? ' · ' : ''}Also: ${t.aliases.join(', ')}` : ''}
+                            </span>
+                          </div>
+                        )}
                         <TermDetails term={t} showExamples={3} />
                         {s && (
-                          <p className="text-xs text-slate-500 dark:text-slate-400">
-                            Step {s.step} of 6 · next review {s.due} · {s.correct} right, {s.wrong} wrong{s.trouble ? ' · trouble term' : ''}
-                          </p>
+                          <div className="flex flex-wrap items-center gap-2 text-xs text-ink-3">
+                            <Pill tone={s.step >= 4 ? 'brand' : 'sky'}>Step {s.step} of 6</Pill>
+                            {s.trouble && <Pill tone="bad">Trouble term</Pill>}
+                            <span>
+                              Next review {s.due} · {s.correct} right, {s.wrong} wrong
+                            </span>
+                          </div>
                         )}
                         {t.source && (
-                          <p className="text-xs text-slate-500 dark:text-slate-400">
-                            Checked {t.asOf}: <a className="underline" href={t.source} target="_blank" rel="noreferrer">source</a>
+                          <p className="text-xs text-ink-3">
+                            Checked {t.asOf}:{' '}
+                            <a className="font-bold text-sky-ink underline" href={t.source} target="_blank" rel="noreferrer">
+                              source
+                            </a>
                           </p>
                         )}
                       </div>
@@ -92,5 +154,18 @@ export function Glossary({ progress, onBack }: { progress: Progress; onBack: () 
         ) : null,
       )}
     </div>
+  );
+}
+
+function Chip({ active, onClick, children }: { active: boolean; onClick: () => void; children: ReactNode }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-pressed={active}
+      className={`shrink-0 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm font-bold transition ${active ? 'border-ink bg-ink text-bg' : 'border-line bg-surface text-ink-2 hover:bg-sunken'}`}
+    >
+      {children}
+    </button>
   );
 }

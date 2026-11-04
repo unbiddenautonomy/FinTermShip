@@ -1,0 +1,1712 @@
+{
+  "id": "quant",
+  "name": "Quant and risk",
+  "order": 5,
+  "units": [
+    {
+      "id": "q1",
+      "name": "Return and risk statistics",
+      "core": true
+    },
+    {
+      "id": "q2",
+      "name": "Risk measures",
+      "core": true
+    },
+    {
+      "id": "q3",
+      "name": "Statistics for research",
+      "core": false
+    },
+    {
+      "id": "q4",
+      "name": "Factors",
+      "core": false
+    },
+    {
+      "id": "q5",
+      "name": "Backtesting",
+      "core": false
+    }
+  ],
+  "terms": [
+    {
+      "id": "standard-deviation",
+      "term": "standard deviation",
+      "aliases": [
+        "SD",
+        "sigma"
+      ],
+      "said": "sigma, or S D",
+      "unit": "q1",
+      "short": "Typical spread of results around the average",
+      "definition": "A measure of how far results usually sit from their average. In finance it is the standard way to measure how much returns swing.",
+      "examples": [
+        "Daily returns on this book have a standard deviation of about 1.2%."
+      ],
+      "fill": "With a daily ____ of 1%, about two days in three land within 1% of the average return.",
+      "confusables": [
+        "variance",
+        "annualised-volatility",
+        "volatility"
+      ],
+      "wrong": [
+        "Average of all the returns",
+        "Gap between the highest and lowest return",
+        "Middle value when returns are sorted"
+      ],
+      "formula": "σ = √variance",
+      "tf": [
+        {
+          "s": "Standard deviation counts a big up move as just as risky as a big down move.",
+          "a": true,
+          "why": "It measures all swings around the average, up or down. The Sortino ratio exists to fix this."
+        }
+      ],
+      "calcs": [
+        {
+          "q": "The variance of daily returns is 0.0004. What is the standard deviation?",
+          "options": [
+            "2%",
+            "0.04%",
+            "4%",
+            "0.02%"
+          ],
+          "answer": 0,
+          "why": "√0.0004 = 0.02, which is 2%."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "variance",
+      "term": "variance",
+      "unit": "q1",
+      "short": "Average squared distance from the average",
+      "definition": "The average of the squared gaps between each result and the average. Standard deviation is its square root. Quants like it because the variances of independent bets add up.",
+      "examples": [
+        "Variances of independent bets add, so we budget risk in variance terms."
+      ],
+      "fill": "Because it is measured in squared units, ____ is hard to read on its own, so people quote its square root instead.",
+      "confusables": [
+        "standard-deviation",
+        "covariance"
+      ],
+      "wrong": [
+        "Average distance from the highest value",
+        "Gap between two averages",
+        "Square root of the average return"
+      ],
+      "formula": "Var = average of (x − mean)²",
+      "calcs": [
+        {
+          "q": "Daily standard deviation is 3%. What is the daily variance?",
+          "options": [
+            "0.0009",
+            "0.03",
+            "0.09",
+            "0.0003"
+          ],
+          "answer": 0,
+          "why": "0.03² = 0.0009."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "annualised-volatility",
+      "term": "annualised volatility",
+      "aliases": [
+        "annualized volatility",
+        "annual vol"
+      ],
+      "unit": "q1",
+      "short": "Volatility scaled up to a one-year figure",
+      "definition": "Volatility stated on a yearly basis so assets and time frames can be compared. Daily volatility is scaled up by the square root of the number of trading days in a year, about 252.",
+      "examples": [
+        "Nifty has been running at about 13% annualised volatility, so a 1% day is still normal."
+      ],
+      "fill": "Daily swings of about 1% work out to roughly 16% ____, because a year has about 252 trading days.",
+      "confusables": [
+        "realised-volatility",
+        "standard-deviation",
+        "volatility"
+      ],
+      "wrong": [
+        "Total price change over the year",
+        "Average daily price change times 252",
+        "Highest volatility seen in the year"
+      ],
+      "formula": "σ yearly = σ daily × √252",
+      "tf": [
+        {
+          "s": "To annualise daily volatility, you multiply it by 252.",
+          "a": false,
+          "why": "You multiply by √252, about 15.9, because volatility grows with the square root of time."
+        }
+      ],
+      "calcs": [
+        {
+          "q": "A stock's daily volatility is 1.5%. Its annualised volatility is about?",
+          "options": [
+            "24%",
+            "378%",
+            "1.5%",
+            "9%"
+          ],
+          "answer": 0,
+          "why": "1.5% × √252 (about 15.9) ≈ 24%."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "sharpe-ratio",
+      "term": "Sharpe ratio",
+      "aliases": [
+        "Sharpe"
+      ],
+      "unit": "q1",
+      "short": "Extra return per unit of volatility",
+      "definition": "Return above the risk-free rate divided by the volatility of returns. It shows how much return a strategy earned for each unit of risk it took.",
+      "examples": [
+        "It makes 30% a year, but the Sharpe is under 0.8, so it's mostly just riding risk."
+      ],
+      "fill": "Fund A made 18% with 20% vol and fund B 14% with 8% vol; with a 6% risk-free rate, B has the better ____.",
+      "confusables": [
+        "sortino-ratio",
+        "information-ratio",
+        "risk-adjusted-return"
+      ],
+      "wrong": [
+        "Return divided by the worst drawdown",
+        "Return over the index per unit of tracking error",
+        "Share of months with a positive return"
+      ],
+      "note": "Above 1 is good for a long-only fund over many years. A backtest showing 3 or more usually has a mistake in it.",
+      "formula": "(Return − risk-free rate) ÷ volatility",
+      "tf": [
+        {
+          "s": "Doubling the leverage on a strategy doubles its Sharpe ratio.",
+          "a": false,
+          "why": "Leverage scales the extra return and the volatility equally, so the ratio stays about the same."
+        }
+      ],
+      "calcs": [
+        {
+          "q": "A fund returns 14% with 16% volatility. The risk-free rate is 6%. What is its Sharpe ratio?",
+          "options": [
+            "0.5",
+            "0.875",
+            "1.25",
+            "0.38"
+          ],
+          "answer": 0,
+          "why": "(14 − 6) ÷ 16 = 0.5."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "sortino-ratio",
+      "term": "Sortino ratio",
+      "unit": "q1",
+      "short": "Extra return per unit of downside swing",
+      "definition": "Like the Sharpe ratio, but it divides by downside deviation instead of total volatility, so only the bad swings count as risk.",
+      "examples": [
+        "Its Sharpe is average, but the Sortino is strong because most of the volatility is on the upside."
+      ],
+      "fill": "A strategy with big up days and small down days scores better on the ____ than on the Sharpe ratio.",
+      "confusables": [
+        "sharpe-ratio",
+        "downside-deviation"
+      ],
+      "wrong": [
+        "Extra return per unit of total volatility",
+        "Return divided by the largest loss",
+        "Return over the index per unit of tracking error"
+      ],
+      "formula": "(Return − target) ÷ downside deviation",
+      "calcs": [
+        {
+          "q": "Return 12%, risk-free rate 6%, downside deviation 4%. What is the Sortino ratio?",
+          "options": [
+            "1.5",
+            "3",
+            "0.5",
+            "2"
+          ],
+          "answer": 0,
+          "why": "(12 − 6) ÷ 4 = 1.5."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "max-drawdown",
+      "term": "maximum drawdown",
+      "aliases": [
+        "max drawdown",
+        "MDD"
+      ],
+      "unit": "q1",
+      "short": "Worst fall from a peak to a later low",
+      "definition": "The largest percentage fall from a high point to a later low, before a new high is reached. It shows the worst loss an investor who bought at the top would have sat through.",
+      "examples": [
+        "Great returns, but a 45% max drawdown means most clients would have quit halfway."
+      ],
+      "fill": "The NAV fell from ₹150 to ₹105 before it recovered, so the fund's ____ was 30%.",
+      "confusables": [
+        "standard-deviation",
+        "var",
+        "downside-deviation"
+      ],
+      "wrong": [
+        "Gap between the year's high and low",
+        "Average loss on losing days",
+        "Largest one-day fall in a year"
+      ],
+      "calcs": [
+        {
+          "q": "A NAV goes 100 → 150 → 105 → 160. What is the maximum drawdown?",
+          "options": [
+            "30%",
+            "45%",
+            "5%",
+            "35%"
+          ],
+          "answer": 0,
+          "why": "The worst fall is 150 to 105: 45 ÷ 150 = 30%."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "alpha",
+      "term": "alpha",
+      "aliases": [
+        "α"
+      ],
+      "unit": "q1",
+      "short": "Return beyond what market exposure explains",
+      "definition": "The part of a return not explained by exposure to the market or other factors. Positive alpha is the extra return a manager adds through skill, after adjusting for risk.",
+      "examples": [
+        "Strip out the beta and there's very little alpha left in this fund."
+      ],
+      "fill": "Stripping out the market's moves, the manager's stock picks added 3% of ____ a year.",
+      "confusables": [
+        "beta",
+        "outperform",
+        "information-ratio"
+      ],
+      "wrong": [
+        "Return from simply holding the index",
+        "Sensitivity of a stock to the market",
+        "Return earned on cash"
+      ],
+      "formula": "α = Return − [risk-free + β × (market − risk-free)]",
+      "tf": [
+        {
+          "s": "A fund that beats its benchmark always has positive alpha.",
+          "a": false,
+          "why": "It may have won by taking more market risk, a higher beta, rather than through skill."
+        }
+      ],
+      "calcs": [
+        {
+          "q": "Beta is 1.0, the market rose 12% and the fund rose 15%. Ignoring the risk-free rate, what is the alpha?",
+          "options": [
+            "3%",
+            "15%",
+            "27%",
+            "12%"
+          ],
+          "answer": 0,
+          "why": "15% − 1.0 × 12% = 3%."
+        },
+        {
+          "q": "Fund return 16%, beta 1.2, market 12%, risk-free rate 6%. What is the alpha?",
+          "options": [
+            "2.8%",
+            "4%",
+            "1.6%",
+            "13.2%"
+          ],
+          "answer": 0,
+          "why": "Expected return = 6 + 1.2 × (12 − 6) = 13.2%, so alpha = 16 − 13.2 = 2.8%."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "beta",
+      "term": "beta",
+      "aliases": [
+        "β"
+      ],
+      "unit": "q1",
+      "short": "How much a stock moves with the market",
+      "definition": "How sensitive an asset's returns are to the market's. A beta of 1.2 means it tends to move 1.2% for every 1% move in the index; below 1 means it moves less.",
+      "examples": [
+        "Metals are high beta, so they get hit hardest on risk-off days."
+      ],
+      "fill": "This stock tends to move 1.4% for every 1% move in the Nifty, so its ____ is about 1.4.",
+      "confusables": [
+        "alpha",
+        "correlation",
+        "systematic-risk"
+      ],
+      "wrong": [
+        "Return beyond what the market explains",
+        "How closely two prices move, from −1 to 1",
+        "A stock's price swing over a year"
+      ],
+      "formula": "β = Cov(stock, market) ÷ Var(market)",
+      "tf": [
+        {
+          "s": "A stock with a beta of 0.5 tends to move about half as much as the market.",
+          "a": true
+        }
+      ],
+      "calcs": [
+        {
+          "q": "A stock has a beta of 1.2. The market rises 5%. What move do you expect from the stock?",
+          "options": [
+            "6%",
+            "5%",
+            "1.2%",
+            "4.2%"
+          ],
+          "answer": 0,
+          "why": "1.2 × 5% = 6%."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "correlation",
+      "term": "correlation",
+      "aliases": [
+        "corr"
+      ],
+      "unit": "q1",
+      "short": "How closely two things move together",
+      "definition": "A number from −1 to +1 showing how closely two return series move together. +1 means they move in step, −1 means they move opposite, and 0 means no straight-line link.",
+      "examples": [
+        "Gold's correlation with equities turned negative in the sell-off, so it cushioned the portfolio."
+      ],
+      "fill": "Two stocks with a ____ of 0.9 give you very little diversification.",
+      "confusables": [
+        "covariance",
+        "beta",
+        "r-squared"
+      ],
+      "wrong": [
+        "How much one stock moves per 1% in the other",
+        "Average return of two assets combined",
+        "How often two prices are exactly equal"
+      ],
+      "formula": "ρ = Cov(A,B) ÷ (σA × σB)",
+      "tf": [
+        {
+          "s": "A correlation of zero means two assets are completely unrelated.",
+          "a": false,
+          "why": "Zero only rules out a straight-line link. They can still be related in other ways, for example both crashing together."
+        },
+        {
+          "s": "Correlations between stocks tend to rise in a sell-off.",
+          "a": true,
+          "why": "In panics most things fall together, just when diversification is needed most."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "covariance",
+      "term": "covariance",
+      "unit": "q1",
+      "short": "How two returns vary together, unscaled",
+      "definition": "A measure of how two return series move together, in squared units. Divide it by both standard deviations and you get the correlation.",
+      "examples": [
+        "Portfolio risk depends on the covariances between holdings, not just each one's volatility."
+      ],
+      "fill": "Risk models use a ____ matrix built from every pair of stocks to work out portfolio volatility.",
+      "confusables": [
+        "correlation",
+        "variance"
+      ],
+      "wrong": [
+        "Correlation squared",
+        "Difference between two stocks' returns",
+        "Average of two variances"
+      ],
+      "formula": "Cov(A,B) = ρ × σA × σB",
+      "calcs": [
+        {
+          "q": "The covariance of A and B is 0.012. Their volatilities are 20% and 30%. What is the correlation?",
+          "options": [
+            "0.2",
+            "0.012",
+            "0.6",
+            "0.5"
+          ],
+          "answer": 0,
+          "why": "0.012 ÷ (0.2 × 0.3) = 0.012 ÷ 0.06 = 0.2."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "risk-free-rate",
+      "term": "risk-free rate",
+      "unit": "q1",
+      "short": "Return on a safe government investment",
+      "definition": "The return on an investment treated as having no default risk, such as a short-term government treasury bill. Risky returns are measured against it.",
+      "examples": [
+        "Cash already earns the risk-free rate, so a fund has to beat that before it's adding anything."
+      ],
+      "fill": "In India, the 91-day treasury bill yield is often used as the ____ when working out Sharpe ratios.",
+      "confusables": [
+        "sharpe-ratio",
+        "return"
+      ],
+      "wrong": [
+        "Interest rate on a savings account",
+        "Lowest return a fund has ever made",
+        "Average return of the stock market"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "var",
+      "term": "value at risk",
+      "aliases": [
+        "VaR"
+      ],
+      "said": "var, rhymes with car",
+      "unit": "q2",
+      "short": "Loss level breached only on rare days",
+      "definition": "A loss level that should be exceeded only with a small chance over a set period. A one-day 95% VaR of ₹10 lakh means losses should be worse than ₹10 lakh on only about 1 day in 20.",
+      "examples": [
+        "Risk wants the desk's one-day 99% VaR kept under ₹2 crore."
+      ],
+      "fill": "Our one-day 95% ____ is ₹50 lakh, so we expect a loss bigger than that about once a month.",
+      "confusables": [
+        "expected-shortfall",
+        "stress-test",
+        "max-drawdown"
+      ],
+      "wrong": [
+        "The worst loss that can possibly happen",
+        "Average loss on losing days",
+        "Money the exchange holds as margin"
+      ],
+      "tf": [
+        {
+          "s": "VaR tells you the worst loss you can suffer.",
+          "a": false,
+          "why": "It is a threshold. Losses beyond it can be much bigger, which is what expected shortfall measures."
+        }
+      ],
+      "calcs": [
+        {
+          "q": "A desk has a one-day 95% VaR of ₹1 crore. Over 100 trading days, on about how many days would you expect a bigger loss?",
+          "options": [
+            "5",
+            "1",
+            "95",
+            "0"
+          ],
+          "answer": 0,
+          "why": "95% confidence leaves a 5% tail: about 5 days in 100."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "expected-shortfall",
+      "term": "expected shortfall",
+      "aliases": [
+        "CVaR",
+        "conditional VaR"
+      ],
+      "unit": "q2",
+      "short": "Average loss on the days worse than VaR",
+      "definition": "The average loss in the cases where losses are worse than the VaR level. It answers the question: when things go badly, how bad is it on average?",
+      "examples": [
+        "VaR barely moved, but expected shortfall jumped because the tail got fatter."
+      ],
+      "fill": "VaR says losses pass ₹1 crore on 5% of days; ____ tells you those bad days average ₹1.8 crore.",
+      "confusables": [
+        "var",
+        "fat-tails",
+        "stress-test"
+      ],
+      "wrong": [
+        "Loss level passed on 5% of days",
+        "Shortfall in a margin account",
+        "Gap between expected and actual earnings"
+      ],
+      "note": "Bank regulators moved from VaR to expected shortfall for market risk because it looks inside the tail.",
+      "calcs": [
+        {
+          "q": "The five worst daily losses in 100 days were 2, 3, 3, 4 and 8 (₹ lakh). What is the 95% expected shortfall?",
+          "options": [
+            "₹4 lakh",
+            "₹8 lakh",
+            "₹2 lakh",
+            "₹20 lakh"
+          ],
+          "answer": 0,
+          "why": "The average of the worst 5%: (2 + 3 + 3 + 4 + 8) ÷ 5 = 4."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "tracking-error",
+      "term": "tracking error",
+      "aliases": [
+        "TE"
+      ],
+      "unit": "q2",
+      "short": "How much a fund's return strays from its index",
+      "definition": "The standard deviation of the gap between a portfolio's return and its benchmark's. Index funds aim for close to zero; active funds need more to have a chance of beating the index.",
+      "examples": [
+        "Our tracking error budget is 4%, so we can't run big sector bets."
+      ],
+      "fill": "An index fund that copies the Nifty almost perfectly has a ____ close to zero.",
+      "confusables": [
+        "information-ratio",
+        "benchmark",
+        "standard-deviation"
+      ],
+      "wrong": [
+        "Return above the benchmark",
+        "Fee charged for tracking an index",
+        "Mistake in an index's published value"
+      ],
+      "tf": [
+        {
+          "s": "A fund with zero tracking error must match its index's return exactly.",
+          "a": false,
+          "why": "Tracking error measures how much the gap swings. A fund that lags by a steady 1% a year has almost no tracking error."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "information-ratio",
+      "term": "information ratio",
+      "aliases": [
+        "IR"
+      ],
+      "unit": "q2",
+      "short": "Extra return over index per unit of drift",
+      "definition": "Return above the benchmark divided by tracking error. It measures how consistently a manager beats the index, not just by how much.",
+      "examples": [
+        "Holding a 0.5 information ratio for ten years is genuinely good."
+      ],
+      "fill": "Dividing the 3% by which the fund beat its index by its 6% tracking error gives its ____: 0.5.",
+      "confusables": [
+        "sharpe-ratio",
+        "tracking-error",
+        "alpha"
+      ],
+      "wrong": [
+        "Extra return over cash per unit of volatility",
+        "Share of research that proved useful",
+        "Return divided by the worst drawdown"
+      ],
+      "formula": "(Return − benchmark) ÷ tracking error",
+      "calcs": [
+        {
+          "q": "A manager beats the benchmark by 2% a year with 4% tracking error. What is the information ratio?",
+          "options": [
+            "0.5",
+            "2",
+            "8",
+            "0.08"
+          ],
+          "answer": 0,
+          "why": "2 ÷ 4 = 0.5."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "skewness",
+      "term": "skewness",
+      "unit": "q2",
+      "short": "How lopsided returns are to one side",
+      "definition": "A measure of how lopsided a return distribution is. Negative skew means many small gains with occasional big losses; positive skew means many small losses with occasional big wins.",
+      "examples": [
+        "Selling options gives you negative skewness: steady small gains, then a big hit."
+      ],
+      "fill": "A lottery-like strategy that loses a little most days but sometimes wins big has positive ____.",
+      "confusables": [
+        "kurtosis",
+        "fat-tails",
+        "volatility-skew"
+      ],
+      "wrong": [
+        "How fat the tails of returns are",
+        "How spread out returns are around the average",
+        "Gap in implied vol between strikes"
+      ],
+      "tf": [
+        {
+          "s": "Option-selling strategies usually have negatively skewed returns.",
+          "a": true,
+          "why": "They collect small premiums most of the time and take rare large losses."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "kurtosis",
+      "term": "kurtosis",
+      "unit": "q2",
+      "short": "How fat the tails of returns are",
+      "definition": "A measure of how much of a distribution sits in the extreme tails. High kurtosis means big surprises happen more often than a normal bell curve predicts.",
+      "examples": [
+        "Daily stock returns have high kurtosis, so 5-sigma days turn up far more often than the textbook says."
+      ],
+      "fill": "Returns with high ____ look calm most days but produce extreme moves more often than a bell curve suggests.",
+      "confusables": [
+        "skewness",
+        "fat-tails",
+        "standard-deviation"
+      ],
+      "wrong": [
+        "How lopsided returns are to one side",
+        "Average size of daily returns",
+        "Number of returns above the average"
+      ],
+      "note": "A normal distribution has a kurtosis of 3. 'Excess kurtosis' is the amount above 3.",
+      "difficulty": 3
+    },
+    {
+      "id": "fat-tails",
+      "term": "fat tails",
+      "aliases": [
+        "fat-tailed",
+        "heavy tails"
+      ],
+      "unit": "q2",
+      "short": "Extreme moves happen more than models expect",
+      "definition": "When extreme outcomes happen far more often than a normal distribution predicts. Market returns are fat-tailed, which is why crashes are less rare than simple models assume.",
+      "examples": [
+        "Our risk model assumes normal returns, so it understates the fat tails in small caps."
+      ],
+      "fill": "A 10% one-day fall should almost never happen under a bell curve, but ____ mean it turns up every few years.",
+      "confusables": [
+        "kurtosis",
+        "skewness",
+        "expected-shortfall"
+      ],
+      "wrong": [
+        "A wide gap between bid and ask",
+        "Very high trading volumes",
+        "Returns that drift steadily upward"
+      ],
+      "tf": [
+        {
+          "s": "Daily stock market returns closely follow a normal bell curve.",
+          "a": false,
+          "why": "Real returns have fat tails: big moves happen much more often than a bell curve says."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "stress-test",
+      "term": "stress test",
+      "aliases": [
+        "stress testing"
+      ],
+      "unit": "q2",
+      "short": "Checking losses in a severe scenario",
+      "definition": "Working out what a portfolio would lose in a specific severe scenario, such as a repeat of March 2020 or a sudden 2-point jump in interest rates. It covers shocks that VaR, built on recent history, can miss.",
+      "examples": [
+        "Under the 2008 scenario the fund loses 38%, more than the board will accept."
+      ],
+      "fill": "Risk asked for a ____ showing the book's loss if the Nifty fell 20% and the rupee lost 10% overnight.",
+      "confusables": [
+        "var",
+        "expected-shortfall",
+        "backtest"
+      ],
+      "wrong": [
+        "Checking that a strategy worked in the past",
+        "A daily limit on how far a price can move",
+        "A health check on the trading servers"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "downside-deviation",
+      "term": "downside deviation",
+      "aliases": [
+        "downside volatility"
+      ],
+      "unit": "q2",
+      "short": "Volatility of only the bad returns",
+      "definition": "Like standard deviation, but counting only returns below a target, often zero or the risk-free rate. Upside swings are ignored.",
+      "examples": [
+        "Downside deviation is half the total vol, because most of the swing comes on up days."
+      ],
+      "fill": "The Sortino ratio divides extra return by ____ instead of by total volatility.",
+      "confusables": [
+        "standard-deviation",
+        "sortino-ratio",
+        "max-drawdown"
+      ],
+      "wrong": [
+        "Volatility of all returns, up and down",
+        "Largest fall from a peak",
+        "How far a price sits below its high"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "risk-adjusted-return",
+      "term": "risk-adjusted return",
+      "unit": "q2",
+      "short": "Return judged against the risk taken",
+      "definition": "Return measured against the risk needed to earn it, using ratios such as Sharpe, Sortino or the information ratio. A calm 15% can be worth more than a wild 25%.",
+      "examples": [
+        "On a risk-adjusted basis, the boring fund wins easily."
+      ],
+      "fill": "Fund A made 25% with wild swings and fund B 15% calmly, so B may have the better ____.",
+      "confusables": [
+        "sharpe-ratio",
+        "alpha",
+        "total-return"
+      ],
+      "wrong": [
+        "Return after fees and taxes",
+        "Return after inflation",
+        "Return of the safest asset available"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "liquidity-risk",
+      "term": "liquidity risk",
+      "unit": "q2",
+      "short": "Risk you can't exit without moving the price",
+      "definition": "The risk that you cannot buy or sell a position quickly without moving the price a lot. It grows with position size and shrinks with daily trading volume.",
+      "examples": [
+        "We own 12 days of volume in this small cap; that's real liquidity risk if we need to get out."
+      ],
+      "fill": "Holding 15 days of average volume in one small cap leaves the fund carrying serious ____.",
+      "confusables": [
+        "liquidity",
+        "idiosyncratic-risk"
+      ],
+      "wrong": [
+        "Risk that prices swing a lot day to day",
+        "Risk that interest rates rise",
+        "Risk that the other side fails to pay"
+      ],
+      "calcs": [
+        {
+          "q": "A fund holds 30 lakh shares. The stock trades 6 lakh shares a day, and the fund won't be more than a quarter of daily volume. How many days to exit?",
+          "options": [
+            "20 days",
+            "5 days",
+            "4 days",
+            "120 days"
+          ],
+          "answer": 0,
+          "why": "A quarter of 6 lakh is 1.5 lakh a day: 30 ÷ 1.5 = 20 days."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "regression",
+      "term": "regression",
+      "aliases": [
+        "linear regression",
+        "OLS"
+      ],
+      "said": "O L S, for ordinary least squares",
+      "unit": "q3",
+      "short": "Fitting a line to explain one thing by others",
+      "definition": "A statistical method that fits a line showing how one variable moves with one or more others. Regressing a stock's returns on the market's gives its beta as the slope.",
+      "examples": [
+        "We regressed the fund's returns on four factors and most of the alpha disappeared."
+      ],
+      "fill": "To estimate beta, run a ____ of the stock's daily returns on the Nifty's and read off the slope.",
+      "confusables": [
+        "correlation",
+        "r-squared",
+        "t-statistic"
+      ],
+      "wrong": [
+        "Prices falling back to their average",
+        "Removing odd points from a data set",
+        "Testing a strategy on past data"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "r-squared",
+      "term": "R-squared",
+      "aliases": [
+        "R²",
+        "coefficient of determination"
+      ],
+      "said": "R squared",
+      "unit": "q3",
+      "short": "Share of the variation a model explains",
+      "definition": "The share of the variation in one variable that a regression explains, from 0 to 1. An R-squared of 0.9 against the index means 90% of a fund's ups and downs are just the market.",
+      "examples": [
+        "The fund's R-squared to the Nifty is 0.97, so it's a closet index fund charging active fees."
+      ],
+      "fill": "If 95% of a fund's ups and downs are explained by the index, its ____ is 0.95.",
+      "confusables": [
+        "correlation",
+        "regression",
+        "beta"
+      ],
+      "wrong": [
+        "Return squared over the period",
+        "Slope of the regression line",
+        "Correlation between two funds' fees"
+      ],
+      "tf": [
+        {
+          "s": "A high R-squared proves a model will predict well in future.",
+          "a": false,
+          "why": "R-squared measures fit on the data used. An overfitted model can score high and still fail on new data."
+        }
+      ],
+      "calcs": [
+        {
+          "q": "Two return series have a correlation of 0.3. In a simple regression of one on the other, R-squared is?",
+          "options": [
+            "9%",
+            "30%",
+            "60%",
+            "3%"
+          ],
+          "answer": 0,
+          "why": "With one explanatory variable, R-squared is the correlation squared: 0.3² = 0.09."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "t-statistic",
+      "term": "t-statistic",
+      "aliases": [
+        "t-stat"
+      ],
+      "unit": "q3",
+      "short": "An estimate divided by its standard error",
+      "definition": "An estimate, such as an average return or a regression slope, divided by its standard error. It shows how many standard errors the estimate is from zero; above about 2 is usually called significant.",
+      "examples": [
+        "The signal's t-stat is 1.4, which isn't enough to trade on."
+      ],
+      "fill": "With a ____ of 3.1, the factor's return is unlikely to be just noise.",
+      "confusables": [
+        "p-value",
+        "z-score",
+        "statistical-significance"
+      ],
+      "wrong": [
+        "Probability that a result is due to chance",
+        "Number of trades in the test",
+        "Average return divided by the best return"
+      ],
+      "note": "Because so many ideas get tested, some researchers argue for a bar of about 3 rather than 2 (Harvey, Liu and Zhu, 2016).",
+      "calcs": [
+        {
+          "q": "A strategy's average monthly return is 0.6% with a standard error of 0.2%. What is the t-statistic?",
+          "options": [
+            "3",
+            "0.12",
+            "1.2",
+            "0.3"
+          ],
+          "answer": 0,
+          "why": "0.6 ÷ 0.2 = 3."
+        },
+        {
+          "q": "Monthly returns have a standard deviation of 4% over 64 months. What is the standard error of the average?",
+          "options": [
+            "0.5%",
+            "4%",
+            "0.0625%",
+            "256%"
+          ],
+          "answer": 0,
+          "why": "Standard error = SD ÷ √n = 4 ÷ √64 = 4 ÷ 8 = 0.5%."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "p-value",
+      "term": "p-value",
+      "said": "p value",
+      "unit": "q3",
+      "short": "Chance of a result this strong by luck alone",
+      "definition": "The probability of seeing a result at least this strong if there were really no effect. A small p-value, such as below 0.05, suggests the result is unlikely to be pure chance.",
+      "examples": [
+        "The p-value is 0.3, so that pattern could easily be noise."
+      ],
+      "fill": "A ____ of 0.01 means a result this strong would turn up only 1% of the time if the signal were pure noise.",
+      "confusables": [
+        "t-statistic",
+        "statistical-significance",
+        "data-snooping"
+      ],
+      "wrong": [
+        "Chance that the strategy truly works",
+        "Share of trades that make money",
+        "Price level where a result becomes significant"
+      ],
+      "tf": [
+        {
+          "s": "A p-value of 0.05 means there is a 95% chance the effect is real.",
+          "a": false,
+          "why": "It is the chance of data this extreme if there were no effect, not the chance that the effect is real."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "z-score",
+      "term": "z-score",
+      "aliases": [
+        "z score",
+        "standard score"
+      ],
+      "said": "zed score",
+      "unit": "q3",
+      "short": "Distance from average in standard deviations",
+      "definition": "How many standard deviations a value sits above or below its average. Traders use it to flag stretched prices or spreads, for example selling a pair when its spread reaches +2.",
+      "examples": [
+        "The spread's z-score just hit 2.5, so the pairs model wants to fade it."
+      ],
+      "fill": "The spread is now 2 standard deviations above its average, a ____ of 2.",
+      "confusables": [
+        "standard-deviation",
+        "t-statistic",
+        "normal-distribution"
+      ],
+      "wrong": [
+        "Score from 0 to 100 for a stock's quality",
+        "An estimate divided by its standard error",
+        "Distance of a price from its all-time high"
+      ],
+      "formula": "z = (value − mean) ÷ standard deviation",
+      "calcs": [
+        {
+          "q": "A spread averages 100 with a standard deviation of 15. It is now at 130. What is its z-score?",
+          "options": [
+            "2",
+            "30",
+            "1.3",
+            "0.5"
+          ],
+          "answer": 0,
+          "why": "(130 − 100) ÷ 15 = 2."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "normal-distribution",
+      "term": "normal distribution",
+      "aliases": [
+        "bell curve",
+        "Gaussian"
+      ],
+      "unit": "q3",
+      "short": "The symmetric bell-shaped spread of outcomes",
+      "definition": "The symmetric bell-shaped distribution in which about 68% of outcomes fall within 1 standard deviation of the average and about 95% within 2. Many risk models assume it, though market returns have fatter tails.",
+      "examples": [
+        "Under a normal distribution a 5-sigma day should come once in thousands of years; markets see one every few years."
+      ],
+      "fill": "Under a ____, about 95% of daily returns land within 2 standard deviations of the average.",
+      "confusables": [
+        "fat-tails",
+        "z-score",
+        "skewness"
+      ],
+      "wrong": [
+        "A spread of returns with fat tails",
+        "An even split of returns into equal buckets",
+        "Returns that only rise over time"
+      ],
+      "calcs": [
+        {
+          "q": "Returns are normal with an average of 0% and a daily SD of 1%. About what share of days fall between −2% and +2%?",
+          "options": [
+            "95%",
+            "68%",
+            "99.7%",
+            "50%"
+          ],
+          "answer": 0,
+          "why": "About 95% of outcomes lie within 2 standard deviations."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "autocorrelation",
+      "term": "autocorrelation",
+      "aliases": [
+        "serial correlation"
+      ],
+      "unit": "q3",
+      "short": "A series' correlation with its own past",
+      "definition": "How much a series is correlated with its own earlier values. Positive autocorrelation in returns hints at momentum; negative hints at mean reversion.",
+      "examples": [
+        "This small cap's daily returns show strong autocorrelation, probably because it trades so thinly."
+      ],
+      "fill": "If today's return tends to predict tomorrow's, the return series has ____.",
+      "confusables": [
+        "correlation",
+        "stationarity",
+        "momentum-factor"
+      ],
+      "wrong": [
+        "Correlation between two different stocks",
+        "Correlation that changes when markets fall",
+        "Automatic rebalancing of a portfolio"
+      ],
+      "tf": [
+        {
+          "s": "Positive autocorrelation in returns points to momentum.",
+          "a": true,
+          "why": "Up days tend to follow up days, so trends persist."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "stationarity",
+      "term": "stationarity",
+      "aliases": [
+        "stationary"
+      ],
+      "unit": "q3",
+      "short": "Statistics that stay stable over time",
+      "definition": "When a series' average, volatility and correlations stay roughly the same over time. Most models assume it. Price levels are usually not stationary; returns are much closer.",
+      "examples": [
+        "Price levels aren't stationary, so we model returns or the spread between two linked stocks."
+      ],
+      "fill": "A pairs trade only works if the spread shows ____: it keeps drifting back to the same average.",
+      "confusables": [
+        "autocorrelation",
+        "regime-change"
+      ],
+      "wrong": [
+        "Prices that stay flat for a long time",
+        "A market closed for a holiday",
+        "A strategy whose trades never change"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "statistical-significance",
+      "term": "statistical significance",
+      "unit": "q3",
+      "short": "A result unlikely to be just chance",
+      "definition": "A result is statistically significant when it would be unlikely to appear by chance alone, usually judged by a p-value below 0.05 or a t-statistic above about 2.",
+      "examples": [
+        "The effect is statistically significant but tiny; after costs it's worth nothing."
+      ],
+      "fill": "The backtest earned 0.1% a month with a t-stat of 0.8, so the result lacks ____.",
+      "confusables": [
+        "p-value",
+        "t-statistic",
+        "data-snooping"
+      ],
+      "wrong": [
+        "A result big enough to matter in money",
+        "A result approved by the head of research",
+        "A result based on lots of data"
+      ],
+      "tf": [
+        {
+          "s": "A statistically significant result is always big enough to profit from.",
+          "a": false,
+          "why": "It only means it is unlikely to be chance. The effect can still be too small to beat trading costs."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "outlier",
+      "term": "outlier",
+      "unit": "q3",
+      "short": "A data point far from the rest",
+      "definition": "A value far from the rest of the data, such as a circuit-limit day or a bad price print. Outliers can swamp averages and regressions, so researchers check, cap or remove them with care.",
+      "examples": [
+        "One outlier day in March 2020 accounts for half the backtest's profit."
+      ],
+      "fill": "A single bad tick at ₹1 instead of ₹100 will wreck the volatility estimate unless that ____ is removed.",
+      "confusables": [
+        "fat-tails",
+        "z-score"
+      ],
+      "wrong": [
+        "A stock that beats the market",
+        "A trade done outside market hours",
+        "A fund holding stocks outside its index"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "factor",
+      "term": "factor",
+      "unit": "q4",
+      "short": "A shared driver of many stocks' returns",
+      "definition": "A common trait that helps explain why groups of stocks move together and earn different returns, such as value, momentum, size, quality or low volatility.",
+      "examples": [
+        "Half our P&L this month came from the momentum factor, not from stock picking."
+      ],
+      "fill": "Cheap stocks rallied as a group, which was a ____ move rather than anything company-specific.",
+      "confusables": [
+        "factor-exposure",
+        "smart-beta",
+        "systematic-risk"
+      ],
+      "wrong": [
+        "One company's own special news",
+        "A broker's fee for a trade",
+        "A stock's weight in an index"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "factor-exposure",
+      "term": "factor exposure",
+      "aliases": [
+        "factor loading",
+        "factor tilt"
+      ],
+      "unit": "q4",
+      "short": "How much a portfolio leans into a factor",
+      "definition": "How strongly a stock or portfolio is tied to a factor, measured like a beta. A high momentum exposure means the portfolio rises and falls with momentum stocks.",
+      "examples": [
+        "The fund calls itself a stock picker, but its value factor exposure explains most of its returns."
+      ],
+      "fill": "The fund claims to pick stocks, but its heavy ____ to cheap stocks explains most of its returns.",
+      "confusables": [
+        "factor",
+        "beta",
+        "exposure"
+      ],
+      "wrong": [
+        "Total money invested in one stock",
+        "Share of a fund held by foreigners",
+        "Number of factors a model uses"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "value-factor",
+      "term": "value factor",
+      "unit": "q4",
+      "short": "Cheap stocks tending to beat expensive ones",
+      "definition": "The tendency of cheap stocks, on measures such as low price-to-book or price-to-earnings, to beat expensive ones over long periods, though with long dry spells.",
+      "examples": [
+        "PSU banks and utilities rallied hard; it was a big year for the value factor."
+      ],
+      "fill": "Low price-to-book stocks beat pricey growth stocks this year, a strong run for the ____.",
+      "confusables": [
+        "quality-factor",
+        "momentum-factor",
+        "pb-ratio"
+      ],
+      "wrong": [
+        "Recent winners tending to keep winning",
+        "Small firms tending to beat large ones",
+        "Profitable firms tending to beat weak ones"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "momentum-factor",
+      "term": "momentum factor",
+      "aliases": [
+        "momentum"
+      ],
+      "unit": "q4",
+      "short": "Recent winners tending to keep winning",
+      "definition": "The tendency of stocks that rose most over the past 6 to 12 months to keep beating the market for a while, and of recent losers to keep lagging. It can crash sharply when markets turn.",
+      "examples": [
+        "The Nifty200 Momentum 30 index buys the stocks with the strongest recent run."
+      ],
+      "fill": "Buying last year's biggest winners and selling the biggest losers is the classic ____ trade.",
+      "confusables": [
+        "value-factor",
+        "low-volatility-factor",
+        "autocorrelation"
+      ],
+      "wrong": [
+        "Cheap stocks tending to beat expensive ones",
+        "Calm stocks tending to beat risky ones",
+        "Prices tending to fall back to average"
+      ],
+      "tf": [
+        {
+          "s": "The momentum factor tends to suffer sharp losses when a falling market suddenly reverses.",
+          "a": true,
+          "why": "Shorted losers bounce hardest in a rebound, so momentum crashes come at turning points."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "size-factor",
+      "term": "size factor",
+      "aliases": [
+        "size premium",
+        "small-cap premium"
+      ],
+      "unit": "q4",
+      "short": "Small firms tending to beat large ones",
+      "definition": "The long-run tendency of smaller companies to earn higher returns than large ones, as payment for extra risk and lower liquidity. The effect is weaker and less reliable than once thought.",
+      "examples": [
+        "Small caps crushed large caps for two years, so the size factor did the heavy lifting."
+      ],
+      "fill": "Over long periods smaller companies have beaten giants, the pattern known as the ____.",
+      "confusables": [
+        "value-factor",
+        "small-cap",
+        "liquidity-risk"
+      ],
+      "wrong": [
+        "Cheap stocks tending to beat expensive ones",
+        "Bigger trades getting better prices",
+        "Big companies being safer in a crash"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "quality-factor",
+      "term": "quality factor",
+      "aliases": [
+        "quality"
+      ],
+      "unit": "q4",
+      "short": "Profitable, low-debt firms tending to do better",
+      "definition": "The tendency of companies with high profitability, steady earnings and low debt to deliver better risk-adjusted returns than weak ones. They often hold up well in sell-offs.",
+      "examples": [
+        "In the sell-off, quality held up: the high-ROE, low-debt names barely fell."
+      ],
+      "fill": "High return on equity, steady earnings and little debt are the traits screened for by the ____.",
+      "confusables": [
+        "value-factor",
+        "low-volatility-factor"
+      ],
+      "wrong": [
+        "Recent winners tending to keep winning",
+        "Cheap stocks tending to beat expensive ones",
+        "Index stocks tending to beat the rest"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "low-volatility-factor",
+      "term": "low-volatility factor",
+      "aliases": [
+        "low vol",
+        "low-vol anomaly"
+      ],
+      "unit": "q4",
+      "short": "Calm stocks doing as well as risky ones",
+      "definition": "The finding that low-volatility stocks have earned returns similar to or better than high-volatility stocks, with much less risk. It contradicts the idea that more risk always pays more.",
+      "examples": [
+        "NSE's Nifty100 Low Volatility 30 index picks the 30 calmest stocks in the Nifty 100."
+      ],
+      "fill": "The calmest stocks have earned as much as the riskiest ones with far smaller swings, an effect called the ____.",
+      "confusables": [
+        "quality-factor",
+        "beta",
+        "volatility"
+      ],
+      "wrong": [
+        "High-risk stocks always paying more",
+        "Volatility falling after a big move",
+        "Options getting cheaper near expiry"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "idiosyncratic-risk",
+      "term": "idiosyncratic risk",
+      "aliases": [
+        "specific risk",
+        "stock-specific risk",
+        "unsystematic risk"
+      ],
+      "said": "id-ee-o-sin-CRAT-ic",
+      "unit": "q4",
+      "short": "Risk unique to one company",
+      "definition": "Risk that comes from a company's own events, such as fraud, a lost contract or a bad result, rather than from the market. Diversification can mostly remove it.",
+      "examples": [
+        "The stock fell 20% on an audit issue while the Nifty was flat: pure idiosyncratic risk."
+      ],
+      "fill": "The surprise CEO exit hurt only that one stock, so it was ____ rather than market risk.",
+      "confusables": [
+        "systematic-risk",
+        "diversification",
+        "beta"
+      ],
+      "wrong": [
+        "Risk that hits the whole market",
+        "Risk of trading in a foreign currency",
+        "Risk that a broker makes an error"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "systematic-risk",
+      "term": "systematic risk",
+      "aliases": [
+        "market risk",
+        "non-diversifiable risk"
+      ],
+      "unit": "q4",
+      "short": "Market-wide risk you can't diversify away",
+      "definition": "Risk that affects the whole market, such as rate changes, recessions or a global sell-off. Spreading money across more stocks can't remove it; only hedging or holding less can.",
+      "examples": [
+        "Owning 50 stocks didn't help in March 2020; that was systematic risk."
+      ],
+      "fill": "A surprise rate hike pulled down every sector at once, a ____ no amount of diversification could avoid.",
+      "confusables": [
+        "idiosyncratic-risk",
+        "beta",
+        "diversification"
+      ],
+      "wrong": [
+        "Risk unique to one company",
+        "Risk from a broken trading system",
+        "Risk of a strategy built on fixed rules"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "smart-beta",
+      "term": "smart beta",
+      "aliases": [
+        "factor investing",
+        "factor index"
+      ],
+      "unit": "q4",
+      "short": "An index built on factors, not market value",
+      "definition": "Index funds that pick or weight stocks by rules based on factors such as momentum, value, quality or low volatility, rather than by market value.",
+      "examples": [
+        "The fund house launched a smart beta ETF tracking the Nifty200 Momentum 30."
+      ],
+      "fill": "An ETF tracking the Nifty100 Low Volatility 30 instead of the plain Nifty 100 is a ____ product.",
+      "confusables": [
+        "factor",
+        "benchmark",
+        "mutual-fund"
+      ],
+      "wrong": [
+        "An index chosen by an AI model",
+        "A fund with a beta above 1",
+        "An active fund run by a star manager"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "backtest",
+      "term": "backtest",
+      "aliases": [
+        "backtesting"
+      ],
+      "unit": "q5",
+      "short": "Testing a strategy on past data",
+      "definition": "Running a trading rule on historical data to see how it would have done. Useful, but easy to fool yourself with, because the same past was used to build the rule.",
+      "examples": [
+        "The backtest shows a Sharpe of 3, which almost always means something is wrong."
+      ],
+      "fill": "Before risking money, we ran the strategy's rules over ten years of history in a ____.",
+      "confusables": [
+        "out-of-sample",
+        "walk-forward",
+        "stress-test"
+      ],
+      "wrong": [
+        "Checking losses in a severe scenario",
+        "Reversing a trade done by mistake",
+        "Comparing a fund with its benchmark"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "overfitting",
+      "term": "overfitting",
+      "aliases": [
+        "curve fitting",
+        "curve-fitting"
+      ],
+      "unit": "q5",
+      "short": "Tuning a model to past noise",
+      "definition": "Tuning a model so closely to past data that it learns the noise instead of a real pattern. It looks brilliant in the backtest and fails on new data.",
+      "examples": [
+        "Twelve parameters on three years of data: that's overfitting until proven otherwise."
+      ],
+      "fill": "The strategy had 15 tuned settings and a perfect backtest, then lost money live: classic ____.",
+      "confusables": [
+        "data-snooping",
+        "look-ahead-bias",
+        "out-of-sample"
+      ],
+      "wrong": [
+        "Using more data than needed",
+        "Taking a bigger position than allowed",
+        "Ignoring trading costs in a test"
+      ],
+      "tf": [
+        {
+          "s": "Adding more parameters to a model usually makes its backtest look better.",
+          "a": true,
+          "why": "More knobs fit past data more closely, which is exactly why backtests overstate live results."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "look-ahead-bias",
+      "term": "look-ahead bias",
+      "aliases": [
+        "lookahead bias"
+      ],
+      "unit": "q5",
+      "short": "Using data you wouldn't have had then",
+      "definition": "A backtest error where the rules use information that was not available at the time of the trade, such as results published after the date or economic data revised later.",
+      "examples": [
+        "The model bought on yearly results dated to 31 March, weeks before they were actually published."
+      ],
+      "fill": "The test bought at Monday's open using Monday's closing price, a ____ that made it look far too good.",
+      "confusables": [
+        "survivorship-bias",
+        "data-snooping",
+        "overfitting"
+      ],
+      "wrong": [
+        "Using only stocks that still exist today",
+        "Testing too many ideas on the same data",
+        "Forecasting too far into the future"
+      ],
+      "calcs": [
+        {
+          "q": "A backtest buys stocks on 31 March using full-year results that companies only publish in May. Which error is this?",
+          "options": [
+            "Look-ahead bias",
+            "Survivorship bias",
+            "Overfitting",
+            "Regime change"
+          ],
+          "answer": 0,
+          "why": "The rule uses results that were not yet public on 31 March."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "survivorship-bias",
+      "term": "survivorship bias",
+      "unit": "q5",
+      "short": "Testing only on firms that survived",
+      "definition": "A backtest error from using only companies that exist today, leaving out those that went bust, merged or were delisted. It makes past returns look better than they were.",
+      "examples": [
+        "Testing on today's Nifty 50 members ignores every company that dropped out."
+      ],
+      "fill": "Running the test only on stocks in today's index, and ignoring those since delisted, builds in ____.",
+      "confusables": [
+        "look-ahead-bias",
+        "data-snooping"
+      ],
+      "wrong": [
+        "Using data you wouldn't have had then",
+        "Holding losing trades too long",
+        "Favouring stocks that recently rose"
+      ],
+      "calcs": [
+        {
+          "q": "A study finds mutual funds averaged 15% a year, but it only counts funds still open today. Which error inflates the result?",
+          "options": [
+            "Survivorship bias",
+            "Look-ahead bias",
+            "Data snooping",
+            "Pin risk"
+          ],
+          "answer": 0,
+          "why": "Funds that did badly were closed or merged and dropped out of the data."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "data-snooping",
+      "term": "data snooping",
+      "aliases": [
+        "data mining",
+        "p-hacking"
+      ],
+      "unit": "q5",
+      "short": "Testing so many ideas one works by luck",
+      "definition": "Testing many ideas on the same data until one looks good. With enough tries something will pass by luck alone, so the winner's results are overstated.",
+      "examples": [
+        "We tried 400 signals and kept the best five; that's data snooping unless they hold up on new data."
+      ],
+      "fill": "After trying 500 signal ideas on the same ten years of data, the best one probably owes its result to ____.",
+      "confusables": [
+        "overfitting",
+        "p-value",
+        "out-of-sample"
+      ],
+      "wrong": [
+        "Using data you wouldn't have had then",
+        "Reading a rival firm's research",
+        "Downloading data without a licence"
+      ],
+      "calcs": [
+        {
+          "q": "You test 100 useless signals at a 5% significance level. About how many will look significant by luck?",
+          "options": [
+            "5",
+            "0",
+            "1",
+            "50"
+          ],
+          "answer": 0,
+          "why": "5% of 100 = 5 false positives on average."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "out-of-sample",
+      "term": "out-of-sample",
+      "aliases": [
+        "out of sample",
+        "OOS",
+        "holdout"
+      ],
+      "said": "out of sample",
+      "unit": "q5",
+      "short": "Data kept back to test a model fairly",
+      "definition": "Data that was not used to build or tune a model and is kept back to test it. Good out-of-sample results are the best sign that a pattern is real.",
+      "examples": [
+        "In-sample Sharpe 2.1, out-of-sample 0.4: the signal mostly fitted noise."
+      ],
+      "fill": "We built the model on 2010 to 2020 and kept 2021 to 2024 back as a fair ____ test.",
+      "confusables": [
+        "backtest",
+        "walk-forward",
+        "overfitting"
+      ],
+      "wrong": [
+        "Data from another country's market",
+        "Data with the outliers removed",
+        "The data used to tune the model"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "walk-forward",
+      "term": "walk-forward testing",
+      "aliases": [
+        "walk-forward analysis",
+        "walk forward"
+      ],
+      "unit": "q5",
+      "short": "Refit on a rolling window, test on the next",
+      "definition": "A test that fits a model on one window of past data, trades it on the next unseen window, then rolls forward and repeats. It mimics how the model would really be used.",
+      "examples": [
+        "Walk-forward results are weaker than the full backtest but far more believable."
+      ],
+      "fill": "Fit on 2015 to 2019 and trade 2020, then fit on 2016 to 2020 and trade 2021: that's ____.",
+      "confusables": [
+        "out-of-sample",
+        "backtest"
+      ],
+      "wrong": [
+        "Testing on all the data at once",
+        "Moving a stop-loss up as the price rises",
+        "Rolling a futures contract to next month"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "transaction-costs",
+      "term": "transaction costs",
+      "aliases": [
+        "trading costs"
+      ],
+      "unit": "q5",
+      "short": "All the costs of trading: fees, tax, slippage",
+      "definition": "Everything a trade costs beyond the price itself: brokerage, exchange fees, STT and stamp duty, the bid-ask spread and market impact. Many great-looking backtests die once these are added.",
+      "examples": [
+        "At 40 trades a day, transaction costs wipe out the whole edge."
+      ],
+      "fill": "The backtest made 18% a year before ____ and lost money once brokerage, STT and slippage were added.",
+      "confusables": [
+        "spread",
+        "stt",
+        "liquidity-risk"
+      ],
+      "wrong": [
+        "Tax on long-term capital gains only",
+        "Fee for opening a demat account",
+        "Interest paid on borrowed money"
+      ],
+      "calcs": [
+        {
+          "q": "A strategy trades its whole book 200 times a year, and each round trip costs 0.1%. What is the yearly cost drag?",
+          "options": [
+            "20%",
+            "0.1%",
+            "2%",
+            "200%"
+          ],
+          "answer": 0,
+          "why": "200 × 0.1% = 20% a year."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "regime-change",
+      "term": "regime change",
+      "aliases": [
+        "regime shift",
+        "market regime"
+      ],
+      "unit": "q5",
+      "short": "Markets behaving differently than before",
+      "definition": "A lasting shift in how markets behave, such as from low to high inflation or from calm to volatile, that can break patterns a model learned from earlier data.",
+      "examples": [
+        "The strategy worked through a decade of falling rates and broke when inflation came back in 2022."
+      ],
+      "fill": "Stocks and bonds started falling together when inflation came back, a ____ that broke many models.",
+      "confusables": [
+        "stationarity",
+        "overfitting"
+      ],
+      "wrong": [
+        "A new government taking office",
+        "A change of fund manager",
+        "A switch from one benchmark to another"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

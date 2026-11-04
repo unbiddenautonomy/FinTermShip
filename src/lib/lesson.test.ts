@@ -1,7 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import { categories, coreTermIds, path, pathTermIds, termById } from './content';
 import { buildLesson } from './lesson';
-import { meaningQuestion, promptFor, seededRng, termQuestion, fillQuestion } from './questions';
+import { calcQuestion, fillQuestion, meaningQuestion, promptFor, retryQuestion, reviewQuestion, seededRng, termQuestion, tfQuestion } from './questions';
 import { graduate, introduce, newProgress } from './scheduler';
 import type { Progress } from './types';
 
@@ -30,7 +30,10 @@ describe('lessons', () => {
       else expect(introduced.has(q.termId)).toBe(true);
     }
     const kinds = new Set(plan.questions.map((q) => q.kind));
-    expect(kinds).toEqual(new Set(['intro', 'meaning', 'term', 'match', 'fill']));
+    for (const k of ['intro', 'meaning', 'term', 'match', 'fill']) expect(kinds.has(k as never)).toBe(true);
+    // The first unit has worked sums and true/false items, so the lesson should use them.
+    expect(kinds.has('calc') || kinds.has('tf')).toBe(true);
+    expect(plan.questions.length).toBeLessThanOrEqual(22);
   });
 
   it('respects the daily cap on new terms', () => {
@@ -71,5 +74,49 @@ describe('questions', () => {
         expect(prompt.includes(n.toLowerCase()), `${t.id}: ${prompt}`).toBe(false);
       }
     }
+  });
+});
+
+describe('worked sums and true or false', () => {
+  it('keep the right answer after shuffling', () => {
+    for (const t of termById.values()) {
+      for (const c of t.calcs ?? []) {
+        for (let seed = 0; seed < 5; seed++) {
+          const q = calcQuestion({ ...t, calcs: [c] }, seededRng(seed))!;
+          if (q.kind !== 'calc') throw new Error('expected calc');
+          expect(q.options[q.answer]).toBe(c.options[c.answer]);
+          expect(new Set(q.options).size).toBe(4);
+        }
+      }
+      for (const f of t.tf ?? []) {
+        const q = tfQuestion({ ...t, tf: [f] }, seededRng(1))!;
+        expect(q.kind === 'tf' && q.options[q.answer]).toBe(f.a ? 'True' : 'False');
+      }
+    }
+  });
+
+  it('are used for well-known terms in reviews', () => {
+    const delta = termById.get('delta')!;
+    const kinds = new Set(Array.from({ length: 60 }, (_, i) => reviewQuestion(delta, 4, seededRng(i)).kind));
+    expect(kinds.has('calc')).toBe(true);
+    expect(kinds.has('fill')).toBe(true);
+    const plain = termById.get('ltp')!;
+    expect(new Set(Array.from({ length: 30 }, (_, i) => reviewQuestion(plain, 4, seededRng(i)).kind))).toEqual(new Set(['fill']));
+  });
+
+  it('retry a missed true/false as a meaning question, not a coin flip', () => {
+    const t = termById.get('delta')!;
+    const q = tfQuestion(t, seededRng(2))!;
+    expect(retryQuestion(q, seededRng(3)).kind).toBe('meaning');
+    const c = calcQuestion(t, seededRng(2))!;
+    const r = retryQuestion(c, seededRng(9));
+    expect(r.kind).toBe('calc');
+    if (r.kind === 'calc' && c.kind === 'calc') expect(r.options[r.answer]).toBe(c.options[c.answer]);
+  });
+
+  it('puts the Greeks and quant core into the first pass', () => {
+    for (const id of ['delta', 'gamma', 'theta', 'vega', 'sharpe-ratio', 'beta', 'var']) expect(coreTermIds).toContain(id);
+    for (const id of ['vanna', 'vomma', 'charm', 'p-value', 'overfitting']) expect(coreTermIds).not.toContain(id);
+    expect(pathTermIds).toContain('vanna');
   });
 });
