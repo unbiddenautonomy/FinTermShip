@@ -108,9 +108,57 @@ export function matchQuestion(terms: Term[], rng: Rng): Question {
   return { kind: 'match', termIds: shuffle(terms.map((t) => t.id), rng), right: shuffle(terms.map((t) => t.id), rng) };
 }
 
-/** Which format a scheduled review uses, by how well the term is known. */
+function pick<T>(items: T[], rng: Rng): T {
+  return items[Math.floor(rng() * items.length)];
+}
+
+/** Work it out: a short worked sum or desk scenario that needs the term to solve. */
+export function calcQuestion(term: Term, rng: Rng, review = false): Question | null {
+  if (!term.calcs?.length) return null;
+  const c = pick(term.calcs, rng);
+  const correct = c.options[c.answer];
+  const options = shuffle(c.options, rng);
+  return { kind: 'calc', termId: term.id, prompt: c.q, why: c.why, options, answer: options.indexOf(correct), review };
+}
+
+/** True or false: a statement built around a common misreading of the term. */
+export function tfQuestion(term: Term, rng: Rng, review = false): Question | null {
+  if (!term.tf?.length) return null;
+  const f = pick(term.tf, rng);
+  return { kind: 'tf', termId: term.id, prompt: f.s, why: f.why, options: ['True', 'False'], answer: f.a ? 0 : 1, review };
+}
+
+/**
+ * Which format a scheduled review uses, by how well the term is known.
+ * Early steps check recognition; later steps make the learner use the term:
+ * in a sentence, in a sum, or against a common misreading.
+ */
 export function reviewQuestion(term: Term, step: number, rng: Rng): Question {
-  if (step <= 1) return rng() < 0.5 ? meaningQuestion(term, rng, true) : termQuestion(term, rng, true);
-  if (step === 2) return termQuestion(term, rng, true);
+  const r = rng();
+  if (step <= 1) return r < 0.5 ? meaningQuestion(term, rng, true) : termQuestion(term, rng, true);
+  if (step === 2) return (r < 0.35 && tfQuestion(term, rng, true)) || termQuestion(term, rng, true);
+  if (r < 0.5 && term.calcs?.length) return calcQuestion(term, rng, true)!;
+  if (r > 0.8 && term.tf?.length) return tfQuestion(term, rng, true)!;
   return fillQuestion(term, rng, true);
+}
+
+/** A fresh version of a missed question for the retry at the end of a lesson. */
+export function retryQuestion(q: Question, rng: Rng): Question {
+  if (q.kind === 'intro' || q.kind === 'match') return q;
+  const t = termById.get(q.termId);
+  if (!t) return q;
+  switch (q.kind) {
+    case 'meaning':
+      return meaningQuestion(t, rng);
+    case 'term':
+      return termQuestion(t, rng);
+    case 'fill':
+      return fillQuestion(t, rng);
+    case 'calc':
+      // Same sum, reshuffled: the worked answer was just shown, so this checks it stuck.
+      return { ...q, review: false, ...withAnswer(q.options[q.answer], q.options.filter((_, i) => i !== q.answer), rng) };
+    case 'tf':
+      // A second true/false would be a coin flip, so ask for the meaning instead.
+      return meaningQuestion(t, rng);
+  }
 }

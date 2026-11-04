@@ -52,7 +52,14 @@
         "The average price paid over the day"
       ],
       "note": "Traders say they \"hit the bid\" when they sell at it.",
-      "difficulty": 1
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "If you sell at market, you usually get the bid price.",
+          "a": true,
+          "why": "A market sell order hits the best bid."
+        }
+      ]
     },
     {
       "id": "ask",
@@ -105,7 +112,20 @@
         "The fee your broker charges per trade",
         "The difference between today's close and yesterday's close"
       ],
-      "difficulty": 1
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "The bid is 100.10 and the ask is 100.30. What is the spread?",
+          "options": [
+            "0.20",
+            "0.10",
+            "0.30",
+            "200.40"
+          ],
+          "answer": 0,
+          "why": "100.30 − 100.10 = 0.20."
+        }
+      ]
     },
     {
       "id": "ltp",
@@ -160,7 +180,20 @@
         "The smallest price step a stock can move"
       ],
       "formula": "100 basis points = 1%",
-      "difficulty": 1
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "A bond yield rises from 6.85% to 7.10%. How many basis points is that?",
+          "options": [
+            "25",
+            "0.25",
+            "2.5",
+            "250"
+          ],
+          "answer": 0,
+          "why": "0.25 percentage points × 100 = 25 basis points."
+        }
+      ]
     },
     {
       "id": "liquidity",
@@ -233,7 +266,20 @@
         "The amount of money raised in an IPO"
       ],
       "formula": "share price × shares outstanding",
-      "difficulty": 1
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "A company has 50 crore shares trading at ₹400. What is its market cap?",
+          "options": [
+            "₹20,000 crore",
+            "₹2,000 crore",
+            "₹450 crore",
+            "₹2,00,000 crore"
+          ],
+          "answer": 0,
+          "why": "50 crore × ₹400 = ₹20,000 crore."
+        }
+      ]
     },
     {
       "id": "long",
@@ -281,7 +327,14 @@
         "Selling a stock you already own"
       ],
       "note": "In India, most traders go short with futures. Shorting cash shares overnight needs borrowed stock through securities lending (SLB); intraday shorts must be closed the same day.",
-      "difficulty": 1
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "A short seller makes money when the price rises.",
+          "a": false,
+          "why": "A short makes money when the price falls."
+        }
+      ]
     },
     {
       "id": "position",
@@ -385,7 +438,13 @@
         "Profit on closed trades",
         "Loss that the broker has written off"
       ],
-      "difficulty": 1
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "Unrealised P&L becomes realised only when you close the position.",
+          "a": true
+        }
+      ]
     },
     {
       "id": "mtm",
@@ -460,7 +519,20 @@
         "The growth in a company's share count"
       ],
       "formula": "(end ÷ start)^(1 ÷ years) − 1",
-      "difficulty": 2
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "An investment grows from ₹1 lakh to ₹2 lakh in 6 years. Its CAGR is closest to?",
+          "options": [
+            "12%",
+            "16.7%",
+            "100%",
+            "6%"
+          ],
+          "answer": 0,
+          "why": "Doubling in 6 years is about 12% a year (2^(1/6) ≈ 1.12). The rule of 72 gives 72 ÷ 6 = 12. 16.7% is the simple average, which ignores compounding."
+        }
+      ]
     },
     {
       "id": "dividend",
@@ -504,7 +576,20 @@
         "How fast dividends grow each year"
       ],
       "formula": "annual dividend per share ÷ share price",
-      "difficulty": 1
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "A stock at ₹500 pays ₹15 of dividends a year. What is its dividend yield?",
+          "options": [
+            "3%",
+            "15%",
+            "0.3%",
+            "33%"
+          ],
+          "answer": 0,
+          "why": "15 ÷ 500 = 3%."
+        }
+      ]
     },
     {
       "id": "total-return",
@@ -525,7 +610,20 @@
         "Return since the stock first listed",
         "The return of the whole market"
       ],
-      "difficulty": 2
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "You buy at ₹200, sell at ₹230 and received a ₹4 dividend along the way. What is your total return?",
+          "options": [
+            "17%",
+            "15%",
+            "2%",
+            "34%"
+          ],
+          "answer": 0,
+          "why": "(30 price gain + 4 dividend) ÷ 200 = 17%."
+        }
+      ]
     },
     {
       "id": "notional",
@@ -550,7 +648,20 @@
         "The value of a position after fees",
         "The price at which an option can be exercised"
       ],
-      "difficulty": 2
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "You buy futures on 300 shares of a stock at ₹1,000. What is the notional value?",
+          "options": [
+            "₹3 lakh",
+            "₹30 lakh",
+            "₹1,000",
+            "₹30,000"
+          ],
+          "answer": 0,
+          "why": "300 × ₹1,000 = ₹3,00,000, which is ₹3 lakh."
+        }
+      ]
     },
     {
       "id": "leverage",
@@ -572,7 +683,20 @@
         "Negotiating lower brokerage with your broker",
         "Holding cash to protect against a fall"
       ],
-      "difficulty": 1
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "You put up ₹2 lakh of margin to hold a ₹10 lakh position. The position rises 3%. What is the return on your margin?",
+          "options": [
+            "15%",
+            "3%",
+            "5%",
+            "30%"
+          ],
+          "answer": 0,
+          "why": "3% of ₹10 lakh is ₹30,000, which is 15% of ₹2 lakh. Leverage of 5× turns 3% into 15%."
+        }
+      ]
     },
     {
       "id": "lakh",
@@ -592,7 +716,20 @@
         "Ten thousand (10,000)",
         "Ten million (1,00,00,000)"
       ],
-      "difficulty": 1
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "₹25 lakh is how much in millions?",
+          "options": [
+            "2.5 million",
+            "25 million",
+            "0.25 million",
+            "250 million"
+          ],
+          "answer": 0,
+          "why": "1 lakh = 100,000, so 25 lakh = 2,500,000 = 2.5 million."
+        }
+      ]
     },
     {
       "id": "crore",
@@ -613,7 +750,20 @@
         "One million (10,00,000)"
       ],
       "note": "Global investors think in millions and billions: ₹1 lakh crore is ₹1 trillion.",
-      "difficulty": 1
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "How many lakh make one crore?",
+          "options": [
+            "100",
+            "10",
+            "1,000",
+            "10,000"
+          ],
+          "answer": 0,
+          "why": "1 crore = 100 lakh = 10 million."
+        }
+      ]
     },
     {
       "id": "percentage-point",
@@ -637,7 +787,27 @@
         "A percentage change relative to the starting value",
         "A point on the Nifty or Sensex"
       ],
-      "difficulty": 2
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "A loan rate goes from 8% to 10%. That's 2 percentage points. How much higher is it in percent terms?",
+          "options": [
+            "25%",
+            "2%",
+            "20%",
+            "10%"
+          ],
+          "answer": 0,
+          "why": "2 ÷ 8 = 0.25, so the rate is 25% higher."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A rate going from 4% to 5% is a 1% rise.",
+          "a": false,
+          "why": "It is a 1 percentage point rise, which is 25% in relative terms."
+        }
+      ]
     },
     {
       "id": "face-value",
@@ -826,7 +996,20 @@
         "Price divided by dividend per share"
       ],
       "formula": "share price ÷ EPS",
-      "difficulty": 1
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "A stock trades at ₹900 and its earnings per share are ₹45. What is its P/E?",
+          "options": [
+            "20",
+            "45",
+            "0.05",
+            "855"
+          ],
+          "answer": 0,
+          "why": "900 ÷ 45 = 20."
+        }
+      ]
     },
     {
       "id": "pb-ratio",
@@ -880,7 +1063,20 @@
         "The expected value of next year's earnings"
       ],
       "formula": "market cap + debt − cash",
-      "difficulty": 2
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "Market cap ₹10,000 crore, debt ₹3,000 crore, cash ₹1,000 crore. What is the enterprise value?",
+          "options": [
+            "₹12,000 crore",
+            "₹14,000 crore",
+            "₹13,000 crore",
+            "₹8,000 crore"
+          ],
+          "answer": 0,
+          "why": "10,000 + 3,000 − 1,000 = ₹12,000 crore."
+        }
+      ]
     },
     {
       "id": "ebitda",
@@ -1062,7 +1258,14 @@
         "Using futures to cancel out risk exactly",
         "Splitting a stock into more shares"
       ],
-      "difficulty": 1
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "Owning 30 stocks from the same sector gives good diversification.",
+          "a": false,
+          "why": "They share the same sector risk, so they tend to fall together."
+        }
+      ]
     },
     {
       "id": "portfolio",
