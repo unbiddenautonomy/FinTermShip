@@ -4,7 +4,7 @@ import type { LessonPlan } from '../lib/lesson';
 import { fillQuestion, meaningQuestion, promptFor, termQuestion, type Rng } from '../lib/questions';
 import { finishLesson, graduate, introduce, recordPractice, review } from '../lib/scheduler';
 import type { Progress, Question, Term } from '../lib/types';
-import { Bar, Button, SpeakButton, TermDetails } from './ui';
+import { Bar, Button, ConfirmDialog, SpeakButton, TermDetails } from './ui';
 import { MatchPairs } from './MatchPairs';
 
 export interface LessonSummary {
@@ -42,6 +42,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
   const [picked, setPicked] = useState<number | null>(null);
   const [stats, setStats] = useState({ firstTryCorrect: 0, firstTryTotal: 0, reviewsCorrect: 0 });
   const [missed, setMissed] = useState<string[]>([]);
+  const [confirmQuit, setConfirmQuit] = useState(false);
   const shownAt = useRef(Date.now());
   const progressRef = useRef(progress);
   progressRef.current = progress;
@@ -149,9 +150,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
       <header className="flex items-center gap-3 px-4 pb-2 pt-4">
         <button
           type="button"
-          onClick={() => {
-            if (window.confirm('Leave this lesson? Answers so far are saved.')) onQuit();
-          }}
+          onClick={() => setConfirmQuit(true)}
           className="rounded-lg p-2 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800"
           aria-label="Leave lesson"
         >
@@ -218,6 +217,16 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
             </Button>
           </div>
         </footer>
+      )}
+
+      {confirmQuit && (
+        <ConfirmDialog
+          title="Leave this lesson?"
+          body="Your answers so far are saved. Terms you have started will come back as reviews."
+          confirmLabel="Leave"
+          onConfirm={onQuit}
+          onCancel={() => setConfirmQuit(false)}
+        />
       )}
 
       {answered && term && (
