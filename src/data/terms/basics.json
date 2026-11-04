@@ -1,0 +1,1220 @@
+{
+  "id": "basics",
+  "name": "Money and market basics",
+  "order": 1,
+  "units": [
+    {
+      "id": "b1",
+      "name": "Prices and quotes",
+      "core": true
+    },
+    {
+      "id": "b2",
+      "name": "Returns and P&L",
+      "core": true
+    },
+    {
+      "id": "b3",
+      "name": "Big numbers and value",
+      "core": false
+    },
+    {
+      "id": "b4",
+      "name": "Valuation basics",
+      "core": false
+    },
+    {
+      "id": "b5",
+      "name": "Portfolios and risk",
+      "core": false
+    }
+  ],
+  "terms": [
+    {
+      "id": "bid",
+      "term": "bid",
+      "unit": "b1",
+      "short": "Highest price a buyer will pay",
+      "definition": "The highest price a buyer is currently willing to pay for a security.",
+      "examples": [
+        "The bid on Infosys is ₹1,502, so that's where you can sell right now.",
+        "Bids dried up after the results and the stock gapped down."
+      ],
+      "fill": "To sell right away, you hit the ____.",
+      "confusables": [
+        "ask",
+        "ltp",
+        "spread"
+      ],
+      "wrong": [
+        "The lowest price a seller will accept",
+        "The price of the last completed trade",
+        "The average price paid over the day"
+      ],
+      "note": "Traders say they \"hit the bid\" when they sell at it.",
+      "difficulty": 1
+    },
+    {
+      "id": "ask",
+      "term": "ask",
+      "aliases": [
+        "offer"
+      ],
+      "unit": "b1",
+      "short": "Lowest price a seller will take",
+      "definition": "The lowest price a seller is currently willing to accept. Also called the offer.",
+      "examples": [
+        "Reliance is ₹2,850 bid, ₹2,851 offered.",
+        "We lifted the offer to get filled before the news."
+      ],
+      "fill": "To buy immediately, you pay the ____, the lowest price any seller is showing.",
+      "confusables": [
+        "bid",
+        "ltp",
+        "spread"
+      ],
+      "wrong": [
+        "The highest price a buyer will pay",
+        "The price set by the exchange at the open",
+        "The difference between the bid and the offer"
+      ],
+      "note": "Traders say they \"lift the offer\" when they buy at it.",
+      "difficulty": 1
+    },
+    {
+      "id": "spread",
+      "term": "bid-ask spread",
+      "aliases": [
+        "spread"
+      ],
+      "unit": "b1",
+      "short": "Gap between bid and ask",
+      "definition": "The difference between the best bid and the best ask. A narrow spread means a stock is cheap to trade.",
+      "examples": [
+        "The spread on this small cap is 40 bips, so getting in and out costs real money.",
+        "Spreads widen when volatility jumps."
+      ],
+      "fill": "Liquid large caps trade with a tight ____, so crossing from buyer's price to seller's price costs very little.",
+      "confusables": [
+        "bid",
+        "ask",
+        "basis-point"
+      ],
+      "wrong": [
+        "The daily range between the high and low price",
+        "The fee your broker charges per trade",
+        "The difference between today's close and yesterday's close"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "ltp",
+      "term": "last traded price",
+      "aliases": [
+        "LTP"
+      ],
+      "said": "L T P",
+      "unit": "b1",
+      "short": "Price of the latest trade",
+      "definition": "The price at which the most recent trade in a security happened. Indian apps and terminals show it as LTP.",
+      "examples": [
+        "LTP is ₹845 but the bid is ₹844, so a market sell won't get ₹845."
+      ],
+      "fill": "The ____ shows where the latest deal happened, not where you can trade next.",
+      "confusables": [
+        "bid",
+        "ask"
+      ],
+      "wrong": [
+        "The price at which the stock closed yesterday",
+        "The highest price of the day",
+        "The price the exchange fixes at the open"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "basis-point",
+      "term": "basis point",
+      "aliases": [
+        "bps",
+        "bp",
+        "bips"
+      ],
+      "said": "bips (for bps)",
+      "speak": "basis point",
+      "unit": "b1",
+      "short": "One hundredth of a percent (0.01%)",
+      "definition": "One hundredth of one percent (0.01%). Used for interest rates, spreads, costs and small returns.",
+      "examples": [
+        "The RBI cut the repo rate by 25 bips.",
+        "We're paying 3 bips in brokerage on this order."
+      ],
+      "fill": "One ____ equals 0.01%, so 25 of them make a quarter of a percent.",
+      "confusables": [
+        "percentage-point",
+        "spread"
+      ],
+      "wrong": [
+        "One tenth of a percent",
+        "One percent of a company's shares",
+        "The smallest price step a stock can move"
+      ],
+      "formula": "100 basis points = 1%",
+      "difficulty": 1
+    },
+    {
+      "id": "liquidity",
+      "term": "liquidity",
+      "unit": "b1",
+      "short": "How easily you can trade without moving price",
+      "definition": "How easily you can buy or sell a security in size without moving its price much.",
+      "examples": [
+        "Liquidity in midcaps dries up in a sell-off.",
+        "HDFC Bank has deep liquidity; you can trade large size without much impact."
+      ],
+      "fill": "Thin ____ means even a modest order can push the price sharply.",
+      "confusables": [
+        "volume",
+        "volatility",
+        "spread"
+      ],
+      "wrong": [
+        "The cash a company holds on its balance sheet",
+        "The number of shares a company has issued",
+        "How much a stock's price swings in a day"
+      ],
+      "note": "Volume and liquidity are related but not the same: a stock can trade a lot and still have thin order books.",
+      "difficulty": 1
+    },
+    {
+      "id": "volume",
+      "term": "volume",
+      "unit": "b1",
+      "short": "Number of shares traded",
+      "definition": "The number of shares or contracts traded in a period, usually a day.",
+      "examples": [
+        "Volume was three times the average on results day."
+      ],
+      "fill": "The breakout came on heavy ____, which traders read as conviction.",
+      "confusables": [
+        "liquidity",
+        "market-cap"
+      ],
+      "wrong": [
+        "The total value of all shares of a company",
+        "The number of buy orders waiting in the book",
+        "The size of a fund's portfolio"
+      ],
+      "note": "Turnover is volume in rupees: shares traded times price.",
+      "difficulty": 1
+    },
+    {
+      "id": "market-cap",
+      "term": "market capitalisation",
+      "aliases": [
+        "market cap",
+        "mcap"
+      ],
+      "unit": "b1",
+      "short": "Share price × shares outstanding",
+      "definition": "The total market value of a company's shares: share price times the number of shares outstanding.",
+      "examples": [
+        "It's a ₹2,000 crore market cap company, so most large funds can't build a big position."
+      ],
+      "fill": "With 100 crore shares at ₹500 each, the company's ____ is ₹50,000 crore.",
+      "confusables": [
+        "book-value",
+        "enterprise-value",
+        "volume"
+      ],
+      "wrong": [
+        "The total revenue a company earns in a year",
+        "The value of everything a company owns",
+        "The amount of money raised in an IPO"
+      ],
+      "formula": "share price × shares outstanding",
+      "difficulty": 1
+    },
+    {
+      "id": "long",
+      "term": "long",
+      "unit": "b1",
+      "short": "Own it; gain if price rises",
+      "definition": "Holding a position that gains when the price rises, usually by owning the security.",
+      "examples": [
+        "We're long HDFC Bank into the results.",
+        "Stay long, but tighten the stop."
+      ],
+      "fill": "If you own 1,000 shares of Infosys, you are ____ Infosys.",
+      "confusables": [
+        "short",
+        "position"
+      ],
+      "wrong": [
+        "Holding a stock for more than a year",
+        "Betting that a price will fall",
+        "Having borrowed money to buy shares"
+      ],
+      "note": "\"Long\" is about direction, not time.",
+      "difficulty": 1
+    },
+    {
+      "id": "short",
+      "term": "short",
+      "aliases": [
+        "short selling"
+      ],
+      "unit": "b1",
+      "short": "Positioned to gain if price falls",
+      "definition": "A position that gains when the price falls, usually by selling futures or selling shares you have borrowed.",
+      "examples": [
+        "We're short the IT pack via futures ahead of the results."
+      ],
+      "fill": "A trader who expects the stock to fall can go ____ by selling its futures.",
+      "confusables": [
+        "long",
+        "hedge"
+      ],
+      "wrong": [
+        "Holding a position for a short time only",
+        "Owning fewer shares than the benchmark",
+        "Selling a stock you already own"
+      ],
+      "note": "In India, most traders go short with futures. Shorting cash shares overnight needs borrowed stock through securities lending (SLB); intraday shorts must be closed the same day.",
+      "difficulty": 1
+    },
+    {
+      "id": "position",
+      "term": "position",
+      "unit": "b1",
+      "short": "What you currently hold",
+      "definition": "The amount of a security you hold, long or short.",
+      "examples": [
+        "We're building a position in Larsen over the next week.",
+        "Close out the position before expiry."
+      ],
+      "fill": "We bought 50,000 shares over three days to build our ____.",
+      "confusables": [
+        "exposure",
+        "portfolio",
+        "long"
+      ],
+      "wrong": [
+        "A stock's rank in an index",
+        "The price at which you plan to sell",
+        "Your place in the order queue"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "pnl",
+      "term": "P&L",
+      "aliases": [
+        "PnL",
+        "profit and loss"
+      ],
+      "said": "P and L",
+      "speak": "P and L",
+      "unit": "b2",
+      "short": "Profit or loss made",
+      "definition": "Profit and loss: how much money a trade, book or fund has made or lost.",
+      "examples": [
+        "What's the P&L on the Bank Nifty trade?",
+        "The desk's P&L was down ₹2 crore on the day."
+      ],
+      "fill": "The trader checked the ____ at the close to see how much the book made today.",
+      "confusables": [
+        "realised-pnl",
+        "unrealised-pnl",
+        "return"
+      ],
+      "wrong": [
+        "Price and liquidity",
+        "A statement of what a company owns and owes",
+        "The limit on how much a trader can lose"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "realised-pnl",
+      "term": "realised P&L",
+      "aliases": [
+        "booked profit"
+      ],
+      "speak": "realised P and L",
+      "unit": "b2",
+      "short": "Profit locked in by closing",
+      "definition": "Profit or loss on positions you have already closed. It is final.",
+      "examples": [
+        "Realised P&L is ₹4 lakh; the rest is still open."
+      ],
+      "fill": "Once you sell the shares, the gain becomes ____ and no longer moves with the price.",
+      "confusables": [
+        "unrealised-pnl",
+        "mtm",
+        "pnl"
+      ],
+      "wrong": [
+        "Profit you expect to make by the end of the year",
+        "Profit on open positions at today's prices",
+        "Profit after paying tax"
+      ],
+      "note": "Traders often call it \"booked\" profit: \"we booked profits in metals.\"",
+      "difficulty": 1
+    },
+    {
+      "id": "unrealised-pnl",
+      "term": "unrealised P&L",
+      "aliases": [
+        "paper profit"
+      ],
+      "speak": "unrealised P and L",
+      "unit": "b2",
+      "short": "Gain or loss on open positions",
+      "definition": "Profit or loss on positions you still hold, valued at current prices. It keeps changing until you close the position.",
+      "examples": [
+        "We're up ₹10 lakh unrealised, but nothing's booked yet."
+      ],
+      "fill": "The stock rallied, but we haven't sold, so the gain is still ____ and could vanish tomorrow.",
+      "confusables": [
+        "realised-pnl",
+        "pnl"
+      ],
+      "wrong": [
+        "Profit that has been paid out as a dividend",
+        "Profit on closed trades",
+        "Loss that the broker has written off"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "mtm",
+      "term": "mark-to-market",
+      "aliases": [
+        "MTM"
+      ],
+      "said": "M T M",
+      "unit": "b2",
+      "short": "Revaluing at today's price",
+      "definition": "Valuing positions at current market prices, usually every day. In futures, MTM gains and losses are settled in cash daily.",
+      "examples": [
+        "MTM losses on the futures have to be paid in by tomorrow."
+      ],
+      "fill": "Futures positions are ____ every day, and any losses are taken from your margin.",
+      "confusables": [
+        "unrealised-pnl",
+        "realised-pnl"
+      ],
+      "wrong": [
+        "Valuing positions at the price you bought them",
+        "Selling all positions at the end of the day",
+        "Marking a stock as risky on the exchange"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "return",
+      "term": "return",
+      "unit": "b2",
+      "short": "Gain or loss as a percentage",
+      "definition": "The gain or loss on an investment, usually shown as a percentage of the amount invested.",
+      "examples": [
+        "The fund's one-year return is 18%."
+      ],
+      "fill": "Bought at ₹100, sold at ₹120: that's a 20% ____.",
+      "confusables": [
+        "total-return",
+        "cagr",
+        "pnl"
+      ],
+      "wrong": [
+        "Cash a company pays back through buybacks",
+        "Getting your money back when an order is cancelled",
+        "The interest rate set by the RBI"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "cagr",
+      "term": "CAGR",
+      "aliases": [
+        "compound annual growth rate",
+        "annualised return"
+      ],
+      "said": "kay-ger",
+      "speak": "kay gar",
+      "unit": "b2",
+      "short": "Average yearly growth, compounded",
+      "definition": "Compound annual growth rate: the steady yearly rate that would take a starting value to an ending value over several years.",
+      "examples": [
+        "Earnings grew at a 15% CAGR over five years."
+      ],
+      "fill": "Money that roughly doubles in 6 years has grown at about a 12% ____.",
+      "confusables": [
+        "return",
+        "total-return"
+      ],
+      "wrong": [
+        "The total return over the whole period",
+        "The simple average of each year's return",
+        "The growth in a company's share count"
+      ],
+      "formula": "(end ÷ start)^(1 ÷ years) − 1",
+      "difficulty": 2
+    },
+    {
+      "id": "dividend",
+      "term": "dividend",
+      "unit": "b2",
+      "short": "Cash paid to shareholders",
+      "definition": "A payment a company makes to its shareholders out of profits, usually in cash.",
+      "examples": [
+        "The board declared an interim dividend; the record date is next Friday."
+      ],
+      "fill": "Mature companies like utilities often pay out a large share of their profits as a ____.",
+      "confusables": [
+        "dividend-yield",
+        "buyback",
+        "bonus-issue"
+      ],
+      "wrong": [
+        "Interest paid on a company's bonds",
+        "Extra shares given free to shareholders",
+        "The profit a trader makes on a stock"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "dividend-yield",
+      "term": "dividend yield",
+      "unit": "b2",
+      "short": "Yearly dividend ÷ share price",
+      "definition": "Annual dividends per share divided by the share price, shown as a percentage.",
+      "examples": [
+        "At ₹400 with a ₹20 dividend, the yield is 5%."
+      ],
+      "fill": "A ₹10 annual dividend on a ₹200 stock is a 5% ____.",
+      "confusables": [
+        "dividend",
+        "return"
+      ],
+      "wrong": [
+        "The total dividend a company pays in rupees",
+        "Dividends as a share of company profits",
+        "How fast dividends grow each year"
+      ],
+      "formula": "annual dividend per share ÷ share price",
+      "difficulty": 1
+    },
+    {
+      "id": "total-return",
+      "term": "total return",
+      "unit": "b2",
+      "short": "Price change plus dividends",
+      "definition": "The full return on an investment, including both price change and income such as dividends, assuming the income is reinvested.",
+      "examples": [
+        "The index was up 10%, but total return was 11.3% with dividends."
+      ],
+      "fill": "To compare a high-dividend stock fairly with a growth stock, look at ____, not price change alone.",
+      "confusables": [
+        "return",
+        "cagr"
+      ],
+      "wrong": [
+        "Return before costs and taxes",
+        "Return since the stock first listed",
+        "The return of the whole market"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "notional",
+      "term": "notional",
+      "aliases": [
+        "notional value"
+      ],
+      "unit": "b2",
+      "short": "Full value a position controls",
+      "definition": "The total value a derivative or leveraged position controls, as opposed to the cash put up for it.",
+      "examples": [
+        "The futures position is ₹5 crore notional, but we've only posted ₹80 lakh of margin."
+      ],
+      "fill": "We only posted margin, but the ____ of the futures position is several times bigger.",
+      "confusables": [
+        "leverage",
+        "exposure",
+        "market-cap"
+      ],
+      "wrong": [
+        "The cash you deposit with your broker",
+        "The value of a position after fees",
+        "The price at which an option can be exercised"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "leverage",
+      "term": "leverage",
+      "unit": "b2",
+      "short": "Controlling more than your capital",
+      "definition": "Controlling a position larger than your own capital, through borrowing or derivatives. It magnifies both gains and losses.",
+      "examples": [
+        "At 5x leverage, a 4% move against you wipes out 20% of your capital."
+      ],
+      "fill": "Futures give you ____, so a small price move makes a big dent in your capital.",
+      "confusables": [
+        "notional",
+        "exposure",
+        "hedge"
+      ],
+      "wrong": [
+        "Spreading money across many stocks to reduce risk",
+        "Negotiating lower brokerage with your broker",
+        "Holding cash to protect against a fall"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "lakh",
+      "term": "lakh",
+      "unit": "b3",
+      "short": "1,00,000 (one hundred thousand)",
+      "definition": "Indian unit for one hundred thousand, written 1,00,000. Ten lakh make one million.",
+      "examples": [
+        "The minimum ticket size for the PMS is ₹50 lakh."
+      ],
+      "fill": "₹1,00,000 is one ____.",
+      "confusables": [
+        "crore"
+      ],
+      "wrong": [
+        "One million (10,00,000)",
+        "Ten thousand (10,000)",
+        "Ten million (1,00,00,000)"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "crore",
+      "term": "crore",
+      "unit": "b3",
+      "short": "1,00,00,000 (ten million)",
+      "definition": "Indian unit for ten million, written 1,00,00,000. 100 crore make one billion.",
+      "examples": [
+        "The block was ₹1,200 crore, or 12 billion rupees."
+      ],
+      "fill": "₹100 ____ equals one billion rupees.",
+      "confusables": [
+        "lakh"
+      ],
+      "wrong": [
+        "One hundred thousand (1,00,000)",
+        "One billion (100,00,00,000)",
+        "One million (10,00,000)"
+      ],
+      "note": "Global investors think in millions and billions: ₹1 lakh crore is ₹1 trillion.",
+      "difficulty": 1
+    },
+    {
+      "id": "percentage-point",
+      "term": "percentage point",
+      "aliases": [
+        "ppt",
+        "pp"
+      ],
+      "unit": "b3",
+      "short": "Plain difference between two percentages",
+      "definition": "The plain difference between two percentages. A move from 10% to 12% is 2 percentage points, even though it is a 20% increase.",
+      "examples": [
+        "Promoter holding fell 3 percentage points to 51%."
+      ],
+      "fill": "If a bank's bad-loan ratio goes from 4% to 5%, it has risen by one ____.",
+      "confusables": [
+        "basis-point"
+      ],
+      "wrong": [
+        "One hundredth of a percent",
+        "A percentage change relative to the starting value",
+        "A point on the Nifty or Sensex"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "face-value",
+      "term": "face value",
+      "aliases": [
+        "par value"
+      ],
+      "unit": "b3",
+      "short": "Nominal value printed on a share",
+      "definition": "The nominal value of a share set by the company, such as ₹1, ₹2 or ₹10. It has little to do with the market price, but Indian companies often announce dividends as a percentage of it.",
+      "examples": [
+        "A 200% dividend on a ₹1 face value share is just ₹2 per share."
+      ],
+      "fill": "A \"500% dividend\" sounds huge, but on a ₹2 ____ share it is only ₹10.",
+      "confusables": [
+        "book-value",
+        "fair-value"
+      ],
+      "wrong": [
+        "The current market price of a share",
+        "The company's net worth per share",
+        "The price at which a share was first sold in the IPO"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "book-value",
+      "term": "book value",
+      "unit": "b3",
+      "short": "Net worth on the balance sheet",
+      "definition": "A company's net worth on its balance sheet: assets minus liabilities. Book value per share divides it by the number of shares.",
+      "examples": [
+        "Several PSU banks traded below book value for years."
+      ],
+      "fill": "When a bank trades at less than its ____, the market values it below its accounting net worth.",
+      "confusables": [
+        "face-value",
+        "market-cap",
+        "pb-ratio"
+      ],
+      "wrong": [
+        "The total value of the company's shares on the market",
+        "The nominal value printed on a share",
+        "The value of a stock according to analysts' targets"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "premium",
+      "term": "premium",
+      "unit": "b3",
+      "short": "Trading above a reference value",
+      "definition": "Trading above a reference value, such as fair value, NAV, the issue price or the price in another market. The opposite of a discount.",
+      "examples": [
+        "The stock listed at a 40% premium to its IPO price."
+      ],
+      "fill": "The ETF is trading above its NAV, so buyers are paying a ____.",
+      "confusables": [
+        "discount",
+        "fair-value"
+      ],
+      "wrong": [
+        "The fee paid to a broker",
+        "A bonus share given to long-term holders",
+        "Trading below a reference value"
+      ],
+      "note": "In options, \"premium\" also means the price you pay for the option.",
+      "difficulty": 1
+    },
+    {
+      "id": "discount",
+      "term": "discount",
+      "unit": "b3",
+      "short": "Trading below a reference value",
+      "definition": "Trading below a reference value, such as NAV, fair value or the price in another market. The opposite of a premium.",
+      "examples": [
+        "The holding company trades at a 50% discount to the value of its stakes."
+      ],
+      "fill": "The QIP was priced at a 5% ____ to the market price to attract big investors.",
+      "confusables": [
+        "premium",
+        "fair-value"
+      ],
+      "wrong": [
+        "A rebate on brokerage",
+        "The interest rate a central bank charges",
+        "Trading above a reference value"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "fair-value",
+      "term": "fair value",
+      "unit": "b3",
+      "short": "Estimate of what it's really worth",
+      "definition": "An estimate of what an asset is really worth, from a valuation model or pricing formula, compared with its market price.",
+      "examples": [
+        "Our fair value for the stock is ₹1,400, so we see 20% upside."
+      ],
+      "fill": "Analysts compare the market price with their estimate of ____ to decide if a stock is cheap.",
+      "confusables": [
+        "book-value",
+        "market-cap",
+        "face-value"
+      ],
+      "wrong": [
+        "The price agreed between two friends",
+        "A price fixed by SEBI for every IPO",
+        "The average price over the last year"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "upside",
+      "term": "upside",
+      "unit": "b3",
+      "short": "Potential rise from here",
+      "definition": "How much a price could rise from here, usually to an analyst's target. Downside is the potential fall.",
+      "examples": [
+        "We see 25% upside to our target of ₹900."
+      ],
+      "fill": "With the stock at ₹800 and a target of ₹1,000, there's 25% ____.",
+      "confusables": [
+        "return",
+        "premium"
+      ],
+      "wrong": [
+        "The profit already made on a position",
+        "How much a stock rose yesterday",
+        "The maximum loss on a trade"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "eps",
+      "term": "EPS",
+      "aliases": [
+        "earnings per share"
+      ],
+      "said": "E P S",
+      "speak": "E P S",
+      "unit": "b4",
+      "short": "Profit per share",
+      "definition": "Earnings per share: a company's net profit divided by its number of shares.",
+      "examples": [
+        "EPS grew 18% year on year."
+      ],
+      "fill": "Net profit of ₹500 crore spread over 100 crore shares gives an ____ of ₹5.",
+      "confusables": [
+        "pe-ratio",
+        "earnings",
+        "dividend"
+      ],
+      "wrong": [
+        "Expected price of the share next year",
+        "Dividend paid per share",
+        "Revenue divided by the number of shares"
+      ],
+      "formula": "net profit ÷ number of shares",
+      "difficulty": 1
+    },
+    {
+      "id": "pe-ratio",
+      "term": "P/E ratio",
+      "aliases": [
+        "PE",
+        "price-to-earnings"
+      ],
+      "said": "P E",
+      "speak": "P E ratio",
+      "unit": "b4",
+      "short": "Share price ÷ EPS",
+      "definition": "Share price divided by earnings per share. It shows how many rupees investors pay for each rupee of yearly profit.",
+      "examples": [
+        "The stock trades at 40 times earnings, so expectations are high."
+      ],
+      "fill": "At ₹600 a share and EPS of ₹30, the stock's ____ is 20.",
+      "confusables": [
+        "eps",
+        "pb-ratio",
+        "multiple"
+      ],
+      "wrong": [
+        "Profit divided by revenue",
+        "Price divided by book value per share",
+        "Price divided by dividend per share"
+      ],
+      "formula": "share price ÷ EPS",
+      "difficulty": 1
+    },
+    {
+      "id": "pb-ratio",
+      "term": "P/B ratio",
+      "aliases": [
+        "price-to-book"
+      ],
+      "said": "P B",
+      "speak": "P B ratio",
+      "unit": "b4",
+      "short": "Share price ÷ book value per share",
+      "definition": "Share price divided by book value per share. Widely used to value banks and other financial companies.",
+      "examples": [
+        "The bank trades at 1.2 times book."
+      ],
+      "fill": "Banks are often valued on ____, since their assets are mostly loans carried close to book value.",
+      "confusables": [
+        "pe-ratio",
+        "book-value"
+      ],
+      "wrong": [
+        "Price divided by earnings per share",
+        "Profit divided by book value",
+        "Price divided by sales per share"
+      ],
+      "formula": "share price ÷ book value per share",
+      "difficulty": 2
+    },
+    {
+      "id": "enterprise-value",
+      "term": "enterprise value",
+      "aliases": [
+        "EV"
+      ],
+      "said": "E V",
+      "unit": "b4",
+      "short": "Market cap + debt − cash",
+      "definition": "The value of the whole business to all its investors: market cap plus debt minus cash.",
+      "examples": [
+        "On EV to EBITDA, the telecom stock looks cheap despite all the debt."
+      ],
+      "fill": "To compare companies with very different debt levels, analysts use ____ rather than market cap.",
+      "confusables": [
+        "market-cap",
+        "ebitda",
+        "book-value"
+      ],
+      "wrong": [
+        "Market cap minus debt",
+        "The value of a company's factories and equipment",
+        "The expected value of next year's earnings"
+      ],
+      "formula": "market cap + debt − cash",
+      "difficulty": 2
+    },
+    {
+      "id": "ebitda",
+      "term": "EBITDA",
+      "said": "ee-bit-dah",
+      "speak": "ee bit dah",
+      "unit": "b4",
+      "short": "Operating profit before D&A",
+      "definition": "Earnings before interest, tax, depreciation and amortisation. A rough measure of a business's operating profit.",
+      "examples": [
+        "EBITDA margin expanded 200 bips on lower raw material costs."
+      ],
+      "fill": "Analysts value capital-heavy businesses on EV to ____, which ignores how they are financed.",
+      "confusables": [
+        "eps",
+        "earnings"
+      ],
+      "wrong": [
+        "Profit after all expenses and taxes",
+        "Total revenue before costs",
+        "Cash paid out to shareholders"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "multiple",
+      "term": "multiple",
+      "aliases": [
+        "valuation multiple"
+      ],
+      "unit": "b4",
+      "short": "Valuation ratio such as P/E",
+      "definition": "A valuation ratio such as P/E or EV/EBITDA. \"Trading at 30x\" means 30 times earnings or another base.",
+      "examples": [
+        "The sector re-rated; multiples expanded from 25x to 35x."
+      ],
+      "fill": "When investors turn more optimistic, a stock's ____ expands even if its earnings don't change.",
+      "confusables": [
+        "pe-ratio",
+        "valuation"
+      ],
+      "wrong": [
+        "The number of times a stock has split",
+        "How many times a share has doubled",
+        "The leverage a trader is using"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "earnings",
+      "term": "earnings",
+      "aliases": [
+        "results"
+      ],
+      "unit": "b4",
+      "short": "A company's profit",
+      "definition": "A company's profit, usually net profit, reported every quarter. Results season is when most companies report.",
+      "examples": [
+        "Earnings beat estimates by 8%."
+      ],
+      "fill": "Stocks often move sharply when quarterly ____ come in above or below estimates.",
+      "confusables": [
+        "ebitda",
+        "guidance",
+        "eps"
+      ],
+      "wrong": [
+        "A company's total sales",
+        "Salaries paid to employees",
+        "Cash raised from investors"
+      ],
+      "note": "Indian companies mostly use an April to March financial year, so Q1 is April to June.",
+      "difficulty": 1
+    },
+    {
+      "id": "guidance",
+      "term": "guidance",
+      "unit": "b4",
+      "short": "Company's own forecast",
+      "definition": "A company's own forecast of its future results, such as revenue growth or margins.",
+      "examples": [
+        "Management cut revenue guidance to 4–6%, and the stock fell 7%."
+      ],
+      "fill": "The IT company raised its full-year ____, signalling demand is better than feared.",
+      "confusables": [
+        "consensus",
+        "earnings"
+      ],
+      "wrong": [
+        "Advice from a broker on what to buy",
+        "Rules from SEBI on disclosure",
+        "The average of analysts' forecasts"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "consensus",
+      "term": "consensus",
+      "aliases": [
+        "street estimate"
+      ],
+      "unit": "b4",
+      "short": "Average analyst forecast",
+      "definition": "The average of analysts' forecasts for a company's results or an economic number. Results are judged as a beat or a miss against it.",
+      "examples": [
+        "Profit came in 5% below consensus."
+      ],
+      "fill": "Results are called a \"beat\" when they come in above ____.",
+      "confusables": [
+        "guidance",
+        "earnings"
+      ],
+      "wrong": [
+        "A company's own forecast",
+        "Agreement among board members",
+        "An official target set by the exchange"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "valuation",
+      "term": "valuation",
+      "unit": "b4",
+      "short": "What it's worth; how it's priced",
+      "definition": "What a company or asset is worth, or how expensive it is compared with its earnings, assets or peers.",
+      "examples": [
+        "Valuations look stretched after the rally."
+      ],
+      "fill": "After a 60% rally, many investors worry that the stock's ____ is no longer cheap.",
+      "confusables": [
+        "multiple",
+        "fair-value"
+      ],
+      "wrong": [
+        "The number of shares a company issues",
+        "The audit of a company's accounts",
+        "The rating given by a credit agency"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "hedge",
+      "term": "hedge",
+      "unit": "b5",
+      "short": "Position that offsets risk",
+      "definition": "A position taken to reduce the risk of another position, such as selling Nifty futures against a stock portfolio.",
+      "examples": [
+        "We hedged the portfolio with Nifty puts into the budget."
+      ],
+      "fill": "To protect the portfolio from a market fall without selling stocks, the PM put on a ____ with index futures.",
+      "confusables": [
+        "short",
+        "diversification"
+      ],
+      "wrong": [
+        "A bet that magnifies gains",
+        "A type of high-risk stock",
+        "A limit on how much a trader can buy"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "diversification",
+      "term": "diversification",
+      "unit": "b5",
+      "short": "Spreading risk across holdings",
+      "definition": "Spreading money across different stocks, sectors or assets so that one bad outcome doesn't sink the portfolio.",
+      "examples": [
+        "Ten bank stocks isn't diversification; it's one bet."
+      ],
+      "fill": "Holding stocks from many unrelated sectors is a form of ____.",
+      "confusables": [
+        "hedge",
+        "portfolio",
+        "asset-class"
+      ],
+      "wrong": [
+        "Buying more of a stock as it falls",
+        "Using futures to cancel out risk exactly",
+        "Splitting a stock into more shares"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "portfolio",
+      "term": "portfolio",
+      "unit": "b5",
+      "short": "All the holdings of an investor or fund",
+      "definition": "The full set of investments held by a person or a fund.",
+      "examples": [
+        "The portfolio has 40 stocks with a tilt to financials."
+      ],
+      "fill": "The fund manager reviews the whole ____ every week, not just single stocks.",
+      "confusables": [
+        "position",
+        "exposure",
+        "asset-class"
+      ],
+      "wrong": [
+        "A single large holding",
+        "A folder of company reports",
+        "The list of stocks in an index"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "benchmark",
+      "term": "benchmark",
+      "unit": "b5",
+      "short": "Index a fund is measured against",
+      "definition": "The index or yardstick a fund's performance is compared with, such as the Nifty 50 for a large-cap fund.",
+      "examples": [
+        "We beat the benchmark by 3% this year."
+      ],
+      "fill": "A large-cap fund that returned 14% while the Nifty 50 returned 12% beat its ____ by 2 points.",
+      "confusables": [
+        "outperform",
+        "portfolio"
+      ],
+      "wrong": [
+        "The minimum investment for a fund",
+        "The highest price a stock reached this year",
+        "A SEBI rule on fund fees"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "outperform",
+      "term": "outperform",
+      "unit": "b5",
+      "short": "Do better than a comparison",
+      "definition": "To deliver a higher return than a benchmark or peers. As an analyst rating, it means the stock is expected to beat the market.",
+      "examples": [
+        "Pharma outperformed the Nifty by 6% this quarter."
+      ],
+      "fill": "Our bank stocks rose 15% while the bank index rose 10%, so we managed to ____ the index.",
+      "confusables": [
+        "underperform",
+        "benchmark"
+      ],
+      "wrong": [
+        "To trade more often than others",
+        "To make any profit at all",
+        "To fall less than expected"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "underperform",
+      "term": "underperform",
+      "unit": "b5",
+      "short": "Do worse than a comparison",
+      "definition": "To deliver a lower return than a benchmark or peers, even if the return itself is positive.",
+      "examples": [
+        "IT has underperformed the market for two years."
+      ],
+      "fill": "Gaining 8% when the benchmark gains 12% means you ____ it by 4 points.",
+      "confusables": [
+        "outperform",
+        "benchmark"
+      ],
+      "wrong": [
+        "To lose money",
+        "To trade less than usual",
+        "To miss an earnings estimate"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "exposure",
+      "term": "exposure",
+      "unit": "b5",
+      "short": "How much is riding on something",
+      "definition": "How much of a portfolio is affected by a particular stock, sector, factor or market, in rupees or as a percentage of the portfolio.",
+      "examples": [
+        "Our banking exposure is 30% of the fund."
+      ],
+      "fill": "With 30% in banks, the fund has heavy ____ to interest rate moves.",
+      "confusables": [
+        "position",
+        "notional",
+        "leverage"
+      ],
+      "wrong": [
+        "Publicity a company gets in the media",
+        "The total fees a fund charges",
+        "The time left until a contract expires"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "volatility",
+      "term": "volatility",
+      "aliases": [
+        "vol"
+      ],
+      "unit": "b5",
+      "short": "How much prices swing",
+      "definition": "How much and how fast a price moves up and down. Higher volatility means bigger swings and more risk.",
+      "examples": [
+        "Volatility spiked ahead of the election results."
+      ],
+      "fill": "Small caps can swing 5% in a day, so their ____ is much higher than that of large caps.",
+      "confusables": [
+        "liquidity",
+        "volume"
+      ],
+      "wrong": [
+        "How many shares trade in a day",
+        "How quickly a company grows",
+        "The gap between the bid and the ask"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "asset-class",
+      "term": "asset class",
+      "unit": "b5",
+      "short": "Broad group of similar investments",
+      "definition": "A broad group of investments that behave in similar ways, such as equities, bonds, commodities, real estate or cash.",
+      "examples": [
+        "Gold was the best-performing asset class this year."
+      ],
+      "fill": "Equities, bonds and gold are each a different ____.",
+      "confusables": [
+        "portfolio",
+        "diversification"
+      ],
+      "wrong": [
+        "A ranking of stocks by quality",
+        "The class of shares that carry voting rights",
+        "A group of stocks in one sector"
+      ],
+      "difficulty": 1
+    }
+  ]
+}
