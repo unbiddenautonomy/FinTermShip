@@ -1,0 +1,157 @@
+import { addDays, daysBetween } from './dates';
+import type { DayStats, Progress, TermState } from './types';
+
+/** Days until the next review after reaching each step (index = step). */
+export const INTERVALS = [0, 1, 3, 7, 16, 35, 120];
+export const MAX_STEP = INTERVALS.length - 1;
+export const KNOWN_STEP = 4;
+/** Core terms come back 20% sooner. */
+export const CORE_FACTOR = 0.8;
+/** An answer faster than this (with no hint) counts as confident. */
+export const FAST_MS = 10_000;
+export const TROUBLE_LAPSES = 3;
+export const MAX_REVIEWS_PER_DAY = 50;
+
+export function intervalFor(step: number, core: boolean): number {
+  const base = INTERVALS[Math.max(0, Math.min(step, MAX_STEP))];
+  if (base === 0) return 0;
+  return core ? Math.max(1, Math.round(base * CORE_FACTOR)) : base;
+}
+
+export function newProgress(): Progress {
+  return {
+    version: 1,
+    terms: {},
+    settings: { newPerDay: 20, voice: true },
+    xp: 0,
+    streak: 0,
+    lastActiveDay: null,
+    days: {},
+    lastBackup: null,
+  };
+}
+
+export function dayStats(p: Progress, today: string): DayStats {
+  return p.days[today] ?? { xp: 0, newTerms: 0, reviews: 0, lessons: 0 };
+}
+
+function withDay(p: Progress, today: string, change: Partial<DayStats>): Progress {
+  const cur = dayStats(p, today);
+  const next: DayStats = {
+    xp: cur.xp + (change.xp ?? 0),
+    newTerms: cur.newTerms + (change.newTerms ?? 0),
+    reviews: cur.reviews + (change.reviews ?? 0),
+    lessons: cur.lessons + (change.lessons ?? 0),
+  };
+  return { ...p, days: { ...p.days, [today]: next } };
+}
+
+/** First time a term is shown: it sits at step 0, due today. */
+export function introduce(p: Progress, termId: string, today: string): Progress {
+  if (p.terms[termId]) return p;
+  const state: TermState = {
+    step: 0,
+    due: today,
+    seen: 0,
+    correct: 0,
+    wrong: 0,
+    lapses: 0,
+    trouble: false,
+    introduced: today,
+  };
+  return withDay({ ...p, terms: { ...p.terms, [termId]: state } }, today, { newTerms: 1 });
+}
+
+/** Tally an answer without moving the term on the ladder (used for practice inside a lesson). */
+export function recordPractice(p: Progress, termId: string, correct: boolean): Progress {
+  const s = p.terms[termId];
+  if (!s) return p;
+  const next = { ...s, seen: s.seen + 1, correct: s.correct + (correct ? 1 : 0), wrong: s.wrong + (correct ? 0 : 1) };
+  return { ...p, terms: { ...p.terms, [termId]: next } };
+}
+
+/** Finish learning a newly met term: it moves to step 1 and comes back tomorrow. */
+export function graduate(p: Progress, termId: string, today: string): Progress {
+  const s = p.terms[termId];
+  if (!s || s.step !== 0) return p;
+  const next = { ...s, step: 1, due: addDays(today, 1) };
+  return { ...p, terms: { ...p.terms, [termId]: next } };
+}
+
+/**
+ * Apply a scheduled review answer.
+ * Fast and correct: up one step. Slow correct: same step, rescheduled.
+ * Wrong: down two steps (never below 1) and back tomorrow.
+ */
+export function review(
+  p: Progress,
+  termId: string,
+  correct: boolean,
+  ms: number,
+  today: string,
+  core: boolean,
+): Progress {
+  const s = p.terms[termId];
+  if (!s) return p;
+  let step = s.step;
+  let lapses = s.lapses;
+  let due: string;
+  if (correct) {
+    if (ms < FAST_MS || step === 0) step = Math.min(MAX_STEP, step + 1);
+    due = addDays(today, Math.max(1, intervalFor(step, core)));
+  } else {
+    step = Math.max(1, step - 2);
+    lapses += 1;
+    due = addDays(today, 1);
+  }
+  const next: TermState = {
+    ...s,
+    step,
+    due,
+    lapses,
+    trouble: s.trouble || lapses >= TROUBLE_LAPSES,
+    seen: s.seen + 1,
+    correct: s.correct + (correct ? 1 : 0),
+    wrong: s.wrong + (correct ? 0 : 1),
+  };
+  const out = { ...p, terms: { ...p.terms, [termId]: next } };
+  return withDay(out, today, { reviews: 1 });
+}
+
+/** Terms due on or before today, oldest due first, then lowest step. */
+export function dueTermIds(p: Progress, today: string): string[] {
+  return Object.entries(p.terms)
+    .filter(([, s]) => s.due <= today)
+    .sort((a, b) => (a[1].due === b[1].due ? a[1].step - b[1].step : a[1].due < b[1].due ? -1 : 1))
+    .map(([id]) => id);
+}
+
+/** Reviews still allowed today, after the daily cap. */
+export function reviewsLeftToday(p: Progress, today: string): number {
+  return Math.max(0, MAX_REVIEWS_PER_DAY - dayStats(p, today).reviews);
+}
+
+export function newLeftToday(p: Progress, today: string): number {
+  return Math.max(0, p.settings.newPerDay - dayStats(p, today).newTerms);
+}
+
+/** Close a lesson: XP, lesson count and the streak. */
+export function finishLesson(p: Progress, today: string, xp: number): Progress {
+  let streak = p.streak;
+  if (p.lastActiveDay !== today) {
+    const gap = p.lastActiveDay ? daysBetween(p.lastActiveDay, today) : Infinity;
+    streak = gap === 1 ? streak + 1 : 1;
+  }
+  const out = { ...p, xp: p.xp + xp, streak, lastActiveDay: today };
+  return withDay(out, today, { xp, lessons: 1 });
+}
+
+/** Streak shown on Home: it lapses if yesterday was missed. */
+export function currentStreak(p: Progress, today: string): number {
+  if (!p.lastActiveDay) return 0;
+  return daysBetween(p.lastActiveDay, today) <= 1 ? p.streak : 0;
+}
+
+export function isKnown(s: TermState | undefined): boolean {
+  return !!s && s.step >= KNOWN_STEP;
+}
