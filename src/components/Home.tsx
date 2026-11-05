@@ -39,7 +39,7 @@ export function Home({ progress, today, onStart, onOpenSettings, showInstallHint
       : 'Nice work. Come back tomorrow, or learn a few more.'
     : [status.due ? `${status.due} review${status.due === 1 ? '' : 's'} due` : null, status.newLeft ? `${status.newLeft} new term${status.newLeft === 1 ? '' : 's'} left` : null]
         .filter(Boolean)
-        .join(' · ');
+        .join(' · ') + (status.slowed ? '. New terms slow down until reviews catch up.' : '');
 
   return (
     <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5">
