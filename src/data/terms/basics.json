@@ -10,12 +10,17 @@
     },
     {
       "id": "b2",
-      "name": "Returns and P&L",
+      "name": "Positions, margin and P&L",
+      "core": true
+    },
+    {
+      "id": "b6",
+      "name": "Returns and income",
       "core": true
     },
     {
       "id": "b3",
-      "name": "Big numbers and value",
+      "name": "Value, premiums and discounts",
       "core": false
     },
     {
@@ -153,49 +158,6 @@
       "difficulty": 1
     },
     {
-      "id": "basis-point",
-      "term": "basis point",
-      "aliases": [
-        "bps",
-        "bp",
-        "bips"
-      ],
-      "said": "bips (for bps)",
-      "speak": "basis point",
-      "unit": "b1",
-      "short": "One hundredth of a percent (0.01%)",
-      "definition": "One hundredth of one percent (0.01%). Used for interest rates, spreads, costs and small returns.",
-      "examples": [
-        "The RBI cut the repo rate by 25 bips.",
-        "We're paying 3 bips in brokerage on this order."
-      ],
-      "fill": "One ____ equals 0.01%, so 25 of them make a quarter of a percent.",
-      "confusables": [
-        "percentage-point",
-        "spread"
-      ],
-      "wrong": [
-        "One tenth of a percent",
-        "One percent of a company's shares",
-        "The smallest price step a stock can move"
-      ],
-      "formula": "100 basis points = 1%",
-      "difficulty": 1,
-      "calcs": [
-        {
-          "q": "A bond yield rises from 6.85% to 7.10%. How many basis points is that?",
-          "options": [
-            "25",
-            "0.25",
-            "2.5",
-            "250"
-          ],
-          "answer": 0,
-          "why": "0.25 percentage points × 100 = 25 basis points."
-        }
-      ]
-    },
-    {
       "id": "liquidity",
       "term": "liquidity",
       "unit": "b1",
@@ -242,6 +204,73 @@
       "difficulty": 1
     },
     {
+      "id": "lakh",
+      "term": "lakh",
+      "unit": "b1",
+      "short": "1,00,000 (one hundred thousand)",
+      "definition": "Indian unit for one hundred thousand, written 1,00,000. Ten lakh make one million.",
+      "examples": [
+        "The minimum ticket size for the PMS is ₹50 lakh."
+      ],
+      "fill": "₹1,00,000 is one ____.",
+      "confusables": [
+        "crore"
+      ],
+      "wrong": [
+        "One million (10,00,000)",
+        "Ten thousand (10,000)",
+        "Ten million (1,00,00,000)"
+      ],
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "₹25 lakh is how much in millions?",
+          "options": [
+            "2.5 million",
+            "25 million",
+            "0.25 million",
+            "250 million"
+          ],
+          "answer": 0,
+          "why": "1 lakh = 100,000, so 25 lakh = 2,500,000 = 2.5 million."
+        }
+      ]
+    },
+    {
+      "id": "crore",
+      "term": "crore",
+      "unit": "b1",
+      "short": "1,00,00,000 (ten million)",
+      "definition": "Indian unit for ten million, written 1,00,00,000. 100 crore make one billion.",
+      "examples": [
+        "The block was ₹1,200 crore, or 12 billion rupees."
+      ],
+      "fill": "₹100 ____ equals one billion rupees.",
+      "confusables": [
+        "lakh"
+      ],
+      "wrong": [
+        "One hundred thousand (1,00,000)",
+        "One billion (100,00,00,000)",
+        "One million (10,00,000)"
+      ],
+      "note": "Global investors think in millions and billions: ₹1 lakh crore is ₹1 trillion.",
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "How many lakh make one crore?",
+          "options": [
+            "100",
+            "10",
+            "1,000",
+            "10,000"
+          ],
+          "answer": 0,
+          "why": "1 crore = 100 lakh = 10 million."
+        }
+      ]
+    },
+    {
       "id": "market-cap",
       "term": "market capitalisation",
       "aliases": [
@@ -282,9 +311,119 @@
       ]
     },
     {
+      "id": "basis-point",
+      "term": "basis point",
+      "aliases": [
+        "bps",
+        "bp",
+        "bips"
+      ],
+      "said": "bips (for bps)",
+      "speak": "basis point",
+      "unit": "b1",
+      "short": "One hundredth of a percent (0.01%)",
+      "definition": "One hundredth of one percent (0.01%). Used for interest rates, spreads, costs and small returns.",
+      "examples": [
+        "The RBI cut the repo rate by 25 bips.",
+        "We're paying 3 bips in brokerage on this order."
+      ],
+      "fill": "One ____ equals 0.01%, so 25 of them make a quarter of a percent.",
+      "confusables": [
+        "percentage-point",
+        "spread"
+      ],
+      "wrong": [
+        "One tenth of a percent",
+        "One percent of a company's shares",
+        "The smallest price step a stock can move"
+      ],
+      "formula": "100 basis points = 1%",
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "A bond yield rises from 6.85% to 7.10%. How many basis points is that?",
+          "options": [
+            "25",
+            "0.25",
+            "2.5",
+            "250"
+          ],
+          "answer": 0,
+          "why": "0.25 percentage points × 100 = 25 basis points."
+        }
+      ]
+    },
+    {
+      "id": "percentage-point",
+      "term": "percentage point",
+      "aliases": [
+        "ppt",
+        "pp"
+      ],
+      "unit": "b1",
+      "short": "Plain difference between two percentages",
+      "definition": "The plain difference between two percentages. A move from 10% to 12% is 2 percentage points, even though it is a 20% increase.",
+      "examples": [
+        "Promoter holding fell 3 percentage points to 51%."
+      ],
+      "fill": "If a bank's bad-loan ratio goes from 4% to 5%, it has risen by one ____.",
+      "confusables": [
+        "basis-point"
+      ],
+      "wrong": [
+        "One hundredth of a percent",
+        "A percentage change relative to the starting value",
+        "A point on the Nifty or Sensex"
+      ],
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "A loan rate goes from 8% to 10%. That's 2 percentage points. How much higher is it in percent terms?",
+          "options": [
+            "25%",
+            "2%",
+            "20%",
+            "10%"
+          ],
+          "answer": 0,
+          "why": "2 ÷ 8 = 0.25, so the rate is 25% higher."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A rate going from 4% to 5% is a 1% rise.",
+          "a": false,
+          "why": "It is a 1 percentage point rise, which is 25% in relative terms."
+        }
+      ]
+    },
+    {
+      "id": "position",
+      "term": "position",
+      "unit": "b2",
+      "short": "What you currently hold",
+      "definition": "The amount of a security you hold, long or short.",
+      "examples": [
+        "We're building a position in Larsen over the next week.",
+        "Close out the position before expiry."
+      ],
+      "fill": "We bought 50,000 shares over three days to build our ____.",
+      "confusables": [
+        "exposure",
+        "portfolio",
+        "long"
+      ],
+      "wrong": [
+        "A stock's rank in an index",
+        "The price at which you plan to sell",
+        "Your place in the order queue"
+      ],
+      "difficulty": 1
+    },
+    {
       "id": "long",
       "term": "long",
-      "unit": "b1",
+      "unit": "b2",
       "short": "Own it; gain if price rises",
       "definition": "Holding a position that gains when the price rises, usually by owning the security.",
       "examples": [
@@ -305,12 +444,90 @@
       "difficulty": 1
     },
     {
+      "id": "margin",
+      "term": "margin",
+      "unit": "b2",
+      "short": "Money blocked to cover a position's risk",
+      "definition": "The money your broker blocks so you can hold a position, as a cushion against losses. It's a deposit, not the cost of the trade, and it lets you control more than the cash you put up.",
+      "examples": [
+        "My margin's all used up, so I can't add to the position."
+      ],
+      "fill": "You don't pay the full value of the position, only the ____ the broker blocks as a deposit.",
+      "confusables": [
+        "leverage",
+        "notional",
+        "margin-call"
+      ],
+      "wrong": [
+        "The broker's profit on each trade",
+        "The gap between the bid and the ask",
+        "The fee charged by the exchange"
+      ],
+      "calcs": [
+        {
+          "q": "A position worth ₹10 lakh needs 20% margin. How much cash is blocked?",
+          "options": [
+            "₹2 lakh",
+            "₹20,000",
+            "₹8 lakh",
+            "₹10 lakh"
+          ],
+          "answer": 0,
+          "why": "20% of ₹10 lakh = ₹2 lakh. Your cash controls five times its own value."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "futures-contract",
+      "term": "futures contract",
+      "aliases": [
+        "futures",
+        "future"
+      ],
+      "unit": "b2",
+      "short": "Deal to trade at a set price on a set date",
+      "definition": "An exchange-traded agreement to buy or sell an asset at a price fixed today, on a set date in the future. Both sides are bound, gains and losses are settled every day, and you put up only margin, not the full value.",
+      "examples": [
+        "Reliance futures are trading 15 rupees above the share price."
+      ],
+      "fill": "You agree today to buy Nifty at 25,000 on a set date next month: that's a ____.",
+      "confusables": [
+        "fno",
+        "margin",
+        "leverage"
+      ],
+      "wrong": [
+        "The right, but not the obligation, to buy later",
+        "Shares bought for delivery next week",
+        "A forecast of next year's price"
+      ],
+      "tf": [
+        {
+          "s": "Both the buyer and the seller of a futures contract must complete the trade.",
+          "a": true,
+          "why": "Neither side can walk away, which is what sets a future apart from a right to buy."
+        }
+      ],
+      "calcs": [
+        {
+          "q": "You buy one futures lot of 500 shares at 1,200. It settles at 1,230. Your profit?",
+          "options": [
+            "₹15,000",
+            "₹30",
+            "₹6,00,000",
+            "₹6,15,000"
+          ],
+          "answer": 0,
+          "why": "₹30 a share × 500 shares = ₹15,000."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
       "id": "short",
       "term": "short",
-      "aliases": [
-        "short selling"
-      ],
-      "unit": "b1",
+      "unit": "b2",
       "short": "Positioned to gain if price falls",
       "definition": "A position that gains when the price falls, usually by selling futures or selling shares you have borrowed.",
       "examples": [
@@ -323,7 +540,7 @@
       ],
       "wrong": [
         "Holding a position for a short time only",
-        "Owning fewer shares than the benchmark",
+        "Having run out of cash to trade",
         "Selling a stock you already own"
       ],
       "note": "In India, most traders go short with futures. Shorting cash shares overnight needs borrowed stock through securities lending (SLB); intraday shorts must be closed the same day.",
@@ -335,29 +552,6 @@
           "why": "A short makes money when the price falls."
         }
       ]
-    },
-    {
-      "id": "position",
-      "term": "position",
-      "unit": "b1",
-      "short": "What you currently hold",
-      "definition": "The amount of a security you hold, long or short.",
-      "examples": [
-        "We're building a position in Larsen over the next week.",
-        "Close out the position before expiry."
-      ],
-      "fill": "We bought 50,000 shares over three days to build our ____.",
-      "confusables": [
-        "exposure",
-        "portfolio",
-        "long"
-      ],
-      "wrong": [
-        "A stock's rank in an index",
-        "The price at which you plan to sell",
-        "Your place in the order queue"
-      ],
-      "difficulty": 1
     },
     {
       "id": "pnl",
@@ -472,160 +666,6 @@
       "difficulty": 2
     },
     {
-      "id": "return",
-      "term": "return",
-      "unit": "b2",
-      "short": "Gain or loss as a percentage",
-      "definition": "The gain or loss on an investment, usually shown as a percentage of the amount invested.",
-      "examples": [
-        "The fund's one-year return is 18%."
-      ],
-      "fill": "Bought at ₹100, sold at ₹120: that's a 20% ____.",
-      "confusables": [
-        "total-return",
-        "cagr",
-        "pnl"
-      ],
-      "wrong": [
-        "Cash a company pays back through buybacks",
-        "Getting your money back when an order is cancelled",
-        "The interest rate set by the RBI"
-      ],
-      "difficulty": 1
-    },
-    {
-      "id": "cagr",
-      "term": "CAGR",
-      "aliases": [
-        "compound annual growth rate",
-        "annualised return"
-      ],
-      "said": "kay-ger",
-      "speak": "kay gar",
-      "unit": "b2",
-      "short": "Average yearly growth, compounded",
-      "definition": "Compound annual growth rate: the steady yearly rate that would take a starting value to an ending value over several years.",
-      "examples": [
-        "Earnings grew at a 15% CAGR over five years."
-      ],
-      "fill": "Money that roughly doubles in 6 years has grown at about a 12% ____.",
-      "confusables": [
-        "return",
-        "total-return"
-      ],
-      "wrong": [
-        "The total return over the whole period",
-        "The simple average of each year's return",
-        "The growth in a company's share count"
-      ],
-      "formula": "(end ÷ start)^(1 ÷ years) − 1",
-      "difficulty": 2,
-      "calcs": [
-        {
-          "q": "An investment grows from ₹1 lakh to ₹2 lakh in 6 years. Its CAGR is closest to?",
-          "options": [
-            "12%",
-            "16.7%",
-            "100%",
-            "6%"
-          ],
-          "answer": 0,
-          "why": "Doubling in 6 years is about 12% a year (2^(1/6) ≈ 1.12). The rule of 72 gives 72 ÷ 6 = 12. 16.7% is the simple average, which ignores compounding."
-        }
-      ]
-    },
-    {
-      "id": "dividend",
-      "term": "dividend",
-      "unit": "b2",
-      "short": "Cash paid to shareholders",
-      "definition": "A payment a company makes to its shareholders out of profits, usually in cash.",
-      "examples": [
-        "The board declared an interim dividend; the record date is next Friday."
-      ],
-      "fill": "Mature companies like utilities often pay out a large share of their profits as a ____.",
-      "confusables": [
-        "dividend-yield",
-        "buyback",
-        "bonus-issue"
-      ],
-      "wrong": [
-        "Interest paid on a company's bonds",
-        "Extra shares given free to shareholders",
-        "The profit a trader makes on a stock"
-      ],
-      "difficulty": 1
-    },
-    {
-      "id": "dividend-yield",
-      "term": "dividend yield",
-      "unit": "b2",
-      "short": "Yearly dividend ÷ share price",
-      "definition": "Annual dividends per share divided by the share price, shown as a percentage.",
-      "examples": [
-        "At ₹400 with a ₹20 dividend, the yield is 5%."
-      ],
-      "fill": "A ₹10 annual dividend on a ₹200 stock is a 5% ____.",
-      "confusables": [
-        "dividend",
-        "return"
-      ],
-      "wrong": [
-        "The total dividend a company pays in rupees",
-        "Dividends as a share of company profits",
-        "How fast dividends grow each year"
-      ],
-      "formula": "annual dividend per share ÷ share price",
-      "difficulty": 1,
-      "calcs": [
-        {
-          "q": "A stock at ₹500 pays ₹15 of dividends a year. What is its dividend yield?",
-          "options": [
-            "3%",
-            "15%",
-            "0.3%",
-            "33%"
-          ],
-          "answer": 0,
-          "why": "15 ÷ 500 = 3%."
-        }
-      ]
-    },
-    {
-      "id": "total-return",
-      "term": "total return",
-      "unit": "b2",
-      "short": "Price change plus dividends",
-      "definition": "The full return on an investment, including both price change and income such as dividends, assuming the income is reinvested.",
-      "examples": [
-        "The index was up 10%, but total return was 11.3% with dividends."
-      ],
-      "fill": "To compare a high-dividend stock fairly with a growth stock, look at ____, not price change alone.",
-      "confusables": [
-        "return",
-        "cagr"
-      ],
-      "wrong": [
-        "Return before costs and taxes",
-        "Return since the stock first listed",
-        "The return of the whole market"
-      ],
-      "difficulty": 2,
-      "calcs": [
-        {
-          "q": "You buy at ₹200, sell at ₹230 and received a ₹4 dividend along the way. What is your total return?",
-          "options": [
-            "17%",
-            "15%",
-            "2%",
-            "34%"
-          ],
-          "answer": 0,
-          "why": "(30 price gain + 4 dividend) ÷ 200 = 17%."
-        }
-      ]
-    },
-    {
       "id": "notional",
       "term": "notional",
       "aliases": [
@@ -699,113 +739,180 @@
       ]
     },
     {
-      "id": "lakh",
-      "term": "lakh",
-      "unit": "b3",
-      "short": "1,00,000 (one hundred thousand)",
-      "definition": "Indian unit for one hundred thousand, written 1,00,000. Ten lakh make one million.",
+      "id": "return",
+      "term": "return",
+      "unit": "b6",
+      "short": "Gain or loss as a percentage",
+      "definition": "The gain or loss on an investment, usually shown as a percentage of the amount invested.",
       "examples": [
-        "The minimum ticket size for the PMS is ₹50 lakh."
+        "The fund's one-year return is 18%."
       ],
-      "fill": "₹1,00,000 is one ____.",
+      "fill": "Bought at ₹100, sold at ₹120: that's a 20% ____.",
       "confusables": [
-        "crore"
+        "total-return",
+        "cagr",
+        "pnl"
       ],
       "wrong": [
-        "One million (10,00,000)",
-        "Ten thousand (10,000)",
-        "Ten million (1,00,00,000)"
+        "Cash a company pays back through buybacks",
+        "Getting your money back when an order is cancelled",
+        "The interest rate set by the RBI"
       ],
-      "difficulty": 1,
-      "calcs": [
-        {
-          "q": "₹25 lakh is how much in millions?",
-          "options": [
-            "2.5 million",
-            "25 million",
-            "0.25 million",
-            "250 million"
-          ],
-          "answer": 0,
-          "why": "1 lakh = 100,000, so 25 lakh = 2,500,000 = 2.5 million."
-        }
-      ]
+      "difficulty": 1
     },
     {
-      "id": "crore",
-      "term": "crore",
-      "unit": "b3",
-      "short": "1,00,00,000 (ten million)",
-      "definition": "Indian unit for ten million, written 1,00,00,000. 100 crore make one billion.",
-      "examples": [
-        "The block was ₹1,200 crore, or 12 billion rupees."
-      ],
-      "fill": "₹100 ____ equals one billion rupees.",
-      "confusables": [
-        "lakh"
-      ],
-      "wrong": [
-        "One hundred thousand (1,00,000)",
-        "One billion (100,00,00,000)",
-        "One million (10,00,000)"
-      ],
-      "note": "Global investors think in millions and billions: ₹1 lakh crore is ₹1 trillion.",
-      "difficulty": 1,
-      "calcs": [
-        {
-          "q": "How many lakh make one crore?",
-          "options": [
-            "100",
-            "10",
-            "1,000",
-            "10,000"
-          ],
-          "answer": 0,
-          "why": "1 crore = 100 lakh = 10 million."
-        }
-      ]
-    },
-    {
-      "id": "percentage-point",
-      "term": "percentage point",
+      "id": "cagr",
+      "term": "CAGR",
       "aliases": [
-        "ppt",
-        "pp"
+        "compound annual growth rate",
+        "annualised return"
       ],
-      "unit": "b3",
-      "short": "Plain difference between two percentages",
-      "definition": "The plain difference between two percentages. A move from 10% to 12% is 2 percentage points, even though it is a 20% increase.",
+      "said": "kay-ger",
+      "speak": "kay gar",
+      "unit": "b6",
+      "short": "Average yearly growth, compounded",
+      "definition": "Compound annual growth rate: the steady yearly rate that would take a starting value to an ending value over several years.",
       "examples": [
-        "Promoter holding fell 3 percentage points to 51%."
+        "Earnings grew at a 15% CAGR over five years."
       ],
-      "fill": "If a bank's bad-loan ratio goes from 4% to 5%, it has risen by one ____.",
+      "fill": "Money that roughly doubles in 6 years has grown at about a 12% ____.",
       "confusables": [
-        "basis-point"
+        "return",
+        "total-return"
       ],
       "wrong": [
-        "One hundredth of a percent",
-        "A percentage change relative to the starting value",
-        "A point on the Nifty or Sensex"
+        "The total return over the whole period",
+        "The simple average of each year's return",
+        "The growth in a company's share count"
+      ],
+      "formula": "(end ÷ start)^(1 ÷ years) − 1",
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "An investment grows from ₹1 lakh to ₹2 lakh in 6 years. Its CAGR is closest to?",
+          "options": [
+            "12%",
+            "16.7%",
+            "100%",
+            "6%"
+          ],
+          "answer": 0,
+          "why": "Doubling in 6 years is about 12% a year (2^(1/6) ≈ 1.12). The rule of 72 gives 72 ÷ 6 = 12. 16.7% is the simple average, which ignores compounding."
+        }
+      ]
+    },
+    {
+      "id": "volatility",
+      "term": "volatility",
+      "aliases": [
+        "vol"
+      ],
+      "unit": "b6",
+      "short": "How much prices swing",
+      "definition": "How much and how fast a price moves up and down. Higher volatility means bigger swings and more risk.",
+      "examples": [
+        "Volatility spiked ahead of the election results."
+      ],
+      "fill": "Small caps can swing 5% in a day, so their ____ is much higher than that of large caps.",
+      "confusables": [
+        "liquidity",
+        "volume"
+      ],
+      "wrong": [
+        "How many shares trade in a day",
+        "How quickly a company grows",
+        "The gap between the bid and the ask"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "dividend",
+      "term": "dividend",
+      "unit": "b6",
+      "short": "Cash paid to shareholders",
+      "definition": "A payment a company makes to its shareholders out of profits, usually in cash.",
+      "examples": [
+        "The board declared an interim dividend; the record date is next Friday."
+      ],
+      "fill": "Mature companies like utilities often pay out a large share of their profits as a ____.",
+      "confusables": [
+        "dividend-yield",
+        "buyback",
+        "bonus-issue"
+      ],
+      "wrong": [
+        "Interest paid on a company's bonds",
+        "Extra shares given free to shareholders",
+        "The profit a trader makes on a stock"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "dividend-yield",
+      "term": "dividend yield",
+      "unit": "b6",
+      "short": "Yearly dividend ÷ share price",
+      "definition": "Annual dividends per share divided by the share price, shown as a percentage.",
+      "examples": [
+        "At ₹400 with a ₹20 dividend, the yield is 5%."
+      ],
+      "fill": "A ₹10 annual dividend on a ₹200 stock is a 5% ____.",
+      "confusables": [
+        "dividend",
+        "return"
+      ],
+      "wrong": [
+        "The total dividend a company pays in rupees",
+        "Dividends as a share of company profits",
+        "How fast dividends grow each year"
+      ],
+      "formula": "annual dividend per share ÷ share price",
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "A stock at ₹500 pays ₹15 of dividends a year. What is its dividend yield?",
+          "options": [
+            "3%",
+            "15%",
+            "0.3%",
+            "33%"
+          ],
+          "answer": 0,
+          "why": "15 ÷ 500 = 3%."
+        }
+      ]
+    },
+    {
+      "id": "total-return",
+      "term": "total return",
+      "unit": "b6",
+      "short": "Price change plus dividends",
+      "definition": "The full return on an investment, including both price change and income such as dividends, assuming the income is reinvested.",
+      "examples": [
+        "The index was up 10%, but total return was 11.3% with dividends."
+      ],
+      "fill": "To compare a high-dividend stock fairly with a growth stock, look at ____, not price change alone.",
+      "confusables": [
+        "return",
+        "cagr"
+      ],
+      "wrong": [
+        "Return from the price change alone",
+        "Return since the stock first listed",
+        "The return of the whole market"
       ],
       "difficulty": 2,
       "calcs": [
         {
-          "q": "A loan rate goes from 8% to 10%. That's 2 percentage points. How much higher is it in percent terms?",
+          "q": "You buy at ₹200, sell at ₹230 and received a ₹4 dividend along the way. What is your total return?",
           "options": [
-            "25%",
+            "17%",
+            "15%",
             "2%",
-            "20%",
-            "10%"
+            "34%"
           ],
           "answer": 0,
-          "why": "2 ÷ 8 = 0.25, so the rate is 25% higher."
-        }
-      ],
-      "tf": [
-        {
-          "s": "A rate going from 4% to 5% is a 1% rise.",
-          "a": false,
-          "why": "It is a 1 percentage point rise, which is 25% in relative terms."
+          "why": "(30 price gain + 4 dividend) ÷ 200 = 17%."
         }
       ]
     },
@@ -856,6 +963,28 @@
       "difficulty": 2
     },
     {
+      "id": "fair-value",
+      "term": "fair value",
+      "unit": "b3",
+      "short": "Estimate of what it's really worth",
+      "definition": "An estimate of what an asset is really worth, from a valuation model or pricing formula, compared with its market price.",
+      "examples": [
+        "Our fair value for the stock is ₹1,400, so we see 20% upside."
+      ],
+      "fill": "Analysts compare the market price with their estimate of ____ to decide if a stock is cheap.",
+      "confusables": [
+        "book-value",
+        "market-cap",
+        "face-value"
+      ],
+      "wrong": [
+        "The price agreed between two friends",
+        "A price fixed by SEBI for every IPO",
+        "The average price over the last year"
+      ],
+      "difficulty": 2
+    },
+    {
       "id": "premium",
       "term": "premium",
       "unit": "b3",
@@ -886,7 +1015,7 @@
       "examples": [
         "The holding company trades at a 50% discount to the value of its stakes."
       ],
-      "fill": "The QIP was priced at a 5% ____ to the market price to attract big investors.",
+      "fill": "The share sale was priced at a 5% ____ to the market price to attract big investors.",
       "confusables": [
         "premium",
         "fair-value"
@@ -897,28 +1026,6 @@
         "Trading above a reference value"
       ],
       "difficulty": 1
-    },
-    {
-      "id": "fair-value",
-      "term": "fair value",
-      "unit": "b3",
-      "short": "Estimate of what it's really worth",
-      "definition": "An estimate of what an asset is really worth, from a valuation model or pricing formula, compared with its market price.",
-      "examples": [
-        "Our fair value for the stock is ₹1,400, so we see 20% upside."
-      ],
-      "fill": "Analysts compare the market price with their estimate of ____ to decide if a stock is cheap.",
-      "confusables": [
-        "book-value",
-        "market-cap",
-        "face-value"
-      ],
-      "wrong": [
-        "The price agreed between two friends",
-        "A price fixed by SEBI for every IPO",
-        "The average price over the last year"
-      ],
-      "difficulty": 2
     },
     {
       "id": "upside",
@@ -1327,7 +1434,7 @@
       "wrong": [
         "To trade more often than others",
         "To make any profit at all",
-        "To fall less than expected"
+        "To grow revenue every year"
       ],
       "difficulty": 1
     },
@@ -1373,30 +1480,6 @@
         "The time left until a contract expires"
       ],
       "difficulty": 2
-    },
-    {
-      "id": "volatility",
-      "term": "volatility",
-      "aliases": [
-        "vol"
-      ],
-      "unit": "b5",
-      "short": "How much prices swing",
-      "definition": "How much and how fast a price moves up and down. Higher volatility means bigger swings and more risk.",
-      "examples": [
-        "Volatility spiked ahead of the election results."
-      ],
-      "fill": "Small caps can swing 5% in a day, so their ____ is much higher than that of large caps.",
-      "confusables": [
-        "liquidity",
-        "volume"
-      ],
-      "wrong": [
-        "How many shares trade in a day",
-        "How quickly a company grows",
-        "The gap between the bid and the ask"
-      ],
-      "difficulty": 1
     },
     {
       "id": "asset-class",

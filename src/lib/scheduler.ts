@@ -10,7 +10,7 @@ export const CORE_FACTOR = 0.8;
 /** An answer faster than this (with no hint) counts as confident. */
 export const FAST_MS = 10_000;
 export const TROUBLE_LAPSES = 3;
-export const MAX_REVIEWS_PER_DAY = 50;
+export const MAX_REVIEWS_PER_DAY = 80;
 
 export function intervalFor(step: number, core: boolean): number {
   const base = INTERVALS[Math.max(0, Math.min(step, MAX_STEP))];
@@ -131,8 +131,19 @@ export function reviewsLeftToday(p: Progress, today: string): number {
   return Math.max(0, MAX_REVIEWS_PER_DAY - dayStats(p, today).reviews);
 }
 
+/** Reviews due today that the daily cap will not reach. */
+export function reviewOverflow(p: Progress, today: string): number {
+  return Math.max(0, dueTermIds(p, today).length - reviewsLeftToday(p, today));
+}
+
+/**
+ * New terms still allowed today. When more reviews are due than the daily cap can
+ * clear, new terms slow down by one for each review left over, so a backlog
+ * cannot snowball.
+ */
 export function newLeftToday(p: Progress, today: string): number {
-  return Math.max(0, p.settings.newPerDay - dayStats(p, today).newTerms);
+  const base = Math.max(0, p.settings.newPerDay - dayStats(p, today).newTerms);
+  return Math.max(0, base - reviewOverflow(p, today));
 }
 
 /** Close a lesson: XP, lesson count and the streak. */

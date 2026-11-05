@@ -114,6 +114,45 @@
       "difficulty": 2
     },
     {
+      "id": "normal-distribution",
+      "term": "normal distribution",
+      "aliases": [
+        "bell curve",
+        "Gaussian"
+      ],
+      "unit": "q1",
+      "short": "The symmetric bell-shaped spread of outcomes",
+      "definition": "The symmetric bell-shaped distribution in which about 68% of outcomes fall within 1 standard deviation of the average and about 95% within 2. Many risk models assume it, though market returns have fatter tails.",
+      "examples": [
+        "Under a normal distribution a 5-sigma day should come once in thousands of years; markets see one every few years."
+      ],
+      "fill": "Under a ____, about 95% of daily returns land within 2 standard deviations of the average.",
+      "confusables": [
+        "fat-tails",
+        "z-score",
+        "skewness"
+      ],
+      "wrong": [
+        "A spread of returns with fat tails",
+        "An even split of returns into equal buckets",
+        "Returns that only rise over time"
+      ],
+      "calcs": [
+        {
+          "q": "Returns are normal with an average of 0% and a daily SD of 1%. About what share of days fall between −2% and +2%?",
+          "options": [
+            "95%",
+            "68%",
+            "99.7%",
+            "50%"
+          ],
+          "answer": 0,
+          "why": "About 95% of outcomes lie within 2 standard deviations."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
       "id": "annualised-volatility",
       "term": "annualised volatility",
       "aliases": [
@@ -161,6 +200,27 @@
       "difficulty": 2
     },
     {
+      "id": "risk-free-rate",
+      "term": "risk-free rate",
+      "unit": "q1",
+      "short": "Return on a safe government investment",
+      "definition": "The return on an investment treated as having no default risk, such as a short-term government treasury bill. Risky returns are measured against it.",
+      "examples": [
+        "Cash already earns the risk-free rate, so a fund has to beat that before it's adding anything."
+      ],
+      "fill": "In India, the 91-day treasury bill yield is often used as the ____ when working out Sharpe ratios.",
+      "confusables": [
+        "sharpe-ratio",
+        "return"
+      ],
+      "wrong": [
+        "Interest rate on a savings account",
+        "Lowest return a fund has ever made",
+        "Average return of the stock market"
+      ],
+      "difficulty": 1
+    },
+    {
       "id": "sharpe-ratio",
       "term": "Sharpe ratio",
       "aliases": [
@@ -206,6 +266,31 @@
         }
       ],
       "difficulty": 2
+    },
+    {
+      "id": "downside-deviation",
+      "term": "downside deviation",
+      "aliases": [
+        "downside volatility"
+      ],
+      "unit": "q1",
+      "short": "Volatility of only the bad returns",
+      "definition": "Like standard deviation, but counting only returns below a target, often zero or the risk-free rate. Upside swings are ignored.",
+      "examples": [
+        "Downside deviation is half the total vol, because most of the swing comes on up days."
+      ],
+      "fill": "The Sortino ratio divides extra return by ____ instead of by total volatility.",
+      "confusables": [
+        "standard-deviation",
+        "sortino-ratio",
+        "max-drawdown"
+      ],
+      "wrong": [
+        "Volatility of all returns, up and down",
+        "Largest fall from a peak",
+        "How far a price sits below its high"
+      ],
+      "difficulty": 3
     },
     {
       "id": "sortino-ratio",
@@ -282,6 +367,51 @@
       "difficulty": 2
     },
     {
+      "id": "beta",
+      "term": "beta",
+      "aliases": [
+        "β"
+      ],
+      "unit": "q1",
+      "short": "How much a stock moves with the market",
+      "definition": "How sensitive an asset's returns are to the market's. A beta of 1.2 means it tends to move 1.2% for every 1% move in the index; below 1 means it moves less.",
+      "examples": [
+        "Metals are high beta, so they get hit hardest on risk-off days."
+      ],
+      "fill": "This stock tends to move 1.4% for every 1% move in the Nifty, so its ____ is about 1.4.",
+      "confusables": [
+        "alpha",
+        "correlation",
+        "systematic-risk"
+      ],
+      "wrong": [
+        "Return beyond what the market explains",
+        "How closely two prices move, from −1 to 1",
+        "A stock's price swing over a year"
+      ],
+      "formula": "β = Cov(stock, market) ÷ Var(market)",
+      "tf": [
+        {
+          "s": "A stock with a beta of 0.5 tends to move about half as much as the market.",
+          "a": true
+        }
+      ],
+      "calcs": [
+        {
+          "q": "A stock has a beta of 1.2. The market rises 5%. What move do you expect from the stock?",
+          "options": [
+            "6%",
+            "5%",
+            "1.2%",
+            "4.2%"
+          ],
+          "answer": 0,
+          "why": "1.2 × 5% = 6%."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
       "id": "alpha",
       "term": "alpha",
       "aliases": [
@@ -339,51 +469,6 @@
       "difficulty": 2
     },
     {
-      "id": "beta",
-      "term": "beta",
-      "aliases": [
-        "β"
-      ],
-      "unit": "q1",
-      "short": "How much a stock moves with the market",
-      "definition": "How sensitive an asset's returns are to the market's. A beta of 1.2 means it tends to move 1.2% for every 1% move in the index; below 1 means it moves less.",
-      "examples": [
-        "Metals are high beta, so they get hit hardest on risk-off days."
-      ],
-      "fill": "This stock tends to move 1.4% for every 1% move in the Nifty, so its ____ is about 1.4.",
-      "confusables": [
-        "alpha",
-        "correlation",
-        "systematic-risk"
-      ],
-      "wrong": [
-        "Return beyond what the market explains",
-        "How closely two prices move, from −1 to 1",
-        "A stock's price swing over a year"
-      ],
-      "formula": "β = Cov(stock, market) ÷ Var(market)",
-      "tf": [
-        {
-          "s": "A stock with a beta of 0.5 tends to move about half as much as the market.",
-          "a": true
-        }
-      ],
-      "calcs": [
-        {
-          "q": "A stock has a beta of 1.2. The market rises 5%. What move do you expect from the stock?",
-          "options": [
-            "6%",
-            "5%",
-            "1.2%",
-            "4.2%"
-          ],
-          "answer": 0,
-          "why": "1.2 × 5% = 6%."
-        }
-      ],
-      "difficulty": 1
-    },
-    {
       "id": "correlation",
       "term": "correlation",
       "aliases": [
@@ -411,69 +496,13 @@
         {
           "s": "A correlation of zero means two assets are completely unrelated.",
           "a": false,
-          "why": "Zero only rules out a straight-line link. They can still be related in other ways, for example both crashing together."
+          "why": "Zero only rules out a straight-line link. They can still be related in other ways, for example calm on normal days but crashing together in a panic."
         },
         {
           "s": "Correlations between stocks tend to rise in a sell-off.",
           "a": true,
           "why": "In panics most things fall together, just when diversification is needed most."
         }
-      ],
-      "difficulty": 1
-    },
-    {
-      "id": "covariance",
-      "term": "covariance",
-      "unit": "q1",
-      "short": "How two returns vary together, unscaled",
-      "definition": "A measure of how two return series move together, in squared units. Divide it by both standard deviations and you get the correlation.",
-      "examples": [
-        "Portfolio risk depends on the covariances between holdings, not just each one's volatility."
-      ],
-      "fill": "Risk models use a ____ matrix built from every pair of stocks to work out portfolio volatility.",
-      "confusables": [
-        "correlation",
-        "variance"
-      ],
-      "wrong": [
-        "Correlation squared",
-        "Difference between two stocks' returns",
-        "Average of two variances"
-      ],
-      "formula": "Cov(A,B) = ρ × σA × σB",
-      "calcs": [
-        {
-          "q": "The covariance of A and B is 0.012. Their volatilities are 20% and 30%. What is the correlation?",
-          "options": [
-            "0.2",
-            "0.012",
-            "0.6",
-            "0.5"
-          ],
-          "answer": 0,
-          "why": "0.012 ÷ (0.2 × 0.3) = 0.012 ÷ 0.06 = 0.2."
-        }
-      ],
-      "difficulty": 3
-    },
-    {
-      "id": "risk-free-rate",
-      "term": "risk-free rate",
-      "unit": "q1",
-      "short": "Return on a safe government investment",
-      "definition": "The return on an investment treated as having no default risk, such as a short-term government treasury bill. Risky returns are measured against it.",
-      "examples": [
-        "Cash already earns the risk-free rate, so a fund has to beat that before it's adding anything."
-      ],
-      "fill": "In India, the 91-day treasury bill yield is often used as the ____ when working out Sharpe ratios.",
-      "confusables": [
-        "sharpe-ratio",
-        "return"
-      ],
-      "wrong": [
-        "Interest rate on a savings account",
-        "Lowest return a fund has ever made",
-        "Average return of the stock market"
       ],
       "difficulty": 1
     },
@@ -745,31 +774,6 @@
       "difficulty": 2
     },
     {
-      "id": "downside-deviation",
-      "term": "downside deviation",
-      "aliases": [
-        "downside volatility"
-      ],
-      "unit": "q2",
-      "short": "Volatility of only the bad returns",
-      "definition": "Like standard deviation, but counting only returns below a target, often zero or the risk-free rate. Upside swings are ignored.",
-      "examples": [
-        "Downside deviation is half the total vol, because most of the swing comes on up days."
-      ],
-      "fill": "The Sortino ratio divides extra return by ____ instead of by total volatility.",
-      "confusables": [
-        "standard-deviation",
-        "sortino-ratio",
-        "max-drawdown"
-      ],
-      "wrong": [
-        "Volatility of all returns, up and down",
-        "Largest fall from a peak",
-        "How far a price sits below its high"
-      ],
-      "difficulty": 3
-    },
-    {
       "id": "risk-adjusted-return",
       "term": "risk-adjusted return",
       "unit": "q2",
@@ -900,6 +904,41 @@
       "difficulty": 2
     },
     {
+      "id": "covariance",
+      "term": "covariance",
+      "unit": "q3",
+      "short": "How two returns vary together, unscaled",
+      "definition": "A measure of how two return series move together, in squared units. Divide it by both standard deviations and you get the correlation.",
+      "examples": [
+        "Portfolio risk depends on the covariances between holdings, not just each one's volatility."
+      ],
+      "fill": "Risk models use a ____ matrix built from every pair of stocks to work out portfolio volatility.",
+      "confusables": [
+        "correlation",
+        "variance"
+      ],
+      "wrong": [
+        "Correlation squared",
+        "Difference between two stocks' returns",
+        "Average of two variances"
+      ],
+      "formula": "Cov(A,B) = ρ × σA × σB",
+      "calcs": [
+        {
+          "q": "The covariance of A and B is 0.012. Their volatilities are 20% and 30%. What is the correlation?",
+          "options": [
+            "0.2",
+            "0.012",
+            "0.6",
+            "0.5"
+          ],
+          "answer": 0,
+          "why": "0.012 ÷ (0.2 × 0.3) = 0.012 ÷ 0.06 = 0.2."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
       "id": "t-statistic",
       "term": "t-statistic",
       "aliases": [
@@ -1001,7 +1040,7 @@
       ],
       "wrong": [
         "Score from 0 to 100 for a stock's quality",
-        "An estimate divided by its standard error",
+        "Share of values that sit below the average",
         "Distance of a price from its all-time high"
       ],
       "formula": "z = (value − mean) ÷ standard deviation",
@@ -1016,45 +1055,6 @@
           ],
           "answer": 0,
           "why": "(130 − 100) ÷ 15 = 2."
-        }
-      ],
-      "difficulty": 2
-    },
-    {
-      "id": "normal-distribution",
-      "term": "normal distribution",
-      "aliases": [
-        "bell curve",
-        "Gaussian"
-      ],
-      "unit": "q3",
-      "short": "The symmetric bell-shaped spread of outcomes",
-      "definition": "The symmetric bell-shaped distribution in which about 68% of outcomes fall within 1 standard deviation of the average and about 95% within 2. Many risk models assume it, though market returns have fatter tails.",
-      "examples": [
-        "Under a normal distribution a 5-sigma day should come once in thousands of years; markets see one every few years."
-      ],
-      "fill": "Under a ____, about 95% of daily returns land within 2 standard deviations of the average.",
-      "confusables": [
-        "fat-tails",
-        "z-score",
-        "skewness"
-      ],
-      "wrong": [
-        "A spread of returns with fat tails",
-        "An even split of returns into equal buckets",
-        "Returns that only rise over time"
-      ],
-      "calcs": [
-        {
-          "q": "Returns are normal with an average of 0% and a daily SD of 1%. About what share of days fall between −2% and +2%?",
-          "options": [
-            "95%",
-            "68%",
-            "99.7%",
-            "50%"
-          ],
-          "answer": 0,
-          "why": "About 95% of outcomes lie within 2 standard deviations."
         }
       ],
       "difficulty": 2
@@ -1702,7 +1702,7 @@
         "overfitting"
       ],
       "wrong": [
-        "A new government taking office",
+        "A change in the exchange's trading hours",
         "A change of fund manager",
         "A switch from one benchmark to another"
       ],

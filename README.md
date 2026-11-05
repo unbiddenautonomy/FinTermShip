@@ -25,9 +25,12 @@ npm run build      # checks terms, type-checks, builds to dist/
 
 Terms live in `src/data/terms/*.json`, one file per category. `npm run check:terms` fails if a card is missing a field, has a broken fill-in sentence, gives the answer away, or points at an unknown confusable term. Facts that change (rules, tax rates, timings) carry `asOf` and `source`.
 
-## Deploy to Cloudflare Pages
+## Deploy to Cloudflare
 
-1. In the Cloudflare dashboard, go to **Workers & Pages**, then **Create**, then the **Pages** tab, then **Connect to Git**.
-2. Pick this repository.
-3. Build settings: framework preset **None** (or Vite), build command `npm run build`, build output directory `dist`.
-4. Save and deploy. Every push to `main` publishes a new version; other branches get preview links.
+The app is a static site served by a Cloudflare Worker named `fintermship`. `wrangler.jsonc` tells Cloudflare to run `npm run build` and serve `dist/` as static files, sending unknown paths to `index.html`.
+
+1. In the Cloudflare dashboard, go to **Workers & Pages**, then **Create**, then **Import a repository**, and pick this repository.
+2. Keep the defaults: Cloudflare reads `wrangler.jsonc`, so the build and deploy commands can stay as suggested (`npm run build`, `npx wrangler deploy`).
+3. Every push to `main` publishes a new version. Other branches and pull requests get a preview from `npx wrangler preview`, which needs the `previews` block in `wrangler.jsonc` (empty means it uses the same settings).
+
+To check the config locally without publishing: `npx wrangler versions upload --dry-run`.
