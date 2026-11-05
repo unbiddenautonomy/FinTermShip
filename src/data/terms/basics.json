@@ -434,7 +434,7 @@
       ],
       "wrong": [
         "Holding a position for a short time only",
-        "Owning fewer shares than the benchmark",
+        "Having run out of cash to trade",
         "Selling a stock you already own"
       ],
       "note": "In India, most traders go short with futures. Shorting cash shares overnight needs borrowed stock through securities lending (SLB); intraday shorts must be closed the same day.",
@@ -741,7 +741,7 @@
         "cagr"
       ],
       "wrong": [
-        "Return before costs and taxes",
+        "Return from the price change alone",
         "Return since the stock first listed",
         "The return of the whole market"
       ],
@@ -1351,7 +1351,7 @@
       "wrong": [
         "To trade more often than others",
         "To make any profit at all",
-        "To fall less than expected"
+        "To grow revenue every year"
       ],
       "difficulty": 1
     },

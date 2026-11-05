@@ -496,7 +496,7 @@
         {
           "s": "A correlation of zero means two assets are completely unrelated.",
           "a": false,
-          "why": "Zero only rules out a straight-line link. They can still be related in other ways, for example both crashing together."
+          "why": "Zero only rules out a straight-line link. They can still be related in other ways, for example calm on normal days but crashing together in a panic."
         },
         {
           "s": "Correlations between stocks tend to rise in a sell-off.",
@@ -1040,7 +1040,7 @@
       ],
       "wrong": [
         "Score from 0 to 100 for a stock's quality",
-        "An estimate divided by its standard error",
+        "Share of values that sit below the average",
         "Distance of a price from its all-time high"
       ],
       "formula": "z = (value − mean) ÷ standard deviation",
@@ -1702,7 +1702,7 @@
         "overfitting"
       ],
       "wrong": [
-        "A new government taking office",
+        "A change in the exchange's trading hours",
         "A change of fund manager",
         "A switch from one benchmark to another"
       ],
