@@ -1016,6 +1016,41 @@
       "difficulty": 2
     },
     {
+      "id": "closing-auction",
+      "term": "closing auction session",
+      "aliases": [
+        "closing auction",
+        "CAS"
+      ],
+      "unit": "i4",
+      "short": "End-of-day auction that sets the close",
+      "definition": "A short auction after normal trading ends that sets the official closing price of stocks with F&O contracts. Orders are collected for a few minutes, then matched at the single price that trades the most shares.",
+      "examples": [
+        "Index funds now buy in the closing auction to match the official close."
+      ],
+      "fill": "For an F&O stock, the official closing price now comes from the ____, not from the last trade.",
+      "confusables": [
+        "pre-open",
+        "muhurat-trading"
+      ],
+      "wrong": [
+        "A session where shares delisted from the exchange are sold",
+        "Trading at the closing price after the market shuts",
+        "An auction of shares a seller failed to deliver"
+      ],
+      "tf": [
+        {
+          "s": "The closing auction applies to every listed stock.",
+          "a": false,
+          "why": "It started with stocks that have F&O contracts on both NSE and BSE. Other stocks still close the old way."
+        }
+      ],
+      "note": "It began on 3 August 2026. From 7 December 2026, normal trading in these stocks runs to 3:30 pm and the auction to 3:40 pm, and F&O trades until 3:45 pm.",
+      "asOf": "2026-11",
+      "source": "https://www.kotakneo.com/news/regulations/sebi-revises-closing-auction-rules-derivatives-settlement-methodology/",
+      "difficulty": 2
+    },
+    {
       "id": "muhurat-trading",
       "term": "Muhurat trading",
       "said": "moo-hoo-rat",
