@@ -1,0 +1,1522 @@
+{
+  "id": "desk",
+  "name": "Desk talk and market players",
+  "order": 6,
+  "units": [
+    {
+      "id": "d1",
+      "name": "Desk jargon",
+      "core": true
+    },
+    {
+      "id": "d2",
+      "name": "Market players",
+      "core": true
+    },
+    {
+      "id": "d3",
+      "name": "Research and ratings",
+      "core": false
+    },
+    {
+      "id": "d4",
+      "name": "Trading talk",
+      "core": false
+    },
+    {
+      "id": "d5",
+      "name": "Desk phrases",
+      "core": false
+    }
+  ],
+  "terms": [
+    {
+      "id": "hit-the-bid",
+      "term": "hit the bid",
+      "aliases": [
+        "hit bids",
+        "hitting the bid"
+      ],
+      "unit": "d1",
+      "short": "Sell straight away at the best bid",
+      "definition": "To sell immediately at the highest price a buyer is showing, instead of waiting for a better price. It gets you out fast but gives up the spread.",
+      "examples": [
+        "News is out and it's falling; just hit the bid on the lot."
+      ],
+      "fill": "You need to sell right now, so you ____ at 412 instead of offering at 413.",
+      "confusables": [
+        "lift-the-offer",
+        "bid",
+        "market-order"
+      ],
+      "wrong": [
+        "Raise your buying price to attract sellers",
+        "Place a buy order below the market",
+        "Cancel a bid you left earlier"
+      ],
+      "calcs": [
+        {
+          "q": "The bid is 100.10 and the offer 100.20. You hit the bid for 5,000 shares. What do you receive?",
+          "options": [
+            "₹5,00,500",
+            "₹5,01,000",
+            "₹500",
+            "₹5,00,000"
+          ],
+          "answer": 0,
+          "why": "You sell at the bid: 100.10 × 5,000 = ₹5,00,500."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "lift-the-offer",
+      "term": "lift the offer",
+      "aliases": [
+        "take the offer",
+        "pay the offer"
+      ],
+      "unit": "d1",
+      "short": "Buy straight away at the best offer",
+      "definition": "To buy immediately at the lowest price a seller is showing. It's the buyer's version of hitting the bid: fast, but you pay the spread.",
+      "examples": [
+        "Someone's lifting every offer in Infosys; there's a big buyer around."
+      ],
+      "fill": "You must buy before the news, so you ____ at 250 rather than bidding 249.80.",
+      "confusables": [
+        "hit-the-bid",
+        "ask",
+        "market-order"
+      ],
+      "wrong": [
+        "Sell at the highest bid",
+        "Withdraw your offer to sell",
+        "Raise the price you're asking to sell at"
+      ],
+      "calcs": [
+        {
+          "q": "A stock is quoted 249.80 / 250.00. You lift the offer for 2,000 shares. What does it cost?",
+          "options": [
+            "₹5,00,000",
+            "₹4,99,600",
+            "₹400",
+            "₹2,50,000"
+          ],
+          "answer": 0,
+          "why": "Lifting the offer means buying at 250.00: 250 × 2,000 = ₹5,00,000."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "two-way-price",
+      "term": "two-way price",
+      "aliases": [
+        "two-way",
+        "two-way quote"
+      ],
+      "unit": "d1",
+      "short": "A quote with both a bid and an offer",
+      "definition": "A quote showing both the price you'd buy at and the price you'd sell at, so the other side can choose. Asking for a two-way hides whether you want to buy or sell.",
+      "examples": [
+        "Show me a two-way in the Bank Nifty December future."
+      ],
+      "fill": "To avoid revealing whether you're a buyer or a seller, ask the broker for a ____.",
+      "confusables": [
+        "spread",
+        "bid",
+        "ask"
+      ],
+      "wrong": [
+        "A quote valid for two days",
+        "A trade that goes through two brokers",
+        "A price agreed by both exchanges"
+      ],
+      "calcs": [
+        {
+          "q": "A broker shows you 412.50 / 413.00 in size. If you buy and then sell straight back, what do you lose per share?",
+          "options": [
+            "50 paise",
+            "₹1",
+            "₹412.50",
+            "Nothing"
+          ],
+          "answer": 0,
+          "why": "You buy at the offer (413.00) and sell at the bid (412.50): the 50 paise spread."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "size",
+      "term": "size",
+      "aliases": [
+        "in size"
+      ],
+      "unit": "d1",
+      "short": "Quantity of an order or position",
+      "definition": "Desk shorthand for quantity. 'What size?' asks how many shares or lots, and 'in size' means a large amount, enough to move the price.",
+      "examples": [
+        "There's a buyer in size in Tata Steel; he's been lifting offers all morning."
+      ],
+      "fill": "When a broker says a fund wants to buy 'in ____', it means a large quantity.",
+      "confusables": [
+        "volume",
+        "notional",
+        "liquidity"
+      ],
+      "wrong": [
+        "The market value of a whole company",
+        "The gap between the bid and the offer",
+        "The tick by which prices move"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "working-an-order",
+      "term": "working an order",
+      "aliases": [
+        "work an order",
+        "working it"
+      ],
+      "unit": "d1",
+      "short": "Filling a big order bit by bit",
+      "definition": "Carrying out a large order gradually over hours or days, buying or selling in pieces so the price isn't pushed too far. Brokers say they're working an order for a client.",
+      "examples": [
+        "We're working a large sell order in HUL; don't be surprised if it's heavy all day."
+      ],
+      "fill": "A broker selling a fund's 20 lakh shares slowly through the day is ____.",
+      "confusables": [
+        "size",
+        "iceberg-order",
+        "flow"
+      ],
+      "wrong": [
+        "Placing one market order for the whole amount",
+        "Checking an order for mistakes before sending it",
+        "Cancelling and re-entering an order"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "print",
+      "term": "print",
+      "aliases": [
+        "prints"
+      ],
+      "unit": "d1",
+      "short": "A trade that has been reported",
+      "definition": "A trade that has gone through and shows up in the market data, especially a large one. Traders watch big prints for clues about who is buying or selling.",
+      "examples": [
+        "Big print in Reliance at 1,412, about 8 lakh shares."
+      ],
+      "fill": "A single trade of 10 lakh shares flashing across the screen is a big ____.",
+      "confusables": [
+        "fill",
+        "block-deal",
+        "volume"
+      ],
+      "wrong": [
+        "A research report in paper form",
+        "A broker's daily statement",
+        "A price the exchange publishes before the open"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "market-color",
+      "term": "market color",
+      "aliases": [
+        "colour",
+        "market colour"
+      ],
+      "unit": "d1",
+      "short": "Context on who's trading what, and why",
+      "definition": "Information from brokers and traders about what's happening behind the prices: who is buying or selling, how big, and the story driving it. 'What's the color on HDFC Bank?' asks for exactly that.",
+      "examples": [
+        "What's the color on HDFC Bank? It's down 3% on no news."
+      ],
+      "fill": "You ask your broker for ____ when a stock moves sharply and you want to know who's behind it.",
+      "confusables": [
+        "flow",
+        "axe",
+        "consensus"
+      ],
+      "wrong": [
+        "A chart setting that colours rising prices green",
+        "A credit rating shown in colour",
+        "Gamma's sensitivity to time"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "flow",
+      "term": "flow",
+      "aliases": [
+        "client flow"
+      ],
+      "unit": "d1",
+      "short": "Client buying and selling through a desk",
+      "definition": "The stream of buy and sell orders coming from clients through a broker's desk. 'Flow is better for sale' means clients have mostly been selling.",
+      "examples": [
+        "Flows have been two-way in IT, but banks are seeing steady foreign selling."
+      ],
+      "fill": "The desk said client ____ was heavily on the buying side all morning.",
+      "confusables": [
+        "market-color",
+        "axe",
+        "volume"
+      ],
+      "wrong": [
+        "The cash a company makes from operations",
+        "The speed of the exchange's systems",
+        "A chart line joining daily closes"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "axe",
+      "term": "axe",
+      "aliases": [
+        "axed"
+      ],
+      "unit": "d1",
+      "short": "A broker's interest to buy or sell a stock",
+      "definition": "A desk's known interest in buying or selling a particular stock, often because it has a client order to fill. A broker 'axed to sell' has stock to offer and may give a good price.",
+      "examples": [
+        "We're axed to sell L&T; if you're a buyer, we can work something out."
+      ],
+      "fill": "Your broker has a big client sell order in L&T, so it has an ____ to sell.",
+      "confusables": [
+        "flow",
+        "market-color",
+        "size"
+      ],
+      "wrong": [
+        "A cut in a stock's target price",
+        "A sudden fall in a stock",
+        "A rule that stops a trader from trading"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "flat",
+      "term": "flat",
+      "unit": "d1",
+      "short": "Holding no position",
+      "definition": "Having no position at all in something: neither long nor short. Traders go flat before big events when they don't want any risk.",
+      "examples": [
+        "I'm flat Infosys into results; too hard to call."
+      ],
+      "fill": "You sold the last of your shares and have no short either, so you're ____.",
+      "confusables": [
+        "square-off",
+        "position",
+        "long"
+      ],
+      "wrong": [
+        "Holding a position with no gain or loss yet",
+        "Trading a stock whose price hasn't moved",
+        "Holding equal amounts of two stocks"
+      ],
+      "tf": [
+        {
+          "s": "Being flat means your trade so far today has made no profit or loss.",
+          "a": false,
+          "why": "Flat means you hold no position. You may already have booked a profit or a loss."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "book",
+      "term": "book",
+      "aliases": [
+        "trading book"
+      ],
+      "unit": "d1",
+      "short": "All the positions a trader runs",
+      "definition": "All the positions a trader or desk is responsible for. 'Running a book' means managing those positions and their risk, and 'the book is long' means it gains if prices rise.",
+      "examples": [
+        "My book is too long banks; I need to cut some before the RBI meeting."
+      ],
+      "fill": "A trader who looks after the desk's options positions is running the options ____.",
+      "confusables": [
+        "position",
+        "exposure",
+        "pnl"
+      ],
+      "wrong": [
+        "A company's net worth per share",
+        "A file of client orders waiting to be sent",
+        "The exchange's record of daily prices"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "buy-side",
+      "term": "buy side",
+      "aliases": [
+        "buy-side"
+      ],
+      "unit": "d2",
+      "short": "Firms that invest money",
+      "definition": "The firms that invest money and buy research and trading services: fund houses, insurers, pension funds and hedge funds. Buy-side people decide what to own.",
+      "examples": [
+        "She moved from broking to the buy side and now runs a midcap fund."
+      ],
+      "fill": "Fund houses and insurers that pay brokers for research and trading are the ____.",
+      "confusables": [
+        "sell-side",
+        "fund-manager",
+        "dii"
+      ],
+      "wrong": [
+        "Brokers that execute orders for clients",
+        "Anyone placing a buy order",
+        "Investors who never sell"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "sell-side",
+      "term": "sell side",
+      "aliases": [
+        "sell-side"
+      ],
+      "unit": "d2",
+      "short": "Brokers and banks that sell services",
+      "definition": "The brokers and investment banks that sell services to investors: trading, research and deals. Sell-side analysts write the reports the buy side reads.",
+      "examples": [
+        "Sell-side estimates for Infosys have come down 5% since the last results."
+      ],
+      "fill": "Brokers' research analysts and sales traders work on the ____.",
+      "confusables": [
+        "buy-side",
+        "stockbroker",
+        "investment-bank"
+      ],
+      "wrong": [
+        "Investors who are selling a stock",
+        "Fund houses that manage savings",
+        "The side of the order book with offers"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "fund-manager",
+      "term": "fund manager",
+      "aliases": [
+        "portfolio manager",
+        "PM"
+      ],
+      "unit": "d2",
+      "short": "Person who decides what a fund buys",
+      "definition": "The person who decides what a fund buys, holds and sells, and answers for its returns. In global desks they're often called the PM, short for portfolio manager.",
+      "examples": [
+        "The PM wants to add to HDFC Bank but not above 1,700."
+      ],
+      "fill": "The decision to buy 2% of the fund in Titan was made by the ____.",
+      "confusables": [
+        "dealer",
+        "research-analyst",
+        "buy-side"
+      ],
+      "wrong": [
+        "The person who places the fund's orders on the exchange",
+        "A broker who manages client accounts",
+        "The regulator's officer for mutual funds"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "research-analyst",
+      "term": "research analyst",
+      "aliases": [
+        "analyst",
+        "sell-side analyst"
+      ],
+      "unit": "d2",
+      "short": "Person who studies companies and rates them",
+      "definition": "A specialist who follows a set of companies or a sector, builds forecasts and publishes reports with a view on whether to buy or sell. In India, research analysts must be registered with SEBI.",
+      "examples": [
+        "The analyst cut his estimates after the weak margin guidance."
+      ],
+      "fill": "The ____ covering cement stocks expects margins to recover next year.",
+      "confusables": [
+        "fund-manager",
+        "consensus",
+        "sales-trader"
+      ],
+      "wrong": [
+        "The person who places orders for a fund",
+        "An official who audits company accounts",
+        "A trader who spots chart patterns"
+      ],
+      "note": "SEBI's Research Analysts Regulations require registration for anyone giving research or recommendations for a fee.",
+      "asOf": "2026-11",
+      "source": "https://www.nism.ac.in/prerequisites-for-becoming-a-sebi-registered-research-analyst",
+      "difficulty": 1
+    },
+    {
+      "id": "sales-trader",
+      "term": "sales trader",
+      "unit": "d2",
+      "short": "Broker who takes funds' orders and shares color",
+      "definition": "The person at a broker who talks to fund dealers and managers all day, takes their orders, and passes on market color and flow. They link the client to the broker's trading desk.",
+      "examples": [
+        "My sales trader says there's a large seller in Asian Paints."
+      ],
+      "fill": "Fund dealers call their ____ at the broker to place orders and hear what others are doing.",
+      "confusables": [
+        "dealer",
+        "research-analyst",
+        "flow"
+      ],
+      "wrong": [
+        "A shop employee who sells shares to the public",
+        "An analyst who writes company reports",
+        "An exchange official who settles trades"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "dealer",
+      "term": "dealer",
+      "aliases": [
+        "dealing desk"
+      ],
+      "unit": "d2",
+      "short": "Person who places orders for a fund or broker",
+      "definition": "In India, the person on a fund's or broker's desk who actually places and manages orders on the exchange, following the fund manager's or client's instructions.",
+      "examples": [
+        "The PM decides; the dealer works the order through the day."
+      ],
+      "fill": "The fund manager wants 5 lakh shares; the ____ places the orders and watches the fills.",
+      "confusables": [
+        "fund-manager",
+        "sales-trader",
+        "stockbroker"
+      ],
+      "wrong": [
+        "A company that sells cars and bikes",
+        "The person who decides what a fund should buy",
+        "A SEBI official who approves trades"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "investment-bank",
+      "term": "investment bank",
+      "aliases": [
+        "merchant banker",
+        "I-bank"
+      ],
+      "unit": "d2",
+      "short": "Arranges share sales, deals and mergers",
+      "definition": "A firm that helps companies raise money and do deals: share sales such as IPOs, large block sales, and mergers and acquisitions. SEBI's rules call them merchant bankers.",
+      "examples": [
+        "Three investment banks are running the IPO."
+      ],
+      "fill": "A company planning an IPO hires an ____ to price it and find investors.",
+      "confusables": [
+        "sell-side",
+        "stockbroker",
+        "ipo"
+      ],
+      "wrong": [
+        "A bank that invests depositors' savings in shares",
+        "The RBI's arm for government bonds",
+        "A mutual fund that buys banks"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "prop-trading",
+      "term": "prop trading",
+      "aliases": [
+        "proprietary trading",
+        "prop desk"
+      ],
+      "unit": "d2",
+      "short": "Trading with the firm's own money",
+      "definition": "Short for proprietary trading: a firm trading with its own money for its own profit, rather than executing for clients.",
+      "examples": [
+        "The broker's prop desk was short the futures while clients were buying."
+      ],
+      "fill": "A broker's desk that takes its own risk with the firm's capital does ____.",
+      "confusables": [
+        "sell-side",
+        "book",
+        "dealer"
+      ],
+      "wrong": [
+        "Trading on behalf of retail clients",
+        "Buying property shares",
+        "Trading only in the pre-open session"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "hedge-fund",
+      "term": "hedge fund",
+      "unit": "d2",
+      "short": "Fund that can short, use leverage and more",
+      "definition": "A pooled fund for wealthy and institutional investors that can go long and short, use leverage and derivatives, and charges a share of profits. In India most are set up as Category III AIFs.",
+      "examples": [
+        "A long-short hedge fund was shorting the stock while buying its rival."
+      ],
+      "fill": "A fund for wealthy investors that can short stocks and use leverage is a ____.",
+      "confusables": [
+        "long-only-fund",
+        "mutual-fund",
+        "buy-side"
+      ],
+      "wrong": [
+        "A fund that only buys safe government bonds",
+        "A fund that guarantees it can't lose money",
+        "A bank's fund for hedging its loans"
+      ],
+      "note": "Alternative Investment Funds have a minimum investment of ₹1 crore for most investors.",
+      "asOf": "2026-11",
+      "source": "https://www.sebi.gov.in/media/press-releases/may-2012/sebi-notifies-sebi-alternative-investment-funds-regulations-2012_22799.html",
+      "difficulty": 2
+    },
+    {
+      "id": "long-only-fund",
+      "term": "long-only fund",
+      "aliases": [
+        "long-only"
+      ],
+      "unit": "d2",
+      "short": "Fund that can only buy",
+      "definition": "A fund that can only own securities and can't short them, so it makes money only when its holdings rise. Most mutual funds and insurers are long-only.",
+      "examples": [
+        "Long-only money has been buying every dip in the banks."
+      ],
+      "fill": "A fund that can't short and only profits when its holdings rise is a ____.",
+      "confusables": [
+        "hedge-fund",
+        "buy-side",
+        "long"
+      ],
+      "wrong": [
+        "A fund that holds stocks for at least a year",
+        "A fund that invests only in long bonds",
+        "A fund with no exit load"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "custodian",
+      "term": "custodian",
+      "unit": "d2",
+      "short": "Bank that holds securities for institutions",
+      "definition": "A bank that holds securities for large investors, settles their trades and handles dividends and corporate actions. Every foreign portfolio investor in India must have one.",
+      "examples": [
+        "The FPI's custodian confirmed the shares arrived on settlement."
+      ],
+      "fill": "A foreign fund buying Indian shares keeps them with a ____, which also settles its trades.",
+      "confusables": [
+        "depository",
+        "clearing-corporation",
+        "fpi"
+      ],
+      "wrong": [
+        "The broker who places the fund's orders",
+        "A guard at the exchange building",
+        "The regulator for foreign investors"
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.nseindia.com/static/invest/first-time-international-investor-opening-an-account",
+      "difficulty": 2
+    },
+    {
+      "id": "coverage",
+      "term": "coverage",
+      "aliases": [
+        "initiate coverage",
+        "initiating coverage"
+      ],
+      "unit": "d3",
+      "short": "The companies an analyst follows",
+      "definition": "The set of companies an analyst or broker follows and publishes on. Initiating coverage means publishing the first report on a company, with a rating.",
+      "examples": [
+        "Kotak initiated coverage on the stock with a buy."
+      ],
+      "fill": "A broker that publishes its first report on a company is initiating ____.",
+      "confusables": [
+        "research-analyst",
+        "stock-rating"
+      ],
+      "wrong": [
+        "Insurance that protects a portfolio",
+        "The share of shares held by the public",
+        "Media reports about a company"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "stock-rating",
+      "term": "stock rating",
+      "aliases": [
+        "rating",
+        "buy rating",
+        "sell rating"
+      ],
+      "unit": "d3",
+      "short": "Analyst's call: buy, hold or sell",
+      "definition": "An analyst's recommendation on a stock, such as buy, hold or sell. Indian brokers also use add and reduce for milder views.",
+      "examples": [
+        "Rating cut to reduce from add; the valuation has run ahead."
+      ],
+      "fill": "Moving a stock from hold to buy changes its ____.",
+      "confusables": [
+        "target-price",
+        "upgrade",
+        "consensus"
+      ],
+      "wrong": [
+        "A credit agency's grade for a company's debt",
+        "The exchange's risk score for a stock",
+        "The stock's rank in the Nifty"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "target-price",
+      "term": "target price",
+      "aliases": [
+        "price target",
+        "TP"
+      ],
+      "unit": "d3",
+      "short": "Where an analyst thinks the price will go",
+      "definition": "An analyst's estimate of where a stock should trade, usually in 12 months. The gap to today's price is the implied upside or downside.",
+      "examples": [
+        "Target price raised to 1,850, about 20% upside."
+      ],
+      "fill": "The analyst's ____ of ₹960 implies 20% upside from ₹800.",
+      "confusables": [
+        "stock-rating",
+        "upside",
+        "fair-value"
+      ],
+      "wrong": [
+        "The price where a trader takes profit",
+        "The highest price in the last year",
+        "The price set for an IPO"
+      ],
+      "calcs": [
+        {
+          "q": "A stock trades at 800 and the target price is 960. What upside does it imply?",
+          "options": [
+            "20%",
+            "16%",
+            "160%",
+            "17%"
+          ],
+          "answer": 0,
+          "why": "(960 − 800) ÷ 800 = 160 ÷ 800 = 20%."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "upgrade",
+      "term": "upgrade",
+      "unit": "d3",
+      "short": "Analyst raises the rating",
+      "definition": "When an analyst raises a stock's rating, for example from hold to buy. Raising the target price or earnings forecasts is also loosely called an upgrade.",
+      "examples": [
+        "The stock jumped 4% on a double upgrade, from sell to buy."
+      ],
+      "fill": "The broker moved the stock from hold to buy: an ____.",
+      "confusables": [
+        "downgrade",
+        "stock-rating",
+        "target-price"
+      ],
+      "wrong": [
+        "A company moving to a bigger stock exchange",
+        "A rise in a company's credit card limit",
+        "A stock being added to the Nifty"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "downgrade",
+      "term": "downgrade",
+      "unit": "d3",
+      "short": "Analyst cuts the rating",
+      "definition": "When an analyst cuts a stock's rating, for example from buy to hold. Cutting the target price or forecasts is also loosely called a downgrade.",
+      "examples": [
+        "Downgraded to sell after the margin miss; the stock is off 6%."
+      ],
+      "fill": "Cutting a stock from buy to hold is a ____.",
+      "confusables": [
+        "upgrade",
+        "stock-rating"
+      ],
+      "wrong": [
+        "A stock being moved to the T2T segment",
+        "A fall in a stock's price",
+        "A cut in a company's dividend"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "overweight",
+      "term": "overweight",
+      "aliases": [
+        "OW"
+      ],
+      "unit": "d3",
+      "short": "Holding more than the benchmark does",
+      "definition": "Holding more of a stock or sector than its weight in the benchmark. Some brokers also use overweight as a rating meaning the stock should beat the market.",
+      "examples": [
+        "We're overweight private banks and underweight IT."
+      ],
+      "fill": "The fund holds 11% in HDFC Bank against an index weight of 8%, so it's ____.",
+      "confusables": [
+        "underweight",
+        "benchmark",
+        "outperform"
+      ],
+      "wrong": [
+        "Holding a stock that has become too expensive",
+        "Owning more than 5% of a company",
+        "Using too much leverage"
+      ],
+      "calcs": [
+        {
+          "q": "A stock is 8% of the benchmark and 11% of your fund. How overweight are you?",
+          "options": [
+            "3 percentage points",
+            "3%",
+            "37.5%",
+            "11 percentage points"
+          ],
+          "answer": 0,
+          "why": "11% − 8% = 3 percentage points overweight."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "underweight",
+      "term": "underweight",
+      "aliases": [
+        "UW"
+      ],
+      "unit": "d3",
+      "short": "Holding less than the benchmark does",
+      "definition": "Holding less of a stock or sector than its weight in the benchmark, or none at all. As a rating, it means the analyst expects the stock to lag the market.",
+      "examples": [
+        "We've stayed underweight IT all year, and it's helped."
+      ],
+      "fill": "Holding no Reliance when it is 9% of the index makes you heavily ____.",
+      "confusables": [
+        "overweight",
+        "benchmark",
+        "underperform"
+      ],
+      "wrong": [
+        "Being short a stock",
+        "Holding a stock that has fallen a lot",
+        "Having too little margin"
+      ],
+      "tf": [
+        {
+          "s": "A fund can be underweight a stock while still owning it.",
+          "a": true,
+          "why": "Underweight only means holding less than the benchmark weight."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "earnings-call",
+      "term": "earnings call",
+      "aliases": [
+        "concall",
+        "conference call"
+      ],
+      "unit": "d3",
+      "short": "Management's call with analysts after results",
+      "definition": "A call where a company's management discusses its results and takes questions from analysts and investors. In India it's usually called the concall.",
+      "examples": [
+        "On the concall, management said demand is picking up in rural India."
+      ],
+      "fill": "After the results, analysts quiz the CFO on the ____.",
+      "confusables": [
+        "guidance",
+        "earnings",
+        "research-analyst"
+      ],
+      "wrong": [
+        "A broker's call to collect margin",
+        "The day results are announced",
+        "A call option on earnings"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "earnings-beat",
+      "term": "earnings beat",
+      "aliases": [
+        "beat"
+      ],
+      "unit": "d3",
+      "short": "Results better than expected",
+      "definition": "When a company's results come in above the consensus forecast. 'In line' means close to it; the stock's reaction also depends on guidance.",
+      "examples": [
+        "A big beat on margins, but the stock is flat because guidance was soft."
+      ],
+      "fill": "Profit came in 15% above what analysts expected: a clear ____.",
+      "confusables": [
+        "earnings-miss",
+        "consensus",
+        "guidance"
+      ],
+      "wrong": [
+        "Results that match last year's",
+        "A company buying back its own shares",
+        "Profit higher than last quarter"
+      ],
+      "calcs": [
+        {
+          "q": "Consensus EPS was 20 and the company reports 23. By how much did it beat?",
+          "options": [
+            "15%",
+            "3%",
+            "13%",
+            "23%"
+          ],
+          "answer": 0,
+          "why": "(23 − 20) ÷ 20 = 15% above consensus."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "earnings-miss",
+      "term": "earnings miss",
+      "aliases": [
+        "miss"
+      ],
+      "unit": "d3",
+      "short": "Results worse than expected",
+      "definition": "When a company's results come in below the consensus forecast. A miss often hits the stock, unless the market expected worse.",
+      "examples": [
+        "Revenue was fine but it's a miss on margins."
+      ],
+      "fill": "Profit came in well below analysts' forecasts: an ____.",
+      "confusables": [
+        "earnings-beat",
+        "consensus",
+        "guidance"
+      ],
+      "wrong": [
+        "A late filing of results",
+        "Profit lower than last year",
+        "A drop in the stock on results day"
+      ],
+      "tf": [
+        {
+          "s": "A stock always falls after an earnings miss.",
+          "a": false,
+          "why": "If the market expected worse, or guidance is strong, it can rise."
+        }
+      ],
+      "calcs": [
+        {
+          "q": "Consensus profit was ₹1,000 crore and the company reports ₹920 crore. By how much did it miss?",
+          "options": [
+            "8%",
+            "80%",
+            "₹920 crore",
+            "9%"
+          ],
+          "answer": 0,
+          "why": "(1,000 − 920) ÷ 1,000 = 8% below consensus."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "re-rating",
+      "term": "re-rating",
+      "aliases": [
+        "rerating",
+        "de-rating"
+      ],
+      "unit": "d3",
+      "short": "Market paying a higher multiple",
+      "definition": "When investors start paying a higher valuation multiple for a stock or sector, for example its P/E rising from 20 to 30, usually because they see better growth or lower risk. The opposite is a de-rating.",
+      "examples": [
+        "Defence stocks got a big re-rating once order books took off."
+      ],
+      "fill": "Earnings didn't change, but the P/E went from 20 to 30: a ____.",
+      "confusables": [
+        "multiple",
+        "pe-ratio",
+        "upgrade"
+      ],
+      "wrong": [
+        "An analyst raising a rating",
+        "A credit agency raising a bond rating",
+        "A stock moving to a higher index"
+      ],
+      "calcs": [
+        {
+          "q": "EPS stays at 50 and the P/E rises from 20 to 25. How much does the share price change?",
+          "options": [
+            "+25%",
+            "+5%",
+            "+20%",
+            "No change"
+          ],
+          "answer": 0,
+          "why": "Price = EPS × P/E: 50 × 20 = 1,000 becomes 50 × 25 = 1,250, a 25% rise."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "well-bid",
+      "term": "well bid",
+      "aliases": [
+        "bid up",
+        "bid for"
+      ],
+      "unit": "d4",
+      "short": "Plenty of eager buyers",
+      "definition": "When buyers are keen and keep raising their bids, so the price holds up or rises. 'Banks are well bid' means there's steady buying in bank stocks.",
+      "examples": [
+        "PSU banks are well bid after the budget."
+      ],
+      "fill": "Every dip in pharma is being bought; the sector is ____.",
+      "confusables": [
+        "offered",
+        "bid",
+        "flow"
+      ],
+      "wrong": [
+        "Priced too high by analysts",
+        "Stuck at the upper circuit",
+        "Full of unfilled sell orders"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "offered",
+      "term": "offered",
+      "aliases": [
+        "heavy",
+        "offered down"
+      ],
+      "unit": "d4",
+      "short": "Sellers are in control",
+      "definition": "When sellers dominate and keep lowering their offers, so the price drifts down. 'IT is offered' means there's steady selling in IT stocks.",
+      "examples": [
+        "Metals are offered all day; nobody wants to catch them."
+      ],
+      "fill": "Sellers keep lowering their prices in metals; the sector is ____.",
+      "confusables": [
+        "well-bid",
+        "ask",
+        "flow"
+      ],
+      "wrong": [
+        "Available in an IPO",
+        "On sale through an OFS",
+        "Quoted with a two-way price"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "chase",
+      "term": "chase",
+      "aliases": [
+        "chasing",
+        "chased"
+      ],
+      "unit": "d4",
+      "short": "Keep paying up to get filled",
+      "definition": "To keep raising your buying price, or lowering your selling price, as the market runs away from you, just to get the trade done.",
+      "examples": [
+        "Don't chase it; if we miss it at 410, we wait."
+      ],
+      "fill": "If you keep raising your bid as the stock runs from 400 to 420, you ____ it.",
+      "confusables": [
+        "lift-the-offer",
+        "fade"
+      ],
+      "wrong": [
+        "Buy a stock just after it falls",
+        "Follow another fund's trades",
+        "Sell a stock after a big rise"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "fade",
+      "term": "fade",
+      "aliases": [
+        "fading"
+      ],
+      "unit": "d4",
+      "short": "Trade against a move",
+      "definition": "To trade against a move you think will reverse: selling into a rally or buying into a drop. 'Fade the gap' means betting an opening jump won't last.",
+      "examples": [
+        "I'd fade this rally; it's all short covering."
+      ],
+      "fill": "You sell into a sharp rally you think will reverse: you ____ the move.",
+      "confusables": [
+        "chase",
+        "short"
+      ],
+      "wrong": [
+        "Slowly close a position",
+        "Let a position expire",
+        "Lose interest in a stock"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "stopped-out",
+      "term": "stopped out",
+      "aliases": [
+        "stop out"
+      ],
+      "unit": "d4",
+      "short": "Exited because the stop-loss was hit",
+      "definition": "Taken out of a trade because the price reached your stop-loss. Traders say they got stopped out, often just before the price turned back.",
+      "examples": [
+        "Got stopped out at 1,640, and of course it bounced to 1,700."
+      ],
+      "fill": "Your sell stop at 1,640 filled before the stock recovered: you were ____.",
+      "confusables": [
+        "stop-loss",
+        "square-off"
+      ],
+      "wrong": [
+        "Banned from trading for a day",
+        "Halted by a circuit limit",
+        "Forced to stop trading by the broker"
+      ],
+      "calcs": [
+        {
+          "q": "You short 400 shares at 600 with a stop at 615. You get stopped out at 615. Your loss?",
+          "options": [
+            "₹6,000",
+            "₹2,40,000",
+            "₹15",
+            "₹2,46,000"
+          ],
+          "answer": 0,
+          "why": "₹15 a share against you × 400 shares = ₹6,000."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "trim",
+      "term": "trim",
+      "aliases": [
+        "trimming"
+      ],
+      "unit": "d4",
+      "short": "Cut part of a position",
+      "definition": "To sell part of a holding, not all of it, often to lock in some profit or reduce risk. The opposite is to add.",
+      "examples": [
+        "We trimmed Titan after the run-up but still like it."
+      ],
+      "fill": "Selling a quarter of your Titan holding after a big rally is a ____.",
+      "confusables": [
+        "square-off",
+        "unwind",
+        "realised-pnl"
+      ],
+      "wrong": [
+        "Sell the whole position",
+        "Cut a stock's target price",
+        "Reduce brokerage costs"
+      ],
+      "calcs": [
+        {
+          "q": "You hold 10,000 shares and trim a quarter. How many do you still hold?",
+          "options": [
+            "7,500",
+            "2,500",
+            "9,750",
+            "10,000"
+          ],
+          "answer": 0,
+          "why": "A quarter is 2,500, so 10,000 − 2,500 = 7,500 remain."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "unwind",
+      "term": "unwind",
+      "aliases": [
+        "unwinding"
+      ],
+      "unit": "d4",
+      "short": "Close out a position or trade",
+      "definition": "To close out a position or a whole trade, often a large or multi-part one, usually step by step. 'Long unwinding' means longs being closed, pushing prices down.",
+      "examples": [
+        "Funds are unwinding the pair trade after the merger news."
+      ],
+      "fill": "Closing out all four legs of an options trade over two days is an ____.",
+      "confusables": [
+        "square-off",
+        "trim",
+        "short-covering"
+      ],
+      "wrong": [
+        "Open a new position",
+        "Take a break from trading",
+        "Roll a contract to next month"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "short-covering",
+      "term": "short covering",
+      "aliases": [
+        "covering",
+        "cover"
+      ],
+      "unit": "d4",
+      "short": "Buying back shares that were sold short",
+      "definition": "Buying to close short positions. When many shorts cover at once, the buying can push the price up sharply, even without good news.",
+      "examples": [
+        "The rally is mostly short covering; there's no fresh buying yet."
+      ],
+      "fill": "A stock jumps as traders who sold it short rush to buy it back: that's ____.",
+      "confusables": [
+        "short-selling",
+        "unwind",
+        "short"
+      ],
+      "wrong": [
+        "Selling more shares short",
+        "Insurance against a short position",
+        "Buying a put to protect a long"
+      ],
+      "tf": [
+        {
+          "s": "Short covering can push a price up even with no new buyers who want to own the stock.",
+          "a": true,
+          "why": "Shorts must buy to close, and that buying lifts the price."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "tape",
+      "term": "the tape",
+      "aliases": [
+        "tape",
+        "reading the tape"
+      ],
+      "unit": "d4",
+      "short": "Live stream of trades and prices",
+      "definition": "The live record of trades and prices as they happen. 'Reading the tape' means judging buying and selling pressure from that stream.",
+      "examples": [
+        "The tape feels heavy; every bounce is getting sold."
+      ],
+      "fill": "Watching every trade as it prints to judge the mood is reading ____.",
+      "confusables": [
+        "print",
+        "volume",
+        "ltp"
+      ],
+      "wrong": [
+        "A recording of a company's earnings call",
+        "Red tape at the regulator",
+        "A chart of the last year's prices"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "principal-trade",
+      "term": "principal trade",
+      "aliases": [
+        "risk trade",
+        "risk bid"
+      ],
+      "unit": "d4",
+      "short": "Broker takes the client's trade on its own book",
+      "definition": "A trade where the broker buys or sells with the client directly, using its own capital, at an agreed price. The broker takes on the risk of then unwinding the position.",
+      "examples": [
+        "The fund wanted out at once, so the broker gave a risk bid on a principal basis."
+      ],
+      "fill": "The broker bought the whole block itself at 2% below market, a ____, and took on the risk.",
+      "confusables": [
+        "agency-trade",
+        "block-deal",
+        "prop-trading"
+      ],
+      "wrong": [
+        "A trade only the company's promoters may do",
+        "A trade made by the head of the desk",
+        "The first trade of the day"
+      ],
+      "calcs": [
+        {
+          "q": "The last price is 500. A broker bids 2% below that for a client's 10 lakh shares on a principal basis. What does the client receive?",
+          "options": [
+            "₹49 crore",
+            "₹50 crore",
+            "₹10 crore",
+            "₹4.9 crore"
+          ],
+          "answer": 0,
+          "why": "2% below 500 is 490. 490 × 10 lakh = ₹49 crore."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "agency-trade",
+      "term": "agency trade",
+      "aliases": [
+        "agency"
+      ],
+      "unit": "d4",
+      "short": "Broker trades for the client, no risk taken",
+      "definition": "A trade where the broker acts only as the client's agent, buying or selling in the market for a commission and taking no price risk itself.",
+      "examples": [
+        "We'll do it agency and work it over three days."
+      ],
+      "fill": "The broker works the order in the market for a commission and takes no risk: an ____.",
+      "confusables": [
+        "principal-trade",
+        "working-an-order",
+        "stockbroker"
+      ],
+      "wrong": [
+        "A trade by a government agency",
+        "A trade done through a travel agent's account",
+        "A trade in shares of an AMC"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "youre-done",
+      "term": "you're done",
+      "aliases": [
+        "done"
+      ],
+      "unit": "d5",
+      "short": "Your trade is confirmed",
+      "definition": "The words that confirm a trade has happened at the agreed price and size. Once a dealer says 'done', both sides are bound.",
+      "examples": [
+        "'Two lakh at 412?' 'You're done.'"
+      ],
+      "fill": "The broker confirms your 2 lakh shares at 412 with: '____'.",
+      "confusables": [
+        "fill",
+        "firm-price"
+      ],
+      "wrong": [
+        "You've used up your trading limit",
+        "Your account is closed",
+        "You should stop trading for the day"
+      ],
+      "tf": [
+        {
+          "s": "'Nothing done' means the order traded but the price isn't final.",
+          "a": false,
+          "why": "'Nothing done' means no trade happened."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "firm-price",
+      "term": "firm price",
+      "aliases": [
+        "firm"
+      ],
+      "unit": "d5",
+      "short": "A price you can trade on right now",
+      "definition": "A price someone is committed to trade at if you accept it straight away. It's the opposite of an indicative price.",
+      "examples": [
+        "That's a firm price for 5 lakh, good for the next minute."
+      ],
+      "fill": "If you can say 'done' and the trade is fixed, the broker gave you a ____.",
+      "confusables": [
+        "indicative-price",
+        "two-way-price",
+        "youre-done"
+      ],
+      "wrong": [
+        "A price fixed by the exchange for the day",
+        "The price of a company's first share sale",
+        "A price that can't go below a floor"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "indicative-price",
+      "term": "indicative price",
+      "aliases": [
+        "indication",
+        "indicative",
+        "subject"
+      ],
+      "unit": "d5",
+      "short": "A rough price, not a commitment",
+      "definition": "A guide to where something might trade, given without a commitment. The final price can be different, so traders ask whether a quote is firm or indicative.",
+      "examples": [
+        "It's only indicative, around 1,410; I'll come back with a firm level."
+      ],
+      "fill": "'Around 1,410, depending on size' is an ____, not a price you can deal on.",
+      "confusables": [
+        "firm-price",
+        "two-way-price",
+        "fair-value"
+      ],
+      "wrong": [
+        "The price an index shows",
+        "The price in the pre-open session",
+        "A price set by SEBI"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "the-street",
+      "term": "the street",
+      "aliases": [
+        "Street",
+        "Dalal Street"
+      ],
+      "unit": "d5",
+      "short": "The market and its professionals",
+      "definition": "Shorthand for the financial market and the people who work in it, especially analysts. In India 'Dalal Street', the road where BSE stands in Mumbai, means the stock market.",
+      "examples": [
+        "The street was expecting 12% growth; they did 9%."
+      ],
+      "fill": "When analysts' average forecast is quoted as the '____ estimate', it means the market's consensus.",
+      "confusables": [
+        "consensus",
+        "sell-side",
+        "bse"
+      ],
+      "wrong": [
+        "A list of brokers approved by SEBI",
+        "The open-outcry floor of the NSE",
+        "Retail investors as a group"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "priced-in",
+      "term": "priced in",
+      "aliases": [
+        "price in",
+        "pricing in"
+      ],
+      "unit": "d5",
+      "short": "Already reflected in the price",
+      "definition": "When news or an expected event is already reflected in the price, so the price barely moves when it actually happens.",
+      "examples": [
+        "The rate cut was fully priced in; the market didn't budge."
+      ],
+      "fill": "Everyone expected the dividend, so it was ____ and the stock didn't move.",
+      "confusables": [
+        "sell-the-news",
+        "fair-value",
+        "consensus"
+      ],
+      "wrong": [
+        "Recorded at the closing price",
+        "Approved by the exchange",
+        "Sold at a fixed price"
+      ],
+      "tf": [
+        {
+          "s": "If good news is fully priced in, the stock usually jumps when it's announced.",
+          "a": false,
+          "why": "If it's priced in, the price has already moved, so it barely reacts on the day."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "sell-the-news",
+      "term": "sell the news",
+      "aliases": [
+        "buy the rumour, sell the news"
+      ],
+      "unit": "d5",
+      "short": "Price falls on good news it already rose on",
+      "definition": "When a stock that rose ahead of an expected event falls once the event happens, as traders who bought the rumour take profits. In full: buy the rumour, sell the news.",
+      "examples": [
+        "Classic sell the news: up 20% into the listing, down 8% on the day."
+      ],
+      "fill": "The stock rallied for weeks before the results, then fell on a good report: buy the rumour, ____.",
+      "confusables": [
+        "priced-in",
+        "realised-pnl"
+      ],
+      "wrong": [
+        "Sell after reading a news report",
+        "A rule against trading on news",
+        "Sell before results are announced"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "falling-knife",
+      "term": "falling knife",
+      "aliases": [
+        "catch a falling knife"
+      ],
+      "unit": "d5",
+      "short": "A stock in a steep, fast fall",
+      "definition": "A stock dropping sharply and quickly. 'Don't catch a falling knife' warns against buying it before the fall has clearly stopped.",
+      "examples": [
+        "It's down 30% in a week; I'm not catching that falling knife."
+      ],
+      "fill": "Buying a stock that's down 25% in three days, before it settles, is catching a ____.",
+      "confusables": [
+        "lower-circuit",
+        "fade"
+      ],
+      "wrong": [
+        "A stock that cuts its dividend",
+        "A short position that's losing money",
+        "A slow and steady fall"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "long-and-wrong",
+      "term": "long and wrong",
+      "unit": "d5",
+      "short": "Holding a long that's going against you",
+      "definition": "Being long a stock while it falls: you bet on a rise and the market went the other way. Traders use it to admit a losing position.",
+      "examples": [
+        "I'm long and wrong on the metals; cutting it before it gets worse."
+      ],
+      "fill": "You bought before results and the stock fell 10%: you're ____.",
+      "confusables": [
+        "long",
+        "stopped-out"
+      ],
+      "wrong": [
+        "Holding a stock for too many years",
+        "Using the wrong order type",
+        "Buying a stock for the wrong reasons but making money"
+      ],
+      "difficulty": 1
+    }
+  ]
+}
