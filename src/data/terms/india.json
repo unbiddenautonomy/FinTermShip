@@ -562,7 +562,7 @@
       "said": "S T T",
       "speak": "S T T",
       "unit": "i2",
-      "short": "Tax charged on every exchange trade",
+      "short": "Tax on each trade in shares and F&O",
       "definition": "Securities transaction tax: a tax on buying and selling securities on Indian exchanges, collected through your broker. Rates differ for delivery, intraday and F&O trades.",
       "examples": [
         "Higher STT on options raised trading costs for active traders."
@@ -809,7 +809,7 @@
         "stockbroker"
       ],
       "wrong": [
-        "The yearly maintenance charge on a demat account",
+        "A credit rating agency for funds",
         "A broker that executes fund orders",
         "The regulator for mutual funds"
       ],
