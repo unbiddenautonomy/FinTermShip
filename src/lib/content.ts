@@ -4,9 +4,10 @@ import options from '../data/terms/options.json';
 import quant from '../data/terms/quant.json';
 import trading from '../data/terms/trading.json';
 import desk from '../data/terms/desk.json';
+import conditions from '../data/terms/conditions.json';
 import type { Category, Term, Unit } from './types';
 
-export const categories: Category[] = ([basics, india, trading, options, quant, desk] as Category[]).sort((a, b) => a.order - b.order);
+export const categories: Category[] = ([basics, india, trading, options, quant, desk, conditions] as Category[]).sort((a, b) => a.order - b.order);
 
 export const termById = new Map<string, Term>();
 export const unitById = new Map<string, Unit & { categoryId: string }>();
