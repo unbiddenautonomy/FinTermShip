@@ -1,4 +1,4 @@
-import { isDrillUnit, isQuantArea, path, termById, termIdsOfUnit, unitById } from './content';
+import { isPracticeUnit, isQuantArea, path, termById, termIdsOfUnit, unitById } from './content';
 import { addDays } from './dates';
 import { drillPassed } from './drills';
 import type { LessonPlan } from './lesson';
@@ -17,14 +17,14 @@ export function areaCoreTermIds(categoryId: string): string[] {
   return path.filter((r) => r.pass === 1 && r.category.id === categoryId).flatMap((r) => r.terms.map((t) => t.id));
 }
 
-/** An area's core drills, in path order. */
+/** An area's core practice units (drills, games, cases), in path order. */
 export function areaCoreDrillIds(categoryId: string): string[] {
-  return path.filter((r) => r.pass === 1 && r.category.id === categoryId && r.unit.kind === 'drill').map((r) => r.unit.id);
+  return path.filter((r) => r.pass === 1 && r.category.id === categoryId && isPracticeUnit(r.unit.id)).map((r) => r.unit.id);
 }
 
 /**
  * An area's advanced units open once all its core terms are met and its core
- * drills passed, once its test is passed, or (for quant areas) with the quant switch.
+ * drills and games passed, once its test is passed, or (for quant areas) with the quant switch.
  */
 export function areaOpen(p: Progress, categoryId: string): boolean {
   if (p.unlocked?.includes(categoryId)) return true;
@@ -56,13 +56,13 @@ export function focusQueue(p: Progress, unitId = p.focus): string[] {
     .filter((id) => !p.terms[id]);
 }
 
-/** True while the picked unit still has something to do: terms to meet, or a drill to pass. */
+/** True while the picked unit still has something to do: terms to meet, or a drill, game or case to pass. */
 export function focusActive(p: Progress): boolean {
   if (!p.focus || !unitOpen(p, p.focus)) return false;
-  return isDrillUnit(p.focus) ? !drillPassed(p, p.focus) : focusQueue(p).length > 0;
+  return isPracticeUnit(p.focus) ? !drillPassed(p, p.focus) : focusQueue(p).length > 0;
 }
 
-/** Drop a pick once its unit has been fully met (or its drill passed). */
+/** Drop a pick once its unit has been fully met (or its practice unit passed). */
 export function settleFocus(p: Progress): Progress {
   if (!p.focus || focusActive(p)) return p;
   return withFocus(p, null);

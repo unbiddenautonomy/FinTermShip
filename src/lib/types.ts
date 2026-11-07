@@ -41,8 +41,31 @@ export interface Unit {
   id: string;
   name: string;
   core: boolean;
-  /** 'drill' units are timed rounds of generated questions, with no terms. */
-  kind?: 'terms' | 'drill';
+  /**
+   * Units without terms are practice on the same track: 'drill' units are timed
+   * rounds of generated questions, 'game' units are trading games, and 'case'
+   * units are desk cases of linked decisions.
+   */
+  kind?: 'terms' | PracticeKind;
+}
+
+export type PracticeKind = 'drill' | 'game' | 'case';
+
+/** A desk case: a short story told in linked decisions. */
+export interface DeskCase {
+  setup: string;
+  facts: string[];
+  steps: CaseStep[];
+}
+
+export interface CaseStep {
+  /** What has happened since the last step (optional for the first). */
+  text?: string;
+  ask: string;
+  /** One option is marked best; each says why it is or isn't. */
+  options: { text: string; best?: boolean; why: string }[];
+  /** Term ids the step leans on. */
+  terms: string[];
 }
 
 export interface Category {
@@ -96,7 +119,7 @@ export interface Progress {
   unlocked?: string[];
   /** Latest area test attempt, by area id. */
   tests?: Record<string, TestAttempt>;
-  /** Timed drill results, by unit id. */
+  /** Results of practice units (drills, games and cases), by unit id. */
   drills?: Record<string, DrillRecord>;
 }
 
@@ -104,8 +127,10 @@ export interface DrillRecord {
   rounds: number;
   /** Met the unit's target at least once. */
   passed: boolean;
-  /** Most right answers in one round. */
+  /** Most right answers in one round (checks met in a game, best calls in a case). */
   bestRight: number;
+  /** Best profit in points, for games. */
+  best?: number;
   /** Fastest round that had enough right answers to pass, in milliseconds. */
   bestMs?: number;
   /** Day of the latest round. */
