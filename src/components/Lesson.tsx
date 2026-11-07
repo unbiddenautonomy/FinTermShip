@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { categoryOfTerm, isCore, termById, termName } from '../lib/content';
+import { applyTest, settleFocus } from '../lib/choose';
 import type { LessonPlan } from '../lib/lesson';
 import { promptFor, retryQuestion, tidyOption, type Rng } from '../lib/questions';
 import { finishLesson, graduate, introduce, recordPractice, review } from '../lib/scheduler';
@@ -16,6 +17,8 @@ export interface LessonSummary {
   newIds: string[];
   missedIds: string[];
   kind: LessonPlan['kind'];
+  /** Set after an area test. */
+  test?: { categoryId: string; right: number; total: number; passed: boolean; credited: number };
 }
 
 interface Props {
@@ -48,6 +51,9 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
   const [missed, setMissed] = useState<string[]>([]);
   const [confirmQuit, setConfirmQuit] = useState(false);
   const shownAt = useRef(Date.now());
+  /** Area tests: terms answered right, scored at the end. */
+  const testRight = useRef(new Set<string>());
+  const isTest = plan.kind === 'test';
   const progressRef = useRef(progress);
   progressRef.current = progress;
   const voice = progress.settings.voice;
@@ -65,6 +71,15 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
   const finish = useCallback(() => {
     let p = progressRef.current;
     for (const id of plan.newIds) p = graduate(p, id, today);
+    let test: LessonSummary['test'];
+    if (isTest && plan.categoryId) {
+      const right = [...testRight.current];
+      const before = p;
+      p = applyTest(p, plan.categoryId, right, plan.questions.length, today);
+      const credited = Object.keys(p.terms).length - Object.keys(before.terms).length;
+      test = { categoryId: plan.categoryId, right: right.length, total: plan.questions.length, passed: !!p.tests?.[plan.categoryId]?.passed, credited };
+    }
+    p = settleFocus(p);
     const perfect = stats.firstTryTotal > 0 && stats.firstTryCorrect === stats.firstTryTotal;
     const xp = 10 + (perfect ? 5 : 0) + stats.reviewsCorrect;
     p = finishLesson(p, today, xp);
@@ -77,8 +92,9 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
       newIds: plan.newIds,
       missedIds: missed,
       kind: plan.kind,
+      test,
     });
-  }, [plan, today, stats, missed, onProgress, onFinish]);
+  }, [plan, today, stats, missed, isTest, onProgress, onFinish]);
 
   const next = useCallback(() => {
     setPicked(null);
@@ -106,18 +122,24 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
       const correct = choice === q.answer;
       const ms = Date.now() - shownAt.current;
       setPicked(choice);
+      score(correct, item.retry, q.review);
+      if (isTest) {
+        // A test only scores; nothing is learned or retried until it ends.
+        if (correct) testRight.current.add(q.termId);
+        else setMissed((m) => (m.includes(q.termId) ? m : [...m, q.termId]));
+        return;
+      }
       let p = progressRef.current;
       if (q.review && !item.retry) p = review(p, q.termId, correct, ms, today, isCore(q.termId));
       else p = recordPractice(p, q.termId, correct);
       onProgress(p);
-      score(correct, item.retry, q.review);
       if (!correct) {
         setMissed((m) => (m.includes(q.termId) ? m : [...m, q.termId]));
         // One retry per question, at the end of the lesson.
         if (!item.retry) setItems((list) => [...list, { q: retryQuestion(q, rng, new Set(Object.keys(progressRef.current.terms))), retry: true }]);
       }
     },
-    [q, item, picked, today, rng, onProgress, score],
+    [q, item, picked, today, rng, isTest, onProgress, score],
   );
 
   const matchDone = useCallback(

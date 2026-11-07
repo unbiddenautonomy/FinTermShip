@@ -1,23 +1,34 @@
 import type { ReactNode } from 'react';
-import { termName } from '../lib/content';
+import { categories, termName } from '../lib/content';
 import { Bolt, Flame, Target } from './icons';
 import type { LessonSummary } from './Lesson';
 import { Button, Card, Ring } from './ui';
 
 export function Results({ summary, canContinue, onHome, onNext }: { summary: LessonSummary; canContinue: boolean; onHome: () => void; onNext: () => void }) {
   const pct = summary.firstTryTotal ? Math.round((summary.firstTryCorrect / summary.firstTryTotal) * 100) : 100;
-  const title = pct === 100 ? 'Perfect lesson' : pct >= 80 ? 'Lesson complete' : 'Good practice';
+  const test = summary.test;
+  const area = test ? categories.find((c) => c.id === test.categoryId)?.name ?? 'this area' : '';
+  const title = test ? (test.passed ? 'Test passed' : 'Not yet') : pct === 100 ? 'Perfect lesson' : pct >= 80 ? 'Lesson complete' : 'Good practice';
+  const subline = test
+    ? test.passed
+      ? `${area}: advanced units are open.`
+      : `You need 80% to open ${area}. You can try again tomorrow.`
+    : summary.kind === 'review'
+      ? 'Reviews cleared.'
+      : summary.kind === 'practice'
+        ? 'Practice only, so your review schedule is unchanged.'
+        : `${summary.newIds.length} new term${summary.newIds.length === 1 ? '' : 's'} learned.`;
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-xl animate-pop flex-col px-4 pb-8 pt-12">
       <div className="flex flex-col items-center text-center">
-        <Ring value={pct} max={100} size={148} stroke={12} tone={pct >= 80 ? 'brand' : 'amber'} label={`${pct}% right first time`}>
+        <Ring value={pct} max={100} size={148} stroke={12} tone={pct >= 80 ? 'brand' : 'amber'} label={test ? `${pct}% right` : `${pct}% right first time`}>
           <div className="leading-none">
             <p className="num text-4xl font-extrabold text-ink">{pct}%</p>
-            <p className="mt-1.5 text-xs font-bold text-ink-3">first try</p>
+            <p className="mt-1.5 text-xs font-bold text-ink-3">{test ? 'score' : 'first try'}</p>
           </div>
         </Ring>
         <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-ink">{title}</h1>
-        <p className="mt-1 text-ink-2">{summary.kind === 'review' ? 'Reviews cleared.' : `${summary.newIds.length} new term${summary.newIds.length === 1 ? '' : 's'} learned.`}</p>
+        <p className="mt-1 text-ink-2">{subline}</p>
       </div>
 
       <div className="mt-8 grid grid-cols-3 gap-3">
@@ -33,11 +44,19 @@ export function Results({ summary, canContinue, onHome, onNext }: { summary: Les
           <p className="mt-3 text-sm text-ink-3">They come back for review tomorrow.</p>
         </Card>
       )}
+      {test && test.credited > 0 && (
+        <Card className="mt-4">
+          <p className="text-sm font-extrabold text-ink">
+            {test.credited} term{test.credited === 1 ? '' : 's'} counted as learned
+          </p>
+          <p className="mt-1 text-sm text-ink-3">You won't be taught these from scratch. Each comes back once for a quick check within the next 10 days.</p>
+        </Card>
+      )}
       {summary.missedIds.length > 0 && (
         <Card className="mt-4">
-          <p className="mb-3 text-sm font-extrabold text-ink">Terms to watch</p>
+          <p className="mb-3 text-sm font-extrabold text-ink">{test ? 'Still to learn' : 'Terms to watch'}</p>
           <Chips ids={summary.missedIds} tone="bg-bad-soft text-bad-ink" />
-          <p className="mt-3 text-sm text-ink-3">Missed terms come back sooner.</p>
+          <p className="mt-3 text-sm text-ink-3">{test ? 'These stay on your path and are taught as usual.' : 'Missed terms come back sooner.'}</p>
         </Card>
       )}
 
