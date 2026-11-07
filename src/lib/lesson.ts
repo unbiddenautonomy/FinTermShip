@@ -1,5 +1,5 @@
 import { focusQueue } from './choose';
-import { isDrillUnit, pathTermIds, termById } from './content';
+import { isPracticeUnit, pathTermIds, termById } from './content';
 import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, tfQuestion, type Rng } from './questions';
 import { dayStats, dueTermIds, newLeftToday, reviewsLeftToday } from './scheduler';
 import { currentUnit, trackTermIds } from './track';
@@ -28,10 +28,10 @@ export function nextNewTermIds(p: Progress, count: number, today = ''): string[]
   return [...new Set(queue)].slice(0, count);
 }
 
-/** The drill to run next, when the learner is on a drill and reviews are not piling up. */
+/** The practice unit (drill, game or case) to run next, when the learner is on one and reviews are not piling up. */
 export function drillUp(p: Progress, today: string): string | null {
   const cur = currentUnit(p, today);
-  if (!cur || !isDrillUnit(cur)) return null;
+  if (!cur || !isPracticeUnit(cur)) return null;
   const due = Math.min(dueTermIds(p, today).length, reviewsLeftToday(p, today));
   return due >= REVIEW_FIRST_THRESHOLD ? null : cur;
 }
@@ -42,7 +42,7 @@ export interface TodayStatus {
   newAvailable: number;
   /** True when reviews are heavy (today, or booked for tomorrow) and new terms are held back. */
   slowed: boolean;
-  /** The drill the learner is on, if any. */
+  /** The practice unit (drill, game or case) the learner is on, if any. */
   drill: string | null;
 }
 
@@ -57,7 +57,7 @@ export function todayStatus(p: Progress, today: string): TodayStatus {
     newLeft,
     newAvailable,
     slowed: newLeft < Math.min(goalLeft, newAvailable),
-    drill: cur && isDrillUnit(cur) ? cur : null,
+    drill: cur && isPracticeUnit(cur) ? cur : null,
   };
 }
 

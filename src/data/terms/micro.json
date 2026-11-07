@@ -14,6 +14,12 @@
       "core": true
     },
     {
+      "id": "s6",
+      "name": "Make a market",
+      "core": true,
+      "kind": "game"
+    },
+    {
       "id": "s3",
       "name": "Indian market mechanics",
       "core": false

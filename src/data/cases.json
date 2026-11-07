@@ -1,0 +1,235 @@
+{
+  "o7": {
+    "setup": "You run a small options book. On Thursday you sold the Nifty 24,000 straddle expiring next Tuesday: the 24,000 call and the 24,000 put, for 420 points in all. The Union Budget comes out on Monday.",
+    "facts": ["Short the 24,000 call and the 24,000 put", "Premium collected: 420 points", "Nifty: 24,050", "Expiry: next Tuesday"],
+    "steps": [
+      {
+        "text": "Before the Budget, your risk manager asks what kind of risk the book is running.",
+        "ask": "Which describes your position?",
+        "options": [
+          { "text": "Short gamma and short vega: big moves and rising volatility both hurt", "best": true, "why": "Selling options leaves you short both. Theta, the daily decay, is what you're paid for taking that risk." },
+          { "text": "Long gamma and short vega: big moves help, rising volatility hurts", "why": "Owning options gives long gamma. You sold them, so your gamma is short." },
+          { "text": "Short gamma and long vega: big moves hurt, rising volatility helps", "why": "Higher implied volatility makes options dearer, and you're short them, so rising volatility hurts: you're short vega." }
+        ],
+        "terms": ["gamma", "vega", "theta", "straddle"]
+      },
+      {
+        "text": "By Friday the Nifty is still at 24,050, but implied volatility on your expiry has jumped from 13% to 18% as traders buy protection before the Budget. Your book shows a loss.",
+        "ask": "Why are you losing money when the Nifty hasn't moved?",
+        "options": [
+          { "text": "Higher implied volatility has made the options you sold dearer", "best": true, "why": "You're short vega, so a rise in IV marks your short options up and shows as a loss, even with no move in the Nifty." },
+          { "text": "Theta works against option sellers", "why": "Theta is on your side: the options you sold lose value each day, all else equal." },
+          { "text": "The straddle has picked up a lot of delta", "why": "With the Nifty still near your strike, the straddle is close to delta neutral. Delta isn't the cause." }
+        ],
+        "terms": ["implied-volatility", "vega", "theta"]
+      },
+      {
+        "text": "Budget day. The Nifty falls 2% to about 23,570, so the 24,000 put you sold is now well in the money.",
+        "ask": "What's your delta now?",
+        "options": [
+          { "text": "Long: you lose more if the Nifty keeps falling", "best": true, "why": "A short put has positive delta, and it grows as the put goes into the money, while the short call's negative delta fades. Net, you're long the market." },
+          { "text": "Short: you lose more if the Nifty bounces", "why": "That would be true after a rally, when the short call dominates." },
+          { "text": "Zero: a straddle is always delta neutral", "why": "It's only near neutral at the strike. Moves away from the strike build delta; that's what gamma means." }
+        ],
+        "terms": ["delta", "gamma", "put-option"]
+      },
+      {
+        "text": "The fall could run further this afternoon, and your risk limits say to cut the directional exposure now.",
+        "ask": "What's the most direct way to do that?",
+        "options": [
+          { "text": "Sell Nifty futures sized to your delta", "best": true, "why": "Futures carry delta but no gamma or vega, so selling them flattens the market exposure the fall has built up. That's delta hedging." },
+          { "text": "Sell more puts to collect extra premium", "why": "More short puts add long delta and short gamma, which doubles the risk you're meant to cut." },
+          { "text": "Do nothing: theta will earn it back by expiry", "why": "A few days of decay is small next to a 2% move. Counting on theta to cover a gamma loss is how short-option books blow up." }
+        ],
+        "terms": ["delta-hedging", "short-gamma", "futures-contract"]
+      },
+      {
+        "text": "Tuesday morning, with the Budget behind it, the Nifty steadies near 23,700 and implied volatility drops from 18% back to 12%.",
+        "ask": "What does the drop in IV do to your book?",
+        "options": [
+          { "text": "Helps: the options you're short lose value", "best": true, "why": "This is IV crush. Being short vega, you gain as implied volatility falls after the event." },
+          { "text": "Hurts: lower IV means less premium on new trades", "why": "That matters for your next trade, not this one. Your existing short options just got cheaper, which is a gain." },
+          { "text": "Nothing: IV only matters on expiry day", "why": "IV feeds into option prices every day until expiry. By expiry day, only intrinsic value is left." }
+        ],
+        "terms": ["iv-crush", "vega", "implied-volatility"]
+      },
+      {
+        "text": "Expiry day arrives. The Nifty has drifted back to 23,990, right next to your 24,000 strike, with a few hours to go.",
+        "ask": "What's the main risk now?",
+        "options": [
+          { "text": "Gamma is at its highest: small moves flip your delta, so hedges go stale fast", "best": true, "why": "Hours from expiry, an at-the-money option's delta can swing from near 0 to near 1 on a small move. That's pin risk, and why many desks close short strikes before the last hour." },
+          { "text": "Vega is at its highest, so any change in IV hurts", "why": "Vega shrinks as expiry nears. With hours left, gamma is the Greek that matters." },
+          { "text": "Theta stops working on expiry day", "why": "At-the-money options decay fastest on expiry day. The danger is gamma, not a lack of theta." }
+        ],
+        "terms": ["gamma", "pin-risk", "at-the-money"]
+      },
+      {
+        "text": "You buy back the whole straddle for 30 points in all and close the futures hedge.",
+        "ask": "Before costs and the hedge, what did the straddle make per unit?",
+        "options": [
+          { "text": "390 points", "best": true, "why": "Sold for 420, bought back for 30: 420 − 30 = 390 per unit." },
+          { "text": "420 points", "why": "That's the premium you collected. Buying back cost 30 of it." },
+          { "text": "450 points", "why": "Buying back is a cost, so subtract the 30 rather than add it." }
+        ],
+        "terms": ["option-premium", "square-off"]
+      }
+    ]
+  },
+  "x4": {
+    "setup": "A fund wants to buy 4 lakh shares of a large-cap stock today. The portfolio manager decided to buy at 9:20, with the stock at ₹1,000, but the order only reaches your desk at 10:00, with the stock at ₹1,004. The PM will judge you against the day's VWAP.",
+    "facts": ["Order: buy 4 lakh shares", "Normal daily volume: about 40 lakh shares", "Decision price: ₹1,000 at 9:20", "Arrival price: ₹1,004 at 10:00"],
+    "steps": [
+      {
+        "ask": "The stock rose from ₹1,000 to ₹1,004 before the order reached you. What's that ₹4 called?",
+        "options": [
+          { "text": "Delay cost", "best": true, "why": "It's the move between the PM's decision and the order arriving, 40 bp here. It counts in implementation shortfall even though nobody has traded yet." },
+          { "text": "Market impact", "why": "Impact is the move your own trading causes, and you haven't traded yet." },
+          { "text": "Spread cost", "why": "Spread cost comes from crossing the bid-ask spread when you trade." }
+        ],
+        "terms": ["delay-cost", "decision-price", "arrival-price"]
+      },
+      {
+        "text": "Before choosing an algo, you size the order up.",
+        "ask": "What share of a normal day's volume is this order?",
+        "options": [
+          { "text": "10%", "best": true, "why": "4 lakh ÷ 40 lakh = 10%. Big enough to move the price if rushed, small enough to spread over the day." },
+          { "text": "1%", "why": "4 lakh is a tenth of 40 lakh, not a hundredth." },
+          { "text": "40%", "why": "That mixes up the order size with the daily volume." }
+        ],
+        "terms": ["participation-rate", "volume"]
+      },
+      {
+        "ask": "With the PM measuring you against the day's VWAP, which approach fits best?",
+        "options": [
+          { "text": "A VWAP algo running to the close", "best": true, "why": "It trades in step with the stock's usual volume pattern, which is exactly what the benchmark measures." },
+          { "text": "One market order now for all 4 lakh shares", "why": "Sending it all at once would sweep the order book and pay heavy impact." },
+          { "text": "A TWAP algo that finishes by noon", "why": "Equal slices over two hours ignore the volume pattern and cram a tenth of the day's volume into a short window, a far higher participation rate." }
+        ],
+        "terms": ["vwap-algo", "twap-algo", "vwap"]
+      },
+      {
+        "text": "The algo spreads the order over the rest of the day in line with volume. By noon, about 30% of the volume left in the day has usually traded.",
+        "ask": "If the algo is on schedule, roughly how many shares has it bought by noon?",
+        "options": [
+          { "text": "About 1.2 lakh", "best": true, "why": "Following the volume profile, it should have done 30% of 4 lakh, which is 1.2 lakh." },
+          { "text": "About 2 lakh", "why": "That's half the order, but only about 30% of the remaining volume has traded." },
+          { "text": "About 30,000", "why": "That's 30% of 1 lakh. The order is 4 lakh." }
+        ],
+        "terms": ["volume-profile", "vwap-algo"]
+      },
+      {
+        "text": "At 1 pm a headline says a rival fund is buying the same stock, and the price jumps 1%. The PM still wants all 4 lakh shares today.",
+        "ask": "What should you do with the rest of the order?",
+        "options": [
+          { "text": "Raise the urgency and finish sooner, accepting more impact", "best": true, "why": "The price is running away. Waiting now carries more timing risk than the extra impact of trading faster, and the PM needs the full size." },
+          { "text": "Pause until the price comes back down", "why": "It may not come back. If it keeps rising, the shares you haven't bought turn into opportunity cost." },
+          { "text": "Keep exactly the same schedule", "why": "The schedule ignores the news. With another buyer in the stock, sticking to it leaves you buying at ever higher prices later in the day." }
+        ],
+        "terms": ["urgency", "timing-risk", "opportunity-cost"]
+      },
+      {
+        "text": "A colleague notices your algo is buying exactly 5,000 shares every 30 seconds.",
+        "ask": "Why is that a problem?",
+        "options": [
+          { "text": "Other traders can spot the pattern and buy ahead of you", "best": true, "why": "Regular, same-sized child orders leak information. Traders who spot them buy first and sell to you higher." },
+          { "text": "Exchanges don't allow repeated orders of the same size", "why": "There's no such rule. The issue is what the pattern gives away." },
+          { "text": "It breaks the participation limit", "why": "The size is fine against the volume. The problem is how predictable the orders are." }
+        ],
+        "terms": ["information-leakage", "child-order"]
+      },
+      {
+        "text": "You finish at 3:20 pm with an average price of ₹1,012.",
+        "ask": "What's the implementation shortfall against the decision price, before fees?",
+        "options": [
+          { "text": "120 bp", "best": true, "why": "(1,012 − 1,000) ÷ 1,000 = 1.2%, which is 120 bp. It includes the 40 bp of delay before you got the order." },
+          { "text": "80 bp", "why": "That's against the arrival price of ₹1,004. Shortfall is measured from the decision price." },
+          { "text": "12 bp", "why": "₹12 on ₹1,000 is 1.2%, which is 120 bp, not 12." }
+        ],
+        "terms": ["implementation-shortfall", "decision-price", "basis-point"]
+      },
+      {
+        "text": "Twenty minutes after you finish, the stock has slipped back to ₹1,006.",
+        "ask": "What does that suggest?",
+        "options": [
+          { "text": "Part of the rise was your own temporary impact, so the end was probably rushed", "best": true, "why": "When the price falls back once you stop buying, some of what you paid was temporary impact. That's post-trade reversion." },
+          { "text": "Sellers have lost interest in the stock", "why": "A fall right after a big buyer stops points to the buying having pushed the price up, not to sellers leaving." },
+          { "text": "Nothing: prices always wander after an order", "why": "Some noise is normal, but a steady fall right after a big buyer stops is a known sign of temporary impact." }
+        ],
+        "terms": ["post-trade-reversion", "temporary-impact"]
+      }
+    ]
+  },
+  "f3": {
+    "setup": "You run an arbitrage book. A large-cap stock trades at ₹2,000 in the cash market, and its near-month future, 30 days from expiry, trades at ₹2,016. You can borrow and lend at 6.5% a year, and no dividend is due before expiry.",
+    "facts": ["Spot: ₹2,000", "Near-month future: ₹2,016, 30 days to expiry", "Interest rate: 6.5% a year", "No dividend before expiry"],
+    "steps": [
+      {
+        "ask": "What's the future's fair value?",
+        "options": [
+          { "text": "About ₹2,010.7", "best": true, "why": "Carry = 2,000 × 6.5% × 30/365 ≈ 10.7, so fair value ≈ 2,010.7." },
+          { "text": "₹2,016", "why": "That's where the future trades, not where it should trade." },
+          { "text": "About ₹2,130", "why": "That charges a full year of interest instead of 30 days." }
+        ],
+        "terms": ["futures-fair-value", "cost-of-carry"]
+      },
+      {
+        "ask": "The future is about ₹5 over fair value. Which trade captures that?",
+        "options": [
+          { "text": "Buy the stock and sell the future", "best": true, "why": "That's cash-and-carry arbitrage: it locks in the ₹16 basis, more than the ₹10.7 it costs to fund the stock." },
+          { "text": "Sell the stock and buy the future", "why": "That's the reverse trade, for when the future is cheap. Here it's rich." },
+          { "text": "Buy the future on its own", "why": "That's a bet on the stock rising, not an arbitrage." }
+        ],
+        "terms": ["cash-and-carry-arbitrage", "basis"]
+      },
+      {
+        "ask": "Roughly what annualised return does the ₹16 basis lock in, before costs?",
+        "options": [
+          { "text": "About 9.7% a year", "best": true, "why": "16 ÷ 2,000 = 0.8% in 30 days. 0.8% × 365 ÷ 30 ≈ 9.7% a year." },
+          { "text": "0.8% a year", "why": "0.8% is what you earn in 30 days. Scale it up to a year." },
+          { "text": "About 16% a year", "why": "16 is the basis in rupees, not a percentage." }
+        ],
+        "terms": ["basis", "cash-and-carry-arbitrage"]
+      },
+      {
+        "text": "Your round-trip costs (brokerage, STT, exchange charges and the rest) come to 0.25% of the position.",
+        "ask": "Is the trade still worth doing?",
+        "options": [
+          { "text": "Only just: about 6.7% a year after costs, against 6.5% to borrow", "best": true, "why": "0.8% − 0.25% = 0.55% in 30 days, about 6.7% a year. It barely beats the cost of funding the stock." },
+          { "text": "Yes, easily: costs hardly matter in an arbitrage", "why": "On a thin, locked-in spread, costs are most of the story." },
+          { "text": "No: the costs are bigger than the basis", "why": "0.25% is less than the 0.8% basis. The trade clears its costs, just not by much." }
+        ],
+        "terms": ["explicit-costs", "transaction-costs"]
+      },
+      {
+        "text": "You do the trade. A week later the stock has fallen 5% to ₹1,900 and the future to ₹1,913.",
+        "ask": "What's happened to your P&L per share?",
+        "options": [
+          { "text": "Up about ₹3", "best": true, "why": "The stock lost 100 and the short future gained 103 (2,016 − 1,913). The basis narrowed from 16 to 13, and that's your gain so far." },
+          { "text": "Down ₹100", "why": "That ignores the short future, which gained as the stock fell." },
+          { "text": "Up ₹103", "why": "That counts the future's gain but forgets the stock's 100 loss." }
+        ],
+        "terms": ["basis", "convergence", "hedge"]
+      },
+      {
+        "text": "On expiry day the stock closes at ₹2,050.",
+        "ask": "Before costs, what has the whole trade made per share?",
+        "options": [
+          { "text": "₹16", "best": true, "why": "The future settles at the closing price of 2,050. The stock gained 50 and the short future lost 34 (2,050 − 2,016): 50 − 34 = 16, the basis you locked in." },
+          { "text": "₹50", "why": "That's only the stock leg. The short future lost 34." },
+          { "text": "−₹34", "why": "That's only the futures leg. The stock gained 50." }
+        ],
+        "terms": ["convergence", "cash-and-carry-arbitrage"]
+      },
+      {
+        "text": "You'd like to keep the trade going. Next month's future trades at ₹2,051 with the stock at ₹2,050 and 35 days to go.",
+        "ask": "Should you put the same trade on in next month's future?",
+        "options": [
+          { "text": "No: at ₹2,051 the future is below its fair value of about ₹2,062.8", "best": true, "why": "Carry for 35 days is about 2,050 × 6.5% × 35/365 ≈ 12.8. A future only ₹1 over spot is cheap, so buying stock and selling it would earn less than the funding cost. If anything, it suits the reverse trade for someone who owns the stock." },
+          { "text": "Yes: any positive basis is free money", "why": "The basis has to beat the cost of funding the stock, about ₹12.8 here, plus trading costs." },
+          { "text": "Yes: futures always converge to spot, so it can't lose", "why": "Convergence locks in the basis, but ₹1 is far less than the ₹12.8 it costs to fund the stock for 35 days." }
+        ],
+        "terms": ["rollover", "futures-fair-value", "reverse-cash-and-carry"]
+      }
+    ]
+  }
+}

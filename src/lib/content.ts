@@ -9,7 +9,8 @@ import micro from '../data/terms/micro.json';
 import skills from '../data/terms/skills.json';
 import instruments from '../data/terms/instruments.json';
 import execution from '../data/terms/execution.json';
-import type { Category, Term, Unit } from './types';
+import cases from '../data/cases.json';
+import type { Category, DeskCase, PracticeKind, Term, Unit } from './types';
 
 export const categories: Category[] = ([basics, india, trading, options, instruments, quant, skills, desk, conditions, micro, execution] as Category[]).sort((a, b) => a.order - b.order);
 
@@ -37,9 +38,19 @@ export function categoryOfUnit(unitId: string): Category | undefined {
   return u && categories.find((c) => c.id === u.categoryId);
 }
 
-export function isDrillUnit(unitId: string): boolean {
-  return unitById.get(unitId)?.kind === 'drill';
+/** The kind of a practice unit (drill, game or case), or null for a unit of terms. */
+export function practiceKind(unitId: string): PracticeKind | null {
+  const k = unitById.get(unitId)?.kind;
+  return k && k !== 'terms' ? k : null;
 }
+
+/** Practice units sit on the track like term units but have no terms: drills, games and desk cases. */
+export function isPracticeUnit(unitId: string): boolean {
+  return practiceKind(unitId) !== null;
+}
+
+/** Desk cases, by unit id. */
+export const caseById = new Map<string, DeskCase>(Object.entries(cases as Record<string, DeskCase>));
 
 export function isCore(termId: string): boolean {
   const t = termById.get(termId);

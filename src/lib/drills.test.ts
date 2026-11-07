@@ -229,7 +229,7 @@ describe('quant switch', () => {
   it('puts the quant areas first, core before advanced, and opens them', () => {
     const p = on(newProgress());
     const order = track(p).map((r) => r.unit.id);
-    expect(order.slice(0, 12)).toEqual(['k1', 'k2', 'k3', 'q1', 'q2', 'o1', 'o2', 'f1', 's1', 's2', 'x1', 'x2']);
+    expect(order.slice(0, 13)).toEqual(['k1', 'k2', 'k3', 'q1', 'q2', 'o1', 'o2', 'f1', 's1', 's2', 's6', 'x1', 'x2']);
     expect(order.indexOf('k6')).toBeLessThan(order.indexOf('b1'));
     expect(order).toHaveLength(path.length);
     for (const id of ['k4', 'q3', 'o4', 'o6', 'f2', 's5', 'x3']) expect(unitOpen(p, id), id).toBe(true);
