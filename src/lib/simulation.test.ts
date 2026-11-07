@@ -1,7 +1,8 @@
 import { describe, expect, it } from 'vitest';
 import { coreTermIds, isCore, pathTermIds } from './content';
 import { addDays } from './dates';
-import { buildLesson } from './lesson';
+import { DRILLS, recordDrill } from './drills';
+import { buildLesson, drillUp } from './lesson';
 import { seededRng } from './questions';
 import { MAX_REVIEWS_PER_DAY, dueTermIds, finishLesson, graduate, introduce, isKnown, newProgress, recordPractice, review } from './scheduler';
 import type { Progress } from './types';
@@ -9,6 +10,8 @@ import type { Progress } from './types';
 /** Rough timings for the minutes estimate: reading an intro card, answering a question. */
 const INTRO_SECONDS = 20;
 const QUESTION_SECONDS = 9;
+/** A drill question is typed against the clock. */
+const DRILL_SECONDS = 15;
 
 interface Day {
   day: number;
@@ -41,7 +44,18 @@ function simulate(days: number, accuracy: number, seed: number, skipped: number[
     let reviews = 0;
     let questions = 0;
     let intros = 0;
+    let drillQuestions = 0;
     for (let guard = 0; guard < 60 && !skipped.includes(d + 1); guard++) {
+      // On the one track a drill comes up in turn; this learner passes it first time.
+      const drill = drillUp(p, today);
+      if (drill) {
+        const spec = DRILLS[drill];
+        p = recordDrill(p, drill, spec.passRight, spec.targetSec * 900, today);
+        p = finishLesson(p, today, 10);
+        drillQuestions += spec.count;
+        lessons++;
+        continue;
+      }
       const plan = buildLesson(p, today, rng);
       if (!plan) break;
       for (const q of plan.questions) {
@@ -74,7 +88,7 @@ function simulate(days: number, accuracy: number, seed: number, skipped: number[
       newTerms,
       reviews,
       questions,
-      minutes: Math.round((intros * INTRO_SECONDS + questions * QUESTION_SECONDS) / 60),
+      minutes: Math.round((intros * INTRO_SECONDS + questions * QUESTION_SECONDS + drillQuestions * DRILL_SECONDS) / 60),
       met: states.length,
       coreMet: coreTermIds.filter((id) => p.terms[id]).length,
       known: states.filter(isKnown).length,

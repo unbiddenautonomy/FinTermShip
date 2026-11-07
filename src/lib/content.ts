@@ -6,9 +6,10 @@ import trading from '../data/terms/trading.json';
 import desk from '../data/terms/desk.json';
 import conditions from '../data/terms/conditions.json';
 import micro from '../data/terms/micro.json';
+import skills from '../data/terms/skills.json';
 import type { Category, Term, Unit } from './types';
 
-export const categories: Category[] = ([basics, india, trading, options, quant, desk, conditions, micro] as Category[]).sort((a, b) => a.order - b.order);
+export const categories: Category[] = ([basics, india, trading, options, quant, skills, desk, conditions, micro] as Category[]).sort((a, b) => a.order - b.order);
 
 export const termById = new Map<string, Term>();
 export const unitById = new Map<string, Unit & { categoryId: string }>();
@@ -20,6 +21,22 @@ for (const cat of categories) {
     termById.set(t.id, t);
     categoryOfTerm.set(t.id, cat);
   }
+}
+
+/** Areas the quant switch opens and moves to the front of the path, in this order. */
+export const QUANT_AREAS = ['skills', 'quant', 'options', 'micro'];
+
+export function isQuantArea(categoryId: string): boolean {
+  return QUANT_AREAS.includes(categoryId);
+}
+
+export function categoryOfUnit(unitId: string): Category | undefined {
+  const u = unitById.get(unitId);
+  return u && categories.find((c) => c.id === u.categoryId);
+}
+
+export function isDrillUnit(unitId: string): boolean {
+  return unitById.get(unitId)?.kind === 'drill';
 }
 
 export function isCore(termId: string): boolean {

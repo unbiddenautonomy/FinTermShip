@@ -41,6 +41,8 @@ export interface Unit {
   id: string;
   name: string;
   core: boolean;
+  /** 'drill' units are timed rounds of generated questions, with no terms. */
+  kind?: 'terms' | 'drill';
 }
 
 export interface Category {
@@ -68,6 +70,8 @@ export interface TermState {
 export interface Settings {
   newPerDay: number;
   voice: boolean;
+  /** Quant areas open and first on the path. Turned on with the password. */
+  quantFirst?: boolean;
 }
 
 export interface DayStats {
@@ -92,6 +96,22 @@ export interface Progress {
   unlocked?: string[];
   /** Latest area test attempt, by area id. */
   tests?: Record<string, TestAttempt>;
+  /** Timed drill results, by unit id. */
+  drills?: Record<string, DrillRecord>;
+}
+
+export interface DrillRecord {
+  rounds: number;
+  /** Met the unit's target at least once. */
+  passed: boolean;
+  /** Most right answers in one round. */
+  bestRight: number;
+  /** Fastest round that had enough right answers to pass, in milliseconds. */
+  bestMs?: number;
+  /** Day of the latest round. */
+  last: string;
+  /** Day the learner chose to skip this drill until tomorrow. */
+  snoozed?: string;
 }
 
 export interface TestAttempt {
