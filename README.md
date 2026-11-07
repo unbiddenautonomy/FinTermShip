@@ -6,7 +6,9 @@ What it has now:
 
 - 460 terms in 10 categories, each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks.
 - 6 timed drills (mental maths, percentages and basis points, probability, expected value, Bayes, counting), with typed answers and questions generated fresh every round.
-- One track: the core units of every area first, then the rest. Term lessons and drills sit on the same path; a drill holds up the path until it is passed (or skipped for the day).
+- A market-making game: quote a bid and ask on the total of three dice while traders, some of whom know the next die, deal with you.
+- 3 desk cases (a short straddle into the Budget, working a big buy order, cash-futures arbitrage), each a short story of linked decisions with the reasoning behind every option.
+- One track: the core units of every area first, then the rest. Term lessons, drills, the game and the cases sit on the same path; a drill, game or case holds up the path until it is passed (or skipped for the day).
 - Learners can pick any open unit to learn next, practise met terms, or take an area test to open its advanced units early.
 - A quant switch in Settings, behind a password, opens the quant areas (maths drills, quant and risk, options, futures, microstructure, execution) and puts them first.
 - New terms slow down before reviews pile up: a day's new terms stop once tomorrow's reviews would pass the daily cap of 80.
@@ -31,6 +33,12 @@ Terms live in `src/data/terms/*.json`, one file per category. `npm run check:ter
 ## Adding or editing drills
 
 Drill units live in `src/data/terms/skills.json` (units with `"kind": "drill"` and no terms). Each drill's question makers, round size, pass mark and time limit are in `src/lib/drills.ts`. `src/lib/drills.test.ts` checks hundreds of generated rounds: every answer is recomputed independently (sums, percentages, dice, coins, cards, Bayes) and the shown answer must be accepted when typed.
+
+## Adding or editing desk cases
+
+Cases live in `src/data/cases.json`, keyed by the id of a unit with `"kind": "case"`. Each has a setup, a few facts, and steps; every step has 3 or 4 options, exactly one marked `best`, and a `why` for each option. `npm run check:terms` checks all of this, and that every term a step names exists. A learner passes with all but one best call.
+
+The market game's rules and pass marks are in `src/lib/market.ts`; `src/lib/market.test.ts` plays thousands of games to check that sound quoting passes and lazy quoting doesn't.
 
 ## The password
 

@@ -2,6 +2,7 @@ import { describe, expect, it } from 'vitest';
 import { coreTermIds, isCore, pathTermIds } from './content';
 import { addDays } from './dates';
 import { DRILLS, recordDrill } from './drills';
+import { recordRound } from './practice';
 import { buildLesson, drillUp } from './lesson';
 import { seededRng } from './questions';
 import { MAX_REVIEWS_PER_DAY, dueTermIds, finishLesson, graduate, introduce, isKnown, newProgress, recordPractice, review } from './scheduler';
@@ -46,13 +47,19 @@ function simulate(days: number, accuracy: number, seed: number, skipped: number[
     let intros = 0;
     let drillQuestions = 0;
     for (let guard = 0; guard < 60 && !skipped.includes(d + 1); guard++) {
-      // On the one track a drill comes up in turn; this learner passes it first time.
+      // On the one track a drill, game or case comes up in turn; this learner passes it first time.
       const drill = drillUp(p, today);
       if (drill) {
         const spec = DRILLS[drill];
-        p = recordDrill(p, drill, spec.passRight, spec.targetSec * 900, today);
+        if (spec) {
+          p = recordDrill(p, drill, spec.passRight, spec.targetSec * 900, today);
+          drillQuestions += spec.count;
+        } else {
+          // A game or desk case: about as long as a drill, passed first time.
+          p = recordRound(p, drill, 3, true, today);
+          drillQuestions += 10;
+        }
         p = finishLesson(p, today, 10);
-        drillQuestions += spec.count;
         lessons++;
         continue;
       }

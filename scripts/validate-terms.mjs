@@ -4,6 +4,7 @@ import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const dir = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', 'terms');
+const cases = JSON.parse(readFileSync(join(dir, '..', 'cases.json'), 'utf8'));
 const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
 const errors = [];
 const allIds = new Map();
@@ -50,9 +51,11 @@ for (const file of files) {
 for (const cat of categories) {
   for (const u of cat.units) {
     const count = cat.terms.filter((t) => t.unit === u.id).length;
-    if (u.kind && !['terms', 'drill'].includes(u.kind)) errors.push(`${cat.id} > unit ${u.id}: unknown kind "${u.kind}"`);
-    if (u.kind === 'drill' && count > 0) errors.push(`${cat.id} > unit ${u.id}: a drill unit has no terms`);
-    if (u.kind !== 'drill' && count === 0) errors.push(`${cat.id} > unit ${u.id}: no terms`);
+    const practice = ['drill', 'game', 'case'].includes(u.kind);
+    if (u.kind && u.kind !== 'terms' && !practice) errors.push(`${cat.id} > unit ${u.id}: unknown kind "${u.kind}"`);
+    if (practice && count > 0) errors.push(`${cat.id} > unit ${u.id}: a ${u.kind} unit has no terms`);
+    if (!practice && count === 0) errors.push(`${cat.id} > unit ${u.id}: no terms`);
+    if (u.kind === 'case' && !cases[u.id]) errors.push(`${cat.id} > unit ${u.id}: no desk case in cases.json`);
   }
   for (const t of cat.terms) {
     for (const c of t.confusables || []) {
@@ -65,8 +68,31 @@ for (const cat of categories) {
   const calcs = cat.terms.reduce((n, t) => n + (t.calcs?.length ?? 0), 0);
   const tfs = cat.terms.reduce((n, t) => n + (t.tf?.length ?? 0), 0);
   const drills = cat.units.filter((u) => u.kind === 'drill').length;
-  console.log(`${cat.name}: ${cat.terms.length} terms, ${coreCount} core, ${calcs} worked sums, ${tfs} true/false${drills ? `, ${drills} drills` : ''}`);
+  const others = cat.units.filter((u) => u.kind === 'game' || u.kind === 'case').length;
+  console.log(`${cat.name}: ${cat.terms.length} terms, ${coreCount} core, ${calcs} worked sums, ${tfs} true/false${drills ? `, ${drills} drills` : ''}${others ? `, ${others} games or cases` : ''}`);
 }
+// Desk cases: every step has one best option, a reason for each option, and known terms.
+const caseUnits = new Set(categories.flatMap((c) => c.units.filter((u) => u.kind === 'case').map((u) => u.id)));
+for (const [id, c] of Object.entries(cases)) {
+  const where = `cases.json > ${id}`;
+  if (!caseUnits.has(id)) errors.push(`${where}: no unit with kind "case" has this id`);
+  if (!c.setup || typeof c.setup !== 'string') errors.push(`${where}: missing setup`);
+  if (!Array.isArray(c.facts) || c.facts.length < 1) errors.push(`${where}: needs at least 1 fact`);
+  if (!Array.isArray(c.steps) || c.steps.length < 4) errors.push(`${where}: needs at least 4 steps`);
+  for (const [i, st] of (c.steps || []).entries()) {
+    const at = `${where} step ${i + 1}`;
+    if (!st.ask) errors.push(`${at}: missing ask`);
+    if (!Array.isArray(st.options) || st.options.length < 3 || st.options.length > 4) errors.push(`${at}: needs 3 or 4 options`);
+    else {
+      if (st.options.filter((o) => o.best).length !== 1) errors.push(`${at}: exactly one option must be best`);
+      for (const o of st.options) if (!o.text || !o.why) errors.push(`${at}: every option needs text and why`);
+      if (new Set(st.options.map((o) => o.text)).size !== st.options.length) errors.push(`${at}: options must be different`);
+    }
+    for (const t of st.terms || []) if (!allIds.has(t)) errors.push(`${at}: term "${t}" is not a known term id`);
+  }
+}
+console.log(`Desk cases: ${Object.keys(cases).length}, ${Object.values(cases).reduce((n, c) => n + c.steps.length, 0)} decisions`);
+
 if (errors.length) {
   console.error(`\n${errors.length} problem(s):\n- ` + errors.join('\n- '));
   process.exit(1);

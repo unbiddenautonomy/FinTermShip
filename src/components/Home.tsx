@@ -1,13 +1,14 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { areaCoreTermIds, canTakeTest, focusActive, focusQueue, unitOpen } from '../lib/choose';
-import { categories, isQuantArea, pathTermIds, unitById } from '../lib/content';
-import { clock, DRILLS } from '../lib/drills';
+import { categories, isQuantArea, pathTermIds, practiceKind, unitById } from '../lib/content';
+import { DRILLS } from '../lib/drills';
 import { addDays, daysBetween } from '../lib/dates';
 import { todayStatus } from '../lib/lesson';
+import { KIND_LABEL, passRule, practiceAbout, recordLine, roundSize } from '../lib/practice';
 import { currentStreak, dayStats, isKnown } from '../lib/scheduler';
 import { currentUnit, isDrill, track, unitDone, type PathRow } from '../lib/track';
 import type { Progress } from '../lib/types';
-import { Bolt, Calculator, Check, Cross, Flame, Lock, Logo } from './icons';
+import { Bolt, Briefcase, Calculator, Check, Cross, Dice, Flame, Lock, Logo } from './icons';
 import { Bar, Button, Card, Pill, Ring, SectionTitle, StepDots } from './ui';
 
 interface Props {
@@ -99,7 +100,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
             {subline && <p className="mt-1 text-sm leading-snug text-ink-2">{subline}</p>}
             {status.drill ? (
               <p className="mt-1.5 text-sm font-semibold leading-snug text-violet-ink">
-                Up next{picked?.id === status.drill ? ', your pick' : ''}: {unitById.get(status.drill)?.name}, {DRILLS[status.drill]?.count} questions against the clock.
+                Up next{picked?.id === status.drill ? ', your pick' : ''}: {unitById.get(status.drill)?.name}, {upNext(status.drill)}.
               </p>
             ) : (
               picked &&
@@ -125,8 +126,8 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
 
       <LearningPath progress={progress} today={today} onOpen={setSheet} />
 
-      {sheet && unitById.get(sheet)?.kind === 'drill' && (
-        <DrillSheet
+      {sheet && practiceKind(sheet) && (
+        <PracticeSheet
           unitId={sheet}
           progress={progress}
           today={today}
@@ -137,7 +138,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
           }}
         />
       )}
-      {sheet && unitById.get(sheet)?.kind !== 'drill' && (
+      {sheet && !practiceKind(sheet) && (
         <UnitSheet
           unitId={sheet}
           progress={progress}
@@ -164,7 +165,8 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
       )}
 
       <p className="px-1 text-xs leading-relaxed text-ink-3">
-        {categories.filter((c) => c.terms.length > 0).length} of {TOTAL_CATEGORIES} term categories are ready, plus {Object.keys(DRILLS).length} timed drills. A term counts as known once it reaches step 4 of 6 on the review ladder.
+        {`${categories.filter((c) => c.terms.length > 0).length} of ${TOTAL_CATEGORIES} term categories are ready, plus ${Object.keys(DRILLS).length} timed drills, ${plural(countKind('game'), 'trading game')} and ${plural(countKind('case'), 'desk case')}.`}{' '}
+        A term counts as known once it reaches step 4 of 6 on the review ladder.
       </p>
     </div>
   );
@@ -243,7 +245,7 @@ function LearningPath({ progress, today, onOpen }: { progress: Progress; today: 
         {
           key: 'quant',
           title: 'Quant first',
-          note: 'Opened by the quant switch: maths and probability, quant and risk, options, and microstructure, core units first.',
+          note: 'Opened by the quant switch: maths and probability, quant and risk, options, futures, microstructure and execution, core units first.',
           rows: rows.filter((r) => isQuantArea(r.category.id)),
         },
         {
@@ -254,7 +256,7 @@ function LearningPath({ progress, today, onOpen }: { progress: Progress; today: 
         },
       ]
     : [
-        { key: 'p1', title: 'Pass 1 · Core sweep', note: 'The most common terms, and the first timed drills, from every area.', rows: rows.filter((r) => r.pass === 1) },
+        { key: 'p1', title: 'Pass 1 · Core sweep', note: 'The most common terms, the first timed drills and the market-making game, from every area.', rows: rows.filter((r) => r.pass === 1) },
         {
           key: 'p2',
           title: 'Pass 2 · Go deeper',
@@ -295,13 +297,21 @@ function LearningPath({ progress, today, onOpen }: { progress: Progress; today: 
   );
 }
 
-function drillLine(progress: Progress, unitId: string): string {
-  const rec = progress.drills?.[unitId];
-  const spec = DRILLS[unitId];
-  if (rec?.passed) return rec.bestMs ? `Passed · best ${clock(rec.bestMs)}` : 'Passed';
-  if (rec) return `Best ${rec.bestRight}/${spec?.count}`;
-  return `${spec?.count ?? ''}-question drill`;
+const plural = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`;
+
+function countKind(kind: 'game' | 'case'): number {
+  return categories.reduce((n, c) => n + c.units.filter((u) => u.kind === kind).length, 0);
 }
+
+/** The Today card's line for a practice unit that's up next. */
+function upNext(unitId: string): string {
+  const kind = practiceKind(unitId);
+  if (kind === 'drill') return `${roundSize(unitId)} against the clock`;
+  if (kind === 'game') return `a trading game of ${roundSize(unitId)}`;
+  return `a desk case of ${roundSize(unitId)}`;
+}
+
+const KIND_ICON = { drill: Calculator, game: Dice, case: Briefcase };
 
 function PathStop({
   r,
@@ -318,8 +328,10 @@ function PathStop({
   last: boolean;
   onOpen: (unitId: string) => void;
 }) {
-  const label = r.drill
-    ? `${r.unit.name}, timed drill, ${r.category.name}: ${drillLine(progress, r.unit.id)}${r.open ? '' : ', locked'}`
+  const kind = practiceKind(r.unit.id);
+  const KindIcon = kind ? KIND_ICON[kind] : Calculator;
+  const label = kind
+    ? `${r.unit.name}, ${KIND_LABEL[kind]}, ${r.category.name}: ${recordLine(progress, r.unit.id)}${r.open ? '' : ', locked'}`
     : `${r.unit.name}, ${r.category.name}: ${r.met} of ${r.total} met${r.open ? '' : ', locked'}`;
   return (
     <li className="relative flex gap-4 pb-3">
@@ -337,7 +349,7 @@ function PathStop({
           <span
             className={`flex h-12 w-12 items-center justify-center rounded-full border-2 ${current ? 'border-brand bg-brand-soft text-brand-ink' : 'border-violet/50 bg-violet-soft text-violet-ink'}`}
           >
-            <Calculator className="h-5 w-5" />
+            <KindIcon className="h-5 w-5" />
           </span>
         ) : (
           <Ring value={r.met} max={r.total} size={48} stroke={5} tone={current ? 'brand' : 'sky'}>
@@ -358,7 +370,7 @@ function PathStop({
         <span className="mt-0.5 flex items-center justify-between gap-2 text-xs text-ink-3">
           <span className="truncate">{r.category.name}</span>
           <span className="num shrink-0 font-semibold">
-            {r.drill ? drillLine(progress, r.unit.id) : `${r.met}/${r.total} met${r.known ? ` · ${r.known} known` : ''}`}
+            {r.drill ? recordLine(progress, r.unit.id) : `${r.met}/${r.total} met${r.known ? ` · ${r.known} known` : ''}`}
           </span>
         </span>
       </button>
@@ -366,7 +378,7 @@ function PathStop({
   );
 }
 
-/** Bottom sheet shared by term units and drills. */
+/** Bottom sheet shared by term units and practice units. */
 function Sheet({ kicker, title, sub, onClose, children, actions }: { kicker: string; title: string; sub: string; onClose: () => void; children: ReactNode; actions: ReactNode }) {
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
@@ -413,24 +425,31 @@ function LockedBox({ children }: { children: ReactNode }) {
   );
 }
 
-function DrillSheet({ unitId, progress, today, onClose, onStart }: { unitId: string; progress: Progress; today: string; onClose: () => void; onStart: () => void }) {
+function PracticeSheet({ unitId, progress, today, onClose, onStart }: { unitId: string; progress: Progress; today: string; onClose: () => void; onStart: () => void }) {
   const rows = pathRows(progress);
   const r = rows.find((x) => x.unit.id === unitId);
-  const spec = DRILLS[unitId];
-  if (!r || !spec) return null;
+  const kind = practiceKind(unitId);
+  if (!r || !kind) return null;
   const rec = progress.drills?.[unitId];
   const isCurrent = currentIndex(progress, rows, today) === r.i;
+  const noun = kind === 'drill' ? 'drill' : kind === 'game' ? 'game' : 'case';
+  const how = {
+    drill: 'Type each answer. The clock stops while you read the working for a miss.',
+    game: 'Each turn you set a bid and an ask, and see who trades with you. The review at the end shows where the money went.',
+    case: "Pick the best call at each step. Every option says why it is or isn't the best one.",
+  }[kind];
+  const rule = passRule(unitId);
   return (
     <Sheet
-      kicker={`${r.category.name} · ${r.unit.core ? 'Core' : 'Advanced'} drill`}
+      kicker={`${r.category.name} · ${r.unit.core ? 'Core' : 'Advanced'} ${KIND_LABEL[kind]}`}
       title={r.unit.name}
-      sub={`${spec.count} questions · pass with ${spec.passRight} right in under ${clock(spec.targetSec * 1000)}`}
+      sub={`${roundSize(unitId)} · ${rule.charAt(0).toUpperCase()}${rule.slice(1)}`}
       onClose={onClose}
       actions={
         r.open && (
           <>
             <Button className="w-full" onClick={onStart}>
-              {rec?.passed ? 'Practise this drill' : 'Start drill'}
+              {rec?.passed ? `Practise this ${noun}` : `Start ${noun}`}
             </Button>
             {isCurrent && !rec?.passed && <p className="px-1 text-center text-sm text-ink-2">This is next on your path.</p>}
             {rec?.snoozed === today && !rec.passed && <p className="px-1 text-center text-sm text-ink-2">Skipped for today. It's back on your path tomorrow.</p>}
@@ -440,20 +459,23 @@ function DrillSheet({ unitId, progress, today, onClose, onStart }: { unitId: str
     >
       {!r.open && (
         <LockedBox>
-          <p className="mt-1">Advanced drills open once you pass the core {r.category.name.toLowerCase()} drills, or with the quant switch in Settings.</p>
+          <p className="mt-1">
+            {r.unit.core
+              ? 'This opens with its area.'
+              : `Opens once you've done the core ${r.category.name.toLowerCase()} units, or passed the area test${isQuantArea(r.category.id) ? ', or with the quant switch in Settings' : ''}.`}
+          </p>
         </LockedBox>
       )}
       <div className="rounded-2xl border border-line px-4 py-3">
-        <p className="leading-relaxed text-ink-2">{spec.about}</p>
-        <p className="mt-2 text-sm text-ink-3">Type each answer. The clock stops while you read the working for a miss.</p>
+        <p className="leading-relaxed text-ink-2">{practiceAbout(unitId)}</p>
+        <p className="mt-2 text-sm text-ink-3">{how}</p>
       </div>
       <div className="rounded-2xl border border-line px-4 py-3 text-sm text-ink-2">
         {rec ? (
           <>
             <p className="font-bold text-ink">{rec.passed ? 'Passed' : 'Not passed yet'}</p>
             <p className="num mt-0.5">
-              {rec.rounds} round{rec.rounds === 1 ? '' : 's'} · best {rec.bestRight}/{spec.count} right
-              {rec.bestMs ? ` · fastest passing score in ${clock(rec.bestMs)}` : ''}
+              {rec.rounds} go{rec.rounds === 1 ? '' : 'es'} · {recordLine(progress, unitId)}
             </p>
           </>
         ) : (

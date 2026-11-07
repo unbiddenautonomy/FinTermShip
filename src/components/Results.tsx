@@ -12,7 +12,7 @@ interface Props {
   nextLabel?: string;
   onHome: () => void;
   onNext: () => void;
-  /** Offered after a failed drill that holds up the path. */
+  /** Offered after a failed drill, game or case that holds up the path. */
   onSnooze?: () => void;
 }
 
@@ -20,9 +20,18 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
   const pct = summary.firstTryTotal ? Math.round((summary.firstTryCorrect / summary.firstTryTotal) * 100) : 100;
   const test = summary.test;
   const drill = summary.drill;
+  const round = summary.round;
   const spec = drill ? DRILLS[drill.unitId] : undefined;
   const area = test ? categories.find((c) => c.id === test.categoryId)?.name ?? 'this area' : '';
-  const title = drill
+  const title = round
+    ? round.passed
+      ? round.firstPass
+        ? round.kind === 'game'
+          ? 'Game passed'
+          : 'Case passed'
+        : 'Passed again'
+      : 'Not yet'
+    : drill
     ? drill.passed
       ? drill.firstPass
         ? 'Drill passed'
@@ -37,8 +46,9 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
         : pct >= 80
           ? 'Lesson complete'
           : 'Good practice';
-  const subline =
-    drill && spec
+  const subline = round
+    ? `${round.detail}${round.passed && round.firstPass ? ' The path moves on.' : ''}`
+    : drill && spec
       ? drill.passed
         ? `${drill.right} of ${drill.total} right in ${clock(drill.ms)}. ${drill.firstPass ? 'The path moves on.' : `Best time: ${clock(drill.bestMs ?? drill.ms)}.`}`
         : `${drill.right} of ${drill.total} right in ${clock(drill.ms)}. To pass: ${spec.passRight} right in under ${clock(spec.targetSec * 1000)}.`
@@ -51,29 +61,32 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
           : summary.kind === 'practice'
             ? 'Practice only, so your review schedule is unchanged.'
             : `${summary.newIds.length} new term${summary.newIds.length === 1 ? '' : 's'} learned.`;
-  const good = drill ? drill.passed : pct >= 80;
+  const good = round ? round.passed : drill ? drill.passed : pct >= 80;
+  const practiceId = drill?.unitId ?? round?.unitId;
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-xl animate-pop flex-col px-4 pb-8 pt-12">
       <div className="flex flex-col items-center text-center">
-        <Ring value={pct} max={100} size={148} stroke={12} tone={good ? 'brand' : 'amber'} label={test || drill ? `${pct}% right` : `${pct}% right first time`}>
+        <Ring value={pct} max={100} size={148} stroke={12} tone={good ? 'brand' : 'amber'} label={round ? `${summary.firstTryCorrect} of ${summary.firstTryTotal}` : test || drill ? `${pct}% right` : `${pct}% right first time`}>
           <div className="leading-none">
-            <p className="num text-4xl font-extrabold text-ink">{pct}%</p>
-            <p className="mt-1.5 text-xs font-bold text-ink-3">{test ? 'score' : drill ? 'right' : 'first try'}</p>
+            <p className="num text-4xl font-extrabold text-ink">{round ? `${summary.firstTryCorrect}/${summary.firstTryTotal}` : `${pct}%`}</p>
+            <p className="mt-1.5 text-xs font-bold text-ink-3">{round ? (round.kind === 'game' ? 'checks met' : 'best calls') : test ? 'score' : drill ? 'right' : 'first try'}</p>
           </div>
         </Ring>
         <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-ink">{title}</h1>
-        {drill && <p className="mt-1 text-sm font-bold text-ink-3">{unitById.get(drill.unitId)?.name}</p>}
+        {practiceId && <p className="mt-1 text-sm font-bold text-ink-3">{unitById.get(practiceId)?.name}</p>}
         <p className="mt-1 text-ink-2">{subline}</p>
       </div>
 
       <div className="mt-8 grid grid-cols-3 gap-3">
         <Stat icon={<Bolt className="h-4 w-4" />} tone="text-sky-ink bg-sky-soft" label="XP" value={`+${summary.xp}`} />
-        {drill ? (
+        {round ? (
+          <Stat icon={<Flame className="h-4 w-4" />} tone="text-amber-ink bg-amber-soft" label={round.stat.label} value={round.stat.value} />
+        ) : drill ? (
           <Stat icon={<Flame className="h-4 w-4" />} tone="text-amber-ink bg-amber-soft" label="Time" value={clock(drill.ms)} />
         ) : (
           <Stat icon={<Flame className="h-4 w-4" />} tone="text-amber-ink bg-amber-soft" label="Best run" value={String(summary.bestRun)} />
         )}
-        <Stat icon={<Target className="h-4 w-4" />} tone="text-brand-ink bg-brand-soft" label="Right" value={`${summary.firstTryCorrect}/${summary.firstTryTotal}`} />
+        <Stat icon={<Target className="h-4 w-4" />} tone="text-brand-ink bg-brand-soft" label={round ? (round.kind === 'game' ? 'Checks' : 'Calls') : 'Right'} value={`${summary.firstTryCorrect}/${summary.firstTryTotal}`} />
       </div>
 
       {summary.newIds.length > 0 && (
@@ -112,6 +125,20 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
         </Card>
       )}
 
+      {round?.notes.map((n) => (
+        <Card key={n.title} className="mt-4">
+          <p className="mb-2 text-sm font-extrabold text-ink">{n.title}</p>
+          <ul className="divide-y divide-line">
+            {n.items.map((m, i) => (
+              <li key={i} className="py-2 text-sm">
+                <span className="text-ink-2">{m.prompt}</span>
+                <span className="num mt-0.5 block font-bold text-ink">{m.shown}</span>
+              </li>
+            ))}
+          </ul>
+        </Card>
+      ))}
+
       <div className="mt-auto space-y-3 pt-8">
         {canContinue && (
           <Button onClick={onNext} className="w-full text-base">
@@ -123,7 +150,7 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
         </Button>
         {onSnooze && (
           <button type="button" onClick={onSnooze} className="w-full py-2 text-sm font-extrabold text-ink-3 hover:text-ink-2">
-            Skip this drill until tomorrow
+            Skip this {round ? (round.kind === 'game' ? 'game' : 'case') : 'drill'} until tomorrow
           </button>
         )}
       </div>

@@ -16,11 +16,24 @@ export interface LessonSummary {
   bestRun: number;
   newIds: string[];
   missedIds: string[];
-  kind: LessonPlan['kind'] | 'drill';
+  kind: LessonPlan['kind'] | 'drill' | 'game' | 'case';
   /** Set after an area test. */
   test?: { categoryId: string; right: number; total: number; passed: boolean; credited: number };
   /** Set after a timed drill. */
   drill?: { unitId: string; right: number; total: number; ms: number; passed: boolean; firstPass: boolean; bestMs?: number; missed: { prompt: string; shown: string }[] };
+  /** Set after a trading game or desk case. */
+  round?: {
+    unitId: string;
+    kind: 'game' | 'case';
+    passed: boolean;
+    firstPass: boolean;
+    /** One line under the title. */
+    detail: string;
+    /** The middle stat: P&L for a game, best calls for a case. */
+    stat: { label: string; value: string };
+    /** Short notes, such as checks missed or decisions to revisit. */
+    notes: { title: string; items: { prompt: string; shown: string }[] }[];
+  };
 }
 
 interface Props {

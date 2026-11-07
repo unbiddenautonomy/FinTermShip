@@ -12,6 +12,12 @@
       "id": "f2",
       "name": "Carry and basis trades",
       "core": false
+    },
+    {
+      "id": "f3",
+      "name": "Case: cash-futures arbitrage",
+      "core": false,
+      "kind": "case"
     }
   ],
   "terms": [
