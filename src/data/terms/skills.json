@@ -1,7 +1,7 @@
 {
   "id": "skills",
   "name": "Maths and probability",
-  "order": 6,
+  "order": 7,
   "units": [
     { "id": "k1", "name": "Mental maths", "core": true, "kind": "drill" },
     { "id": "k2", "name": "Percentages and basis points", "core": true, "kind": "drill" },

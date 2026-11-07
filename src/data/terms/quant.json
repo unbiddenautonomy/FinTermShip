@@ -1,7 +1,7 @@
 {
   "id": "quant",
   "name": "Quant and risk",
-  "order": 5,
+  "order": 6,
   "units": [
     {
       "id": "q1",

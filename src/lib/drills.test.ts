@@ -158,7 +158,7 @@ describe('typed answers', () => {
 });
 
 describe('drills on the one track', () => {
-  const coreBeforeDrills = path.filter((r) => r.pass === 1 && r.category.order < 6).flatMap((r) => r.terms.map((t) => t.id));
+  const coreBeforeDrills = path.slice(0, path.findIndex((r) => r.unit.id === 'k1')).flatMap((r) => r.terms.map((t) => t.id));
 
   it('stops at the first drill until it is passed', () => {
     let p = meet(newProgress(), coreBeforeDrills);
@@ -229,10 +229,10 @@ describe('quant switch', () => {
   it('puts the quant areas first, core before advanced, and opens them', () => {
     const p = on(newProgress());
     const order = track(p).map((r) => r.unit.id);
-    expect(order.slice(0, 9)).toEqual(['k1', 'k2', 'k3', 'q1', 'q2', 'o1', 'o2', 's1', 's2']);
+    expect(order.slice(0, 12)).toEqual(['k1', 'k2', 'k3', 'q1', 'q2', 'o1', 'o2', 'f1', 's1', 's2', 'x1', 'x2']);
     expect(order.indexOf('k6')).toBeLessThan(order.indexOf('b1'));
     expect(order).toHaveLength(path.length);
-    for (const id of ['k4', 'q3', 'o4', 's5']) expect(unitOpen(p, id), id).toBe(true);
+    for (const id of ['k4', 'q3', 'o4', 'o6', 'f2', 's5', 'x3']) expect(unitOpen(p, id), id).toBe(true);
     expect(unitOpen(p, 'b3')).toBe(false);
     expect(drillUp(p, today)).toBe('k1');
   });

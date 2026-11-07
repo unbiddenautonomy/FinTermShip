@@ -1,7 +1,7 @@
 {
   "id": "micro",
   "name": "Market microstructure",
-  "order": 9,
+  "order": 10,
   "units": [
     {
       "id": "s1",
