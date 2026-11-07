@@ -54,7 +54,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
         status.drill ? null : status.newLeft ? `${status.newLeft} new term${status.newLeft === 1 ? '' : 's'} left` : null,
       ]
         .filter(Boolean)
-        .join(' · ') + (status.slowed ? '. New terms slow down until reviews catch up.' : '');
+        .join(' · ') + (status.slowed ? '. New terms slow down while reviews are heavy.' : '');
 
   return (
     <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5">

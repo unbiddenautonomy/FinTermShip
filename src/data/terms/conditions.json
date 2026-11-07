@@ -1,7 +1,7 @@
 {
   "id": "conditions",
   "name": "Market conditions and regimes",
-  "order": 8,
+  "order": 9,
   "units": [
     {
       "id": "c1",

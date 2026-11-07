@@ -136,14 +136,35 @@ export function reviewOverflow(p: Progress, today: string): number {
   return Math.max(0, dueTermIds(p, today).length - reviewsLeftToday(p, today));
 }
 
+/** Share of today's reviews assumed to be missed or slow, and so back tomorrow. */
+export const BACK_TOMORROW_SHARE = 0.2;
+
 /**
- * New terms still allowed today. When more reviews are due than the daily cap can
- * clear, new terms slow down by one for each review left over, so a backlog
- * cannot snowball.
+ * Reviews tomorrow already looks set to hold: terms booked for it, today's
+ * reviews the cap won't reach, and a share of today's reviews coming back.
+ */
+export function tomorrowLoad(p: Progress, today: string): number {
+  const tomorrow = addDays(today, 1);
+  let booked = 0;
+  let waiting = 0;
+  for (const s of Object.values(p.terms)) {
+    if (s.due <= today) waiting++;
+    else if (s.due <= tomorrow) booked++;
+  }
+  const reachable = Math.min(waiting, reviewsLeftToday(p, today));
+  return booked + (waiting - reachable) + Math.ceil(reachable * BACK_TOMORROW_SHARE);
+}
+
+/**
+ * New terms still allowed today. Each new term comes back for review tomorrow,
+ * so new terms stop once tomorrow's reviews would pass the daily cap. When more
+ * reviews are due today than the cap can clear, new terms also slow down by one
+ * for each review left over, so a backlog cannot snowball.
  */
 export function newLeftToday(p: Progress, today: string): number {
   const base = Math.max(0, p.settings.newPerDay - dayStats(p, today).newTerms);
-  return Math.max(0, base - reviewOverflow(p, today));
+  const room = MAX_REVIEWS_PER_DAY - tomorrowLoad(p, today);
+  return Math.max(0, Math.min(base - reviewOverflow(p, today), room));
 }
 
 /** Close a lesson: XP, lesson count and the streak. */
