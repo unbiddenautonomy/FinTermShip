@@ -17,6 +17,12 @@
       "id": "x3",
       "name": "Measuring execution cost",
       "core": false
+    },
+    {
+      "id": "x4",
+      "name": "Case: working a big buy order",
+      "core": false,
+      "kind": "case"
     }
   ],
   "terms": [

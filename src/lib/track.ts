@@ -1,5 +1,5 @@
 import { focusActive, unitOpen } from './choose';
-import { isQuantArea, path, QUANT_AREAS } from './content';
+import { isPracticeUnit, isQuantArea, path, QUANT_AREAS } from './content';
 import { drillBlocks, drillPassed } from './drills';
 import type { Progress } from './types';
 
@@ -18,8 +18,9 @@ export function track(p: Progress): PathRow[] {
   return p.settings.quantFirst ? quantFirstPath : path;
 }
 
+/** A practice unit on the track: a drill, game or desk case. */
 export function isDrill(r: PathRow): boolean {
-  return r.unit.kind === 'drill';
+  return isPracticeUnit(r.unit.id);
 }
 
 export function unitDone(p: Progress, r: PathRow): boolean {

@@ -32,6 +32,12 @@
       "id": "o6",
       "name": "Pricing and parity trades",
       "core": false
+    },
+    {
+      "id": "o7",
+      "name": "Case: a short straddle into the Budget",
+      "core": false,
+      "kind": "case"
     }
   ],
   "terms": [
