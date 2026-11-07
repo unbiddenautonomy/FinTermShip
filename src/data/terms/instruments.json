@@ -1,0 +1,525 @@
+{
+  "id": "instruments",
+  "name": "Futures, bonds and other instruments",
+  "order": 5,
+  "units": [
+    {
+      "id": "f1",
+      "name": "Futures pricing",
+      "core": true
+    },
+    {
+      "id": "f2",
+      "name": "Carry and basis trades",
+      "core": false
+    }
+  ],
+  "terms": [
+    {
+      "id": "cost-of-carry",
+      "term": "cost of carry",
+      "unit": "f1",
+      "short": "Interest minus income for holding till expiry",
+      "definition": "What it costs to hold the underlying until the futures expire: interest on the money tied up, minus any dividends the holder receives. It's why index futures usually trade above spot.",
+      "examples": [
+        "With rates at 6% and almost no dividends due, a month's cost of carry on the Nifty is about half a percent."
+      ],
+      "fill": "Buying the stock today ties up money that could earn interest, less any dividends you'd collect. That net cost of holding it until expiry is the ____.",
+      "confusables": [
+        "basis",
+        "futures-fair-value",
+        "rollover-cost"
+      ],
+      "wrong": [
+        "Brokerage paid each time you roll a position",
+        "Margin blocked for holding a futures position",
+        "Tax on futures gains held past expiry"
+      ],
+      "formula": "F = S × (1 + r × t) − dividends",
+      "calcs": [
+        {
+          "q": "The Nifty is at 20,000, interest rates are 6% a year and no dividends are due. How many points of carry are in the 3-month future?",
+          "options": [
+            "300",
+            "1,200",
+            "100",
+            "30"
+          ],
+          "answer": 0,
+          "why": "20,000 × 6% × 3/12 = 300 points."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A big dividend due before expiry pushes the futures price up.",
+          "a": false,
+          "why": "The futures buyer doesn't get the dividend, so expected dividends are subtracted and the future trades lower."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "futures-fair-value",
+      "term": "futures fair value",
+      "aliases": [
+        "theoretical futures price"
+      ],
+      "unit": "f1",
+      "short": "What a future should cost, from spot and carry",
+      "definition": "The price a futures contract should trade at, given today's spot price, interest rates and expected dividends. If the future drifts far from it, arbitrage pulls it back.",
+      "examples": [
+        "Futures are 40 points over fair value, so the arb desks are selling futures and buying the stocks."
+      ],
+      "fill": "Spot plus interest to expiry, minus expected dividends, is the ____.",
+      "confusables": [
+        "cost-of-carry",
+        "basis",
+        "ltp"
+      ],
+      "wrong": [
+        "Last traded price of the near-month contract",
+        "Price the exchange uses for daily margin",
+        "Average of the bid and ask on the future"
+      ],
+      "calcs": [
+        {
+          "q": "A stock is at 1,000, interest is 6% a year, and a ₹10 dividend is due before the 1-month future expires. What's the future's fair value?",
+          "options": [
+            "995",
+            "1,005",
+            "1,010",
+            "990"
+          ],
+          "answer": 0,
+          "why": "Carry = 1,000 × 6% × 1/12 = 5. Fair value = 1,000 + 5 − 10 = 995."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "basis",
+      "term": "basis",
+      "aliases": [
+        "futures basis"
+      ],
+      "unit": "f1",
+      "short": "Gap between futures and spot price",
+      "definition": "The gap between a futures price and the spot price. On equity index futures it's usually quoted as futures minus spot, so a positive basis means the future trades at a premium. Commodity hedgers and many textbooks use spot minus futures instead, so check which way round it's quoted.",
+      "examples": [
+        "Nifty basis is 180 points with a month to go, rich against the 120 that carry explains."
+      ],
+      "fill": "Nifty futures at 24,150 against spot at 24,000 means a ____ of 150 points.",
+      "confusables": [
+        "basis-point",
+        "cost-of-carry",
+        "tick-size"
+      ],
+      "wrong": [
+        "One hundredth of a percent",
+        "Gap between the bid and the ask",
+        "Price paid for an option"
+      ],
+      "calcs": [
+        {
+          "q": "Spot is 24,000 and the near-month future is 24,150. What's the basis as a percentage of spot?",
+          "options": [
+            "0.625%",
+            "1.5%",
+            "0.15%",
+            "6.25%"
+          ],
+          "answer": 0,
+          "why": "150 ÷ 24,000 = 0.625%."
+        }
+      ],
+      "tf": [
+        {
+          "s": "The basis on index futures shrinks towards zero as expiry nears.",
+          "a": true
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.cmegroup.com/education/courses/introduction-to-equity-index-products/what-is-equity-index-basis",
+      "difficulty": 2
+    },
+    {
+      "id": "contango",
+      "term": "contango",
+      "unit": "f1",
+      "short": "Futures above spot, later months higher",
+      "definition": "When futures trade above the spot price, and longer-dated contracts above nearer ones. It's the normal state for Indian index futures, because the interest cost outweighs dividends.",
+      "examples": [
+        "Crude is in steep contango, so rolling a long position costs money every month."
+      ],
+      "fill": "Near month at 24,100, next month at 24,250 and far month at 24,400: the curve is in ____.",
+      "confusables": [
+        "backwardation",
+        "basis",
+        "cost-of-carry"
+      ],
+      "wrong": [
+        "Futures below spot, later months lower",
+        "Futures exactly equal to spot",
+        "Spot rising faster than futures"
+      ],
+      "tf": [
+        {
+          "s": "In contango, a long futures position that's rolled every month gives up some return to the roll.",
+          "a": true,
+          "why": "You sell the cheaper expiring contract and buy the dearer next one, which then drifts down towards spot."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "backwardation",
+      "term": "backwardation",
+      "unit": "f1",
+      "short": "Futures below spot, later months lower",
+      "definition": "When futures trade below the spot price, or longer-dated contracts below nearer ones. It happens when holding the asset pays, such as a big dividend due before expiry, or when the physical good is scarce right now.",
+      "examples": [
+        "The stock future is in backwardation because a large dividend falls before expiry."
+      ],
+      "fill": "The future trades 15 below spot because a big dividend falls before expiry: the stock is in ____.",
+      "confusables": [
+        "contango",
+        "basis",
+        "futures-fair-value"
+      ],
+      "wrong": [
+        "Futures above spot, later months higher",
+        "A futures position rolled to the next month",
+        "A future that has gone past expiry"
+      ],
+      "tf": [
+        {
+          "s": "Futures trading below spot always means there's free arbitrage money.",
+          "a": false,
+          "why": "Dividends due before expiry, or a cost to borrow the stock, can justify it."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "convergence",
+      "term": "convergence",
+      "unit": "f1",
+      "short": "Futures and spot meeting at expiry",
+      "definition": "The way a futures price closes in on the spot price as expiry approaches, because the carry left shrinks with time. At expiry they meet, since the contract settles at the underlying's closing price.",
+      "examples": [
+        "The basis was 120 points three weeks out and almost nothing on expiry day: convergence at work."
+      ],
+      "fill": "As expiry nears, the carry left shrinks and the futures price is pulled to spot. This is called ____.",
+      "confusables": [
+        "basis",
+        "contango",
+        "rollover"
+      ],
+      "wrong": [
+        "Two stocks moving the same way",
+        "Futures volume moving to the next month",
+        "Option prices falling as expiry nears"
+      ],
+      "tf": [
+        {
+          "s": "If the Nifty closes expiry day at 24,210, a near-month future bought at 24,300 loses 90 points per unit.",
+          "a": true,
+          "why": "The future settles at the index's closing value, so 24,210 − 24,300 = −90."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "near-month-contract",
+      "term": "near-month contract",
+      "aliases": [
+        "near month",
+        "current month"
+      ],
+      "unit": "f1",
+      "short": "The futures contract expiring first",
+      "definition": "The futures contract that expires soonest. NSE lists three monthly index futures at a time, the near, mid and far month, and most of the trading and open interest sits in the near month.",
+      "examples": [
+        "All the liquidity is in the near month, so we only roll in the last week."
+      ],
+      "fill": "On NSE, the soonest-expiring of the three monthly futures is the ____.",
+      "confusables": [
+        "rollover",
+        "expiry",
+        "futures-contract"
+      ],
+      "wrong": [
+        "The contract that expires last",
+        "A future on next month's index level",
+        "An option expiring this week"
+      ],
+      "tf": [
+        {
+          "s": "NSE lists three monthly index futures at a time: near, mid and far month.",
+          "a": true
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.nseindia.com/static/products-services/equity-derivatives-contract-specifications",
+      "difficulty": 1
+    },
+    {
+      "id": "rollover",
+      "term": "rollover",
+      "aliases": [
+        "the roll"
+      ],
+      "unit": "f1",
+      "short": "Moving a futures position to the next month",
+      "definition": "Closing a futures position in the expiring contract and opening the same position in a later month, so the trade carries on past expiry. Desks usually do it in the last week or so before expiry.",
+      "examples": [
+        "We'll do the rollover on Monday, before the spread widens into expiry."
+      ],
+      "fill": "Selling your expiring Nifty future and buying next month's to keep the position on is a ____.",
+      "confusables": [
+        "rollover-cost",
+        "rollover-percentage",
+        "convergence"
+      ],
+      "wrong": [
+        "Carrying an intraday trade to the next day",
+        "Selling a stock and buying it back the next day",
+        "Moving margin from one broker to another"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "rollover-cost",
+      "term": "rollover cost",
+      "aliases": [
+        "roll spread",
+        "roll cost"
+      ],
+      "unit": "f1",
+      "short": "Price gap paid to move to the next month",
+      "definition": "The price difference between the next-month and current-month futures, which a long pays (and a short collects) when rolling. Desks quote it in points or as a percentage; a rich roll hints that longs are keen to stay in.",
+      "examples": [
+        "The Nifty roll is trading at 160 points, a bit above fair carry."
+      ],
+      "fill": "Next month trades 180 points over the current month, so moving a long position forward costs 180 points. That gap is the ____.",
+      "confusables": [
+        "rollover",
+        "basis",
+        "cost-of-carry"
+      ],
+      "wrong": [
+        "Brokerage charged on each futures trade",
+        "Gap between futures and spot",
+        "Margin needed for the next month"
+      ],
+      "calcs": [
+        {
+          "q": "The current-month future is at 24,000 and next month is at 24,180. What's the rollover cost as a percentage?",
+          "options": [
+            "0.75%",
+            "0.18%",
+            "1.8%",
+            "7.5%"
+          ],
+          "answer": 0,
+          "why": "(24,180 − 24,000) ÷ 24,000 = 180 ÷ 24,000 = 0.75%."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.icicidirect.com/ilearn/futures-and-options/articles/demystifying-rollover-and-rollover-percentage",
+      "difficulty": 2
+    },
+    {
+      "id": "rollover-percentage",
+      "term": "rollover percentage",
+      "unit": "f1",
+      "short": "Share of open interest carried to next month",
+      "definition": "On expiry day, the open interest in the mid and far months as a share of all open interest. High rollovers mean traders are keeping positions on; read it alongside price to tell whether it's longs or shorts staying.",
+      "examples": [
+        "Nifty rollovers came in at 78%, above the three-month average."
+      ],
+      "fill": "Of 100 lakh shares of open interest at expiry, 70 lakh sit in the next two months, so the ____ is 70%.",
+      "confusables": [
+        "open-interest",
+        "rollover",
+        "put-call-ratio"
+      ],
+      "wrong": [
+        "Share of trades done by algos",
+        "Share of options that expire worthless",
+        "Share of volume in the near month"
+      ],
+      "calcs": [
+        {
+          "q": "At expiry, open interest is 30 lakh in the near month, 60 lakh in the mid month and 10 lakh in the far month. What's the rollover percentage?",
+          "options": [
+            "70%",
+            "60%",
+            "30%",
+            "85.7%"
+          ],
+          "answer": 0,
+          "why": "(60 + 10) ÷ (30 + 60 + 10) = 70 ÷ 100 = 70%."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.icicidirect.com/ilearn/futures-and-options/articles/demystifying-rollover-and-rollover-percentage",
+      "difficulty": 2
+    },
+    {
+      "id": "cash-and-carry-arbitrage",
+      "term": "cash-and-carry arbitrage",
+      "aliases": [
+        "cash-futures arbitrage",
+        "cash and carry"
+      ],
+      "unit": "f2",
+      "short": "Buy spot, sell futures, earn the basis",
+      "definition": "Buying a stock in the cash market and selling its future at the same time, then holding both to expiry. The two prices converge, so the trade locks in the basis, which works like a short-term interest rate.",
+      "examples": [
+        "The cash-futures arb is paying 7% annualised this month, better than a liquid fund."
+      ],
+      "fill": "Buy the stock at 1,000, sell the month's future at 1,006, hold both to expiry and pocket 6. That's a ____.",
+      "confusables": [
+        "reverse-cash-and-carry",
+        "arbitrage-fund",
+        "basis"
+      ],
+      "wrong": [
+        "Buying futures and selling the stock",
+        "Holding a stock bought with borrowed money",
+        "Selling an option and holding cash against it"
+      ],
+      "calcs": [
+        {
+          "q": "A stock is at 1,000 and its future, 30 days from expiry, is at 1,005. Before costs, roughly what annualised return does buying the stock and selling the future earn?",
+          "options": [
+            "6.1%",
+            "0.5%",
+            "5%",
+            "18%"
+          ],
+          "answer": 0,
+          "why": "5 ÷ 1,000 = 0.5% in 30 days. 0.5% × 365 ÷ 30 ≈ 6.1% a year."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Once it's on, a cash-and-carry trade earns the same whether the stock rises or falls.",
+          "a": true,
+          "why": "Any gain on the stock is lost on the short future, and the other way round; what's left is the basis."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "reverse-cash-and-carry",
+      "term": "reverse cash-and-carry",
+      "aliases": [
+        "reverse arbitrage"
+      ],
+      "unit": "f2",
+      "short": "Sell spot, buy futures when futures are cheap",
+      "definition": "Selling a stock you hold and buying its future when the future trades below fair value, then buying the stock back at expiry. Shorting stock beyond the day needs a borrow through SLB, so it's mostly done by funds that already own the shares.",
+      "examples": [
+        "Futures went to a discount, so the fund sold its shares and bought futures to earn the gap."
+      ],
+      "fill": "The future trades 8 below fair value, so a fund that owns the stock sells it and buys the future instead. That's a ____ trade.",
+      "confusables": [
+        "cash-and-carry-arbitrage",
+        "short-selling",
+        "backwardation"
+      ],
+      "wrong": [
+        "Buying the stock and selling its future",
+        "Rolling a short future to the next month",
+        "Buying back shares the company issued"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "arbitrage-fund",
+      "term": "arbitrage fund",
+      "unit": "f2",
+      "short": "Mutual fund that runs cash-futures arbitrage",
+      "definition": "An Indian mutual fund category that earns mainly by buying stocks and selling their futures. SEBI's rules require at least 65% in equity, but the positions are hedged with futures, so returns look like short-term interest rates rather than stock market returns.",
+      "examples": [
+        "Arbitrage fund returns jump in months when futures premiums are rich."
+      ],
+      "fill": "A mutual fund that holds stocks hedged with short futures, and earns close to a money-market rate, is an ____.",
+      "confusables": [
+        "cash-and-carry-arbitrage",
+        "mutual-fund",
+        "hedge-fund"
+      ],
+      "wrong": [
+        "Fund that bets on mergers going through",
+        "Fund that invests only in government bonds",
+        "Fund that copies an index"
+      ],
+      "tf": [
+        {
+          "s": "An arbitrage fund loses heavily when the Nifty falls 10%.",
+          "a": false,
+          "why": "Its stocks are hedged with short futures, so market moves largely cancel out."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://upstox.com/news/personal-finance/mutual-funds/new-hybrid-mutual-fund-classification-rules-2026-key-things-investors-must-know/article-190058",
+      "difficulty": 2
+    },
+    {
+      "id": "basis-risk",
+      "term": "basis risk",
+      "unit": "f2",
+      "short": "Risk that the hedge and the asset drift apart",
+      "definition": "The risk that a hedge doesn't move exactly with what it protects, because the futures price and the price you care about drift apart. It shows up when you hedge with a related contract, or close the hedge before expiry.",
+      "examples": [
+        "Hedging a midcap portfolio with Nifty futures leaves a lot of basis risk."
+      ],
+      "fill": "You must lift a futures hedge two weeks before expiry, when the gap between the future and spot could be anything. That uncertainty is ____.",
+      "confusables": [
+        "basis",
+        "hedge",
+        "rollover-cost"
+      ],
+      "wrong": [
+        "Risk that rates rise by one basis point",
+        "Risk that the exchange changes the lot size",
+        "Risk of losing the whole premium on an option"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "roll-yield",
+      "term": "roll yield",
+      "aliases": [
+        "roll return"
+      ],
+      "unit": "f2",
+      "short": "Return from rolling futures each month",
+      "definition": "The part of a futures position's return that comes from contracts drifting towards spot as they near expiry, picked up each time the position is rolled. It's negative for longs in contango and positive in backwardation.",
+      "examples": [
+        "The commodity fund lost 5% a year to negative roll yield even though spot was flat."
+      ],
+      "fill": "Crude spot was flat all year, yet the long futures fund lost money each time it moved into dearer contracts. It had a negative ____.",
+      "confusables": [
+        "rollover-cost",
+        "contango",
+        "dividend-yield"
+      ],
+      "wrong": [
+        "Interest earned on margin money",
+        "Dividend paid on the underlying stock",
+        "Yield on a bond held to maturity"
+      ],
+      "tf": [
+        {
+          "s": "A long futures position in a backwardated market tends to earn a positive roll yield.",
+          "a": true
+        }
+      ],
+      "difficulty": 3
+    }
+  ]
+}

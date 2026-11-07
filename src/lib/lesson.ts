@@ -1,7 +1,7 @@
 import { focusQueue } from './choose';
 import { isDrillUnit, pathTermIds, termById } from './content';
 import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, tfQuestion, type Rng } from './questions';
-import { dueTermIds, newLeftToday, reviewOverflow, reviewsLeftToday } from './scheduler';
+import { dayStats, dueTermIds, newLeftToday, reviewsLeftToday } from './scheduler';
 import { currentUnit, trackTermIds } from './track';
 import type { Progress, Question, Term } from './types';
 
@@ -40,7 +40,7 @@ export interface TodayStatus {
   due: number;
   newLeft: number;
   newAvailable: number;
-  /** True when reviews have piled up and new terms are slowed until they clear. */
+  /** True when reviews are heavy (today, or booked for tomorrow) and new terms are held back. */
   slowed: boolean;
   /** The drill the learner is on, if any. */
   drill: string | null;
@@ -50,11 +50,13 @@ export function todayStatus(p: Progress, today: string): TodayStatus {
   const due = Math.min(dueTermIds(p, today).length, reviewsLeftToday(p, today));
   const newAvailable = pathTermIds.filter((id) => !p.terms[id]).length;
   const cur = currentUnit(p, today);
+  const newLeft = Math.min(newLeftToday(p, today), newAvailable);
+  const goalLeft = Math.max(0, p.settings.newPerDay - dayStats(p, today).newTerms);
   return {
     due,
-    newLeft: Math.min(newLeftToday(p, today), newAvailable),
+    newLeft,
     newAvailable,
-    slowed: reviewOverflow(p, today) > 0,
+    slowed: newLeft < Math.min(goalLeft, newAvailable),
     drill: cur && isDrillUnit(cur) ? cur : null,
   };
 }

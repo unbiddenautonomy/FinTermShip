@@ -4,11 +4,12 @@ A Duolingo-style web app for learning and remembering trading and market terms, 
 
 What it has now:
 
-- 404 terms in 8 categories, each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks.
+- 460 terms in 10 categories, each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks.
 - 6 timed drills (mental maths, percentages and basis points, probability, expected value, Bayes, counting), with typed answers and questions generated fresh every round.
 - One track: the core units of every area first, then the rest. Term lessons and drills sit on the same path; a drill holds up the path until it is passed (or skipped for the day).
 - Learners can pick any open unit to learn next, practise met terms, or take an area test to open its advanced units early.
-- A quant switch in Settings, behind a password, opens the quant areas and puts them first.
+- A quant switch in Settings, behind a password, opens the quant areas (maths drills, quant and risk, options, futures, microstructure, execution) and puts them first.
+- New terms slow down before reviews pile up: a day's new terms stop once tomorrow's reviews would pass the daily cap of 80.
 - A 7-step spaced repetition ladder (1, 3, 7, 16, 35, 120 days; core terms 20% sooner).
 - Progress saved in the browser (IndexedDB), with backup export and import.
 - Speaker buttons using the browser's built-in voice (Indian English when available).
