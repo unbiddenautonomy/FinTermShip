@@ -5,6 +5,7 @@ import { Lesson, type LessonSummary } from './components/Lesson';
 import { Results } from './components/Results';
 import { Settings } from './components/Settings';
 import { BookIcon, GearIcon, PathIcon } from './components/icons';
+import { buildPractice, buildTest, withFocus } from './lib/choose';
 import { dayKey } from './lib/dates';
 import { buildLesson, todayStatus, type LessonPlan } from './lib/lesson';
 import { seededRng } from './lib/questions';
@@ -55,11 +56,15 @@ export default function App() {
     return <div className="flex min-h-[100dvh] items-center justify-center text-ink-3">Loading…</div>;
   }
 
-  const start = (ignoreNewCap: boolean) => {
+  const run = (make: (seed: number) => LessonPlan | null) => {
     const seed = Date.now() % 2_147_483_647;
-    const plan = buildLesson(progress, today, seededRng(seed), ignoreNewCap);
+    const plan = make(seed);
     if (plan) setScreen({ name: 'lesson', plan, seed });
   };
+  const start = (ignoreNewCap: boolean) => run((seed) => buildLesson(progress, today, seededRng(seed), ignoreNewCap));
+  const practise = (unitId: string) => run((seed) => buildPractice(progress, unitId, seededRng(seed)));
+  const takeTest = (categoryId: string) => run((seed) => buildTest(categoryId, seededRng(seed)));
+  const pick = (unitId: string | null) => update(withFocus(progress, unitId));
 
   switch (screen.name) {
     case 'lesson':
@@ -101,7 +106,16 @@ export default function App() {
     default:
       return (
         <WithTabs tab="home" onTab={(name) => setScreen({ name })}>
-          <Home progress={progress} today={today} onStart={start} onOpenSettings={() => setScreen({ name: 'settings' })} showInstallHint={isIosBrowser()} />
+          <Home
+            progress={progress}
+            today={today}
+            onStart={start}
+            onPractice={practise}
+            onFocus={pick}
+            onTest={takeTest}
+            onOpenSettings={() => setScreen({ name: 'settings' })}
+            showInstallHint={isIosBrowser()}
+          />
         </WithTabs>
       );
   }
