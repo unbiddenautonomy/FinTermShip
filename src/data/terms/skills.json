@@ -1,0 +1,14 @@
+{
+  "id": "skills",
+  "name": "Maths and probability",
+  "order": 6,
+  "units": [
+    { "id": "k1", "name": "Mental maths", "core": true, "kind": "drill" },
+    { "id": "k2", "name": "Percentages and basis points", "core": true, "kind": "drill" },
+    { "id": "k3", "name": "Probability: coins, dice and cards", "core": true, "kind": "drill" },
+    { "id": "k4", "name": "Expected value", "core": false, "kind": "drill" },
+    { "id": "k5", "name": "Conditional probability and Bayes", "core": false, "kind": "drill" },
+    { "id": "k6", "name": "Counting and combinations", "core": false, "kind": "drill" }
+  ],
+  "terms": []
+}

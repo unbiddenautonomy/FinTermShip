@@ -2,11 +2,13 @@
 
 A Duolingo-style web app for learning and remembering trading and market terms, tailored to the Indian market.
 
-This is version 0.1, the first playable step of the plan:
+What it has now:
 
-- 101 terms in 2 categories (Money and market basics, Indian market essentials), each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options.
-- A two-pass path: the core units of every category first, then the rest.
-- 5 exercise formats: new-term card, pick the meaning, pick the term, match pairs, fill the gap.
+- 404 terms in 8 categories, each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks.
+- 6 timed drills (mental maths, percentages and basis points, probability, expected value, Bayes, counting), with typed answers and questions generated fresh every round.
+- One track: the core units of every area first, then the rest. Term lessons and drills sit on the same path; a drill holds up the path until it is passed (or skipped for the day).
+- Learners can pick any open unit to learn next, practise met terms, or take an area test to open its advanced units early.
+- A quant switch in Settings, behind a password, opens the quant areas and puts them first.
 - A 7-step spaced repetition ladder (1, 3, 7, 16, 35, 120 days; core terms 20% sooner).
 - Progress saved in the browser (IndexedDB), with backup export and import.
 - Speaker buttons using the browser's built-in voice (Indian English when available).
@@ -16,7 +18,7 @@ This is version 0.1, the first playable step of the plan:
 ```bash
 npm install
 npm run dev        # http://localhost:5173
-npm test           # scheduler and lesson tests
+npm test           # scheduler, lesson, drill and path tests
 npm run check:terms  # validates every term card
 npm run build      # checks terms, type-checks, builds to dist/
 ```
@@ -24,6 +26,20 @@ npm run build      # checks terms, type-checks, builds to dist/
 ## Adding or editing terms
 
 Terms live in `src/data/terms/*.json`, one file per category. `npm run check:terms` fails if a card is missing a field, has a broken fill-in sentence, gives the answer away, or points at an unknown confusable term. Facts that change (rules, tax rates, timings) carry `asOf` and `source`.
+
+## Adding or editing drills
+
+Drill units live in `src/data/terms/skills.json` (units with `"kind": "drill"` and no terms). Each drill's question makers, round size, pass mark and time limit are in `src/lib/drills.ts`. `src/lib/drills.test.ts` checks hundreds of generated rounds: every answer is recomputed independently (sums, percentages, dice, coins, cards, Bayes) and the shown answer must be accepted when typed.
+
+## The password
+
+The quant switch (and later the phase 3 strategies) asks for a password. Only its hash is in the code, in `src/lib/gate.ts`. To change it:
+
+```bash
+node scripts/hash-password.mjs "new password"
+```
+
+Paste the printed hash into `PASSWORD_HASH`. With no server, this only keeps the password out of plain sight: anyone who reads the code closely can get past it.
 
 ## Deploy to Cloudflare
 

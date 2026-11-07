@@ -1,5 +1,8 @@
 import { useMemo, useState, type ReactNode } from 'react';
-import { categories, isCore, termById } from '../lib/content';
+import { categories as allCategories, isCore, termById } from '../lib/content';
+
+/** Drill-only areas have no terms to look up. */
+const categories = allCategories.filter((c) => c.terms.length > 0);
 import type { Progress } from '../lib/types';
 import { ChevronDown, Search } from './icons';
 import { Pill, SpeakButton, StepDots, TermDetails } from './ui';
