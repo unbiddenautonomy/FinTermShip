@@ -1,0 +1,1276 @@
+{
+  "id": "micro",
+  "name": "Market microstructure",
+  "order": 8,
+  "units": [
+    {
+      "id": "s1",
+      "name": "The order book",
+      "core": true
+    },
+    {
+      "id": "s2",
+      "name": "Liquidity and trading costs",
+      "core": true
+    },
+    {
+      "id": "s3",
+      "name": "Indian market mechanics",
+      "core": false
+    },
+    {
+      "id": "s4",
+      "name": "Market abuse",
+      "core": false
+    },
+    {
+      "id": "s5",
+      "name": "Venues and hidden liquidity",
+      "core": false
+    }
+  ],
+  "terms": [
+    {
+      "id": "order-book",
+      "term": "order book",
+      "aliases": [
+        "limit order book",
+        "LOB"
+      ],
+      "unit": "s1",
+      "short": "Live list of all waiting buy and sell orders",
+      "definition": "The exchange's live list of every waiting buy and sell limit order in a security, sorted by price. Bids sit on one side, offers on the other, and trades happen where they meet. Broker apps also use 'order book' for the list of your own orders.",
+      "examples": [
+        "The order book is thin above 1,500; one big buyer could run it."
+      ],
+      "fill": "Every unfilled limit order for Infosys sits in the exchange's ____ until it trades or is cancelled.",
+      "confusables": [
+        "market-depth",
+        "open-order",
+        "best-bid-offer"
+      ],
+      "wrong": [
+        "A register of a company's shareholders",
+        "A broker's record of commissions",
+        "A ledger of settled trades"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "best-bid-offer",
+      "term": "best bid and offer",
+      "aliases": [
+        "BBO",
+        "top of book",
+        "touch",
+        "inside quote"
+      ],
+      "unit": "s1",
+      "short": "Highest bid and lowest offer right now",
+      "definition": "The highest price any buyer is bidding and the lowest price any seller is offering at this moment. Together they're called the top of the book or the touch, and the gap between them is the spread.",
+      "examples": [
+        "Best bid 412.40, best offer 412.55, five thousand on each side."
+      ],
+      "fill": "The highest bid and lowest offer showing on screen are the ____.",
+      "confusables": [
+        "spread",
+        "mid-price",
+        "order-book"
+      ],
+      "wrong": [
+        "The day's high and low prices",
+        "The analyst's buy and sell targets",
+        "The opening and closing prices"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "market-depth",
+      "term": "market depth",
+      "aliases": [
+        "depth",
+        "level 2"
+      ],
+      "unit": "s1",
+      "short": "How much is bid and offered near the best price",
+      "definition": "How many shares are waiting to be bought and sold at each price close to the best bid and offer. Deep markets absorb big orders with little price change. NSE shows the best five levels, and some brokers show twenty.",
+      "examples": [
+        "Depth is great in HDFC Bank; you can sell ₹10 crore and barely move it."
+      ],
+      "fill": "To see how many shares are bid at each of the five best prices, check the ____.",
+      "confusables": [
+        "order-book",
+        "liquidity",
+        "thin-market"
+      ],
+      "wrong": [
+        "How far a stock has fallen from its high",
+        "How many years of price history exist",
+        "How many brokers trade a stock"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "mid-price",
+      "term": "mid price",
+      "aliases": [
+        "mid",
+        "midpoint"
+      ],
+      "unit": "s1",
+      "short": "Halfway between the best bid and offer",
+      "definition": "The price halfway between the best bid and the best offer. It's a quick gauge of what the stock is worth right now, and execution costs are often measured against it.",
+      "examples": [
+        "We filled 3 bps through mid, which is fine for that size."
+      ],
+      "fill": "With the bid at 100 and the offer at 101, the ____ is 100.50.",
+      "confusables": [
+        "best-bid-offer",
+        "spread",
+        "ltp"
+      ],
+      "wrong": [
+        "The average price over the day",
+        "The price at noon",
+        "The middle of the day's range"
+      ],
+      "calcs": [
+        {
+          "q": "Best bid 412.40, best offer 412.60. What is the mid price?",
+          "options": [
+            "412.50",
+            "412.60",
+            "0.20",
+            "825.00"
+          ],
+          "answer": 0,
+          "why": "(412.40 + 412.60) ÷ 2 = 412.50."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "tick-size",
+      "term": "tick size",
+      "aliases": [
+        "tick"
+      ],
+      "unit": "s1",
+      "short": "Smallest step a price can move",
+      "definition": "The smallest amount by which a price can change, set by the exchange. A smaller tick lets bids and offers sit closer together, which narrows spreads.",
+      "examples": [
+        "Since the tick went to one paisa, the spread in that stock is a fraction of what it was."
+      ],
+      "fill": "If prices can move only in steps of 5 paise, the ____ is ₹0.05.",
+      "confusables": [
+        "spread",
+        "basis-point",
+        "lot-size"
+      ],
+      "wrong": [
+        "The smallest number of shares in an order",
+        "The fee per trade",
+        "The time between two trades"
+      ],
+      "tf": [
+        {
+          "s": "A smaller tick size tends to make the bid-ask spread narrower.",
+          "a": true,
+          "why": "Bids and offers can sit closer together."
+        }
+      ],
+      "note": "On NSE the tick is 1 paisa for stocks priced below ₹250, and for their futures and (since November 2025) options; it is 5 paise at ₹250 and above.",
+      "asOf": "2026-11",
+      "source": "https://tradingqna.com/t/revision-in-tick-size-for-stock-options-contracts/186941",
+      "difficulty": 2
+    },
+    {
+      "id": "price-time-priority",
+      "term": "price-time priority",
+      "aliases": [
+        "price/time priority",
+        "FIFO"
+      ],
+      "unit": "s1",
+      "short": "Best price first, then first come first served",
+      "definition": "The rule exchanges like NSE use to match orders: the best price trades first, and among orders at the same price, the one that arrived first trades first.",
+      "examples": [
+        "Two of us bid 500, but his order got there first, so he got filled first."
+      ],
+      "fill": "Two buyers bid ₹500 and the earlier one fills first, because of ____.",
+      "confusables": [
+        "matching-engine",
+        "order-book",
+        "passive-order"
+      ],
+      "wrong": [
+        "Bigger orders fill before smaller ones",
+        "Institutions fill before retail investors",
+        "Orders are filled at random"
+      ],
+      "tf": [
+        {
+          "s": "Under price-time priority, a bigger order at the same price jumps the queue.",
+          "a": false,
+          "why": "Size doesn't matter; at the same price, the earlier order goes first."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "matching-engine",
+      "term": "matching engine",
+      "unit": "s1",
+      "short": "The exchange computer that matches orders",
+      "definition": "The exchange's system that receives every order, keeps the order book and matches buyers with sellers under its priority rules, usually in microseconds.",
+      "examples": [
+        "The matching engine handled a record number of orders on expiry day."
+      ],
+      "fill": "Orders from every broker meet in the exchange's ____, which decides which ones trade.",
+      "confusables": [
+        "order-book",
+        "price-time-priority",
+        "clearing-corporation"
+      ],
+      "wrong": [
+        "A website that matches investors with advisers",
+        "The clearing corporation's settlement system",
+        "A broker's risk management system"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "passive-order",
+      "term": "passive order",
+      "aliases": [
+        "resting order",
+        "providing liquidity"
+      ],
+      "unit": "s1",
+      "short": "Order that waits in the book for a match",
+      "definition": "A limit order that sits in the order book waiting for someone to trade against it, rather than trading at once. It adds liquidity, may get a better price, but risks not filling.",
+      "examples": [
+        "Let's stay passive, bid on the touch and see if it comes to us."
+      ],
+      "fill": "A buy limit at the best bid, waiting for a seller to come to it, is a ____.",
+      "confusables": [
+        "aggressive-order",
+        "limit-order",
+        "market-maker"
+      ],
+      "wrong": [
+        "An order that never gets cancelled",
+        "An order placed by an index fund",
+        "An order sent after the market closes"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "aggressive-order",
+      "term": "aggressive order",
+      "aliases": [
+        "taking liquidity",
+        "marketable order"
+      ],
+      "unit": "s1",
+      "short": "Order that trades at once against the book",
+      "definition": "An order that trades immediately against orders already waiting in the book, by crossing the spread. It takes liquidity: you're sure of a fill but pay the spread.",
+      "examples": [
+        "Need it done now, so go aggressive and take the offers."
+      ],
+      "fill": "A buy at the best offer that trades instantly is an ____: it takes liquidity.",
+      "confusables": [
+        "passive-order",
+        "market-order",
+        "lift-the-offer"
+      ],
+      "wrong": [
+        "An order bigger than the freeze limit",
+        "An order with high leverage",
+        "An order placed by a hedge fund"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "thin-market",
+      "term": "thin market",
+      "aliases": [
+        "thinly traded",
+        "illiquid market"
+      ],
+      "unit": "s1",
+      "short": "Few orders, wide spreads, jumpy prices",
+      "definition": "A market with few orders waiting, so spreads are wide, depth is small and even modest trades move the price.",
+      "examples": [
+        "It's a thin market in that small cap; a ₹20 lakh order moved it 3%."
+      ],
+      "fill": "Only a few hundred shares bid and offered, with a 1% spread: a ____.",
+      "confusables": [
+        "liquidity",
+        "market-depth",
+        "liquidity-risk"
+      ],
+      "wrong": [
+        "A market with few listed companies",
+        "A market with low share prices",
+        "A market that's closed early"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "price-discovery",
+      "term": "price discovery",
+      "unit": "s1",
+      "short": "How trading arrives at a fair price",
+      "definition": "The process by which buying and selling settle on a price that reflects everyone's information and views. Auctions and deep, open order books make it work well.",
+      "examples": [
+        "Nifty futures often lead price discovery when big news hits."
+      ],
+      "fill": "The open interplay of buyers and sellers that sets a fair price is called ____.",
+      "confusables": [
+        "fair-value",
+        "pre-open",
+        "order-book"
+      ],
+      "wrong": [
+        "An analyst finding a stock's fair value",
+        "A company announcing its share price",
+        "A regulator fixing a price band"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "market-maker",
+      "term": "market maker",
+      "aliases": [
+        "liquidity provider",
+        "MM"
+      ],
+      "unit": "s2",
+      "short": "Firm that always quotes a bid and an offer",
+      "definition": "A firm that keeps quoting both a bid and an offer in a security, standing ready to buy or sell. It earns the spread, takes on inventory risk, and keeps markets liquid.",
+      "examples": [
+        "The market maker widened its quotes when the news hit."
+      ],
+      "fill": "A firm that stands ready to buy at 99.95 and sell at 100.05 all day is a ____.",
+      "confusables": [
+        "passive-order",
+        "adverse-selection",
+        "spread"
+      ],
+      "wrong": [
+        "A company that builds stock exchanges",
+        "An investor who moves markets with big trades",
+        "A regulator that sets prices"
+      ],
+      "calcs": [
+        {
+          "q": "A market maker buys 1,000 shares at 99.95 and sells them at 100.05. What does it earn?",
+          "options": [
+            "₹100",
+            "₹1,000",
+            "₹10",
+            "₹1,00,000"
+          ],
+          "answer": 0,
+          "why": "It earns the 10 paise spread on 1,000 shares: 0.10 × 1,000 = ₹100."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "adverse-selection",
+      "term": "adverse selection",
+      "unit": "s2",
+      "short": "Trading with someone who knows more",
+      "definition": "The risk that the people trading with you know something you don't. Market makers lose when better-informed traders buy just before prices rise or sell before they fall, so they widen spreads to protect themselves.",
+      "examples": [
+        "We widened quotes before results; the adverse selection risk is huge."
+      ],
+      "fill": "A market maker keeps losing to traders who seem to know where prices will go: that's ____.",
+      "confusables": [
+        "informed-trader",
+        "market-maker",
+        "toxic-flow"
+      ],
+      "wrong": [
+        "Picking the wrong stocks for a fund",
+        "Choosing a bad broker",
+        "An index adding a weak company"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "informed-trader",
+      "term": "informed trader",
+      "unit": "s2",
+      "short": "Trader who knows more than the market",
+      "definition": "A trader whose orders carry real information about where prices are heading, from research, faster data or better analysis. The rest of the market tries to spot and avoid them.",
+      "examples": [
+        "That buyer is informed; every time he shows up, the stock moves 2% the next day."
+      ],
+      "fill": "Market makers widen spreads when they suspect an ____ is on the other side.",
+      "confusables": [
+        "noise-trader",
+        "adverse-selection",
+        "insider-trading"
+      ],
+      "wrong": [
+        "A trader who reads the news every morning",
+        "A trader with a SEBI licence",
+        "A trader who has passed an exam"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "noise-trader",
+      "term": "noise trader",
+      "unit": "s2",
+      "short": "Trader acting on no real information",
+      "definition": "A trader who buys and sells for reasons unrelated to real information, such as hunches, tips or the need for cash. Market makers profit from trading with them.",
+      "examples": [
+        "Noise traders pile into stocks after a TV tip, and the move fades in a week."
+      ],
+      "fill": "Someone who buys on a WhatsApp tip with no real analysis is a ____.",
+      "confusables": [
+        "informed-trader",
+        "fomo"
+      ],
+      "wrong": [
+        "A trader who's loud on the trading floor",
+        "A trader who uses sound alerts",
+        "A trader in the music industry"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "algo-trading",
+      "term": "algorithmic trading",
+      "aliases": [
+        "algo trading",
+        "algo"
+      ],
+      "unit": "s2",
+      "short": "Computer programs that place orders by rules",
+      "definition": "Using computer programs to place orders automatically according to set rules, such as price, time or volume. A large share of trading on Indian exchanges now comes from algorithms.",
+      "examples": [
+        "Our algo will work the order over the day at 10% of volume."
+      ],
+      "fill": "A program that buys whenever a stock crosses its 50-day average is doing ____.",
+      "confusables": [
+        "hft",
+        "working-an-order",
+        "algo-id"
+      ],
+      "wrong": [
+        "Trading only during the auction sessions",
+        "Trading by phone through a dealer",
+        "A mathematical model of the economy"
+      ],
+      "note": "SEBI's framework for retail algo trading, which tags algo orders and requires strategies to be registered with exchanges, applied to all brokers from April 2026.",
+      "asOf": "2026-11",
+      "source": "https://www.business-standard.com/markets/news/sebi-extends-retail-algo-trading-framework-rollout-to-2026-125093000956_1.html",
+      "difficulty": 1
+    },
+    {
+      "id": "hft",
+      "term": "high-frequency trading",
+      "aliases": [
+        "HFT"
+      ],
+      "unit": "s2",
+      "short": "Ultra-fast algorithmic trading",
+      "definition": "Algorithmic trading at extreme speed, sending large numbers of orders, holding positions for seconds or less, and competing on tiny delays measured in microseconds.",
+      "examples": [
+        "HFT firms dominate the quotes in index options."
+      ],
+      "fill": "Firms that send thousands of orders a second and hold positions for milliseconds do ____.",
+      "confusables": [
+        "algo-trading",
+        "latency",
+        "co-location"
+      ],
+      "wrong": [
+        "Trading many different stocks in one day",
+        "Trading every day of the year",
+        "Trading frequently on the same news"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "latency",
+      "term": "latency",
+      "unit": "s2",
+      "short": "Delay between sending an order and it arriving",
+      "definition": "The time it takes for data or an order to travel between a trader and the exchange. Fast traders spend heavily to cut it, because the first order at a price fills first.",
+      "examples": [
+        "Our latency to the exchange is under 50 microseconds."
+      ],
+      "fill": "High-frequency firms fight to cut their ____, the delay before their orders reach the exchange.",
+      "confusables": [
+        "co-location",
+        "hft",
+        "price-time-priority"
+      ],
+      "wrong": [
+        "The time until a trade settles",
+        "Hidden fees on a trade",
+        "A delay before results are published"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "co-location",
+      "term": "co-location",
+      "aliases": [
+        "colo"
+      ],
+      "unit": "s2",
+      "short": "Servers placed inside the exchange's data centre",
+      "definition": "Renting space for your servers inside the exchange's data centre, so orders travel the shortest possible distance and latency is lowest.",
+      "examples": [
+        "Without co-location, you can't compete with the market makers on speed."
+      ],
+      "fill": "To shave microseconds off every order, a firm puts its servers in the exchange's building: ____.",
+      "confusables": [
+        "latency",
+        "hft"
+      ],
+      "wrong": [
+        "Two companies sharing an office",
+        "Listing a stock on two exchanges",
+        "Keeping shares at two depositories"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "slippage",
+      "term": "slippage",
+      "unit": "s2",
+      "short": "Gap between expected and actual price",
+      "definition": "The difference between the price you expected when you decided to trade and the price you actually got. It comes from the spread, price moves while you wait, and your own order moving the market.",
+      "examples": [
+        "Expected to buy at 500, averaged 501.50; that's 30 bps of slippage."
+      ],
+      "fill": "You planned to buy at ₹500 but your average price was ₹501.50: that gap is ____.",
+      "confusables": [
+        "impact-cost",
+        "spread",
+        "transaction-costs"
+      ],
+      "wrong": [
+        "The fall in a stock after results",
+        "A broker's delay in sending your order",
+        "Shares lost during transfer"
+      ],
+      "calcs": [
+        {
+          "q": "You expected to buy at 500 and your average price is 501.50. What's the slippage in basis points?",
+          "options": [
+            "30 bps",
+            "150 bps",
+            "1.5 bps",
+            "3 bps"
+          ],
+          "answer": 0,
+          "why": "1.50 ÷ 500 = 0.3%, which is 30 basis points."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "impact-cost",
+      "term": "impact cost",
+      "unit": "s2",
+      "short": "Extra cost of a big order moving the price",
+      "definition": "How much worse than the mid price you pay because your order is large enough to eat through several price levels in the book. NSE uses it to judge how liquid a stock is, for example when picking index members.",
+      "examples": [
+        "Impact cost on a ₹10 crore order in this stock is under 0.05%."
+      ],
+      "fill": "Your big order cleared the first three price levels, so you paid more than the mid price: that's ____.",
+      "confusables": [
+        "slippage",
+        "market-depth",
+        "liquidity"
+      ],
+      "wrong": [
+        "The effect of news on a company",
+        "The cost of an analyst's report",
+        "Tax charged on large trades"
+      ],
+      "calcs": [
+        {
+          "q": "The mid price is 200.00. Your large buy order averages 200.30. What's the impact cost?",
+          "options": [
+            "0.15%",
+            "0.30%",
+            "1.5%",
+            "30%"
+          ],
+          "answer": 0,
+          "why": "(200.30 − 200.00) ÷ 200.00 = 0.15%."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "call-auction",
+      "term": "call auction",
+      "unit": "s3",
+      "short": "Collect orders, then match at one price",
+      "definition": "A way of trading where orders are collected over a set window and then all matched at one price, the one that lets the most shares trade. India's pre-open and closing sessions use it.",
+      "examples": [
+        "The pre-open is a call auction, so everyone gets the same opening price."
+      ],
+      "fill": "Orders are collected for a few minutes, then all trade at a single price: a ____.",
+      "confusables": [
+        "pre-open",
+        "closing-auction",
+        "periodic-call-auction"
+      ],
+      "wrong": [
+        "A phone call where a broker auctions shares",
+        "A sale of shares by a bankrupt company",
+        "An auction for call options"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "periodic-call-auction",
+      "term": "periodic call auction",
+      "aliases": [
+        "PCA"
+      ],
+      "unit": "s3",
+      "short": "Hourly auctions for illiquid stocks",
+      "definition": "The way NSE trades its most illiquid stocks: instead of continuous trading, they trade only in one-hour call auction sessions during the day.",
+      "examples": [
+        "You can only trade that one in the periodic call auction, so wait for the next session."
+      ],
+      "fill": "A tiny, rarely traded stock that can be bought only in hourly auction sessions trades by ____.",
+      "confusables": [
+        "call-auction",
+        "t2t-segment",
+        "thin-market"
+      ],
+      "wrong": [
+        "An auction held once a quarter for IPO shares",
+        "A monthly auction of government bonds",
+        "An auction for shares a seller failed to deliver"
+      ],
+      "note": "Stocks qualify by very low average turnover and are reviewed every quarter. Each session has 45 minutes of order entry.",
+      "asOf": "2026-11",
+      "source": "https://www.nseindia.com/static/products-services/equity-market-periodic-call-auction",
+      "difficulty": 3
+    },
+    {
+      "id": "t2t-segment",
+      "term": "trade-to-trade segment",
+      "aliases": [
+        "T2T",
+        "trade-for-trade"
+      ],
+      "unit": "s3",
+      "short": "Stocks where every trade must be delivered",
+      "definition": "A surveillance segment where every trade in a stock must be settled by delivery: no intraday trading and no selling before the shares arrive. Exchanges move stocks there to cool speculation.",
+      "examples": [
+        "It's moved to T2T, so you can't trade it intraday any more."
+      ],
+      "fill": "The exchange moved the stock to the ____ after wild moves, so every buy must be taken as delivery.",
+      "confusables": [
+        "asm",
+        "delivery-trade",
+        "circuit-limit"
+      ],
+      "wrong": [
+        "A segment for trades between two brokers",
+        "The segment for block deals",
+        "A segment for trading on T+1 only"
+      ],
+      "tf": [
+        {
+          "s": "You can buy and sell a T2T stock on the same day.",
+          "a": false,
+          "why": "Every trade must settle by delivery, so intraday trading isn't allowed."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://upstox.com/learning-center/share-market/what-is-trade-to-trade-t2t-stocks/article-1885/",
+      "difficulty": 2
+    },
+    {
+      "id": "disclosed-quantity",
+      "term": "disclosed quantity",
+      "aliases": [
+        "DQ"
+      ],
+      "unit": "s3",
+      "short": "Showing only part of an order on screen",
+      "definition": "An exchange feature for shares that shows only part of your order in the market depth. As each part fills, the next appears. It must be at least 10% of the order and isn't available in F&O.",
+      "examples": [
+        "Put a disclosed quantity of 5,000 on the 50,000-share order."
+      ],
+      "fill": "To show just 5,000 shares of a 50,000-share order on screen, set a ____.",
+      "confusables": [
+        "iceberg-order",
+        "hidden-liquidity",
+        "market-depth"
+      ],
+      "wrong": [
+        "The shareholding a promoter must report",
+        "Your total holding shown to the exchange",
+        "The free float of a company"
+      ],
+      "asOf": "2026-11",
+      "source": "https://support.zerodha.com/category/trading-and-markets/general-kite/others-kite/articles/what-is-disclosed-quantity-feature-and-how-to-use-it",
+      "difficulty": 2
+    },
+    {
+      "id": "order-to-trade-ratio",
+      "term": "order-to-trade ratio",
+      "aliases": [
+        "OTR"
+      ],
+      "unit": "s3",
+      "short": "Orders sent per trade actually done",
+      "definition": "How many orders, including changes and cancellations, a trader sends for each trade that actually happens. Exchanges charge traders, mostly algos, whose ratio is very high.",
+      "examples": [
+        "Our OTR spiked on the volatile day and we got a penalty notice."
+      ],
+      "fill": "An algo that sends 500 orders and changes for every trade it completes has a high ____.",
+      "confusables": [
+        "algo-trading",
+        "spoofing",
+        "hft"
+      ],
+      "wrong": [
+        "Buy orders divided by sell orders",
+        "Trades per client per day",
+        "Brokerage paid per trade"
+      ],
+      "calcs": [
+        {
+          "q": "An algo sends 60,000 orders, changes and cancellations in a day and completes 300 trades. What's its order-to-trade ratio?",
+          "options": [
+            "200",
+            "0.005",
+            "60,300",
+            "20"
+          ],
+          "answer": 0,
+          "why": "60,000 ÷ 300 = 200 orders for every trade."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "algo-id",
+      "term": "algo ID",
+      "aliases": [
+        "algo identifier"
+      ],
+      "unit": "s3",
+      "short": "Exchange tag on every algo order",
+      "definition": "A unique identifier issued by the exchange that's attached to every order from an approved algorithm, so the exchange can trace which strategy sent it. It's at the heart of SEBI's retail algo rules.",
+      "examples": [
+        "Orders without a valid algo ID are rejected from the API."
+      ],
+      "fill": "Each order from an approved strategy carries an ____ so the exchange knows which algo sent it.",
+      "confusables": [
+        "algo-trading",
+        "black-box-algo",
+        "order-to-trade-ratio"
+      ],
+      "wrong": [
+        "A trader's login password",
+        "A client's PAN number",
+        "The code for a stock on the exchange"
+      ],
+      "asOf": "2026-11",
+      "source": "https://ksandk.com/corporate/sebis-new-regulatory-framework-for-retail-algorithmic-trading/",
+      "difficulty": 3
+    },
+    {
+      "id": "black-box-algo",
+      "term": "black-box algo",
+      "aliases": [
+        "black box",
+        "white-box algo"
+      ],
+      "unit": "s3",
+      "short": "Algo whose logic isn't shown to users",
+      "definition": "A trading algorithm whose rules aren't disclosed to the people using it. Under SEBI's retail algo framework, firms that offer black-box algos must register as research analysts. A white-box algo's logic is fully disclosed.",
+      "examples": [
+        "It's a black-box algo, so you're trusting the vendor's research report."
+      ],
+      "fill": "An algo sold to retail clients without revealing how it decides trades is a ____.",
+      "confusables": [
+        "algo-id",
+        "algo-trading",
+        "research-analyst"
+      ],
+      "wrong": [
+        "An algo that has been banned",
+        "A broker's emergency stop button",
+        "The recorder on a trading server"
+      ],
+      "asOf": "2026-11",
+      "source": "https://ksandk.com/corporate/sebis-new-regulatory-framework-for-retail-algorithmic-trading/",
+      "difficulty": 3
+    },
+    {
+      "id": "tick-by-tick-data",
+      "term": "tick-by-tick data",
+      "aliases": [
+        "TBT",
+        "tick data"
+      ],
+      "unit": "s3",
+      "short": "Every order and trade, message by message",
+      "definition": "A data feed with every single order, change, cancellation and trade as it happens, rather than snapshots taken every second or so. Algo and HFT firms rely on it.",
+      "examples": [
+        "Snapshot data misses the order flow; you need tick-by-tick for this research."
+      ],
+      "fill": "To rebuild the full order book at every moment, a quant buys ____ from the exchange.",
+      "confusables": [
+        "order-book",
+        "market-depth",
+        "hft"
+      ],
+      "wrong": [
+        "A list of the day's closing prices",
+        "Daily data on delivery percentages",
+        "Data on how prices changed each week"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "market-price-protection",
+      "term": "market price protection",
+      "aliases": [
+        "MPP",
+        "market protection"
+      ],
+      "unit": "s3",
+      "short": "Limit on how far a market order can fill",
+      "definition": "A safeguard that caps how far from the last price a market or SL-M order can fill, by turning it into a limit order a set percentage away. It stops a market order in a thin stock filling at a silly price.",
+      "examples": [
+        "The market order went in with 3% protection, so it couldn't fill above 103."
+      ],
+      "fill": "Your market order was converted to a limit 3% from the last price, thanks to ____.",
+      "confusables": [
+        "market-order",
+        "circuit-limit",
+        "sl-m-order"
+      ],
+      "wrong": [
+        "Insurance against a stock market crash",
+        "A rule that blocks selling in a falling market",
+        "A fund that guarantees your capital"
+      ],
+      "asOf": "2026-11",
+      "source": "https://support.zerodha.com/category/trading-and-markets/charts-and-orders/order/articles/market-price-protection",
+      "difficulty": 2
+    },
+    {
+      "id": "spoofing",
+      "term": "spoofing",
+      "unit": "s4",
+      "short": "Fake orders meant to be cancelled",
+      "definition": "Placing large orders you never intend to fill, to trick others into thinking there's buying or selling interest, then cancelling them once the price moves. It's market manipulation.",
+      "examples": [
+        "Huge bids appeared and vanished every few seconds: textbook spoofing."
+      ],
+      "fill": "Showing a big bid to lure buyers, then cancelling it before it fills, is ____.",
+      "confusables": [
+        "layering",
+        "order-to-trade-ratio",
+        "pump-and-dump"
+      ],
+      "wrong": [
+        "Copying another trader's strategy",
+        "Changing a stock's ticker symbol",
+        "Trading under someone else's account"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "layering",
+      "term": "layering",
+      "unit": "s4",
+      "short": "Fake orders stacked at several prices",
+      "definition": "A form of spoofing where many fake orders are stacked at several price levels on one side of the book, to push the price, while the real trade is done on the other side.",
+      "examples": [
+        "They layered offers at five price levels, then bought the dip they created."
+      ],
+      "fill": "Stacking fake sell orders at five prices to push the price down, then buying, is ____.",
+      "confusables": [
+        "spoofing",
+        "iceberg-order"
+      ],
+      "wrong": [
+        "Building a position slowly over time",
+        "Splitting a big order into slices",
+        "Buying several stocks in one basket"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "front-running",
+      "term": "front-running",
+      "aliases": [
+        "front running"
+      ],
+      "unit": "s4",
+      "short": "Trading ahead of a client's big order",
+      "definition": "Trading ahead of a large order you know is coming, such as a client's or your fund's, to profit from the price move it will cause. SEBI has penalised fund dealers and brokers for it.",
+      "examples": [
+        "The dealer bought in his relative's account just before the fund's big buy: front-running."
+      ],
+      "fill": "A dealer who buys for himself just before placing his fund's huge buy order is ____.",
+      "confusables": [
+        "insider-trading",
+        "dealer",
+        "informed-trader"
+      ],
+      "wrong": [
+        "Being first in the queue at a price",
+        "Buying a stock before its IPO",
+        "Leading a rally in a sector"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "insider-trading",
+      "term": "insider trading",
+      "unit": "s4",
+      "short": "Trading on secret price-sensitive information",
+      "definition": "Trading in a company's shares while holding unpublished information that would move the price, such as results or a merger. It's illegal in India under SEBI's insider trading rules.",
+      "examples": [
+        "SEBI barred the CFO's brother for trading before the merger news."
+      ],
+      "fill": "Buying shares because your friend in the company told you about a merger before it's announced is ____.",
+      "confusables": [
+        "upsi",
+        "front-running",
+        "trading-window"
+      ],
+      "wrong": [
+        "Trading by employees through the company's ESOP plan",
+        "Trading inside the exchange building",
+        "Promoters buying shares openly in the market"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "upsi",
+      "term": "UPSI",
+      "said": "U P S I",
+      "speak": "U P S I",
+      "unit": "s4",
+      "short": "Unpublished price sensitive information",
+      "definition": "Unpublished price sensitive information: news about a company that isn't public yet and would likely move its share price, such as results, dividends, mergers or top management changes.",
+      "examples": [
+        "Draft results are UPSI; don't share them outside the deal team."
+      ],
+      "fill": "Unannounced quarterly results that would move the stock are ____.",
+      "confusables": [
+        "insider-trading",
+        "trading-window",
+        "guidance"
+      ],
+      "wrong": [
+        "Information in the annual report",
+        "An analyst's published forecast",
+        "A rumour on social media"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "trading-window",
+      "term": "trading window",
+      "aliases": [
+        "trading window closure"
+      ],
+      "unit": "s4",
+      "short": "When company insiders may trade",
+      "definition": "The period when a listed company's insiders are allowed to trade its shares. It closes from the end of each quarter until 48 hours after results are announced, and whenever other unpublished news is pending.",
+      "examples": [
+        "The trading window is closed until two days after results."
+      ],
+      "fill": "Directors can't trade the company's shares from quarter-end until results are out, because the ____ is closed.",
+      "confusables": [
+        "upsi",
+        "insider-trading",
+        "pre-open"
+      ],
+      "wrong": [
+        "The exchange's trading hours",
+        "The time a broker's app is available",
+        "The period an IPO is open"
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.corporateprofessionals.com/wp-content/uploads/2024/02/trading-by-designated-persons-dos-and-donts-under-sebi-pit-regulations.pdf",
+      "difficulty": 3
+    },
+    {
+      "id": "pump-and-dump",
+      "term": "pump and dump",
+      "aliases": [
+        "pump-and-dump"
+      ],
+      "unit": "s4",
+      "short": "Hype a small stock, then sell into the rise",
+      "definition": "Talking up a small, thinly traded stock with tips and hype, often through social media, so others buy, then selling into the rise. Late buyers are left with the losses.",
+      "examples": [
+        "SEBI caught a pump and dump run through YouTube videos and Telegram tips."
+      ],
+      "fill": "A group hypes a tiny stock on Telegram, it doubles, and they sell to the new buyers: a ____.",
+      "confusables": [
+        "operator",
+        "circular-trading",
+        "bubble"
+      ],
+      "wrong": [
+        "Buying a stock after a fall and selling after a rise",
+        "A company issuing shares then buying them back",
+        "Using leverage to buy, then selling"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "circular-trading",
+      "term": "circular trading",
+      "unit": "s4",
+      "short": "A group trading shares among themselves",
+      "definition": "A group of related accounts trading the same shares back and forth among themselves to create fake volume and push the price, without any real change in ownership.",
+      "examples": [
+        "The volume was all circular trading among 30 linked accounts."
+      ],
+      "fill": "Ten linked accounts passing the same shares around to fake volume is ____.",
+      "confusables": [
+        "wash-trade",
+        "operator",
+        "pump-and-dump"
+      ],
+      "wrong": [
+        "Trading on several exchanges at once",
+        "A fund rebalancing every month",
+        "Buying and selling the same stock over a year"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "wash-trade",
+      "term": "wash trade",
+      "aliases": [
+        "self-trade",
+        "wash trading"
+      ],
+      "unit": "s4",
+      "short": "Trading with yourself to fake activity",
+      "definition": "A trade where the same person, or accounts they control, are on both sides, so nothing really changes hands. It creates fake volume and is banned.",
+      "examples": [
+        "The exchange flagged it as a wash trade: same beneficial owner on both sides."
+      ],
+      "fill": "Buying from your own second account to make a stock look active is a ____.",
+      "confusables": [
+        "circular-trading",
+        "spoofing"
+      ],
+      "wrong": [
+        "Selling a loss-making stock for tax purposes",
+        "A trade cancelled by the exchange",
+        "A trade that settles in cash"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "operator",
+      "term": "operator",
+      "aliases": [
+        "operator stock"
+      ],
+      "unit": "s4",
+      "short": "Indian slang for a stock manipulator",
+      "definition": "Indian market slang for a person or group who rigs the price of a small stock, through circular trading, tips and cornering supply. An 'operator stock' is one such a group is thought to control.",
+      "examples": [
+        "Stay away, it's an operator stock; the volume is all fake."
+      ],
+      "fill": "In Indian slang, the person rigging a small stock's price is the ____.",
+      "confusables": [
+        "pump-and-dump",
+        "circular-trading",
+        "promoter"
+      ],
+      "wrong": [
+        "The exchange's systems engineer",
+        "The person who runs a broker's terminal",
+        "A company's chief operating officer"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "lit-market",
+      "term": "lit market",
+      "unit": "s5",
+      "short": "Venue where orders are visible before trading",
+      "definition": "A trading venue, such as NSE or BSE, where waiting orders are shown to everyone in the order book before they trade.",
+      "examples": [
+        "All Indian equity trading happens on lit markets."
+      ],
+      "fill": "An exchange where everyone can see the bids and offers before they trade is a ____.",
+      "confusables": [
+        "dark-pool",
+        "order-book"
+      ],
+      "wrong": [
+        "A market that's open at night",
+        "A market with only large stocks",
+        "A market regulated by SEBI"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "dark-pool",
+      "term": "dark pool",
+      "unit": "s5",
+      "short": "Private venue where orders are hidden",
+      "definition": "A private trading venue where orders aren't shown before they trade, so big investors can trade size without others seeing. Common in the US and Europe, but not permitted in India.",
+      "examples": [
+        "In the US we'd cross it in a dark pool; here it goes through the block window."
+      ],
+      "fill": "A venue where funds trade large blocks without showing their orders is a ____.",
+      "confusables": [
+        "lit-market",
+        "block-deal",
+        "hidden-liquidity"
+      ],
+      "wrong": [
+        "A market that only trades after hours",
+        "A fund that invests in secret",
+        "An illegal stock exchange"
+      ],
+      "asOf": "2026-11",
+      "source": "https://thefederal.com/category/explainers-2/what-are-dark-pools-in-share-trading-and-why-india-has-kept-these-at-bay-116942",
+      "difficulty": 2
+    },
+    {
+      "id": "fragmentation",
+      "term": "market fragmentation",
+      "aliases": [
+        "fragmentation"
+      ],
+      "unit": "s5",
+      "short": "Trading split across many venues",
+      "definition": "When trading in the same security is split across several venues, so no single order book shows all the liquidity. India's equities trade mostly on NSE and BSE.",
+      "examples": [
+        "The US is fragmented across dozens of venues; India is mostly NSE and BSE."
+      ],
+      "fill": "When the same stock trades on many exchanges and private venues, liquidity suffers from ____.",
+      "confusables": [
+        "smart-order-routing",
+        "lit-market"
+      ],
+      "wrong": [
+        "A company splitting into several businesses",
+        "A stock split into smaller shares",
+        "A portfolio spread across many stocks"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "smart-order-routing",
+      "term": "smart order routing",
+      "aliases": [
+        "SOR"
+      ],
+      "unit": "s5",
+      "short": "Sending each order to the best venue",
+      "definition": "A system that checks prices on different exchanges and sends each order, or parts of it, to wherever the best price is.",
+      "examples": [
+        "Our smart order routing splits fills between NSE and BSE."
+      ],
+      "fill": "A broker system that sends your buy to NSE or BSE, whichever offers the better price, uses ____.",
+      "confusables": [
+        "fragmentation",
+        "algo-trading"
+      ],
+      "wrong": [
+        "A path for delivering share certificates",
+        "A broker's customer service menu",
+        "A route for settling trades"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "toxic-flow",
+      "term": "toxic flow",
+      "unit": "s5",
+      "short": "Orders that tend to beat whoever takes them",
+      "definition": "Order flow from well-informed or very fast traders that tends to leave the other side with losses. Market makers try to spot it and widen spreads or avoid it.",
+      "examples": [
+        "That client's flow is toxic: the price always runs right after we fill them."
+      ],
+      "fill": "Orders that consistently move against the market maker right after they trade are ____.",
+      "confusables": [
+        "adverse-selection",
+        "informed-trader",
+        "flow"
+      ],
+      "wrong": [
+        "Trading in polluting companies",
+        "Orders placed with abusive language",
+        "Orders that break exchange rules"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "latency-arbitrage",
+      "term": "latency arbitrage",
+      "unit": "s5",
+      "short": "Profiting from being faster than others",
+      "definition": "Profiting from seeing and reacting to price changes a fraction of a second before slower traders, for example trading against stale quotes before they're updated.",
+      "examples": [
+        "Their edge is latency arbitrage between the futures and the stocks."
+      ],
+      "fill": "A firm that picks off stale quotes a few microseconds before others can update them does ____.",
+      "confusables": [
+        "latency",
+        "hft",
+        "co-location"
+      ],
+      "wrong": [
+        "Buying in one city and selling in another",
+        "Taking advantage of late settlement",
+        "Profiting from delayed results"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "hidden-liquidity",
+      "term": "hidden liquidity",
+      "aliases": [
+        "hidden size"
+      ],
+      "unit": "s5",
+      "short": "Shares available but not shown",
+      "definition": "Buying or selling interest that isn't visible in the order book, such as the unshown part of disclosed-quantity orders, iceberg slices still to come, or large orders being worked slowly.",
+      "examples": [
+        "There's hidden liquidity at 500; every time it trades there, more appears."
+      ],
+      "fill": "More shares keep appearing at 500 though the screen shows only a few: ____.",
+      "confusables": [
+        "disclosed-quantity",
+        "iceberg-order",
+        "dark-pool"
+      ],
+      "wrong": [
+        "Cash a company keeps off its books",
+        "Money in dormant demat accounts",
+        "Shares locked in by promoters"
+      ],
+      "difficulty": 3
+    }
+  ]
+}
