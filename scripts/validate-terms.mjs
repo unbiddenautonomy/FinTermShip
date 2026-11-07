@@ -48,6 +48,12 @@ for (const file of files) {
   }
 }
 for (const cat of categories) {
+  for (const u of cat.units) {
+    const count = cat.terms.filter((t) => t.unit === u.id).length;
+    if (u.kind && !['terms', 'drill'].includes(u.kind)) errors.push(`${cat.id} > unit ${u.id}: unknown kind "${u.kind}"`);
+    if (u.kind === 'drill' && count > 0) errors.push(`${cat.id} > unit ${u.id}: a drill unit has no terms`);
+    if (u.kind !== 'drill' && count === 0) errors.push(`${cat.id} > unit ${u.id}: no terms`);
+  }
   for (const t of cat.terms) {
     for (const c of t.confusables || []) {
       if (!allIds.has(c)) errors.push(`${cat.id} > ${t.id}: confusable "${c}" is not a known term id`);
@@ -58,7 +64,8 @@ for (const cat of categories) {
   const coreCount = cat.terms.filter((t) => coreUnits.includes(t.unit)).length;
   const calcs = cat.terms.reduce((n, t) => n + (t.calcs?.length ?? 0), 0);
   const tfs = cat.terms.reduce((n, t) => n + (t.tf?.length ?? 0), 0);
-  console.log(`${cat.name}: ${cat.terms.length} terms, ${coreCount} core, ${calcs} worked sums, ${tfs} true/false`);
+  const drills = cat.units.filter((u) => u.kind === 'drill').length;
+  console.log(`${cat.name}: ${cat.terms.length} terms, ${coreCount} core, ${calcs} worked sums, ${tfs} true/false${drills ? `, ${drills} drills` : ''}`);
 }
 if (errors.length) {
   console.error(`\n${errors.length} problem(s):\n- ` + errors.join('\n- '));
