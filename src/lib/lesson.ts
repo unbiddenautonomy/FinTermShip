@@ -1,7 +1,8 @@
 import { focusQueue } from './choose';
-import { pathTermIds, termById } from './content';
+import { isDrillUnit, pathTermIds, termById } from './content';
 import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, tfQuestion, type Rng } from './questions';
 import { dueTermIds, newLeftToday, reviewOverflow, reviewsLeftToday } from './scheduler';
+import { currentUnit, trackTermIds } from './track';
 import type { Progress, Question, Term } from './types';
 
 export const NEW_PER_LESSON = 4;
@@ -21,10 +22,18 @@ export interface LessonPlan {
   categoryId?: string;
 }
 
-/** Next terms to teach: a picked unit (and what it builds on) first, then the usual path. */
-export function nextNewTermIds(p: Progress, count: number): string[] {
-  const queue = [...focusQueue(p), ...pathTermIds.filter((id) => !p.terms[id])];
+/** Next terms to teach: a picked unit (and what it builds on) first, then the track up to the next drill. */
+export function nextNewTermIds(p: Progress, count: number, today = ''): string[] {
+  const queue = [...focusQueue(p), ...trackTermIds(p, today, count)];
   return [...new Set(queue)].slice(0, count);
+}
+
+/** The drill to run next, when the learner is on a drill and reviews are not piling up. */
+export function drillUp(p: Progress, today: string): string | null {
+  const cur = currentUnit(p, today);
+  if (!cur || !isDrillUnit(cur)) return null;
+  const due = Math.min(dueTermIds(p, today).length, reviewsLeftToday(p, today));
+  return due >= REVIEW_FIRST_THRESHOLD ? null : cur;
 }
 
 export interface TodayStatus {
@@ -33,12 +42,21 @@ export interface TodayStatus {
   newAvailable: number;
   /** True when reviews have piled up and new terms are slowed until they clear. */
   slowed: boolean;
+  /** The drill the learner is on, if any. */
+  drill: string | null;
 }
 
 export function todayStatus(p: Progress, today: string): TodayStatus {
   const due = Math.min(dueTermIds(p, today).length, reviewsLeftToday(p, today));
   const newAvailable = pathTermIds.filter((id) => !p.terms[id]).length;
-  return { due, newLeft: Math.min(newLeftToday(p, today), newAvailable), newAvailable, slowed: reviewOverflow(p, today) > 0 };
+  const cur = currentUnit(p, today);
+  return {
+    due,
+    newLeft: Math.min(newLeftToday(p, today), newAvailable),
+    newAvailable,
+    slowed: reviewOverflow(p, today) > 0,
+    drill: cur && isDrillUnit(cur) ? cur : null,
+  };
 }
 
 /**
@@ -50,7 +68,7 @@ export function todayStatus(p: Progress, today: string): TodayStatus {
 export function buildLesson(p: Progress, today: string, rng: Rng, ignoreNewCap = false): LessonPlan | null {
   const due = dueTermIds(p, today).slice(0, reviewsLeftToday(p, today));
   const newBudget = ignoreNewCap ? NEW_PER_LESSON : Math.min(NEW_PER_LESSON, newLeftToday(p, today));
-  const newIds = nextNewTermIds(p, newBudget);
+  const newIds = nextNewTermIds(p, newBudget, today);
 
   if (due.length >= REVIEW_FIRST_THRESHOLD || (newIds.length === 0 && due.length > 0)) {
     const reviewIds = due.slice(0, REVIEWS_PER_REVIEW_LESSON);

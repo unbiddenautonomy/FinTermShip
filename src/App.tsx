@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { Drill } from './components/Drill';
 import { Glossary } from './components/Glossary';
 import { Home } from './components/Home';
 import { Lesson, type LessonSummary } from './components/Lesson';
@@ -6,10 +7,12 @@ import { Results } from './components/Results';
 import { Settings } from './components/Settings';
 import { BookIcon, GearIcon, PathIcon } from './components/icons';
 import { buildPractice, buildTest, withFocus } from './lib/choose';
+import { snoozeDrill } from './lib/drills';
 import { dayKey } from './lib/dates';
-import { buildLesson, todayStatus, type LessonPlan } from './lib/lesson';
+import { buildLesson, drillUp, todayStatus, type LessonPlan } from './lib/lesson';
 import { seededRng } from './lib/questions';
 import { loadProgress, requestPersistence, saveProgress } from './lib/storage';
+import { currentUnit } from './lib/track';
 import type { Progress } from './lib/types';
 
 type Tab = 'home' | 'glossary' | 'settings';
@@ -17,6 +20,7 @@ type Tab = 'home' | 'glossary' | 'settings';
 type Screen =
   | { name: Tab }
   | { name: 'lesson'; plan: LessonPlan; seed: number }
+  | { name: 'drill'; unitId: string; seed: number }
   | { name: 'results'; summary: LessonSummary };
 
 function isIosBrowser(): boolean {
@@ -61,7 +65,13 @@ export default function App() {
     const plan = make(seed);
     if (plan) setScreen({ name: 'lesson', plan, seed });
   };
-  const start = (ignoreNewCap: boolean) => run((seed) => buildLesson(progress, today, seededRng(seed), ignoreNewCap));
+  const drill = (unitId: string) => setScreen({ name: 'drill', unitId, seed: Date.now() % 2_147_483_647 });
+  // One track: when the learner is on a drill, the next step is that drill.
+  const start = (ignoreNewCap: boolean) => {
+    const d = drillUp(progress, today);
+    if (d) drill(d);
+    else run((seed) => buildLesson(progress, today, seededRng(seed), ignoreNewCap));
+  };
   const practise = (unitId: string) => run((seed) => buildPractice(progress, unitId, seededRng(seed)));
   const takeTest = (categoryId: string) => run((seed) => buildTest(categoryId, seededRng(seed)));
   const pick = (unitId: string | null) => update(withFocus(progress, unitId));
@@ -80,14 +90,41 @@ export default function App() {
           onQuit={() => setScreen({ name: 'home' })}
         />
       );
+    case 'drill':
+      return (
+        <Drill
+          key={screen.seed}
+          unitId={screen.unitId}
+          seed={screen.seed}
+          progress={progress}
+          today={today}
+          onProgress={update}
+          onFinish={(summary) => setScreen({ name: 'results', summary })}
+          onQuit={() => setScreen({ name: 'home' })}
+        />
+      );
     case 'results': {
       const s = todayStatus(progress, today);
+      const last = screen.summary.drill;
+      const nextDrill = drillUp(progress, today);
+      const stuck = last && !last.passed && currentUnit(progress, today) === last.unitId;
       return (
         <Results
           summary={screen.summary}
-          canContinue={s.due > 0 || s.newLeft > 0}
+          canContinue={s.due > 0 || s.newLeft > 0 || !!s.drill}
+          nextLabel={nextDrill && nextDrill === last?.unitId ? 'Try again' : nextDrill ? 'Next: a timed drill' : 'Next lesson'}
           onHome={() => setScreen({ name: 'home' })}
           onNext={() => start(false)}
+          onSnooze={
+            stuck
+              ? () => {
+                  let p = snoozeDrill(progress, last.unitId, today);
+                  if (p.focus === last.unitId) p = withFocus(p, null);
+                  update(p);
+                  setScreen({ name: 'home' });
+                }
+              : undefined
+          }
         />
       );
     }
@@ -113,6 +150,7 @@ export default function App() {
             onPractice={practise}
             onFocus={pick}
             onTest={takeTest}
+            onDrill={drill}
             onOpenSettings={() => setScreen({ name: 'settings' })}
             showInstallHint={isIosBrowser()}
           />

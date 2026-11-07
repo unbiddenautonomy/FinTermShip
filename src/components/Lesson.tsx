@@ -16,9 +16,11 @@ export interface LessonSummary {
   bestRun: number;
   newIds: string[];
   missedIds: string[];
-  kind: LessonPlan['kind'];
+  kind: LessonPlan['kind'] | 'drill';
   /** Set after an area test. */
   test?: { categoryId: string; right: number; total: number; passed: boolean; credited: number };
+  /** Set after a timed drill. */
+  drill?: { unitId: string; right: number; total: number; ms: number; passed: boolean; firstPass: boolean; bestMs?: number; missed: { prompt: string; shown: string }[] };
 }
 
 interface Props {
