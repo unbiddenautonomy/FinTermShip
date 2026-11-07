@@ -45,6 +45,11 @@ export const pathTermIds: string[] = path.flatMap((p) => p.terms.map((t) => t.id
 
 export const coreTermIds: string[] = path.filter((p) => p.pass === 1).flatMap((p) => p.terms.map((t) => t.id));
 
+/** A unit's term ids in teaching order. */
+export function termIdsOfUnit(unitId: string): string[] {
+  return path.find((p) => p.unit.id === unitId)?.terms.map((t) => t.id) ?? [];
+}
+
 export function termName(id: string): string {
   return termById.get(id)?.term ?? id;
 }
