@@ -1,0 +1,893 @@
+{
+  "id": "execution",
+  "name": "Execution and transaction costs",
+  "order": 11,
+  "units": [
+    {
+      "id": "x1",
+      "name": "Costs and benchmarks",
+      "core": true
+    },
+    {
+      "id": "x2",
+      "name": "Execution algos",
+      "core": true
+    },
+    {
+      "id": "x3",
+      "name": "Measuring execution cost",
+      "core": false
+    }
+  ],
+  "terms": [
+    {
+      "id": "parent-order",
+      "term": "parent order",
+      "unit": "x1",
+      "short": "The full order before it's split up",
+      "definition": "The whole quantity a fund wants to buy or sell, as handed to the trader or the algo. It's cut into many smaller child orders so it doesn't move the market.",
+      "examples": [
+        "The parent order is 5 lakh shares; the algo will work it through the day."
+      ],
+      "fill": "The fund wants 10 lakh shares of HDFC Bank today. That full quantity is the ____.",
+      "confusables": [
+        "child-order",
+        "basket-order",
+        "working-an-order"
+      ],
+      "wrong": [
+        "An order placed by a holding company",
+        "The first order of the trading day",
+        "An order that must fill completely or not at all"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "child-order",
+      "term": "child order",
+      "aliases": [
+        "slice"
+      ],
+      "unit": "x1",
+      "short": "One small slice of a bigger order",
+      "definition": "One of the small orders an algo or trader sends to the market to work a larger parent order. Small slices hide the full size and take liquidity a bit at a time.",
+      "examples": [
+        "Each child order was under 2,000 shares, so nobody saw the size."
+      ],
+      "fill": "The algo sends 400 small orders of 2,500 shares each; every one of them is a ____.",
+      "confusables": [
+        "parent-order",
+        "iceberg-order",
+        "partial-fill"
+      ],
+      "wrong": [
+        "An order placed on a minor's account",
+        "An order for a subsidiary's shares",
+        "The part of an order that didn't fill"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "execution-benchmark",
+      "term": "execution benchmark",
+      "unit": "x1",
+      "short": "Reference price to judge a fill against",
+      "definition": "The price a trade's average fill is compared with to judge how well it was done, such as the arrival price, VWAP or the close. Which one you pick changes what counts as a good trade.",
+      "examples": [
+        "The PM wants the close as the execution benchmark, so we'll do most of it in the closing auction."
+      ],
+      "fill": "Before we start, agree the ____: are we measured against the arrival price, VWAP or the close?",
+      "confusables": [
+        "vwap",
+        "arrival-price",
+        "target-price"
+      ],
+      "wrong": [
+        "Index a fund's returns are compared with",
+        "Target price set by an analyst",
+        "Price at which the stock last traded"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "arrival-price",
+      "term": "arrival price",
+      "unit": "x1",
+      "short": "Mid price when the order reached the desk",
+      "definition": "The mid price at the moment an order reaches the trading desk or the algo. Measuring fills against it captures everything that happens once trading starts: spread, impact and drift.",
+      "examples": [
+        "We bought at 1,503 against an arrival price of 1,500, so 20 bp of cost."
+      ],
+      "fill": "The stock's mid was 820 when the order hit the algo, so 820 is the ____.",
+      "confusables": [
+        "decision-price",
+        "vwap",
+        "ltp"
+      ],
+      "wrong": [
+        "Price of the first fill",
+        "Closing price of the day before",
+        "Price at which the stock first listed"
+      ],
+      "calcs": [
+        {
+          "q": "Arrival price is 400.00 and your buy order averages 400.60. What's the cost in basis points?",
+          "options": [
+            "15 bp",
+            "60 bp",
+            "6 bp",
+            "1.5 bp"
+          ],
+          "answer": 0,
+          "why": "0.60 ÷ 400 = 0.15%, which is 15 bp."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "decision-price",
+      "term": "decision price",
+      "unit": "x1",
+      "short": "Price when the fund decided to trade",
+      "definition": "The price when the portfolio manager decided to trade, which can be well before the order reaches the market. Any move between the decision and the order's arrival is delay cost.",
+      "examples": [
+        "The PM decided at 9:20 with the stock at 610, but the order only reached us at 11."
+      ],
+      "fill": "The PM chose to buy when the stock was 610, and the order reached the desk at 615. The 610 is the ____.",
+      "confusables": [
+        "arrival-price",
+        "delay-cost",
+        "trigger-price"
+      ],
+      "wrong": [
+        "Price an analyst's model says the stock is worth",
+        "Price at which a stop-loss triggers",
+        "Price set by the exchange at the open"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "vwap",
+      "term": "VWAP",
+      "aliases": [
+        "volume-weighted average price"
+      ],
+      "said": "vee-wap",
+      "speak": "vee wap",
+      "unit": "x1",
+      "short": "Average traded price, weighted by volume",
+      "definition": "The average price of all trades over a period, each weighted by its size. Buying below the day's VWAP, or selling above it, is a common sign of a good fill, though it says little when your own order is a big part of the volume.",
+      "examples": [
+        "We bought 3 lakh shares at 2 bp better than VWAP."
+      ],
+      "fill": "Add up price × quantity for every trade today, divide by the total quantity, and you get the ____.",
+      "confusables": [
+        "twap",
+        "arrival-price",
+        "mid-price"
+      ],
+      "wrong": [
+        "Average of the day's high and low",
+        "Simple average of prices taken every minute",
+        "Average price of the bids in the book"
+      ],
+      "formula": "VWAP = Σ(price × quantity) ÷ Σ quantity",
+      "calcs": [
+        {
+          "q": "Two trades print: 100 shares at 10 and 300 shares at 12. What's the VWAP?",
+          "options": [
+            "11.50",
+            "11.00",
+            "11.33",
+            "12.00"
+          ],
+          "answer": 0,
+          "why": "(100 × 10 + 300 × 12) ÷ 400 = 4,600 ÷ 400 = 11.50."
+        }
+      ],
+      "tf": [
+        {
+          "s": "If your order is half the day's volume, beating VWAP proves you traded well.",
+          "a": false,
+          "why": "Your own trades make up much of the VWAP, so you're largely being compared with yourself."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "twap",
+      "term": "TWAP",
+      "aliases": [
+        "time-weighted average price"
+      ],
+      "said": "tee-wap",
+      "speak": "tee wap",
+      "unit": "x1",
+      "short": "Average price over equal time slices",
+      "definition": "The plain average of prices sampled at equal time intervals, ignoring volume. As a way of trading, it means doing equal amounts in each time slice.",
+      "examples": [
+        "Volume in this stock comes in lumps, so we'll measure against TWAP instead."
+      ],
+      "fill": "Take the price every five minutes from 10 am to 2 pm, ignore how much traded, and average them. That's the ____.",
+      "confusables": [
+        "vwap",
+        "arrival-price",
+        "mid-price"
+      ],
+      "wrong": [
+        "Average price weighted by trade size",
+        "Price at the middle of the trading day",
+        "Average of the open and the close"
+      ],
+      "calcs": [
+        {
+          "q": "Prices sampled each hour are 100, 102, 101 and 105. What's the TWAP?",
+          "options": [
+            "102",
+            "101.5",
+            "105",
+            "103"
+          ],
+          "answer": 0,
+          "why": "(100 + 102 + 101 + 105) ÷ 4 = 408 ÷ 4 = 102."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "implementation-shortfall",
+      "term": "implementation shortfall",
+      "unit": "x1",
+      "short": "Paper return minus the real return of a trade",
+      "definition": "The gap between what a trade would have made if it had filled at the decision price with no costs, and what it really made. It adds up delay, spread, impact, fees and the cost of shares that never filled.",
+      "examples": [
+        "Implementation shortfall on the rebalance was 35 bp, most of it from chasing in the last hour."
+      ],
+      "fill": "On paper the fund bought at 500 with no costs; in reality it paid 503 plus fees. That gap is the ____.",
+      "confusables": [
+        "arrival-price",
+        "opportunity-cost",
+        "tracking-error"
+      ],
+      "wrong": [
+        "Margin shortfall at the end of the day",
+        "Shares delivered short in settlement",
+        "Gap between the target price and the current price"
+      ],
+      "calcs": [
+        {
+          "q": "The decision price was 500. You bought 1,000 shares at an average of 503, with no fees. What's the shortfall in basis points?",
+          "options": [
+            "60 bp",
+            "30 bp",
+            "3 bp",
+            "300 bp"
+          ],
+          "answer": 0,
+          "why": "3 ÷ 500 = 0.6%, which is 60 bp, or ₹3,000 on the order."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Shares you meant to buy but never filled add nothing to implementation shortfall.",
+          "a": false,
+          "why": "If the price ran away, the gain you missed counts as opportunity cost."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "participation-rate",
+      "term": "participation rate",
+      "unit": "x1",
+      "short": "Your share of the market's volume",
+      "definition": "Your trades as a share of all the volume traded while you work the order. The higher it is, the more you move the price, so desks often cap it at around 10 to 20%.",
+      "examples": [
+        "Keep participation under 10%; this name can't take more."
+      ],
+      "fill": "500,000 shares traded while you were working and 50,000 were yours, so your ____ was 10%.",
+      "confusables": [
+        "pov-algo",
+        "volume",
+        "market-impact"
+      ],
+      "wrong": [
+        "Share of a company owned by the promoter",
+        "Share of trades done by retail investors",
+        "Weight of one stock in the index"
+      ],
+      "calcs": [
+        {
+          "q": "While your algo ran, the stock traded 8 lakh shares, of which 1.2 lakh were yours. What was your participation rate?",
+          "options": [
+            "15%",
+            "12%",
+            "1.5%",
+            "85%"
+          ],
+          "answer": 0,
+          "why": "1.2 ÷ 8 = 0.15, which is 15%."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "explicit-costs",
+      "term": "explicit costs",
+      "unit": "x1",
+      "short": "Fees you can see on the contract note",
+      "definition": "Trading costs that are billed and shown on the contract note: brokerage, STT, exchange charges, SEBI fees, stamp duty and GST. You know them before you trade, unlike spread and impact.",
+      "examples": [
+        "Explicit costs are 3 bp a side; the impact is ten times that."
+      ],
+      "fill": "Brokerage, STT, exchange charges, stamp duty and GST, all printed on the contract note, are ____.",
+      "confusables": [
+        "implicit-costs",
+        "stt",
+        "haircut"
+      ],
+      "wrong": [
+        "Costs from the spread and your own price impact",
+        "Tax on the profit from a trade",
+        "Interest on borrowed margin"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "implicit-costs",
+      "term": "implicit costs",
+      "unit": "x1",
+      "short": "Costs hidden in the prices you get",
+      "definition": "Trading costs that never appear on a bill but show up in your fill prices: the spread, market impact, delay and missed trades. For large orders they usually dwarf the explicit costs.",
+      "examples": [
+        "The broker is cheap on commission, but its implicit costs are awful."
+      ],
+      "fill": "Nobody bills you for the spread or your own price impact, but you pay for them through worse fills. They're ____.",
+      "confusables": [
+        "explicit-costs",
+        "stt",
+        "haircut"
+      ],
+      "wrong": [
+        "Fees printed on the contract note",
+        "Yearly charge for a demat account",
+        "Tax deducted at source on dividends"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "execution-algo",
+      "term": "execution algo",
+      "aliases": [
+        "execution algorithm"
+      ],
+      "unit": "x2",
+      "short": "Algo that works an order at low cost",
+      "definition": "An algorithm whose only job is to buy or sell a given quantity cheaply, by deciding when, where and how big to make each slice. It doesn't choose what to trade; the portfolio manager or the strategy has already done that.",
+      "examples": [
+        "Hand the order to an execution algo and check on it at lunch."
+      ],
+      "fill": "The PM picks the stock; the ____ decides how to slice and time the buying so it costs as little as possible.",
+      "confusables": [
+        "algo-trading",
+        "smart-order-routing",
+        "black-box-algo"
+      ],
+      "wrong": [
+        "Algo that decides which stocks to buy",
+        "Rule that fires a stop-loss order",
+        "Software that settles trades after the close"
+      ],
+      "tf": [
+        {
+          "s": "An execution algo decides whether a trade is worth doing.",
+          "a": false,
+          "why": "It only decides how to carry out a trade someone else has chosen."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "vwap-algo",
+      "term": "VWAP algo",
+      "said": "vee-wap algo",
+      "speak": "vee wap algo",
+      "unit": "x2",
+      "short": "Trades in step with the usual volume pattern",
+      "definition": "An execution algo that spreads an order across the day in line with the stock's usual volume profile, aiming to finish close to the day's VWAP. It's predictable, which makes it easier for others to spot.",
+      "examples": [
+        "Put half on a VWAP algo to the close and keep half for the auction."
+      ],
+      "fill": "If 20% of a stock's volume usually trades in the first hour, this algo plans to do 20% of your order then. It's a ____.",
+      "confusables": [
+        "twap-algo",
+        "pov-algo",
+        "vwap"
+      ],
+      "wrong": [
+        "Trades the same amount every few minutes",
+        "Trades a fixed share of live volume",
+        "Trades as fast as it can at the open"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "twap-algo",
+      "term": "TWAP algo",
+      "said": "tee-wap algo",
+      "speak": "tee wap algo",
+      "unit": "x2",
+      "short": "Trades equal amounts at even intervals",
+      "definition": "An execution algo that cuts an order into equal slices sent at regular times, whatever the volume. It's simple and suits thin stocks or a fixed window, but it trades the same amount in quiet and busy spells.",
+      "examples": [
+        "TWAP algo, 2,000 shares every five minutes until 2 pm."
+      ],
+      "fill": "Buying 1,000 shares every 10 minutes from open to close, however busy the stock is, is what a ____ does.",
+      "confusables": [
+        "vwap-algo",
+        "pov-algo",
+        "twap"
+      ],
+      "wrong": [
+        "Trades in step with the usual volume pattern",
+        "Trades a fixed share of live volume",
+        "Trades only when the price dips"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "pov-algo",
+      "term": "POV algo",
+      "aliases": [
+        "percent of volume",
+        "participation algo"
+      ],
+      "said": "P O V algo",
+      "speak": "P O V algo",
+      "unit": "x2",
+      "short": "Trades a fixed share of live volume",
+      "definition": "An execution algo that keeps your trades at a set percentage of the market's live volume, such as 10%. It speeds up when the stock is busy and slows when it's quiet, so you don't know in advance when it will finish.",
+      "examples": [
+        "Run it POV at 8%; if volume dries up, we'll carry the rest to tomorrow."
+      ],
+      "fill": "Set it to 10% and it buys 1,000 shares for every 10,000 the market trades. It's a ____.",
+      "confusables": [
+        "participation-rate",
+        "vwap-algo",
+        "twap-algo"
+      ],
+      "wrong": [
+        "Trades equal amounts at even intervals",
+        "Trades in step with yesterday's volume",
+        "Fills the whole order in one go"
+      ],
+      "calcs": [
+        {
+          "q": "You need 2 lakh shares on a POV algo at 10%. The stock trades about 40 lakh shares a day. How much market volume must trade for you to finish?",
+          "options": [
+            "Half a day's volume",
+            "A tenth of a day's volume",
+            "A full day's volume",
+            "Twice a day's volume"
+          ],
+          "answer": 0,
+          "why": "2 lakh at 10% needs 20 lakh shares of market volume, which is half of 40 lakh."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A POV algo always finishes by the end of the day.",
+          "a": false,
+          "why": "If volume is light, it can run out of day with shares left to do."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "arrival-price-algo",
+      "term": "arrival price algo",
+      "aliases": [
+        "implementation shortfall algo",
+        "IS algo"
+      ],
+      "unit": "x2",
+      "short": "Trades early to stay close to arrival price",
+      "definition": "An execution algo that aims to keep implementation shortfall against the arrival price low. It trades harder at the start, accepting more impact to cut the risk that the price drifts away while it waits.",
+      "examples": [
+        "The news is out, so use the arrival price algo and get most of it done this hour."
+      ],
+      "fill": "News is breaking, so you want an algo that front-loads the order to finish near where the price was when you started. You pick an ____.",
+      "confusables": [
+        "vwap-algo",
+        "pov-algo",
+        "urgency"
+      ],
+      "wrong": [
+        "Trades equal amounts at even intervals",
+        "Waits for the closing auction",
+        "Trades in step with the usual volume pattern"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "volume-profile",
+      "term": "volume profile",
+      "aliases": [
+        "volume curve"
+      ],
+      "unit": "x2",
+      "short": "How a stock's volume spreads through the day",
+      "definition": "The usual pattern of how much of a stock's daily volume trades in each part of the day, built from past days. In most stock markets it's U-shaped: heavy at the open and the close, lighter in the middle.",
+      "examples": [
+        "Our volume profile says a quarter of the day trades in the last 45 minutes."
+      ],
+      "fill": "A VWAP algo plans its slices from the stock's ____, which shows heavy trading at the open and close.",
+      "confusables": [
+        "volume",
+        "vwap-algo",
+        "market-depth"
+      ],
+      "wrong": [
+        "Chart of price against time",
+        "List of a stock's biggest holders",
+        "Number of shares waiting in the order book"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "urgency",
+      "term": "urgency",
+      "aliases": [
+        "aggression"
+      ],
+      "unit": "x2",
+      "short": "How hard an algo trades against the clock",
+      "definition": "An algo setting for how fast to get the order done. High urgency crosses the spread and takes liquidity, paying more impact; low urgency waits with passive orders, risking that the price moves away.",
+      "examples": [
+        "Turn up the urgency, the stock's starting to run."
+      ],
+      "fill": "Turn the ____ up and the algo crosses the spread more often to finish sooner, paying more impact.",
+      "confusables": [
+        "aggressive-order",
+        "timing-risk",
+        "latency"
+      ],
+      "wrong": [
+        "How soon a trade must settle",
+        "Priority the exchange gives to large orders",
+        "How quickly an order can be cancelled"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "dma",
+      "term": "DMA",
+      "aliases": [
+        "direct market access"
+      ],
+      "said": "D M A",
+      "speak": "D M A",
+      "unit": "x2",
+      "short": "Client orders going straight to the exchange",
+      "definition": "A broker facility that lets clients send orders straight into the exchange's trading system through the broker's systems, without a dealer keying them in. The broker's risk checks still apply. SEBI allowed it for institutional clients in April 2008.",
+      "examples": [
+        "The fund uses DMA, so its own algos send orders to NSE through our gateway."
+      ],
+      "fill": "The fund's traders enter orders on their own screens and they go straight into NSE through the broker's systems, with nobody at the broker re-keying them. That's ____.",
+      "confusables": [
+        "algo-trading",
+        "co-location",
+        "stockbroker"
+      ],
+      "wrong": [
+        "A demat account held directly with NSDL",
+        "Buying shares straight from the company",
+        "Trading without paying any brokerage"
+      ],
+      "tf": [
+        {
+          "s": "With DMA, the broker's risk checks are skipped.",
+          "a": false,
+          "why": "Orders still pass through the broker's systems and risk controls."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://bseindia.com/static/members/dma.aspx",
+      "difficulty": 2
+    },
+    {
+      "id": "tca",
+      "term": "TCA",
+      "aliases": [
+        "transaction cost analysis"
+      ],
+      "said": "T C A",
+      "speak": "T C A",
+      "unit": "x3",
+      "short": "Review of what trades really cost",
+      "definition": "Measuring what trades really cost against benchmarks such as the arrival price or VWAP, split into fees, spread, impact and delay. Done before trading, it estimates the cost; done afterwards, it checks what really happened.",
+      "examples": [
+        "Post-trade TCA shows the afternoon orders cost twice as much as the morning ones."
+      ],
+      "fill": "Each quarter the fund checks every fill against arrival price and VWAP to see which brokers and algos cost most. That's ____.",
+      "confusables": [
+        "transaction-costs",
+        "implementation-shortfall",
+        "backtest"
+      ],
+      "wrong": [
+        "Tax collected on each trade",
+        "Software that sends orders to the exchange",
+        "SEBI's audit of a broker's accounts"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "market-impact",
+      "term": "market impact",
+      "aliases": [
+        "price impact"
+      ],
+      "unit": "x3",
+      "short": "The price move your own trading causes",
+      "definition": "How far your own buying or selling pushes the price over the whole life of an order. Unlike impact cost, which is read off the order book for one instant sweep, it includes how other traders react while you keep trading.",
+      "examples": [
+        "The spread was 2 bp, but market impact on the full order was 25 bp."
+      ],
+      "fill": "As you kept buying all morning, the stock climbed 1% on your own demand. That move is ____.",
+      "confusables": [
+        "impact-cost",
+        "price-discovery",
+        "short-squeeze"
+      ],
+      "wrong": [
+        "How news about a company moves its stock",
+        "How the index moves when one stock moves",
+        "Effect of an earnings beat on the share price"
+      ],
+      "tf": [
+        {
+          "s": "Doubling an order's size roughly doubles its market impact per share.",
+          "a": false,
+          "why": "Impact grows more slowly than size, roughly with its square root."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "temporary-impact",
+      "term": "temporary impact",
+      "unit": "x3",
+      "short": "Price push that fades once you stop",
+      "definition": "The part of your market impact that comes from using up the liquidity on offer. It fades once you stop trading and the order book refills.",
+      "examples": [
+        "Half the move was temporary impact; the stock gave it back within the hour."
+      ],
+      "fill": "Part of your price push comes only from eating the offers in the book, and it fades as the book refills. That part is ____.",
+      "confusables": [
+        "permanent-impact",
+        "market-impact",
+        "adverse-selection"
+      ],
+      "wrong": [
+        "Price move that stays after you stop",
+        "Price move caused by a news headline",
+        "Gap between the open and the previous close"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "permanent-impact",
+      "term": "permanent impact",
+      "unit": "x3",
+      "short": "Price move that stays after you stop",
+      "definition": "The part of your market impact that stays after you finish, because other traders read your buying or selling as news about what the stock is worth.",
+      "examples": [
+        "There's a big buyer in the name, so most of that move is permanent impact."
+      ],
+      "fill": "Others guessed a big fund was buying and repriced the stock, so the 15 bp move never came back. That's ____.",
+      "confusables": [
+        "temporary-impact",
+        "market-impact",
+        "adverse-selection"
+      ],
+      "wrong": [
+        "Price push that fades once you stop",
+        "Change in price after a stock split",
+        "Fall in price on the ex-dividend date"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "square-root-law",
+      "term": "square-root law",
+      "aliases": [
+        "square root impact"
+      ],
+      "unit": "x3",
+      "short": "Impact grows with the square root of size",
+      "definition": "A pattern found across many markets: the market impact of an order grows with the square root of its size relative to daily volume, scaled by the stock's volatility. Four times the size costs about twice as much per share, not four times.",
+      "examples": [
+        "By the square-root law, cutting the order to a quarter should halve the impact."
+      ],
+      "fill": "Impact per share grows with √(order size ÷ daily volume), a pattern known as the ____.",
+      "confusables": [
+        "market-impact",
+        "rule-of-16",
+        "participation-rate"
+      ],
+      "wrong": [
+        "Volatility grows with the square root of time",
+        "Impact grows in a straight line with order size",
+        "Returns fall as the square of fund size"
+      ],
+      "note": "σ is daily volatility, Q the order size, V daily volume and Y a constant close to 1.",
+      "formula": "Impact ≈ Y × σ × √(Q ÷ V)",
+      "calcs": [
+        {
+          "q": "An order of 1% of daily volume costs about 10 bp of impact. Using the square-root law, what does an order of 4% of daily volume cost?",
+          "options": [
+            "20 bp",
+            "40 bp",
+            "10 bp",
+            "160 bp"
+          ],
+          "answer": 0,
+          "why": "4 times the size gives √4 = 2 times the impact: 2 × 10 = 20 bp."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "delay-cost",
+      "term": "delay cost",
+      "unit": "x3",
+      "short": "Price drift before the order reaches market",
+      "definition": "The cost of the price moving between the portfolio manager's decision and the order reaching the market. It's part of implementation shortfall, and often nobody on the desk owns it.",
+      "examples": [
+        "The order sat in the PM's inbox for an hour and lost 15 bp before we touched it."
+      ],
+      "fill": "The PM decided to buy at 200, but by the time the order reached the desk the stock was 202. Those 2 rupees are ____.",
+      "confusables": [
+        "decision-price",
+        "opportunity-cost",
+        "timing-risk"
+      ],
+      "wrong": [
+        "Penalty for paying margin late",
+        "Interest charged when settlement is late",
+        "Cost of an order left unfilled at the close"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "opportunity-cost",
+      "term": "opportunity cost",
+      "unit": "x3",
+      "short": "Gain missed on shares that never filled",
+      "definition": "In execution, the gain you missed on shares you meant to trade but didn't, because the price ran away or your limit was too tight. In everyday finance it means what you give up by choosing one use of money over another.",
+      "examples": [
+        "Our limit was too tight: we got half the order, and the opportunity cost on the rest was bigger than any impact."
+      ],
+      "fill": "You bought 60% of the order, then the stock ran 5% and you gave up on the rest. The gain missed on the other 40% is ____.",
+      "confusables": [
+        "delay-cost",
+        "slippage",
+        "timing-risk"
+      ],
+      "wrong": [
+        "Brokerage charged on a cancelled order",
+        "Price paid above the arrival price",
+        "Interest earned on idle cash"
+      ],
+      "calcs": [
+        {
+          "q": "You decided to buy 10,000 shares at 100 but filled only 6,000. The stock ends at 110. What's the opportunity cost on the unfilled part?",
+          "options": [
+            "₹40,000",
+            "₹60,000",
+            "₹1,00,000",
+            "₹4,000"
+          ],
+          "answer": 0,
+          "why": "4,000 unfilled shares × (110 − 100) = ₹40,000."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "timing-risk",
+      "term": "timing risk",
+      "unit": "x3",
+      "short": "Risk the price moves while you trade slowly",
+      "definition": "The risk that the price moves against you while an order is worked slowly. Trading faster cuts timing risk but raises impact, and balancing the two is the core problem of execution.",
+      "examples": [
+        "Spreading it over three days cuts impact but piles on timing risk."
+      ],
+      "fill": "Working the order over a week keeps impact low, but leaves you exposed to the price wandering off. That exposure is ____.",
+      "confusables": [
+        "market-impact",
+        "urgency",
+        "delay-cost"
+      ],
+      "wrong": [
+        "Risk that the exchange opens late",
+        "Risk of buying at the day's high",
+        "Risk that settlement takes longer than T+1"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "information-leakage",
+      "term": "information leakage",
+      "unit": "x3",
+      "short": "Others spotting your order before it's done",
+      "definition": "When other traders work out that a big order is in the market, from its pattern of child orders or from loose talk, and trade ahead of it. It raises the cost of finishing the order.",
+      "examples": [
+        "The same size every 30 seconds is a giveaway; that's where the information leakage started."
+      ],
+      "fill": "Your algo sent identical slices every minute, other traders spotted the pattern and bought ahead of you. That's ____.",
+      "confusables": [
+        "insider-trading",
+        "market-impact",
+        "spoofing"
+      ],
+      "wrong": [
+        "Delay in exchange data reaching your screen",
+        "A data breach at a stock exchange",
+        "Publishing a research report before the open"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "post-trade-reversion",
+      "term": "post-trade reversion",
+      "aliases": [
+        "reversion"
+      ],
+      "unit": "x3",
+      "short": "Price drifting back after you finish",
+      "definition": "How far the price moves back after your order finishes. A big reversion means much of your impact was temporary, which suggests you traded faster or more aggressively than you needed to.",
+      "examples": [
+        "Reversion was 15 bp within 30 minutes; we paid up for liquidity we didn't need."
+      ],
+      "fill": "You finished buying at 505, and twenty minutes later the stock was back at 502. That drop back is ____.",
+      "confusables": [
+        "dead-cat-bounce",
+        "correction",
+        "profit-booking"
+      ],
+      "wrong": [
+        "A stock's bounce after a sharp fall",
+        "Reversing a trade booked by mistake",
+        "Return of margin after a position is closed"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "almgren-chriss",
+      "term": "Almgren–Chriss model",
+      "aliases": [
+        "Almgren-Chriss"
+      ],
+      "unit": "x3",
+      "short": "Model for the best pace to work an order",
+      "definition": "The classic model for choosing how fast to work an order. It finds the schedule with the best balance between market impact (from trading fast) and timing risk (from trading slowly) for a given appetite for risk. Many implementation shortfall algos build on it.",
+      "examples": [
+        "With high risk aversion, Almgren–Chriss front-loads the schedule."
+      ],
+      "fill": "The classic model that trades market impact off against timing risk to set an order's schedule is the ____.",
+      "confusables": [
+        "arrival-price-algo",
+        "square-root-law",
+        "black-scholes"
+      ],
+      "wrong": [
+        "Model for pricing European options",
+        "Model that splits returns into factors",
+        "Model of how volatility changes over time"
+      ],
+      "difficulty": 3
+    }
+  ]
+}

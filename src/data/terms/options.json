@@ -27,6 +27,11 @@
       "id": "o5",
       "name": "Option strategies",
       "core": false
+    },
+    {
+      "id": "o6",
+      "name": "Pricing and parity trades",
+      "core": false
     }
   ],
   "terms": [
@@ -1560,6 +1565,398 @@
         "Risk that the option is mispriced at listing"
       ],
       "difficulty": 3
+    },
+    {
+      "id": "european-option",
+      "term": "European option",
+      "unit": "o6",
+      "short": "Exercisable only at expiry",
+      "definition": "An option that can be exercised only on its expiry date. All options on NSE are European: index options have been since they launched in 2001, and stock options switched from American style in January 2011.",
+      "examples": [
+        "These are European options, so there's no early exercise to worry about on the short leg."
+      ],
+      "fill": "On NSE you can't exercise a Nifty option before its expiry date, because it's a ____.",
+      "confusables": [
+        "american-option",
+        "call-option",
+        "expiry"
+      ],
+      "wrong": [
+        "Exercisable on any day up to expiry",
+        "Option on a European stock index",
+        "Option that settles in euros"
+      ],
+      "tf": [
+        {
+          "s": "A European option can be sold to someone else before expiry.",
+          "a": true,
+          "why": "You can't exercise it early, but you can trade it at any time."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.nseindia.com/products-services/equity-derivatives-bank-nifty-option-contract-specification-monthly",
+      "difficulty": 2
+    },
+    {
+      "id": "american-option",
+      "term": "American option",
+      "unit": "o6",
+      "short": "Exercisable on any day up to expiry",
+      "definition": "An option the holder can exercise on any day up to expiry. NSE stock options were American style until January 2011; most US stock options still are.",
+      "examples": [
+        "Deep in-the-money American puts can be worth exercising early."
+      ],
+      "fill": "If you can exercise your option on any trading day before it expires, it's an ____.",
+      "confusables": [
+        "european-option",
+        "put-option",
+        "expiry"
+      ],
+      "wrong": [
+        "Exercisable only at expiry",
+        "Option on a US company",
+        "Option priced in dollars"
+      ],
+      "tf": [
+        {
+          "s": "An American option is worth at least as much as an otherwise identical European option.",
+          "a": true,
+          "why": "It has every right the European one has, plus early exercise."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://business-standard.com/article/markets/nse-to-offer-european-style-stock-options-from-today-111010300043_1.html",
+      "difficulty": 2
+    },
+    {
+      "id": "binomial-tree",
+      "term": "binomial tree",
+      "aliases": [
+        "binomial model"
+      ],
+      "unit": "o6",
+      "short": "Prices options with up-or-down price steps",
+      "definition": "A model that prices an option by letting the underlying move only up or down at each step, valuing the option at expiry and working back to today with risk-neutral probabilities. With many small steps it agrees with Black-Scholes, and unlike Black-Scholes it can handle early exercise.",
+      "examples": [
+        "We use a binomial tree for the American options, because Black-Scholes can't do early exercise."
+      ],
+      "fill": "Let the stock go up or down at each step, value the option at the end, then work backwards. That's a ____.",
+      "confusables": [
+        "black-scholes",
+        "risk-neutral-probability",
+        "normal-distribution"
+      ],
+      "wrong": [
+        "Chart of open interest by strike",
+        "Model of a company's chance of default",
+        "Table of an option's Greeks"
+      ],
+      "calcs": [
+        {
+          "q": "A stock is at 100 and will be either 120 or 90 at expiry, with interest at zero. The risk-neutral chance of the up move is 1/3. What's the 100-strike call worth?",
+          "options": [
+            "6.67",
+            "10",
+            "20",
+            "13.33"
+          ],
+          "answer": 0,
+          "why": "The call pays 20 if the stock goes up and 0 if it goes down. Value = 1/3 × 20 + 2/3 × 0 = 6.67."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "risk-neutral-probability",
+      "term": "risk-neutral probability",
+      "unit": "o6",
+      "short": "Pricing odds, not real-world odds",
+      "definition": "The probabilities used to price a derivative, set so the underlying is expected to grow at exactly the risk-free rate. They aren't a forecast of what will happen; they're whatever keeps prices free of arbitrage.",
+      "examples": [
+        "The risk-neutral probability of the up move is 40%, whatever the analysts think."
+      ],
+      "fill": "In a pricing tree, we weight the up and down moves so the stock's expected price grows only at the risk-free rate. Those weights are the ____.",
+      "confusables": [
+        "binomial-tree",
+        "normal-distribution",
+        "delta"
+      ],
+      "wrong": [
+        "Chance analysts give of the stock rising",
+        "Share of past expiries that ended in the money",
+        "Odds that a trader loses money on a trade"
+      ],
+      "formula": "p = (S × (1 + r) − down) ÷ (up − down)",
+      "calcs": [
+        {
+          "q": "A stock at 100 will be 120 or 90 next period, and interest is zero. What's the risk-neutral probability of the up move?",
+          "options": [
+            "1/3",
+            "1/2",
+            "2/3",
+            "1/4"
+          ],
+          "answer": 0,
+          "why": "Solve 120p + 90(1 − p) = 100: 30p = 10, so p = 1/3."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A risk-neutral probability of 70% means traders think there's a 70% chance of the up move.",
+          "a": false,
+          "why": "It's a pricing device, not a forecast."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "synthetic-long",
+      "term": "synthetic long",
+      "aliases": [
+        "synthetic future"
+      ],
+      "unit": "o6",
+      "short": "Long call plus short put, same strike",
+      "definition": "Buying a call and selling a put at the same strike and expiry. The pair gains and loses one for one with the underlying, just like a long future, which is what put-call parity says.",
+      "examples": [
+        "Futures are rich, so we'll get long through a synthetic long instead."
+      ],
+      "fill": "Buy the 24,000 call and sell the 24,000 put of the same expiry, and you hold a ____.",
+      "confusables": [
+        "synthetic-short",
+        "straddle",
+        "covered-call"
+      ],
+      "wrong": [
+        "Long call plus long put, same strike",
+        "Long stock plus a short call",
+        "Long stock plus a long put"
+      ],
+      "calcs": [
+        {
+          "q": "The 24,000 call costs 300 and the 24,000 put costs 200, same expiry. Ignoring interest, what futures price does a synthetic long lock in?",
+          "options": [
+            "24,100",
+            "23,900",
+            "24,500",
+            "24,000"
+          ],
+          "answer": 0,
+          "why": "Strike + call − put = 24,000 + 300 − 200 = 24,100."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "synthetic-short",
+      "term": "synthetic short",
+      "unit": "o6",
+      "short": "Long put plus short call, same strike",
+      "definition": "Buying a put and selling a call at the same strike and expiry. It loses one for one as the underlying rises and gains as it falls, like a short future.",
+      "examples": [
+        "We can't short the stock overnight, so we built a synthetic short in options."
+      ],
+      "fill": "Sell the 1,500 call and buy the 1,500 put of the same expiry, and you've built a ____.",
+      "confusables": [
+        "synthetic-long",
+        "protective-put",
+        "short-selling"
+      ],
+      "wrong": [
+        "Long call plus short put, same strike",
+        "Short call plus short put, same strike",
+        "Long stock plus a long put"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "conversion",
+      "term": "conversion",
+      "unit": "o6",
+      "short": "Long future hedged into a locked payoff",
+      "definition": "Buying the underlying or its future and pairing it with a long put and a short call at one strike and expiry. The options make a synthetic short, so the payoff is fixed. Traders do it when the future is cheap against the options.",
+      "examples": [
+        "The calls are rich against the future, so the desk is putting on conversions."
+      ],
+      "fill": "Buy the future, buy the 24,000 put and sell the 24,000 call, and the payoff is locked whatever happens. That's a ____.",
+      "confusables": [
+        "reverse-conversion",
+        "box-spread",
+        "synthetic-short"
+      ],
+      "wrong": [
+        "Swapping one share class for another",
+        "Turning an intraday trade into a delivery trade",
+        "Short future plus a synthetic long"
+      ],
+      "calcs": [
+        {
+          "q": "The future is at 24,050. The 24,000 put costs 200 and the 24,000 call costs 300. Ignoring interest, what does a conversion lock in per unit?",
+          "options": [
+            "+50",
+            "−50",
+            "+150",
+            "+100"
+          ],
+          "answer": 0,
+          "why": "The options make a synthetic short at 24,000 + 300 − 200 = 24,100. Buying the future at 24,050 against it locks in 50."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "reverse-conversion",
+      "term": "reverse conversion",
+      "aliases": [
+        "reversal"
+      ],
+      "unit": "o6",
+      "short": "Short future hedged into a locked payoff",
+      "definition": "Selling the underlying or its future and pairing it with a long call and a short put at one strike and expiry. It mirrors a conversion and is used when the future is rich against the options.",
+      "examples": [
+        "The future is rich against the synthetic, so we're doing reversals."
+      ],
+      "fill": "Sell the future, buy the 24,000 call and sell the 24,000 put, and the payoff is locked whatever happens. That's a ____.",
+      "confusables": [
+        "conversion",
+        "box-spread",
+        "synthetic-long"
+      ],
+      "wrong": [
+        "Long future, long put and short call at one strike",
+        "A price trend turning the other way",
+        "Closing a trade at a loss"
+      ],
+      "calcs": [
+        {
+          "q": "The future is at 24,150. The 24,000 call costs 300 and the 24,000 put costs 200. Ignoring interest, what does a reverse conversion lock in per unit?",
+          "options": [
+            "+50",
+            "−50",
+            "+150",
+            "+250"
+          ],
+          "answer": 0,
+          "why": "The synthetic long costs 24,000 + 300 − 200 = 24,100. Selling the future at 24,150 against it locks in 50."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "box-spread",
+      "term": "box spread",
+      "unit": "o6",
+      "short": "Two spreads that pay a fixed amount",
+      "definition": "A bull call spread plus a bear put spread on the same two strikes and expiry. It always pays the gap between the strikes at expiry, so its fair price is that amount discounted at the interest rate. Any other price is a mispricing or a way to borrow or lend.",
+      "examples": [
+        "With three months left, the 23,800/24,200 box at 394 works out to about 6% a year."
+      ],
+      "fill": "Buy the 23,800/24,200 call spread and the 23,800/24,200 put spread together, and you get a ____ that pays 400 whatever happens.",
+      "confusables": [
+        "iron-condor",
+        "conversion",
+        "bull-call-spread"
+      ],
+      "wrong": [
+        "Option trade that profits if the price stays in a range",
+        "Long call and long put at the same strike",
+        "Gap between the highest and lowest bids"
+      ],
+      "calcs": [
+        {
+          "q": "A box spread uses the 23,800 and 24,200 strikes. What does it pay at expiry, wherever the Nifty ends?",
+          "options": [
+            "400",
+            "24,000",
+            "800",
+            "200"
+          ],
+          "answer": 0,
+          "why": "A box always pays the gap between its strikes: 24,200 − 23,800 = 400."
+        }
+      ],
+      "tf": [
+        {
+          "s": "What a long box spread pays at expiry depends on where the underlying ends.",
+          "a": false,
+          "why": "It always pays the gap between the two strikes."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "rule-of-16",
+      "term": "rule of 16",
+      "unit": "o6",
+      "short": "Annual vol ÷ 16 ≈ typical daily move",
+      "definition": "A desk shortcut: divide annualised volatility by 16 to get the typical one-day move, because 16 is the square root of 256, roughly the number of trading days in a year.",
+      "examples": [
+        "IV's at 16, so the market's pricing about a 1% day."
+      ],
+      "fill": "Implied vol is 32%, so a typical day's move is about 2%. You used the ____.",
+      "confusables": [
+        "annualised-volatility",
+        "implied-volatility",
+        "square-root-law"
+      ],
+      "wrong": [
+        "Hold a position for at least 16 days",
+        "Take profit once a trade is up 16%",
+        "Spread money across at least 16 stocks"
+      ],
+      "formula": "daily move ≈ annual volatility ÷ 16",
+      "calcs": [
+        {
+          "q": "The Nifty is at 24,000 and its implied volatility is 16%. Using the rule of 16, roughly what one-day move is priced in?",
+          "options": [
+            "240 points",
+            "24 points",
+            "2,400 points",
+            "160 points"
+          ],
+          "answer": 0,
+          "why": "16% ÷ 16 = 1% a day, and 1% of 24,000 is 240 points."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "implied-move",
+      "term": "implied move",
+      "aliases": [
+        "expected move"
+      ],
+      "unit": "o6",
+      "short": "Move the options market is pricing in",
+      "definition": "The size of move the options market expects by expiry, usually read from the price of the at-the-money straddle. It's handy before events like results or the budget: owning the straddle pays only if the real move beats it.",
+      "examples": [
+        "The results straddle implies a 6% move; the stock's average results move is 4%."
+      ],
+      "fill": "The at-the-money straddle costs 2% of the stock price, so the market's ____ by expiry is about 2%.",
+      "confusables": [
+        "straddle",
+        "implied-volatility",
+        "rule-of-16"
+      ],
+      "wrong": [
+        "Price move after an analyst upgrade",
+        "Gap between the open and the previous close",
+        "Change in implied volatility after results"
+      ],
+      "calcs": [
+        {
+          "q": "The stock is at 1,000 and the at-the-money straddle for results week costs 50. What's the implied move?",
+          "options": [
+            "About 5%",
+            "About 0.5%",
+            "About 50%",
+            "About 10%"
+          ],
+          "answer": 0,
+          "why": "Straddle cost ÷ stock price = 50 ÷ 1,000 = 5%."
+        }
+      ],
+      "difficulty": 2
     }
   ]
 }

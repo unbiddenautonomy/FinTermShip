@@ -7,9 +7,14 @@ import {
   graduate,
   intervalFor,
   introduce,
+  MAX_REVIEWS_PER_DAY,
+  newLeftToday,
   newProgress,
   review,
+  tomorrowLoad,
 } from './scheduler';
+import { pathTermIds } from './content';
+import type { Progress } from './types';
 
 const today = '2026-11-04';
 
@@ -76,6 +81,32 @@ describe('reviews', () => {
       seen.push(day);
     }
     expect(seen).toEqual([1, 4, 11, 27, 62, 182].map((d) => addDays(today, d)));
+  });
+});
+
+describe('daily new terms', () => {
+  /** A learner with `n` terms booked for review on `day`. */
+  function booked(n: number, day: string): Progress {
+    const p = newProgress();
+    for (const id of pathTermIds.slice(0, n)) {
+      p.terms[id] = { step: 2, due: day, lapses: 0, trouble: false, seen: 2, correct: 2, wrong: 0, introduced: today };
+    }
+    return p;
+  }
+
+  it('gives the full daily goal when tomorrow is light', () => {
+    expect(newLeftToday(booked(20, addDays(today, 1)), today)).toBe(20);
+  });
+
+  it('holds new terms back when tomorrow is already near the review cap', () => {
+    const p = booked(MAX_REVIEWS_PER_DAY - 6, addDays(today, 1));
+    expect(tomorrowLoad(p, today)).toBe(MAX_REVIEWS_PER_DAY - 6);
+    expect(newLeftToday(p, today)).toBe(6);
+    expect(newLeftToday(booked(MAX_REVIEWS_PER_DAY + 5, addDays(today, 1)), today)).toBe(0);
+  });
+
+  it("counts some of today's reviews as coming back tomorrow", () => {
+    expect(tomorrowLoad(booked(50, today), today)).toBe(10);
   });
 });
 
