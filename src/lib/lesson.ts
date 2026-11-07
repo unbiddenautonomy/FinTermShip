@@ -1,3 +1,4 @@
+import { focusQueue } from './choose';
 import { pathTermIds, termById } from './content';
 import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, tfQuestion, type Rng } from './questions';
 import { dueTermIds, newLeftToday, reviewOverflow, reviewsLeftToday } from './scheduler';
@@ -10,14 +11,20 @@ export const REVIEWS_PER_REVIEW_LESSON = 12;
 export const REVIEW_FIRST_THRESHOLD = 12;
 
 export interface LessonPlan {
-  kind: 'new' | 'review';
+  kind: 'new' | 'review' | 'practice' | 'test';
   newIds: string[];
   reviewIds: string[];
   questions: Question[];
+  /** The unit a practice round is on. */
+  unitId?: string;
+  /** The area a test is for. */
+  categoryId?: string;
 }
 
+/** Next terms to teach: a picked unit (and what it builds on) first, then the usual path. */
 export function nextNewTermIds(p: Progress, count: number): string[] {
-  return pathTermIds.filter((id) => !p.terms[id]).slice(0, count);
+  const queue = [...focusQueue(p), ...pathTermIds.filter((id) => !p.terms[id])];
+  return [...new Set(queue)].slice(0, count);
 }
 
 export interface TodayStatus {

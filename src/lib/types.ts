@@ -86,6 +86,19 @@ export interface Progress {
   lastActiveDay: string | null;
   days: Record<string, DayStats>;
   lastBackup: string | null;
+  /** A unit the learner picked to learn next, ahead of the usual order. */
+  focus?: string;
+  /** Areas whose advanced units were opened by passing the area test. */
+  unlocked?: string[];
+  /** Latest area test attempt, by area id. */
+  tests?: Record<string, TestAttempt>;
+}
+
+export interface TestAttempt {
+  date: string;
+  right: number;
+  total: number;
+  passed: boolean;
 }
 
 export type Question =
