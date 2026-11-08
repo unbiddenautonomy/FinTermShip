@@ -1283,6 +1283,66 @@
       "difficulty": 3
     },
     {
+      "id": "markout",
+      "term": "markout",
+      "aliases": [
+        "markouts",
+        "mark-out"
+      ],
+      "unit": "s5",
+      "short": "How the price moves after your fill",
+      "definition": "The change in the mid-price a set time after a fill, such as one second or one minute, measured from the trader's side. Steadily negative markouts on passive fills mean better-informed traders are picking you off.",
+      "examples": [
+        "Our one-second markouts on that venue are minus half a tick, so the flow there is toxic.",
+        "The fills look cheap, but the markouts say the price runs away right after."
+      ],
+      "fill": "We bought at ₹100.00 and ten seconds later the mid was ₹99.95, so our ten-second ____ was −5 paise.",
+      "confusables": [
+        "adverse-selection",
+        "toxic-flow",
+        "slippage"
+      ],
+      "wrong": [
+        "Gap between an order's arrival price and its fill",
+        "Daily settlement of futures profits and losses",
+        "Discount at which a block trade is printed"
+      ],
+      "tf": [
+        {
+          "s": "Negative markouts on a market maker's passive fills are a sign of adverse selection.",
+          "a": true,
+          "why": "The price keeps moving against the fills, so the traders on the other side knew something."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "fill-rate",
+      "term": "fill rate",
+      "aliases": [
+        "fill ratio"
+      ],
+      "unit": "s5",
+      "short": "Share of an order that gets executed",
+      "definition": "The share of an order's quantity, or of the orders sent, that actually gets executed. Passive orders fill less often than aggressive ones but don't pay the spread.",
+      "examples": [
+        "The fill rate on our passive bids dropped to 30% once the queue got longer.",
+        "A high fill rate on passive orders isn't always good news; check the markouts."
+      ],
+      "fill": "We sent 200 passive bids during the day and 80 of them traded, a ____ of 40%.",
+      "confusables": [
+        "partial-fill",
+        "fill",
+        "order-to-trade-ratio"
+      ],
+      "wrong": [
+        "Price at which an order was executed",
+        "Orders sent for every trade done",
+        "Share of trades that make money"
+      ],
+      "difficulty": 2
+    },
+    {
       "id": "white-box-algo",
       "term": "white-box algo",
       "aliases": [

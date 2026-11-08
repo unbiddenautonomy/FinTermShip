@@ -27,6 +27,11 @@
       "id": "c5",
       "name": "Bubbles, shocks and events",
       "core": false
+    },
+    {
+      "id": "c6",
+      "name": "Price, OI and positioning",
+      "core": false
     }
   ],
   "terms": [
@@ -1380,6 +1385,193 @@
         "Removing a stock from surveillance",
         "A regulator lowering margin rates"
       ],
+      "difficulty": 2
+    },
+    {
+      "id": "long-build-up",
+      "term": "long build-up",
+      "aliases": [
+        "long buildup",
+        "long addition"
+      ],
+      "unit": "c6",
+      "short": "Price up, open interest up",
+      "definition": "Price rises while open interest rises, which suggests traders are opening fresh long positions. Indian F&O commentary reads it as a bullish sign.",
+      "examples": [
+        "Long build-up in bank stocks today: prices up 2% with OI up 8%.",
+        "Nifty futures show long build-up for a third day, so the rally has fresh money behind it."
+      ],
+      "fill": "Reliance futures rose 3% and open interest rose 10%: the desk calls that ____.",
+      "confusables": [
+        "short-build-up",
+        "short-covering",
+        "long-unwinding"
+      ],
+      "wrong": [
+        "Price up and open interest down",
+        "Price down and open interest up",
+        "Investors adding to their delivery holdings"
+      ],
+      "tf": [
+        {
+          "s": "A price rise with falling open interest is long build-up.",
+          "a": false,
+          "why": "Falling OI means positions are closing. A rise on falling OI is short covering."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "short-build-up",
+      "term": "short build-up",
+      "aliases": [
+        "short buildup",
+        "short addition"
+      ],
+      "unit": "c6",
+      "short": "Price down, open interest up",
+      "definition": "Price falls while open interest rises, which suggests traders are opening fresh short positions. It's read as a bearish sign.",
+      "examples": [
+        "Short build-up in IT futures after the guidance cut: price down 4%, OI up 15%.",
+        "If this short build-up meets good news, we could see a sharp short-covering rally."
+      ],
+      "fill": "Infosys futures fell 4% while open interest jumped 15%, a classic case of ____.",
+      "confusables": [
+        "long-build-up",
+        "long-unwinding",
+        "short-selling"
+      ],
+      "wrong": [
+        "Price down and open interest down",
+        "Price up and open interest up",
+        "A rise in the number of shares lent out"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "long-unwinding",
+      "term": "long unwinding",
+      "aliases": [
+        "long liquidation"
+      ],
+      "unit": "c6",
+      "short": "Price down, open interest down",
+      "definition": "Price falls while open interest falls, which suggests traders who were long are closing out. It's milder than short build-up: holders are leaving rather than new sellers arriving.",
+      "examples": [
+        "It's long unwinding, not fresh shorting: OI is down 6% along with the price.",
+        "Expect some long unwinding into expiry from traders who don't want to roll."
+      ],
+      "fill": "Price fell 2% and open interest fell 7% as holders sold out of their positions: the desk calls that ____.",
+      "confusables": [
+        "short-build-up",
+        "unwind",
+        "long-build-up"
+      ],
+      "wrong": [
+        "Price up and open interest down",
+        "Price down and open interest up",
+        "Selling futures to hedge a share portfolio"
+      ],
+      "calcs": [
+        {
+          "q": "A stock future falls 1.5% while its open interest drops 9%. How does the desk read it?",
+          "options": [
+            "Long unwinding",
+            "Short build-up",
+            "Short covering",
+            "Long build-up"
+          ],
+          "answer": 0,
+          "why": "Price down with OI down means existing longs are closing. Short build-up would need OI to rise."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "delivery-percentage",
+      "term": "delivery percentage",
+      "aliases": [
+        "delivery percent",
+        "deliverable percentage"
+      ],
+      "unit": "c6",
+      "short": "Share of traded shares actually delivered",
+      "definition": "The part of a stock's traded quantity that ends in delivery, rather than being bought and sold within the day, as a percentage. NSE publishes it daily for every stock.",
+      "examples": [
+        "Delivery is 68% on today's rally, so real buyers are taking the stock home.",
+        "Volume tripled but delivery % fell to 12%: it's mostly intraday traders."
+      ],
+      "fill": "Of 10 lakh HDFC Bank shares traded today, 6 lakh went into demat accounts, so the ____ was 60%.",
+      "confusables": [
+        "delivery-trade",
+        "volume",
+        "intraday"
+      ],
+      "wrong": [
+        "Share of a company's shares held by promoters",
+        "Share of today's trades settled in cash",
+        "Share of buy orders that got filled"
+      ],
+      "note": "High delivery on a rising price suggests investors are buying to hold. It says nothing about who bought, or why.",
+      "calcs": [
+        {
+          "q": "A stock trades 40 lakh shares and 10 lakh end in delivery. What is the delivery percentage?",
+          "options": [
+            "25%",
+            "40%",
+            "75%",
+            "10%"
+          ],
+          "answer": 0,
+          "why": "10 ÷ 40 = 25%. The other 30 lakh were bought and sold within the day, so they never reached a demat account."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.nseindia.com/all-reports",
+      "difficulty": 2
+    },
+    {
+      "id": "participant-wise-oi",
+      "term": "participant-wise OI",
+      "aliases": [
+        "participant-wise open interest",
+        "participant OI"
+      ],
+      "said": "participant-wise O I",
+      "unit": "c6",
+      "short": "NSE's daily F&O positions by trader type",
+      "definition": "NSE's end-of-day report that splits open F&O positions into four groups: clients, DIIs, FIIs and pros (brokers trading their own money). It covers index and stock futures and options, long and short.",
+      "examples": [
+        "FIIs hold only 20% of their index futures as longs, so they're heavily short going into the month.",
+        "Clients are net long index calls again; the pros are on the other side."
+      ],
+      "fill": "To see whether FIIs or retail clients are net short Nifty futures, traders check NSE's ____ report after the close.",
+      "confusables": [
+        "open-interest",
+        "fpi",
+        "fund-flows"
+      ],
+      "wrong": [
+        "Daily list of the biggest single trades in a stock",
+        "Cash-market buying and selling by FIIs and DIIs",
+        "Open interest broken down by strike for one expiry"
+      ],
+      "note": "Traders often quote the FII long-short ratio: FII index futures longs ÷ (longs + shorts). A low reading means FIIs are heavily short.",
+      "calcs": [
+        {
+          "q": "FIIs hold 1.2 lakh long and 2.8 lakh short index futures contracts. What share of their position is long?",
+          "options": [
+            "30%",
+            "43%",
+            "70%",
+            "57%"
+          ],
+          "answer": 0,
+          "why": "1.2 ÷ (1.2 + 2.8) = 1.2 ÷ 4 = 30%."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.nseindia.com/all-reports-derivatives",
       "difficulty": 2
     }
   ]
