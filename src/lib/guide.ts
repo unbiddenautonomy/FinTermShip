@@ -161,6 +161,9 @@ const SYNONYMS: Record<string, string[]> = {
   'unit:x5': ['execution talk', 'sales trader talk', 'execution lingo'],
   'unit:x6': ['order talk', 'order desk', 'dealing desk talk'],
   'unit:x7': ['meeting game', 'meetings', 'listening game', 'meeting practice', 'follow a meeting'],
+  'unit:q13': ['backtest detective', 'backtest game', 'spot the flaw', 'bad backtests', 'find the flaw'],
+  'unit:q14': ['signal lab', 'signal game', 'overfitting game', 'parameter tuning', 'tune a signal'],
+  'unit:z7': ['pairs trader', 'pairs game', 'pairs trading game', 'spread game', 'z score game'],
   'term:pe-ratio': ['p e', 'p e ratio', 'pe ratio', 'pe multiple'],
   'term:participant-wise-oi': ['fii long short ratio', 'long short ratio', 'fii positions'],
   'term:realised-volatility': ['rv', 'realized volatility', 'realized vol'],
@@ -346,7 +349,7 @@ export const HELP: HelpTopic[] = [
     id: 'practice',
     strong: false,
     match: /\b(drills?|games?|desk cases?|cases)\b/,
-    text: 'Drills, games and desk cases sit on the path between lessons. Drills are timed rounds of maths. The games have you quote a market, build option payoffs, call a book\'s Greeks PnL, read correlation and vol off charts, make Fermi estimates and follow short meeting clips; phase 3 adds one on sizing bets. Desk cases are short stories of linked decisions. Pass one to move on, or skip a failed one until tomorrow.',
+    text: 'Drills, games and desk cases sit on the path between lessons. Drills are timed rounds of maths. The games have you quote a market, build option payoffs, call a book\'s Greeks PnL, read correlation and vol off charts, make Fermi estimates, follow short meeting clips, find the flaw in a backtest and tune a signal without fooling yourself; phase 3 adds sizing bets and trading a pair that breaks. Desk cases are short stories of linked decisions. Pass one to move on, or skip a failed one until tomorrow.',
     action: 'home',
   },
   {

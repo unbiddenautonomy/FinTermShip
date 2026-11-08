@@ -95,6 +95,11 @@ describe('routes, careers and help', () => {
     // Kelly betting is in phase 3, so it stays locked until phase 3 opens.
     expect(ask('kelly betting').kind).toBe('locked3');
     expect(ask('kelly betting', open)).toMatchObject({ kind: 'unit', unitId: 'z6' });
+    expect(ask('backtest detective')).toMatchObject({ kind: 'unit', unitId: 'q13' });
+    expect(ask('signal lab')).toMatchObject({ kind: 'unit', unitId: 'q14' });
+    expect(ask('pairs trader').kind).toBe('locked3');
+    expect(ask('pairs trader', open)).toMatchObject({ kind: 'unit', unitId: 'z7' });
+    expect(ask('pairs game', open)).toMatchObject({ kind: 'unit', unitId: 'z7' });
   });
 
   it('reads meeting phrases, even ones with a verb in them', () => {

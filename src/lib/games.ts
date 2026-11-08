@@ -3,6 +3,7 @@
  * files ("game": "payoff"); this file says how big a round is, how to pass,
  * what the score counts, and how a learner's record reads.
  */
+import { BACKTEST, BACKTEST_POINTS } from './backtest';
 import { unitById } from './content';
 import { FERMI } from './fermi';
 import { GREEKS, rupees } from './greeks';
@@ -10,7 +11,9 @@ import { GUESS } from './guess';
 import { KELLY } from './kelly';
 import { MM, points } from './market';
 import { MEETING, MEETING_QUESTIONS } from './meeting';
+import { PAIR_CALLS, PAIRS } from './pairs';
 import { PAYOFF } from './payoff';
+import { SIGNAL } from './signal';
 import type { DrillRecord, GameId } from './types';
 
 export interface GameSpec {
@@ -103,6 +106,32 @@ export const GAMES: Record<GameId, GameSpec> = {
     how: 'Read or listen to each clip, then answer its two questions. The notes at the end list the phrases you heard.',
     score: { label: 'right', short: 'Right', max: MEETING_QUESTIONS },
     record: outOf(MEETING_QUESTIONS, 'Listening game'),
+  },
+  backtest: {
+    size: `${BACKTEST.cases} reports`,
+    rule: `pass with ${BACKTEST.passPoints} of ${BACKTEST_POINTS} points, one for finding each flaw and one for naming it`,
+    about:
+      'Six backtest reports that look too good, each with exactly one flaw: look-ahead, survivorship, missing costs, overfitting, data snooping, a small sample, bad data, or returns that are just the market. Find the line that gives it away, then name it.',
+    how: 'Tap the line in the write-up that gives the flaw away, then pick its name. Each answer ends with what a reviewer would say.',
+    score: { label: 'points', short: 'Points', max: BACKTEST_POINTS },
+    record: outOf(BACKTEST_POINTS, 'Research game'),
+  },
+  signal: {
+    size: `${SIGNAL.items} items`,
+    rule: `pass with ${SIGNAL.passRight} of ${SIGNAL.items} right`,
+    about:
+      'Grids of in-sample Sharpe ratios over 25 settings of a signal. Some are pure noise, some have a real edge, and some hide a lucky lone peak. Take a setting live or bin the signal, then see the truth behind the grid. Plus how high luck reaches after many tries, and how fast an edge decays.',
+    how: 'Tap a setting and take it live, or bin the signal. Then the lab shows the true Sharpe of every setting.',
+    score: { label: 'right', short: 'Right', max: SIGNAL.items },
+    record: outOf(SIGNAL.items, 'Research game'),
+  },
+  pairs: {
+    size: `${PAIR_CALLS} weekly calls`,
+    rule: `pass with ${PAIRS.passRight} of ${PAIR_CALLS} weekly calls by the rules, and every stop taken`,
+    about: `Trade the z-score of three pairs of similar stocks, week by week: enter at ±${PAIRS.entry}, close near 0, stop at ±${PAIRS.stop}. One pair breaks partway through and never comes back.`,
+    how: 'Each week, pick long the spread, flat or short the spread. Each call is checked against the rules from the position you hold.',
+    score: { label: 'by the rules', short: 'Calls', max: PAIR_CALLS },
+    record: outOf(PAIR_CALLS, 'Trading game'),
   },
 };
 

@@ -15,7 +15,7 @@
       "where": "Hedge funds, prop trading firms and quant fund managers",
       "what": "Looks for patterns in market data that predict prices, tests them hard and turns the ones that survive into strategies. It needs strong statistics and coding, and many hires have a master's or a PhD.",
       "skills": ["Statistics and regression", "Backtesting without fooling yourself", "Python and handling data", "Probability"],
-      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5", "q9", "q10", "x7"]
+      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5", "q9", "q13", "q10", "q14", "x7"]
     },
     {
       "id": "quant-developer",
@@ -79,7 +79,7 @@
     {
       "name": "Statistics and research",
       "what": "Mostly for research roles: regression, overfitting, what can go wrong in a backtest, and a deep dive into a project of yours.",
-      "practise": ["q1", "q8", "q3", "q5", "q6", "q9", "q10"]
+      "practise": ["q1", "q8", "q3", "q5", "q6", "q9", "q13", "q10", "q14"]
     },
     {
       "name": "Coding",

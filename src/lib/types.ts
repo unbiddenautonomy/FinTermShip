@@ -54,7 +54,7 @@ export interface Unit {
 export type PracticeKind = 'drill' | 'game' | 'case';
 
 /** The games: quoting a market, building payoffs, calling Greeks PnL, sizing bets, reading charts, Fermi estimates and following a meeting. */
-export type GameId = 'market' | 'payoff' | 'greeks' | 'kelly' | 'guess' | 'fermi' | 'meeting';
+export type GameId = 'market' | 'payoff' | 'greeks' | 'kelly' | 'guess' | 'fermi' | 'meeting' | 'backtest' | 'signal' | 'pairs';
 
 /** The career map: roles and interview rounds, each pointing at units that prepare for it. */
 export interface CareerMap {

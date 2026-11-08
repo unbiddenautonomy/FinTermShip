@@ -51,9 +51,23 @@
       "core": false
     },
     {
+      "id": "q13",
+      "name": "Backtest detective",
+      "core": false,
+      "kind": "game",
+      "game": "backtest"
+    },
+    {
       "id": "q10",
       "name": "Signal research talk",
       "core": false
+    },
+    {
+      "id": "q14",
+      "name": "Signal lab",
+      "core": false,
+      "kind": "game",
+      "game": "signal"
     },
     {
       "id": "q11",
