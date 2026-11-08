@@ -10,10 +10,11 @@ import skills from '../data/terms/skills.json';
 import instruments from '../data/terms/instruments.json';
 import execution from '../data/terms/execution.json';
 import macro from '../data/terms/macro.json';
+import strategies from '../data/terms/strategies.json';
 import cases from '../data/cases.json';
 import type { Category, DeskCase, PracticeKind, Term, Unit } from './types';
 
-export const categories: Category[] = ([basics, india, trading, options, instruments, quant, skills, desk, conditions, macro, micro, execution] as Category[]).sort((a, b) => a.order - b.order);
+export const categories: Category[] = ([basics, india, trading, options, instruments, quant, skills, desk, conditions, macro, micro, execution, strategies] as Category[]).sort((a, b) => a.order - b.order);
 
 export const termById = new Map<string, Term>();
 export const unitById = new Map<string, Unit & { categoryId: string }>();
@@ -32,6 +33,13 @@ export const QUANT_AREAS = ['skills', 'quant', 'options', 'instruments', 'micro'
 
 export function isQuantArea(categoryId: string): boolean {
   return QUANT_AREAS.includes(categoryId);
+}
+
+/** Phase 3 areas: trading strategies, at the end of the track behind the password and the readiness test. */
+export const PHASE3_AREAS = categories.filter((c) => c.phase === 3).map((c) => c.id);
+
+export function isPhase3Area(categoryId: string): boolean {
+  return PHASE3_AREAS.includes(categoryId);
 }
 
 export function categoryOfUnit(unitId: string): Category | undefined {
@@ -60,19 +68,24 @@ export function isCore(termId: string): boolean {
 
 /**
  * The learning path. Pass 1 (the core sweep) takes the core units of every
- * category in order; pass 2 takes the remaining units, again in category order.
+ * category in order; pass 2 takes the remaining units, again in category order;
+ * pass 3 is phase 3, the strategy areas, which stay locked until opened.
  */
-export const path: { unit: Unit; category: Category; pass: 1 | 2; terms: Term[] }[] = [];
-for (const pass of [1, 2] as const) {
+export const path: { unit: Unit; category: Category; pass: 1 | 2 | 3; terms: Term[] }[] = [];
+for (const pass of [1, 2, 3] as const) {
   for (const cat of categories) {
+    if ((cat.phase === 3) !== (pass === 3)) continue;
     for (const unit of cat.units) {
-      if (unit.core !== (pass === 1)) continue;
+      if (pass !== 3 && unit.core !== (pass === 1)) continue;
       path.push({ unit, category: cat, pass, terms: cat.terms.filter((t) => t.unit === unit.id) });
     }
   }
 }
 
 export const pathTermIds: string[] = path.flatMap((p) => p.terms.map((t) => t.id));
+
+/** Terms of passes 1 and 2: everything a learner can reach without opening phase 3. */
+export const mainTermIds: string[] = path.filter((p) => p.pass !== 3).flatMap((p) => p.terms.map((t) => t.id));
 
 export const coreTermIds: string[] = path.filter((p) => p.pass === 1).flatMap((p) => p.terms.map((t) => t.id));
 

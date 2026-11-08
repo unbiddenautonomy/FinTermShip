@@ -12,6 +12,7 @@ import { BookIcon, GearIcon, PathIcon } from './components/icons';
 import { buildPractice, buildTest, withFocus } from './lib/choose';
 import { snoozeDrill } from './lib/drills';
 import { practiceKind } from './lib/content';
+import { buildPhase3Test, PHASE3, withPhase3Key } from './lib/phase3';
 import { dayKey } from './lib/dates';
 import { buildLesson, drillUp, todayStatus, type LessonPlan } from './lib/lesson';
 import { seededRng } from './lib/questions';
@@ -80,7 +81,7 @@ export default function App() {
     else run((seed) => buildLesson(progress, today, seededRng(seed), ignoreNewCap));
   };
   const practise = (unitId: string) => run((seed) => buildPractice(progress, unitId, seededRng(seed)));
-  const takeTest = (categoryId: string) => run((seed) => buildTest(categoryId, seededRng(seed)));
+  const takeTest = (categoryId: string) => run((seed) => (categoryId === PHASE3 ? buildPhase3Test(seededRng(seed)) : buildTest(categoryId, seededRng(seed))));
   const pick = (unitId: string | null) => update(withFocus(progress, unitId));
 
   switch (screen.name) {
@@ -180,6 +181,7 @@ export default function App() {
             onFocus={pick}
             onTest={takeTest}
             onDrill={drill}
+            onPhase3Key={() => update(withPhase3Key(progress))}
             onOpenSettings={() => setScreen({ name: 'settings' })}
             onOpenCareers={() => setScreen({ name: 'careers' })}
             initialSheet={screen.name === 'home' ? screen.sheet : undefined}
