@@ -155,15 +155,37 @@ export function tomorrowLoad(p: Progress, today: string): number {
   return booked + (waiting - reachable) + Math.ceil(reachable * BACK_TOMORROW_SHARE);
 }
 
+/** How many days ahead the new-term cap looks: a new term comes back tomorrow, then again 2 to 3 days after. */
+export const LOOK_AHEAD_DAYS = 4;
+
 /**
- * New terms still allowed today. Each new term comes back for review tomorrow,
- * so new terms stop once tomorrow's reviews would pass the daily cap. When more
- * reviews are due today than the cap can clear, new terms also slow down by one
- * for each review left over, so a backlog cannot snowball.
+ * The heaviest review day coming up, from tomorrow to LOOK_AHEAD_DAYS out.
+ * Each day holds the terms booked for it, plus a share of the day before
+ * coming back, plus anything the day before couldn't fit under the cap.
+ */
+export function peakLoadAhead(p: Progress, today: string): number {
+  const booked = new Map<string, number>();
+  for (const s of Object.values(p.terms)) booked.set(s.due, (booked.get(s.due) ?? 0) + 1);
+  let load = tomorrowLoad(p, today);
+  let peak = load;
+  for (let k = 2; k <= LOOK_AHEAD_DAYS; k++) {
+    const done = Math.min(load, MAX_REVIEWS_PER_DAY);
+    load = (booked.get(addDays(today, k)) ?? 0) + (load - done) + Math.ceil(done * BACK_TOMORROW_SHARE);
+    peak = Math.max(peak, load);
+  }
+  return peak;
+}
+
+/**
+ * New terms still allowed today. Each new term comes back for review tomorrow
+ * and again a few days later, so new terms stop once any of the next few days
+ * would pass the daily review cap. When more reviews are due today than the cap
+ * can clear, new terms also slow down by one for each review left over, so a
+ * backlog cannot snowball.
  */
 export function newLeftToday(p: Progress, today: string): number {
   const base = Math.max(0, p.settings.newPerDay - dayStats(p, today).newTerms);
-  const room = MAX_REVIEWS_PER_DAY - tomorrowLoad(p, today);
+  const room = MAX_REVIEWS_PER_DAY - peakLoadAhead(p, today);
   return Math.max(0, Math.min(base - reviewOverflow(p, today), room));
 }
 

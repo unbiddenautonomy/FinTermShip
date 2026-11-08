@@ -20,6 +20,9 @@ interface Props {
   onTest: (categoryId: string) => void;
   onDrill: (unitId: string) => void;
   onOpenSettings: () => void;
+  onOpenCareers: () => void;
+  /** A unit sheet to open straight away, e.g. when coming from the career map. */
+  initialSheet?: string;
   showInstallHint: boolean;
 }
 
@@ -27,8 +30,8 @@ type Row = PathRow & { i: number; met: number; known: number; total: number; ope
 
 const TOTAL_CATEGORIES = 17;
 
-export function Home({ progress, today, onStart, onPractice, onFocus, onTest, onDrill, onOpenSettings, showInstallHint }: Props) {
-  const [sheet, setSheet] = useState<string | null>(null);
+export function Home({ progress, today, onStart, onPractice, onFocus, onTest, onDrill, onOpenSettings, onOpenCareers, initialSheet, showInstallHint }: Props) {
+  const [sheet, setSheet] = useState<string | null>(initialSheet ?? null);
   const picked = focusActive(progress) && progress.focus ? unitById.get(progress.focus) : undefined;
   const status = todayStatus(progress, today);
   const streak = currentStreak(progress, today);
@@ -154,6 +157,20 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
           onTest={onTest}
         />
       )}
+
+      <button
+        type="button"
+        onClick={onOpenCareers}
+        className="flex w-full items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-left transition hover:border-brand/50 active:scale-[0.99]"
+      >
+        <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-soft text-violet-ink">
+          <Briefcase className="h-5 w-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block font-bold text-ink">Career map</span>
+          <span className="block text-sm text-ink-2">Quant and trading jobs, the interview rounds, and the units that prepare you for each.</span>
+        </span>
+      </button>
 
       {backupDue && (
         <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-sm text-ink-2">

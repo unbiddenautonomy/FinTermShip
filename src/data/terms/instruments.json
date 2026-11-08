@@ -18,6 +18,11 @@
       "name": "Case: cash-futures arbitrage",
       "core": false,
       "kind": "case"
+    },
+    {
+      "id": "f4",
+      "name": "Bonds and yields",
+      "core": false
     }
   ],
   "terms": [
@@ -526,6 +531,330 @@
         }
       ],
       "difficulty": 3
+    },
+    {
+      "id": "bond",
+      "term": "bond",
+      "unit": "f4",
+      "short": "Loan to a borrower that pays interest",
+      "definition": "A loan you make to a government or company by buying a security from it. The issuer pays interest, called the coupon, on set dates and repays the face value when the bond matures.",
+      "examples": [
+        "The company raised ₹2,000 crore through a five-year bond paying 8%."
+      ],
+      "fill": "A company borrows ₹500 crore from investors for five years, paying 8% a year and returning the money at the end. It has issued a ____.",
+      "confusables": [
+        "coupon",
+        "dividend",
+        "g-sec"
+      ],
+      "wrong": [
+        "A share that makes you part-owner of a company",
+        "A contract to buy an asset on a future date",
+        "A guarantee a bank gives on a client's loan"
+      ],
+      "tf": [
+        {
+          "s": "When interest rates rise, the prices of existing bonds fall.",
+          "a": true,
+          "why": "Their fixed coupons look worse next to new bonds paying more, so their prices drop until the yields match."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "coupon",
+      "term": "coupon",
+      "aliases": [
+        "coupon rate"
+      ],
+      "unit": "f4",
+      "short": "Interest a bond pays, as % of face value",
+      "definition": "The interest a bond pays each year, as a percentage of its face value. Indian government bonds pay it in two halves, six months apart. It's fixed when the bond is issued, whatever happens to its price later.",
+      "examples": [
+        "It's a 7.1% bond, so every ₹100 of face value earns ₹3.55 each half-year."
+      ],
+      "fill": "A bond pays ₹7 a year on every ₹100 of face value, whatever price it trades at. Its ____ is 7%.",
+      "confusables": [
+        "yield-to-maturity",
+        "dividend-yield",
+        "accrued-interest"
+      ],
+      "wrong": [
+        "Return a bond earns if held to maturity at today's price",
+        "Discount at which a bond is sold",
+        "Fee paid to the bank that arranged the bond"
+      ],
+      "calcs": [
+        {
+          "q": "A G-sec with ₹100 face value has a 7.2% coupon, paid half-yearly. How much is each payment per ₹100?",
+          "options": [
+            "₹3.60",
+            "₹7.20",
+            "₹0.60",
+            "₹36"
+          ],
+          "answer": 0,
+          "why": "7.2% × ₹100 = ₹7.20 a year, paid in two halves of ₹3.60."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "yield-to-maturity",
+      "term": "yield to maturity",
+      "aliases": [
+        "YTM",
+        "bond yield"
+      ],
+      "unit": "f4",
+      "short": "Yearly return if bought now and held to the end",
+      "definition": "The yearly return a bond gives if you buy it at today's price, collect every coupon and hold it until it's repaid. It's the single rate that makes all those payments add up to the price. When traders say rates rose, they usually mean these went up.",
+      "examples": [
+        "The 10-year is at 6.6%, up 8 bp after the policy."
+      ],
+      "fill": "A bond bought below face value pays its coupons and then rises to ₹100 at the end. The annual return from all of that is its ____.",
+      "confusables": [
+        "coupon",
+        "dividend-yield",
+        "accrued-interest"
+      ],
+      "wrong": [
+        "The interest rate printed on the bond",
+        "The bond's price as a percentage of face value",
+        "The number of years until the bond is repaid"
+      ],
+      "calcs": [
+        {
+          "q": "A one-year bond with no coupon repays ₹100 and costs ₹94. Roughly what's its yield to maturity?",
+          "options": [
+            "6.4%",
+            "6%",
+            "94%",
+            "5.6%"
+          ],
+          "answer": 0,
+          "why": "(100 − 94) ÷ 94 ≈ 6.4%."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A bond trading above face value has a yield to maturity below its coupon.",
+          "a": true,
+          "why": "You pay more than ₹100 but only get ₹100 back, and that loss at the end drags the return below the coupon."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "accrued-interest",
+      "term": "accrued interest",
+      "unit": "f4",
+      "short": "Coupon built up since the last payment",
+      "definition": "The part of the next coupon that has built up since the last payment. A buyer pays it to the seller on top of the quoted price, since the buyer will collect the whole coupon. Quoted price plus this is the dirty price.",
+      "examples": [
+        "The clean price is 101.20; with accrued interest the buyer pays 103.10."
+      ],
+      "fill": "Three months after the last coupon, a buyer pays the quoted price plus the interest built up since then. That extra is the ____.",
+      "confusables": [
+        "coupon",
+        "yield-to-maturity",
+        "dividend"
+      ],
+      "wrong": [
+        "Interest that's overdue and unpaid",
+        "Interest earned on margin money",
+        "A coupon that's been reinvested"
+      ],
+      "calcs": [
+        {
+          "q": "A bond with an 8% coupon, paid half-yearly, last paid a coupon 3 months ago. How much interest has built up per ₹100 of face value?",
+          "options": [
+            "₹2",
+            "₹4",
+            "₹8",
+            "₹0.67"
+          ],
+          "answer": 0,
+          "why": "8% a year × 3/12 = ₹2."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "modified-duration",
+      "term": "modified duration",
+      "aliases": [
+        "duration"
+      ],
+      "unit": "f4",
+      "short": "% price change for a 1-point move in yield",
+      "definition": "How sensitive a bond's price is to its yield: roughly the percentage the price falls for each percentage point the yield rises. Long bonds with low coupons have the most; a 10-year government bond is around 7.",
+      "examples": [
+        "With a modified duration of 7, the fund loses about 0.7% if yields rise 10 bp."
+      ],
+      "fill": "A bond's price falls about 6% when its yield rises by one percentage point, so its ____ is about 6.",
+      "confusables": [
+        "pv01",
+        "convexity",
+        "beta"
+      ],
+      "wrong": [
+        "Years left until the bond is repaid",
+        "Number of coupons still to be paid",
+        "How long a bond trade takes to settle"
+      ],
+      "formula": "% price change ≈ −modified duration × change in yield",
+      "calcs": [
+        {
+          "q": "A bond fund has a modified duration of 5. Yields rise by 0.40 percentage points. Roughly how much does the fund lose?",
+          "options": [
+            "2%",
+            "0.4%",
+            "5%",
+            "20%"
+          ],
+          "answer": 0,
+          "why": "5 × 0.40% = 2%."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Other things equal, a longer bond is more sensitive to changes in yield.",
+          "a": true
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "pv01",
+      "term": "PV01",
+      "aliases": [
+        "DV01",
+        "PVBP",
+        "price value of a basis point"
+      ],
+      "said": "P V oh-one",
+      "speak": "P V oh one",
+      "unit": "f4",
+      "short": "Rupee change in value for a 1 bp yield move",
+      "definition": "How much a bond position gains or loses, in rupees, when yields move by one basis point. Rates desks size and limit their risk with it.",
+      "examples": [
+        "Our book's PV01 is ₹4 lakh, so a 10 bp sell-off costs ₹40 lakh."
+      ],
+      "fill": "The rates desk loses ₹2 lakh for every 1 bp rise in yields. That ₹2 lakh is its ____.",
+      "confusables": [
+        "modified-duration",
+        "basis-point",
+        "var"
+      ],
+      "wrong": [
+        "Price of a bond with ₹1 of face value",
+        "Yield on the shortest government bond",
+        "Interest a bond pays each day"
+      ],
+      "formula": "PV01 ≈ value × modified duration × 0.0001",
+      "calcs": [
+        {
+          "q": "You hold ₹100 crore of bonds with a modified duration of 6. Roughly what's the PV01?",
+          "options": [
+            "₹6 lakh",
+            "₹60 lakh",
+            "₹6 crore",
+            "₹60,000"
+          ],
+          "answer": 0,
+          "why": "₹100 crore × 6 × 0.0001 = ₹0.06 crore = ₹6 lakh."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "convexity",
+      "term": "convexity",
+      "unit": "f4",
+      "short": "How a bond's duration shifts as yields move",
+      "definition": "The curve in a bond's price–yield line. Duration isn't constant, so prices rise more when yields fall than they drop when yields rise by the same amount. Ordinary bonds have positive convexity, which helps the holder in big moves.",
+      "examples": [
+        "In a 100 bp rally, convexity adds about half a point on top of what duration predicts."
+      ],
+      "fill": "Yields fell 1 point and the bond gained 7.6%; when they rose 1 point it lost only 6.8%. The gap comes from ____.",
+      "confusables": [
+        "modified-duration",
+        "pv01",
+        "yield-curve"
+      ],
+      "wrong": [
+        "Extra yield a company bond pays over government bonds",
+        "Years until a bond is repaid",
+        "Gap between short and long-term yields"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "yield-curve",
+      "term": "yield curve",
+      "aliases": [
+        "rates curve"
+      ],
+      "unit": "f4",
+      "short": "Yields plotted from short to long maturities",
+      "definition": "A line joining the yields of government bonds from the shortest maturity to the longest. It usually slopes up, since lenders want more for tying money up longer; when short yields rise above long ones it's inverted, which often comes before a slowdown.",
+      "examples": [
+        "The curve steepened as the 10-year sold off while T-bills held steady."
+      ],
+      "fill": "Plot the yields of 1-year, 5-year, 10-year and 30-year government bonds and join the dots. That line is the ____.",
+      "confusables": [
+        "vol-term-structure",
+        "yield-to-maturity",
+        "credit-spread"
+      ],
+      "wrong": [
+        "Chart of one bond's price over time",
+        "Line showing how inflation changes over a year",
+        "Gap between government and company bond yields"
+      ],
+      "tf": [
+        {
+          "s": "An inverted yield curve means short-term government bonds yield more than long-term ones.",
+          "a": true
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "credit-spread",
+      "term": "credit spread",
+      "unit": "f4",
+      "short": "Extra yield over a government bond",
+      "definition": "The extra yield a company bond pays over a government bond of the same maturity, to make up for the risk that the company doesn't pay. It widens when investors get nervous and narrows when they're relaxed.",
+      "examples": [
+        "AAA spreads are 70 bp over G-secs; lower-rated paper is far wider."
+      ],
+      "fill": "A 5-year AAA company bond yields 7.4% while the 5-year G-sec yields 6.7%. The 70 bp gap is the ____.",
+      "confusables": [
+        "yield-curve",
+        "basis",
+        "risk-off"
+      ],
+      "wrong": [
+        "Gap between a bond's bid and ask prices",
+        "Gap between the coupon and the yield",
+        "Fee a bank charges to arrange a bond"
+      ],
+      "calcs": [
+        {
+          "q": "A company bond yields 8.10% and a government bond of the same maturity yields 6.85%. What's the credit spread?",
+          "options": [
+            "125 bp",
+            "1.25 bp",
+            "12.5 bp",
+            "8.10%"
+          ],
+          "answer": 0,
+          "why": "8.10% − 6.85% = 1.25 percentage points = 125 bp."
+        }
+      ],
+      "difficulty": 2
     }
   ]
 }

@@ -51,6 +51,14 @@ export interface Unit {
 
 export type PracticeKind = 'drill' | 'game' | 'case';
 
+/** The career map: roles and interview rounds, each pointing at units that prepare for it. */
+export interface CareerMap {
+  intro: string;
+  roles: { id: string; title: string; where: string; what: string; skills: string[]; practise: string[] }[];
+  rounds: { name: string; what: string; practise: string[] }[];
+  note: string;
+}
+
 /** A desk case: a short story told in linked decisions. */
 export interface DeskCase {
   setup: string;

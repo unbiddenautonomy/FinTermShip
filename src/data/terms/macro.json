@@ -1,0 +1,984 @@
+{
+  "id": "macro",
+  "name": "Rates, macro and the rupee",
+  "order": 10,
+  "units": [
+    {
+      "id": "m1",
+      "name": "The RBI and policy rates",
+      "core": true
+    },
+    {
+      "id": "m3",
+      "name": "The rupee",
+      "core": true
+    },
+    {
+      "id": "m2",
+      "name": "Liquidity and government borrowing",
+      "core": false
+    }
+  ],
+  "terms": [
+    {
+      "id": "repo-rate",
+      "term": "repo rate",
+      "aliases": [
+        "policy repo rate",
+        "policy rate"
+      ],
+      "unit": "m1",
+      "short": "Rate at which the RBI lends to banks",
+      "definition": "The rate at which the RBI lends to banks for short periods, against government bonds as collateral. It's the rate the Monetary Policy Committee votes on: raised to cool inflation, cut to support growth. Other short-term rates move around it.",
+      "examples": [
+        "The RBI raised the repo rate by 25 bp in October 2026, to 5.50%."
+      ],
+      "fill": "To cool inflation, the MPC votes to raise the ____, and the rest of the RBI's corridor moves with it.",
+      "confusables": [
+        "sdf",
+        "msf",
+        "inflation-target"
+      ],
+      "wrong": [
+        "Rate banks pay on savings accounts",
+        "Rate the government pays on a 10-year bond",
+        "Rate at which banks lend to their best customers"
+      ],
+      "note": "Repo is short for repurchase agreement: the bank sells bonds to the RBI and agrees to buy them back.",
+      "calcs": [
+        {
+          "q": "The repo rate is 5.50%. What is it after a 25 bp cut?",
+          "options": [
+            "5.25%",
+            "5.45%",
+            "3.00%",
+            "5.75%"
+          ],
+          "answer": 0,
+          "why": "25 bp is 0.25 percentage points, so 5.50% − 0.25% = 5.25%."
+        }
+      ],
+      "tf": [
+        {
+          "s": "When the RBI raises the repo rate by surprise, bond yields usually rise and bond prices fall.",
+          "a": true
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63742",
+      "difficulty": 1
+    },
+    {
+      "id": "mpc",
+      "term": "MPC",
+      "aliases": [
+        "Monetary Policy Committee"
+      ],
+      "said": "M P C",
+      "speak": "M P C",
+      "unit": "m1",
+      "short": "RBI panel that votes on the repo rate",
+      "definition": "The six-member committee that sets the repo rate: the RBI Governor, two other RBI officials and three outside members chosen by the government. It meets at least four times a year, usually six, and decides by majority vote, with the Governor breaking any tie.",
+      "examples": [
+        "The MPC voted 6–0 to raise rates, though two members wanted to keep the stance neutral."
+      ],
+      "fill": "Six members, three from the RBI and three from outside, vote on the repo rate about every two months in the ____.",
+      "confusables": [
+        "rbi",
+        "repo-rate",
+        "policy-stance"
+      ],
+      "wrong": [
+        "SEBI's board that approves F&O rules",
+        "Government panel that writes the Budget",
+        "Committee of bank chiefs that sets loan rates"
+      ],
+      "tf": [
+        {
+          "s": "The RBI Governor can overrule the rest of the MPC whenever they disagree.",
+          "a": false,
+          "why": "Decisions go by majority. The Governor's casting vote only counts in a tie."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://en.wikipedia.org/wiki/Monetary_Policy_Committee_(India)",
+      "difficulty": 1
+    },
+    {
+      "id": "policy-stance",
+      "term": "policy stance",
+      "aliases": [
+        "stance"
+      ],
+      "unit": "m1",
+      "short": "RBI's signal of which way rates lean next",
+      "definition": "The short phrase the RBI's rate-setters attach to each decision to say which way they lean next, such as accommodative, neutral or tightening. Markets read a change of wording as closely as the rate move itself.",
+      "examples": [
+        "The hike was expected; the switch in stance to calibrated tightening is what sank bonds."
+      ],
+      "fill": "The MPC kept rates on hold but changed its ____ from neutral to accommodative, hinting at cuts ahead.",
+      "confusables": [
+        "hawkish",
+        "dovish",
+        "mpc"
+      ],
+      "wrong": [
+        "The vote count at an MPC meeting",
+        "The RBI's forecast for GDP growth",
+        "The rate banks charge their best borrowers"
+      ],
+      "tf": [
+        {
+          "s": "A neutral stance means the MPC has promised not to change rates.",
+          "a": false,
+          "why": "It means the next move could go either way, depending on the data."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63742",
+      "difficulty": 2
+    },
+    {
+      "id": "hawkish",
+      "term": "hawkish",
+      "aliases": [
+        "hawk"
+      ],
+      "unit": "m1",
+      "short": "Leaning towards higher rates to fight inflation",
+      "definition": "Leaning towards tighter policy: higher rates, or keeping them high for longer, to bring inflation down. A hawk on the MPC worries more about inflation than about growth.",
+      "examples": [
+        "The minutes were hawkish: three members flagged food prices."
+      ],
+      "fill": "The governor warned that inflation risks were rising and rate cuts were off the table. Bond traders called the tone ____.",
+      "confusables": [
+        "dovish",
+        "policy-stance",
+        "cpi-inflation"
+      ],
+      "wrong": [
+        "Leaning towards lower rates to support growth",
+        "Unwilling to say anything about future rates",
+        "Selling bonds ahead of an auction"
+      ],
+      "tf": [
+        {
+          "s": "A hawkish surprise from the RBI usually pushes bond yields up.",
+          "a": true
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "dovish",
+      "term": "dovish",
+      "aliases": [
+        "dove"
+      ],
+      "unit": "m1",
+      "short": "Leaning towards lower rates to support growth",
+      "definition": "Leaning towards easier policy: lower rates, or keeping them low for longer, to support growth and jobs. A dove on the MPC worries more about growth than about inflation.",
+      "examples": [
+        "A dovish policy sent bank stocks up and the 10-year yield down 10 bp."
+      ],
+      "fill": "The MPC hinted at more cuts to help slowing growth, a ____ message that sent bond prices higher.",
+      "confusables": [
+        "hawkish",
+        "policy-stance",
+        "transmission"
+      ],
+      "wrong": [
+        "Leaning towards higher rates to fight inflation",
+        "Keeping the policy rate fixed for a year",
+        "Buying dollars to weaken the rupee"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "inflation-target",
+      "term": "inflation target",
+      "unit": "m1",
+      "short": "The RBI's 4% CPI goal, with a 2% to 6% band",
+      "definition": "The goal the government sets for the RBI: consumer price inflation of 4%, with a band of 2% to 6%. If inflation stays outside the band for three quarters in a row, the RBI must write to the government explaining why and what it will do.",
+      "examples": [
+        "With inflation at 6.5%, the RBI is above the top of its band."
+      ],
+      "fill": "The government has told the RBI to aim for 4% CPI inflation, with room between 2% and 6%. That goal is the ____.",
+      "confusables": [
+        "cpi-inflation",
+        "repo-rate",
+        "mpc"
+      ],
+      "wrong": [
+        "Highest inflation the government allows in the Budget",
+        "Inflation rate used to set bank deposit rates",
+        "Price rise that triggers a fuel tax cut"
+      ],
+      "note": "The government kept the 4% target and the 2% to 6% band for April 2026 to March 2031.",
+      "asOf": "2026-11",
+      "source": "https://www.businesstoday.in/latest/economy/story/govt-retains-inflation-target-at-4-with-2-6-band-for-next-five-years-522390-2026-03-25",
+      "difficulty": 1
+    },
+    {
+      "id": "cpi-inflation",
+      "term": "CPI inflation",
+      "aliases": [
+        "retail inflation",
+        "consumer price inflation"
+      ],
+      "unit": "m1",
+      "short": "Yearly rise in the prices shoppers pay",
+      "definition": "How much the consumer price index, a basket of food, fuel, housing, clothing and services, has risen over the past year. It's the inflation measure the RBI targets, so the monthly release can move bond yields and rate bets.",
+      "examples": [
+        "CPI came in at 5.4% against 5.1% expected, and the 10-year yield jumped 6 bp."
+      ],
+      "fill": "Each month the government reports how much the prices of food, fuel and household goods have risen over the past year. That figure is ____.",
+      "confusables": [
+        "inflation-target",
+        "repo-rate",
+        "return"
+      ],
+      "wrong": [
+        "Rise in the prices factories pay for raw materials",
+        "Growth in the economy's total output",
+        "Rise in share prices over the year"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "transmission",
+      "term": "transmission",
+      "aliases": [
+        "policy transmission",
+        "monetary transmission"
+      ],
+      "unit": "m1",
+      "short": "How a repo change reaches loan and deposit rates",
+      "definition": "How far, and how fast, a change in the repo rate passes through to the rates banks charge on loans and pay on deposits. Loans tied to the repo rate pass a change on quickly; fixed deposits and older loans take longer.",
+      "examples": [
+        "The RBI cut 100 bp, but transmission to deposit rates has been slow."
+      ],
+      "fill": "The RBI cut rates by 50 bp, but banks lowered their lending rates by only 20 bp. Economists said the ____ was weak.",
+      "confusables": [
+        "repo-rate",
+        "dovish",
+        "cpi-inflation"
+      ],
+      "wrong": [
+        "How the RBI broadcasts its policy decision",
+        "Moving money between bank accounts",
+        "The spread of a sell-off from one market to another"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "usdinr",
+      "term": "USDINR",
+      "aliases": [
+        "USD/INR",
+        "dollar-rupee"
+      ],
+      "said": "U S D I N R, or dollar-rupee",
+      "speak": "dollar rupee",
+      "unit": "m3",
+      "short": "Rupees needed to buy one US dollar",
+      "definition": "The exchange rate between the US dollar and the rupee, quoted as how many rupees one dollar buys. When the number goes up, the rupee has weakened.",
+      "examples": [
+        "USDINR jumped 30 paise as FPIs sold heavily."
+      ],
+      "fill": "If one dollar costs ₹88.50, the ____ rate is 88.50.",
+      "confusables": [
+        "dollar-index",
+        "rupee-depreciation",
+        "forward-premium"
+      ],
+      "wrong": [
+        "Dollars needed to buy one rupee",
+        "Value of the dollar against six major currencies",
+        "Interest rate gap between India and the US"
+      ],
+      "calcs": [
+        {
+          "q": "USDINR moves from 85.00 to 87.55. By what percentage has it risen?",
+          "options": [
+            "3%",
+            "2.55%",
+            "0.3%",
+            "30%"
+          ],
+          "answer": 0,
+          "why": "(87.55 − 85.00) ÷ 85.00 = 2.55 ÷ 85 = 3%."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "rupee-depreciation",
+      "term": "rupee depreciation",
+      "aliases": [
+        "rupee weakness",
+        "weak rupee"
+      ],
+      "unit": "m3",
+      "short": "Rupee losing value against other currencies",
+      "definition": "A fall in the rupee's value against other currencies, so each dollar costs more rupees. It makes imports like oil dearer and exports cheaper abroad, and cuts the dollar returns of foreign investors.",
+      "examples": [
+        "IT stocks rallied on rupee depreciation, since they earn in dollars."
+      ],
+      "fill": "The dollar went from ₹85 to ₹88 in six months, making imported oil dearer. That's ____.",
+      "confusables": [
+        "usdinr",
+        "rbi-intervention",
+        "current-account-deficit"
+      ],
+      "wrong": [
+        "The rupee gaining value against the dollar",
+        "The RBI printing more rupees",
+        "A cut in India's interest rates"
+      ],
+      "tf": [
+        {
+          "s": "A weaker rupee usually helps Indian IT exporters.",
+          "a": true,
+          "why": "They earn in dollars and pay most of their costs in rupees."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "rbi-intervention",
+      "term": "RBI intervention",
+      "aliases": [
+        "FX intervention",
+        "forex intervention"
+      ],
+      "unit": "m3",
+      "short": "RBI dealing in dollars to steady the rupee",
+      "definition": "The central bank buying or selling dollars in the currency market to calm sharp moves in the rupee. It sells dollars from its reserves when the rupee is falling fast and buys them when inflows pile up. The RBI says it targets volatility, not a level.",
+      "examples": [
+        "State-run banks were selling dollars at the highs, a sign of RBI intervention."
+      ],
+      "fill": "The rupee was sliding fast until state-run banks started selling dollars for the central bank. Traders called it ____.",
+      "confusables": [
+        "forex-reserves",
+        "omo",
+        "rupee-depreciation"
+      ],
+      "wrong": [
+        "The RBI changing the repo rate between meetings",
+        "The government taxing foreign investors",
+        "SEBI halting trading in currency futures"
+      ],
+      "tf": [
+        {
+          "s": "When the RBI sells dollars to support the rupee, it also drains rupee cash from banks.",
+          "a": true,
+          "why": "Banks pay for the dollars in rupees, so system liquidity tightens."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "forex-reserves",
+      "term": "forex reserves",
+      "aliases": [
+        "foreign exchange reserves",
+        "FX reserves"
+      ],
+      "unit": "m3",
+      "short": "RBI's stock of foreign currency and gold",
+      "definition": "The foreign currency, gold and other foreign assets the RBI holds, mostly in US dollar bonds. They're the war chest it uses to defend the rupee, and it publishes the total every Friday.",
+      "examples": [
+        "Reserves fell $5 billion in a week as the RBI defended the rupee."
+      ],
+      "fill": "The RBI's pile of dollars, other currencies and gold, which it draws on to defend the rupee, is its ____.",
+      "confusables": [
+        "rbi-intervention",
+        "current-account-deficit",
+        "usdinr"
+      ],
+      "wrong": [
+        "Dollars that Indian companies keep abroad",
+        "Cash that banks must keep with the RBI",
+        "The government's balance in its RBI account"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "currency-futures",
+      "term": "currency futures",
+      "aliases": [
+        "currency future",
+        "USDINR futures"
+      ],
+      "unit": "m3",
+      "short": "Exchange-traded futures on exchange rates",
+      "definition": "Futures on an exchange rate, traded on NSE and BSE. A USDINR contract is for $1,000, priced in rupees with a tick of ₹0.0025, and settles in cash against the official reference rate. Importers and exporters use them to hedge.",
+      "examples": [
+        "We sold USDINR futures to hedge the export bills due in March."
+      ],
+      "fill": "An importer locks in the rupee cost of next month's dollar payment by buying $1,000 lots on NSE. They're trading ____.",
+      "confusables": [
+        "ndf",
+        "forward-premium",
+        "usdinr"
+      ],
+      "wrong": [
+        "Bank deposits held in foreign currency",
+        "Shares of Indian companies listed abroad",
+        "Options on the dollar index"
+      ],
+      "note": "Each tick of ₹0.0025 on one $1,000 lot is worth ₹2.50. Monthly contracts stop trading two working days before the month's last business day.",
+      "calcs": [
+        {
+          "q": "One USDINR futures lot is $1,000, and the price rises from 88.0000 to 88.2500. What's the profit on one long lot?",
+          "options": [
+            "₹250",
+            "₹25",
+            "₹2,500",
+            "₹0.25"
+          ],
+          "answer": 0,
+          "why": "0.25 × 1,000 = ₹250."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.nseindia.com/static/products-services/currency-derivatives-contract-specification-inr",
+      "difficulty": 2
+    },
+    {
+      "id": "forward-premium",
+      "term": "forward premium",
+      "aliases": [
+        "forward points"
+      ],
+      "unit": "m3",
+      "short": "Forward rate above spot, from the rate gap",
+      "definition": "How much more a dollar for future delivery costs than one today. Rupee interest rates are higher than dollar rates, so the forward trades above spot by roughly the rate gap; it's usually quoted as an annual percentage.",
+      "examples": [
+        "The one-year forward premium is close to the gap between Indian and US interest rates."
+      ],
+      "fill": "Spot is 88.00 and the 12-month forward is 89.76, a 2% annual ____ that mirrors the gap in interest rates.",
+      "confusables": [
+        "usdinr",
+        "currency-futures",
+        "carry-trade"
+      ],
+      "wrong": [
+        "Extra a bank charges for exchanging cash",
+        "Price paid to buy a currency option",
+        "Gap between buying and selling rates at a money changer"
+      ],
+      "calcs": [
+        {
+          "q": "Spot USDINR is 88.00, Indian rates are 6% and US rates 4%. Roughly where should the one-year forward trade?",
+          "options": [
+            "89.76",
+            "88.00",
+            "93.28",
+            "91.52"
+          ],
+          "answer": 0,
+          "why": "Forward ≈ spot × (1 + 6% − 4%) = 88 × 1.02 = 89.76."
+        }
+      ],
+      "tf": [
+        {
+          "s": "If Indian rates rise while US rates stay put, the USDINR forward premium tends to widen.",
+          "a": true
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "ndf",
+      "term": "NDF",
+      "aliases": [
+        "non-deliverable forward"
+      ],
+      "said": "N D F",
+      "speak": "N D F",
+      "unit": "m3",
+      "short": "Offshore rupee forward settled in dollars",
+      "definition": "A non-deliverable forward: a forward on the rupee traded outside India, mainly in Singapore, Dubai and London, and settled in dollars rather than rupees. Overnight moves there often show where the rupee will open at home.",
+      "examples": [
+        "The rupee is seen opening weaker; NDFs are pointing to a 20-paise fall."
+      ],
+      "fill": "Overnight, a rupee forward traded in Singapore and settled in dollars pointed to a weak open. That contract is an ____.",
+      "confusables": [
+        "currency-futures",
+        "forward-premium",
+        "usdinr"
+      ],
+      "wrong": [
+        "A forward the RBI uses to buy dollars from banks",
+        "A rupee bond sold to foreign investors",
+        "A forward that can't be cancelled before maturity"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "dollar-index",
+      "term": "dollar index",
+      "aliases": [
+        "DXY"
+      ],
+      "unit": "m3",
+      "short": "Dollar's value against six major currencies",
+      "definition": "A measure of the US dollar against six major currencies, with the euro making up more than half. A rising index means a broadly stronger dollar, which usually weighs on the rupee and other emerging-market currencies.",
+      "examples": [
+        "The dollar index is up 1% on the week, so the rupee's slip is no surprise."
+      ],
+      "fill": "A single number tracking the US dollar against the euro, yen, pound and three other currencies is the ____.",
+      "confusables": [
+        "usdinr",
+        "risk-off",
+        "flight-to-safety"
+      ],
+      "wrong": [
+        "Index of US stocks priced in dollars",
+        "Rupees needed to buy one dollar",
+        "Rate the US central bank sets"
+      ],
+      "tf": [
+        {
+          "s": "The rupee is one of the currencies in the dollar index.",
+          "a": false,
+          "why": "It's made of the euro, yen, pound, Canadian dollar, Swedish krona and Swiss franc."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "carry-trade",
+      "term": "carry trade",
+      "unit": "m3",
+      "short": "Borrow a low-rate currency, buy a high-rate one",
+      "definition": "Borrowing in a currency with low interest rates and investing in one with higher rates, such as the rupee, to earn the gap. It pays while exchange rates stay calm, and can unwind fast when they don't.",
+      "examples": [
+        "Foreign funds piled into rupee bonds as a carry trade, then ran when the rupee fell 3% in a week."
+      ],
+      "fill": "A fund borrows yen at 1%, buys rupee bonds yielding 7% and pockets the gap, as long as the rupee holds. That's a ____.",
+      "confusables": [
+        "forward-premium",
+        "cost-of-carry",
+        "crowded-trade"
+      ],
+      "wrong": [
+        "Buying a stock and holding it for years",
+        "Rolling futures from one month to the next",
+        "Shipping goods abroad on credit"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "current-account-deficit",
+      "term": "current account deficit",
+      "aliases": [
+        "CAD"
+      ],
+      "unit": "m3",
+      "short": "Country paying abroad more than it earns",
+      "definition": "When a country pays the rest of the world more for imports, interest and dividends than it earns from exports and money sent home. India usually runs one, mainly because of oil and gold imports, so it relies on foreign investment to fund it.",
+      "examples": [
+        "A wider current account deficit leaves the rupee more exposed when FPIs pull money out."
+      ],
+      "fill": "India's oil and gold imports cost more than it earns from exports and money sent home, so it runs a ____.",
+      "confusables": [
+        "forex-reserves",
+        "rupee-depreciation",
+        "fpi"
+      ],
+      "wrong": [
+        "The government spending more than it collects in taxes",
+        "A bank's shortfall in its current accounts",
+        "The gap between India's imports and exports of goods only"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "sdf",
+      "term": "SDF",
+      "aliases": [
+        "standing deposit facility"
+      ],
+      "said": "S D F",
+      "speak": "S D F",
+      "unit": "m2",
+      "short": "Where banks park spare cash with the RBI",
+      "definition": "The standing deposit facility: banks can leave surplus cash with the RBI overnight, and the RBI doesn't have to hand over bonds as collateral. Its rate, 25 bp below the repo rate, is the floor of the RBI's rate corridor.",
+      "examples": [
+        "Banks are parking record sums in the SDF, so liquidity is in big surplus."
+      ],
+      "fill": "Surplus cash that banks leave with the RBI overnight earns the ____ rate, the floor of the corridor.",
+      "confusables": [
+        "msf",
+        "repo-rate",
+        "crr"
+      ],
+      "wrong": [
+        "Rate at which banks borrow overnight from the RBI in a pinch",
+        "Share of deposits banks must keep with the RBI",
+        "Rate banks pay on savings accounts"
+      ],
+      "calcs": [
+        {
+          "q": "The repo rate is 5.50%. Where does the SDF rate sit?",
+          "options": [
+            "5.25%",
+            "5.75%",
+            "5.50%",
+            "5.00%"
+          ],
+          "answer": 0,
+          "why": "The SDF is 25 bp below repo: 5.50% − 0.25% = 5.25%."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63742",
+      "difficulty": 2
+    },
+    {
+      "id": "msf",
+      "term": "MSF",
+      "aliases": [
+        "marginal standing facility"
+      ],
+      "said": "M S F",
+      "speak": "M S F",
+      "unit": "m2",
+      "short": "Banks' emergency overnight loans from the RBI",
+      "definition": "The marginal standing facility: banks can borrow overnight from the RBI at a penalty rate, 25 bp above the repo rate, pledging government bonds, even ones they hold to meet their statutory liquidity rule. It's the ceiling of the corridor, and the Bank Rate is set equal to it.",
+      "examples": [
+        "Liquidity is tight and banks are dipping into the MSF."
+      ],
+      "fill": "Short of cash late in the day, a bank borrows overnight from the RBI at 25 bp above repo through the ____.",
+      "confusables": [
+        "sdf",
+        "repo-rate",
+        "slr"
+      ],
+      "wrong": [
+        "Account where banks park spare cash with the RBI",
+        "Short loan the RBI gives the government",
+        "Minimum balance a bank must keep with the RBI"
+      ],
+      "calcs": [
+        {
+          "q": "The repo rate is 5.50%. What's the MSF rate?",
+          "options": [
+            "5.75%",
+            "5.25%",
+            "6.00%",
+            "5.50%"
+          ],
+          "answer": 0,
+          "why": "The MSF is 25 bp above repo: 5.50% + 0.25% = 5.75%."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=63742",
+      "difficulty": 2
+    },
+    {
+      "id": "call-rate",
+      "term": "call rate",
+      "aliases": [
+        "WACR",
+        "call money rate",
+        "weighted average call rate"
+      ],
+      "unit": "m2",
+      "short": "Overnight rate banks pay each other",
+      "definition": "The rate at which banks lend to each other overnight without collateral, in the call money market. The weighted average of these deals is the RBI's operating target: it runs its liquidity operations to keep that rate close to the repo rate.",
+      "examples": [
+        "The call rate drifted to 5.30%, near the floor, so there's too much cash around."
+      ],
+      "fill": "The RBI steers liquidity so that the rate banks charge each other for unsecured overnight loans stays near repo. That rate, its operating target, is the ____.",
+      "confusables": [
+        "repo-rate",
+        "sdf",
+        "system-liquidity"
+      ],
+      "wrong": [
+        "Price of a call option",
+        "Rate the RBI charges for emergency loans",
+        "Interest paid on a broker's margin funding"
+      ],
+      "tf": [
+        {
+          "s": "When banks are flush with cash, the call rate tends to sink towards the SDF rate.",
+          "a": true,
+          "why": "Lenders have plenty to lend, so the overnight rate falls towards the floor of the corridor."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=61317",
+      "difficulty": 3
+    },
+    {
+      "id": "system-liquidity",
+      "term": "system liquidity",
+      "aliases": [
+        "banking system liquidity"
+      ],
+      "unit": "m2",
+      "short": "Spare cash across the whole banking system",
+      "definition": "How much spare cash banks have in total, after meeting their reserve needs. In surplus, banks park the extra with the RBI and short-term rates sink; in deficit, they borrow from it and rates rise. Tax dates, government spending and RBI dollar sales all shift it.",
+      "examples": [
+        "Advance tax outflows swung system liquidity into deficit this week."
+      ],
+      "fill": "In mid-June companies pay advance tax, cash drains from banks into the government's account, and overnight rates jump. Traders say ____ has tightened.",
+      "confusables": [
+        "call-rate",
+        "omo",
+        "sdf"
+      ],
+      "wrong": [
+        "How easily one stock can be traded",
+        "Cash a fund keeps for redemptions",
+        "Total cash a company holds"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "vrrr",
+      "term": "VRRR",
+      "aliases": [
+        "variable rate reverse repo"
+      ],
+      "said": "V R R R",
+      "speak": "V R R R",
+      "unit": "m2",
+      "short": "RBI auction that soaks up spare bank cash",
+      "definition": "A variable rate reverse repo: an auction in which banks bid to park surplus cash with the RBI for a set term, usually 7 days, at rates set by the bids. The RBI uses it to drain extra liquidity; its mirror image, the variable rate repo, lends cash in.",
+      "examples": [
+        "The RBI ran a 7-day VRRR to soak up the cash from government spending."
+      ],
+      "fill": "With banks flush with cash, the RBI holds a 7-day auction to absorb the surplus. It's a ____.",
+      "confusables": [
+        "sdf",
+        "omo",
+        "system-liquidity"
+      ],
+      "wrong": [
+        "Auction of new government bonds",
+        "Penalty rate for banks that fall short on reserves",
+        "Weekly sale of government bills"
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.rbi.org.in/scripts/BS_PressReleaseDisplay.aspx?prid=61317",
+      "difficulty": 3
+    },
+    {
+      "id": "omo",
+      "term": "OMO",
+      "aliases": [
+        "open market operation",
+        "open market operations"
+      ],
+      "said": "O M O",
+      "speak": "O M O",
+      "unit": "m2",
+      "short": "RBI buying or selling government bonds",
+      "definition": "When the RBI buys or sells government bonds in the market to change how much cash banks have for months, not days. Buying bonds pumps cash in and tends to push yields down; selling drains cash.",
+      "examples": [
+        "The RBI announced bond purchases through OMOs, and yields fell 8 bp."
+      ],
+      "fill": "To add cash to the banking system for the long haul, the RBI buys government bonds from banks in an ____.",
+      "confusables": [
+        "vrrr",
+        "g-sec",
+        "system-liquidity"
+      ],
+      "wrong": [
+        "Auction where the government sells new bonds",
+        "Market where banks lend to each other overnight",
+        "Rule on how much cash banks keep with the RBI"
+      ],
+      "tf": [
+        {
+          "s": "When the RBI buys bonds in the market, it adds cash to the banking system.",
+          "a": true,
+          "why": "It pays for the bonds with new money that lands in banks' accounts."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "crr",
+      "term": "CRR",
+      "aliases": [
+        "cash reserve ratio"
+      ],
+      "said": "C R R",
+      "speak": "C R R",
+      "unit": "m2",
+      "short": "Share of deposits kept as cash with the RBI",
+      "definition": "The cash reserve ratio: the share of a bank's deposits it must keep as cash with the RBI, earning no interest. It's 3%, and cutting it frees money for banks to lend.",
+      "examples": [
+        "The 100 bp cut in CRR in 2025 freed about ₹2.5 lakh crore for banks to lend."
+      ],
+      "fill": "A bank must keep 3% of its deposits as cash with the RBI, earning nothing. That 3% is the ____.",
+      "confusables": [
+        "slr",
+        "sdf",
+        "haircut"
+      ],
+      "wrong": [
+        "Share of deposits banks must invest in government bonds",
+        "Rate the RBI pays on banks' spare cash",
+        "Minimum capital a bank needs for its loans"
+      ],
+      "calcs": [
+        {
+          "q": "A bank has ₹10,000 crore of deposits and the CRR is 3%. How much must it keep with the RBI?",
+          "options": [
+            "₹300 crore",
+            "₹30 crore",
+            "₹3,000 crore",
+            "₹1,800 crore"
+          ],
+          "answer": 0,
+          "why": "3% × ₹10,000 crore = ₹300 crore."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.sanskritiias.com/current-affairs/rbis-new-crr-rule-2026-key-facts-90-to-99-crr-ndtl-liquidity-management-instruments-basel-iii-liquid",
+      "difficulty": 2
+    },
+    {
+      "id": "slr",
+      "term": "SLR",
+      "aliases": [
+        "statutory liquidity ratio"
+      ],
+      "said": "S L R",
+      "speak": "S L R",
+      "unit": "m2",
+      "short": "Share of deposits held in safe assets",
+      "definition": "The statutory liquidity ratio: the share of deposits a bank must hold in safe, liquid assets, mostly government bonds, plus cash and gold. It's 18%, which makes banks the biggest buyers of government debt.",
+      "examples": [
+        "Banks hold well above their SLR, so they can pledge the extra bonds for repo."
+      ],
+      "fill": "Indian banks must keep 18% of their deposits in government bonds and other safe assets. That rule is the ____.",
+      "confusables": [
+        "crr",
+        "g-sec",
+        "msf"
+      ],
+      "wrong": [
+        "Share of deposits banks must keep as cash with the RBI",
+        "Cap on loans a bank can make to one company",
+        "Ratio of a bank's capital to its loans"
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.ceicdata.com/en/india/memo-items-key-interest-rate/statutory-liquidity-ratio",
+      "difficulty": 2
+    },
+    {
+      "id": "g-sec",
+      "term": "G-sec",
+      "aliases": [
+        "dated G-sec",
+        "dated security",
+        "gilt"
+      ],
+      "said": "gee-sec",
+      "speak": "G sec",
+      "unit": "m2",
+      "short": "Bond issued by the government of India",
+      "definition": "A bond issued by the central government and sold through RBI auctions. It pays a coupon every six months and can run for 30 years or more. Strictly, treasury bills are government securities too, but on desks the name means these dated bonds.",
+      "examples": [
+        "The 10-year G-sec yield rose 8 bp after the hawkish policy."
+      ],
+      "fill": "The 10-year bond the central government sells at RBI auctions, the benchmark for every Indian rates desk, is a ____.",
+      "confusables": [
+        "t-bill",
+        "sdl",
+        "omo"
+      ],
+      "wrong": [
+        "A share in a government-owned company",
+        "A fixed deposit with a public sector bank",
+        "A loan the RBI gives to banks"
+      ],
+      "tf": [
+        {
+          "s": "Individuals in India can buy G-secs straight from RBI auctions.",
+          "a": true,
+          "why": "Through the RBI Retail Direct portal, opened to individuals in 2021."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "t-bill",
+      "term": "T-bill",
+      "aliases": [
+        "treasury bill"
+      ],
+      "said": "T bill",
+      "speak": "T bill",
+      "unit": "m2",
+      "short": "Short government paper sold at a discount",
+      "definition": "Short-term borrowing by the central government that lasts 91, 182 or 364 days. It pays no coupon: it's sold below face value at a weekly RBI auction and repaid at face value, and the gap is the holder's return.",
+      "examples": [
+        "The 91-day T-bill cut-off came in a touch above the repo rate."
+      ],
+      "fill": "The government's 91-day paper, auctioned by the RBI every week below face value, is a ____.",
+      "confusables": [
+        "g-sec",
+        "sdl",
+        "risk-free-rate"
+      ],
+      "wrong": [
+        "A bill of exchange between two companies",
+        "A bond that pays a coupon every quarter",
+        "A note the RBI issues to banks overnight"
+      ],
+      "calcs": [
+        {
+          "q": "A 364-day T-bill is sold at ₹94 and repays ₹100. Roughly what does it yield?",
+          "options": [
+            "6.4%",
+            "6%",
+            "5.6%",
+            "94%"
+          ],
+          "answer": 0,
+          "why": "(100 − 94) ÷ 94 ≈ 6.4% for the year. The ₹6 is earned on the ₹94 you paid, not on ₹100."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "sdl",
+      "term": "SDL",
+      "aliases": [
+        "state development loan",
+        "state government bond"
+      ],
+      "said": "S D L",
+      "speak": "S D L",
+      "unit": "m2",
+      "short": "Bond issued by a state government",
+      "definition": "A bond issued by one of India's state governments and auctioned by the RBI on their behalf, usually every week. It yields a little more than a central government bond of the same length.",
+      "examples": [
+        "SDLs are trading about 40 bp over G-secs, so the state bond fund looks attractive."
+      ],
+      "fill": "A 10-year bond sold by the Maharashtra government to fund its budget is an ____.",
+      "confusables": [
+        "g-sec",
+        "t-bill",
+        "credit-spread"
+      ],
+      "wrong": [
+        "A loan the RBI gives a state-owned bank",
+        "A bond issued by a city corporation",
+        "A grant from the centre to a state"
+      ],
+      "difficulty": 2
+    }
+  ]
+}
