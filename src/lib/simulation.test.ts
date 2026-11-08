@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { coreTermIds, isCore, pathTermIds } from './content';
+import { coreTermIds, isCore, mainTermIds } from './content';
 import { addDays } from './dates';
 import { DRILLS, recordDrill } from './drills';
 import { recordRound } from './practice';
@@ -121,7 +121,8 @@ describe('eight weeks of daily use', () => {
     expect(coreDone).toBeDefined();
     // At 20 new terms a day the sweep takes about core terms ÷ 20 days.
     expect(coreDone.day).toBeLessThanOrEqual(Math.ceil(coreTermIds.length / 20) + 1);
-    expect(days[days.length - 1].met).toBe(pathTermIds.length);
+    // Phase 3 stays shut without the password, so this learner meets every term outside it.
+    expect(days[days.length - 1].met).toBe(mainTermIds.length);
   });
 
   it('turns most terms into known terms by week 8 and never builds a backlog', () => {
