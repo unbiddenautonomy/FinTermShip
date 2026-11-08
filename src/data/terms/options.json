@@ -77,7 +77,9 @@
       "short": "Right, not obligation, to buy or sell",
       "definition": "A contract giving the buyer the right, but not the obligation, to buy or sell an asset at a set price on or before a set date. The seller takes on the obligation in return for the premium.",
       "examples": [
-        "We'd rather buy options than futures into the event, so our loss is capped at the premium."
+        "We'd rather buy options than futures into the event, so our loss is capped at the premium.",
+        "Risk prefers the option to futures into results, since the loss stops at the premium.",
+        "The client asked what an option gives her: the right to buy or sell at a set price, but no duty to."
       ],
       "fill": "Unlike a future, an ____ gives the buyer a right but not an obligation to trade.",
       "confusables": [
@@ -108,7 +110,9 @@
       "short": "Asset a derivative is based on",
       "definition": "The asset whose price a derivative tracks, such as a stock, an index like the Nifty 50, a currency or a commodity.",
       "examples": [
-        "The underlying moved 2% but the option moved 30%."
+        "The underlying moved 2% but the option moved 30%.",
+        "Risk checks the underlying's liquidity before letting the desk sell contracts on any stock.",
+        "The client asked why her option fell when the underlying rose: time decay and falling vol."
       ],
       "fill": "For a Bank Nifty option, the ____ is the Bank Nifty index.",
       "confusables": [
@@ -133,7 +137,9 @@
       "short": "Price the option lets you trade at",
       "definition": "The fixed price at which the option holder can buy (for a call) or sell (for a put) the underlying.",
       "examples": [
-        "The 24,000 strike has the most open interest this week."
+        "The 24,000 strike has the most open interest this week.",
+        "The client asked how to pick the strike price: nearer today's level costs more but pays off sooner.",
+        "Risk checks the strike price of every sold contract against the stock's recent range."
       ],
       "fill": "A 1,500 call lets you buy the stock at 1,500, which is its ____.",
       "confusables": [
@@ -158,7 +164,9 @@
       "short": "Right to buy at the strike",
       "definition": "An option that gives the buyer the right to buy the underlying at the strike price. It gains value as the underlying rises.",
       "examples": [
-        "We bought Nifty calls ahead of the RBI policy."
+        "We bought Nifty calls ahead of the RBI policy.",
+        "The client bought the call option because it costs far less than the shares.",
+        "Risk treats each bought call option as a small, fixed-loss bet on a rise."
       ],
       "fill": "If you expect Reliance to rally but want limited risk, you could buy a ____.",
       "confusables": [
@@ -202,7 +210,9 @@
       "short": "Right to sell at the strike",
       "definition": "An option that gives the buyer the right to sell the underlying at the strike price. It gains value as the underlying falls.",
       "examples": [
-        "We bought index puts to protect the portfolio into the election results."
+        "We bought index puts to protect the portfolio into the election results.",
+        "The client bought the put option to protect her shares through the election.",
+        "Risk prices every put option the fund sells as if a crash were possible."
       ],
       "fill": "To protect a stock you own against a crash, you can buy a ____ on it.",
       "confusables": [
@@ -237,7 +247,9 @@
       "short": "Price paid for an option",
       "definition": "The price the buyer pays the seller for an option, quoted per unit of the underlying. The buyer's loss can never exceed it.",
       "examples": [
-        "Premiums are rich ahead of the budget because implied vol is high."
+        "Premiums are rich ahead of the budget because implied vol is high.",
+        "The client asked why the option premium jumped before results: traders expect a big move.",
+        "Risk counts the option premium paid as the most a bought option can lose."
       ],
       "fill": "An option buyer's maximum loss is the ____ paid.",
       "confusables": [
@@ -260,7 +272,9 @@
       "short": "Value if exercised right now",
       "definition": "What an option would be worth if exercised now: underlying minus strike for a call, strike minus underlying for a put, and never below zero.",
       "examples": [
-        "The call trades at 260 and has 200 of intrinsic value."
+        "The call trades at 260 and has 200 of intrinsic value.",
+        "The client asked why her in-the-money call is worth more than its intrinsic value: there's time left.",
+        "Risk marks options near expiry close to their intrinsic value."
       ],
       "fill": "A 23,800 call with Nifty at 24,000 has 200 points of ____.",
       "confusables": [
@@ -310,7 +324,9 @@
       "short": "Premium above intrinsic value",
       "definition": "The part of an option's premium above its intrinsic value. It reflects the time left and expected volatility, and shrinks to zero at expiry.",
       "examples": [
-        "Most of what you pay for a weekly OTM option is time value, and it melts fast."
+        "Most of what you pay for a weekly OTM option is time value, and it melts fast.",
+        "The client asked why her option lost value though the price didn't move: time value melts every day.",
+        "Risk notes most of the premium on far strikes is time value, which goes to zero at expiry."
       ],
       "fill": "An out-of-the-money option's premium is made up entirely of ____.",
       "confusables": [
@@ -350,7 +366,9 @@
       "short": "Last day the contract exists",
       "definition": "The date on which an option or future ends. At expiry an option either settles for its intrinsic value or expires worthless.",
       "examples": [
-        "Most of the open interest sits in the nearest weekly contract, so expiry day this week will be lively."
+        "Most of the open interest sits in the nearest weekly contract, so expiry day this week will be lively.",
+        "Risk wants every short position closed or hedged before expiry.",
+        "The client asked what happens at expiry: in-the-money options are settled and the rest vanish."
       ],
       "fill": "On the day of ____, out-of-the-money options become worthless.",
       "confusables": [
@@ -376,7 +394,9 @@
       "short": "Worth something if exercised now",
       "definition": "An option that would be worth exercising now: a call with its strike below the underlying price, or a put with its strike above it.",
       "examples": [
-        "The 23,500 call is 500 points in the money."
+        "The 23,500 call is 500 points in the money.",
+        "The client asked whether her call is in the money: yes, the Nifty is above its strike.",
+        "Risk closes stock options that are in the money before expiry, to avoid physical delivery."
       ],
       "fill": "With Nifty at 24,000, a 23,800 call is ____.",
       "confusables": [
@@ -415,7 +435,9 @@
       "short": "Worth nothing if exercised now",
       "definition": "An option with no intrinsic value: a call with its strike above the underlying price, or a put with its strike below it. Its whole premium is time value.",
       "examples": [
-        "Retail traders love buying far out-of-the-money calls on expiry day."
+        "Retail traders love buying far out-of-the-money calls on expiry day.",
+        "The client asked why her call expired at zero: it finished out of the money.",
+        "Risk notes that an option out of the money is cheap because it usually ends with nothing."
       ],
       "fill": "With Nifty at 24,000, a 24,500 call is ____, so its premium is pure time value.",
       "confusables": [
@@ -441,7 +463,9 @@
       "short": "Strike at or near the current price",
       "definition": "An option whose strike is at, or closest to, the current price of the underlying. ATM options carry the most time value.",
       "examples": [
-        "Sell the ATM straddle and you collect the most premium, and take the most risk."
+        "Sell the ATM straddle and you collect the most premium, and take the most risk.",
+        "The client asked why the option at the money has the most time value: its outcome is the most uncertain.",
+        "Risk notes that options at the money carry the most gamma near expiry."
       ],
       "fill": "With Nifty at 24,010, the 24,000 strike is the option that is ____.",
       "confusables": [
@@ -466,7 +490,9 @@
       "short": "Measures of option price sensitivity",
       "definition": "Measures, named mostly after Greek letters, of how an option's price changes when one input moves: the underlying (delta, gamma), time (theta), volatility (vega) and interest rates (rho).",
       "examples": [
-        "Before adding size, check the book's Greeks, not just its P&L."
+        "Before adding size, check the book's Greeks, not just its P&L.",
+        "The client asked what option Greeks are: numbers that show how the price reacts to each change.",
+        "Risk reports the book's option Greeks every hour on expiry day."
       ],
       "fill": "Traders run an options book by watching delta, gamma, theta and vega, together called the ____.",
       "confusables": [
@@ -491,7 +517,9 @@
       "short": "Option move per 1-point underlying move",
       "definition": "How much an option's price changes for a 1-point move in the underlying. Call deltas run from 0 to 1, put deltas from 0 to −1, and an at-the-money option sits near 0.5.",
       "examples": [
-        "We're long 0.3-delta calls, so a 100-point rally makes us about 30 points on each."
+        "We're long 0.3-delta calls, so a 100-point rally makes us about 30 points on each.",
+        "Risk adds up the delta across the book to see its real market exposure.",
+        "The client asked how much her call would gain if the Nifty rose 100 points; with its delta at 0.4, about 40."
       ],
       "fill": "A call with a ____ of 0.6 gains about 60 paise when the stock rises ₹1.",
       "confusables": [
@@ -547,7 +575,9 @@
       "short": "Change in delta per 1-point move",
       "definition": "How much an option's delta changes for a 1-point move in the underlying. Gamma is highest for at-the-money options close to expiry, which is why their deltas swing so fast.",
       "examples": [
-        "Expiry-day gamma on the ATM strike makes the hedges jumpy."
+        "Expiry-day gamma on the ATM strike makes the hedges jumpy.",
+        "Risk watches gamma near expiry, when small moves swing the hedges hard.",
+        "The client asked why her option's delta jumped after a small move: gamma."
       ],
       "fill": "Close to expiry, at-the-money options have very high ____, so their delta can flip from 0.2 to 0.8 in one move.",
       "confusables": [
@@ -592,7 +622,9 @@
       "short": "Value lost as each day passes",
       "definition": "How much an option's price changes as one day passes, all else equal. Long options usually have negative theta: they lose a little value every day.",
       "examples": [
-        "We're short options, so theta pays us about ₹2 lakh a day if nothing moves."
+        "We're short options, so theta pays us about ₹2 lakh a day if nothing moves.",
+        "The client asked why her bought option loses money every day: theta.",
+        "Risk sees theta income as pay for the risk of a big move, not free money."
       ],
       "fill": "An option buyer who is right on direction but too slow can still lose money to ____.",
       "confusables": [
@@ -638,7 +670,9 @@
       "short": "Volatility the option price implies",
       "definition": "The volatility of the underlying that, fed into a pricing model, gives the option's market price. It shows how big a move the market is pricing in.",
       "examples": [
-        "IV on Bank Nifty jumped to 18 ahead of the policy."
+        "IV on Bank Nifty jumped to 18 ahead of the policy.",
+        "The client asked why option prices jumped before the budget: implied volatility went up.",
+        "Risk stresses the book for a 5-point jump in implied volatility."
       ],
       "fill": "When options get expensive before an event, traders say ____ has gone up.",
       "confusables": [
@@ -660,7 +694,9 @@
       "short": "Change per 1-point move in implied vol",
       "definition": "How much an option's price changes when implied volatility moves by 1 percentage point. Long options have positive vega.",
       "examples": [
-        "We're long vega into the results, so we want IV to rise."
+        "We're long vega into the results, so we want IV to rise.",
+        "Risk limits the book's vega so a vol spike can't hurt too much.",
+        "The client asked why her option gained though the Nifty was flat: vega, as volatility rose."
       ],
       "fill": "If implied volatility drops 3 points, an option with a ____ of 12 loses about 36.",
       "confusables": [
@@ -699,7 +735,9 @@
       "short": "Change per 1% move in interest rates",
       "definition": "How much an option's price changes when interest rates move by 1 percentage point. Calls have positive rho and puts negative. It matters most for long-dated options.",
       "examples": [
-        "Rho barely matters on weekly options, but on a two-year option it adds up."
+        "Rho barely matters on weekly options, but on a two-year option it adds up.",
+        "Risk ignores rho on weekly options but checks it on the long-dated ones.",
+        "The analyst says rho matters more now that rates are moving."
       ],
       "fill": "For short-dated index options, ____ is the Greek traders watch least, since rate changes barely move the price.",
       "confusables": [
@@ -720,7 +758,9 @@
       "short": "Offsetting delta with the underlying",
       "definition": "Buying or selling the underlying or its futures so that a position's total delta is close to zero, removing exposure to small price moves.",
       "examples": [
-        "We sold calls and hedged the delta with Nifty futures."
+        "We sold calls and hedged the delta with Nifty futures.",
+        "Risk reviews the cost of delta hedging on choppy days, when the desk keeps buying high and selling low.",
+        "The client asked how option sellers avoid betting on direction: delta hedging with futures."
       ],
       "fill": "After selling calls worth 40 deltas, the trader bought 40 units of futures, a textbook case of ____.",
       "confusables": [
@@ -755,7 +795,9 @@
       "short": "Total delta close to zero",
       "definition": "A position whose total delta is about zero, so small moves in the underlying barely change its value. Its P&L then comes from gamma, theta and vega.",
       "examples": [
-        "The book is delta neutral; we're really trading volatility."
+        "The book is delta neutral; we're really trading volatility.",
+        "Risk checks every hour that the options book stays delta neutral.",
+        "The client asked whether being delta neutral means no risk: no, the book can still lose on big moves."
       ],
       "fill": "Buying an at-the-money call and an at-the-money put together starts out roughly ____, because the call's positive delta offsets the put's negative delta.",
       "confusables": [
@@ -786,7 +828,9 @@
       "short": "Hurt by big moves either way",
       "definition": "A position, usually from selling options, that loses on big moves in either direction and must hedge by buying high and selling low. Long gamma is the opposite and gains from big moves.",
       "examples": [
-        "Dealers were short gamma into expiry, so every move got amplified."
+        "Dealers were short gamma into expiry, so every move got amplified.",
+        "Risk limits how short gamma the desk can be into expiry.",
+        "The client asked why her option-selling fund lost on a big move either way: it was short gamma."
       ],
       "fill": "Option sellers are ____: large moves in either direction hurt them.",
       "confusables": [
@@ -818,7 +862,9 @@
       "short": "Classic option pricing formula",
       "definition": "The standard model for pricing European options from five inputs: underlying price, strike, time to expiry, interest rate and volatility. Most Greeks shown on trading screens come from it.",
       "examples": [
-        "Our IV numbers come from Black-Scholes, adjusted for dividends."
+        "Our IV numbers come from Black-Scholes, adjusted for dividends.",
+        "The quant prices the book with the Black-Scholes model and corrects for skew.",
+        "Risk knows the Black-Scholes model assumes calm, normal returns, so it adds stress tests."
       ],
       "fill": "Feed the market price into the ____ and solve for volatility, and you get implied vol.",
       "confusables": [
@@ -849,7 +895,9 @@
       "short": "How much the price actually moved",
       "definition": "The volatility the underlying actually showed over a past period, usually measured as the annualised standard deviation of daily returns.",
       "examples": [
-        "IV is 16 but realised is only 11, so options look rich."
+        "IV is 16 but realised is only 11, so options look rich.",
+        "Risk compares realised volatility with implied every week to see whether options are rich.",
+        "The client asked how much the stock actually swings; realised volatility over the last month is 30%."
       ],
       "fill": "If implied vol sits far above ____, options look expensive compared with how much the market has really moved.",
       "confusables": [
@@ -871,7 +919,9 @@
       "short": "Implied vol differs across strikes",
       "definition": "The pattern of implied volatility across strikes for one expiry. On equity indices, out-of-the-money puts usually carry higher IV than calls, because investors pay up for crash protection.",
       "examples": [
-        "Put skew steepened as everyone bought downside before the budget."
+        "Put skew steepened as everyone bought downside before the budget.",
+        "The client asked why puts cost more than calls the same distance away: volatility skew.",
+        "Risk watches whether the volatility skew steepens, since that means traders are paying up for crash protection."
       ],
       "fill": "Downside Nifty puts trade at a higher implied vol than upside calls; traders call this the ____.",
       "confusables": [
@@ -893,7 +943,9 @@
       "short": "Implied vol higher at both wings",
       "definition": "A pattern where both far out-of-the-money puts and calls carry higher implied volatility than at-the-money options, so the curve looks like a smile. Common in currencies and around big events.",
       "examples": [
-        "Ahead of the election result, the curve turned into a smile: both wings got bid."
+        "Ahead of the election result, the curve turned into a smile: both wings got bid.",
+        "The analyst says the volatility smile in this stock shows traders fear big moves both ways.",
+        "Risk checks that our pricing model fits the volatility smile, not just the middle strike."
       ],
       "fill": "If far puts and far calls both trade at higher IV than the ATM strike, the curve forms a ____.",
       "confusables": [
@@ -917,7 +969,9 @@
       "short": "Implied vol across expiry dates",
       "definition": "How implied volatility varies across expiry dates. It usually slopes upward in calm markets and inverts, with near expiries higher, in stress or before known events.",
       "examples": [
-        "Weekly IV is above monthly ahead of the budget, so the curve is inverted."
+        "Weekly IV is above monthly ahead of the budget, so the curve is inverted.",
+        "The analyst watches the volatility term structure: weekly IV above monthly signals event fear.",
+        "Risk tracks the volatility term structure, because a calendar spread bets on its shape."
       ],
       "fill": "Near-dated IV is above longer-dated IV ahead of the budget, so the ____ is inverted.",
       "confusables": [
@@ -942,7 +996,9 @@
       "short": "Sharp fall in IV after an event",
       "definition": "A sudden drop in implied volatility once a known event such as results or a policy decision has passed. Option buyers can lose money even when the stock moves their way.",
       "examples": [
-        "We were right on direction, but IV crush after results ate the gain."
+        "We were right on direction, but IV crush after results ate the gain.",
+        "The client asked why her call lost money though the stock rose after results: IV crush.",
+        "Risk warns that buying options into results means fighting IV crush."
       ],
       "fill": "After the RBI decision, implied vol collapsed from 20 to 12, a classic ____.",
       "confusables": [
@@ -975,7 +1031,9 @@
       "short": "NSE's 30-day volatility index",
       "definition": "NSE's volatility index, calculated from Nifty 50 option prices. It shows the market's expected annualised volatility over the next 30 days.",
       "examples": [
-        "The VIX spiked above 20 into the election results."
+        "The VIX spiked above 20 into the election results.",
+        "The client asked what India VIX at 25 means: the market expects big swings over the next month.",
+        "Risk cuts short-option limits when India VIX climbs above 20."
       ],
       "fill": "Traders call ____ the fear gauge of the Indian market.",
       "confusables": [
@@ -1009,7 +1067,9 @@
       "short": "Fixed link between call, put and forward",
       "definition": "The no-arbitrage link between a European call and put with the same strike and expiry: call minus put equals the underlying price minus the present value of the strike.",
       "examples": [
-        "The puts look cheap against the calls; put-call parity says someone will arb that."
+        "The puts look cheap against the calls; put-call parity says someone will arb that.",
+        "The quant uses put-call parity to check that the desk's option prices make sense together.",
+        "Risk asked why the synthetic was cheaper than the future: dividends, which put-call parity must allow for."
       ],
       "fill": "If calls get too expensive against puts of the same strike, arbitrageurs restore ____.",
       "confusables": [
@@ -1044,7 +1104,9 @@
       "short": "How far in or out of the money",
       "definition": "Where an option's strike sits relative to the underlying price, in, at or out of the money, often measured as strike divided by spot or by delta.",
       "examples": [
-        "Compare skew by moneyness, say 25-delta puts against 25-delta calls."
+        "Compare skew by moneyness, say 25-delta puts against 25-delta calls.",
+        "The quant sorts every option by moneyness before comparing their implied vols.",
+        "Risk groups the book by moneyness to see how much sits in far strikes."
       ],
       "fill": "To compare options across strikes, traders describe their ____, such as 95% of spot or 25 delta.",
       "confusables": [
@@ -1070,7 +1132,9 @@
       "short": "Contracts still open",
       "definition": "The number of futures or option contracts outstanding that have not yet been closed or settled. Rising open interest with rising prices suggests fresh long positions.",
       "examples": [
-        "The highest call OI sits at 24,500, so traders treat it as resistance."
+        "The highest call OI sits at 24,500, so traders treat it as resistance.",
+        "The client asked what open interest means: how many contracts are still open.",
+        "Risk watches open interest in the stocks near their ban limit."
       ],
       "fill": "Volume counts contracts traded today; ____ counts contracts still open at the end of the day.",
       "confusables": [
@@ -1095,7 +1159,9 @@
       "short": "Put open interest ÷ call open interest",
       "definition": "Open interest (or volume) in puts divided by that in calls. A high ratio shows heavy put buying or writing; traders read it in different ways and often as a contrarian signal.",
       "examples": [
-        "PCR is above 1.3, so a lot of put writing is supporting the market."
+        "PCR is above 1.3, so a lot of put writing is supporting the market.",
+        "The strategist reads the put-call ratio each evening as a gauge of mood.",
+        "The client asked whether a high put-call ratio is bearish: often it means writers are confident."
       ],
       "fill": "Put open interest divided by call open interest gives the ____.",
       "confusables": [
@@ -1129,7 +1195,9 @@
       "short": "Delta's sensitivity to volatility",
       "definition": "How much an option's delta changes when implied volatility moves, which equals how much vega changes when the underlying moves. It matters for skew trades and for dealers hedging large out-of-the-money positions.",
       "examples": [
-        "As vol collapsed after the event, vanna pulled the delta of those OTM puts toward zero and dealers bought back their hedges."
+        "As vol collapsed after the event, vanna pulled the delta of those OTM puts toward zero and dealers bought back their hedges.",
+        "The quant says vanna explains why dealers buy back hedges as vol falls after an event.",
+        "Risk reports the book's vanna before big events, since vol and spot often move together."
       ],
       "fill": "If a fall in implied vol changes your delta even though spot hasn't moved, you're seeing ____ at work.",
       "confusables": [
@@ -1161,7 +1229,9 @@
       "short": "Vega's sensitivity to volatility",
       "definition": "How much an option's vega changes when implied volatility moves: the convexity of an option's value in volatility. Out-of-the-money options carry the most of it.",
       "examples": [
-        "We own the wings for the vomma: if vol spikes, our vega grows with it."
+        "We own the wings for the vomma: if vol spikes, our vega grows with it.",
+        "Risk likes owning some vomma, because the book's vega then grows when vol spikes.",
+        "The quant says the far strikes carry most of the book's vomma."
       ],
       "fill": "A trader long far out-of-the-money options picks up more vega as vol rises, thanks to positive ____.",
       "confusables": [
@@ -1187,7 +1257,9 @@
       "short": "Delta's change as time passes",
       "definition": "How much an option's delta changes as one day passes, all else equal. Over a weekend or close to expiry it can shift hedges noticeably.",
       "examples": [
-        "Monday's hedge was off because charm shrank our OTM deltas over the weekend."
+        "Monday's hedge was off because charm shrank our OTM deltas over the weekend.",
+        "Risk asked why the Monday hedge was off: charm had changed the deltas over the weekend.",
+        "The quant adjusts the hedge for charm near expiry, when deltas drift fastest."
       ],
       "fill": "Even with the market flat, out-of-the-money deltas shrink each day because of ____.",
       "confusables": [
@@ -1210,7 +1282,9 @@
       "short": "Gamma's change per move in spot",
       "definition": "How much gamma changes for a 1-point move in the underlying: a third-order Greek showing how quickly gamma itself shifts as the price moves.",
       "examples": [
-        "Speed tells us how fast our gamma explodes if spot runs toward the strike."
+        "Speed tells us how fast our gamma explodes if spot runs toward the strike.",
+        "Risk watches speed on short options near expiry, when gamma can change in a flash.",
+        "The quant says speed, how fast gamma changes as spot moves, is a Greek few desks track."
       ],
       "fill": "To know how fast gamma will grow as spot runs toward the strike, look at ____.",
       "confusables": [
@@ -1237,7 +1311,9 @@
       "short": "Gamma's change as time passes",
       "definition": "How much an option's gamma changes as one day passes. For at-the-money options gamma rises sharply into expiry, and this Greek measures that drift.",
       "examples": [
-        "The ATM gamma on our book will double by Thursday; color says how fast."
+        "The ATM gamma on our book will double by Thursday; color says how fast.",
+        "The quant uses color to plan how the book's gamma will change by expiry.",
+        "Risk asked how fast our gamma will grow into expiry; color answers that."
       ],
       "fill": "Gamma on at-the-money strikes rises each day into expiry, a drift measured by ____.",
       "confusables": [
@@ -1260,7 +1336,9 @@
       "short": "Gamma's sensitivity to volatility",
       "definition": "How much gamma changes when implied volatility moves. Lower volatility concentrates gamma near the strike; higher volatility spreads it out across strikes.",
       "examples": [
-        "Vol fell and our ATM gamma jumped: that's zomma."
+        "Vol fell and our ATM gamma jumped: that's zomma.",
+        "The quant reports zomma so the desk knows how gamma reacts to a vol change.",
+        "Risk asked why gamma jumped when vol fell; the quant pointed to zomma."
       ],
       "fill": "If vol falls and the gamma of your at-the-money options jumps, that's ____.",
       "confusables": [
@@ -1283,7 +1361,9 @@
       "short": "Vega's change as time passes",
       "definition": "How much an option's vega changes as one day passes. Vega shrinks as expiry approaches, so a vol position gets smaller on its own.",
       "examples": [
-        "Our vega halves by expiry week; veta is why the vol bet fades."
+        "Our vega halves by expiry week; veta is why the vol bet fades.",
+        "The quant tracks veta to see how fast the book's vega fades over time.",
+        "Risk asked why the long-vol trade earns less each week; veta is shrinking its vega."
       ],
       "fill": "A long-vol position gets smaller each day even if nothing moves, because of ____.",
       "confusables": [
@@ -1306,7 +1386,9 @@
       "short": "Vomma's sensitivity to volatility",
       "definition": "A third-order Greek: how much vomma changes when implied volatility moves. It matters mainly to desks running large volatility books.",
       "examples": [
-        "In a vol spike, ultima tells the desk how fast its vomma will change."
+        "In a vol spike, ultima tells the desk how fast its vomma will change.",
+        "The quant says ultima, the rate vomma changes with vol, matters only for big books.",
+        "Risk asked for ultima in the stress report, to see how vomma shifts in a vol spike."
       ],
       "fill": "The third-order Greek that tracks how vomma changes with volatility is ____.",
       "confusables": [
@@ -1333,7 +1415,9 @@
       "short": "% option move per 1% underlying move",
       "definition": "The percentage change in an option's price for a 1% move in the underlying. It shows how much leverage the option carries.",
       "examples": [
-        "Far OTM calls have huge lambda, which is why they feel like lottery tickets."
+        "Far OTM calls have huge lambda, which is why they feel like lottery tickets.",
+        "The client asked why her cheap call moved 50% on a 2% rise: high lambda.",
+        "Risk compares lambda across strikes to see which options give the most leverage."
       ],
       "fill": "With a ____ of 10, a 1% rise in the stock lifts the call about 10%.",
       "confusables": [
@@ -1372,7 +1456,9 @@
       "short": "Own the stock, sell a call on it",
       "definition": "Holding a stock and selling a call option on it to earn premium, giving up any gain above the strike.",
       "examples": [
-        "The fund runs covered calls on its banks to squeeze extra income in a flat market."
+        "The fund runs covered calls on its banks to squeeze extra income in a flat market.",
+        "The client asked whether the covered call on her shares caps her gains: yes, above the strike.",
+        "Risk likes the covered call because the shares already cover the sold leg."
       ],
       "fill": "A fund that owns HDFC Bank and sells monthly calls on it for income is running a ____.",
       "confusables": [
@@ -1396,7 +1482,9 @@
       "short": "Own the stock, buy a put on it",
       "definition": "Buying a put on a stock or index you own, so losses below the strike are capped. It works like insurance.",
       "examples": [
-        "We bought protection with 5% OTM puts for the quarter."
+        "We bought protection with 5% OTM puts for the quarter.",
+        "The client bought the protective put so her shares can't lose more than 8% this quarter.",
+        "Risk says the protective put insuring the fund's shares costs about 2% of a year's return."
       ],
       "fill": "Before the election, the PM bought a ____ on the Nifty to cap the portfolio's downside.",
       "confusables": [
@@ -1418,7 +1506,9 @@
       "short": "Call and put at the same strike",
       "definition": "Buying (or selling) a call and a put with the same strike and expiry. A long straddle profits from a big move either way; a short straddle profits if the market stays still.",
       "examples": [
-        "The ATM straddle is pricing a 3% move on results day."
+        "The ATM straddle is pricing a 3% move on results day.",
+        "Risk caps the desk's short straddle size into results, since the stock can gap either way.",
+        "The client asked why the straddle she bought lost money: the stock moved, but less than priced."
       ],
       "fill": "Expecting a big move after results but unsure of the direction, she bought a ____.",
       "confusables": [
@@ -1453,7 +1543,9 @@
       "short": "OTM call and OTM put together",
       "definition": "Buying (or selling) an out-of-the-money call and an out-of-the-money put with the same expiry. Cheaper than a straddle, but it needs a bigger move to pay off.",
       "examples": [
-        "We sold the 23,500–24,500 strangle and collected 120."
+        "We sold the 23,500–24,500 strangle and collected 120.",
+        "Risk prefers the strangle to the straddle for sellers, since it gives more room.",
+        "The client asked why the strangle cost less than the straddle: both strikes are away from the price."
       ],
       "fill": "Buying a 24,500 call and a 23,500 put on the same expiry is a ____.",
       "confusables": [
@@ -1477,7 +1569,9 @@
       "short": "Buy a call, sell a higher call",
       "definition": "Buying a call and selling a higher-strike call on the same expiry. It costs less than a call alone but caps the profit at the higher strike.",
       "examples": [
-        "Calls were pricey, so we did the 24,000–24,500 call spread instead."
+        "Calls were pricey, so we did the 24,000–24,500 call spread instead.",
+        "The client asked for a cheaper way to bet on a rise; the adviser suggested the bull call spread.",
+        "Risk likes the bull call spread because the sold higher call pays for part of the bought one."
       ],
       "fill": "To cut the cost of a bullish bet, he bought the 24,000 call and sold the 24,500 call: a ____.",
       "confusables": [
@@ -1512,7 +1606,9 @@
       "short": "Range bet with capped losses",
       "definition": "Selling an out-of-the-money put spread and an out-of-the-money call spread together. It earns premium if the market stays in a range, and the bought wings cap the loss.",
       "examples": [
-        "We run weekly iron condors when VIX is high and the range is clear."
+        "We run weekly iron condors when VIX is high and the range is clear.",
+        "Risk caps the iron condor book so one big move can't wipe out months of premium.",
+        "The client asked how the iron condor makes money: the index stays inside the range until expiry."
       ],
       "fill": "To earn premium in a range-bound market while capping losses with bought wings, traders sell an ____.",
       "confusables": [
@@ -1536,7 +1632,9 @@
       "short": "Same strike, different expiries",
       "definition": "Selling a near-expiry option and buying a longer-dated option at the same strike. It profits from faster decay in the near option and from a rise in longer-dated implied vol.",
       "examples": [
-        "Weekly IV is rich, so sell the weekly and buy the monthly in a calendar."
+        "Weekly IV is rich, so sell the weekly and buy the monthly in a calendar.",
+        "The strategist likes the calendar spread before the policy, since weekly IV is rich against the monthly.",
+        "Risk notes the calendar spread, short the near month and long the next, loses on a big early move."
       ],
       "fill": "Selling this week's 24,000 call and buying next month's 24,000 call is a ____.",
       "confusables": [
@@ -1558,7 +1656,9 @@
       "short": "Trading the hedge on a long-gamma book",
       "definition": "Holding long options and repeatedly re-hedging delta: selling the underlying as it rises and buying as it falls. It makes money if realised volatility beats the implied volatility paid.",
       "examples": [
-        "We're long the straddle and gamma scalping the futures around it."
+        "We're long the straddle and gamma scalping the futures around it.",
+        "Risk checks that gamma scalping profits cover the theta the straddle pays each day.",
+        "The quant says gamma scalping only pays when the market moves more than implied vol predicted."
       ],
       "fill": "A trader long a straddle who sells futures on rallies and buys on dips to stay hedged is ____.",
       "confusables": [
@@ -1586,7 +1686,9 @@
       "short": "Price sits on a strike at expiry",
       "definition": "The risk that the underlying closes right at a strike on expiry, leaving an option seller unsure whether the option will be exercised and what position they will end up holding.",
       "examples": [
-        "The stock closed a rupee from our short strike; pin risk means we don't know our delivery position until tonight."
+        "The stock closed a rupee from our short strike; pin risk means we don't know our delivery position until tonight.",
+        "Risk closes short options near the strike on expiry day to avoid pin risk.",
+        "The client asked why her broker closed her stock option early: pin risk at the strike."
       ],
       "fill": "When the stock closes right at the strike on expiry, the option seller faces ____.",
       "confusables": [
@@ -1608,7 +1710,9 @@
       "short": "Exercisable only at expiry",
       "definition": "An option that can be exercised only on its expiry date. All options on NSE are European: index options have been since they launched in 2001, and stock options switched from American style in January 2011.",
       "examples": [
-        "These are European options, so there's no early exercise to worry about on the short leg."
+        "These are European options, so there's no early exercise to worry about on the short leg.",
+        "The client asked whether she can exercise her Nifty option early: no, it's a European option.",
+        "Risk notes that each European option on the index can only be exercised at expiry."
       ],
       "fill": "On NSE you can't exercise a Nifty option before its expiry date, because it's a ____.",
       "confusables": [
@@ -1639,7 +1743,9 @@
       "short": "Exercisable on any day up to expiry",
       "definition": "An option the holder can exercise on any day up to expiry. NSE stock options were American style until January 2011; most US stock options still are.",
       "examples": [
-        "Deep in-the-money American puts can be worth exercising early."
+        "Deep in-the-money American puts can be worth exercising early.",
+        "The quant uses a binomial tree to price the American option, since it can be exercised early.",
+        "The client asked why her US stock option could be exercised any day: it's an American option."
       ],
       "fill": "If you can exercise your option on any trading day before it expires, it's an ____.",
       "confusables": [
@@ -1673,7 +1779,9 @@
       "short": "Prices options with up-or-down price steps",
       "definition": "A model that prices an option by letting the underlying move only up or down at each step, valuing the option at expiry and working back to today with risk-neutral probabilities. With many small steps it agrees with Black-Scholes, and unlike Black-Scholes it can handle early exercise.",
       "examples": [
-        "We use a binomial tree for the American options, because Black-Scholes can't do early exercise."
+        "We use a binomial tree for the American options, because Black-Scholes can't do early exercise.",
+        "The quant checks the binomial tree against Black-Scholes for contracts without early exercise.",
+        "Risk asked how many steps the binomial tree uses, since too few make prices jumpy."
       ],
       "fill": "Let the stock go up or down at each step, value the option at the end, then work backwards. That's a ____.",
       "confusables": [
@@ -1708,7 +1816,9 @@
       "short": "Pricing odds, not real-world odds",
       "definition": "The probabilities used to price a derivative, set so the underlying is expected to grow at exactly the risk-free rate. They aren't a forecast of what will happen; they're whatever keeps prices free of arbitrage.",
       "examples": [
-        "The risk-neutral probability of the up move is 40%, whatever the analysts think."
+        "The risk-neutral probability of the up move is 40%, whatever the analysts think.",
+        "The quant reminds juniors that risk-neutral probability is for pricing, not forecasting.",
+        "Risk notes the risk-neutral probability of a crash is above the real one, because it includes a fear premium."
       ],
       "fill": "In a pricing tree, we weight the up and down moves so the stock's expected price grows only at the risk-free rate. Those weights are the ____.",
       "confusables": [
@@ -1754,7 +1864,9 @@
       "short": "Long call plus short put, same strike",
       "definition": "Buying a call and selling a put at the same strike and expiry. The pair gains and loses one for one with the underlying, just like a long future, which is what put-call parity says.",
       "examples": [
-        "Futures are rich, so we'll get long through a synthetic long instead."
+        "Futures are rich, so we'll get long through a synthetic long instead.",
+        "The quant priced the synthetic long against the future to spot any mispricing.",
+        "Risk treats the synthetic long like owning futures: the loss isn't capped."
       ],
       "fill": "Buy the 24,000 call and sell the 24,000 put of the same expiry, and you hold a ____.",
       "confusables": [
@@ -1789,7 +1901,9 @@
       "short": "Long put plus short call, same strike",
       "definition": "Buying a put and selling a call at the same strike and expiry. It loses one for one as the underlying rises and gains as it falls, like a short future.",
       "examples": [
-        "We can't short the stock overnight, so we built a synthetic short in options."
+        "We can't short the stock overnight, so we built a synthetic short in options.",
+        "Risk treats the synthetic short like short futures, with no cap on the loss if the stock rises.",
+        "The client asked how to bet against a stock she can't borrow: the synthetic short, using options."
       ],
       "fill": "Sell the 1,500 call and buy the 1,500 put of the same expiry, and you've built a ____.",
       "confusables": [
@@ -1811,7 +1925,9 @@
       "short": "Long future hedged into a locked payoff",
       "definition": "Buying the underlying or its future and pairing it with a long put and a short call at one strike and expiry. The options make a synthetic short, so the payoff is fixed. Traders do it when the future is cheap against the options.",
       "examples": [
-        "The calls are rich against the future, so the desk is putting on conversions."
+        "The calls are rich against the future, so the desk is putting on conversions.",
+        "Risk sees the conversion, a long future with a bought put and a sold call, as nearly riskless.",
+        "The quant runs conversion trades when calls are rich against the future."
       ],
       "fill": "Buy the future, buy the 24,000 put and sell the 24,000 call, and the payoff is locked whatever happens. That's a ____.",
       "confusables": [
@@ -1849,7 +1965,9 @@
       "short": "Short future hedged into a locked payoff",
       "definition": "Selling the underlying or its future and pairing it with a long call and a short put at one strike and expiry. It mirrors a conversion and is used when the future is rich against the options.",
       "examples": [
-        "The future is rich against the synthetic, so we're doing reversals."
+        "The future is rich against the synthetic, so we're doing reversals.",
+        "The quant puts on the reverse conversion when the future is rich against its synthetic.",
+        "Risk checks the dividend estimate on every reverse conversion, since a surprise dividend changes the payoff."
       ],
       "fill": "Sell the future, buy the 24,000 call and sell the 24,000 put, and the payoff is locked whatever happens. That's a ____.",
       "confusables": [
@@ -1884,7 +2002,9 @@
       "short": "Two spreads that pay a fixed amount",
       "definition": "A bull call spread plus a bear put spread on the same two strikes and expiry. It always pays the gap between the strikes at expiry, so its fair price is that amount discounted at the interest rate. Any other price is a mispricing or a way to borrow or lend.",
       "examples": [
-        "With three months left, the 23,800/24,200 box at 394 works out to about 6% a year."
+        "With three months left, the 23,800/24,200 box at 394 works out to about 6% a year.",
+        "The quant compares the box spread's return with the T-bill rate.",
+        "Risk asked why the box spread needs so much margin when its payoff is fixed."
       ],
       "fill": "Buy the 23,800/24,200 call spread and the 23,800/24,200 put spread together, and you get a ____ that pays 400 whatever happens.",
       "confusables": [
@@ -1926,7 +2046,9 @@
       "short": "Annual vol ÷ 16 ≈ typical daily move",
       "definition": "A desk shortcut: divide annualised volatility by 16 to get the typical one-day move, because 16 is the square root of 256, roughly the number of trading days in a year.",
       "examples": [
-        "IV's at 16, so the market's pricing about a 1% day."
+        "IV's at 16, so the market's pricing about a 1% day.",
+        "The client asked what an IV of 32 means per day; by the rule of 16, about a 2% daily move.",
+        "Risk uses the rule of 16 to turn a vol figure into a daily move for the stress report."
       ],
       "fill": "Implied vol is 32%, so a typical day's move is about 2%. You used the ____.",
       "confusables": [
@@ -1965,7 +2087,9 @@
       "short": "Move the options market is pricing in",
       "definition": "The size of move the options market expects by expiry, usually read from the price of the at-the-money straddle. It's handy before events like results or the budget: owning the straddle pays only if the real move beats it.",
       "examples": [
-        "The results straddle implies a 6% move; the stock's average results move is 4%."
+        "The results straddle implies a 6% move; the stock's average results move is 4%.",
+        "The client asked how much the stock might move on results; the implied move from the straddle is 5%.",
+        "Risk compares each stock's implied move with its past results-day moves."
       ],
       "fill": "The at-the-money straddle costs 2% of the stock price, so the market's ____ by expiry is about 2%.",
       "confusables": [
@@ -2006,7 +2130,8 @@
       "definition": "The label NSE uses for a call option in contract names and on the option chain, short for \"call European\". NIFTY 25000 CE is a call on the Nifty with a 25,000 strike.",
       "examples": [
         "Call writers are stacked at the 25,000 CE, so the desk sees that strike as a ceiling for the week.",
-        "We're long the 25,500 CE into the policy, so we need a big move up, and soon."
+        "We're long the 25,500 CE into the policy, so we need a big move up, and soon.",
+        "The client asked what the CE on her contract note means: it's a call option."
       ],
       "fill": "NIFTY 26000 ____ gains in value if the Nifty rallies well above 26,000 before expiry.",
       "confusables": [
@@ -2043,7 +2168,8 @@
       "definition": "The label NSE uses for a put option in contract names and on the option chain, short for \"put European\". On a trading screen, PE means a put, not the P/E ratio.",
       "examples": [
         "Writers added a lot of 24,000 PE this week, so traders see 24,000 as support.",
-        "He bought the weekly 24,500 PE as a cheap hedge before the results."
+        "He bought the weekly 24,500 PE as a cheap hedge before the results.",
+        "Risk asks for the strike of every PE the desk has sold before the weekend."
       ],
       "fill": "NIFTY 24000 ____ pays off if the Nifty falls well below 24,000 by expiry.",
       "confusables": [
@@ -2078,7 +2204,8 @@
       "definition": "A table of every strike for one underlying and expiry, with calls on one side and puts on the other. Each row shows the strike's price, volume, open interest, change in OI and implied volatility.",
       "examples": [
         "Pull up the Nifty chain for this week and check where the biggest OI sits.",
-        "On the chain, 25,000 has the most call OI and 24,500 the most put OI, so that's the range traders expect."
+        "On the chain, 25,000 has the most call OI and 24,500 the most put OI, so that's the range traders expect.",
+        "The client asked how to read the option chain: calls on one side, puts on the other, by strike."
       ],
       "fill": "To see every Nifty strike for this week's expiry with its price, OI and IV side by side, traders open the ____.",
       "confusables": [
@@ -2106,7 +2233,8 @@
       "definition": "The seller of an option. The writer collects the premium and takes on the obligation, so the most a writer can make is the premium, while a written call with no hedge can lose without limit.",
       "examples": [
         "Call writers piled into 25,000 today, so the desk reads it as a ceiling for the expiry.",
-        "Writers are making money as IV drifts lower ahead of the long weekend."
+        "Writers are making money as IV drifts lower ahead of the long weekend.",
+        "Risk reminds every option writer on the desk that the loss on a naked short has no ceiling."
       ],
       "fill": "The ____ of a Nifty call keeps the premium if the index stays below the strike, but faces a large loss if it rallies far above it.",
       "confusables": [
@@ -2142,7 +2270,8 @@
       "definition": "How much a strike's or contract's open interest rose or fell during the day. A big rise shows fresh positions being opened; a fall shows positions being closed.",
       "examples": [
         "Change in OI is sharply up on the 24,500 PE, so writers are adding fresh puts there.",
-        "Total OI looks steady, but the change in OI shows calls being cut at 25,000 and added at 25,500."
+        "Total OI looks steady, but the change in OI shows calls being cut at 25,000 and added at 25,500.",
+        "The analyst reads the change in OI with the price: a rising price with rising OI means fresh longs."
       ],
       "fill": "Open interest in the 25,000 call rose from 1.2 lakh to 1.9 lakh contracts today, so its ____ is +70,000 contracts.",
       "confusables": [
@@ -2182,7 +2311,8 @@
       "definition": "The strike at which all open options, calls and puts together, would expire worth the least, so option buyers lose the most and writers pay out the least. Some traders expect expiry to settle near it.",
       "examples": [
         "Max pain is 24,800 and we're at 24,820 on expiry morning, so the writers are comfortable.",
-        "Don't trade off max pain alone; it moves every day as OI changes."
+        "Don't trade off max pain alone; it moves every day as OI changes.",
+        "The client asked whether max pain predicts where the Nifty will close: sometimes, but not reliably."
       ],
       "fill": "Some traders work out the strike at which open calls and puts would together be worth the least at expiry, the ____, and expect the index to settle near it.",
       "confusables": [
@@ -2225,7 +2355,8 @@
       "definition": "The implied volatility of the option whose strike is closest to the current price, often the average of the ATM call and put. It's the single number traders quote for an expiry's vol.",
       "examples": [
         "Weekly ATM IV is 13 against 11 last week, so straddles got pricier into the data.",
-        "ATM vol is bid but the wings are flat, so it's the event, not crash fear."
+        "ATM vol is bid but the wings are flat, so it's the event, not crash fear.",
+        "Risk tracks ATM IV every morning as the cleanest read of the market's fear."
       ],
       "fill": "The strike nearest the spot trades at 12.5 vol and the wings at 15, so this expiry's ____ is 12.5.",
       "confusables": [
@@ -2254,7 +2385,8 @@
       "definition": "Where today's implied volatility sits between its lowest and highest level of the past year, as a percentage. 0 means it's at the year's low and 100 at the year's high.",
       "examples": [
         "IV rank is 85, so premiums are rich by this stock's own standards; we'd rather sell than buy.",
-        "Don't compare raw IV across stocks; compare where each sits in its own range."
+        "Don't compare raw IV across stocks; compare where each sits in its own range.",
+        "The client asked whether to sell options now; with IV rank at 90, premiums are rich."
       ],
       "fill": "Bank Nifty IV is 18, against a one-year low of 12 and high of 27, so its ____ is 40.",
       "confusables": [
@@ -2304,7 +2436,8 @@
       "definition": "The share of trading days in the past year on which implied volatility closed below today's level. Unlike IV rank, one spike to an extreme high doesn't distort it.",
       "examples": [
         "IV percentile is 92, so vol has been lower than this on almost every day this year.",
-        "IV rank looks low after March's spike, but the percentile says vol is still above most of the year."
+        "IV rank looks low after March's spike, but the percentile says vol is still above most of the year.",
+        "Risk prefers IV percentile to IV rank, since one spike can't distort it."
       ],
       "fill": "Nifty's IV has closed below today's level on 180 of the last 250 trading days, so its ____ is 72.",
       "confusables": [
@@ -2345,7 +2478,8 @@
       "definition": "Indian trader slang for buying cheap, far out-of-the-money options on expiry day, hoping a sharp move multiplies them many times. Most expire worthless, so it's a lottery ticket, not a strategy.",
       "examples": [
         "He bought the ₹2 calls at 2 pm as a hero-zero; they expired at zero.",
-        "Hero-zero trades look great in screenshots; nobody posts the twenty that went to nothing."
+        "Hero-zero trades look great in screenshots; nobody posts the twenty that went to nothing.",
+        "The client asked whether hero or zero trades are a good way to grow her account: mostly they end at nothing."
       ],
       "fill": "Buying ₹3 out-of-the-money puts on expiry afternoon, hoping a crash turns them into ₹60, is a ____ trade.",
       "confusables": [
@@ -2380,7 +2514,8 @@
       "definition": "Option writers caught on the wrong side when the price moves through their strikes. Call writers at 25,000 are trapped if the Nifty rallies past it, and their buying to cover or hedge can push it further.",
       "examples": [
         "Call writers at 24,500 are trapped; the short covering could take us to 24,700.",
-        "Huge put OI at that strike and the index just broke below it. Put writers trapped."
+        "Huge put OI at that strike and the index just broke below it. Put writers trapped.",
+        "The analyst says trapped writers at 24,500 will have to buy back, which could fuel the rally."
       ],
       "fill": "The Nifty jumped through 24,800, where calls had been heavily sold, leaving ____ scrambling to buy them back.",
       "confusables": [
@@ -2407,7 +2542,8 @@
       "definition": "The strike below the market with the most put open interest, read as support because put writers are betting the index stays above it. It moves: writers shift the base up in a rally and cover when it breaks.",
       "examples": [
         "The put base has shifted up to 24,000, so dips toward there are getting bought.",
-        "The put base broke; watch for writers to cover."
+        "The put base broke; watch for writers to cover.",
+        "Risk asked how firm the put base at 24,000 really is if FIIs keep selling."
       ],
       "fill": "The biggest put open interest sat at 24,000, so traders called it the ____ for the week.",
       "confusables": [
@@ -2442,7 +2578,8 @@
       "definition": "The strike above the market with the most call open interest, read as resistance because call writers are betting the index stays below it.",
       "examples": [
         "There's a big call wall at 25,000, so we probably stall there this week.",
-        "The call wall shifted down from 25,000 to 24,800 after the sell-off."
+        "The call wall shifted down from 25,000 to 24,800 after the sell-off.",
+        "The client asked why the Nifty stalls at 25,000 each week: traders point to the call wall there."
       ],
       "fill": "Writers have sold the most calls at 25,000, building a ____ that traders expect to cap the index.",
       "confusables": [
@@ -2470,7 +2607,8 @@
       "definition": "Option writers closing at one strike and writing at another, so the open interest moves. Call writing shifting lower, or put writing shifting higher, is read as the expected range moving that way.",
       "examples": [
         "OI is shifting: put writers are moving up from 24,000 to 24,200.",
-        "Call OI shifted down to 24,700 by noon, which is bearish."
+        "Call OI shifted down to 24,700 by noon, which is bearish.",
+        "The analyst says OI shifting to higher strikes shows writers expect the rally to continue."
       ],
       "fill": "By lunch, put open interest had moved from 24,000 to 24,300 as writers rolled up, which traders describe as ____.",
       "confusables": [
@@ -2497,7 +2635,8 @@
       "definition": "Indian trader slang for a sharp move on expiry day that makes cheap near-the-money options jump many times in value. Gamma is highest at the money close to expiry, so a small index move causes a huge option move.",
       "examples": [
         "The 24,500 calls went from ₹4 to ₹90 in twenty minutes. Gamma blast.",
-        "Short straddles on expiry day get hit hardest by a late gamma blast."
+        "Short straddles on expiry day get hit hardest by a late gamma blast.",
+        "Risk bans naked short options on expiry afternoons because of gamma blast risk."
       ],
       "fill": "A 150-point rally in the last hour of expiry turned ₹5 calls into ₹120: what traders call a ____.",
       "confusables": [
@@ -2531,7 +2670,8 @@
       "definition": "Traders who bought expecting a breakout or a rally and are now losing as the price falls back. Their selling, as they give up or hit stops, can push the price down further.",
       "examples": [
         "Everyone bought the breakout above 1,600 and it's back at 1,560. Trapped longs will sell any bounce.",
-        "Long build-up yesterday and a gap down today: lots of trapped longs."
+        "Long build-up yesterday and a gap down today: lots of trapped longs.",
+        "The analyst expects trapped longs to sell any bounce back to 1,600."
       ],
       "fill": "Traders bought futures heavily above 24,800, then the Nifty fell to 24,500, leaving ____ waiting to sell.",
       "confusables": [
@@ -2559,7 +2699,8 @@
       "definition": "A popular Indian intraday rule: sell the at-the-money straddle on the index at 9:20 am, put a stop-loss on each leg (often 25% to 30% above its sale price), and close what's left in the afternoon. It earns time decay on quiet days and loses on strong trend days.",
       "examples": [
         "The 9:20 straddle got stopped out on both legs today, first the call and then the put.",
-        "So many algos run a 9:20 straddle that their stops can bunch together on a fast move."
+        "So many algos run a 9:20 straddle that their stops can bunch together on a fast move.",
+        "Risk asked how many clients run the 9:20 straddle, since their stops may all fire together."
       ],
       "fill": "Every day at 9:20 am his algo sells the ATM call and put with a 25% stop on each: the ____.",
       "confusables": [
@@ -2593,7 +2734,8 @@
       "definition": "A market call that the trend is down, so rallies are chances to sell or go short rather than buy. The opposite, in an uptrend, is 'buy on dips'.",
       "examples": [
         "It's a sell-on-rise market below 24,200; every bounce is getting sold.",
-        "FIIs are still selling, so I'd treat it as sell on rise until the trend changes."
+        "FIIs are still selling, so I'd treat it as sell on rise until the trend changes.",
+        "The strategist says sell on rise until FIIs stop selling."
       ],
       "fill": "In a downtrend the desk shorts every bounce into resistance, treating it as a ____ market.",
       "confusables": [
@@ -2621,7 +2763,8 @@
       "definition": "A trade held overnight for days or weeks, as opposed to intraday. In India it means carrying F&O positions as NRML or shares as CNC, so it needs full margin and carries overnight gap risk.",
       "examples": [
         "This is a positional trade, not intraday; I'm carrying the futures till expiry.",
-        "Positional traders sold calls two strikes out for the whole week."
+        "Positional traders sold calls two strikes out for the whole week.",
+        "Risk asks for a stop on every positional trade carried overnight."
       ],
       "fill": "Unlike his intraday trades, he holds this ____ for two weeks as NRML, with full margin.",
       "confusables": [
@@ -2648,7 +2791,8 @@
       "definition": "Very short trades, held for seconds to minutes, aiming for a few ticks each. Costs matter hugely: on index options, STT, exchange charges and the spread can eat most of a scalper's gross profit.",
       "examples": [
         "He scalps Bank Nifty options for 3 to 5 points, 50 times a day.",
-        "Scalping only works if your cost per round trip is well below your average win."
+        "Scalping only works if your cost per round trip is well below your average win.",
+        "The client asked whether scalping on her phone could beat the costs; for most people, no."
       ],
       "fill": "Taking dozens of tiny profits of a few ticks each, holding for under a minute, is called ____.",
       "confusables": [
@@ -2676,7 +2820,8 @@
       "definition": "Money or collateral in your trading account that the broker sets aside to cover the margin on open positions and pending orders. It can't be used for new trades until those positions close.",
       "examples": [
         "Margin blocked is ₹3 lakh for one lot of short straddle, so I can't add another.",
-        "Buying a far OTM option as a hedge cut the margin blocked by more than half."
+        "Buying a far OTM option as a hedge cut the margin blocked by more than half.",
+        "The client asked why her margin blocked doubled overnight: the exchange raised its margin rates."
       ],
       "fill": "Selling a Nifty futures lot left part of his funds as ____ until he closed the trade.",
       "confusables": [
@@ -2704,7 +2849,8 @@
       "definition": "The at-the-money call price plus the put price. Desks quote it as a quick read of the move the market is pricing by expiry: with the Nifty at 24,500 and the straddle at ₹350, the market prices about a 1.4% move.",
       "examples": [
         "The straddle price for the weekly is 280, so the market's pricing about 280 points either way.",
-        "The ATM straddle is cheap ahead of the policy; I'd own it."
+        "The ATM straddle is cheap ahead of the policy; I'd own it.",
+        "The analyst reads the ATM straddle price before results as the move the market expects."
       ],
       "fill": "The 24,500 call is ₹180 and the put ₹170, so the ____ is ₹350, about 1.4% of the index.",
       "confusables": [
@@ -2745,7 +2891,8 @@
       "definition": "Selling options without owning the underlying or a further-out option to limit the loss. A naked short call has unlimited loss, and brokers block the most margin for it.",
       "examples": [
         "Naked selling the 25,000 calls into the rally was a ₹3 lakh lesson.",
-        "We don't do naked selling on expiry day; buy a wing first."
+        "We don't do naked selling on expiry day; buy a wing first.",
+        "Risk bans naked option selling on expiry day; every short needs a bought wing."
       ],
       "fill": "Writing 10 lots of calls with no futures or bought calls behind them is ____.",
       "confusables": [
@@ -2780,7 +2927,8 @@
       "definition": "Buying cheaper options further out of the money than the ones you've sold, so the loss on a short straddle or strangle is capped. It costs some premium but cuts the worst case and, in India, the margin blocked.",
       "examples": [
         "Sold the 24,500 straddle and bought the 24,000 and 25,000 wings, so the loss is capped.",
-        "Buy wings before the weekend; the gap risk on a naked straddle is too big."
+        "Buy wings before the weekend; the gap risk on a naked straddle is too big.",
+        "Risk tells every option seller to buy wings before the weekend."
       ],
       "fill": "To cap the loss on his short straddle, he bought cheap options 500 points away on each side: he chose to ____.",
       "confusables": [
@@ -2808,7 +2956,8 @@
       "definition": "Changing an option position as the market moves: rolling a tested strike further away, adding a hedge, or turning a straddle into a strangle. It can keep a trade alive but adds costs, and can be a way of not admitting a loss.",
       "examples": [
         "The Nifty rallied 200 points, so the adjustment was to roll the short calls up to 24,800.",
-        "Make too many adjustments and you've paid away the premium you collected."
+        "Make too many adjustments and you've paid away the premium you collected.",
+        "The client asked why her strategy kept costing more: each adjustment paid away some premium."
       ],
       "fill": "When the market moved toward his short strike, he rolled the calls 200 points higher: a typical ____.",
       "confusables": [
@@ -2835,7 +2984,8 @@
       "definition": "An option that is out of the money at expiry is worth nothing: the buyer loses the whole premium and the seller keeps it. It isn't exercised; it simply ends at zero.",
       "examples": [
         "The 25,000 calls expired worthless, so the writers kept all the premium.",
-        "Most far OTM options bought on expiry day expire worthless."
+        "Most far OTM options bought on expiry day expire worthless.",
+        "Risk reminds buyers that most cheap weekly options expire worthless."
       ],
       "fill": "The Nifty closed at 24,300, so his 24,500 calls ____ and he lost the ₹6,000 he paid.",
       "confusables": [
@@ -2861,7 +3011,8 @@
       "definition": "An option whose strike is far on the winning side of the price, like a 23,000 call with the Nifty at 25,000. It is mostly intrinsic value, has a delta near 1 and moves almost point for point with the underlying.",
       "examples": [
         "He bought deep ITM calls instead of futures to cap the loss, paying very little time value.",
-        "Deep ITM stock options are physically settled at expiry, so close them before or be ready for delivery."
+        "Deep ITM stock options are physically settled at expiry, so close them before or be ready for delivery.",
+        "The client asked why her deep in the money call moved almost like the stock: its delta is near 1."
       ],
       "fill": "With the Nifty at 25,000, the 23,000 call has a delta near 1 because it is ____.",
       "confusables": [
@@ -2889,7 +3040,8 @@
       "definition": "An option with a strike far on the losing side of the price, like a 26,500 call with the Nifty at 25,000. It is cheap, has a delta near zero and usually expires worthless; it pays only in a big move.",
       "examples": [
         "Far OTM puts are the cheapest crash insurance you can buy, and they still bleed most months.",
-        "He sold far OTM calls for ₹2 each; it's free money until it isn't."
+        "He sold far OTM calls for ₹2 each; it's free money until it isn't.",
+        "Risk caps how many far out of the money options a client can sell, since one crash can wipe her out."
       ],
       "fill": "With the Nifty at 25,000, the 27,000 call costs ₹1 because it is ____.",
       "confusables": [
@@ -2917,7 +3069,8 @@
       "definition": "Desk talk for out-of-the-money puts trading at higher implied volatility than usual compared with at-the-money options. It means demand for downside protection is rising.",
       "examples": [
         "Skew is bid into the election result; everyone wants the 23,000 puts.",
-        "ATM vol is flat but skew is bid, so the market is buying crash protection, not vol in general."
+        "ATM vol is flat but skew is bid, so the market is buying crash protection, not vol in general.",
+        "The strategist notes skew is bid even though the index is calm, a sign of hidden fear."
       ],
       "fill": "OTM put IV went from 3 points to 6 points above ATM IV in a week, so traders said ____.",
       "confusables": [
@@ -2945,7 +3098,8 @@
       "definition": "Desk talk for implied volatility drifting lower because sellers outnumber buyers, often after an event or in a calm, grinding market. 'Vol is bid' means the opposite.",
       "examples": [
         "After the Budget vol is offered; ATM IV dropped 3 points in an hour.",
-        "Vol is offered across the curve as the market grinds higher."
+        "Vol is offered across the curve as the market grinds higher.",
+        "Risk notes vol is offered after the policy, so long straddles are losing value fast."
       ],
       "fill": "After the event passed, everyone sold options and IV slid all day: ____.",
       "confusables": [
@@ -2973,7 +3127,8 @@
       "definition": "Implied volatility is low compared with how much the trader expects the market to actually move, or with its own history. Buying options is then good value, if the forecast of realised vol is right.",
       "examples": [
         "ATM IV is 11 and the index has realised 15 over the past month. Vol is cheap; buy the straddle.",
-        "IV percentile is 5; options are cheap for the first time this year."
+        "IV percentile is 5; options are cheap for the first time this year.",
+        "The strategist says vol is cheap before the election, so buying straddles makes sense."
       ],
       "fill": "With implied vol at 10% and the index actually moving about 16% a year, traders said ____ and bought straddles.",
       "confusables": [
@@ -3008,7 +3163,8 @@
       "definition": "Indian desk talk for writing options, usually straddles, strangles or credit spreads, to collect the premium and earn theta as it decays. It wins small and often, and loses big in sharp moves.",
       "examples": [
         "We're selling premium this week; the Nifty's been stuck in a 300-point range.",
-        "Premium sellers love a quiet week; one big move takes back a month of gains."
+        "Premium sellers love a quiet week; one big move takes back a month of gains.",
+        "Risk allows selling premium into big events only through spreads, so no short option is left naked."
       ],
       "fill": "Writing a strangle each week and pocketing the decay when nothing happens is called ____.",
       "confusables": [
@@ -3035,7 +3191,8 @@
       "definition": "A trade whose profit doesn't depend on whether the market goes up or down, only on how much it moves or on time passing. A short straddle bets on a quiet market; a long straddle on a big move either way.",
       "examples": [
         "I'm non-directional this week: short strangle, delta-hedged daily.",
-        "Non-directional doesn't mean riskless. A short straddle loses either way on a big move."
+        "Non-directional doesn't mean riskless. A short straddle loses either way on a big move.",
+        "The client asked how her non-directional strategy lost money: the market moved too far either way."
       ],
       "fill": "A delta-neutral short strangle that earns from time decay, not from the market's direction, is a ____ trade.",
       "confusables": [
