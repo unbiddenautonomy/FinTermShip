@@ -27,6 +27,13 @@
       "game": "kelly"
     },
     {
+      "id": "z7",
+      "name": "Pairs trader",
+      "core": false,
+      "kind": "game",
+      "game": "pairs"
+    },
+    {
       "id": "z4",
       "name": "Case: a pairs trade that breaks",
       "core": false,

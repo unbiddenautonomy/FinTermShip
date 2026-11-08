@@ -11,6 +11,9 @@ import { MeetingGame } from './components/MeetingGame';
 import { GreeksGame } from './components/GreeksGame';
 import { GuessGame } from './components/GuessGame';
 import { KellyGame } from './components/KellyGame';
+import { BacktestGame } from './components/BacktestGame';
+import { SignalGame } from './components/SignalGame';
+import { PairsGame } from './components/PairsGame';
 import { MarketGame } from './components/MarketGame';
 import { PayoffGame } from './components/PayoffGame';
 import { Results } from './components/Results';
@@ -39,6 +42,9 @@ const GAME_SCREENS: Record<GameId, typeof MarketGame> = {
   guess: GuessGame,
   fermi: FermiGame,
   meeting: MeetingGame,
+  backtest: BacktestGame,
+  signal: SignalGame,
+  pairs: PairsGame,
 };
 
 type Screen =

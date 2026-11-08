@@ -1,0 +1,651 @@
+[
+  {
+    "id": "gap-bounce",
+    "title": "Gap-down bounce",
+    "about": "Buy Nifty 50 stocks that open 3% or more below yesterday's close, and sell them at 3:15 the same day.",
+    "lines": {
+      "universe": "Nifty 50 stocks as the index stood on each day, including ones later dropped",
+      "data": "One-minute bars from NSE, adjusted for splits and bonuses, with bad prints filtered out",
+      "trading": "Buys at 9:20, once the gap is known, at the 9:20 offer",
+      "costs": "Brokerage, STT, exchange fees, stamp duty and GST, plus 5 bps slippage each way",
+      "testing": "Rule taken as it is from a 2015 paper and run once on 2016–2024, with no tuning",
+      "result": "1,240 trades over nine years, each held for hours, so market moves barely matter"
+    },
+    "cases": [
+      {
+        "flaw": "survivorship",
+        "slot": "universe",
+        "line": "Today's 50 Nifty stocks, run back to 2016",
+        "why": "Today's Nifty 50 is a list of survivors. Stocks that kept falling and were dropped from the index aren't in the test, so it never buys a gap-down that turned into a collapse.",
+        "stats": {
+          "sharpe": 2.0,
+          "annual": 24,
+          "drawdown": 6
+        }
+      },
+      {
+        "flaw": "lookahead",
+        "slot": "trading",
+        "line": "Buys at the day's low, once the gap is known",
+        "why": "Nobody knows the day's low until the close. Buying at the low every time uses the future, which is why the result looks so smooth.",
+        "stats": {
+          "sharpe": 3.9,
+          "annual": 47,
+          "drawdown": 4
+        }
+      },
+      {
+        "flaw": "costs",
+        "slot": "costs",
+        "line": "₹20 brokerage an order, and nothing else",
+        "why": "Brokerage is the smallest cost. STT, exchange fees, stamp duty and slippage on 1,240 intraday round trips can add up to more than the edge.",
+        "stats": {
+          "sharpe": 2.9,
+          "annual": 35,
+          "drawdown": 5
+        }
+      },
+      {
+        "flaw": "baddata",
+        "slot": "data",
+        "line": "Last trades as received, with bad prints left in",
+        "why": "One bad print far below the market looks like a deep gap and a cheap fill. The test books a profit on a price nobody could have traded at.",
+        "stats": {
+          "sharpe": 2.9,
+          "annual": 35,
+          "drawdown": 5
+        }
+      }
+    ]
+  },
+  {
+    "id": "momentum",
+    "title": "Twelve-month momentum",
+    "about": "Each month, hold the 30 Nifty 500 stocks with the best returns over the past year, skipping the latest month.",
+    "lines": {
+      "universe": "Nifty 500 members as on each rebalance date, delisted stocks included",
+      "data": "Month-end closes adjusted for splits, bonuses and dividends",
+      "trading": "Ranks on the month-end close and buys at the next day's open",
+      "costs": "0.2% a side for brokerage, taxes and impact, on the trades it really makes",
+      "testing": "Lookback and skip month set by the textbook rule, then tested once on 2010–2024",
+      "result": "Long only, so it is judged against the Nifty 500, after costs"
+    },
+    "cases": [
+      {
+        "flaw": "survivorship",
+        "slot": "universe",
+        "line": "Stocks in the Nifty 500 today, traced back to 2010",
+        "why": "Some of momentum's worst trades are past winners that later collapsed and left the index. Testing only today's members leaves those losses out.",
+        "stats": {
+          "sharpe": 1.9,
+          "annual": 34,
+          "drawdown": 11
+        }
+      },
+      {
+        "flaw": "beta",
+        "slot": "result",
+        "line": "Up 26% a year, against 7% for fixed deposits; long only, with a beta of 1.2 to Nifty",
+        "why": "A long-only book with a beta of 1.2 rides the market. The fair test is against the Nifty 500, which also rose a lot; only what's left after that is edge.",
+        "stats": {
+          "sharpe": 1.3,
+          "annual": 26,
+          "drawdown": 28
+        }
+      },
+      {
+        "flaw": "snooping",
+        "slot": "testing",
+        "line": "The best of 60 ranking ideas the team tried on 2010–2024",
+        "why": "Try 60 ideas on the same years and the best one will look good by luck alone. Its Sharpe needs deflating for the 60 tries, and it needs a test on fresh data.",
+        "stats": {
+          "sharpe": 2.1,
+          "annual": 38,
+          "drawdown": 11
+        }
+      }
+    ]
+  },
+  {
+    "id": "results-drift",
+    "title": "Results drift",
+    "about": "Buy stocks whose quarterly profit beats analysts' estimates by 10% or more, and hold them for 20 trading days.",
+    "lines": {
+      "universe": "All NSE stocks with analyst coverage at the time, including ones later delisted",
+      "data": "Results and estimates time-stamped to the minute they were published",
+      "trading": "Buys at the next open after the results come out",
+      "costs": "Costs and slippage scaled to each stock's trading volume",
+      "testing": "Thresholds chosen on 2012–2018, then tested once on 2019–2024",
+      "result": "2,900 trades over 12 years, hedged with Nifty futures"
+    },
+    "cases": [
+      {
+        "flaw": "lookahead",
+        "slot": "data",
+        "line": "Results dated to the last day of the quarter they cover",
+        "why": "Companies have up to 45 days after a quarter ends to publish results, and 60 for the full year. Dating them to the quarter end lets the test trade weeks before anyone knew.",
+        "stats": {
+          "sharpe": 4.0,
+          "annual": 40,
+          "drawdown": 3
+        }
+      },
+      {
+        "flaw": "overfit",
+        "slot": "testing",
+        "line": "Works with a 20-day hold; at 15 or 25 days it loses money",
+        "why": "A real effect works across nearby settings. A result that lives at one exact holding period is most likely fitted to the noise in this history.",
+        "stats": {
+          "sharpe": 3.1,
+          "annual": 31,
+          "drawdown": 4
+        }
+      },
+      {
+        "flaw": "costs",
+        "slot": "costs",
+        "line": "Fills at the opening price with no slippage, even in small caps",
+        "why": "Small caps have wide spreads, and buying them moves the price. Over 2,900 trades, free fills can turn a loss into a profit on paper.",
+        "stats": {
+          "sharpe": 3.4,
+          "annual": 34,
+          "drawdown": 4
+        }
+      },
+      {
+        "flaw": "survivorship",
+        "slot": "universe",
+        "line": "Stocks still listed today that have analyst coverage",
+        "why": "Firms delisted after frauds or failures are missing. Some beat estimates just before they collapsed, and those losses never show up.",
+        "stats": {
+          "sharpe": 2.1,
+          "annual": 21,
+          "drawdown": 6
+        }
+      }
+    ]
+  },
+  {
+    "id": "expiry-straddle",
+    "title": "Expiry-day short straddle",
+    "about": "Sell the at-the-money Nifty call and put at 9:30 on expiry day, and buy them back by 3:15.",
+    "lines": {
+      "universe": "Nifty weekly options, on expiry days only",
+      "data": "Option quotes for each minute: the bid and the ask, not just last trades",
+      "trading": "Sells at the 9:30 bid; stop-losses fill at the next minute's ask",
+      "costs": "Brokerage, STT on the premium sold, exchange fees and GST, plus the bid-ask spread",
+      "testing": "Entry time and stop fixed in advance from desk practice, with no tuning",
+      "result": "190 expiries since 2021, the worst ones included, with margin counted in the return"
+    },
+    "cases": [
+      {
+        "flaw": "costs",
+        "slot": "costs",
+        "line": "No costs, and fills at the last traded price",
+        "why": "Selling at the last trade ignores the bid-ask spread, which on expiry day is a real share of the premium collected. Add STT, fees and GST and the edge may be gone.",
+        "stats": {
+          "sharpe": 3.4,
+          "annual": 48,
+          "drawdown": 4
+        }
+      },
+      {
+        "flaw": "overfit",
+        "slot": "testing",
+        "line": "Sells at 9:47 with a 23% stop; at 9:45 or with a 25% stop it loses",
+        "why": "A knife-edge result. If two minutes or two points of stop flip it to a loss, the test has found the noise of these particular days, not an edge.",
+        "stats": {
+          "sharpe": 3.0,
+          "annual": 42,
+          "drawdown": 6
+        }
+      },
+      {
+        "flaw": "lookahead",
+        "slot": "trading",
+        "line": "Picks the strike nearest where Nifty closes that day",
+        "why": "At 9:30 nobody knows where Nifty will close. Choosing the strike it ends nearest makes the straddle look far safer than it is.",
+        "stats": {
+          "sharpe": 3.7,
+          "annual": 52,
+          "drawdown": 5
+        }
+      },
+      {
+        "flaw": "small",
+        "slot": "result",
+        "line": "Built on the last 30 expiries, all in a quiet market",
+        "why": "Thirty calm expiries say little about a trade that loses big on rare wild days. A short option book needs years that include the shocks.",
+        "stats": {
+          "sharpe": 3.4,
+          "annual": 48,
+          "drawdown": 6
+        }
+      }
+    ]
+  },
+  {
+    "id": "bank-pair",
+    "title": "Two-bank pairs trade",
+    "about": "Trade the gap between two large private banks: sell the dear one and buy the cheap one when the gap stretches.",
+    "lines": {
+      "universe": "One pair, chosen for business reasons before looking at any prices",
+      "data": "Z-score from the past 60 days only, recomputed each day",
+      "trading": "Signal at the close; both legs fill at the next open",
+      "costs": "Costs on both legs, plus rolling the short futures leg each month",
+      "testing": "Entry, exit and stop rules fixed in advance; tested once on 2014–2024",
+      "result": "64 trades over ten years, with equal rupee legs so market moves mostly cancel"
+    },
+    "cases": [
+      {
+        "flaw": "lookahead",
+        "slot": "data",
+        "line": "Z-score uses the average and spread of the whole 2014–2024 period",
+        "why": "In 2016 you couldn't know the average gap over the next eight years. Using it tells the test where the spread will settle, so every trade seems to snap back.",
+        "stats": {
+          "sharpe": 3.8,
+          "annual": 30,
+          "drawdown": 2
+        }
+      },
+      {
+        "flaw": "small",
+        "slot": "result",
+        "line": "Nine trades over ten years, with equal rupee legs",
+        "why": "Nine trades is far too few to tell skill from luck. A couple of lucky exits could be the whole result.",
+        "stats": {
+          "sharpe": 3.4,
+          "annual": 27,
+          "drawdown": 3
+        }
+      },
+      {
+        "flaw": "costs",
+        "slot": "costs",
+        "line": "Costs on the cash leg only; the futures leg and its monthly roll are free",
+        "why": "The short side sits in futures, which cost brokerage, fees and a roll every month. Leaving them out flatters a trade that earns only a little per round trip.",
+        "stats": {
+          "sharpe": 3.5,
+          "annual": 28,
+          "drawdown": 2
+        }
+      },
+      {
+        "flaw": "snooping",
+        "slot": "universe",
+        "line": "The best pair out of 2,000 tried on the same years",
+        "why": "Scan 2,000 pairs and some will have mean-reverted beautifully by luck. The winner needs a fresh test on years it wasn't picked from.",
+        "stats": {
+          "sharpe": 2.2,
+          "annual": 18,
+          "drawdown": 5
+        }
+      }
+    ]
+  },
+  {
+    "id": "smallcap-bounce",
+    "title": "Small-cap bounce",
+    "about": "Each week, buy the 20 small caps that fell most in the past week, and sell them a week later.",
+    "lines": {
+      "universe": "Nifty Smallcap 250 members on each date, including ones later delisted",
+      "data": "Volume-weighted prices; stocks that didn't trade that week are skipped",
+      "trading": "Signal on Friday's close; buys spread over Monday's session",
+      "costs": "Costs plus market impact sized to each stock's daily volume",
+      "testing": "One-week hold set before the test; run once on 2012–2024",
+      "result": "Judged against the Nifty Smallcap 250 index, after costs"
+    },
+    "cases": [
+      {
+        "flaw": "baddata",
+        "slot": "data",
+        "line": "Last traded prices, including stocks that trade only a few times a week",
+        "why": "A stock that didn't trade keeps its old price, then jumps when it does. The test sees fake drops and fake bounces, and books profits no one could have taken.",
+        "stats": {
+          "sharpe": 3.1,
+          "annual": 50,
+          "drawdown": 7
+        }
+      },
+      {
+        "flaw": "costs",
+        "slot": "costs",
+        "line": "₹5 crore a week, assumed to trade with no market impact",
+        "why": "₹5 crore a week in thin small caps would move prices a long way. Without impact costs, the test assumes fills that don't exist.",
+        "stats": {
+          "sharpe": 3.4,
+          "annual": 54,
+          "drawdown": 5
+        }
+      },
+      {
+        "flaw": "survivorship",
+        "slot": "universe",
+        "line": "Small caps still listed today",
+        "why": "Small caps that kept falling and were delisted are exactly what a buy-the-losers rule buys. Leaving them out removes its worst trades.",
+        "stats": {
+          "sharpe": 1.8,
+          "annual": 29,
+          "drawdown": 12
+        }
+      },
+      {
+        "flaw": "beta",
+        "slot": "result",
+        "line": "Up 34% a year, against 7% for fixed deposits; long only",
+        "why": "Small caps rallied hard over these years. A long-only small-cap book should be judged against the small-cap index, not deposits; much of this may be the market.",
+        "stats": {
+          "sharpe": 1.2,
+          "annual": 34,
+          "drawdown": 30
+        }
+      }
+    ]
+  },
+  {
+    "id": "short-froth",
+    "title": "Short the frothiest stocks",
+    "about": "Each month, short stock futures on the 10 F&O stocks that rose most over the past year, hedged with Nifty futures.",
+    "lines": {
+      "universe": "F&O stocks as listed on each date, including ones later removed",
+      "data": "Prices adjusted for splits, bonuses and dividends",
+      "trading": "Signal on the month-end close; shorts at the next open",
+      "costs": "Costs on both sides, plus rolling the futures each month",
+      "testing": "One rule, taken from a research note; tested once on 2012–2024",
+      "result": "1,400 trades over 12 years, with beta near zero after the Nifty hedge"
+    },
+    "cases": [
+      {
+        "flaw": "baddata",
+        "slot": "data",
+        "line": "Prices as printed, not adjusted for splits or bonuses",
+        "why": "Big winners often announce a split or a bonus. On that day the unadjusted price halves, and the test counts a 50% gain on the short that never happened.",
+        "stats": {
+          "sharpe": 2.7,
+          "annual": 27,
+          "drawdown": 5
+        }
+      },
+      {
+        "flaw": "costs",
+        "slot": "costs",
+        "line": "Brokerage only: no STT, no roll costs and no slippage on 1,400 trades",
+        "why": "Each trade pays STT and fees, and every short future is rolled monthly. On 1,400 trades, leaving those out can be the whole profit.",
+        "stats": {
+          "sharpe": 3.4,
+          "annual": 34,
+          "drawdown": 4
+        }
+      },
+      {
+        "flaw": "overfit",
+        "slot": "testing",
+        "line": "Eight settings, tuned on 2012–2024 and shown on 2012–2024",
+        "why": "With eight knobs tuned on the very years it's shown on, the test has learnt this history. There are no unseen years left to check it on.",
+        "stats": {
+          "sharpe": 3.2,
+          "annual": 32,
+          "drawdown": 3
+        }
+      },
+      {
+        "flaw": "snooping",
+        "slot": "testing",
+        "line": "The one short idea that worked, out of 85 the team tried",
+        "why": "After 85 tries, one is bound to look good by chance. Count the tries: deflate the Sharpe, then test it on new data.",
+        "stats": {
+          "sharpe": 2.3,
+          "annual": 23,
+          "drawdown": 6
+        }
+      }
+    ]
+  },
+  {
+    "id": "event-straddle",
+    "title": "Event-day straddle",
+    "about": "Buy the at-the-money Nifty straddle the day before the Budget or an RBI policy, and sell it the day after.",
+    "lines": {
+      "universe": "Every Budget and RBI policy day since 2016, none left out",
+      "data": "Option quotes at the close: the bid and the ask, not last trades",
+      "trading": "Buys at the 3:15 offer the day before; sells at the bid the day after",
+      "costs": "Brokerage, STT, fees and GST, plus the full bid-ask spread",
+      "testing": "Rule fixed in advance; there are no settings to tune",
+      "result": "62 events over nine years, the losing ones shown too"
+    },
+    "cases": [
+      {
+        "flaw": "small",
+        "slot": "result",
+        "line": "62 events, but three huge Budget-day moves make all the profit",
+        "why": "Take away three days and nothing is left. A result that hangs on a handful of trades is a small sample, whatever the trade count says.",
+        "stats": {
+          "sharpe": 3.8,
+          "annual": 46,
+          "drawdown": 5
+        }
+      },
+      {
+        "flaw": "lookahead",
+        "slot": "universe",
+        "line": "Budget and RBI days since 2016, except ones where Nifty barely moved the next day",
+        "why": "Dropping the quiet days uses the outcome to pick the trades. Live, you buy the straddle before you know whether the day will be quiet.",
+        "stats": {
+          "sharpe": 4.5,
+          "annual": 54,
+          "drawdown": 3
+        }
+      },
+      {
+        "flaw": "costs",
+        "slot": "costs",
+        "line": "Buys and sells at the last traded price, paying brokerage only",
+        "why": "Around big events the bid-ask spread on options widens. Paying it twice per trade, plus STT and fees, takes a large bite out of a long straddle.",
+        "stats": {
+          "sharpe": 3.1,
+          "annual": 37,
+          "drawdown": 5
+        }
+      },
+      {
+        "flaw": "snooping",
+        "slot": "testing",
+        "line": "Picked after testing straddles, strangles and spreads on 40 kinds of events",
+        "why": "Test enough structures on enough events and one will shine by luck. The winner of a big search needs its Sharpe deflated and a fresh test.",
+        "stats": {
+          "sharpe": 2.8,
+          "annual": 34,
+          "drawdown": 6
+        }
+      }
+    ]
+  },
+  {
+    "id": "sector-rotation",
+    "title": "Sector rotation",
+    "about": "Each month, hold the three Nifty sector indices with the best six-month returns, through index funds and ETFs.",
+    "lines": {
+      "universe": "Only the Nifty sector indices that existed and traded on each date",
+      "data": "Total-return indices, so dividends are counted",
+      "trading": "Ranks on the month-end close; switches at the next day's close",
+      "costs": "ETF spreads, brokerage and tax on each switch",
+      "testing": "Six-month lookback set before looking; tested once on 2008–2024",
+      "result": "Judged against Nifty, which it tracks with a beta of 1.0"
+    },
+    "cases": [
+      {
+        "flaw": "beta",
+        "slot": "result",
+        "line": "Up 19% a year against 6% for cash, with a beta of 1.1 to Nifty",
+        "why": "A fully invested sector book is mostly the market. Nifty itself did well over these years; the edge is only what's left after comparing with it.",
+        "stats": {
+          "sharpe": 1.4,
+          "annual": 19,
+          "drawdown": 23
+        }
+      },
+      {
+        "flaw": "overfit",
+        "slot": "testing",
+        "line": "Works with a seven-month lookback; at six or eight months it trails Nifty",
+        "why": "When the neighbours of the chosen setting fail, the setting has been fitted to this history. A real effect doesn't vanish when you nudge it.",
+        "stats": {
+          "sharpe": 3.0,
+          "annual": 42,
+          "drawdown": 5
+        }
+      },
+      {
+        "flaw": "snooping",
+        "slot": "testing",
+        "line": "The best of 150 lookback and holding mixes tried on 2008–2024",
+        "why": "With 150 tries on the same years, the best is bound to look good. Deflate its Sharpe for the tries, and test it on years it never saw.",
+        "stats": {
+          "sharpe": 2.1,
+          "annual": 29,
+          "drawdown": 9
+        }
+      },
+      {
+        "flaw": "survivorship",
+        "slot": "universe",
+        "line": "Includes indices launched since 2015, using their back-filled history",
+        "why": "New indices are often launched after a sector has done well, with history worked out backwards. That past was never tradable, and it flatters the sectors that made the cut.",
+        "stats": {
+          "sharpe": 2.4,
+          "annual": 34,
+          "drawdown": 8
+        }
+      }
+    ]
+  },
+  {
+    "id": "fund-picker",
+    "title": "Top fund picker",
+    "about": "Every April, move into the five small-cap mutual funds with the best returns over the past year.",
+    "lines": {
+      "universe": "Every small-cap fund that existed each April, including ones later merged or closed",
+      "data": "Direct-plan NAVs, which already take out each fund's expense ratio",
+      "trading": "Ranks on the March NAVs; switches at the first April NAV",
+      "costs": "Exit loads and capital gains tax on each switch",
+      "testing": "One rule, with no settings; tested once on 2014–2024",
+      "result": "Judged against the Nifty Smallcap 250 index, after costs"
+    },
+    "cases": [
+      {
+        "flaw": "survivorship",
+        "slot": "universe",
+        "line": "Small-cap funds that still exist today",
+        "why": "Funds that were merged or closed, often after poor years, are missing. Many disappeared in the mergers after SEBI's 2018 recategorisation. Testing only today's funds leaves out the losers.",
+        "stats": {
+          "sharpe": 2.0,
+          "annual": 32,
+          "drawdown": 10
+        }
+      },
+      {
+        "flaw": "beta",
+        "slot": "result",
+        "line": "Up 24% a year, against 7% for fixed deposits",
+        "why": "Small-cap funds are almost all market. Compared with the small-cap index instead of deposits, most of this return would disappear.",
+        "stats": {
+          "sharpe": 1.2,
+          "annual": 24,
+          "drawdown": 27
+        }
+      },
+      {
+        "flaw": "small",
+        "slot": "result",
+        "line": "Ten yearly picks in ten years, judged against the index",
+        "why": "One decision a year gives just ten data points. That's far too few to tell skill from a lucky run.",
+        "stats": {
+          "sharpe": 3.2,
+          "annual": 51,
+          "drawdown": 5
+        }
+      },
+      {
+        "flaw": "costs",
+        "slot": "costs",
+        "line": "Every switch is free: no tax on the gains",
+        "why": "Each April switch sells at a profit, and gains above the yearly exemption are taxed. Paying that every year is a real drag that the test leaves out.",
+        "stats": {
+          "sharpe": 2.9,
+          "annual": 46,
+          "drawdown": 8
+        }
+      }
+    ]
+  },
+  {
+    "id": "orb",
+    "title": "Opening range breakout",
+    "about": "Buy Nifty futures if they break above the first 15 minutes' high, sell if they break below its low, and exit by 3:15.",
+    "lines": {
+      "universe": "Nifty futures, rolled to the next month two days before expiry",
+      "data": "One-minute bars from NSE, checked for bad ticks",
+      "trading": "Enters on the first one-minute close past the range, at the next minute's price",
+      "costs": "Brokerage, STT, fees and one tick of slippage each way",
+      "testing": "Range length set from desk practice; tested once on 2015–2024",
+      "result": "2,100 trades over ten years, with the losing streaks shown"
+    },
+    "cases": [
+      {
+        "flaw": "lookahead",
+        "slot": "trading",
+        "line": "Enters on the break, with its stop set at the day's low",
+        "why": "The day's low isn't known until the close. A stop placed there is never hit, which no live trade can promise.",
+        "stats": {
+          "sharpe": 4.6,
+          "annual": 55,
+          "drawdown": 3
+        }
+      },
+      {
+        "flaw": "costs",
+        "slot": "costs",
+        "line": "No slippage: fills at the exact breakout price",
+        "why": "Breakouts happen while the price is running, so fills come a tick or two worse. Over 2,100 trades, a missing tick each way is a big share of the profit.",
+        "stats": {
+          "sharpe": 2.9,
+          "annual": 35,
+          "drawdown": 4
+        }
+      },
+      {
+        "flaw": "overfit",
+        "slot": "testing",
+        "line": "Eleven settings tuned on 2015–2024, from range length to weekday, month and VIX filters",
+        "why": "Eleven knobs can fit almost any history. Tuned and shown on the same years, the result says more about the tuning than the market.",
+        "stats": {
+          "sharpe": 3.3,
+          "annual": 40,
+          "drawdown": 4
+        }
+      },
+      {
+        "flaw": "small",
+        "slot": "result",
+        "line": "A VIX filter leaves 16 trades over ten years",
+        "why": "Sixteen trades can't tell an edge from luck. The filter has probably just kept the lucky days.",
+        "stats": {
+          "sharpe": 4.0,
+          "annual": 48,
+          "drawdown": 4
+        }
+      },
+      {
+        "flaw": "baddata",
+        "slot": "data",
+        "line": "Raw ticks, with bad prints and the odd zero price left in",
+        "why": "A single bad tick far from the market can 'break' the range and fill the entry at an impossible price. The test books those fake trades as profits.",
+        "stats": {
+          "sharpe": 2.8,
+          "annual": 34,
+          "drawdown": 4
+        }
+      }
+    ]
+  }
+]
