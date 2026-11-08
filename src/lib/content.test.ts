@@ -43,6 +43,6 @@ describe('career map', () => {
     for (const item of items) for (const id of item.practise) expect(unitById.has(id), id).toBe(true);
     expect(careers.roles.every((r) => r.practise.length > 0)).toBe(true);
     // The rounds walk through what this app trains, from the online test to the market-making game.
-    expect(careers.rounds.find((r) => r.name === 'Market-making game')?.practise).toEqual(['s6']);
+    expect(careers.rounds.find((r) => r.name === 'Market-making game')?.practise).toEqual(['s6', 's8', 's9', 's10', 's11']);
   });
 });

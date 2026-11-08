@@ -49,6 +49,8 @@ export interface Unit {
   kind?: 'terms' | PracticeKind;
   /** Which game a 'game' unit plays. */
   game?: GameId;
+  /** Market game units after the first: which level, from 2 to 5. */
+  level?: 2 | 3 | 4 | 5;
 }
 
 export type PracticeKind = 'drill' | 'game' | 'case';
