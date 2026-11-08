@@ -1,0 +1,2485 @@
+[
+  {
+    "id": "morning-narrow-rally",
+    "setting": "morning",
+    "title": "A narrow rally",
+    "lines": [
+      {
+        "who": "Head of desk",
+        "text": "GIFT Nifty points to a gap-up of about 120 points after the US rally. FPIs sold ₹2,000 crore in cash yesterday; DIIs bought most of it back."
+      },
+      {
+        "who": "Strategist",
+        "text": "Breadth was weak, though. Three heavyweights held the index up while the mid caps bled."
+      },
+      {
+        "who": "PM",
+        "text": "So the rally is narrow. I'm not chasing the open. If we gap up into 24,800, I'd rather trim than add."
+      },
+      {
+        "who": "Trader",
+        "text": "Noted. There's a call wall at 25,000, so that's the ceiling everyone is watching."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why doesn't the PM want to chase the open?",
+        "options": [
+          "Few stocks are rising: breadth is weak",
+          "FPIs bought heavily in cash yesterday",
+          "GIFT Nifty points to a gap-down",
+          "The desk has no positions at all"
+        ],
+        "why": "Weak breadth means a handful of heavyweights carried the index, which makes the rally fragile."
+      },
+      {
+        "q": "What does the call wall at 25,000 suggest?",
+        "options": [
+          "Writers expect the index to stay below it",
+          "The index will open above 25,000",
+          "Puts at 25,000 are very expensive",
+          "The exchange caps the index at 25,000"
+        ],
+        "why": "Heavy call writing at a strike is read as resistance: the writers are betting the index stays below it."
+      }
+    ],
+    "terms": [
+      "fpi",
+      "dii",
+      "market-breadth",
+      "chase",
+      "trim",
+      "call-wall"
+    ]
+  },
+  {
+    "id": "morning-priced-in",
+    "setting": "morning",
+    "title": "Results last night",
+    "lines": [
+      {
+        "who": "Analyst",
+        "text": "Our big IT long reported last night: revenue a touch light, margins beat, and they raised guidance."
+      },
+      {
+        "who": "PM",
+        "text": "What's priced in? The stock ran 9% into the number."
+      },
+      {
+        "who": "Analyst",
+        "text": "The straddle implied a 5% move, and the street expected the guidance raise. A lot of it is priced in."
+      },
+      {
+        "who": "PM",
+        "text": "Then it's a sell-the-news risk. Take some off the table at the open and keep the core."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why might the stock fall even on decent results?",
+        "options": [
+          "It ran up 9% and the raise was expected",
+          "The straddle implied no move at all",
+          "Revenue beat by a wide margin",
+          "The company cut its guidance"
+        ],
+        "why": "When a stock has rallied into results the street already expected, good news can trigger selling."
+      },
+      {
+        "q": "What does the PM want done at the open?",
+        "options": [
+          "Sell part of the position, keep the rest",
+          "Sell the whole position before the call",
+          "Buy more because margins beat",
+          "Hedge it with a short straddle"
+        ],
+        "why": "'Take some off the table' means bank part of the gain; 'keep the core' means hold the rest."
+      }
+    ],
+    "terms": [
+      "priced-in",
+      "implied-move",
+      "sell-the-news",
+      "take-some-off",
+      "earnings-beat"
+    ]
+  },
+  {
+    "id": "morning-policy-day",
+    "setting": "morning",
+    "title": "Policy day",
+    "lines": [
+      {
+        "who": "Economist",
+        "text": "The RBI announces at 10. Consensus is a hold, but two members voted for a cut last time."
+      },
+      {
+        "who": "PM",
+        "text": "What does the book look like into it?"
+      },
+      {
+        "who": "Risk",
+        "text": "You're long bank stocks and long government bonds. A hawkish surprise hurts both."
+      },
+      {
+        "who": "PM",
+        "text": "Then I'll go flat into the event on the bonds and keep the banks. One bet on the RBI is enough."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why is Risk worried?",
+        "options": [
+          "Both positions lose if the RBI sounds hawkish",
+          "The banks and the bonds hedge each other",
+          "Consensus expects a surprise rate hike",
+          "The book is short banks into the policy"
+        ],
+        "why": "Bank stocks and bond prices both tend to fall when rates look set to stay higher, so the two positions are one bet."
+      },
+      {
+        "q": "What does 'go flat into the event on the bonds' mean?",
+        "options": [
+          "Close the bond position before the decision",
+          "Keep the bonds and hedge the bank stocks",
+          "Double the bond position before 10 am",
+          "Buy bonds only after the RBI cuts rates"
+        ],
+        "why": "Going flat into an event means closing the position so the announcement can't hurt it."
+      }
+    ],
+    "terms": [
+      "consensus",
+      "hawkish",
+      "flat-into-event",
+      "event-risk"
+    ]
+  },
+  {
+    "id": "morning-weekend-gap",
+    "setting": "morning",
+    "title": "Monday open",
+    "lines": [
+      {
+        "who": "Head of desk",
+        "text": "Weekend news: crude is up 6% on supply worries. Expect oil marketing and paint stocks to open weak."
+      },
+      {
+        "who": "Trader",
+        "text": "Asia has opened risk-off, so India VIX will jump at the open."
+      },
+      {
+        "who": "PM",
+        "text": "We're short gamma through the straddles. What's the gap risk?"
+      },
+      {
+        "who": "Trader",
+        "text": "A 1% gap costs the book about ₹12 lakh. I'd buy wings before the open, not after."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why is the PM asking about gap risk?",
+        "options": [
+          "A short-gamma book loses on a big open move",
+          "A long straddle loses if prices gap",
+          "Gaps only matter for cash shares",
+          "The exchange limits gaps on Mondays"
+        ],
+        "why": "Short straddles are short gamma: a big jump either way costs more than the premium earned."
+      },
+      {
+        "q": "What does the trader suggest?",
+        "options": [
+          "Buy far OTM options to cap the loss",
+          "Sell more straddles at the open",
+          "Close the book after the open",
+          "Short crude oil futures as a hedge"
+        ],
+        "why": "Buying wings means buying options further out than the ones sold, which caps the worst case."
+      }
+    ],
+    "terms": [
+      "risk-off",
+      "india-vix",
+      "short-gamma",
+      "gap-risk",
+      "buy-wings"
+    ]
+  },
+  {
+    "id": "morning-pain-trade",
+    "setting": "morning",
+    "title": "Flows",
+    "lines": [
+      {
+        "who": "Strategist",
+        "text": "FPIs have sold for nine straight sessions and are heavily short index futures."
+      },
+      {
+        "who": "PM",
+        "text": "Who's on the other side? Domestic funds keep buying every dip."
+      },
+      {
+        "who": "Strategist",
+        "text": "Exactly. With SIP money coming in every month, the pain trade is higher, not lower."
+      },
+      {
+        "who": "PM",
+        "text": "Then I don't want to be short into that. Bring the net down to flat, not negative."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why does the strategist call a rally the pain trade?",
+        "options": [
+          "Many FPIs are short, so a rally hurts them most",
+          "Domestic funds are short and would lose",
+          "A rally would stop SIP inflows",
+          "Rallies always follow nine down days"
+        ],
+        "why": "The pain trade is the move that hurts the most people given how they are positioned."
+      },
+      {
+        "q": "What does the PM decide?",
+        "options": [
+          "Cut net exposure to about zero, not go short",
+          "Go heavily net short with index futures",
+          "Add more longs to ride the rally",
+          "Close every position before the open"
+        ],
+        "why": "'Bring the net down to flat, not negative' means reduce net exposure to zero without turning net short."
+      }
+    ],
+    "terms": [
+      "fpi",
+      "sip",
+      "other-side",
+      "pain-trade",
+      "bring-net-down"
+    ]
+  },
+  {
+    "id": "morning-rollover",
+    "setting": "morning",
+    "title": "Expiry week",
+    "lines": [
+      {
+        "who": "Derivatives analyst",
+        "text": "Rollovers are running behind last month: 62% with two days to go."
+      },
+      {
+        "who": "PM",
+        "text": "Is it longs or shorts not rolling?"
+      },
+      {
+        "who": "Derivatives analyst",
+        "text": "Mostly longs. Open interest is falling as the price falls: long unwinding."
+      },
+      {
+        "who": "PM",
+        "text": "So there's no fresh conviction on the long side. Keep sizes small until the new series settles."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does 'long unwinding' tell you?",
+        "options": [
+          "Buyers are closing positions as the price falls",
+          "New shorts are being added on the fall",
+          "Buyers are adding as the price falls",
+          "Shorts are buying back into a rally"
+        ],
+        "why": "Falling price with falling open interest means existing longs are getting out."
+      },
+      {
+        "q": "Why does the PM keep sizes small?",
+        "options": [
+          "Fewer longs are carrying positions forward",
+          "Rollover costs have doubled this month",
+          "The exchange has cut the lot size",
+          "Shorts are rolling at a record pace"
+        ],
+        "why": "Low rollover by longs shows little appetite to stay long into next month."
+      }
+    ],
+    "terms": [
+      "rollover-percentage",
+      "long-unwinding",
+      "open-interest",
+      "high-conviction"
+    ]
+  },
+  {
+    "id": "research-gross-sharpe",
+    "setting": "research",
+    "title": "A new momentum signal",
+    "lines": [
+      {
+        "who": "Quant",
+        "text": "The new signal has a Sharpe of 1.9 over ten years, long-short in the Nifty 500."
+      },
+      {
+        "who": "Head of research",
+        "text": "Before costs?"
+      },
+      {
+        "who": "Quant",
+        "text": "Yes, gross. It turns over about 40% of the book a week."
+      },
+      {
+        "who": "Head of research",
+        "text": "Then show me net. At that turnover I doubt it survives costs. And check it against plain 12-month momentum; it may be a factor in disguise."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why does the head of research ask for net numbers?",
+        "options": [
+          "High turnover could eat the edge in costs",
+          "Gross Sharpe is always overstated by half",
+          "Net numbers remove the market's beta",
+          "SEBI requires net figures in reviews"
+        ],
+        "why": "A strategy that trades 40% of its book a week pays a lot in costs, which can wipe out a gross edge."
+      },
+      {
+        "q": "What does 'a factor in disguise' mean here?",
+        "options": [
+          "It may just be the known momentum factor",
+          "It is a factor that only works in secret",
+          "It hides its trades from other funds",
+          "It works only on unnamed stocks"
+        ],
+        "why": "A new signal that mostly repeats a well-known factor adds little to a book that already holds it."
+      }
+    ],
+    "terms": [
+      "sharpe-ratio",
+      "transaction-costs",
+      "doesnt-survive-costs",
+      "factor-in-disguise",
+      "momentum-factor"
+    ]
+  },
+  {
+    "id": "research-perfect-backtest",
+    "setting": "research",
+    "title": "A perfect backtest",
+    "lines": [
+      {
+        "who": "Quant",
+        "text": "This short-term reversal rule had no losing year since 2012. Sharpe of 4."
+      },
+      {
+        "who": "Head of research",
+        "text": "That's too good to be true. What universe?"
+      },
+      {
+        "who": "Quant",
+        "text": "Today's Nifty 100 members, on daily closes."
+      },
+      {
+        "who": "Head of research",
+        "text": "There's your problem: survivorship bias. And you trade at the same close you used for the signal. Use point-in-time members and trade the next open."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is wrong with using today's Nifty 100 members?",
+        "options": [
+          "It leaves out the stocks that dropped out",
+          "It adds too many illiquid small caps",
+          "It counts the index's dividends twice",
+          "It mixes NSE and BSE prices"
+        ],
+        "why": "Today's members are the survivors. Stocks that fell out of the index, often after falling, are missing from the test."
+      },
+      {
+        "q": "Why trade at the next open instead of the same close?",
+        "options": [
+          "You can't know the close before it prints",
+          "The next open always has lower costs",
+          "The close is not a real traded price",
+          "Exchanges don't allow trades at the close"
+        ],
+        "why": "Using the close to decide and trading at that same close is look-ahead bias."
+      }
+    ],
+    "terms": [
+      "too-good-to-be-true",
+      "universe",
+      "survivorship-bias",
+      "point-in-time-data",
+      "look-ahead-bias"
+    ]
+  },
+  {
+    "id": "research-buckets",
+    "setting": "research",
+    "title": "Reading the buckets",
+    "lines": [
+      {
+        "who": "Quant",
+        "text": "Here are the quintiles. Top minus bottom is 1.1% a month."
+      },
+      {
+        "who": "Reviewer",
+        "text": "It isn't monotonic, though. Buckets two to four are flat; it's all in the bottom bucket."
+      },
+      {
+        "who": "Quant",
+        "text": "The bottom bucket is mostly small caps that crashed."
+      },
+      {
+        "who": "Reviewer",
+        "text": "Which we can't short overnight without futures or stock borrowing. The tradable spread is much smaller. Try it inside the F&O stocks."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why is the reviewer unhappy with the buckets?",
+        "options": [
+          "All the spread comes from one extreme bucket",
+          "Returns rise steadily bucket by bucket",
+          "The top bucket has negative returns",
+          "There are too few buckets to judge"
+        ],
+        "why": "A good signal's returns step up across the buckets; a spread from one bucket is weaker evidence."
+      },
+      {
+        "q": "Why test it inside the F&O stocks?",
+        "options": [
+          "Their shorts can be held through futures",
+          "F&O stocks have no trading costs",
+          "F&O stocks never crash",
+          "Only F&O stocks can be sorted"
+        ],
+        "why": "In India an overnight short in a cash stock needs stock borrowing or a single-stock future, which only F&O stocks have."
+      }
+    ],
+    "terms": [
+      "long-short-spread",
+      "monotonic-buckets",
+      "universe",
+      "short-selling"
+    ]
+  },
+  {
+    "id": "research-knife-edge",
+    "setting": "research",
+    "title": "Tuning",
+    "lines": [
+      {
+        "who": "Quant",
+        "text": "I tested 240 combinations of lookback and threshold and picked the best."
+      },
+      {
+        "who": "Head of research",
+        "text": "What do the neighbours look like?"
+      },
+      {
+        "who": "Quant",
+        "text": "The best is 23 days. At 20 or 26 it's close to zero."
+      },
+      {
+        "who": "Head of research",
+        "text": "Knife-edge, and too many knobs. Fix one parameter from a reason, walk it forward, and deflate the Sharpe for 240 tries."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does 'knife-edge' mean here?",
+        "options": [
+          "It works only at one exact lookback",
+          "It works at every lookback tested",
+          "It is about to hit its stop-loss",
+          "It trades only near the day's highs"
+        ],
+        "why": "A robust result holds across nearby settings; one that vanishes when nudged is probably overfit."
+      },
+      {
+        "q": "Why deflate the Sharpe ratio?",
+        "options": [
+          "Picking the best of 240 tries flatters it",
+          "Sharpe ratios fall with inflation",
+          "The strategy pays high taxes",
+          "The returns were measured in dollars"
+        ],
+        "why": "The best of many tries looks good by luck alone; the deflated Sharpe ratio corrects for the number of trials."
+      }
+    ],
+    "terms": [
+      "knife-edge",
+      "too-many-knobs",
+      "walk-forward",
+      "deflated-sharpe-ratio",
+      "overfitting"
+    ]
+  },
+  {
+    "id": "research-just-beta",
+    "setting": "research",
+    "title": "Is it alpha?",
+    "lines": [
+      {
+        "who": "Analyst",
+        "text": "The fund made 22% last year against 15% for the Nifty."
+      },
+      {
+        "who": "Quant",
+        "text": "With a beta of 1.4, though. Regress it and the alpha is about one percent."
+      },
+      {
+        "who": "Analyst",
+        "text": "So most of it was just beta?"
+      },
+      {
+        "who": "Quant",
+        "text": "Yes. In a 15% year, a beta of 1.4 gives you 21% before any skill."
+      }
+    ],
+    "questions": [
+      {
+        "q": "How much of the 22% does a beta of 1.4 explain in a 15% year?",
+        "options": [
+          "About 21%",
+          "About 15%",
+          "About 7%",
+          "About 1.4%"
+        ],
+        "why": "1.4 × 15% = 21%, leaving about 1% of alpha."
+      },
+      {
+        "q": "What does 'just beta' mean?",
+        "options": [
+          "The return came mostly from market exposure",
+          "The fund beat the market with stock picks",
+          "The fund was hedged against the market",
+          "The return came from currency moves"
+        ],
+        "why": "When beta explains nearly all of a return, it came from being long the market, not from skill."
+      }
+    ],
+    "terms": [
+      "alpha",
+      "beta",
+      "just-beta",
+      "regression"
+    ]
+  },
+  {
+    "id": "research-fast-signal",
+    "setting": "research",
+    "title": "A fast signal",
+    "lines": [
+      {
+        "who": "Quant",
+        "text": "The IC is 0.05 on one-day forward returns, 0.02 at five days, and nothing at twenty."
+      },
+      {
+        "who": "PM",
+        "text": "So it's a fast signal. Can we trade it daily without giving it all away in costs?"
+      },
+      {
+        "who": "Quant",
+        "text": "With a no-trade band, turnover halves and we keep most of the IC."
+      },
+      {
+        "who": "PM",
+        "text": "Good. Paper trade it for a month before any capital."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does the IC pattern say?",
+        "options": [
+          "It predicts the next day, not the next month",
+          "It gets stronger the longer you hold",
+          "It predicts only twenty-day returns",
+          "It has no predictive power at all"
+        ],
+        "why": "The information coefficient is highest for one-day forward returns and fades to zero by twenty days."
+      },
+      {
+        "q": "What will they do before giving it capital?",
+        "options": [
+          "Run it live for a month without real orders",
+          "Backtest it again on another ten years",
+          "Trade it at full size for one week first",
+          "Sell the signal to another fund for cash"
+        ],
+        "why": "Paper trading runs the strategy on live data and logs its trades without sending orders."
+      }
+    ],
+    "terms": [
+      "information-coefficient",
+      "forward-returns",
+      "no-trade-band",
+      "paper-trading"
+    ]
+  },
+  {
+    "id": "pm-de-gross",
+    "setting": "pm",
+    "title": "A crowded short",
+    "lines": [
+      {
+        "who": "PM",
+        "text": "Our shorts squeezed 8% this week, and everyone has the same names on."
+      },
+      {
+        "who": "Analyst",
+        "text": "The longs are fine. It's the shorts dragging us."
+      },
+      {
+        "who": "PM",
+        "text": "Let's de-gross by a quarter. Cut longs and shorts together so the net doesn't change."
+      },
+      {
+        "who": "Risk",
+        "text": "That takes gross from 180% to 135%."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Gross is 180%. What is it after cutting both sides by a quarter?",
+        "options": [
+          "135%",
+          "45%",
+          "155%",
+          "120%"
+        ],
+        "why": "Cutting longs and shorts by a quarter cuts gross by a quarter: 180% × 0.75 = 135%."
+      },
+      {
+        "q": "Why cut both sides, not just the shorts?",
+        "options": [
+          "To lower risk without changing the net bet",
+          "To go net short before the squeeze ends",
+          "Because longs need more margin than shorts",
+          "Because the shorts are making money"
+        ],
+        "why": "De-grossing shrinks the book's size while keeping its net exposure about the same."
+      }
+    ],
+    "terms": [
+      "short-squeeze",
+      "crowded-trade",
+      "de-gross",
+      "gross-exposure",
+      "net-exposure"
+    ]
+  },
+  {
+    "id": "pm-new-idea",
+    "setting": "pm",
+    "title": "Sizing a new idea",
+    "lines": [
+      {
+        "who": "Analyst",
+        "text": "I want to go long the cement name. Target 20% up."
+      },
+      {
+        "who": "PM",
+        "text": "Where's your stop?"
+      },
+      {
+        "who": "Analyst",
+        "text": "Below the March low, about 7% under the current price."
+      },
+      {
+        "who": "PM",
+        "text": "So the risk-reward is about 1:3. Start at 1% of the book and scale in. If results confirm the price hikes, size up to 3%."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why is the risk-reward about 1:3?",
+        "options": [
+          "It risks 7% to make about 20%",
+          "It risks 20% to make about 7%",
+          "Three in four trades like it win",
+          "It is at most 3% of the book"
+        ],
+        "why": "7 to 20 is roughly 1 to 3."
+      },
+      {
+        "q": "How does the PM want the position built?",
+        "options": [
+          "Start small and add in steps if results confirm",
+          "Buy the full 3% today, before the results",
+          "Buy 1% and never add more",
+          "Buy 3% and cut it to 1% after results"
+        ],
+        "why": "Scaling in builds the position in pieces; sizing up comes only if the thesis is confirmed."
+      }
+    ],
+    "terms": [
+      "wheres-your-stop",
+      "risk-reward",
+      "scale-in",
+      "size-up"
+    ]
+  },
+  {
+    "id": "pm-losing-trade",
+    "setting": "pm",
+    "title": "A losing trade",
+    "lines": [
+      {
+        "who": "Trader",
+        "text": "The pharma long is down 12%. I'd like to average down; the story hasn't changed."
+      },
+      {
+        "who": "PM",
+        "text": "It fell on a US regulator's warning letter. That changes the story."
+      },
+      {
+        "who": "PM",
+        "text": "Your stop was 8%. Don't double down on a falling knife. Cut it, and we can buy back when the facts are clear."
+      },
+      {
+        "who": "Trader",
+        "text": "Understood. I'll sell it over the day."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why does the PM refuse to average down?",
+        "options": [
+          "The news changed the reason to own it",
+          "The stock is too small for the book",
+          "Averaging down is always forbidden",
+          "The stock has already hit its target"
+        ],
+        "why": "Averaging down only makes sense if the reason for owning the stock still holds."
+      },
+      {
+        "q": "What does the trader do next?",
+        "options": [
+          "Sell the position gradually through the day",
+          "Buy more of the stock at the close",
+          "Hold it and move the stop-loss lower",
+          "Hedge it by shorting Nifty futures"
+        ],
+        "why": "'Over the day' means spreading the order across the session."
+      }
+    ],
+    "terms": [
+      "average-down",
+      "double-down",
+      "falling-knife",
+      "cut-losers",
+      "over-the-day"
+    ]
+  },
+  {
+    "id": "pm-hedge-or-view",
+    "setting": "pm",
+    "title": "A hedge or a view?",
+    "lines": [
+      {
+        "who": "Trader",
+        "text": "I bought Bank Nifty puts as a hedge for our bank longs."
+      },
+      {
+        "who": "PM",
+        "text": "How many?"
+      },
+      {
+        "who": "Trader",
+        "text": "About three times the delta of the longs."
+      },
+      {
+        "who": "PM",
+        "text": "Then it's not a hedge, it's a view: you're net short banks. Size it to the longs, or bring it to me as a short idea."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why does the PM call it a view?",
+        "options": [
+          "The puts leave the book net short banks",
+          "The puts cover none of the bank risk",
+          "Puts can never be used as hedges",
+          "The puts expire before the longs are sold"
+        ],
+        "why": "Three times the delta more than offsets the longs, so the book now profits from banks falling."
+      },
+      {
+        "q": "What does the PM ask for?",
+        "options": [
+          "Hedge only the longs' size, or pitch a short",
+          "Buy even more puts for extra protection",
+          "Sell the longs and keep the puts",
+          "Swap the puts for Bank Nifty calls"
+        ],
+        "why": "A hedge should match the risk it covers; anything more is a fresh bet to be judged on its own."
+      }
+    ],
+    "terms": [
+      "hedge-or-view",
+      "hedge",
+      "net-exposure",
+      "delta"
+    ]
+  },
+  {
+    "id": "pm-beta-neutral",
+    "setting": "pm",
+    "title": "Why did we lose?",
+    "lines": [
+      {
+        "who": "PM",
+        "text": "We're dollar-neutral, so why did we lose 2% when the market fell 3%?"
+      },
+      {
+        "who": "Quant",
+        "text": "The longs are high-beta mid caps, about 1.3. The shorts are low-beta large caps, about 0.6."
+      },
+      {
+        "who": "PM",
+        "text": "So we were net long beta."
+      },
+      {
+        "who": "Quant",
+        "text": "Yes. To be beta-neutral we'd need about twice as many rupees short as long."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why did a dollar-neutral book lose in the fall?",
+        "options": [
+          "Its longs had higher beta than its shorts",
+          "Its shorts had higher beta than its longs",
+          "It held more rupees long than short",
+          "Its stop-losses failed in the fall"
+        ],
+        "why": "Equal rupees each side, but the longs move 1.3 times the market and the shorts only 0.6 times."
+      },
+      {
+        "q": "For ₹100 crore long at beta 1.3, about how much short at beta 0.6 is beta-neutral?",
+        "options": [
+          "About ₹217 crore",
+          "About ₹100 crore",
+          "About ₹46 crore",
+          "About ₹130 crore"
+        ],
+        "why": "100 × 1.3 = 130 of beta exposure; 130 ÷ 0.6 ≈ ₹217 crore."
+      }
+    ],
+    "terms": [
+      "dollar-neutral",
+      "beta-neutral",
+      "beta"
+    ]
+  },
+  {
+    "id": "pm-liquidity",
+    "setting": "pm",
+    "title": "A thin stock",
+    "lines": [
+      {
+        "who": "Risk",
+        "text": "The small-cap long is ₹40 crore. It trades about ₹8 crore a day."
+      },
+      {
+        "who": "PM",
+        "text": "At 20% participation, how long to get out?"
+      },
+      {
+        "who": "Risk",
+        "text": "₹1.6 crore a day, so 25 days to liquidate. Our limit is five."
+      },
+      {
+        "who": "PM",
+        "text": "Then we cut it to ₹8 crore over the next two weeks, and nothing that thin goes in again."
+      }
+    ],
+    "questions": [
+      {
+        "q": "How many days to liquidate at 20% of volume?",
+        "options": [
+          "25 days",
+          "5 days",
+          "8 days",
+          "2 days"
+        ],
+        "why": "20% of ₹8 crore is ₹1.6 crore a day; ₹40 crore ÷ ₹1.6 crore = 25 days."
+      },
+      {
+        "q": "Why is ₹8 crore the new size?",
+        "options": [
+          "That's five days of exits at 20% of volume",
+          "That's 2% of the whole book",
+          "That's the stock's daily price limit",
+          "That's half the stock's free float"
+        ],
+        "why": "5 days × ₹1.6 crore a day = ₹8 crore, which fits the five-day limit."
+      }
+    ],
+    "terms": [
+      "days-to-liquidate",
+      "participation-rate",
+      "liquidity-risk"
+    ]
+  },
+  {
+    "id": "risk-breach",
+    "setting": "risk",
+    "title": "A limit breach",
+    "lines": [
+      {
+        "who": "Risk",
+        "text": "You're at ₹1.15 crore of loss today against a ₹1 crore limit. That's a hard breach."
+      },
+      {
+        "who": "Trader",
+        "text": "It's one bad gap in one name. It'll come back."
+      },
+      {
+        "who": "Risk",
+        "text": "Maybe. The rule is no new risk today, and the position cut by half by 2 pm."
+      },
+      {
+        "who": "Trader",
+        "text": "Understood. I'll cut it and send the post-mortem tonight."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What has happened?",
+        "options": [
+          "The day's loss went past the agreed limit",
+          "The book hit its profit target early",
+          "The exchange halted the stock",
+          "The broker made a margin call"
+        ],
+        "why": "A limit breach is a loss or position past a limit set by the risk team."
+      },
+      {
+        "q": "What must the trader do?",
+        "options": [
+          "Add no risk and halve the position by 2 pm",
+          "Wait for the stock to come back",
+          "Double the position to win it back",
+          "Close every position in the book"
+        ],
+        "why": "After a breach the trader cuts back by a deadline; hoping it comes back isn't an option."
+      }
+    ],
+    "terms": [
+      "limit-breach",
+      "daily-loss-limit",
+      "gap-risk"
+    ]
+  },
+  {
+    "id": "risk-var-vs-stress",
+    "setting": "risk",
+    "title": "VaR and stress",
+    "lines": [
+      {
+        "who": "Risk",
+        "text": "VaR on the options book is only ₹2 crore, but the stress loss on a 10% gap with vol doubling is ₹25 crore."
+      },
+      {
+        "who": "PM",
+        "text": "We've had a great year selling premium."
+      },
+      {
+        "who": "Risk",
+        "text": "That's why VaR looks small. Short options earn steadily until they don't. Buy some tail protection or cut the size."
+      },
+      {
+        "who": "PM",
+        "text": "We'll buy far OTM puts with a month to go."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why does VaR look small?",
+        "options": [
+          "It's built from normal days, not crashes",
+          "The book is long options in size",
+          "The book has no options in it",
+          "VaR always adds up the worst days"
+        ],
+        "why": "VaR looks at ordinary moves; a short options book's real risk sits in rare, big moves."
+      },
+      {
+        "q": "What does the PM agree to?",
+        "options": [
+          "Buy cheap far OTM puts as crash protection",
+          "Sell more premium to raise the VaR",
+          "Buy at-the-money calls for a rally",
+          "Close the whole options book today"
+        ],
+        "why": "Far OTM puts are cheap and pay off in the crash scenario the stress test describes."
+      }
+    ],
+    "terms": [
+      "var",
+      "stress-loss",
+      "sell-premium",
+      "tail-risk",
+      "far-otm"
+    ]
+  },
+  {
+    "id": "risk-concentration",
+    "setting": "risk",
+    "title": "Three banks",
+    "lines": [
+      {
+        "who": "Risk",
+        "text": "Your top three longs are all PSU banks: 28% of the book between them."
+      },
+      {
+        "who": "PM",
+        "text": "They're different banks with different stories."
+      },
+      {
+        "who": "Risk",
+        "text": "One rate decision or one government headline moves all three. That's concentration risk, and the sector limit is 20%."
+      },
+      {
+        "who": "PM",
+        "text": "Fine. I'll trim the weakest one and bring the sector under 20%."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why does Risk treat the three banks as one bet?",
+        "options": [
+          "One event can move all three together",
+          "They trade on the same exchange",
+          "They have the same share price",
+          "They have the same lot size"
+        ],
+        "why": "Stocks exposed to the same driver behave like one big position when that driver moves."
+      },
+      {
+        "q": "Which limit is the book over?",
+        "options": [
+          "The cap on one sector's share of the book",
+          "The cap on how much it can lose in a day",
+          "The cap on gross exposure",
+          "The exchange's position limit"
+        ],
+        "why": "28% in one sector against a 20% sector limit."
+      }
+    ],
+    "terms": [
+      "concentration-risk",
+      "position-limit",
+      "trim"
+    ]
+  },
+  {
+    "id": "risk-correlation",
+    "setting": "risk",
+    "title": "Everything fell",
+    "lines": [
+      {
+        "who": "Risk",
+        "text": "Yesterday stocks, bonds and gold all fell together. Our diversification did nothing."
+      },
+      {
+        "who": "PM",
+        "text": "Correlations went to one."
+      },
+      {
+        "who": "Risk",
+        "text": "Right. So we size on crisis correlations, not calm ones, and the books near their drawdown budget cut first."
+      },
+      {
+        "who": "PM",
+        "text": "Agreed. Two books are at 7% of a 10% budget; they halve today."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does 'correlations went to one' mean?",
+        "options": [
+          "Assets that usually differ all fell at once",
+          "One asset moved while the rest stayed calm",
+          "Two stocks merged into one",
+          "Every trade printed at the same price"
+        ],
+        "why": "In a panic, investors sell everything, so assets that normally move apart fall together."
+      },
+      {
+        "q": "Which books halve today?",
+        "options": [
+          "Those close to their drawdown limit",
+          "Those with the biggest profits",
+          "Those with the fewest positions",
+          "Those trading only in the close"
+        ],
+        "why": "A drawdown budget sets how far a book may fall from its peak before risk is cut."
+      }
+    ],
+    "terms": [
+      "correlations-go-to-one",
+      "diversification",
+      "drawdown-budget"
+    ]
+  },
+  {
+    "id": "risk-kill-switch",
+    "setting": "risk",
+    "title": "An algo misfires",
+    "lines": [
+      {
+        "who": "Operations",
+        "text": "Strategy 7 sent 4,000 orders in two minutes. It usually sends 50."
+      },
+      {
+        "who": "Risk",
+        "text": "Hit the kill switch on it now, then pull every order it has working."
+      },
+      {
+        "who": "Quant",
+        "text": "Done. It looks like a bad price feed made it think every quote was stale."
+      },
+      {
+        "who": "Risk",
+        "text": "It stays off until we've replayed the day and tested the fix."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does the kill switch do?",
+        "options": [
+          "Cancels its orders and stops it sending more",
+          "Shuts the exchange for two minutes",
+          "Turns off the price feed for everyone",
+          "Doubles the strategy's position limits"
+        ],
+        "why": "A kill switch cancels open orders and blocks new ones in one step."
+      },
+      {
+        "q": "What does 'pull every order' mean?",
+        "options": [
+          "Cancel its working orders straight away",
+          "Send them to a different exchange",
+          "Raise their prices so they fill",
+          "Book them in the back office"
+        ],
+        "why": "To pull an order is to cancel it."
+      }
+    ],
+    "terms": [
+      "kill-switch",
+      "pull-the-order",
+      "algo-trading"
+    ]
+  },
+  {
+    "id": "risk-election",
+    "setting": "risk",
+    "title": "Election week",
+    "lines": [
+      {
+        "who": "Risk",
+        "text": "Election results are on Tuesday, and the options desk is short a lot of premium."
+      },
+      {
+        "who": "Head of desk",
+        "text": "The straddle implies a 4% move. Past counts have moved the index more than that."
+      },
+      {
+        "who": "Risk",
+        "text": "Then I want the desk flat into the event or hedged with wings. No naked short options over the count."
+      },
+      {
+        "who": "Head of desk",
+        "text": "We'll buy wings tonight and cut the rest by Monday's close."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why is Risk nervous?",
+        "options": [
+          "The real move could beat the priced move",
+          "The straddle implies too big a move",
+          "Short premium gains in big moves",
+          "Results days always have low volume"
+        ],
+        "why": "Short premium loses if the actual move is bigger than the move the options priced in."
+      },
+      {
+        "q": "What does 'no naked short options' mean?",
+        "options": [
+          "Every short option needs a hedge behind it",
+          "No options may be sold before 10 am",
+          "All options must be held to expiry",
+          "Options may be traded only at the close"
+        ],
+        "why": "Naked means unhedged; buying wings turns the short options into capped-loss spreads."
+      }
+    ],
+    "terms": [
+      "implied-move",
+      "flat-into-event",
+      "buy-wings",
+      "naked-selling",
+      "event-risk"
+    ]
+  },
+  {
+    "id": "fno-chain",
+    "setting": "fno",
+    "title": "Reading the chain",
+    "lines": [
+      {
+        "who": "Trader",
+        "text": "The put base has shifted up to 24,200 overnight, and the call wall is still at 24,800."
+      },
+      {
+        "who": "Junior",
+        "text": "So writers expect 24,200 to 24,800?"
+      },
+      {
+        "who": "Trader",
+        "text": "For now. If writers start rolling the calls down, that's bearish. Watch the OI shifting through the morning."
+      },
+      {
+        "who": "Junior",
+        "text": "And if 24,200 breaks?"
+      },
+      {
+        "who": "Trader",
+        "text": "Then the put writers are trapped, and their covering can speed up the fall."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What range do the option writers seem to expect?",
+        "options": [
+          "24,200 to 24,800",
+          "24,800 to 25,200",
+          "24,000 to 24,200",
+          "No range at all"
+        ],
+        "why": "Heavy put writing marks the floor writers expect, and heavy call writing the ceiling."
+      },
+      {
+        "q": "What happens if 24,200 breaks?",
+        "options": [
+          "Trapped put writers may cover and push it lower",
+          "Call writers will buy and push it higher",
+          "The exchange will halt the index",
+          "The 24,200 puts will expire worthless"
+        ],
+        "why": "Put writers losing money buy back or hedge by selling, which adds to the fall."
+      }
+    ],
+    "terms": [
+      "put-base",
+      "call-wall",
+      "oi-shifting",
+      "trapped-writers"
+    ]
+  },
+  {
+    "id": "fno-expiry-lottery",
+    "setting": "fno",
+    "title": "Expiry afternoon",
+    "lines": [
+      {
+        "who": "Junior",
+        "text": "The 24,600 calls are ₹3. A 100-point move could make them ₹60. Hero or zero?"
+      },
+      {
+        "who": "Trader",
+        "text": "Most days they go to zero. Gamma's huge into the close, so it can happen, but it's a lottery ticket."
+      },
+      {
+        "who": "Junior",
+        "text": "And for us, short the 24,500 straddle?"
+      },
+      {
+        "who": "Trader",
+        "text": "That's exactly where a gamma blast hurts. Our stop is 30 points on the straddle; respect it."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why could the ₹3 calls jump so much?",
+        "options": [
+          "Gamma is very high near expiry at the money",
+          "Theta adds value in the last hour",
+          "Calls gain when volatility falls",
+          "The exchange adds time value at 3 pm"
+        ],
+        "why": "Close to expiry, a small index move swings delta fast, so cheap near-the-money options can multiply."
+      },
+      {
+        "q": "What is the risk for the short straddle?",
+        "options": [
+          "A sharp late move can blow through it",
+          "It loses money if the market is quiet",
+          "It can lose only its premium",
+          "It expires worthless whatever happens"
+        ],
+        "why": "A short straddle is short gamma: a sudden big move late on expiry day causes big losses."
+      }
+    ],
+    "terms": [
+      "hero-zero",
+      "gamma",
+      "gamma-blast",
+      "straddle"
+    ]
+  },
+  {
+    "id": "fno-nine-twenty",
+    "setting": "fno",
+    "title": "Stopped out twice",
+    "lines": [
+      {
+        "who": "Trader",
+        "text": "The 9:20 straddle got stopped on both legs again: calls at 10:05, puts at 1:40."
+      },
+      {
+        "who": "Junior",
+        "text": "So the market went up and then down?"
+      },
+      {
+        "who": "Trader",
+        "text": "Exactly, a whipsaw day. Each stop hit, and neither leg earned enough decay to cover it."
+      },
+      {
+        "who": "Head of desk",
+        "text": "That's three this week. Is it a regime change or noise?"
+      },
+      {
+        "who": "Trader",
+        "text": "Five days is a small sample. Let's look at the month before we change the rules."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why did the straddle lose?",
+        "options": [
+          "The market rose then fell, hitting both stops",
+          "The market stayed flat all day",
+          "IV fell sharply after the open",
+          "The trader forgot to place the stops"
+        ],
+        "why": "A whipsaw hits the call leg's stop on the way up and the put leg's stop on the way down."
+      },
+      {
+        "q": "Why not change the rules yet?",
+        "options": [
+          "A week is too little data to judge",
+          "Rules can only change at expiry",
+          "The strategy made money all week",
+          "The exchange must approve the change"
+        ],
+        "why": "Five days is a small sample; a few bad days can be chance."
+      }
+    ],
+    "terms": [
+      "nine-twenty-straddle",
+      "whipsaw",
+      "small-sample",
+      "regime-change"
+    ]
+  },
+  {
+    "id": "fno-vol-talk",
+    "setting": "fno",
+    "title": "After the event",
+    "lines": [
+      {
+        "who": "Vol trader",
+        "text": "The event's done and vol is offered. ATM IV dropped from 18 to 13 in an hour."
+      },
+      {
+        "who": "PM",
+        "text": "IV crush. What about the wings?"
+      },
+      {
+        "who": "Vol trader",
+        "text": "Skew is still bid. People are keeping their downside puts."
+      },
+      {
+        "who": "PM",
+        "text": "So the puts are rich against the ATM options. Any trade on that is a view on skew, not on direction."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does 'vol is offered' mean here?",
+        "options": [
+          "Option sellers are pushing IV down",
+          "Brokers are offering cheap options data",
+          "Volume is very light after the event",
+          "A big seller is offering futures"
+        ],
+        "why": "More sellers than buyers of options drive implied volatility lower."
+      },
+      {
+        "q": "What does 'skew is still bid' mean?",
+        "options": [
+          "OTM puts still carry high IV versus ATM",
+          "OTM calls are pricier than OTM puts",
+          "ATM options are pricier than the wings",
+          "Futures trade above the index"
+        ],
+        "why": "Demand for downside protection keeps out-of-the-money put IV high compared with at-the-money IV."
+      }
+    ],
+    "terms": [
+      "vol-offered",
+      "iv-crush",
+      "skew-bid",
+      "volatility-skew"
+    ]
+  },
+  {
+    "id": "fno-margin",
+    "setting": "fno",
+    "title": "Margin",
+    "lines": [
+      {
+        "who": "Junior",
+        "text": "I wanted to sell one more straddle, but the margin blocked is already ₹3 lakh a lot."
+      },
+      {
+        "who": "Trader",
+        "text": "Buy wings and the margin falls a lot, because the loss is capped."
+      },
+      {
+        "who": "Junior",
+        "text": "Doesn't that cost premium?"
+      },
+      {
+        "who": "Trader",
+        "text": "Some. But naked selling into a long weekend isn't worth the margin or the gap risk."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why would buying wings cut the margin?",
+        "options": [
+          "The worst-case loss is capped",
+          "Brokers refund the wings' premium",
+          "Wings make the trade risk-free",
+          "Margins are lower on Fridays"
+        ],
+        "why": "Margin follows the worst-case loss, and the bought wings cap it."
+      },
+      {
+        "q": "What does buying wings cost?",
+        "options": [
+          "Some of the premium collected",
+          "A higher margin requirement",
+          "Unlimited loss on a big move",
+          "A ban on selling more options"
+        ],
+        "why": "The wings are bought with part of the premium earned from the options sold."
+      }
+    ],
+    "terms": [
+      "margin-blocked",
+      "buy-wings",
+      "naked-selling",
+      "gap-risk"
+    ]
+  },
+  {
+    "id": "fno-positional",
+    "setting": "fno",
+    "title": "A positional view",
+    "lines": [
+      {
+        "who": "Trader",
+        "text": "Positional view: it's a sell-on-rise market below 24,300 while FPIs keep selling."
+      },
+      {
+        "who": "Junior",
+        "text": "So we short bounces into 24,300 with a stop above?"
+      },
+      {
+        "who": "Trader",
+        "text": "Yes. And watch the trapped longs from last week's breakout; they'll sell any bounce."
+      },
+      {
+        "who": "Junior",
+        "text": "How long do we hold?"
+      },
+      {
+        "who": "Trader",
+        "text": "Until the series ends or the stop goes. It's NRML, not intraday."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does 'sell on rise' mean?",
+        "options": [
+          "Use rallies to sell in a weak market",
+          "Sell only after a 5% rise",
+          "Buy every dip in an uptrend",
+          "Sell everything at the day's high"
+        ],
+        "why": "In a downtrend, bounces are treated as chances to sell or go short."
+      },
+      {
+        "q": "Why will trapped longs sell bounces?",
+        "options": [
+          "They bought higher and want out near cost",
+          "Their brokers are forcing them to buy more",
+          "They earn decay on every bounce",
+          "They need margin for new longs"
+        ],
+        "why": "Traders stuck in losing longs often sell as soon as the price gets back near where they bought."
+      }
+    ],
+    "terms": [
+      "positional",
+      "sell-on-rise",
+      "trapped-longs",
+      "nrml",
+      "fpi"
+    ]
+  },
+  {
+    "id": "exec-vwap-order",
+    "setting": "execution",
+    "title": "A VWAP order",
+    "lines": [
+      {
+        "who": "Client",
+        "text": "Buy 5 lakh Tata Steel today against VWAP. No rush."
+      },
+      {
+        "who": "Trader",
+        "text": "Will do. Max participation?"
+      },
+      {
+        "who": "Client",
+        "text": "15%, and don't pay above 152."
+      },
+      {
+        "who": "Trader",
+        "text": "Update: 40% done at 150.40, against a VWAP of 150.55. Working the rest over the day."
+      }
+    ],
+    "questions": [
+      {
+        "q": "How many shares are left to buy after the update?",
+        "options": [
+          "3 lakh",
+          "2 lakh",
+          "4 lakh",
+          "1 lakh"
+        ],
+        "why": "40% of 5 lakh is 2 lakh done, so 3 lakh are left."
+      },
+      {
+        "q": "Is the fill so far good against the benchmark?",
+        "options": [
+          "Yes: buying below VWAP is better",
+          "No: buying below VWAP is a cost",
+          "No: it should match VWAP exactly",
+          "It can't be compared with VWAP"
+        ],
+        "why": "For a buy, an average price below VWAP beats the benchmark."
+      }
+    ],
+    "terms": [
+      "vwap",
+      "no-rush",
+      "max-participation",
+      "percent-done",
+      "over-the-day"
+    ]
+  },
+  {
+    "id": "exec-running-away",
+    "setting": "execution",
+    "title": "Running away",
+    "lines": [
+      {
+        "who": "Trader",
+        "text": "It's running away: up 1.8% since arrival, and I'm only 30% done."
+      },
+      {
+        "who": "PM",
+        "text": "News?"
+      },
+      {
+        "who": "Trader",
+        "text": "A big buyer, I think. Someone's lifting every offer."
+      },
+      {
+        "who": "PM",
+        "text": "Results are tomorrow and I want it all. Pay up, finish by 2 pm, and tell me the bips versus arrival."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does 'running away' mean here?",
+        "options": [
+          "The price is rising away from the buy order",
+          "The client has cancelled the order",
+          "The stock has hit its upper circuit",
+          "The trader has left the desk"
+        ],
+        "why": "The price is moving fast in the direction that makes the order harder to fill."
+      },
+      {
+        "q": "Why does the PM say 'pay up'?",
+        "options": [
+          "Finishing now matters more than the price",
+          "The price matters more than finishing",
+          "The broker's fees are due today",
+          "The order must be done at the close"
+        ],
+        "why": "With results tomorrow, the risk of not finishing outweighs the cost of a worse price."
+      }
+    ],
+    "terms": [
+      "running-away",
+      "arrival-price",
+      "lift-the-offer",
+      "pay-up",
+      "bips-vs-arrival"
+    ]
+  },
+  {
+    "id": "exec-queue",
+    "setting": "execution",
+    "title": "The queue",
+    "lines": [
+      {
+        "who": "Junior",
+        "text": "Bid 612 with 80,000 shares ahead of us, offer 612.30. Should I cross the spread?"
+      },
+      {
+        "who": "Trader",
+        "text": "No rush on this one. Join the bid with 10,000 and see if we get filled."
+      },
+      {
+        "who": "Junior",
+        "text": "And if the queue doesn't move?"
+      },
+      {
+        "who": "Trader",
+        "text": "Then improve the bid by a tick. We'll be first in line and still not pay the full spread."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does 'join the bid' mean?",
+        "options": [
+          "Rest a buy at the best bid and wait",
+          "Buy straight away at the offer",
+          "Bid one tick above the best bid",
+          "Cancel the bid and wait"
+        ],
+        "why": "Joining the bid means placing a passive buy at the current best bid, behind the queue."
+      },
+      {
+        "q": "Why improve the bid instead of crossing?",
+        "options": [
+          "To go first without paying the full spread",
+          "To make the trade settle a day earlier",
+          "To hide the order from other traders",
+          "To trade at the closing price"
+        ],
+        "why": "One tick higher makes you the best bid, which costs less than buying at the offer."
+      }
+    ],
+    "terms": [
+      "join-the-bid",
+      "improve-the-bid",
+      "cross-the-spread",
+      "best-bid-offer"
+    ]
+  },
+  {
+    "id": "exec-block",
+    "setting": "execution",
+    "title": "A block",
+    "lines": [
+      {
+        "who": "Sales",
+        "text": "We have IOIs from two funds that might sell 10 lakh HDFC Bank."
+      },
+      {
+        "who": "Trader",
+        "text": "Is either a natural? Our client wants to buy 8 lakh."
+      },
+      {
+        "who": "Sales",
+        "text": "The first one is: a long-only fund cutting its weight, not a market maker."
+      },
+      {
+        "who": "Trader",
+        "text": "Then let's cross it as a block at a firm price near the last trade, before word leaks."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is an IOI?",
+        "options": [
+          "A sign a firm may trade a block, not an order",
+          "A firm order that must be filled",
+          "A report of futures open interest",
+          "An order sent to the opening auction"
+        ],
+        "why": "An indication of interest says a client may trade in size; price and size still have to be agreed."
+      },
+      {
+        "q": "Why does the trader want to move quickly?",
+        "options": [
+          "Word of the block could leak and move the price",
+          "The client has asked to pay up for speed today",
+          "The fund's shares are pledged",
+          "Naturals must be filled before noon"
+        ],
+        "why": "Information leakage: once others hear of a big seller, the price can move before the trade is done."
+      }
+    ],
+    "terms": [
+      "ioi",
+      "natural",
+      "firm-price",
+      "information-leakage",
+      "block-deal"
+    ]
+  },
+  {
+    "id": "exec-end-of-day",
+    "setting": "execution",
+    "title": "End of the day",
+    "lines": [
+      {
+        "who": "Trader",
+        "text": "It's 3:10. We've done 7 of the 10 lakh. What do you want to do with the residual?"
+      },
+      {
+        "who": "PM",
+        "text": "Put half of it in the close. The rest is done for the day; start again at tomorrow's open."
+      },
+      {
+        "who": "Trader",
+        "text": "Got it. I'll write the ticket for today's fills and send you the average price."
+      },
+      {
+        "who": "PM",
+        "text": "And allocate it 60-40 between the two funds."
+      }
+    ],
+    "questions": [
+      {
+        "q": "How many shares go into the close?",
+        "options": [
+          "1.5 lakh",
+          "3 lakh",
+          "3.5 lakh",
+          "5 lakh"
+        ],
+        "why": "The residual is 3 lakh (10 − 7), and half of it is 1.5 lakh."
+      },
+      {
+        "q": "What does 'done for the day' mean for the rest?",
+        "options": [
+          "Stop for today and carry it to tomorrow",
+          "Fill it straight away at the market",
+          "Give it all to the second fund",
+          "Trade it in the closing auction"
+        ],
+        "why": "Trading stops for today and the remainder starts again at the next open."
+      }
+    ],
+    "terms": [
+      "residual",
+      "in-the-close",
+      "done-for-the-day",
+      "write-the-ticket",
+      "average-price",
+      "allocation"
+    ]
+  },
+  {
+    "id": "exec-tca",
+    "setting": "execution",
+    "title": "A cost review",
+    "lines": [
+      {
+        "who": "Head of trading",
+        "text": "Last month we were 18 bips versus arrival on average, against 11 for the algo benchmark."
+      },
+      {
+        "who": "Trader",
+        "text": "Most of it came from three urgent orders where we paid up into results."
+      },
+      {
+        "who": "Head of trading",
+        "text": "Fine, but the patient orders were 9 bips worse too. Did we front-load them?"
+      },
+      {
+        "who": "Trader",
+        "text": "Yes, the default schedule front-loads. We'll switch the no-rush orders to follow the volume curve."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is the review comparing?",
+        "options": [
+          "Average fills against prices on arrival",
+          "Brokerage against last month's",
+          "Closing prices against opening prices",
+          "Orders sent against orders filled"
+        ],
+        "why": "Bips versus arrival compares the average fill with the price when the order came in."
+      },
+      {
+        "q": "Why would front-loading hurt patient orders?",
+        "options": [
+          "It trades more early, paying more impact",
+          "It leaves the order unfinished at the close",
+          "It trades only in the closing auction",
+          "It skips the busy hours of the day"
+        ],
+        "why": "Trading a big share of the order early means taking more of the market's volume, which moves the price more."
+      }
+    ],
+    "terms": [
+      "tca",
+      "bips-vs-arrival",
+      "front-load",
+      "volume-profile",
+      "pay-up"
+    ]
+  },
+  {
+    "id": "broker-colour",
+    "setting": "broker",
+    "title": "Market colour",
+    "lines": [
+      {
+        "who": "Sales",
+        "text": "Colour this morning: long-only funds are buying IT on the dip; hedge funds are selling banks."
+      },
+      {
+        "who": "PM",
+        "text": "Any size?"
+      },
+      {
+        "who": "Sales",
+        "text": "We printed a ₹400 crore block in a private bank at the open, 2% below the last close."
+      },
+      {
+        "who": "PM",
+        "text": "Who's on the other side of that? If it's a promoter selling stake, I'd wait for the rest of the supply to clear."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is 'colour' on a broker call?",
+        "options": [
+          "A summary of who's buying and selling",
+          "A chart's red and green candles",
+          "A broker's rating on a stock",
+          "The broker's commission rate"
+        ],
+        "why": "Market colour is the sales desk's read of the flows they are seeing."
+      },
+      {
+        "q": "Why does the PM ask who's on the other side?",
+        "options": [
+          "A big seller may have more still to sell",
+          "To book the trade with the right custodian",
+          "Because buyers must report every block",
+          "To ask for a discount on brokerage"
+        ],
+        "why": "If a large holder is cutting a stake, more selling may follow and weigh on the price."
+      }
+    ],
+    "terms": [
+      "market-color",
+      "print",
+      "block-deal",
+      "other-side"
+    ]
+  },
+  {
+    "id": "broker-axe",
+    "setting": "broker",
+    "title": "An axe",
+    "lines": [
+      {
+        "who": "Sales",
+        "text": "We're axed to sell a mid-cap pharma name; a client has 15 lakh shares to go."
+      },
+      {
+        "who": "PM",
+        "text": "Indicative or firm?"
+      },
+      {
+        "who": "Sales",
+        "text": "Indicative around 1,180, with the stock at 1,205. Firm if you show size."
+      },
+      {
+        "who": "PM",
+        "text": "Show them firm at 1,170 for 5 lakh, subject to my risk sign-off."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does 'axed to sell' mean?",
+        "options": [
+          "The broker has a client keen to sell",
+          "The broker cut its rating to sell",
+          "The stock was removed from an index",
+          "The broker is short the stock itself"
+        ],
+        "why": "An axe is a strong interest to trade one way, here a selling client."
+      },
+      {
+        "q": "What does 'indicative' mean here?",
+        "options": [
+          "A rough price, not a commitment",
+          "A price fixed until the close",
+          "The exchange's official price",
+          "A price set by the regulator"
+        ],
+        "why": "An indicative price is a guide; a firm price is one you can trade on."
+      }
+    ],
+    "terms": [
+      "axe",
+      "indicative-price",
+      "firm-price",
+      "size"
+    ]
+  },
+  {
+    "id": "broker-upgrade",
+    "setting": "broker",
+    "title": "An upgrade",
+    "lines": [
+      {
+        "who": "Analyst",
+        "text": "We're upgrading the cement name to buy, with a target of 2,400, up from 2,050."
+      },
+      {
+        "who": "PM",
+        "text": "What's the upside from here?"
+      },
+      {
+        "who": "Analyst",
+        "text": "About 18%. Downside to our bear case is 10%."
+      },
+      {
+        "who": "PM",
+        "text": "So nearly 2 to 1. The street has it at hold, so if you're right there's a re-rating to come."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is the reward-to-risk on these numbers?",
+        "options": [
+          "About 1.8 to 1",
+          "About 1 to 1.8",
+          "About 2.4 to 1",
+          "About 1 to 1"
+        ],
+        "why": "18% of upside against 10% of downside is 1.8 to 1."
+      },
+      {
+        "q": "What does 're-rating' mean here?",
+        "options": [
+          "The market paying a higher multiple for it",
+          "The broker repeating the same rating",
+          "The stock moving to a new index",
+          "A fall in the firm's credit rating"
+        ],
+        "why": "A re-rating is a change in the valuation multiple investors are willing to pay."
+      }
+    ],
+    "terms": [
+      "upgrade",
+      "target-price",
+      "upside",
+      "downside",
+      "consensus",
+      "re-rating"
+    ]
+  },
+  {
+    "id": "broker-index-flows",
+    "setting": "broker",
+    "title": "Index changes",
+    "lines": [
+      {
+        "who": "Sales",
+        "text": "Index rebalance at the end of the month: two names added, one dropped."
+      },
+      {
+        "who": "PM",
+        "text": "How big is the passive demand?"
+      },
+      {
+        "who": "Sales",
+        "text": "About 12 days of average volume in the smaller addition, and it all trades in the close on the day."
+      },
+      {
+        "who": "PM",
+        "text": "Then it's a crowded trade by now. Everyone has bought ahead; I'd sell some to the index funds in the close."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why does passive demand matter?",
+        "options": [
+          "Index funds must buy, whatever the price",
+          "Index funds may skip the purchase",
+          "It lowers the stock's volatility for good",
+          "It moves the stock out of F&O"
+        ],
+        "why": "Funds that track the index have to own the new member, so their buying is predictable."
+      },
+      {
+        "q": "What does the PM plan to do?",
+        "options": [
+          "Sell some stock to index funds at the close",
+          "Buy the addition at the open",
+          "Short the Nifty future for the next week",
+          "Wait for the next rebalance"
+        ],
+        "why": "If others have already bought ahead, the forced buying at the close is a chance to sell."
+      }
+    ],
+    "terms": [
+      "rebalance",
+      "in-the-close",
+      "crowded-trade",
+      "flow"
+    ]
+  },
+  {
+    "id": "broker-squeeze",
+    "setting": "broker",
+    "title": "A squeeze",
+    "lines": [
+      {
+        "who": "Sales",
+        "text": "The stock's up 14% on no news. The shorts are getting squeezed."
+      },
+      {
+        "who": "PM",
+        "text": "Is it near the F&O ban?"
+      },
+      {
+        "who": "Sales",
+        "text": "Close. Open interest is at 92% of the market-wide limit."
+      },
+      {
+        "who": "PM",
+        "text": "If it goes into the ban, nobody can add positions, only cut them. Squeezes near the ban get messy. Stay away."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is happening to the shorts?",
+        "options": [
+          "Rising prices are forcing them to buy back",
+          "They are adding to their shorts as it rises",
+          "The exchange is closing them out",
+          "They are being paid to hold"
+        ],
+        "why": "In a short squeeze, losses force shorts to buy back, which pushes the price higher still."
+      },
+      {
+        "q": "What happens in the F&O ban?",
+        "options": [
+          "No new positions, only cutting existing ones",
+          "The exchange closes every open position at once",
+          "Trading in the stock is halted",
+          "Only new shorts are allowed"
+        ],
+        "why": "In the ban period, F&O positions in the stock can only be reduced."
+      }
+    ],
+    "terms": [
+      "short-squeeze",
+      "short-covering",
+      "fo-ban",
+      "mwpl"
+    ]
+  },
+  {
+    "id": "broker-concall",
+    "setting": "broker",
+    "title": "After the concall",
+    "lines": [
+      {
+        "who": "Analyst",
+        "text": "On the concall, management guided margins down 100 bps for the year."
+      },
+      {
+        "who": "PM",
+        "text": "That's a miss against the street. Where's it indicated?"
+      },
+      {
+        "who": "Analyst",
+        "text": "About 6% lower in the pre-open."
+      },
+      {
+        "who": "PM",
+        "text": "We're underweight, so this helps us against the benchmark. I won't cover yet; analysts will be cutting estimates for a week."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why does the fall help the fund?",
+        "options": [
+          "It holds less of the stock than the benchmark",
+          "It holds more of the stock than the benchmark",
+          "It bought puts on the stock",
+          "It sold the stock before the call"
+        ],
+        "why": "Being underweight means a fall in the stock hurts the benchmark more than the fund."
+      },
+      {
+        "q": "Why does the PM wait before covering?",
+        "options": [
+          "Estimate cuts may push the stock lower",
+          "The stock can't trade in the pre-open",
+          "Underweights must be held to year end",
+          "The call raised the margin guidance"
+        ],
+        "why": "Lower margin guidance usually leads to earnings downgrades, which can weigh on the price for days."
+      }
+    ],
+    "terms": [
+      "earnings-call",
+      "underweight",
+      "pre-open",
+      "downgrade",
+      "benchmark"
+    ]
+  },
+  {
+    "id": "event-budget",
+    "setting": "event",
+    "title": "Budget day",
+    "lines": [
+      {
+        "who": "Strategist",
+        "text": "Budget at 11. The straddle is pricing a 2.5% move."
+      },
+      {
+        "who": "PM",
+        "text": "Any change to STT on F&O is the big risk for the brokers we own."
+      },
+      {
+        "who": "Strategist",
+        "text": "And capital gains tax. Both are headline risks; we won't know until the speech."
+      },
+      {
+        "who": "PM",
+        "text": "Then we keep the book small. I'd rather be flat into the event on the brokers and buy back after."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does the 2.5% straddle tell you?",
+        "options": [
+          "The move the options market expects",
+          "The most the index can move today",
+          "The tax the Budget may add",
+          "The straddle's return so far"
+        ],
+        "why": "The at-the-money straddle's price is a quick read of the move the market is pricing."
+      },
+      {
+        "q": "Why stay flat on the brokers into the speech?",
+        "options": [
+          "A tax change could gap them either way",
+          "Brokers can't trade on Budget day",
+          "Brokers always fall on Budget day",
+          "The straddle is too cheap to buy"
+        ],
+        "why": "STT on F&O feeds straight into brokers' volumes, so one line in the speech can move them sharply."
+      }
+    ],
+    "terms": [
+      "implied-move",
+      "stt",
+      "headline-risk",
+      "flat-into-event"
+    ]
+  },
+  {
+    "id": "event-rbi",
+    "setting": "event",
+    "title": "Policy reaction",
+    "lines": [
+      {
+        "who": "Economist",
+        "text": "The RBI cut the repo rate by 25 bps but changed the stance to neutral."
+      },
+      {
+        "who": "Trader",
+        "text": "So a cut with a hawkish tone. Bonds rallied, then sold off."
+      },
+      {
+        "who": "PM",
+        "text": "Banks?"
+      },
+      {
+        "who": "Trader",
+        "text": "Whipsawed: up 1% on the cut, down 1% on the stance. Classic sell the news."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why did bonds rally and then sell off?",
+        "options": [
+          "The cut was good news; the stance less so",
+          "The RBI raised rates straight after the cut",
+          "Bonds don't react to policy",
+          "The cut was bigger than expected"
+        ],
+        "why": "A neutral stance suggests fewer cuts ahead, which took back some of the rally."
+      },
+      {
+        "q": "What does 'whipsawed' mean?",
+        "options": [
+          "Moved sharply one way, then the other",
+          "Moved steadily in one direction",
+          "Didn't trade at all",
+          "Rose to the upper circuit"
+        ],
+        "why": "A whipsaw is a quick move one way followed by a reversal."
+      }
+    ],
+    "terms": [
+      "repo-rate",
+      "policy-stance",
+      "hawkish",
+      "whipsaw",
+      "sell-the-news"
+    ]
+  },
+  {
+    "id": "event-results",
+    "setting": "event",
+    "title": "Results day",
+    "lines": [
+      {
+        "who": "Analyst",
+        "text": "Results beat on revenue and margins, and the stock's down 4%."
+      },
+      {
+        "who": "Junior",
+        "text": "How can it fall on a beat?"
+      },
+      {
+        "who": "Analyst",
+        "text": "It rallied 15% into the number and buyers wanted more. The beat was priced in."
+      },
+      {
+        "who": "PM",
+        "text": "And the straddle implied 6%, so anyone who bought it lost money even on a 4% move."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why did the stock fall on a beat?",
+        "options": [
+          "Expectations were higher and it had run up",
+          "Revenue and margins missed estimates",
+          "The results came out a day late",
+          "The stock was moved out of F&O"
+        ],
+        "why": "When a good result is already in the price, the stock can fall on the news."
+      },
+      {
+        "q": "Why did straddle buyers lose on a 4% move?",
+        "options": [
+          "The straddle had priced in a 6% move",
+          "Straddles lose whenever a stock falls",
+          "IV rose after the results",
+          "Straddles pay only on up moves"
+        ],
+        "why": "A long straddle needs a move bigger than its price; after the event, implied vol also collapses."
+      }
+    ],
+    "terms": [
+      "earnings-beat",
+      "priced-in",
+      "implied-move",
+      "iv-crush",
+      "straddle"
+    ]
+  },
+  {
+    "id": "event-global-selloff",
+    "setting": "event",
+    "title": "A global sell-off",
+    "lines": [
+      {
+        "who": "Head of desk",
+        "text": "US markets fell 4% overnight. GIFT Nifty points to a 2% gap-down."
+      },
+      {
+        "who": "Risk",
+        "text": "It's risk-off everywhere. Even the long-short book lost money; correlations went to one."
+      },
+      {
+        "who": "PM",
+        "text": "Do we sell into the open?"
+      },
+      {
+        "who": "Head of desk",
+        "text": "No panic selling. We have dry powder. Let the first hour settle, then buy the names we like at a discount."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What does 'risk-off' mean?",
+        "options": [
+          "Investors are dumping risky assets for safety",
+          "The risk team has stopped checking limits",
+          "The exchange has halted trading",
+          "Volatility has fallen sharply"
+        ],
+        "why": "In a risk-off move, money leaves stocks and other risky assets for safer ones."
+      },
+      {
+        "q": "What does the head of desk plan to do?",
+        "options": [
+          "Wait, then use spare cash to buy",
+          "Sell everything at the open",
+          "Short the market with all spare cash",
+          "Close the book until the US recovers"
+        ],
+        "why": "Dry powder is cash or risk kept back for moments like this."
+      }
+    ],
+    "terms": [
+      "gap-down",
+      "risk-off",
+      "correlations-go-to-one",
+      "panic-selling",
+      "dry-powder"
+    ]
+  },
+  {
+    "id": "event-expiry-pin",
+    "setting": "event",
+    "title": "Expiry, last hour",
+    "lines": [
+      {
+        "who": "Trader",
+        "text": "It's 2:45 and we're short the 24,500 straddle, with the index at 24,520."
+      },
+      {
+        "who": "Junior",
+        "text": "Pin risk?"
+      },
+      {
+        "who": "Trader",
+        "text": "Yes. Near the strike, a small move flips which leg ends in the money. I'd rather close it than babysit it to 3:30."
+      },
+      {
+        "who": "Junior",
+        "text": "Even if we give up the last of the decay?"
+      },
+      {
+        "who": "Trader",
+        "text": "There's ₹4 of decay left. The gamma risk is ten times that."
+      }
+    ],
+    "questions": [
+      {
+        "q": "What is the risk the trader worries about?",
+        "options": [
+          "A small move near the strike decides the payoff",
+          "The options get exercised early",
+          "Volume dries up in the last hour",
+          "The straddle gains value as time passes"
+        ],
+        "why": "Pin risk is the uncertainty when the price sits right at a short strike near expiry."
+      },
+      {
+        "q": "Why give up the last of the decay?",
+        "options": [
+          "A late move could cost far more than ₹4",
+          "Decay is zero on expiry day",
+          "Option trading stops at 2:45",
+          "The straddle can't lose more than ₹4"
+        ],
+        "why": "The little time value left isn't worth the risk of a sharp late move."
+      }
+    ],
+    "terms": [
+      "pin-risk",
+      "gamma",
+      "theta",
+      "straddle"
+    ]
+  },
+  {
+    "id": "event-weekend-gap",
+    "setting": "event",
+    "title": "A Monday gap",
+    "lines": [
+      {
+        "who": "Trader",
+        "text": "We gapped down 2% at the open. My stop at 24,300 filled at 24,050."
+      },
+      {
+        "who": "PM",
+        "text": "That's gap risk. Your stop protects you during the day, not over a weekend."
+      },
+      {
+        "who": "Trader",
+        "text": "Should I buy it back here?"
+      },
+      {
+        "who": "PM",
+        "text": "Only if the reason for the trade still holds. Otherwise don't revenge trade; you're done for the day."
+      }
+    ],
+    "questions": [
+      {
+        "q": "Why did the stop fill so far below 24,300?",
+        "options": [
+          "The market opened below it, skipping the level",
+          "The broker delayed the order on purpose",
+          "Stops fill only at the day's low",
+          "The exchange moved the stop overnight"
+        ],
+        "why": "A stop triggers at the first price available, and after a gap that can be well past the stop."
+      },
+      {
+        "q": "What does 'revenge trade' mean?",
+        "options": [
+          "Trading to win back a loss quickly",
+          "Trading against a rival desk",
+          "Trading only on Mondays",
+          "Reversing a trade a client disputes"
+        ],
+        "why": "Revenge trading is trading bigger or faster right after a loss to get the money back."
+      }
+    ],
+    "terms": [
+      "gap-down",
+      "gap-risk",
+      "stop-loss",
+      "revenge-trading"
+    ]
+  }
+]
