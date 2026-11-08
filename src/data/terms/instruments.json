@@ -33,7 +33,9 @@
       "short": "Interest minus income for holding till expiry",
       "definition": "What it costs to hold the underlying until the futures expire: interest on the money tied up, minus any dividends the holder receives. It's why index futures usually trade above spot.",
       "examples": [
-        "With rates at 6% and almost no dividends due, a month's cost of carry on the Nifty is about half a percent."
+        "With rates at 6% and almost no dividends due, a month's cost of carry on the Nifty is about half a percent.",
+        "The client asked why the futures cost more than the shares: buyers pay the cost of carry.",
+        "Risk recalculates the cost of carry whenever rates or dividend forecasts change."
       ],
       "fill": "Buying the stock today ties up money that could earn interest, less any dividends you'd collect. That net cost of holding it until expiry is the ____.",
       "confusables": [
@@ -79,7 +81,9 @@
       "short": "What a future should cost, from spot and carry",
       "definition": "The price a futures contract should trade at, given today's spot price, interest rates and expected dividends. If the future drifts far from it, arbitrage pulls it back.",
       "examples": [
-        "Futures are 40 points over fair value, so the arb desks are selling futures and buying the stocks."
+        "Futures are 40 points over fair value, so the arb desks are selling futures and buying the stocks.",
+        "The analyst works out futures fair value from spot, the interest rate and expected dividends.",
+        "Risk flags days when the Nifty future strays far from its futures fair value."
       ],
       "fill": "Spot plus interest to expiry, minus expected dividends, is the ____.",
       "confusables": [
@@ -117,7 +121,9 @@
       "short": "Gap between futures and spot price",
       "definition": "The gap between a futures price and the spot price. On equity index futures it's usually quoted as futures minus spot, so a positive basis means the future trades at a premium. Commodity hedgers and many textbooks use spot minus futures instead, so check which way round it's quoted.",
       "examples": [
-        "Nifty basis is 180 points with a month to go, rich against the 120 that carry explains."
+        "Nifty basis is 180 points with a month to go, rich against the 120 that carry explains.",
+        "The arb desk sells futures when the basis is rich and buys them back near expiry.",
+        "The client asked why the futures price was above the Nifty: that gap is the basis."
       ],
       "fill": "Nifty futures at 24,150 against spot at 24,000 means a ____ of 150 points.",
       "confusables": [
@@ -160,7 +166,9 @@
       "short": "Futures above spot, later months higher",
       "definition": "When futures trade above the spot price, and longer-dated contracts above nearer ones. It's the normal state for Indian index futures, because the interest cost outweighs dividends.",
       "examples": [
-        "Crude is in steep contango, so rolling a long position costs money every month."
+        "Crude is in steep contango, so rolling a long position costs money every month.",
+        "The client asked why rolling her crude futures kept costing money: the market was in contango.",
+        "The commodity analyst expects contango to deepen while stockpiles keep rising."
       ],
       "fill": "Near month at 24,100, next month at 24,250 and far month at 24,400: the curve is in ____.",
       "confusables": [
@@ -189,7 +197,9 @@
       "short": "Futures below spot, later months lower",
       "definition": "When futures trade below the spot price, or longer-dated contracts below nearer ones. It happens when holding the asset pays, such as a big dividend due before expiry, or when the physical good is scarce right now.",
       "examples": [
-        "The stock future is in backwardation because a large dividend falls before expiry."
+        "The stock future is in backwardation because a large dividend falls before expiry.",
+        "The analyst says backwardation in crude points to tight supply right now.",
+        "Risk notes that rolling a long future in backwardation earns a small gain each month."
       ],
       "fill": "The future trades 15 below spot because a big dividend falls before expiry: the stock is in ____.",
       "confusables": [
@@ -218,7 +228,9 @@
       "short": "Futures and spot meeting at expiry",
       "definition": "The way a futures price closes in on the spot price as expiry approaches, because the carry left shrinks with time. At expiry they meet, since the contract settles at the underlying's closing price.",
       "examples": [
-        "The basis was 120 points three weeks out and almost nothing on expiry day: convergence at work."
+        "The basis was 120 points three weeks out and almost nothing on expiry day: convergence at work.",
+        "The arb desk holds its spread trade to expiry and lets convergence close the gap to zero.",
+        "The client asked why her future and the stock ended at the same price: convergence on expiry day."
       ],
       "fill": "As expiry nears, the carry left shrinks and the futures price is pulled to spot. This is called ____.",
       "confusables": [
@@ -251,7 +263,9 @@
       "short": "The futures contract expiring first",
       "definition": "The futures contract that expires soonest. NSE lists three monthly index futures at a time, the near, mid and far month, and most of the trading and open interest sits in the near month.",
       "examples": [
-        "All the liquidity is in the near month, so we only roll in the last week."
+        "All the liquidity is in the near month, so we only roll in the last week.",
+        "The desk trades the near-month contract because the far months barely trade.",
+        "Risk prefers hedges in the near-month contract, where the spread is tightest."
       ],
       "fill": "On NSE, the soonest-expiring of the three monthly futures is the ____.",
       "confusables": [
@@ -284,7 +298,9 @@
       "short": "Moving a futures position to the next month",
       "definition": "Closing a futures position in the expiring contract and opening the same position in a later month, so the trade carries on past expiry. Desks usually do it in the last week or so before expiry.",
       "examples": [
-        "We'll do the rollover on Monday, before the spread widens into expiry."
+        "We'll do the rollover on Monday, before the spread widens into expiry.",
+        "The analyst reads a strong rollover into the next series as a sign traders expect the trend to continue.",
+        "The client asked what rollover means: closing this month's future and buying next month's."
       ],
       "fill": "Selling your expiring Nifty future and buying next month's to keep the position on is a ____.",
       "confusables": [
@@ -310,7 +326,9 @@
       "short": "Price gap paid to move to the next month",
       "definition": "The price difference between the next-month and current-month futures, which a long pays (and a short collects) when rolling. Desks quote it in points or as a percentage; a rich roll hints that longs are keen to stay in.",
       "examples": [
-        "The Nifty roll is trading at 160 points, a bit above fair carry."
+        "The Nifty roll is trading at 160 points, a bit above fair carry.",
+        "The desk compares the rollover cost with fair carry before deciding when to roll.",
+        "Risk tracks rollover cost each month, because an expensive roll eats into the hedge."
       ],
       "fill": "Next month trades 180 points over the current month, so moving a long position forward costs 180 points. That gap is the ____.",
       "confusables": [
@@ -347,7 +365,9 @@
       "short": "Share of open interest carried to next month",
       "definition": "On expiry day, the open interest in the mid and far months as a share of all open interest. High rollovers mean traders are keeping positions on; read it alongside price to tell whether it's longs or shorts staying.",
       "examples": [
-        "Nifty rollovers came in at 78%, above the three-month average."
+        "Nifty rollovers came in at 78%, above the three-month average.",
+        "The analyst says the high rollover percentage in bank futures shows traders are staying long.",
+        "The client asked what a 75% rollover percentage means: three quarters of positions moved to next month."
       ],
       "fill": "Of 100 lakh shares of open interest at expiry, 70 lakh sit in the next two months, so the ____ is 70%.",
       "confusables": [
@@ -388,7 +408,9 @@
       "short": "Buy spot, sell futures, earn the basis",
       "definition": "Buying a stock in the cash market and selling its future at the same time, then holding both to expiry. The two prices converge, so the trade locks in the basis, which works like a short-term interest rate.",
       "examples": [
-        "The cash-futures arb is paying 7% annualised this month, better than a liquid fund."
+        "The cash-futures arb is paying 7% annualised this month, better than a liquid fund.",
+        "Risk asked how much margin the cash-and-carry arbitrage book needs on expiry day.",
+        "The client asked how her arbitrage fund earns money: it runs cash-and-carry arbitrage on stocks and futures."
       ],
       "fill": "Buy the stock at 1,000, sell the month's future at 1,006, hold both to expiry and pocket 6. That's a ____.",
       "confusables": [
@@ -433,7 +455,9 @@
       "short": "Sell spot, buy futures when futures are cheap",
       "definition": "Selling a stock you hold and buying its future when the future trades below fair value, then buying the stock back at expiry. Shorting stock beyond the day needs a borrow through SLB, so it's mostly done by funds that already own the shares.",
       "examples": [
-        "Futures went to a discount, so the fund sold its shares and bought futures to earn the gap."
+        "Futures went to a discount, so the fund sold its shares and bought futures to earn the gap.",
+        "When futures slipped below spot, the fund ran reverse cash-and-carry: it sold shares and bought futures.",
+        "Risk notes that only holders of the shares can run reverse cash-and-carry cheaply, since shorting stock is hard."
       ],
       "fill": "The future trades 8 below fair value, so a fund that owns the stock sells it and buys the future instead. That's a ____ trade.",
       "confusables": [
@@ -455,7 +479,9 @@
       "short": "Mutual fund that runs cash-futures arbitrage",
       "definition": "An Indian mutual fund category that earns mainly by buying stocks and selling their futures. SEBI's rules require at least 65% in equity, but the positions are hedged with futures, so returns look like short-term interest rates rather than stock market returns.",
       "examples": [
-        "Arbitrage fund returns jump in months when futures premiums are rich."
+        "Arbitrage fund returns jump in months when futures premiums are rich.",
+        "The client parks short-term money in her arbitrage fund because it's taxed like equity.",
+        "Risk notes that arbitrage fund returns dip when futures premiums shrink."
       ],
       "fill": "A mutual fund that holds stocks hedged with short futures, and earns close to a money-market rate, is an ____.",
       "confusables": [
@@ -486,7 +512,9 @@
       "short": "Risk that the hedge and the asset drift apart",
       "definition": "The risk that a hedge doesn't move exactly with what it protects, because the futures price and the price you care about drift apart. It shows up when you hedge with a related contract, or close the hedge before expiry.",
       "examples": [
-        "Hedging a midcap portfolio with Nifty futures leaves a lot of basis risk."
+        "Hedging a midcap portfolio with Nifty futures leaves a lot of basis risk.",
+        "The desk hedged the bank stocks with Bank Nifty futures, accepting some basis risk.",
+        "Risk measures the basis risk left after each hedge, not just the exposure hedged."
       ],
       "fill": "You must lift a futures hedge two weeks before expiry, when the gap between the future and spot could be anything. That uncertainty is ____.",
       "confusables": [
@@ -511,7 +539,9 @@
       "short": "Return from rolling futures each month",
       "definition": "The part of a futures position's return that comes from contracts drifting towards spot as they near expiry, picked up each time the position is rolled. It's negative for longs in contango and positive in backwardation.",
       "examples": [
-        "The commodity fund lost 5% a year to negative roll yield even though spot was flat."
+        "The commodity fund lost 5% a year to negative roll yield even though spot was flat.",
+        "The commodity analyst says roll yield, not spot, drove most of the fund's return.",
+        "The client asked why her commodity fund lagged the price of crude: negative roll yield."
       ],
       "fill": "Crude spot was flat all year, yet the long futures fund lost money each time it moved into dearer contracts. It had a negative ____.",
       "confusables": [
@@ -539,7 +569,9 @@
       "short": "Loan to a borrower that pays interest",
       "definition": "A loan you make to a government or company by buying a security from it. The issuer pays interest, called the coupon, on set dates and repays the face value when the bond matures.",
       "examples": [
-        "The company raised ₹2,000 crore through a five-year bond paying 8%."
+        "The company raised ₹2,000 crore through a five-year bond paying 8%.",
+        "The client asked why her bond fell in value when rates rose.",
+        "Risk checks each bond the fund holds for its credit rating and when it matures."
       ],
       "fill": "A company borrows ₹500 crore from investors for five years, paying 8% a year and returning the money at the end. It has issued a ____.",
       "confusables": [
@@ -571,7 +603,9 @@
       "short": "Interest a bond pays, as % of face value",
       "definition": "The interest a bond pays each year, as a percentage of its face value. Indian government bonds pay it in two halves, six months apart. It's fixed when the bond is issued, whatever happens to its price later.",
       "examples": [
-        "It's a 7.1% bond, so every ₹100 of face value earns ₹3.55 each half-year."
+        "It's a 7.1% bond, so every ₹100 of face value earns ₹3.55 each half-year.",
+        "The client wants a bond with a high coupon to pay her monthly bills.",
+        "The analyst notes the new bond's coupon is paid twice a year: ₹3.60 each time on ₹100."
       ],
       "fill": "A bond pays ₹7 a year on every ₹100 of face value, whatever price it trades at. Its ____ is 7%.",
       "confusables": [
@@ -610,7 +644,9 @@
       "short": "Yearly return if bought now and held to the end",
       "definition": "The yearly return a bond gives if you buy it at today's price, collect every coupon and hold it until it's repaid. It's the single rate that makes all those payments add up to the price. When traders say rates rose, they usually mean these went up.",
       "examples": [
-        "The 10-year is at 6.6%, up 8 bp after the policy."
+        "The 10-year is at 6.6%, up 8 bp after the policy.",
+        "The client compared the bond's yield to maturity with her FD rate.",
+        "Risk notes the bond's yield to maturity assumes every coupon is reinvested at that same rate."
       ],
       "fill": "A bond bought below face value pays its coupons and then rises to ₹100 at the end. The annual return from all of that is its ____.",
       "confusables": [
@@ -652,7 +688,9 @@
       "short": "Coupon built up since the last payment",
       "definition": "The part of the next coupon that has built up since the last payment. A buyer pays it to the seller on top of the quoted price, since the buyer will collect the whole coupon. Quoted price plus this is the dirty price.",
       "examples": [
-        "The clean price is 101.20; with accrued interest the buyer pays 103.10."
+        "The clean price is 101.20; with accrued interest the buyer pays 103.10.",
+        "The client asked why she paid more than the quoted price: the seller gets the accrued interest.",
+        "The bond desk adds accrued interest to the clean price before confirming the trade."
       ],
       "fill": "Three months after the last coupon, a buyer pays the quoted price plus the interest built up since then. That extra is the ____.",
       "confusables": [
@@ -690,7 +728,9 @@
       "short": "% price change for a 1-point move in yield",
       "definition": "How sensitive a bond's price is to its yield: roughly the percentage the price falls for each percentage point the yield rises. Long bonds with low coupons have the most; a 10-year government bond is around 7.",
       "examples": [
-        "With a modified duration of 7, the fund loses about 0.7% if yields rise 10 bp."
+        "With a modified duration of 7, the fund loses about 0.7% if yields rise 10 bp.",
+        "Risk caps the fund's modified duration at 4 years before the policy.",
+        "The client asked how much her gilt fund could fall: with a modified duration of 8, about 8% if yields rise 1 point."
       ],
       "fill": "A bond's price falls about 6% when its yield rises by one percentage point, so its ____ is about 6.",
       "confusables": [
@@ -739,7 +779,9 @@
       "short": "Rupee change in value for a 1 bp yield move",
       "definition": "How much a bond position gains or loses, in rupees, when yields move by one basis point. Rates desks size and limit their risk with it.",
       "examples": [
-        "Our book's PV01 is ₹4 lakh, so a 10 bp sell-off costs ₹40 lakh."
+        "Our book's PV01 is ₹4 lakh, so a 10 bp sell-off costs ₹40 lakh.",
+        "Risk sets each trader's limit in PV01, so position sizes adjust to bond maturity.",
+        "The desk cut its PV01 before the inflation data."
       ],
       "fill": "The rates desk loses ₹2 lakh for every 1 bp rise in yields. That ₹2 lakh is its ____.",
       "confusables": [
@@ -775,7 +817,9 @@
       "short": "How a bond's duration shifts as yields move",
       "definition": "The curve in a bond's price–yield line. Duration isn't constant, so prices rise more when yields fall than they drop when yields rise by the same amount. Ordinary bonds have positive convexity, which helps the holder in big moves.",
       "examples": [
-        "In a 100 bp rally, convexity adds about half a point on top of what duration predicts."
+        "In a 100 bp rally, convexity adds about half a point on top of what duration predicts.",
+        "The analyst likes the long bond's convexity: it gains more when yields fall than it loses when they rise.",
+        "Risk adds convexity to the duration estimate for big rate moves."
       ],
       "fill": "Yields fell 1 point and the bond gained 7.6%; when they rose 1 point it lost only 6.8%. The gap comes from ____.",
       "confusables": [
@@ -800,7 +844,9 @@
       "short": "Yields plotted from short to long maturities",
       "definition": "A line joining the yields of government bonds from the shortest maturity to the longest. It usually slopes up, since lenders want more for tying money up longer; when short yields rise above long ones it's inverted, which often comes before a slowdown.",
       "examples": [
-        "The curve steepened as the 10-year sold off while T-bills held steady."
+        "The curve steepened as the 10-year sold off while T-bills held steady.",
+        "The economist says the yield curve is flattening as markets price in more hikes.",
+        "The client asked why long bonds pay more than short ones: the yield curve usually slopes up."
       ],
       "fill": "Plot the yields of 1-year, 5-year, 10-year and 30-year government bonds and join the dots. That line is the ____.",
       "confusables": [
@@ -828,7 +874,9 @@
       "short": "Extra yield over a government bond",
       "definition": "The extra yield a company bond pays over a government bond of the same maturity, to make up for the risk that the company doesn't pay. It widens when investors get nervous and narrows when they're relaxed.",
       "examples": [
-        "AAA spreads are 70 bp over G-secs; lower-rated paper is far wider."
+        "AAA spreads are 70 bp over G-secs; lower-rated paper is far wider.",
+        "Risk's stress test widens every credit spread by 200 bp.",
+        "The client asked why the NBFC bond pays 3% more than a G-sec: that's the credit spread for its risk."
       ],
       "fill": "A 5-year AAA company bond yields 7.4% while the 5-year G-sec yields 6.7%. The 70 bp gap is the ____.",
       "confusables": [
