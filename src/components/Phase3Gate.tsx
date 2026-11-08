@@ -28,7 +28,7 @@ export function Phase3Gate({ progress, today, onKey, onTest }: Props) {
         <Lock className="h-4 w-4" /> Phase 3 is locked
       </p>
       <p>
-        It needs the password and a readiness test: {PHASE3_TEST_SIZE} questions on options, futures and risk, passed with {PHASE3_PASS_MARK} right.
+        It needs the password and a readiness test: {PHASE3_TEST_SIZE} questions on options, futures, risk and backtesting, passed with {PHASE3_PASS_MARK} right.
       </p>
       <ol className="space-y-1.5" aria-label="Steps to open phase 3">
         <GateStep done={key} n={1}>

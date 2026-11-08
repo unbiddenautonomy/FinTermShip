@@ -345,5 +345,117 @@
         "terms": ["rollover", "rollover-cost", "over-hedging"]
       }
     ]
+  },
+  "z4": {
+    "setup": "You trade a pair of two large private banks, A and B. Over five years the spread between them has swung around its average, with a half-life of about eight trading days. Your rules: enter when the spread's z-score passes ±2, exit near 0, and stop out at ±4 or after 40 trading days.",
+    "facts": ["Pair: Bank A against Bank B, equal rupee amounts", "Enter at a z-score of ±2, exit near 0", "Stop at ±4 or after 40 trading days", "Half-life: about 8 trading days"],
+    "steps": [
+      {
+        "text": "Today the z-score is +2.3: Bank A is unusually dear against Bank B, and neither has news.",
+        "ask": "What's the trade?",
+        "options": [
+          { "text": "Sell Bank A and buy Bank B in equal rupee amounts", "best": true, "why": "A positive z-score means A is dear against B, so you sell the dear one and buy the cheap one, betting the gap narrows." },
+          { "text": "Buy Bank A and sell Bank B", "why": "That bets the gap widens further, the opposite of the snap-back your rules trade." },
+          { "text": "Sell both banks", "why": "That's a bet on the sector falling, not on the gap between them." },
+          { "text": "Wait for +4 to get a better entry", "why": "+4 is your stop. Waiting for it means trading only when the pair may be breaking." }
+        ],
+        "terms": ["pairs-trading", "z-score", "mean-reversion"]
+      },
+      {
+        "text": "You can't keep an ordinary short in cash shares overnight unless you've borrowed them, and both banks have stock futures.",
+        "ask": "How do you hold the short side for days?",
+        "options": [
+          { "text": "Sell Bank A futures, matched as closely as the lot size allows to the rupee value of the Bank B leg", "best": true, "why": "Stock futures let you stay short for days. Matching rupee amounts makes the market's moves mostly cancel." },
+          { "text": "Short Bank A shares in the cash market and hold them", "why": "A cash short without borrowed shares has to be bought back the same day." },
+          { "text": "Buy a put on Bank B", "why": "That's a bet against the wrong stock: Bank A is the dear one." }
+        ],
+        "terms": ["short-selling", "slb", "pairs-trading"]
+      },
+      {
+        "text": "About three weeks later the z-score is back to 0.2.",
+        "ask": "What now?",
+        "options": [
+          { "text": "Close both legs: the gap is back near its average", "best": true, "why": "Your rule exits near 0. The edge was the stretch, and with it gone, staying in is just holding two banks against each other." },
+          { "text": "Hold until the z-score reaches −2", "why": "That's a new bet that the gap overshoots the other way. Your rules don't trade it." },
+          { "text": "Add to the trade", "why": "There's no stretch left to bet on." }
+        ],
+        "terms": ["half-life", "mean-reversion", "z-score"]
+      },
+      {
+        "text": "A month later you're in a new trade on the same pair, short A and long B at +2.1. Then Bank B announces it will take over a large lender, paying with new shares. B falls 8% and the z-score jumps to +4.4.",
+        "ask": "What do you do?",
+        "options": [
+          { "text": "Stop out: the deal changes what Bank B is, so the old relationship may no longer hold", "best": true, "why": "This is what the stop is for. A big change in one company can break the tie between the two, and a broken pair can keep moving against you." },
+          { "text": "Double the position: the gap has never been this wide", "why": "It's wide because something real changed. Adding to a broken pair is how stat arb books blow up." },
+          { "text": "Hold and wait the usual eight days", "why": "The half-life was measured on the old relationship. After the deal it may not apply." }
+        ],
+        "terms": ["cointegration", "regime-change", "half-life"]
+      },
+      {
+        "ask": "Before trading this pair again, which check matters most?",
+        "options": [
+          { "text": "Re-test the pair for cointegration on prices after the deal, and trade small until it holds", "best": true, "why": "The old statistics describe the old bank. Fresh data has to show the gap still comes back." },
+          { "text": "Check that daily returns are still highly correlated", "why": "Daily moves can stay highly correlated while the prices drift apart. Cointegration is the test that matters." },
+          { "text": "Widen the stop to ±6 so it isn't hit again", "why": "That keeps you in broken pairs for longer. The stop did its job." }
+        ],
+        "terms": ["cointegration", "correlation", "out-of-sample"]
+      }
+    ]
+  },
+  "z5": {
+    "setup": "You've built a trend-following system on Indian index and currency futures. In the backtest it made 14% a year with a Sharpe ratio of 1.1. Before it trades real money, the risk committee wants answers.",
+    "facts": ["Markets: Nifty, Bank Nifty and USD/INR futures", "Backtest: 14% a year, Sharpe ratio 1.1", "Rule: long above the 100-day average, short below it", "About 40 trades a year"],
+    "steps": [
+      {
+        "text": "The backtest assumed every trade filled at the closing price, with no costs.",
+        "ask": "What should you add first?",
+        "options": [
+          { "text": "Realistic costs: brokerage, STT, exchange fees, slippage and the cost of rolling futures each month", "best": true, "why": "Costs come out of every trade. With about 40 trades a year and a roll in each market every month, they can take a big bite out of 14%." },
+          { "text": "More markets, to raise the return", "why": "Maybe later. First find out what the current system earns after costs." },
+          { "text": "A shorter average, so it trades more often", "why": "More trades means more costs, which the backtest hasn't counted yet." }
+        ],
+        "terms": ["transaction-costs", "rollover-cost", "backtest"]
+      },
+      {
+        "text": "After costs it makes 10% a year. You tried 30 different average lengths, and 100 days did best.",
+        "ask": "What's the main worry?",
+        "options": [
+          { "text": "The 100-day choice may be overfitted: picked because it did best on this data", "best": true, "why": "Taking the best of 30 versions on the same data flatters the result. Check nearby lengths, and data the choice never saw." },
+          { "text": "100 days is too long to count as a trend", "why": "Trend systems often use 50 to 200 days. The length isn't the issue; how it was picked is." },
+          { "text": "10% a year is too little to bother with", "why": "That's a judgment for later. First check whether the 10% is real." }
+        ],
+        "terms": ["overfitting", "data-snooping", "out-of-sample"]
+      },
+      {
+        "text": "Every length from 60 to 150 days makes between 8% and 10% after costs, and the years you kept aside give 9%.",
+        "ask": "What does that tell you?",
+        "options": [
+          { "text": "The edge doesn't hang on one setting, so it's more likely to be real", "best": true, "why": "A broad plateau of similar results, plus a matching test on unseen years, is what a sturdy signal looks like." },
+          { "text": "The system will make 9% a year from now on", "why": "Nothing guarantees future returns. Trends come and go, and a change in how markets behave can stall a system for years." },
+          { "text": "Switch to 60 days, since shorter is better", "why": "Picking again by backtest repeats the overfitting problem, and shorter lengths trade more, so they cost more." }
+        ],
+        "terms": ["out-of-sample", "overfitting", "walk-forward"]
+      },
+      {
+        "text": "The committee asks how big the fund can grow.",
+        "ask": "What limits it?",
+        "options": [
+          { "text": "Capacity: past some size, your own trades move the futures enough to eat the edge", "best": true, "why": "Index futures are deep, so slow trend systems can run large sums, but every strategy has a size past which impact costs win." },
+          { "text": "Nothing: futures markets are deep enough for any size", "why": "Even deep markets charge for size. Impact grows with the size of each order." },
+          { "text": "The number of trades a year", "why": "Trading less often helps, but the limit is the market impact of each trade." }
+        ],
+        "terms": ["strategy-capacity", "market-impact", "low-frequency-trading"]
+      },
+      {
+        "text": "Live, the system loses money for seven months in a row while markets go sideways.",
+        "ask": "What's the sound response?",
+        "options": [
+          { "text": "Check it's within what the backtest showed for flat markets, and keep risk at the planned level", "best": true, "why": "Trend systems have long flat stretches. If this drawdown fits the backtest's range, quitting now locks in the losses just before the next trend." },
+          { "text": "Switch it off: seven losing months prove it's broken", "why": "Not on their own. Compare them with the backtest's worst stretches before deciding." },
+          { "text": "Double the size to win it back faster", "why": "Raising risk after losses to recover them is how drawdowns turn into disasters." }
+        ],
+        "terms": ["trend-following", "max-drawdown", "volatility-targeting"]
+      }
+    ]
   }
 }
