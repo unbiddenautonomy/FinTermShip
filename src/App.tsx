@@ -3,12 +3,13 @@ import { Careers } from './components/Careers';
 import { DeskCase } from './components/DeskCase';
 import { Drill } from './components/Drill';
 import { Glossary } from './components/Glossary';
+import { Guide, type GuideEntry } from './components/Guide';
 import { Home } from './components/Home';
 import { Lesson, type LessonSummary } from './components/Lesson';
 import { MarketGame } from './components/MarketGame';
 import { Results } from './components/Results';
 import { Settings } from './components/Settings';
-import { BookIcon, GearIcon, PathIcon } from './components/icons';
+import { BookIcon, ChatIcon, GearIcon, PathIcon } from './components/icons';
 import { buildPractice, buildTest, withFocus } from './lib/choose';
 import { snoozeDrill } from './lib/drills';
 import { practiceKind } from './lib/content';
@@ -21,10 +22,10 @@ import { loadProgress, requestPersistence, saveProgress } from './lib/storage';
 import { currentUnit } from './lib/track';
 import type { Progress } from './lib/types';
 
-type Tab = 'home' | 'glossary' | 'settings';
+type Tab = 'home' | 'guide' | 'glossary' | 'settings';
 
 type Screen =
-  | { name: Tab; sheet?: string }
+  | { name: Tab; sheet?: string; q?: string }
   | { name: 'careers' }
   | { name: 'lesson'; plan: LessonPlan; seed: number }
   | { name: 'drill' | 'game' | 'case'; unitId: string; seed: number }
@@ -43,6 +44,8 @@ export default function App() {
   const [screen, setScreen] = useState<Screen>({ name: 'home' });
   const [persisted, setPersisted] = useState(false);
   const [today, setToday] = useState(dayKey());
+  // The guide's conversation lasts while the app is open, across tabs.
+  const [guideLog, setGuideLog] = useState<GuideEntry[]>([]);
   const saveChain = useRef<Promise<void>>(Promise.resolve());
 
   useEffect(() => {
@@ -155,7 +158,23 @@ export default function App() {
     case 'glossary':
       return (
         <WithTabs tab="glossary" onTab={(name) => setScreen({ name })}>
-          <Glossary progress={progress} />
+          <Glossary progress={progress} initialQuery={screen.q} />
+        </WithTabs>
+      );
+    case 'guide':
+      return (
+        <WithTabs tab="guide" onTab={(name) => setScreen({ name })}>
+          <Guide
+            progress={progress}
+            today={today}
+            log={guideLog}
+            onLog={setGuideLog}
+            onOpenUnit={(unitId) => setScreen({ name: 'home', sheet: unitId })}
+            onFocus={pick}
+            onTest={takeTest}
+            onStart={() => start(false)}
+            onGo={(where, q) => setScreen(where === 'careers' ? { name: 'careers' } : where === 'glossary' ? { name: 'glossary', q } : { name: where })}
+          />
         </WithTabs>
       );
     case 'settings':
@@ -194,6 +213,7 @@ export default function App() {
 
 const TABS: { id: Tab; label: string; icon: typeof PathIcon }[] = [
   { id: 'home', label: 'Learn', icon: PathIcon },
+  { id: 'guide', label: 'Guide', icon: ChatIcon },
   { id: 'glossary', label: 'Glossary', icon: BookIcon },
   { id: 'settings', label: 'Settings', icon: GearIcon },
 ];
@@ -203,7 +223,7 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
     <>
       {children}
       <nav className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/90 pt-2 backdrop-blur-md" aria-label="Main">
-        <div className="mx-auto grid max-w-xl grid-cols-3">
+        <div className="mx-auto grid max-w-xl grid-cols-4">
           {TABS.map(({ id, label, icon: Icon }) => {
             const active = id === tab;
             return (
