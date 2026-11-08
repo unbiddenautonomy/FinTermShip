@@ -22,7 +22,7 @@ for (const file of files) {
     const need = ['id', 'term', 'unit', 'short', 'definition', 'fill'];
     for (const k of need) if (!t[k] || typeof t[k] !== 'string') errors.push(`${where}: missing ${k}`);
     if (!unitIds.has(t.unit)) errors.push(`${where}: unknown unit ${t.unit}`);
-    if (!Array.isArray(t.examples) || t.examples.length < 1) errors.push(`${where}: needs at least 1 example`);
+    if (!Array.isArray(t.examples) || t.examples.length < 3) errors.push(`${where}: needs at least 3 examples`);
     if (!Array.isArray(t.wrong) || t.wrong.length !== 3) errors.push(`${where}: needs exactly 3 wrong definitions`);
     if (!Array.isArray(t.confusables) || t.confusables.length < 1) errors.push(`${where}: needs at least 1 confusable`);
     if ((t.fill.match(/____/g) || []).length !== 1) errors.push(`${where}: fill needs exactly one ____`);

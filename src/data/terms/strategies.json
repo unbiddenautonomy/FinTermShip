@@ -45,7 +45,9 @@
       "short": "Buy a put, sell a lower put",
       "definition": "Buying a put and selling a lower-strike put on the same expiry. It's a cheaper bearish bet than a put alone, and the profit is capped at the lower strike.",
       "examples": [
-        "Puts were rich after the fall, so we bought the 24,000–23,500 put spread instead of outright puts."
+        "Puts were rich after the fall, so we bought the 24,000–23,500 put spread instead of outright puts.",
+        "The strategist recommends the bear put spread on banks, since outright puts are pricey after the fall.",
+        "Risk likes the bear put spread for a bearish view, because the most it can lose is the premium paid."
       ],
       "fill": "Bearish, but put premiums were high, so she bought the 24,000 put and sold the 23,500 put: a ____.",
       "confusables": [
@@ -91,7 +93,9 @@
       "short": "Sell a put, buy a lower put",
       "definition": "Selling a put and buying a lower-strike put on the same expiry, for a net credit. It keeps the credit if the price stays above the higher strike, and the bought put caps the loss.",
       "examples": [
-        "Support at 23,800 looks solid, so we sold the 24,000–23,800 put spread for 60."
+        "Support at 23,800 looks solid, so we sold the 24,000–23,800 put spread for 60.",
+        "Risk caps the bull put spread book so one gap down can't wipe out a month's premium.",
+        "The client asked how she can earn if the market stays up or flat: sell the bull put spread below support."
       ],
       "fill": "Mildly bullish, he sold the 24,000 put and bought the 23,800 put, taking in 60 up front: a ____.",
       "confusables": [
@@ -133,7 +137,9 @@
       "short": "Sell a call, buy a higher call",
       "definition": "Selling a call and buying a higher-strike call on the same expiry, for a net credit. It keeps the credit if the price stays below the lower strike, and the bought call caps the loss.",
       "examples": [
-        "The rally looks tired near 24,500, so we sold the 24,500–24,700 call spread."
+        "The rally looks tired near 24,500, so we sold the 24,500–24,700 call spread.",
+        "The strategist prefers the bear call spread to a naked short call, because the loss is capped.",
+        "Risk checks the bear call spread's worst case, a rally through both strikes, before results."
       ],
       "fill": "Expecting the rally to stall below 24,500, she sold the 24,500 call and bought the 24,700 call for a net credit: a ____.",
       "confusables": [
@@ -168,7 +174,9 @@
       "short": "Buy one, sell more further out",
       "definition": "Buying one option and selling more of a further out-of-the-money option of the same type and expiry, often for little or no cost. It makes the most if the price ends at the sold strike, but the extra short options leave open-ended risk on that side.",
       "examples": [
-        "The 1×2 call ratio costs almost nothing, but a big rally past 24,590 starts to hurt."
+        "The 1×2 call ratio costs almost nothing, but a big rally past 24,590 starts to hurt.",
+        "Risk flags every ratio spread because the extra short options can lose a lot in a big move.",
+        "The client asked why her ratio spread lost money when she was right on direction: the rally went too far."
       ],
       "fill": "He bought one 24,000 call and sold two 24,300 calls for almost nothing: a ____, with open-ended risk above.",
       "confusables": [
@@ -213,7 +221,9 @@
       "short": "Sell one, buy more further out",
       "definition": "Selling one option and buying more of a further out-of-the-money option of the same type and expiry. It loses the most if the price ends at the bought strike, but gains without limit on a big move that way.",
       "examples": [
-        "We put on a call backspread before the policy meeting: small credit, and a lot of upside if the RBI surprises."
+        "We put on a call backspread before the policy meeting: small credit, and a lot of upside if the RBI surprises.",
+        "The strategist likes the put backspread before the election, since a crash would pay many times over.",
+        "Risk notes the backspread loses most if the market drifts to the bought strike and stops there."
       ],
       "fill": "Expecting a sharp rally, she sold one 24,000 call and bought two 24,300 calls: a call ____.",
       "confusables": [
@@ -248,7 +258,9 @@
       "short": "Buy an OTM call, sell an OTM put",
       "definition": "Buying an out-of-the-money call and selling an out-of-the-money put on the same expiry, or the reverse, often for little net premium. It gains like long futures above the call strike and loses like it below the put strike. Its price is also used to measure skew.",
       "examples": [
-        "Puts are bid, so the 25-delta risk reversal is showing a steep skew."
+        "Puts are bid, so the 25-delta risk reversal is showing a steep skew.",
+        "The client asked why the analyst watches the risk reversal: it shows whether puts or calls cost more.",
+        "Risk asked the desk to explain its long risk reversal, since the sold put adds downside."
       ],
       "fill": "Bullish but unwilling to pay premium, she bought the 25,000 call and sold the 23,000 put for close to zero: a ____.",
       "confusables": [
@@ -277,7 +289,9 @@
       "short": "Own it, buy a put, sell a call",
       "definition": "Owning the underlying, buying an out-of-the-money put and selling an out-of-the-money call to pay for it. Losses below the put strike and gains above the call strike are both cut off.",
       "examples": [
-        "The promoter collared the stake: bought 10% OTM puts and paid for them with 10% OTM calls."
+        "The promoter collared the stake: bought 10% OTM puts and paid for them with 10% OTM calls.",
+        "The client asked whether the collar on her ESOP shares caps her gains too: yes, above the sold call.",
+        "Risk prefers the collar for the founder's stake, since it costs almost nothing up front."
       ],
       "fill": "To protect his shares cheaply, he bought a 5% out-of-the-money put and paid for it by selling a 5% out-of-the-money call: a ____.",
       "confusables": [
@@ -312,7 +326,9 @@
       "short": "Different strikes and expiries",
       "definition": "Buying a longer-dated option and selling a nearer-dated one at a different strike. It mixes a calendar spread (different expiries) with a vertical spread (different strikes).",
       "examples": [
-        "We sold this week's 24,300 call against next month's 24,000 call, a diagonal that earns from the weekly's faster decay."
+        "We sold this week's 24,300 call against next month's 24,000 call, a diagonal that earns from the weekly's faster decay.",
+        "The strategist suggests the diagonal spread, selling the weekly against a longer-dated option.",
+        "Risk checks the diagonal spread each week, because the short leg expires first and must be rolled."
       ],
       "fill": "He bought next month's 24,000 call and sold this week's 24,300 call: a ____.",
       "confusables": [
@@ -338,7 +354,9 @@
       "short": "Buy one, sell two, buy one, evenly spaced",
       "definition": "Buying one option at a low strike, selling two at a middle strike and buying one at a high strike, all evenly spaced, of the same type and expiry. It costs little, makes the most if the price ends at the middle strike, and can lose only what was paid.",
       "examples": [
-        "With expiry on Tuesday and the Nifty pinned near 24,000, we bought the 23,800–24,000–24,200 call fly for 40."
+        "With expiry on Tuesday and the Nifty pinned near 24,000, we bought the 23,800–24,000–24,200 call fly for 40.",
+        "The client asked how to bet that the Nifty ends near 24,000: buy the butterfly centred there.",
+        "Risk likes the butterfly because the most it can lose is the small premium paid."
       ],
       "fill": "For a cheap bet that the Nifty ends at 24,000, she bought the 23,800 call, sold two 24,000 calls and bought the 24,200 call, putting on the ____.",
       "confusables": [
@@ -376,7 +394,9 @@
       "short": "Short straddle with bought wings",
       "definition": "Selling an at-the-money call and put at one strike and buying an out-of-the-money call and put as wings. It collects premium, makes the most if the price ends at the middle strike, and the wings cap the loss.",
       "examples": [
-        "Weekly IV is high, so we're selling the 24,000 iron fly with 300-point wings."
+        "Weekly IV is high, so we're selling the 24,000 iron fly with 300-point wings.",
+        "The strategist suggests the iron butterfly when IV is high and the index looks pinned.",
+        "Risk caps the loss on the iron butterfly at the wing width minus the credit."
       ],
       "fill": "She sold the 24,000 call and put and bought the 23,700 put and 24,300 call as protection, putting on the ____.",
       "confusables": [
@@ -411,7 +431,9 @@
       "short": "Butterfly with uneven wings",
       "definition": "A butterfly with one wing further from the middle strike than the other. It can often be put on for a credit, leaving no risk on one side, while the far wing's side carries more risk than a normal butterfly.",
       "examples": [
-        "We skipped a strike on the upper wing, so the broken-wing fly went on for a small credit."
+        "We skipped a strike on the upper wing, so the broken-wing fly went on for a small credit.",
+        "The strategist likes the broken-wing butterfly because it can be opened for a credit.",
+        "Risk asked where the broken-wing butterfly loses money: on a big move past the wider wing."
       ],
       "fill": "He bought the 23,800 call, sold two 24,000 calls and bought the 24,400 call instead of the 24,200, putting on the ____.",
       "confusables": [
@@ -443,7 +465,9 @@
       "short": "Gains from big moves or rising IV",
       "definition": "A position that gains when the market moves more than expected or when implied volatility rises, such as owning straddles or strangles. It's long gamma and long vega, and it pays theta every day it waits.",
       "examples": [
-        "We're long vol into the election result; a quiet outcome will cost us a few days of decay."
+        "We're long vol into the election result; a quiet outcome will cost us a few days of decay.",
+        "The strategist recommends long volatility before the budget, since moves on the day are often bigger than priced.",
+        "Risk likes having some long volatility in the book to cushion a crash."
       ],
       "fill": "The desk bought straddles before the election result, so it went ____ into a possible shock.",
       "confusables": [
@@ -468,7 +492,9 @@
       "short": "Earns when moves are smaller than priced",
       "definition": "A position that earns when the market moves less than implied volatility priced, such as selling straddles, strangles or iron condors. It collects theta but is short gamma and vega, so a sudden move or a jump in IV can wipe out months of gains.",
       "examples": [
-        "The fund's short-vol book made money for 11 months and gave most of it back in one gap down."
+        "The fund's short-vol book made money for 11 months and gave most of it back in one gap down.",
+        "Risk limits short volatility in the book, because it loses most in a crash.",
+        "The client asked why her option-selling scheme lost a year's gains in one day: it was short volatility."
       ],
       "fill": "Selling strangles every week leaves the book ____: short gamma and short vega, so a sudden 3% gap hurts it.",
       "confusables": [
@@ -500,7 +526,9 @@
       "short": "Implied vol usually above realised",
       "definition": "The usual gap by which implied volatility exceeds the volatility that later turns up. Option buyers pay it as insurance, and it's what option sellers earn on average in exchange for big losses in crashes.",
       "examples": [
-        "If implied keeps running 2 points over realised, selling vol pays, until the crash month."
+        "If implied keeps running 2 points over realised, selling vol pays, until the crash month.",
+        "The analyst says the volatility risk premium is why selling index options pays on average.",
+        "Risk warns that the volatility risk premium is pay for taking crash risk, not free money."
       ],
       "fill": "Index options usually price more movement than turns up, and that gap, the ____, is what option sellers are paid to bear crash risk.",
       "confusables": [
@@ -533,7 +561,9 @@
       "short": "Trade implied vol against your forecast",
       "definition": "Trading the gap between an option's implied volatility and the volatility you expect to be realised: buying options and hedging their delta when implied looks cheap, selling and hedging when it looks dear. The profit comes from volatility, not direction.",
       "examples": [
-        "Our forecast says 18% and the market prices 14%, so the vol arb desk is buying straddles and hedging daily."
+        "Our forecast says 18% and the market prices 14%, so the vol arb desk is buying straddles and hedging daily.",
+        "Risk reviews the volatility arbitrage book's vol forecasts every week.",
+        "The client asked how a fund makes money from options without guessing direction: volatility arbitrage."
       ],
       "fill": "Buying options when implied vol looks cheap against your forecast and selling them when it looks dear, hedging delta each time, is ____.",
       "confusables": [
@@ -555,7 +585,9 @@
       "short": "Index vol against its stocks' vol",
       "definition": "Selling volatility on an index and buying volatility on its member stocks, or the reverse. It's a bet on correlation: when the stocks move apart, the stock options pay more than the index options cost.",
       "examples": [
-        "Correlation is high going into results season, so we're putting on dispersion: short Nifty vol, long vol on the top ten names."
+        "Correlation is high going into results season, so we're putting on dispersion: short Nifty vol, long vol on the top ten names.",
+        "Risk worries the dispersion trade loses if all the stocks crash together.",
+        "The strategist thinks the dispersion trade looks good when index vol is rich against single-stock vol."
       ],
       "fill": "The desk sold Nifty straddles and bought straddles on its biggest stocks, betting they'd move apart. The trade is called ____.",
       "confusables": [
@@ -587,7 +619,9 @@
       "short": "P&L at expiry against price",
       "definition": "A chart of a position's profit or loss at expiry against the underlying's price. It shows the breakevens, the maximum profit and the maximum loss at a glance.",
       "examples": [
-        "Draw the payoff before you trade it: I want to see where this loses money."
+        "Draw the payoff before you trade it: I want to see where this loses money.",
+        "The client asked to see the payoff diagram before agreeing to the strategy.",
+        "Risk reads the payoff diagram for every new structure to find where it loses most."
       ],
       "fill": "Before placing the iron condor, she drew its ____: one line of profit and loss at expiry for every Nifty level from 23,000 to 25,000.",
       "confusables": [
@@ -613,7 +647,9 @@
       "short": "Expiry price with zero profit or loss",
       "definition": "The underlying's price at expiry where a position neither makes nor loses money, once the premium paid or received is counted. A strategy can have one breakeven or two.",
       "examples": [
-        "The straddle's breakevens are 23,600 and 24,400; anything inside that and we lose."
+        "The straddle's breakevens are 23,600 and 24,400; anything inside that and we lose.",
+        "The client asked how far the Nifty must rise for her call to pay off; the breakeven is the strike plus the premium.",
+        "Risk checks how far each position's breakeven is from today's price."
       ],
       "fill": "She bought the 24,000 call for 150, so her ____ at expiry is 24,150.",
       "confusables": [
@@ -651,7 +687,9 @@
       "short": "The most a position can lose",
       "definition": "The most a position can lose, usually counted at expiry. It's the premium for a bought option or a debit spread, the width minus the credit for a credit spread, and unlimited for a naked short call.",
       "examples": [
-        "Max loss on the spread is ₹9,100 a lot, so we can run five lots inside the limit."
+        "Max loss on the spread is ₹9,100 a lot, so we can run five lots inside the limit.",
+        "Risk sizes every option spread by its maximum loss, not its margin.",
+        "The client asked what her maximum loss is on the bought call: just the premium paid."
       ],
       "fill": "The risk desk sizes each spread by its ____: for this credit spread, the 200-point width minus the 60 collected, times the lot size.",
       "confusables": [
@@ -686,7 +724,9 @@
       "short": "Premium paid to open a position",
       "definition": "The premium you pay to open a position whose bought options cost more than its sold ones, as in a bull call or bear put spread. For such a spread, it's also the most you can lose.",
       "examples": [
-        "The put spread costs a 120 net debit, and that's all it can lose."
+        "The put spread costs a 120 net debit, and that's all it can lose.",
+        "Risk likes spreads where the net debit is also the worst case.",
+        "The client asked why ₹6,000 left her account when she opened the spread: that's the net debit."
       ],
       "fill": "Buying the put for 180 and selling the lower put for 60 means paying a ____ of 120 to open the spread.",
       "confusables": [
@@ -708,7 +748,9 @@
       "short": "Premium received to open a position",
       "definition": "The premium you take in to open a position whose sold options are worth more than its bought ones, as in a bull put or bear call spread. It's the most such a position can make.",
       "examples": [
-        "We're short the condor for a 70 net credit."
+        "We're short the condor for a 70 net credit.",
+        "The client asked why money came into her account when she opened the condor: the net credit.",
+        "Risk notes the net credit on the strangle is small next to what it can lose."
       ],
       "fill": "Selling the 24,000 put for 150 and buying the 23,800 put for 90, she receives a ____ of 60 into her account on day one.",
       "confusables": [
@@ -730,7 +772,9 @@
       "short": "Chance a position ends in profit",
       "definition": "The chance a position makes money at expiry, usually estimated from implied volatility. Selling far out-of-the-money options gives a high chance of a small profit, and a much bigger loss when it fails.",
       "examples": [
-        "The strangle shows 85% to make money, but the 15% loses five times the 85% makes."
+        "The strangle shows 85% to make money, but the 15% loses five times the 85% makes.",
+        "The client asked why a strategy with high probability of profit lost her money: the few losses were huge.",
+        "Risk never judges a trade by probability of profit alone; it looks at the size of the losses too."
       ],
       "fill": "Her short strangle had an 85% ____, yet one bad week wiped out ten good ones.",
       "confusables": [
@@ -762,7 +806,9 @@
       "short": "Building a spread one leg at a time",
       "definition": "Putting on a multi-leg position one leg at a time instead of all at once, hoping for better prices. The risk is that the market moves before the other legs are done.",
       "examples": [
-        "I legged into the condor: put side on the dip, call side on the bounce."
+        "I legged into the condor: put side on the dip, call side on the bounce.",
+        "Risk warns that legging in can leave you with a naked option if the market moves before the second leg.",
+        "The client asked why her spread cost more than quoted: she was legging in and the price moved."
       ],
       "fill": "Instead of sending the iron condor as one order, he sold the put spread first and waited for a bounce to sell the call spread: ____.",
       "confusables": [
@@ -787,7 +833,9 @@
       "short": "Moving an option to a new strike or expiry",
       "definition": "Closing an option position and opening the same kind of position at a later expiry or another strike, to give a trade more time or move it away from the price. It turns one trade into two, each with its own costs.",
       "examples": [
-        "The short call is in trouble; roll it up and out to next week's 24,800."
+        "The short call is in trouble; roll it up and out to next week's 24,800.",
+        "Risk watches traders who keep rolling options, because repeated rolls can hide a losing trade.",
+        "The client asked what rolling options means: closing this one and opening a similar one further out."
       ],
       "fill": "With the Nifty pressing on his short 24,500 call two days before expiry, he bought it back and sold next week's 24,800 call, ____.",
       "confusables": [
@@ -812,7 +860,9 @@
       "short": "Lower margin for a hedged position",
       "definition": "The lower margin an exchange charges for a hedged position, such as a spread, because SPAN looks at the worst loss of the whole position rather than each leg. A cheap bought wing can cut the margin on a short option by most of it.",
       "examples": [
-        "Add the far wing and the margin drops by about two thirds: that's the hedge benefit."
+        "Add the far wing and the margin drops by about two thirds: that's the hedge benefit.",
+        "The client asked why adding a far OTM option cut her margin: that's the margin benefit of a hedge.",
+        "Risk counts on the margin benefit only while both legs are open."
       ],
       "fill": "Buying a cheap far wing against her short call cut the margin she needed from about ₹2 lakh to under ₹50,000, thanks to the ____.",
       "confusables": [
@@ -838,7 +888,9 @@
       "short": "Option traded on its expiry day",
       "definition": "An option bought or sold on its expiry day, when almost no time value is left and gamma is at its highest, so small moves swing its price hard. Most expire worthless, and a few multiply.",
       "examples": [
-        "The 8-rupee expiry-day call went to 60 in an hour, then back to zero by the close."
+        "The 8-rupee expiry-day call went to 60 in an hour, then back to zero by the close.",
+        "Risk caps how much the desk can spend on any zero-day option, since most expire worthless.",
+        "The client asked why her zero-day option went from ₹10 to nothing by the close."
       ],
       "fill": "Bought at 10 a.m. on expiry day for 8 points, the Nifty call is a ____: by 3:30 it will either jump or go to zero.",
       "confusables": [
@@ -867,7 +919,9 @@
       "short": "Tax on an exercised option's value",
       "definition": "Securities transaction tax charged when an in-the-money option is exercised at expiry, paid by the buyer on its intrinsic value. Since April 2026 it's 0.15%, the same rate a seller pays on premium, so letting an in-the-money option be exercised is no longer much dearer than selling it.",
       "examples": [
-        "Since April the exercise STT matches the sell-side rate, so the old expiry trap is mostly gone."
+        "Since April the exercise STT matches the sell-side rate, so the old expiry trap is mostly gone.",
+        "The client asked why tax was charged when her option was exercised: STT on exercise.",
+        "Risk used to close in-the-money options before expiry to avoid the high STT on exercise."
       ],
       "fill": "He let his in-the-money Nifty call be exercised at expiry and was charged 0.15% of its intrinsic value, the ____.",
       "confusables": [
@@ -914,7 +968,9 @@
       "short": "Hedge sized by the portfolio's beta",
       "definition": "Hedging a stock portfolio with index futures sized by its beta, so the market part of its moves is offset. The futures sold equal the beta times the portfolio's value; what's left is the stocks' own risk.",
       "examples": [
-        "Book beta is 1.15, so we're short ₹11.5 crore of Nifty futures against ₹10 crore of stock."
+        "Book beta is 1.15, so we're short ₹11.5 crore of Nifty futures against ₹10 crore of stock.",
+        "The client asked how a fund protects itself from a market fall without selling stocks: beta hedging with index futures.",
+        "Risk reviews the beta hedging each week, since the book's beta drifts as stocks move."
       ],
       "fill": "With a beta of 0.8 on her ₹5 crore portfolio, she sold ₹4 crore of Nifty futures, not ₹5 crore. That's ____.",
       "confusables": [
@@ -957,7 +1013,9 @@
       "short": "Hedge size per unit of exposure",
       "definition": "How much of a hedging instrument you hold for each unit of exposure. A ratio of 1 hedges rupee for rupee; for a stock portfolio hedged with index futures it's usually the beta, and for an option it's the delta.",
       "examples": [
-        "Run the regression again: the hedge ratio has drifted from 1.1 to 0.95 since March."
+        "Run the regression again: the hedge ratio has drifted from 1.1 to 0.95 since March.",
+        "The analyst estimates the hedge ratio from a year of daily returns.",
+        "Risk checks the hedge ratio before results season, when stocks stop tracking the index."
       ],
       "fill": "Before hedging the dollars due in June, the treasurer set the ____ at 1: one dollar sold forward for every dollar due.",
       "confusables": [
@@ -995,7 +1053,9 @@
       "short": "Buy futures now for a later purchase",
       "definition": "Buying futures now to lock in the price of something you'll buy later, such as a fund that expects new money next week and buys index futures until it can buy the stocks.",
       "examples": [
-        "Inflows land on Monday, so we've bought Nifty futures today and will swap them for stock as the cash arrives."
+        "Inflows land on Monday, so we've bought Nifty futures today and will swap them for stock as the cash arrives.",
+        "The PM's anticipatory hedge locked in today's price for money arriving next week.",
+        "Risk treats the anticipatory hedge as a real long position until the stock is bought."
       ],
       "fill": "Expecting ₹100 crore of new money next week, the fund bought Nifty futures today to lock in the market level, a classic ____.",
       "confusables": [
@@ -1020,7 +1080,9 @@
       "short": "Hedge bigger than the exposure",
       "definition": "Holding a hedge larger than the exposure it covers, so the extra part is a bet the other way. It often happens when a position shrinks and the hedge isn't cut to match.",
       "examples": [
-        "We sold half the stocks but not the futures, so we're over-hedged and now net short the market."
+        "We sold half the stocks but not the futures, so we're over-hedged and now net short the market.",
+        "Risk flagged over-hedging after the fund sold stocks but kept its short futures.",
+        "The client asked why her hedged portfolio lost money in a rally: over-hedging made her net short."
       ],
       "fill": "After selling half the stocks but leaving all the short Nifty futures on, the fund was ____, and a rally would now cost it money.",
       "confusables": [
@@ -1052,7 +1114,9 @@
       "short": "Long one month's futures, short another",
       "definition": "Buying one month's futures and selling another month's on the same underlying. It bets on the gap between them, not on the price, so exchanges usually charge it much less margin than an outright position.",
       "examples": [
-        "We're long the Feb–March roll: buy March, sell Feb, betting the gap widens."
+        "We're long the Feb–March roll: buy March, sell Feb, betting the gap widens.",
+        "Risk sees the futures calendar spread as low risk, since both legs move with the same index.",
+        "The analyst says the futures calendar spread widens when interest rates rise."
       ],
       "fill": "Expecting the roll cost to widen as funding got dearer, he bought March Nifty futures and sold February, putting on the ____.",
       "confusables": [
@@ -1087,7 +1151,9 @@
       "short": "Long futures plus a bought put",
       "definition": "Long futures plus a bought put at one strike. At expiry it pays like a bought call at that strike: the loss below the strike is capped, and the gain above it is open.",
       "examples": [
-        "Long futures into results with the 24,000 put underneath: a synthetic call, so the downside is known."
+        "Long futures into results with the 24,000 put underneath: a synthetic call, so the downside is known.",
+        "Risk treats the synthetic call like a bought call: the put caps the loss on the futures.",
+        "The strategist suggests the synthetic call for clients who already hold futures and fear a fall."
       ],
       "fill": "Long Nifty futures into results, he also bought the 24,000 put. With the loss capped below 24,000 and the upside open, his position is a ____.",
       "confusables": [
@@ -1122,7 +1188,9 @@
       "short": "Short futures plus a bought call",
       "definition": "Short futures plus a bought call at one strike. At expiry it pays like a bought put at that strike: the loss in a rally is capped above the strike, and the gain in a fall is open.",
       "examples": [
-        "Short futures before the policy with the 24,500 call on top, so a surprise cut can't run us over."
+        "Short futures before the policy with the 24,500 call on top, so a surprise cut can't run us over.",
+        "Risk treats the synthetic put like a bought put: the call caps the loss on the short futures.",
+        "The client asked why she bought a call while shorting futures: the pair is a synthetic put."
       ],
       "fill": "Short Nifty futures before the RBI decision, she bought the 24,500 call too. Her loss is capped above 24,500 and a fall still pays: a ____.",
       "confusables": [
