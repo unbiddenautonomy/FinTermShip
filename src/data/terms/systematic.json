@@ -1,0 +1,800 @@
+{
+  "id": "systematic",
+  "name": "Arbitrage and systematic strategies",
+  "order": 14,
+  "phase": 3,
+  "units": [
+    {
+      "id": "z1",
+      "name": "Arbitrage",
+      "core": false
+    },
+    {
+      "id": "z2",
+      "name": "HFT, MFT and LFT",
+      "core": false
+    },
+    {
+      "id": "z3",
+      "name": "Systematic strategies",
+      "core": false
+    },
+    {
+      "id": "z4",
+      "name": "Case: a pairs trade that breaks",
+      "core": false,
+      "kind": "case"
+    },
+    {
+      "id": "z5",
+      "name": "Case: a trend system from backtest to live",
+      "core": false,
+      "kind": "case"
+    }
+  ],
+  "terms": [
+    {
+      "id": "law-of-one-price",
+      "term": "law of one price",
+      "unit": "z1",
+      "short": "Same asset, same price everywhere",
+      "definition": "The idea that the same thing should trade at the same price everywhere, once costs are counted. Arbitrage is what enforces it: when prices drift apart, traders buy where it's cheap and sell where it's dear until the gap closes.",
+      "examples": [
+        "The futures can't stay ₹50 over fair value for long; the law of one price says someone will sell them and buy the stocks."
+      ],
+      "fill": "Arbitrage traders are what enforce the ____: if the same bond is cheaper in one place, they buy it there and sell it where it's dear.",
+      "confusables": [
+        "limits-to-arbitrage",
+        "put-call-parity",
+        "exchange-arbitrage"
+      ],
+      "wrong": [
+        "Prices always follow fundamentals",
+        "Every stock's price drifts to its average",
+        "Exchanges must quote one price"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "exchange-arbitrage",
+      "term": "exchange arbitrage",
+      "aliases": [
+        "cross-exchange arbitrage"
+      ],
+      "unit": "z1",
+      "short": "Same stock, two exchanges, one gap",
+      "definition": "Buying a stock on one exchange and selling it on another when their prices differ, such as NSE and BSE. The gaps are tiny and close within moments, so it's done by fast algorithms.",
+      "examples": [
+        "NSE ticked up first and BSE lagged by 40 paise; the exchange arb algo was in and out before anyone saw it."
+      ],
+      "fill": "An algo that buys Infosys on BSE at ₹1,500.00 and sells it on NSE at ₹1,500.50 in the same instant is doing ____.",
+      "confusables": [
+        "etf-arbitrage",
+        "triangular-arbitrage",
+        "leg-risk"
+      ],
+      "wrong": [
+        "Same index, futures against stocks",
+        "Same company, two share classes",
+        "Three currencies against each other"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "etf-arbitrage",
+      "term": "ETF arbitrage",
+      "unit": "z1",
+      "short": "ETF price against its basket's value",
+      "definition": "Trading the gap between an exchange-traded fund's price and the value of the shares it holds. When the ETF trades above that value, market makers sell units and buy the shares to create new ones; below it, they do the reverse. In India, only the fund's market makers and deals above ₹25 crore can create or redeem units directly with the fund house; everyone else trades on the exchange.",
+      "examples": [
+        "The gold ETF is 0.5% over its iNAV, so the market maker is selling units and creating more."
+      ],
+      "fill": "With the Nifty ETF trading 0.4% above the value of its shares, the market maker sold units and bought the stocks to create more: ____.",
+      "confusables": [
+        "exchange-arbitrage",
+        "inav",
+        "cash-and-carry-arbitrage"
+      ],
+      "wrong": [
+        "Same stock on two exchanges",
+        "Futures against the index's stocks",
+        "A stock against its takeover offer"
+      ],
+      "asOf": "2026-11",
+      "source": "https://cafemutual.com/news/industry/27799-regulator-grants-second-extension-rs-25-crore-threshold-for-direct-etf-transactions-to-now-be-effective-from-may-1-2023",
+      "difficulty": 3
+    },
+    {
+      "id": "inav",
+      "term": "iNAV",
+      "aliases": [
+        "indicative NAV"
+      ],
+      "said": "eye-nav",
+      "unit": "z1",
+      "short": "An ETF's live value from its holdings",
+      "definition": "An exchange-traded fund's indicative net asset value: what its units are worth from the live prices of the shares it holds. Exchanges show it through the trading day, at most 15 seconds old, so you can see whether the ETF trades at a premium or a discount.",
+      "examples": [
+        "Don't buy the ETF blind: it's 1% over iNAV right now."
+      ],
+      "fill": "During the trading day, the ETF's ____, updated every few seconds from its holdings' live prices, read 251.20 while units traded at 252.10, a premium of 0.36%.",
+      "confusables": [
+        "etf-arbitrage",
+        "nav",
+        "futures-fair-value"
+      ],
+      "wrong": [
+        "The fund's price at yesterday's close",
+        "Value of one creation unit in rupees",
+        "The ETF's price on the exchange"
+      ],
+      "calcs": [
+        {
+          "q": "An ETF's iNAV is 250.00 and its units trade at 251.50. What's the premium?",
+          "options": [
+            "0.6%",
+            "1.5%",
+            "0.15%",
+            "6%"
+          ],
+          "answer": 0,
+          "why": "1.50 ÷ 250.00 = 0.006, a premium of 0.6%."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.dspim.com/media/pages/mandatory-disclosures/simplified-sid-information-available-through-weblink/bf09ea359b-1764359464/dsp-nifty-50-etf.pdf",
+      "difficulty": 2
+    },
+    {
+      "id": "merger-arbitrage",
+      "term": "merger arbitrage",
+      "aliases": [
+        "risk arbitrage",
+        "merger arb"
+      ],
+      "unit": "z1",
+      "short": "Betting a takeover deal will close",
+      "definition": "Buying a company that's being taken over at less than the offer price and waiting for the deal to close. In a share-for-share deal the buyer's stock is sold short, or its futures sold, as a hedge. The gap is the pay for the risk that the deal fails.",
+      "examples": [
+        "The spread on the takeover is 6% with four months to close; the merger arb desk thinks the regulator will clear it."
+      ],
+      "fill": "The stock trades at ₹940 against a cash takeover at ₹1,000 due to close in four months, and the desk buys it, betting the deal goes through: ____.",
+      "confusables": [
+        "statistical-arbitrage",
+        "exchange-arbitrage",
+        "event-risk"
+      ],
+      "wrong": [
+        "Same stock on two exchanges",
+        "ETF price against its basket",
+        "Long winners, short losers"
+      ],
+      "calcs": [
+        {
+          "q": "A target trades at ₹940 and the cash offer is ₹1,000, closing in about 4 months. What's the return over those four months if the deal closes?",
+          "options": [
+            "About 6.4%",
+            "About 6.0%",
+            "About 19%",
+            "About 1.6%"
+          ],
+          "answer": 0,
+          "why": "You make ₹60 on ₹940: 60 ÷ 940 ≈ 6.4% over the four months, about 19% a year."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A merger arbitrage trade can lose far more than it stands to make.",
+          "a": true,
+          "why": "If the deal breaks, the price can fall back to where it was before the offer, often much further than the gap to the offer price."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "triangular-arbitrage",
+      "term": "triangular arbitrage",
+      "unit": "z1",
+      "short": "Three currency rates that don't line up",
+      "definition": "Trading three currency pairs when one cross rate doesn't match the rate implied by the other two, such as EUR/INR against EUR/USD and USD/INR. Banks' systems close such gaps almost at once.",
+      "examples": [
+        "EUR/INR was a few paise off the cross for a moment, and the bank's triangular arb engine took it."
+      ],
+      "fill": "With USD/INR at 88.00 and EUR/USD at 1.1600, EUR/INR should be 102.08. Quoted at 102.40, the desk sold euros for rupees and bought them back through dollars: ____.",
+      "confusables": [
+        "exchange-arbitrage",
+        "carry-trade",
+        "law-of-one-price"
+      ],
+      "wrong": [
+        "Borrow a cheap currency, buy a dear one",
+        "Same stock on two exchanges",
+        "Hedge a dollar receivable with futures"
+      ],
+      "calcs": [
+        {
+          "q": "USD/INR is 88.00 and EUR/USD is 1.1600. What EUR/INR rate leaves no gap?",
+          "options": [
+            "102.08",
+            "75.86",
+            "89.16",
+            "100.00"
+          ],
+          "answer": 0,
+          "why": "Rupees per euro = rupees per dollar × dollars per euro: 88.00 × 1.16 = 102.08."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "statistical-arbitrage",
+      "term": "statistical arbitrage",
+      "aliases": [
+        "stat arb"
+      ],
+      "unit": "z1",
+      "short": "Many small hedged bets, each with an edge",
+      "definition": "Running many small long and short positions at once, each with a slight statistical edge, such as related stocks drifting back together, with market risk hedged out. No single trade is sure; the edge shows up across thousands of them.",
+      "examples": [
+        "The stat arb book runs 400 names, beta-neutral, and turns over every few days."
+      ],
+      "fill": "Running 300 small long-short stock bets at once, each with a slight edge and the market hedged out, is ____.",
+      "confusables": [
+        "merger-arbitrage",
+        "exchange-arbitrage",
+        "limits-to-arbitrage"
+      ],
+      "wrong": [
+        "One trade with a locked-in profit",
+        "Same stock on two exchanges",
+        "Buying a takeover target"
+      ],
+      "tf": [
+        {
+          "s": "Statistical arbitrage locks in a profit on every trade.",
+          "a": false,
+          "why": "Each trade only has better-than-even odds. The profit comes from the average over many trades, and losing runs happen."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "limits-to-arbitrage",
+      "term": "limits to arbitrage",
+      "unit": "z1",
+      "short": "Why price gaps can persist",
+      "definition": "The reasons price gaps can last: trading costs, the margin and capital a trade ties up, rules on short selling, and the risk that the gap widens before it closes. They're why a mispricing isn't always free money.",
+      "examples": [
+        "The ADR premium is huge, but you can't short the Indian leg cheaply; limits to arbitrage."
+      ],
+      "fill": "The futures sat 1% below fair value for weeks because shorting the stocks was hard and margin was tight, a textbook case of the ____.",
+      "confusables": [
+        "law-of-one-price",
+        "leg-risk",
+        "basis-risk"
+      ],
+      "wrong": [
+        "Rules capping how much one fund can own",
+        "Exchange limits on daily price moves",
+        "Cap on the number of open positions"
+      ],
+      "tf": [
+        {
+          "s": "If a price gap lasts for weeks, there can't be any arbitrage traders in that market.",
+          "a": false,
+          "why": "They may be there but held back by costs, capital, margin or short-selling rules, or by the risk that the gap widens first."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "leg-risk",
+      "term": "leg risk",
+      "aliases": [
+        "legging risk"
+      ],
+      "unit": "z1",
+      "short": "One side fills, the other doesn't",
+      "definition": "The risk in a trade with several parts that one part fills and another doesn't, or fills at a worse price, leaving an open position instead of a hedged one.",
+      "examples": [
+        "We got the buy on BSE but the NSE sell missed; leg risk left us long 2,000 shares."
+      ],
+      "fill": "The algo bought on BSE, but its NSE sell order missed as the price moved, leaving it long: the trade's ____ had come true.",
+      "confusables": [
+        "legging-in",
+        "limits-to-arbitrage",
+        "partial-fill"
+      ],
+      "wrong": [
+        "Risk that a stock is delisted",
+        "Risk of holding too many positions",
+        "Risk that the exchange halts trading"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "medium-frequency-trading",
+      "term": "medium-frequency trading",
+      "aliases": [
+        "MFT"
+      ],
+      "unit": "z2",
+      "short": "Positions held minutes to days",
+      "definition": "Systematic trading that holds positions for roughly minutes to a few days, on signals such as short-term momentum, mean reversion or order flow. Speed matters less than in HFT, and trading costs and capacity matter more.",
+      "examples": [
+        "We're an MFT shop: hold for hours, sometimes overnight, and never fight for microseconds."
+      ],
+      "fill": "Their models hold positions for a few hours to two days, and an extra millisecond of speed doesn't matter: that's ____.",
+      "confusables": [
+        "hft",
+        "low-frequency-trading",
+        "holding-period"
+      ],
+      "wrong": [
+        "Positions held for microseconds",
+        "Positions held for months",
+        "Trades placed by hand"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "low-frequency-trading",
+      "term": "low-frequency trading",
+      "aliases": [
+        "LFT"
+      ],
+      "unit": "z2",
+      "short": "Positions held weeks to months",
+      "definition": "Systematic trading that holds positions for weeks to months, such as trend following or factor portfolios. It can run much more money than faster styles, but each signal is weaker and takes longer to prove.",
+      "examples": [
+        "The LFT book rebalances monthly, so a slow broker doesn't matter but costs per trade still do."
+      ],
+      "fill": "The fund rebalances its factor portfolio once a month and holds most stocks for a quarter, a style called ____.",
+      "confusables": [
+        "medium-frequency-trading",
+        "hft",
+        "turnover"
+      ],
+      "wrong": [
+        "Positions held for seconds",
+        "Positions held for minutes to days",
+        "Buying and holding for decades"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "holding-period",
+      "term": "holding period",
+      "unit": "z2",
+      "short": "How long a position is usually kept",
+      "definition": "How long a strategy typically keeps a position, from under a second in high-frequency trading to months in slower styles. It sets the costs, the capacity, and how fast you learn whether the strategy works.",
+      "examples": [
+        "Stretch the holding period to a week and the costs halve, but so does the number of bets."
+      ],
+      "fill": "Moving from intraday signals to a ten-day ____ cut the strategy's trading costs by 80%.",
+      "confusables": [
+        "turnover",
+        "alpha-decay",
+        "tick-to-trade"
+      ],
+      "wrong": [
+        "How fast a signal's edge fades",
+        "Time from data in to order out",
+        "Days until a futures contract expires"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "alpha-decay",
+      "term": "alpha decay",
+      "unit": "z2",
+      "short": "How fast a signal's edge fades",
+      "definition": "How fast a signal's edge fades: within seconds or days as prices catch up, or over months and years as more traders find and crowd it. Fast-decaying signals have to be traded quickly or not at all.",
+      "examples": [
+        "The order-flow signal is worth 3 bp in the first second and nothing after ten; that's brutal alpha decay."
+      ],
+      "fill": "The news signal earns 20 basis points in the first minute and almost nothing after five, showing steep ____.",
+      "confusables": [
+        "holding-period",
+        "alpha",
+        "tick-to-trade"
+      ],
+      "wrong": [
+        "How long a position is usually kept",
+        "Losses from a bad run of trades",
+        "The drop in an option's time value"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "strategy-capacity",
+      "term": "strategy capacity",
+      "aliases": [
+        "capacity"
+      ],
+      "unit": "z2",
+      "short": "Most money a strategy can run",
+      "definition": "The most money a strategy can run before its own trading moves prices enough to eat its edge. Faster strategies usually have less of it; slow ones in deep markets can run far more.",
+      "examples": [
+        "The signal is great but tiny: capacity is maybe ₹20 crore before impact eats it."
+      ],
+      "fill": "Beyond ₹50 crore, the book's own orders moved prices and the profits shrank: it had hit its ____.",
+      "confusables": [
+        "market-impact",
+        "alpha-decay",
+        "turnover"
+      ],
+      "wrong": [
+        "How fast a signal's edge fades",
+        "Margin a broker allows on an account",
+        "Most positions an exchange lets you hold"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "turnover",
+      "term": "turnover",
+      "aliases": [
+        "portfolio turnover"
+      ],
+      "unit": "z2",
+      "short": "Share of a portfolio traded per period",
+      "definition": "How much a portfolio trades over a period, as a share of its size. High turnover means high costs, so the strategy's edge has to beat them.",
+      "examples": [
+        "Turnover is 40 times a year, so every basis point of cost is 40 bp of return."
+      ],
+      "fill": "Trading three times the portfolio's value each month gives a monthly ____ of 300%, so costs matter a lot.",
+      "confusables": [
+        "holding-period",
+        "transaction-costs",
+        "strategy-capacity"
+      ],
+      "wrong": [
+        "How long a position is usually kept",
+        "Total profit over a year",
+        "Money flowing into the fund"
+      ],
+      "calcs": [
+        {
+          "q": "A ₹100 crore strategy trades ₹2,500 crore a year, and each rupee traded costs 0.05% all in. Yearly cost as a share of capital?",
+          "options": [
+            "1.25%",
+            "0.05%",
+            "12.5%",
+            "2.5%"
+          ],
+          "answer": 0,
+          "why": "₹2,500 crore × 0.05% = ₹1.25 crore, which is 1.25% of ₹100 crore."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "tick-to-trade",
+      "term": "tick-to-trade",
+      "aliases": [
+        "tick-to-trade latency"
+      ],
+      "unit": "z2",
+      "short": "Time from market data in to order out",
+      "definition": "The time from a market data update arriving to your order going out in response. It's the speed high-frequency firms race on, measured in microseconds or less.",
+      "examples": [
+        "Tick-to-trade is 800 nanoseconds on the FPGA path and 6 microseconds in software."
+      ],
+      "fill": "After moving its logic onto FPGA cards, the firm's ____ fell from 5 microseconds to under 1.",
+      "confusables": [
+        "co-location",
+        "holding-period",
+        "alpha-decay"
+      ],
+      "wrong": [
+        "Time a position is usually held",
+        "Time between two trades in a stock",
+        "Delay before an exchange shows a trade"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "inventory-risk",
+      "term": "inventory risk",
+      "unit": "z2",
+      "short": "Risk from the position a market maker builds",
+      "definition": "A market maker's risk from the position it builds up while quoting: if sellers keep hitting its bid, it ends up long just as the price falls. Market makers limit it by capping their position and moving both quotes to attract trades that cut it.",
+      "examples": [
+        "We're long 40 lots from the morning, so skew the quotes down: inventory risk, not a view."
+      ],
+      "fill": "To limit her ____, the market maker caps her position at 50 lots and lowers both quotes whenever she's long.",
+      "confusables": [
+        "adverse-selection",
+        "market-maker",
+        "leg-risk"
+      ],
+      "wrong": [
+        "Risk of trading with someone better informed",
+        "Risk that a quote is filled late",
+        "Risk the exchange changes the tick size"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "trend-following",
+      "term": "trend following",
+      "aliases": [
+        "time-series momentum"
+      ],
+      "unit": "z3",
+      "short": "Ride each market's own trend",
+      "definition": "Buying markets that have been rising and selling ones that have been falling, judged on each market's own past returns, and holding until the trend turns. It loses small amounts often and makes most of its money in a few big moves.",
+      "examples": [
+        "Trend following had a rough, choppy year, then made it all back in the October sell-off."
+      ],
+      "fill": "The fund goes long any futures market above its 200-day average and short any below it, a classic ____ system.",
+      "confusables": [
+        "momentum-factor",
+        "mean-reversion",
+        "breakout"
+      ],
+      "wrong": [
+        "Bet stretched prices snap back",
+        "Long one stock, short a close cousin",
+        "Rank stocks against each other"
+      ],
+      "tf": [
+        {
+          "s": "A trend-following system usually wins on most of its trades.",
+          "a": false,
+          "why": "Most of its trades are small losses when trends fail. A few long trends pay for them."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "mean-reversion",
+      "term": "mean reversion",
+      "unit": "z3",
+      "short": "Betting stretched prices snap back",
+      "definition": "Betting that a price or spread that has moved far from its usual level will come back towards it: buying after sharp falls and selling after sharp rises. It works in range-bound markets and gets hurt when a real trend starts.",
+      "examples": [
+        "Short-term reversal still works in mid-caps: fade the 5% gap-downs with no news."
+      ],
+      "fill": "Buying Infosys after a 5% fall in a day with no news, and selling a few days later as it recovers, is a ____ trade.",
+      "confusables": [
+        "trend-following",
+        "momentum-factor",
+        "breakout"
+      ],
+      "wrong": [
+        "Ride each market's own trend",
+        "Buy what has risen most this year",
+        "Buy a takeover target"
+      ],
+      "tf": [
+        {
+          "s": "A mean-reversion strategy does best when markets trend strongly.",
+          "a": false,
+          "why": "Strong trends are what hurt it: the stretched price keeps stretching. It does best in choppy, range-bound markets."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "pairs-trading",
+      "term": "pairs trading",
+      "unit": "z3",
+      "short": "Long one stock, short a close cousin",
+      "definition": "Trading two closely related stocks against each other: when the gap between them stretches unusually far, buying the cheap one and selling the dear one, then closing when the gap returns to normal. The market's moves mostly cancel out.",
+      "examples": [
+        "The two cement majors have drifted apart with no news; the pairs trade says buy the laggard, sell the leader."
+      ],
+      "fill": "With no news, HDFC Bank fell well behind ICICI Bank, so she bought HDFC Bank futures and sold ICICI Bank futures to bet on the gap closing, a two-stock bet called ____.",
+      "confusables": [
+        "cointegration",
+        "market-neutral",
+        "merger-arbitrage"
+      ],
+      "wrong": [
+        "Ride each market's own trend",
+        "Buying a takeover target",
+        "Same stock on two exchanges"
+      ],
+      "calcs": [
+        {
+          "q": "You buy ₹10 lakh of stock A and sell ₹10 lakh of stock B. The market falls 3%; A falls 2% and B falls 4%. Profit or loss?",
+          "options": [
+            "+₹20,000",
+            "−₹60,000",
+            "+₹60,000",
+            "−₹20,000"
+          ],
+          "answer": 0,
+          "why": "A loses ₹20,000 and the short in B makes ₹40,000: +₹20,000. The market's fall mostly cancels out."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "cointegration",
+      "term": "cointegration",
+      "unit": "z3",
+      "short": "Prices tied so their spread reverts",
+      "definition": "When two prices that each wander freely are tied by a long-run relationship, so the spread between them keeps coming back to a stable level. It's a stronger basis for a pairs trade than correlation alone.",
+      "examples": [
+        "Correlation is 0.9, but they're not cointegrated: the spread has trended for three years."
+      ],
+      "fill": "An Engle–Granger test on ten years of prices found the two banks' stocks share ____: each wanders, but their spread keeps coming back.",
+      "confusables": [
+        "correlation",
+        "stationarity",
+        "half-life"
+      ],
+      "wrong": [
+        "Daily returns that move together",
+        "A series with stable statistics",
+        "Time for half a gap to close"
+      ],
+      "tf": [
+        {
+          "s": "Two stocks whose daily returns are highly correlated must have a spread that comes back to its average.",
+          "a": false,
+          "why": "Correlation is about day-to-day moves. Two stocks can move together daily and still drift apart for years; cointegration is what ties the price levels."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "half-life",
+      "term": "half-life",
+      "aliases": [
+        "half-life of mean reversion"
+      ],
+      "unit": "z3",
+      "short": "Time for half a gap to close",
+      "definition": "How long a stretched spread or price usually takes to close half the gap back to its average. It tells you how long to expect to hold a mean-reversion trade, and when to give up on it.",
+      "examples": [
+        "Half-life on this pair is about a week, so if it's still open in a month, something's changed."
+      ],
+      "fill": "The spread's ____ is about six days, so a trade still open after a month is probably a broken pair, not a slow one.",
+      "confusables": [
+        "holding-period",
+        "cointegration",
+        "z-score"
+      ],
+      "wrong": [
+        "How long a position is usually kept",
+        "How fast a signal's edge fades",
+        "Distance from average in standard deviations"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "market-neutral",
+      "term": "market neutral",
+      "unit": "z3",
+      "short": "Unaffected by the market's direction",
+      "definition": "Built so its value doesn't depend on which way the market moves, usually by holding equal amounts long and short with similar betas, or by hedging with index futures. Returns should come from the stock picks alone.",
+      "examples": [
+        "We're market neutral, so a 5% Nifty drop barely shows; the stock picks decide our month."
+      ],
+      "fill": "Long ₹50 crore of stocks and short ₹50 crore of others with the same beta, the fund's book is ____, so a crash shouldn't matter much.",
+      "confusables": [
+        "pairs-trading",
+        "hedge",
+        "trend-following"
+      ],
+      "wrong": [
+        "Fully hedged against every risk",
+        "Holding only cash and bonds",
+        "Owning the whole market in one fund"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "volatility-targeting",
+      "term": "volatility targeting",
+      "unit": "z3",
+      "short": "Size positions to keep risk steady",
+      "definition": "Sizing positions so a strategy's expected volatility stays near a set level: smaller when markets are wild, bigger when they're calm.",
+      "examples": [
+        "Vol is up, so the vol target has cut us to 60% of normal size."
+      ],
+      "fill": "With Nifty volatility doubling, the system halved its position to keep risk at 10% a year: ____.",
+      "confusables": [
+        "kelly-criterion",
+        "annualised-volatility",
+        "trend-following"
+      ],
+      "wrong": [
+        "Bet size that grows wealth fastest",
+        "Betting on volatility rising",
+        "Stopping trading after a loss"
+      ],
+      "calcs": [
+        {
+          "q": "A strategy targets 10% yearly volatility. At full size its position has 25% volatility. What share of full size should it hold?",
+          "options": [
+            "40%",
+            "25%",
+            "10%",
+            "250%"
+          ],
+          "answer": 0,
+          "why": "Target ÷ position volatility: 10% ÷ 25% = 40% of full size."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "kelly-criterion",
+      "term": "Kelly criterion",
+      "aliases": [
+        "Kelly fraction",
+        "Kelly"
+      ],
+      "unit": "z3",
+      "short": "Bet size that grows wealth fastest",
+      "definition": "A formula for the share of capital to stake that grows wealth fastest over time, given the edge and the odds. For an even-money bet it's the chance of winning minus the chance of losing. Traders usually stake a fraction of it, because a misjudged edge makes the full amount very risky.",
+      "examples": [
+        "Full Kelly says 10%, but our edge estimate is shaky, so we run half Kelly."
+      ],
+      "fill": "With a 55% chance of winning an even-money bet, the ____ says to stake 10% of capital each time; most traders use half that.",
+      "confusables": [
+        "volatility-targeting",
+        "expected-shortfall",
+        "sharpe-ratio"
+      ],
+      "wrong": [
+        "Size positions to keep risk steady",
+        "Largest loss on a bad day",
+        "Return per unit of risk"
+      ],
+      "formula": "Even-money bet: stake = p − q, the win chance minus the loss chance",
+      "calcs": [
+        {
+          "q": "An even-money bet wins 55% of the time. What share of capital does the full Kelly criterion stake?",
+          "options": [
+            "10%",
+            "55%",
+            "5%",
+            "45%"
+          ],
+          "answer": 0,
+          "why": "Win chance minus loss chance: 0.55 − 0.45 = 0.10, so 10%."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Staking twice the Kelly amount grows wealth faster than staking the Kelly amount.",
+          "a": false,
+          "why": "Past Kelly, extra size adds risk faster than return. At twice Kelly, long-run growth falls to about zero."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "event-driven",
+      "term": "event-driven strategy",
+      "aliases": [
+        "event-driven trading",
+        "event-driven"
+      ],
+      "unit": "z3",
+      "short": "Trade results, mergers, index changes",
+      "definition": "Trading around specific corporate or market events, such as results, index changes, buybacks, mergers or policy decisions, where prices tend to move in patterns around the event.",
+      "examples": [
+        "Index rebalance is Friday; the event-driven desk bought the adds weeks ago and sells into the close."
+      ],
+      "fill": "Trading index inclusions, buybacks and results for the price patterns around them is called ____.",
+      "confusables": [
+        "event-risk",
+        "merger-arbitrage",
+        "mean-reversion"
+      ],
+      "wrong": [
+        "Ride each market's own trend",
+        "Same stock on two exchanges",
+        "Many small hedged bets at once"
+      ],
+      "difficulty": 2
+    }
+  ]
+}

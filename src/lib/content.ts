@@ -11,10 +11,11 @@ import instruments from '../data/terms/instruments.json';
 import execution from '../data/terms/execution.json';
 import macro from '../data/terms/macro.json';
 import strategies from '../data/terms/strategies.json';
+import systematic from '../data/terms/systematic.json';
 import cases from '../data/cases.json';
 import type { Category, DeskCase, PracticeKind, Term, Unit } from './types';
 
-export const categories: Category[] = ([basics, india, trading, options, instruments, quant, skills, desk, conditions, macro, micro, execution, strategies] as Category[]).sort((a, b) => a.order - b.order);
+export const categories: Category[] = ([basics, india, trading, options, instruments, quant, skills, desk, conditions, macro, micro, execution, strategies, systematic] as Category[]).sort((a, b) => a.order - b.order);
 
 export const termById = new Map<string, Term>();
 export const unitById = new Map<string, Unit & { categoryId: string }>();
