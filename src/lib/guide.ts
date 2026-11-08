@@ -160,6 +160,7 @@ const SYNONYMS: Record<string, string[]> = {
   'unit:o12': ['vol talk', 'premium selling talk', 'option desk talk'],
   'unit:x5': ['execution talk', 'sales trader talk', 'execution lingo'],
   'unit:x6': ['order talk', 'order desk', 'dealing desk talk'],
+  'unit:x7': ['meeting game', 'meetings', 'listening game', 'meeting practice', 'follow a meeting'],
   'term:pe-ratio': ['p e', 'p e ratio', 'pe ratio', 'pe multiple'],
   'term:participant-wise-oi': ['fii long short ratio', 'long short ratio', 'fii positions'],
   'term:realised-volatility': ['rv', 'realized volatility', 'realized vol'],
@@ -345,7 +346,7 @@ export const HELP: HelpTopic[] = [
     id: 'practice',
     strong: false,
     match: /\b(drills?|games?|desk cases?|cases)\b/,
-    text: 'Drills, games and desk cases sit on the path between lessons. Drills are timed rounds of maths. The games have you quote a market, build option payoffs, call a book\'s Greeks PnL, read correlation and vol off charts, and make Fermi estimates; phase 3 adds one on sizing bets. Desk cases are short stories of linked decisions. Pass one to move on, or skip a failed one until tomorrow.',
+    text: 'Drills, games and desk cases sit on the path between lessons. Drills are timed rounds of maths. The games have you quote a market, build option payoffs, call a book\'s Greeks PnL, read correlation and vol off charts, make Fermi estimates and follow short meeting clips; phase 3 adds one on sizing bets. Desk cases are short stories of linked decisions. Pass one to move on, or skip a failed one until tomorrow.',
     action: 'home',
   },
   {

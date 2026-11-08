@@ -9,6 +9,7 @@ import { GREEKS, rupees } from './greeks';
 import { GUESS } from './guess';
 import { KELLY } from './kelly';
 import { MM, points } from './market';
+import { MEETING, MEETING_QUESTIONS } from './meeting';
 import { PAYOFF } from './payoff';
 import type { DrillRecord, GameId } from './types';
 
@@ -19,6 +20,8 @@ export interface GameSpec {
   rule: string;
   /** A short description for the unit sheet. */
   about: string;
+  /** How a turn works, in a line for the unit sheet. */
+  how: string;
   /** What the score on the results screen counts, and the most it can be. */
   score: { label: string; short: string; max: number };
   /** One line on the learner's record. */
@@ -35,6 +38,7 @@ export const GAMES: Record<GameId, GameSpec> = {
     rule: `pass by quoting near fair value, keeping the spread to ${MM.maxWidth} points and ending within ${MM.flatAtEnd} lots of flat`,
     about:
       'Quote a bid and an ask on the total of three dice while traders deal with you. Some of them already know the next die. Make money from the spread without getting picked off, and keep your position under control.',
+    how: 'Each turn you set a bid and an ask, and see who trades with you. The review at the end shows where the money went.',
     score: { label: 'checks met', short: 'Checks', max: 3 },
     record: (rec) => {
       if (rec?.passed) return rec.best !== undefined ? `Passed · best ${points(rec.best)} pts` : 'Passed';
@@ -47,6 +51,7 @@ export const GAMES: Record<GameId, GameSpec> = {
     rule: `pass by building ${PAYOFF.passSolved} of ${PAYOFF.targets} target payoffs without asking for the answer`,
     about:
       'You see the payoff the desk wants at expiry. Buy and sell calls, puts and futures until your line sits on top of it: single options first, then straddles and spreads, then condors and trades built from parity.',
+    how: 'Add and take away legs until your line sits on the target, then check it. After a miss you can ask to see the answer.',
     score: { label: 'solved', short: 'Solved', max: PAYOFF.targets },
     record: outOf(PAYOFF.targets, 'Options game'),
   },
@@ -55,6 +60,7 @@ export const GAMES: Record<GameId, GameSpec> = {
     rule: `pass with ${GREEKS.passRight} of ${GREEKS.items} PnL calls right`,
     about:
       "A book's delta, gamma, vega and theta in rupees, then a move in Nifty, in IV and in time. Call the PnL before you see how it splits. It starts with an instant move and ends with a weekend.",
+    how: 'Pick the PnL from four amounts, then see how much came from delta, gamma, vega and theta.',
     score: { label: 'right', short: 'Right', max: GREEKS.items },
     record: outOf(GREEKS.items, 'Options game'),
   },
@@ -63,6 +69,7 @@ export const GAMES: Record<GameId, GameSpec> = {
     rule: `pass by sizing ${KELLY.sizedNeeded} of 20 bets near Kelly on the coins with an edge, sitting out ${KELLY.outNeeded} of 10 flips of the coin without one, and never betting over twice Kelly`,
     about:
       'Three biased coins, ten flips each, and ₹1 lakh to start. Before each flip, pick how much of your bankroll to bet. Bet too little and you leave growth behind; bet too much and a losing streak wrecks you.',
+    how: 'Pick a share of your bankroll before each flip. After each coin you see how your bets compare with Kelly.',
     score: { label: 'checks met', short: 'Checks', max: 3 },
     record: (rec) => {
       if (rec?.passed) return rec.best !== undefined ? `Passed · best ${rupees(rec.best, false)}` : 'Passed';
@@ -75,6 +82,7 @@ export const GAMES: Record<GameId, GameSpec> = {
     rule: `pass with ${GUESS.passHits} of ${GUESS.items} close enough: correlation within ${GUESS.corrTol}, vol within ${Math.round(GUESS.volTol * 100)}%`,
     about:
       'Guess the correlation from a scatter, the annual volatility from a price chart, and which of two return series has fat tails. Quants are expected to read these by eye before they run the numbers.',
+    how: 'Slide to your guess or tap a series, then lock it in. The answer is worked out from the very points on screen.',
     score: { label: 'close enough', short: 'Hits', max: GUESS.items },
     record: outOf(GUESS.items, 'Chart game'),
   },
@@ -83,8 +91,18 @@ export const GAMES: Record<GameId, GameSpec> = {
     rule: `pass with ${FERMI.passHits} of ${FERMI.items} estimates within 3 times the answer, a minute each`,
     about:
       'Estimate a size or a count in a minute: seconds in a session, litres in a pool, UPI payments in a month. Scored by how many powers of ten you are off, like the estimation round in quant interviews.',
+    how: 'Turn the dial to your estimate before the minute runs out. Each answer shows how to work it out, with a source for facts.',
     score: { label: 'within 3×', short: 'Hits', max: FERMI.items },
     record: outOf(FERMI.items, 'Estimation game'),
+  },
+  meeting: {
+    size: `${MEETING.clips} clips`,
+    rule: `pass with ${MEETING.passRight} of ${MEETING_QUESTIONS} questions right, half a minute each`,
+    about:
+      'Short clips from a morning meeting, a research review, a risk call, the F&O desk, the execution desk and more. Read or listen to each one, then say what the people meant: what the PM wants done, why risk is worried, what a phrase means here.',
+    how: 'Read or listen to each clip, then answer its two questions. The notes at the end list the phrases you heard.',
+    score: { label: 'right', short: 'Right', max: MEETING_QUESTIONS },
+    record: outOf(MEETING_QUESTIONS, 'Listening game'),
   },
 };
 

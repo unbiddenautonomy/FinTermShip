@@ -7,7 +7,7 @@ const dir = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', '
 const cases = JSON.parse(readFileSync(join(dir, '..', 'cases.json'), 'utf8'));
 const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
 // The games the app can play (see src/lib/games.ts).
-const GAMES = ['market', 'payoff', 'greeks', 'kelly', 'guess', 'fermi'];
+const GAMES = ['market', 'payoff', 'greeks', 'kelly', 'guess', 'fermi', 'meeting'];
 const errors = [];
 const allIds = new Map();
 const allTerms = new Map();
@@ -141,6 +141,38 @@ for (const f of fermi) {
 }
 if (fermi.length < 16) errors.push(`fermi.json: needs at least 16 questions so rounds of 8 vary`);
 console.log(`Fermi questions: ${fermi.length} (${fermi.filter((f) => f.source).length} sourced facts)`);
+
+// Meeting clips: a few lines, two questions with the right option first and not the longest by far, and terms that exist outside phase 3.
+const SETTINGS = ['morning', 'research', 'pm', 'risk', 'fno', 'execution', 'broker', 'event'];
+const meetings = JSON.parse(readFileSync(join(dir, '..', 'meetings.json'), 'utf8'));
+const phase3Ids = new Set(categories.filter((c) => c.phase === 3).flatMap((c) => c.terms.map((t) => t.id)));
+const clipIds = new Set();
+for (const c of meetings) {
+  const at = `meetings.json > ${c.id ?? '(no id)'}`;
+  if (!c.id || !c.title) errors.push(`${at}: needs id and title`);
+  if (clipIds.has(c.id)) errors.push(`${at}: duplicate id`);
+  clipIds.add(c.id);
+  if (!SETTINGS.includes(c.setting)) errors.push(`${at}: setting must be one of ${SETTINGS.join(', ')}`);
+  if (!Array.isArray(c.lines) || c.lines.length < 3 || c.lines.length > 6) errors.push(`${at}: needs 3 to 6 lines`);
+  for (const l of c.lines ?? []) if (!l.who || !l.text) errors.push(`${at}: every line needs who and text`);
+  if (!Array.isArray(c.questions) || c.questions.length !== 2) errors.push(`${at}: needs exactly 2 questions`);
+  for (const [i, q] of (c.questions ?? []).entries()) {
+    const qa = `${at} question ${i + 1}`;
+    if (!q.q || !q.why) errors.push(`${qa}: needs q and why`);
+    if (!Array.isArray(q.options) || q.options.length !== 4) errors.push(`${qa}: needs exactly 4 options`);
+    else {
+      if (new Set(q.options).size !== 4) errors.push(`${qa}: options must be different`);
+      if (q.options[0].length > 1.25 * Math.max(...q.options.slice(1).map((o) => o.length))) errors.push(`${qa}: the right option is much longer than the others`);
+    }
+  }
+  if (!Array.isArray(c.terms) || c.terms.length < 1) errors.push(`${at}: needs at least 1 term`);
+  for (const id of c.terms ?? []) {
+    if (!allIds.has(id)) errors.push(`${at}: term "${id}" is not a known term id`);
+    if (phase3Ids.has(id)) errors.push(`${at}: term "${id}" is in phase 3`);
+  }
+}
+for (const s of SETTINGS) if (meetings.filter((c) => c.setting === s).length < 3) errors.push(`meetings.json: setting "${s}" needs at least 3 clips so rounds vary`);
+console.log(`Meeting clips: ${meetings.length}, ${meetings.reduce((n, c) => n + (c.questions?.length ?? 0), 0)} questions`);
 
 // Career map: every role and round has its text, and points at units that exist.
 const careers = JSON.parse(readFileSync(join(dir, '..', 'careers.json'), 'utf8'));

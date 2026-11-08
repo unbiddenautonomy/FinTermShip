@@ -4,6 +4,7 @@ import { DIAL, FERMI, fermiHit, fermiItems, newFermiRound, ordersOff, bigNumber 
 import { GAMES, gameOf } from './games';
 import { GREEKS, newGreeksRound, pnlParts, rupees, sumParts } from './greeks';
 import { annualVol, correlation, excessKurtosis, GUESS, isHit, newGuessRound, normal, stdev, type GuessItem } from './guess';
+import { clips, MEETING, MEETING_QUESTIONS, meetingPassed, newMeetingRound, SETTINGS } from './meeting';
 import { judge, KELLY, kellyFraction, newKellyGame, pathAt, scoreKelly, settle } from './kelly';
 import { allowed, emptyLegs, keepsHolds, makeChain, makeTarget, newPayoffRound, PAYOFF, payoffAt, payoffStats, solves, TARGET_IDS, type Leg } from './payoff';
 import { finishGame, passRule, recordLine, roundSize } from './practice';
@@ -26,11 +27,17 @@ describe('games on the track', () => {
     expect(new Set(gameUnits.map((u) => u.game))).toEqual(new Set(Object.keys(GAMES) as GameId[]));
   });
 
+  it('explains each game in its own words', () => {
+    const hows = Object.values(GAMES).map((g) => g.how);
+    expect(new Set(hows).size).toBe(hows.length);
+  });
+
   it('describes each game for the unit sheet and the path', () => {
     for (const u of gameUnits) {
       expect(roundSize(u.id), u.id).toMatch(/^\d+ \w+/);
       expect(passRule(u.id), u.id).toMatch(/^pass /);
       expect(recordLine(newProgress(), u.id), u.id).not.toBe('');
+      expect(GAMES[u.game!].how, u.id).not.toBe('');
     }
   });
 
@@ -44,6 +51,11 @@ describe('games on the track', () => {
     before('q2', 'q8');
     before('k6', 'k7');
     before('z3', 'z6');
+    // The meeting game comes last before phase 3, once every phrase unit is behind it.
+    before('x6', 'x7');
+    before('d6', 'x7');
+    const main = path.filter((r) => r.pass !== 3);
+    expect(main[main.length - 1].unit.id).toBe('x7');
     expect(path.find((r) => r.unit.id === 'z6')?.pass).toBe(3);
     expect(gameOf('s6')).toBe('market');
     expect(gameOf('o1')).toBeNull();
@@ -321,5 +333,53 @@ describe('fermi estimates', () => {
       });
     expect(passRate(0.25)).toBeGreaterThan(0.9);
     expect(passRate(1.5)).toBeLessThan(0.05);
+  });
+});
+
+describe('morning meeting', () => {
+  it('deals five clips from five different settings, two questions each', () => {
+    for (let seed = 1; seed <= 300; seed++) {
+      const round = newMeetingRound(seededRng(seed));
+      expect(round.length).toBe(MEETING.clips);
+      expect(new Set(round.map((r) => r.clip.setting)).size).toBe(MEETING.clips);
+      expect(round.flatMap((r) => r.questions).length).toBe(MEETING_QUESTIONS);
+    }
+  });
+
+  it('keeps the right answer pointing at the option written first', () => {
+    for (let seed = 1; seed <= 300; seed++) {
+      for (const { clip, questions } of newMeetingRound(seededRng(seed))) {
+        questions.forEach((q, i) => {
+          expect(q.options[q.answer]).toBe(clip.questions[i].options[0]);
+          expect([...q.options].sort()).toEqual([...clip.questions[i].options].sort());
+        });
+      }
+    }
+  });
+
+  it('moves the right answer around, so its place gives nothing away', () => {
+    const places = [0, 0, 0, 0];
+    for (let seed = 1; seed <= 500; seed++) for (const r of newMeetingRound(seededRng(seed))) for (const q of r.questions) places[q.answer]++;
+    const total = places.reduce((a, b) => a + b, 0);
+    for (const n of places) expect(n / total).toBeGreaterThan(0.2);
+  });
+
+  it('uses every clip and every setting', () => {
+    const seen = new Set<string>();
+    for (let seed = 1; seed <= 2000; seed++) for (const r of newMeetingRound(seededRng(seed))) seen.add(r.clip.id);
+    expect(seen.size).toBe(clips.length);
+    for (const s of Object.keys(SETTINGS)) expect(clips.some((c) => c.setting === s), s).toBe(true);
+  });
+
+  it('passes someone who follows the talk and fails a guesser', () => {
+    const passRate = (p: number) =>
+      rate(2000, (seed) => {
+        const rng = seededRng(seed);
+        let right = 0;
+        for (let i = 0; i < MEETING_QUESTIONS; i++) if (rng() < p) right++;
+        return meetingPassed(right);
+      });
+    expect(passRate(0.95)).toBeGreaterThan(0.95);
+    expect(passRate(0.25)).toBeLessThan(0.001);
   });
 });
