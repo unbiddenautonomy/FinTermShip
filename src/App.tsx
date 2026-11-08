@@ -6,13 +6,19 @@ import { Glossary } from './components/Glossary';
 import { Guide, type GuideEntry } from './components/Guide';
 import { Home } from './components/Home';
 import { Lesson, type LessonSummary } from './components/Lesson';
+import { FermiGame } from './components/FermiGame';
+import { GreeksGame } from './components/GreeksGame';
+import { GuessGame } from './components/GuessGame';
+import { KellyGame } from './components/KellyGame';
 import { MarketGame } from './components/MarketGame';
+import { PayoffGame } from './components/PayoffGame';
 import { Results } from './components/Results';
 import { Settings } from './components/Settings';
 import { BookIcon, ChatIcon, GearIcon, PathIcon } from './components/icons';
 import { buildPractice, buildTest, withFocus } from './lib/choose';
 import { snoozeDrill } from './lib/drills';
 import { practiceKind } from './lib/content';
+import { gameOf } from './lib/games';
 import { buildPhase3Test, PHASE3, withPhase3Key } from './lib/phase3';
 import { dayKey } from './lib/dates';
 import { buildLesson, drillUp, todayStatus, type LessonPlan } from './lib/lesson';
@@ -20,9 +26,18 @@ import { seededRng } from './lib/questions';
 import { KIND_LABEL } from './lib/practice';
 import { loadProgress, requestPersistence, saveProgress } from './lib/storage';
 import { currentUnit } from './lib/track';
-import type { Progress } from './lib/types';
+import type { GameId, Progress } from './lib/types';
 
 type Tab = 'home' | 'guide' | 'glossary' | 'settings';
+
+const GAME_SCREENS: Record<GameId, typeof MarketGame> = {
+  market: MarketGame,
+  payoff: PayoffGame,
+  greeks: GreeksGame,
+  kelly: KellyGame,
+  guess: GuessGame,
+  fermi: FermiGame,
+};
 
 type Screen =
   | { name: Tab; sheet?: string; q?: string }
@@ -116,7 +131,7 @@ export default function App() {
       );
     case 'game':
     case 'case': {
-      const Screen = screen.name === 'game' ? MarketGame : DeskCase;
+      const Screen = screen.name === 'game' ? GAME_SCREENS[gameOf(screen.unitId) ?? 'market'] : DeskCase;
       return (
         <Screen
           key={screen.seed}

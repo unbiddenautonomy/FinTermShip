@@ -6,6 +6,8 @@ import { fileURLToPath } from 'node:url';
 const dir = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', 'terms');
 const cases = JSON.parse(readFileSync(join(dir, '..', 'cases.json'), 'utf8'));
 const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
+// The games the app can play (see src/lib/games.ts).
+const GAMES = ['market', 'payoff', 'greeks', 'kelly', 'guess', 'fermi'];
 const errors = [];
 const allIds = new Map();
 const allTerms = new Map();
@@ -56,6 +58,8 @@ for (const cat of categories) {
     if (practice && count > 0) errors.push(`${cat.id} > unit ${u.id}: a ${u.kind} unit has no terms`);
     if (!practice && count === 0) errors.push(`${cat.id} > unit ${u.id}: no terms`);
     if (u.kind === 'case' && !cases[u.id]) errors.push(`${cat.id} > unit ${u.id}: no desk case in cases.json`);
+    if (u.kind === 'game' && !GAMES.includes(u.game)) errors.push(`${cat.id} > unit ${u.id}: a game unit needs "game" set to one of ${GAMES.join(', ')}`);
+    if (u.kind !== 'game' && u.game) errors.push(`${cat.id} > unit ${u.id}: only game units name a game`);
   }
   for (const t of cat.terms) {
     for (const c of t.confusables || []) {
@@ -121,6 +125,22 @@ for (const it of talk) {
   }
 }
 console.log(`Talk items: ${talk.length} (${FORMATS.map((f) => `${talk.filter((i) => i.format === f).length} ${f}`).join(', ')})`);
+
+// Fermi questions: a positive answer, a worked path, and a source for anything that is a fact rather than a sum.
+const fermi = JSON.parse(readFileSync(join(dir, '..', 'fermi.json'), 'utf8'));
+const fermiIds = new Set();
+for (const f of fermi) {
+  const at = `fermi.json > ${f.id ?? '(no id)'}`;
+  if (!f.id || !f.q || !f.how) errors.push(`${at}: needs id, q and how`);
+  if (fermiIds.has(f.id)) errors.push(`${at}: duplicate id`);
+  fermiIds.add(f.id);
+  if (typeof f.answer !== 'number' || !(f.answer >= 1) || f.answer > 1e13) errors.push(`${at}: answer must be a number from 1 to 10^13`);
+  if (f.asOf && !f.source) errors.push(`${at}: asOf without a source`);
+  if (f.source && !f.asOf) errors.push(`${at}: a sourced fact needs asOf`);
+  if (f.source && !/^https:\/\//.test(f.source)) errors.push(`${at}: source must be an https link`);
+}
+if (fermi.length < 16) errors.push(`fermi.json: needs at least 16 questions so rounds of 8 vary`);
+console.log(`Fermi questions: ${fermi.length} (${fermi.filter((f) => f.source).length} sourced facts)`);
 
 // Career map: every role and round has its text, and points at units that exist.
 const careers = JSON.parse(readFileSync(join(dir, '..', 'careers.json'), 'utf8'));
