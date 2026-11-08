@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { Careers } from './components/Careers';
 import { DeskCase } from './components/DeskCase';
 import { Drill } from './components/Drill';
 import { Glossary } from './components/Glossary';
@@ -22,7 +23,8 @@ import type { Progress } from './lib/types';
 type Tab = 'home' | 'glossary' | 'settings';
 
 type Screen =
-  | { name: Tab }
+  | { name: Tab; sheet?: string }
+  | { name: 'careers' }
   | { name: 'lesson'; plan: LessonPlan; seed: number }
   | { name: 'drill' | 'game' | 'case'; unitId: string; seed: number }
   | { name: 'results'; summary: LessonSummary };
@@ -161,6 +163,12 @@ export default function App() {
           <Settings progress={progress} today={today} persisted={persisted} onChange={update} />
         </WithTabs>
       );
+    case 'careers':
+      return (
+        <WithTabs tab="home" onTab={(name) => setScreen({ name })}>
+          <Careers progress={progress} onBack={() => setScreen({ name: 'home' })} onOpenUnit={(unitId) => setScreen({ name: 'home', sheet: unitId })} />
+        </WithTabs>
+      );
     default:
       return (
         <WithTabs tab="home" onTab={(name) => setScreen({ name })}>
@@ -173,6 +181,8 @@ export default function App() {
             onTest={takeTest}
             onDrill={drill}
             onOpenSettings={() => setScreen({ name: 'settings' })}
+            onOpenCareers={() => setScreen({ name: 'careers' })}
+            initialSheet={screen.name === 'home' ? screen.sheet : undefined}
             showInstallHint={isIosBrowser()}
           />
         </WithTabs>

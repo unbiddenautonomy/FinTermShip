@@ -1,7 +1,7 @@
 {
   "id": "micro",
   "name": "Market microstructure",
-  "order": 10,
+  "order": 11,
   "units": [
     {
       "id": "s1",
@@ -32,6 +32,11 @@
     {
       "id": "s5",
       "name": "Venues and hidden liquidity",
+      "core": false
+    },
+    {
+      "id": "s7",
+      "name": "SEBI's algo and F&O rules",
       "core": false
     }
   ],
@@ -800,20 +805,19 @@
       "id": "black-box-algo",
       "term": "black-box algo",
       "aliases": [
-        "black box",
-        "white-box algo"
+        "black box"
       ],
       "unit": "s3",
       "short": "Algo whose logic isn't shown to users",
-      "definition": "A trading algorithm whose rules aren't disclosed to the people using it. Under SEBI's retail algo framework, firms that offer black-box algos must register as research analysts. A white-box algo's logic is fully disclosed.",
+      "definition": "A trading algorithm whose rules aren't disclosed to the people using it. Under SEBI's retail algo framework, firms that offer black-box algos must register as research analysts.",
       "examples": [
         "It's a black-box algo, so you're trusting the vendor's research report."
       ],
       "fill": "An algo sold to retail clients without revealing how it decides trades is a ____.",
       "confusables": [
+        "white-box-algo",
         "algo-id",
-        "algo-trading",
-        "research-analyst"
+        "algo-trading"
       ],
       "wrong": [
         "An algo that has been banned",
@@ -1276,6 +1280,346 @@
         "Money in dormant demat accounts",
         "Shares locked in by promoters"
       ],
+      "difficulty": 3
+    },
+    {
+      "id": "white-box-algo",
+      "term": "white-box algo",
+      "aliases": [
+        "white box"
+      ],
+      "unit": "s7",
+      "short": "Algo whose rules are disclosed and replicable",
+      "definition": "An algorithm whose logic is fully shown to the user, so it can be checked and rebuilt. Under SEBI's retail algo framework, brokers can offer exchange-registered algos like this to clients; algos with hidden logic need a SEBI-registered research analyst behind them.",
+      "examples": [
+        "It's a white-box strategy: buy when the 20-day average crosses above the 50-day, sell on the reverse."
+      ],
+      "fill": "The broker shows you the exact rules the strategy follows, so you could rebuild it yourself. It's a ____.",
+      "confusables": [
+        "black-box-algo",
+        "algo-id",
+        "algo-provider"
+      ],
+      "wrong": [
+        "Algo the exchange has tested for a year",
+        "Algo that only places limit orders",
+        "Algo run by the exchange itself"
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.sahi.com/blogs/sebi-algo-trading-rules-2026-what-every-retail-trader-must-know-before-april",
+      "difficulty": 2
+    },
+    {
+      "id": "ops-threshold",
+      "term": "OPS threshold",
+      "aliases": [
+        "orders per second threshold"
+      ],
+      "said": "O P S threshold",
+      "speak": "O P S threshold",
+      "unit": "s7",
+      "short": "Order rate above which an algo is registered",
+      "definition": "The order rate, set by the exchanges at 10 orders a second, above which a retail trader's automated strategy has to be registered with the exchange as an algo. Below it the strategy needn't be registered, though API orders still have to come from the trader's registered static IP.",
+      "examples": [
+        "Our scalper fires 15 orders a second, over the OPS threshold, so it has to be registered."
+      ],
+      "fill": "A retail trader's script sends 25 orders a second, more than the exchange's limit of 10, so the strategy must be registered as an algo. That limit is the ____.",
+      "confusables": [
+        "order-to-trade-ratio",
+        "algo-id",
+        "freeze-quantity"
+      ],
+      "wrong": [
+        "Most orders a broker accepts from a client in a day",
+        "Highest quantity allowed in a single order",
+        "Number of orders an exchange can match in a second"
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.sahi.com/blogs/sebi-algo-trading-rules-2026-what-every-retail-trader-must-know-before-april",
+      "difficulty": 3
+    },
+    {
+      "id": "static-ip",
+      "term": "static IP",
+      "aliases": [
+        "whitelisted IP"
+      ],
+      "said": "static I P",
+      "speak": "static I P",
+      "unit": "s7",
+      "short": "Fixed internet address for API orders",
+      "definition": "A fixed internet address registered with the broker. Under SEBI's retail algo rules, orders sent through a broker's API are accepted only from the trader's registered address, so every automated order can be traced to whoever sent it.",
+      "examples": [
+        "My orders bounced because the cloud server's address changed; I need a static IP on the broker's list."
+      ],
+      "fill": "Your broker rejects API orders unless they come from the one fixed internet address you registered with it. That address is your ____.",
+      "confusables": [
+        "algo-id",
+        "co-location",
+        "algo-provider"
+      ],
+      "wrong": [
+        "The exchange's backup data centre",
+        "A server placed inside the exchange building",
+        "A broker's emergency phone line for orders"
+      ],
+      "asOf": "2026-11",
+      "source": "https://fyers.in/notice-board/new-sebi-framework-for-retail-algo-trading-from-april-01-2026/",
+      "difficulty": 2
+    },
+    {
+      "id": "algo-provider",
+      "term": "algo provider",
+      "aliases": [
+        "empanelled algo provider"
+      ],
+      "unit": "s7",
+      "short": "Firm that builds algos for a broker's clients",
+      "definition": "A firm that builds trading algorithms and offers them to retail clients through a broker. Under SEBI's framework it must be empanelled with the exchanges and pass the broker's checks; it can't connect to the exchange directly, and the broker answers for the algos it carries.",
+      "examples": [
+        "The algo provider is empanelled with NSE, so the broker can list its strategies."
+      ],
+      "fill": "A fintech that writes strategies for retail clients, approved by the exchanges and offered only through a broker, is an ____.",
+      "confusables": [
+        "stockbroker",
+        "white-box-algo",
+        "algo-id"
+      ],
+      "wrong": [
+        "Exchange department that tests algos",
+        "Broker's team that hands out API keys",
+        "Company that sells market data feeds"
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.sahi.com/blogs/sebi-algo-trading-rules-2026-what-every-retail-trader-must-know-before-april",
+      "difficulty": 2
+    },
+    {
+      "id": "weekly-expiry",
+      "term": "weekly expiry",
+      "aliases": [
+        "weekly options",
+        "weeklies"
+      ],
+      "unit": "s7",
+      "short": "Index options that expire every week",
+      "definition": "Options that expire each week instead of each month. SEBI lets each exchange keep this on just one benchmark index: on NSE that's the Nifty, expiring on Tuesdays, and on BSE the Sensex, on Thursdays. Other indices have monthly options only.",
+      "examples": [
+        "Bank Nifty lost its weekly expiry, so the action moved to the Nifty."
+      ],
+      "fill": "Nifty options that run out every Tuesday, rather than once a month, are on a ____.",
+      "confusables": [
+        "expiry",
+        "near-month-contract",
+        "minimum-contract-size"
+      ],
+      "wrong": [
+        "Futures that settle every Friday",
+        "Rule that options expire on the last day of the month",
+        "End of a stock's F&O ban after a week"
+      ],
+      "tf": [
+        {
+          "s": "Bank Nifty still has weekly options on NSE.",
+          "a": false,
+          "why": "NSE now keeps weekly options only on the Nifty; Bank Nifty options are monthly."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://fiianddiidata.com/sebi-new-fo-rules-2026/",
+      "difficulty": 2
+    },
+    {
+      "id": "minimum-contract-size",
+      "term": "minimum contract size",
+      "aliases": [
+        "minimum contract value"
+      ],
+      "unit": "s7",
+      "short": "Least value one index F&O lot can have",
+      "definition": "The least value one index futures or options contract may have. SEBI set it at ₹15 lakh when a contract is launched, and lot sizes are reviewed so the value stays between ₹15 lakh and ₹20 lakh. That's why lot sizes change after big index moves.",
+      "examples": [
+        "The Nifty lot came down to 65 so the contract stays inside the size band."
+      ],
+      "fill": "SEBI wants each index F&O lot to be worth at least ₹15 lakh, so lots are resized when the index moves a lot. That floor is the ____.",
+      "confusables": [
+        "lot-size",
+        "notional",
+        "freeze-quantity"
+      ],
+      "wrong": [
+        "Fewest lots a client may trade in a day",
+        "Smallest margin a broker can collect",
+        "Largest order the exchange accepts at once"
+      ],
+      "calcs": [
+        {
+          "q": "The Nifty is at 25,000 and the lot size is 65. What's one lot worth?",
+          "options": [
+            "₹16.25 lakh",
+            "₹1.625 lakh",
+            "₹25,065",
+            "₹162.5 lakh"
+          ],
+          "answer": 0,
+          "why": "25,000 × 65 = ₹16,25,000, or ₹16.25 lakh."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.business-standard.com/amp/markets/news/sebi-announces-six-key-changes-to-curb-speculation-in-derivatives-trading-124100101316_1.html",
+      "difficulty": 2
+    },
+    {
+      "id": "upfront-premium",
+      "term": "upfront premium collection",
+      "aliases": [
+        "upfront premium"
+      ],
+      "unit": "s7",
+      "short": "Option buyers pay the full premium first",
+      "definition": "The rule that brokers must collect the full premium from an option buyer before the order goes in, rather than letting it be covered later. It stops buyers taking on positions bigger than the cash in their account.",
+      "examples": [
+        "With premium collected upfront, I can't buy ₹2 lakh of options with ₹50,000 in the account any more."
+      ],
+      "fill": "Your account has ₹40,000 and the options you want cost ₹60,000, so the broker blocks the order. SEBI's rule of ____ is why.",
+      "confusables": [
+        "option-premium",
+        "peak-margin",
+        "span-margin"
+      ],
+      "wrong": [
+        "Paying option sellers before expiry",
+        "Brokers charging fees before each trade",
+        "Exchanges collecting margin before the market opens"
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.business-standard.com/amp/markets/news/sebi-announces-six-key-changes-to-curb-speculation-in-derivatives-trading-124100101316_1.html",
+      "difficulty": 2
+    },
+    {
+      "id": "expiry-day-elm",
+      "term": "expiry-day ELM",
+      "aliases": [
+        "expiry day extreme loss margin"
+      ],
+      "said": "expiry-day E L M",
+      "speak": "expiry day E L M",
+      "unit": "s7",
+      "short": "Extra 2% margin on shorts expiring that day",
+      "definition": "An extra 2% extreme loss margin on short options that expire that day, both those open at the start of the day and those sold during it. It makes selling cheap options in their last hours costlier.",
+      "examples": [
+        "Selling Tuesday's Nifty strikes on the day now needs 2% more margin."
+      ],
+      "fill": "On the day Nifty weekly options run out, a trader selling them pays an extra 2% margin on top of the usual. That add-on is the ____.",
+      "confusables": [
+        "peak-margin",
+        "weekly-expiry",
+        "span-margin"
+      ],
+      "wrong": [
+        "Penalty for not closing positions by 3:20 pm",
+        "Margin returned to option sellers at expiry",
+        "Extra 2% charged on option buyers every day"
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.business-standard.com/amp/markets/news/sebi-announces-six-key-changes-to-curb-speculation-in-derivatives-trading-124100101316_1.html",
+      "difficulty": 3
+    },
+    {
+      "id": "calendar-spread-benefit",
+      "term": "calendar spread benefit",
+      "aliases": [
+        "calendar spread margin benefit"
+      ],
+      "unit": "s7",
+      "short": "Lower margin for offsetting expiries",
+      "definition": "The margin discount for holding opposite positions in two expiries of the same underlying, such as long this month and short next month, since they largely offset. On expiry day the expiring leg no longer counts, so full margin is charged on the other one.",
+      "examples": [
+        "My spread margin jumped on expiry morning: no calendar spread benefit on the day."
+      ],
+      "fill": "Long this month's Nifty future and short next month's, you post less margin because the two largely cancel. That discount is the ____, and it goes on expiry day.",
+      "confusables": [
+        "calendar-spread",
+        "span-margin",
+        "expiry-day-elm"
+      ],
+      "wrong": [
+        "Extra margin charged on option sellers on expiry day",
+        "A refund of brokerage on rolled positions",
+        "Lower STT on trades in far-month contracts"
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.business-standard.com/amp/markets/news/sebi-announces-six-key-changes-to-curb-speculation-in-derivatives-trading-124100101316_1.html",
+      "difficulty": 3
+    },
+    {
+      "id": "futeq-oi",
+      "term": "futures-equivalent OI",
+      "aliases": [
+        "FutEq OI",
+        "delta-based OI"
+      ],
+      "said": "futures-equivalent O I",
+      "speak": "futures equivalent O I",
+      "unit": "s7",
+      "short": "Open interest counted by delta",
+      "definition": "Open interest measured by risk rather than by contract count: each option position is multiplied by its delta, so a far out-of-the-money option counts for much less than a future. SEBI now uses it for market-wide limits and the F&O ban.",
+      "examples": [
+        "Lots of cheap calls were sold, but futures-equivalent OI barely moved because their deltas were tiny."
+      ],
+      "fill": "1,000 lots of calls with a delta of 0.2 count as just 200 lots when the exchange checks position limits. That way of counting gives ____.",
+      "confusables": [
+        "open-interest",
+        "mwpl",
+        "delta"
+      ],
+      "wrong": [
+        "Open interest in futures only, ignoring options",
+        "Open interest shown in rupees instead of lots",
+        "Open interest at the end of the previous day"
+      ],
+      "calcs": [
+        {
+          "q": "You hold 400 lots of puts with a delta of −0.25 and are long 50 lots of futures. What's your futures-equivalent position?",
+          "options": [
+            "−50 lots",
+            "350 lots",
+            "450 lots",
+            "−100 lots"
+          ],
+          "answer": 0,
+          "why": "Puts: 400 × −0.25 = −100 lots. Futures: +50. Total: −50 lots."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.kotakneo.com/bulletins/sebi-new-f-o-rules-explained-delta-based-oi-new-mwpl-what-it-means-for-your-trading/",
+      "difficulty": 3
+    },
+    {
+      "id": "intraday-position-monitoring",
+      "term": "intraday position monitoring",
+      "aliases": [
+        "intraday position checks"
+      ],
+      "unit": "s7",
+      "short": "Position limits checked during the day too",
+      "definition": "Exchanges checking index F&O position limits during the day as well as at the close, using at least four snapshots at random times. Big traders can no longer build huge positions in the morning and cut them before the end-of-day check.",
+      "examples": [
+        "We breached the limit at 11:40 and were caught, even though we were flat by the close."
+      ],
+      "fill": "The exchange takes at least four surprise snapshots of index F&O positions during the day, not just one at the close. That's ____.",
+      "confusables": [
+        "mwpl",
+        "fo-ban",
+        "futeq-oi"
+      ],
+      "wrong": [
+        "Brokers watching clients' P&L for margin calls",
+        "SEBI reviewing every trade the next morning",
+        "Exchanges halting trading at 3:20 pm for checks"
+      ],
+      "asOf": "2026-11",
+      "source": "https://fiianddiidata.com/sebi-new-fo-rules-2026/",
       "difficulty": 3
     }
   ]
