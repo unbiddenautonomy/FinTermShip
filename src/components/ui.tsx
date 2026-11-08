@@ -239,3 +239,21 @@ export function ConfirmDialog({
     </div>
   );
 }
+
+/** A number with − and + buttons, for prices on a grid. */
+export function Stepper({ label, value, onDown, onUp }: { label: string; value: number; onDown: () => void; onUp: () => void }) {
+  return (
+    <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-2">
+      <span className="flex-1 text-sm font-bold text-ink-2">{label}</span>
+      <button type="button" onClick={onDown} aria-label={`${label}: lower`} className="h-11 w-11 rounded-xl bg-sunken text-xl font-extrabold text-ink-2 active:translate-y-[1px]">
+        −
+      </button>
+      <span className="num w-14 text-center text-2xl font-extrabold text-ink" aria-label={label}>
+        {Number.isInteger(value) ? String(value) : value.toFixed(1)}
+      </span>
+      <button type="button" onClick={onUp} aria-label={`${label}: raise`} className="h-11 w-11 rounded-xl bg-sunken text-xl font-extrabold text-ink-2 active:translate-y-[1px]">
+        +
+      </button>
+    </div>
+  );
+}

@@ -11,6 +11,7 @@ import { GUESS } from './guess';
 import { KELLY } from './kelly';
 import { MM, points } from './market';
 import { MEETING, MEETING_QUESTIONS } from './meeting';
+import { BEST_TURNS_NEEDED, HEADLINE, LEVELS, levelChecks, type LevelNo } from './mmlevels';
 import { PAIR_CALLS, PAIRS } from './pairs';
 import { PAYOFF } from './payoff';
 import { SIGNAL } from './signal';
@@ -35,6 +36,13 @@ export interface GameSpec {
 const outOf = (max: number, fresh: string) => (rec: DrillRecord | undefined) =>
   rec?.passed ? `Passed · best ${rec.bestRight}/${max}` : rec ? `Best ${rec.bestRight}/${max}` : fresh;
 
+/** The market game's record line, shared by every level. */
+const marketRecord = (rec: DrillRecord | undefined) => {
+  if (rec?.passed) return rec.best !== undefined ? `Passed · best ${points(rec.best)} pts` : 'Passed';
+  if (rec) return `${rec.rounds} game${rec.rounds === 1 ? '' : 's'} played`;
+  return 'Trading game';
+};
+
 export const GAMES: Record<GameId, GameSpec> = {
   market: {
     size: `${MM.turns} turns`,
@@ -43,11 +51,7 @@ export const GAMES: Record<GameId, GameSpec> = {
       'Quote a bid and an ask on the total of three dice while traders deal with you. Some of them already know the next die. Make money from the spread without getting picked off, and keep your position under control.',
     how: 'Each turn you set a bid and an ask, and see who trades with you. The review at the end shows where the money went.',
     score: { label: 'checks met', short: 'Checks', max: 3 },
-    record: (rec) => {
-      if (rec?.passed) return rec.best !== undefined ? `Passed · best ${points(rec.best)} pts` : 'Passed';
-      if (rec) return `${rec.rounds} game${rec.rounds === 1 ? '' : 's'} played`;
-      return 'Trading game';
-    },
+    record: marketRecord,
   },
   payoff: {
     size: `${PAYOFF.targets} targets`,
@@ -135,6 +139,47 @@ export const GAMES: Record<GameId, GameSpec> = {
   },
 };
 
+const L = LEVELS;
+const levelSpec = (n: LevelNo, rule: string, about: string, how: string): GameSpec => ({
+  size: `${L[n].turns} turns`,
+  rule,
+  about,
+  how,
+  score: { label: 'checks met', short: 'Checks', max: levelChecks(n).length },
+  record: marketRecord,
+});
+
+/** Make a market, levels 2 to 5: each adds one thing to the dice game. */
+export const MARKET_LEVELS: Record<LevelNo, GameSpec> = {
+  2: levelSpec(
+    2,
+    `pass by quoting within ${L[2].midTolerance} point of fair value on ${L[2].midTurnsNeeded} of ${L[2].turns} turns, keeping the spread to ${L[2].maxWidth} points and ending within ${L[2].flatAtEnd} lots of flat`,
+    'The total is now five cards from a deck of 1 to 10, dealt without putting them back. Every card shown changes what the hidden ones are worth: with the 10 out, the rest are lower. Quote around the cards left, not around 5.5 a card.',
+    'A card is shown every two turns. Fair value is the cards shown plus, for each hidden card, the average of the cards still in the deck.',
+  ),
+  3: levelSpec(
+    3,
+    `pass by quoting near fair value, keeping the spread to ${L[3].maxWidth} points but at least ${HEADLINE.minWidth} on the headline turn, and ending within ${L[3].flatAtEnd} lots of flat`,
+    "Three dice again, but one turn ends with a headline that moves the total by 3 or 4 points, up or down. You know when it's due, not which way. Fast traders know the number already, so widen before it and re-centre once it's out.",
+    'The turn a headline is due is marked before you quote. Once it is out, fair value includes the move.',
+  ),
+  4: levelSpec(
+    4,
+    `pass by quoting within ${L[4].midTolerance} points of fair value, keeping the spread to ${L[4].maxWidth}, never holding more than ${L[4].riskLimit} lots and ending within ${L[4].flatAtEnd} lots of flat`,
+    `Traders now deal 1 to 3 lots, and the ones who know the next die always deal 3. Size is information: a 3-lot trade tells you which way the die is going, and it moves your position fast. Lean your quotes to stay inside a ${L[4].riskLimit}-lot risk limit.`,
+    `The trader picks the size. Risk wants you within ${L[4].riskLimit} lots after every turn, and the hard limit is ${L[4].limit}.`,
+  ),
+  5: levelSpec(
+    5,
+    `pass by quoting near fair value, being at the best price on at least one side on ${BEST_TURNS_NEEDED} of ${L[5].turns} turns, never beating the rival on both sides at once, and ending within ${L[5].flatAtEnd} lot of flat`,
+    "Another market maker quotes fair value ± 1 every turn and never leans. Traders deal at the best price, so you only trade when you're at it. Join the rival, improve one side to get out of a position, and see who deals with you when you're best on both sides.",
+    "The rival's quote shows next to yours. A better price wins the whole trade; at the same price a coin decides.",
+  ),
+};
+
+/** The level of a market game unit: 1 for the first, then 2 to 5. */
+export const marketLevel = (unitId: string): 1 | LevelNo => unitById.get(unitId)?.level ?? 1;
+
 /** The game a unit plays, or null for a unit that isn't a game. Older game units without a name play the market game. */
 export function gameOf(unitId: string): GameId | null {
   const u = unitById.get(unitId);
@@ -143,5 +188,7 @@ export function gameOf(unitId: string): GameId | null {
 
 export function gameSpec(unitId: string): GameSpec | undefined {
   const g = gameOf(unitId);
-  return g ? GAMES[g] : undefined;
+  if (!g) return undefined;
+  const level = marketLevel(unitId);
+  return g === 'market' && level > 1 ? MARKET_LEVELS[level as LevelNo] : GAMES[g];
 }

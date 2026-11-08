@@ -7,7 +7,7 @@
       "where": "Prop trading firms, market makers, hedge funds and bank trading desks",
       "what": "Runs trading strategies or quotes prices, deciding how much to trade and how much risk to hold, often within seconds. Many firms hire graduates straight from campus and teach the markets on the job.",
       "skills": ["Quick, accurate mental maths", "Probability and expected value", "Options and the Greeks", "Calm decisions under pressure"],
-      "practise": ["k1", "k2", "k3", "k4", "s6", "o2", "o10", "o8", "o9", "k7", "o11", "o12", "d6", "x7"]
+      "practise": ["k1", "k2", "k3", "k4", "s6", "s8", "s11", "o2", "o10", "o8", "o9", "k7", "o11", "o12", "d6", "x7"]
     },
     {
       "id": "quant-researcher",
@@ -69,7 +69,7 @@
     {
       "name": "Market-making game",
       "what": "The interviewer asks for a bid and an ask on something uncertain, like the total of some dice, trades with you and drops clues. You must move your prices and manage your position.",
-      "practise": ["s6"]
+      "practise": ["s6", "s8", "s9", "s10", "s11"]
     },
     {
       "name": "Markets and options",
