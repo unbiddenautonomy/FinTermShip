@@ -33,6 +33,13 @@
       "name": "Case: working a big buy order",
       "core": false,
       "kind": "case"
+    },
+    {
+      "id": "x7",
+      "name": "Morning meeting",
+      "core": false,
+      "kind": "game",
+      "game": "meeting"
     }
   ],
   "terms": [
