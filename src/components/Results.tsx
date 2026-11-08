@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react';
 import { categories, termName, unitById } from '../lib/content';
 import { clock, DRILLS } from '../lib/drills';
+import { PHASE3, PHASE3_TEST_SIZE } from '../lib/phase3';
 import { Bolt, Flame, Target } from './icons';
 import type { LessonSummary } from './Lesson';
 import { Button, Card, Ring } from './ui';
@@ -52,6 +53,10 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
       ? drill.passed
         ? `${drill.right} of ${drill.total} right in ${clock(drill.ms)}. ${drill.firstPass ? 'The path moves on.' : `Best time: ${clock(drill.bestMs ?? drill.ms)}.`}`
         : `${drill.right} of ${drill.total} right in ${clock(drill.ms)}. To pass: ${spec.passRight} right in under ${clock(spec.targetSec * 1000)}.`
+      : test?.categoryId === PHASE3
+        ? test.passed
+          ? 'Phase 3 is open. Its first unit is now your pick, so your next lesson starts the strategies.'
+          : `You need ${Math.ceil(PHASE3_TEST_SIZE * 0.8)} of ${PHASE3_TEST_SIZE} to open phase 3. You can try again tomorrow.`
       : test
         ? test.passed
           ? `${area}: advanced units are open.`
