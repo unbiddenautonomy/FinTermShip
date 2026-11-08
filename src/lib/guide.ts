@@ -151,6 +151,15 @@ const SYNONYMS: Record<string, string[]> = {
   'unit:k7': ['fermi', 'fermi estimates', 'fermi questions', 'estimation', 'estimates', 'guesstimates', 'market sizing'],
   'unit:z6': ['kelly betting', 'kelly game', 'betting game', 'bet sizing game'],
   'unit:s7': ['sebi rules', 'algo rules', 'fno rules'],
+  'unit:q9': ['research review', 'research meeting', 'research talk', 'quant meeting talk', 'quant lingo'],
+  'unit:q10': ['signal research', 'alpha research talk'],
+  'unit:q11': ['pm talk', 'portfolio manager talk', 'pm lingo'],
+  'unit:q12': ['risk meeting', 'risk talk', 'risk lingo'],
+  'unit:d6': ['trade management', 'managing trades', 'trading psychology'],
+  'unit:o11': ['fno talk', 'fno slang', 'option trader talk', 'options slang'],
+  'unit:o12': ['vol talk', 'premium selling talk', 'option desk talk'],
+  'unit:x5': ['execution talk', 'sales trader talk', 'execution lingo'],
+  'unit:x6': ['order talk', 'order desk', 'dealing desk talk'],
   'term:pe-ratio': ['p e', 'p e ratio', 'pe ratio', 'pe multiple'],
   'term:participant-wise-oi': ['fii long short ratio', 'long short ratio', 'fii positions'],
   'term:realised-volatility': ['rv', 'realized volatility', 'realized vol'],
@@ -194,7 +203,7 @@ interface Entry {
   target: Target;
   label: string;
   /** Each name as words; synonyms score a hair below real names so a real name wins a tie. */
-  names: { words: string[]; weight: number }[];
+  names: { words: string[]; text: string; weight: number }[];
 }
 
 const KEY = (t: Target) => `${t.kind}:${t.id}`;
@@ -206,7 +215,7 @@ function buildIndex(): Entry[] {
     out.push({
       target,
       label,
-      names: [...names.map((n) => ({ words: nameWords(n), weight: 1 })), ...syn.map((n) => ({ words: nameWords(n), weight: 0.99 }))].filter((n) => n.words.length),
+      names: [...names.map((n) => ({ words: nameWords(n), text: normalize(n), weight: 1 })), ...syn.map((n) => ({ words: nameWords(n), text: normalize(n), weight: 0.99 }))].filter((n) => n.words.length),
     });
   };
   for (const c of categories) {
@@ -284,7 +293,7 @@ export const HELP: HelpTopic[] = [
   {
     id: 'goal',
     strong: true,
-    match: /\b(daily goal|new terms (per|a|each) day|how many (new )?terms|too (many|fast|slow|much)|slow (it )?down|speed (it )?up|minutes a day|time a day)\b/,
+    match: /\b(daily goal|new terms (per|a|each) day|how many (new )?terms|too (many|much)( new)? (terms|words|cards|questions|reviews|lessons)|(its|it is|this is|thats|that is) too (many|much|fast|slow)|too (fast|slow)|slow (it )?down|speed (it )?up|minutes a day|time a day)\b/,
     text: 'Set your daily goal in Settings: 5, 10, 15, 20, 30 or 40 new terms a day. Reviews of terms you have met come on top, and the screen shows about how many minutes a day your choice takes.',
     action: 'settings',
   },
@@ -468,9 +477,18 @@ export function answer(text: string, p: Progress): Reply {
   const contract = CONTRACT.exec(t);
   if (contract) return { kind: 'term', termId: contract[1] === 'ce' ? 'ce-option' : 'pe-option', intent: 'define' };
 
-  const intent = readIntent(t);
+  let intent = readIntent(t);
   const subj = subject(t);
-  const matches = search(subj, intent);
+  let matches = search(subj, intent);
+  // A verb inside a name doesn't say what the learner wants: "what is improve the bid" asks for a term.
+  const named = matches[0] && entryOf.get(KEY(matches[0].target))?.names.find((n) => ` ${t} `.includes(` ${n.text} `));
+  if (named) {
+    const rest = readIntent(` ${t} `.replace(` ${named.text} `, ' ').trim());
+    if (rest !== intent) {
+      intent = rest;
+      matches = search(subj, intent);
+    }
+  }
 
   if (CAREER.test(t)) {
     const role = matches.find((m) => m.target.kind === 'role' && m.score >= 0.75);

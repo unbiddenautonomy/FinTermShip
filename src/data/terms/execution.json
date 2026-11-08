@@ -19,6 +19,16 @@
       "core": false
     },
     {
+      "id": "x5",
+      "name": "Execution chatter",
+      "core": false
+    },
+    {
+      "id": "x6",
+      "name": "Order desk talk",
+      "core": false
+    },
+    {
       "id": "x4",
       "name": "Case: working a big buy order",
       "core": false,
@@ -894,6 +904,709 @@
         "Model of how volatility changes over time"
       ],
       "difficulty": 3
+    },
+    {
+      "id": "percent-done",
+      "term": "percent done",
+      "aliases": [
+        "how much done",
+        "fill so far"
+      ],
+      "unit": "x5",
+      "short": "Share of the order filled so far",
+      "definition": "How much of an order has been executed, as a share of the total. Sales traders update clients through the day: '40% done at 1,212 against VWAP at 1,214.'",
+      "examples": [
+        "We're 60% done at an average of 2,431, just inside VWAP.",
+        "The client wants an update: what's the percent done on the Reliance sell?"
+      ],
+      "fill": "By noon 2 lakh of the 5 lakh shares were bought, and the trader told the client the ____ was 40%.",
+      "confusables": [
+        "partial-fill",
+        "fill",
+        "participation-rate"
+      ],
+      "wrong": [
+        "Share of the day's volume you traded",
+        "Share of trades that made money",
+        "Share of the price paid upfront"
+      ],
+      "calcs": [
+        {
+          "q": "The order is to sell 8 lakh shares. So far 3.2 lakh have been sold. What is the percent done?",
+          "options": [
+            "40%",
+            "32%",
+            "60%",
+            "25%"
+          ],
+          "answer": 0,
+          "why": "3.2 ÷ 8 = 0.4, so 40% done."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "leaning-on-offer",
+      "term": "leaning on the offer",
+      "aliases": [
+        "leaning on the bid",
+        "leaning on it",
+        "lean on the offer"
+      ],
+      "unit": "x5",
+      "short": "A big resting order holding the price back",
+      "definition": "A large order sitting at the best price that stops it moving: a big seller leaning on the offer caps the rise, and a big buyer leaning on the bid props the price up.",
+      "examples": [
+        "Someone's leaning on the offer at 1,450 with 2 lakh shares; we're not getting above it today.",
+        "There's a buyer leaning on the bid, so I'd sell into it while it's there."
+      ],
+      "fill": "A seller with 3 lakh shares has sat at ₹820 all morning, so the stock can't get past it: he's ____.",
+      "confusables": [
+        "offered",
+        "well-bid",
+        "iceberg-order"
+      ],
+      "wrong": [
+        "Waiting for the price to fall to buy",
+        "Trading on credit from the broker",
+        "Copying another trader's orders"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "join-the-bid",
+      "term": "join the bid",
+      "aliases": [
+        "join the offer",
+        "sit on the bid"
+      ],
+      "unit": "x5",
+      "short": "Rest a buy at the best bid, in the queue",
+      "definition": "Placing a passive buy order at the current best bid price, behind the orders already there. It avoids paying the spread, but you wait your turn in the queue and may not get filled.",
+      "examples": [
+        "No rush, join the bid at 612 and see what comes.",
+        "Join the offer with half and work the rest through the afternoon."
+      ],
+      "fill": "The best bid was ₹612. Instead of paying ₹612.50, she placed her buy at ₹612 to ____ and wait.",
+      "confusables": [
+        "improve-the-bid",
+        "hit-the-bid",
+        "limit-order"
+      ],
+      "wrong": [
+        "Buy straight away at the best offer",
+        "Sell to the highest bidder right now",
+        "Bid one tick above the current best bid"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "improve-the-bid",
+      "term": "improve the bid",
+      "aliases": [
+        "improve the offer",
+        "step ahead",
+        "tick up the bid"
+      ],
+      "unit": "x5",
+      "short": "Bid a tick higher to go first in line",
+      "definition": "Placing a buy order one tick above the current best bid, so you become the new best bid and are first to be filled. You pay a little more but jump the queue.",
+      "examples": [
+        "Improve the bid by a tick; there are 50,000 shares ahead of us at 612.",
+        "If the offer side's thin, improve the offer and you'll probably get hit."
+      ],
+      "fill": "The best bid had a long queue, so he bid one tick higher to ____ and get filled first.",
+      "confusables": [
+        "join-the-bid",
+        "best-bid-offer",
+        "lift-the-offer"
+      ],
+      "wrong": [
+        "Raise the bid to the offer and buy",
+        "Rest a buy at the current best bid",
+        "Cancel the bid and place it lower"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "cross-the-spread",
+      "term": "cross the spread",
+      "aliases": [
+        "crossing the spread",
+        "take liquidity"
+      ],
+      "unit": "x5",
+      "short": "Pay the other side's price to trade now",
+      "definition": "To buy at the offer or sell at the bid, trading straight away against resting orders. You get the fill but pay the spread; a market order or an aggressive limit order crosses it.",
+      "examples": [
+        "We're behind the stock; cross the spread for the next 20,000.",
+        "Crossing the spread on every child order cost us 6 bps on the day."
+      ],
+      "fill": "Bid ₹100, offer ₹100.10: buying right away at ₹100.10 means you ____ and pay 10 paise.",
+      "confusables": [
+        "lift-the-offer",
+        "hit-the-bid",
+        "spread"
+      ],
+      "wrong": [
+        "Place your order inside the spread",
+        "Wait at the bid for a seller",
+        "Trade the gap between two futures"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "pay-up",
+      "term": "pay up",
+      "aliases": [
+        "paying up",
+        "pay up for it"
+      ],
+      "unit": "x5",
+      "short": "Accept a worse price to get it done",
+      "definition": "To accept a higher price when buying (or a lower one when selling) than you wanted, because getting the trade done matters more. Desks pay up when the stock is running away or news is coming.",
+      "examples": [
+        "It's running away from us; pay up to 1,520 and finish the order.",
+        "We had to pay up 30 bps over arrival to get the block."
+      ],
+      "fill": "With results tomorrow and half the order left, the PM told the trader to ____ and finish it, even 1% above arrival.",
+      "confusables": [
+        "lift-the-offer",
+        "slippage",
+        "urgency"
+      ],
+      "wrong": [
+        "Settle the trade with the clearing house",
+        "Pay the broker's bill at month end",
+        "Pay a margin call in cash"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "running-away",
+      "term": "running away",
+      "aliases": [
+        "it's running",
+        "the stock is running",
+        "running away from us"
+      ],
+      "unit": "x5",
+      "short": "Price moving fast away from your order",
+      "definition": "When the price moves quickly away from where you're trying to trade: up when you're buying, down when you're selling. You either pay up and chase it or risk not getting the order done.",
+      "examples": [
+        "It's running away: up 2% since we started and we're only 30% done.",
+        "Don't chase it if it's running away; the client's limit is 1,480."
+      ],
+      "fill": "She was buying slowly at ₹500, but the price jumped to ₹515 in ten minutes; it was ____ from her.",
+      "confusables": [
+        "chase",
+        "pay-up",
+        "timing-risk"
+      ],
+      "wrong": [
+        "A trader leaving the firm with clients",
+        "Price stuck in a tight range all day",
+        "Stock suspended from trading for news"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "natural",
+      "term": "natural",
+      "aliases": [
+        "natural seller",
+        "natural buyer",
+        "the natural"
+      ],
+      "unit": "x5",
+      "short": "A real other side wanting the opposite trade",
+      "definition": "A buyer or seller who genuinely wants the other side of your trade for their own reasons, not a market maker or an arbitrageur. Finding a natural lets a block trade at a fair price with little impact.",
+      "examples": [
+        "We have a natural for 5 lakh shares: a fund wants to sell exactly what our client is buying.",
+        "No natural on the other side, so we'll have to work it in the market."
+      ],
+      "fill": "A pension fund wanted to sell the 3 lakh shares the client wanted to buy, so the broker matched them: it had found a ____.",
+      "confusables": [
+        "axe",
+        "market-maker",
+        "flow"
+      ],
+      "wrong": [
+        "A stock that has no futures or options",
+        "A trade done with no brokerage at all",
+        "A buyer who uses only market orders"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "clip",
+      "term": "clip",
+      "aliases": [
+        "clips",
+        "in clips"
+      ],
+      "unit": "x5",
+      "short": "One chunk of size traded at once",
+      "definition": "A single piece of size: a slice of a bigger order, or the size of one trade. 'Sell it in 25,000-share clips' means in pieces of that size; 'a ₹50 crore clip' is one big block.",
+      "examples": [
+        "Work it in 10,000-share clips so we don't spook the book.",
+        "There's a buyer for a ₹100 crore clip if we can price it."
+      ],
+      "fill": "Instead of one big order, he sold one 20,000-share ____ every few minutes.",
+      "confusables": [
+        "child-order",
+        "size",
+        "iceberg-order"
+      ],
+      "wrong": [
+        "Short video of the trading screen",
+        "Fee cut from each trade",
+        "Price limit on a single order"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "ioi",
+      "term": "IOI",
+      "aliases": [
+        "indication of interest",
+        "IOIs"
+      ],
+      "said": "I O I",
+      "speak": "I O I",
+      "unit": "x5",
+      "short": "A sign a firm may trade a block",
+      "definition": "Short for indication of interest: a message from a broker that it has, or may have, interest in buying or selling a stock in size. It isn't a firm order, so the size and price still have to be agreed.",
+      "examples": [
+        "We're seeing IOIs on the buy side in Infosys; that might be a natural for our seller.",
+        "That IOI was stale; the buyer had finished by the time we called."
+      ],
+      "fill": "The broker sent word that a client might buy 10 lakh shares, though nothing was firm yet: an ____.",
+      "confusables": [
+        "indicative-price",
+        "axe",
+        "natural"
+      ],
+      "wrong": [
+        "A firm order that must be filled",
+        "A daily report of open interest",
+        "An order sent to the opening auction"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "no-rush",
+      "term": "no rush",
+      "aliases": [
+        "no hurry",
+        "low urgency"
+      ],
+      "unit": "x5",
+      "short": "Patient: price matters more than speed",
+      "definition": "A client or PM telling the trader to work the order patiently, trading passively and only when the price is good. It lowers impact and spread costs but risks the price drifting away before the order is done.",
+      "examples": [
+        "No rush on the sell; just stay inside VWAP and finish by Friday.",
+        "No hurry, but if it breaks 1,400 I want to be done."
+      ],
+      "fill": "The PM said there was ____, so the trader rested small bids all day and finished the order in three days.",
+      "confusables": [
+        "urgency",
+        "timing-risk",
+        "join-the-bid"
+      ],
+      "wrong": [
+        "Finish the whole order at once",
+        "Cancel the order before the close",
+        "Trade only in the closing auction"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "front-load",
+      "term": "front-load",
+      "aliases": [
+        "front-loaded",
+        "frontload",
+        "front-loading"
+      ],
+      "unit": "x5",
+      "short": "Do more of the order early",
+      "definition": "To execute more of an order early in the trading window than an even schedule would, for example half in the first hour. It cuts the risk of the price drifting away, at the cost of more impact up front.",
+      "examples": [
+        "Results are tomorrow, so front-load it: half done by lunch.",
+        "The algo front-loaded the buy, then slowed down when the spread widened."
+      ],
+      "fill": "Expecting the price to rise during the day, the trader bought 60% of the order in the first hour: she chose to ____ it.",
+      "confusables": [
+        "urgency",
+        "volume-profile",
+        "twap"
+      ],
+      "wrong": [
+        "Leave most of the order for the close",
+        "Spread the order evenly over the day",
+        "Enter the order into the system early"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "residual",
+      "term": "the residual",
+      "aliases": [
+        "residual",
+        "the balance"
+      ],
+      "unit": "x6",
+      "short": "The part of an order still not done",
+      "definition": "What's left of an order after the fills so far. Near the close traders ask what to do with the residual: finish it, carry it to tomorrow or cancel it.",
+      "examples": [
+        "We've done 7 lakh of 10; what do you want to do with the residual?",
+        "Put the residual in the close."
+      ],
+      "fill": "With 8 lakh of the 10 lakh shares bought by 3 pm, the trader asked the PM what to do with the ____.",
+      "confusables": [
+        "partial-fill",
+        "percent-done",
+        "open-order"
+      ],
+      "wrong": [
+        "The broker's fee after rebates",
+        "Fee left to pay after a trade",
+        "Cash left in the account at day end"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "in-the-close",
+      "term": "in the close",
+      "aliases": [
+        "at the close",
+        "market on close",
+        "MOC"
+      ],
+      "unit": "x6",
+      "short": "Done at the official closing price",
+      "definition": "Executed at or very near the day's official closing price, which index funds and many PMs use as their benchmark. On NSE that means joining the closing auction for stocks that have one, or trading in the minutes that set the close.",
+      "examples": [
+        "The index fund needs it all done in the close, so we'll put it into the closing auction.",
+        "Do half over the day and the rest at the close."
+      ],
+      "fill": "Index funds buying a new member want the whole order done ____, at the official closing price.",
+      "confusables": [
+        "closing-auction",
+        "execution-benchmark",
+        "vwap"
+      ],
+      "wrong": [
+        "Done in the first minutes of trading",
+        "Done at the day's average price",
+        "Done after the market has shut"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "not-held",
+      "term": "not held",
+      "aliases": [
+        "not-held order",
+        "NH order"
+      ],
+      "unit": "x6",
+      "short": "Trader may choose price and timing",
+      "definition": "An order the client gives with discretion: the trader can choose when and at what price to trade, and isn't held to any particular fill. The opposite is a held order, which must be executed straight away.",
+      "examples": [
+        "It's not held, so I'll wait for the opening swings to settle before I start.",
+        "The client gave us 5 lakh not held, with a limit of 1,250."
+      ],
+      "fill": "Because the order was ____, the broker waited for the spread to tighten instead of buying at once.",
+      "confusables": [
+        "working-an-order",
+        "market-order",
+        "urgency"
+      ],
+      "wrong": [
+        "Order the exchange has rejected",
+        "Order held back until the next day",
+        "Order with no shares in the account"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "pull-the-order",
+      "term": "pull the order",
+      "aliases": [
+        "pull it",
+        "pull the bid",
+        "pull the offer"
+      ],
+      "unit": "x6",
+      "short": "Cancel the live order now",
+      "definition": "To cancel a working order straight away, often because news has hit or the price has moved. 'Pull the bid' and 'pull the offer' mean cancel your resting buy or sell.",
+      "examples": [
+        "News out on the stock: pull the order until we know what it is.",
+        "They pulled the offer the moment we lifted the first 10,000."
+      ],
+      "fill": "The headline flashed and the trader cancelled her resting buy within a second: she had to ____.",
+      "confusables": [
+        "amend-the-order",
+        "open-order",
+        "ioc"
+      ],
+      "wrong": [
+        "Send the order to another exchange",
+        "Raise the order's price to fill it",
+        "Book the order in the back office"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "amend-the-order",
+      "term": "amend the order",
+      "aliases": [
+        "amend",
+        "modify the order",
+        "order modification"
+      ],
+      "unit": "x6",
+      "short": "Change price or size of a live order",
+      "definition": "To change the price or quantity of an order that is still working, instead of cancelling and sending a new one. A price change or a bigger size usually sends the order to the back of the queue.",
+      "examples": [
+        "Amend the order down to 50,000; the client's cut the size.",
+        "Amend the limit to 1,420 and keep working."
+      ],
+      "fill": "Instead of cancelling, she changed her bid from ₹612 to ₹614: she chose to ____.",
+      "confusables": [
+        "pull-the-order",
+        "limit-order",
+        "open-order"
+      ],
+      "wrong": [
+        "Cancel the order and start again",
+        "Add a stop-loss after the fill",
+        "Reverse a trade that has settled"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "done-for-the-day",
+      "term": "done for the day",
+      "aliases": [
+        "DFD",
+        "done for today"
+      ],
+      "unit": "x6",
+      "short": "Stop for today; finish the rest later",
+      "definition": "An order instruction or update meaning trading stops for today, usually with the residual carried to the next session or cancelled. A trader who has hit a loss limit or a target says it too.",
+      "examples": [
+        "We're 70% done; done for the day, start again at the open.",
+        "Hit my target by noon, so I'm done for the day."
+      ],
+      "fill": "With the stock up 3% and 60% of the order filled, the client said to stop until tomorrow: the order was ____.",
+      "confusables": [
+        "day-order",
+        "residual",
+        "youre-done"
+      ],
+      "wrong": [
+        "Order fully filled for the client",
+        "Order valid only for a day",
+        "Trade that settles the same day"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "bips-vs-arrival",
+      "term": "bips versus arrival",
+      "aliases": [
+        "bps vs arrival",
+        "bps versus arrival",
+        "slippage versus arrival"
+      ],
+      "unit": "x6",
+      "short": "Cost in basis points against arrival",
+      "definition": "How an execution is scored: the average fill price compared with the price when the order arrived, in basis points. For a buy, filling above arrival is a cost and below it a gain.",
+      "examples": [
+        "We bought at 1,002 against arrival at 1,000: 20 bips versus arrival.",
+        "The algo was 8 bps worse than arrival but 2 bps better than VWAP."
+      ],
+      "fill": "Arrival price ₹500, average buy price ₹501: the desk reports the cost as 20 ____.",
+      "confusables": [
+        "arrival-price",
+        "implementation-shortfall",
+        "basis-point"
+      ],
+      "wrong": [
+        "Spread between bid and offer in paise",
+        "Cost against the day's closing price",
+        "Brokerage as a share of the trade"
+      ],
+      "calcs": [
+        {
+          "q": "You sell at an average of ₹995. The arrival price was ₹1,000. What is the cost in bips versus arrival?",
+          "options": [
+            "50 bps",
+            "5 bps",
+            "0.5 bps",
+            "500 bps"
+          ],
+          "answer": 0,
+          "why": "You sold ₹5 below arrival. 5 ÷ 1,000 = 0.5%, which is 50 bps of cost."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "average-price",
+      "term": "average price",
+      "aliases": [
+        "avg price",
+        "average fill price",
+        "average fill"
+      ],
+      "unit": "x6",
+      "short": "Size-weighted price of all the fills",
+      "definition": "The price of all the fills on an order, weighted by how many shares each fill was. It is what the client pays or receives, and what gets compared with benchmarks like VWAP and arrival.",
+      "examples": [
+        "Average price on the buy is 2,431.40 against a VWAP of 2,433.",
+        "Send the client the average price and the percent done every hour."
+      ],
+      "fill": "Buying 3,000 shares at ₹100 and 1,000 at ₹104 gives an ____ of ₹101.",
+      "confusables": [
+        "vwap",
+        "fill",
+        "arrival-price"
+      ],
+      "wrong": [
+        "Middle of the day's high and low",
+        "Average of the bid and the offer",
+        "The market's average price for the day"
+      ],
+      "calcs": [
+        {
+          "q": "You buy 6,000 shares at ₹250 and 4,000 at ₹255. What is the average price?",
+          "options": [
+            "₹252",
+            "₹252.50",
+            "₹253",
+            "₹251"
+          ],
+          "answer": 0,
+          "why": "(6,000 × 250 + 4,000 × 255) ÷ 10,000 = (15,00,000 + 10,20,000) ÷ 10,000 = ₹252."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "max-participation",
+      "term": "max participation",
+      "aliases": [
+        "participation cap",
+        "volume cap",
+        "max volume"
+      ],
+      "unit": "x6",
+      "short": "Most of the market's volume you'll take",
+      "definition": "A cap on the share of market volume an order or algo may trade, such as 'no more than 15% of volume'. It limits impact and keeps the order from standing out, but can leave it unfinished on a quiet day.",
+      "examples": [
+        "Max participation 10%, and don't go below 1,200.",
+        "On a light day the 15% cap meant we finished only 70% of the order."
+      ],
+      "fill": "The algo was told never to trade more than 20% of the stock's volume: a ____ of 20%.",
+      "confusables": [
+        "participation-rate",
+        "pov-algo",
+        "days-to-liquidate"
+      ],
+      "wrong": [
+        "Most shares one client may hold",
+        "Largest order an exchange allows",
+        "Most brokers that may handle an order"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "write-the-ticket",
+      "term": "write the ticket",
+      "aliases": [
+        "write a ticket",
+        "trade ticket",
+        "book the trade"
+      ],
+      "unit": "x6",
+      "short": "Record the trade's details for booking",
+      "definition": "To record a done trade with its details (stock, side, quantity, price, client and time) so it can be booked and settled. It's mostly electronic now, but the phrase has stuck.",
+      "examples": [
+        "Done 2 lakh at 845; write the ticket and send it to the client.",
+        "Write the ticket before you take the next call, or the allocations get muddled."
+      ],
+      "fill": "Once the block was agreed at ₹845, the sales trader had to ____ so operations could book it.",
+      "confusables": [
+        "allocation",
+        "print",
+        "youre-done"
+      ],
+      "wrong": [
+        "Report a trader to compliance",
+        "Write the research note on a stock",
+        "Fine a client for a late payment"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "allocation",
+      "term": "allocation",
+      "aliases": [
+        "allocations",
+        "allocate the fill",
+        "block allocation"
+      ],
+      "unit": "x6",
+      "short": "Splitting a block's fills across accounts",
+      "definition": "Dividing one executed order among the funds or clients it was done for, at the same average price. Fair allocation rules stop a manager from giving the best fills to favoured accounts.",
+      "examples": [
+        "Allocation on the 5 lakh: 3 lakh to fund A and 2 lakh to fund B, all at the average price.",
+        "Allocations for today's trades are due before 4 pm."
+      ],
+      "fill": "The manager bought 10 lakh shares in one order and then split them between three schemes at the same price: the ____.",
+      "confusables": [
+        "write-the-ticket",
+        "average-price",
+        "block-deal"
+      ],
+      "wrong": [
+        "Brokerage shared between two brokers",
+        "Weight of a stock in the Nifty index",
+        "Margin limit given to each trader"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "over-the-day",
+      "term": "over the day",
+      "aliases": [
+        "through the day",
+        "spread it over the day",
+        "work it over the day"
+      ],
+      "unit": "x6",
+      "short": "Trade gradually from open to close",
+      "definition": "An instruction to spread an order across the whole session, usually following the volume curve, instead of doing it at once. It's the natural way to aim for the day's VWAP.",
+      "examples": [
+        "No rush: work it over the day, VWAP benchmark.",
+        "Spreading it over the day cut the impact, but the stock drifted up 1% while we bought."
+      ],
+      "fill": "The PM wanted the day's VWAP, so the trader worked the 4 lakh shares ____, in line with the volume curve.",
+      "confusables": [
+        "vwap-algo",
+        "volume-profile",
+        "front-load"
+      ],
+      "wrong": [
+        "Done in one trade at the open",
+        "Valid until the next session",
+        "Held overnight to the next day"
+      ],
+      "difficulty": 1
     }
   ]
 }
