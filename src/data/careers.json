@@ -7,7 +7,7 @@
       "where": "Prop trading firms, market makers, hedge funds and bank trading desks",
       "what": "Runs trading strategies or quotes prices, deciding how much to trade and how much risk to hold, often within seconds. Many firms hire graduates straight from campus and teach the markets on the job.",
       "skills": ["Quick, accurate mental maths", "Probability and expected value", "Options and the Greeks", "Calm decisions under pressure"],
-      "practise": ["k1", "k2", "k3", "k4", "s6", "o2", "o10", "o8", "o9", "k7"]
+      "practise": ["k1", "k2", "k3", "k4", "s6", "o2", "o10", "o8", "o9", "k7", "o11", "o12", "d6"]
     },
     {
       "id": "quant-researcher",
@@ -15,7 +15,7 @@
       "where": "Hedge funds, prop trading firms and quant fund managers",
       "what": "Looks for patterns in market data that predict prices, tests them hard and turns the ones that survive into strategies. It needs strong statistics and coding, and many hires have a master's or a PhD.",
       "skills": ["Statistics and regression", "Backtesting without fooling yourself", "Python and handling data", "Probability"],
-      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5"]
+      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5", "q9", "q10"]
     },
     {
       "id": "quant-developer",
@@ -31,7 +31,7 @@
       "where": "Mutual funds, insurers, foreign funds and brokers' algo desks",
       "what": "Buys and sells large orders for a fund without moving the price too much, choosing the algo, the venue and the timing, then measuring what it cost.",
       "skills": ["Order books and liquidity", "Execution algos", "Measuring trading costs", "Working with brokers and fund managers"],
-      "practise": ["s2", "x1", "x2", "x3", "x4"]
+      "practise": ["s2", "x1", "x2", "x3", "x4", "x5", "x6"]
     },
     {
       "id": "risk-manager",
@@ -39,7 +39,7 @@
       "where": "Banks, brokers, clearing corporations, exchanges and funds",
       "what": "Measures how much a desk or fund could lose and sets the limits, margins and stress tests that stop one bad day from sinking the firm.",
       "skills": ["VaR and stress tests", "Margins and position limits", "Options and the Greeks", "Explaining risk to traders"],
-      "practise": ["q2", "q7", "t4", "o10", "o4", "s7"]
+      "practise": ["q2", "q7", "t4", "o10", "o4", "s7", "q11", "q12"]
     },
     {
       "id": "rates-fx-trader",
@@ -79,7 +79,7 @@
     {
       "name": "Statistics and research",
       "what": "Mostly for research roles: regression, overfitting, what can go wrong in a backtest, and a deep dive into a project of yours.",
-      "practise": ["q1", "q8", "q3", "q5", "q6"]
+      "practise": ["q1", "q8", "q3", "q5", "q6", "q9", "q10"]
     },
     {
       "name": "Coding",
@@ -89,7 +89,7 @@
     {
       "name": "Fit and motivation",
       "what": "Why trading, how you handle a losing streak, and a project you're proud of. It's short, but it counts.",
-      "practise": []
+      "practise": ["d6"]
     }
   ],
   "note": "Every firm runs its own process, and it changes from year to year; this is the usual shape. Check each firm's careers page before you apply."
