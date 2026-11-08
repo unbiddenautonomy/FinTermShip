@@ -158,6 +158,25 @@ export interface TestAttempt {
   passed: boolean;
 }
 
+/** Talk-style practice: decode a dense line, say it like the desk, reply in the room, or spot a term used wrongly. */
+export type TalkFormat = 'decode' | 'say' | 'reply' | 'misuse';
+
+export interface TalkItem {
+  id: string;
+  format: TalkFormat;
+  /** The term the item practises: answering it counts for this term. */
+  term: string;
+  /** Other terms the learner must have met before seeing it. */
+  also?: string[];
+  /** Who is speaking, for a reply. */
+  who?: string;
+  /** The line to decode, the plain sentence to put in desk words, or what was said. Not used to spot a misuse. */
+  prompt?: string;
+  /** The right option first; for a misuse, the sentence that misuses the term. Shuffled at runtime. */
+  options: string[];
+  why: string;
+}
+
 export type Question =
   | { kind: 'intro'; termId: string }
   | { kind: 'meaning'; termId: string; options: string[]; answer: number; review: boolean }
@@ -165,6 +184,9 @@ export type Question =
   | { kind: 'fill'; termId: string; options: string[]; answer: number; review: boolean }
   | { kind: 'calc'; termId: string; prompt: string; why: string; options: string[]; answer: number; review: boolean }
   | { kind: 'tf'; termId: string; prompt: string; why?: string; options: string[]; answer: number; review: boolean }
+  | { kind: 'talk'; format: TalkFormat; itemId: string; termId: string; options: string[]; answer: number; review: boolean }
+  /** Hear the term said aloud and pick its meaning. */
+  | { kind: 'listen'; termId: string; options: string[]; answer: number; review: boolean }
   | { kind: 'match'; termIds: string[]; right: string[] };
 
 export type ScoredQuestion = Exclude<Question, { kind: 'intro' } | { kind: 'match' }>;

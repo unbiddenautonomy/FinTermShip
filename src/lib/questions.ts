@@ -1,5 +1,5 @@
-import { categoryOfTerm, termById } from './content';
-import type { Question, Term } from './types';
+import { categoryOfTerm, talkByTerm, talkItems, talkTerms, termById } from './content';
+import type { Question, TalkItem, Term } from './types';
 
 export type Rng = () => number;
 
@@ -135,17 +135,60 @@ export function tfQuestion(term: Term, rng: Rng, review = false): Question | nul
   return { kind: 'tf', termId: term.id, prompt: f.s, why: f.why, options: ['True', 'False'], answer: f.a ? 0 : 1, review };
 }
 
+/** Decode it, say it like the desk, respond in the room or spot the misuse: one talk item, options shuffled. */
+export function talkQuestion(item: TalkItem, rng: Rng, review = false): Question {
+  return { kind: 'talk', format: item.format, itemId: item.id, termId: item.term, review, ...withAnswer(item.options[0], item.options.slice(1), rng) };
+}
+
+/** Every term the item needs is known (all count when `known` isn't given). */
+function talkFits(item: TalkItem, known?: Set<string>): boolean {
+  return !known || talkTerms(item).every((id) => known.has(id));
+}
+
+/** A talk item that practises this term and needs nothing the learner hasn't met, if there is one. */
+export function talkFor(term: Term, rng: Rng, known?: Set<string>): TalkItem | null {
+  const fits = (talkByTerm.get(term.id) ?? []).filter((i) => talkFits(i, known));
+  return fits.length ? pick(fits, rng) : null;
+}
+
+/**
+ * A talk item for a lesson: one that touches the given terms if any fits. Otherwise,
+ * now and then, any item on terms the learner knows, so the few items open early on
+ * don't repeat in every lesson. Null when nothing fits.
+ */
+export function talkAbout(termIds: string[], known: Set<string>, rng: Rng, skip: Set<string> = new Set()): TalkItem | null {
+  const fits = talkItems.filter((i) => !skip.has(i.id) && talkFits(i, known));
+  const near = fits.filter((i) => talkTerms(i).some((id) => termIds.includes(id)));
+  if (near.length) return pick(near, rng);
+  return fits.length && rng() < 0.4 ? pick(fits, rng) : null;
+}
+
+/** Listen and pick: the term is said aloud and the learner picks its meaning. Only for terms with a spoken form. */
+export function listenQuestion(term: Term, rng: Rng, review = false): Question | null {
+  if (!term.said) return null;
+  const wrong = shuffle(term.wrong, rng).slice(0, 3).map(tidyOption);
+  return { kind: 'listen', termId: term.id, review, ...withAnswer(tidyOption(term.short), wrong, rng) };
+}
+
 /**
  * Which format a scheduled review uses, by how well the term is known.
- * Early steps check recognition; later steps make the learner use the term:
- * in a sentence, in a sum, or against a common misreading.
+ * Early steps check recognition (by ear too, when `listen` is on); later steps
+ * make the learner use the term: in a sentence, in a sum, in desk talk, or
+ * against a common misreading.
  */
-export function reviewQuestion(term: Term, step: number, rng: Rng, known?: Set<string>): Question {
+export function reviewQuestion(term: Term, step: number, rng: Rng, known?: Set<string>, listen = false): Question {
   const r = rng();
-  if (step <= 1) return r < 0.5 ? meaningQuestion(term, rng, true) : termQuestion(term, rng, true, known);
+  if (step <= 1) {
+    if (listen && r < 0.2 && term.said) return listenQuestion(term, rng, true)!;
+    return r < 0.5 ? meaningQuestion(term, rng, true) : termQuestion(term, rng, true, known);
+  }
   if (step === 2) return (r < 0.35 && tfQuestion(term, rng, true)) || termQuestion(term, rng, true, known);
   if (r < 0.5 && term.calcs?.length) return calcQuestion(term, rng, true)!;
   if (r > 0.8 && term.tf?.length) return tfQuestion(term, rng, true)!;
+  if (r >= 0.45 && r < 0.7) {
+    const item = talkFor(term, rng, known);
+    if (item) return talkQuestion(item, rng, true);
+  }
   return fillQuestion(term, rng, true, known);
 }
 
@@ -166,6 +209,12 @@ export function retryQuestion(q: Question, rng: Rng, known?: Set<string>): Quest
       return { ...q, review: false, ...withAnswer(q.options[q.answer], q.options.filter((_, i) => i !== q.answer), rng) };
     case 'tf':
       // A second true/false would be a coin flip, so ask for the meaning instead.
+      return meaningQuestion(t, rng);
+    case 'talk':
+      // Same item, reshuffled: the best answer was just shown, so this checks it stuck.
+      return { ...q, review: false, ...withAnswer(q.options[q.answer], q.options.filter((_, i) => i !== q.answer), rng) };
+    case 'listen':
+      // The term's name was just shown, so ask for its meaning by sight.
       return meaningQuestion(t, rng);
   }
 }
