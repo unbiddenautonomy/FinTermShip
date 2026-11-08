@@ -60,6 +60,7 @@ for (const cat of categories) {
     if (u.kind === 'case' && !cases[u.id]) errors.push(`${cat.id} > unit ${u.id}: no desk case in cases.json`);
     if (u.kind === 'game' && !GAMES.includes(u.game)) errors.push(`${cat.id} > unit ${u.id}: a game unit needs "game" set to one of ${GAMES.join(', ')}`);
     if (u.kind !== 'game' && u.game) errors.push(`${cat.id} > unit ${u.id}: only game units name a game`);
+    if (u.level !== undefined && !(u.game === 'market' && [2, 3, 4, 5].includes(u.level))) errors.push(`${cat.id} > unit ${u.id}: only market game units have a level, from 2 to 5`);
   }
   for (const t of cat.terms) {
     for (const c of t.confusables || []) {

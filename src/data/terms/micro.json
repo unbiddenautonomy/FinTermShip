@@ -26,9 +26,25 @@
       "core": false
     },
     {
+      "id": "s8",
+      "name": "Make a market: cards",
+      "core": false,
+      "kind": "game",
+      "game": "market",
+      "level": 2
+    },
+    {
       "id": "s4",
       "name": "Market abuse",
       "core": false
+    },
+    {
+      "id": "s9",
+      "name": "Make a market: a headline",
+      "core": false,
+      "kind": "game",
+      "game": "market",
+      "level": 3
     },
     {
       "id": "s5",
@@ -36,9 +52,25 @@
       "core": false
     },
     {
+      "id": "s10",
+      "name": "Make a market: big orders",
+      "core": false,
+      "kind": "game",
+      "game": "market",
+      "level": 4
+    },
+    {
       "id": "s7",
       "name": "SEBI's algo and F&O rules",
       "core": false
+    },
+    {
+      "id": "s11",
+      "name": "Make a market: a rival",
+      "core": false,
+      "kind": "game",
+      "game": "market",
+      "level": 5
     }
   ],
   "terms": [

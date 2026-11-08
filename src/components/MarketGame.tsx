@@ -1,6 +1,7 @@
 import { useMemo, useRef, useState } from 'react';
 import { settleFocus } from '../lib/choose';
 import { categoryOfUnit, unitById } from '../lib/content';
+import { marketLevel } from '../lib/games';
 import { MM, newMarketGame, playTurn, points, scoreGame, shownBefore, type Quote, type TurnResult } from '../lib/market';
 import { passRule, recordRound } from '../lib/practice';
 import { seededRng } from '../lib/questions';
@@ -8,7 +9,8 @@ import { finishLesson } from '../lib/scheduler';
 import type { Progress } from '../lib/types';
 import { Cross, Dice } from './icons';
 import type { LessonSummary } from './Lesson';
-import { Bar, Button, ConfirmDialog, Pill } from './ui';
+import { MarketLevelGame } from './MarketLevelGame';
+import { Bar, Button, ConfirmDialog, Pill, Stepper } from './ui';
 
 interface Props {
   unitId: string;
@@ -23,7 +25,13 @@ interface Props {
 const fmt = (x: number) => (Number.isInteger(x) ? String(x) : x.toFixed(1));
 const lots = (n: number) => (n === 0 ? 'flat' : `${n > 0 ? 'long' : 'short'} ${Math.abs(n)} lot${Math.abs(n) === 1 ? '' : 's'}`);
 
-export function MarketGame({ unitId, seed, progress, today, onProgress, onFinish, onQuit }: Props) {
+/** The market game: the dice game at level 1, then levels 2 to 5 on their own screen. */
+export function MarketGame(props: Props) {
+  const level = marketLevel(props.unitId);
+  return level === 1 ? <DiceMarket {...props} /> : <MarketLevelGame {...props} level={level} />;
+}
+
+function DiceMarket({ unitId, seed, progress, today, onProgress, onFinish, onQuit }: Props) {
   const game = useMemo(() => newMarketGame(seededRng(seed)), [seed]);
   const unit = unitById.get(unitId);
   const [turns, setTurns] = useState<TurnResult[]>([]);
@@ -289,21 +297,4 @@ function tradeLine(t: TurnResult): string {
   if (t.fill) return t.fill.side === 'sold' ? `A trader bought 1 lot from you at ${fmt(t.fill.price)}.` : `A trader sold you 1 lot at ${fmt(t.fill.price)}.`;
   if (t.blocked) return `A trader wanted to ${t.position > 0 ? 'sell to' : 'buy from'} you, but you're at your ${MM.limit}-lot limit.`;
   return 'Nobody traded at those prices.';
-}
-
-function Stepper({ label, value, onDown, onUp }: { label: string; value: number; onDown: () => void; onUp: () => void }) {
-  return (
-    <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-2">
-      <span className="flex-1 text-sm font-bold text-ink-2">{label}</span>
-      <button type="button" onClick={onDown} aria-label={`${label}: lower`} className="h-11 w-11 rounded-xl bg-sunken text-xl font-extrabold text-ink-2 active:translate-y-[1px]">
-        −
-      </button>
-      <span className="num w-14 text-center text-2xl font-extrabold text-ink" aria-label={label}>
-        {fmt(value)}
-      </span>
-      <button type="button" onClick={onUp} aria-label={`${label}: raise`} className="h-11 w-11 rounded-xl bg-sunken text-xl font-extrabold text-ink-2 active:translate-y-[1px]">
-        +
-      </button>
-    </div>
-  );
 }
