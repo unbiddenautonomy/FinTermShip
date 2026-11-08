@@ -2,6 +2,7 @@ import { useEffect, useState, type ReactNode } from 'react';
 import { areaCoreTermIds, canTakeTest, focusActive, focusQueue, unitOpen } from '../lib/choose';
 import { categories, isPhase3Area, isQuantArea, practiceKind, unitById } from '../lib/content';
 import { DRILLS } from '../lib/drills';
+import { gameSpec } from '../lib/games';
 import { addDays, daysBetween } from '../lib/dates';
 import { todayStatus } from '../lib/lesson';
 import { PHASE3, phase3Open, reachableTermIds } from '../lib/phase3';
@@ -491,7 +492,7 @@ function PracticeSheet({
   const noun = kind === 'drill' ? 'drill' : kind === 'game' ? 'game' : 'case';
   const how = {
     drill: 'Type each answer. The clock stops while you read the working for a miss.',
-    game: 'Each turn you set a bid and an ask, and see who trades with you. The review at the end shows where the money went.',
+    game: gameSpec(unitId)?.how ?? '',
     case: "Pick the best call at each step. Every option says why it is or isn't the best one.",
   }[kind];
   const rule = passRule(unitId);

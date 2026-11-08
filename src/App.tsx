@@ -7,6 +7,7 @@ import { Guide, type GuideEntry } from './components/Guide';
 import { Home } from './components/Home';
 import { Lesson, type LessonSummary } from './components/Lesson';
 import { FermiGame } from './components/FermiGame';
+import { MeetingGame } from './components/MeetingGame';
 import { GreeksGame } from './components/GreeksGame';
 import { GuessGame } from './components/GuessGame';
 import { KellyGame } from './components/KellyGame';
@@ -37,6 +38,7 @@ const GAME_SCREENS: Record<GameId, typeof MarketGame> = {
   kelly: KellyGame,
   guess: GuessGame,
   fermi: FermiGame,
+  meeting: MeetingGame,
 };
 
 type Screen =
