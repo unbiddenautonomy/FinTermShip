@@ -19,6 +19,13 @@
       "core": false
     },
     {
+      "id": "o10",
+      "name": "Greeks PnL",
+      "core": false,
+      "kind": "game",
+      "game": "greeks"
+    },
+    {
       "id": "o4",
       "name": "Higher-order Greeks",
       "core": false
@@ -37,6 +44,13 @@
       "id": "o8",
       "name": "Reading the option chain",
       "core": false
+    },
+    {
+      "id": "o9",
+      "name": "Payoff builder",
+      "core": false,
+      "kind": "game",
+      "game": "payoff"
     },
     {
       "id": "o7",

@@ -7,7 +7,7 @@
       "where": "Prop trading firms, market makers, hedge funds and bank trading desks",
       "what": "Runs trading strategies or quotes prices, deciding how much to trade and how much risk to hold, often within seconds. Many firms hire graduates straight from campus and teach the markets on the job.",
       "skills": ["Quick, accurate mental maths", "Probability and expected value", "Options and the Greeks", "Calm decisions under pressure"],
-      "practise": ["k1", "k2", "k3", "k4", "s6", "o2", "o8"]
+      "practise": ["k1", "k2", "k3", "k4", "s6", "o2", "o10", "o8", "o9", "k7"]
     },
     {
       "id": "quant-researcher",
@@ -15,7 +15,7 @@
       "where": "Hedge funds, prop trading firms and quant fund managers",
       "what": "Looks for patterns in market data that predict prices, tests them hard and turns the ones that survive into strategies. It needs strong statistics and coding, and many hires have a master's or a PhD.",
       "skills": ["Statistics and regression", "Backtesting without fooling yourself", "Python and handling data", "Probability"],
-      "practise": ["q1", "q3", "q4", "q5", "q6", "q7", "k5"]
+      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5"]
     },
     {
       "id": "quant-developer",
@@ -39,7 +39,7 @@
       "where": "Banks, brokers, clearing corporations, exchanges and funds",
       "what": "Measures how much a desk or fund could lose and sets the limits, margins and stress tests that stop one bad day from sinking the firm.",
       "skills": ["VaR and stress tests", "Margins and position limits", "Options and the Greeks", "Explaining risk to traders"],
-      "practise": ["q2", "q7", "t4", "o4", "s7"]
+      "practise": ["q2", "q7", "t4", "o10", "o4", "s7"]
     },
     {
       "id": "rates-fx-trader",
@@ -63,8 +63,8 @@
     },
     {
       "name": "Probability and puzzles",
-      "what": "Dice, cards, coins and brainteasers, worked out loud. Interviewers want to hear how you reason, so talk through each step and check your answer.",
-      "practise": ["k3", "k4", "k5", "k6"]
+      "what": "Dice, cards, coins and brainteasers, worked out loud. Interviewers want to hear how you reason, so talk through each step and check your answer. Some also ask for a rough estimate of a size or a count.",
+      "practise": ["k3", "k4", "k5", "k6", "k7"]
     },
     {
       "name": "Market-making game",
@@ -74,12 +74,12 @@
     {
       "name": "Markets and options",
       "what": "Why options cost what they do, the Greeks, put-call parity, futures fair value, and what's moving the market this week.",
-      "practise": ["o1", "o2", "o3", "o6", "f1"]
+      "practise": ["o1", "o2", "o10", "o3", "o6", "o9", "f1"]
     },
     {
       "name": "Statistics and research",
       "what": "Mostly for research roles: regression, overfitting, what can go wrong in a backtest, and a deep dive into a project of yours.",
-      "practise": ["q1", "q3", "q5", "q6"]
+      "practise": ["q1", "q8", "q3", "q5", "q6"]
     },
     {
       "name": "Coding",

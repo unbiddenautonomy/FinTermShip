@@ -22,7 +22,7 @@ export interface LessonSummary {
   test?: { categoryId: string; right: number; total: number; passed: boolean; credited: number };
   /** Set after a timed drill. */
   drill?: { unitId: string; right: number; total: number; ms: number; passed: boolean; firstPass: boolean; bestMs?: number; missed: { prompt: string; shown: string }[] };
-  /** Set after a trading game or desk case. */
+  /** Set after a game or desk case. */
   round?: {
     unitId: string;
     kind: 'game' | 'case';
@@ -32,6 +32,8 @@ export interface LessonSummary {
     detail: string;
     /** The middle stat: P&L for a game, best calls for a case. */
     stat: { label: string; value: string };
+    /** What the score counts, long and short ("checks met", "Checks"). Defaults to checks for a game and calls for a case. */
+    score?: { label: string; short: string };
     /** Short notes, such as checks missed or decisions to revisit. */
     notes: { title: string; items: { prompt: string; shown: string }[] }[];
   };

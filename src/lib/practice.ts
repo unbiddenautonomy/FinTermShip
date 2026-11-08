@@ -1,16 +1,18 @@
 /**
- * Practice units on the track: timed drills, trading games and desk cases.
+ * Practice units on the track: timed drills, games and desk cases.
  * They share one record per unit (in `progress.drills`), hold up the path
  * until passed, and can be skipped for a day.
  */
+import { settleFocus } from './choose';
 import { caseById, practiceKind } from './content';
 import { clock, DRILLS } from './drills';
-import { MM, points } from './market';
+import { gameSpec } from './games';
+import { finishLesson } from './scheduler';
 import type { DrillRecord, PracticeKind, Progress } from './types';
 
 export const KIND_LABEL: Record<PracticeKind, string> = {
   drill: 'timed drill',
-  game: 'trading game',
+  game: 'game',
   case: 'desk case',
 };
 
@@ -24,7 +26,7 @@ export function casePassMark(unitId: string): number {
 export function roundSize(unitId: string): string {
   const kind = practiceKind(unitId);
   if (kind === 'drill') return `${DRILLS[unitId]?.count ?? 0} questions`;
-  if (kind === 'game') return `${MM.turns} turns`;
+  if (kind === 'game') return gameSpec(unitId)?.size ?? '';
   if (kind === 'case') return `${caseById.get(unitId)?.steps.length ?? 0} decisions`;
   return '';
 }
@@ -36,7 +38,7 @@ export function passRule(unitId: string): string {
     const spec = DRILLS[unitId];
     return spec ? `pass with ${spec.passRight} right in under ${clock(spec.targetSec * 1000)}` : '';
   }
-  if (kind === 'game') return `pass by quoting near fair value, keeping the spread to ${MM.maxWidth} points and ending within ${MM.flatAtEnd} lots of flat`;
+  if (kind === 'game') return gameSpec(unitId)?.rule ?? '';
   if (kind === 'case') return `pass with ${casePassMark(unitId)} best calls`;
   return '';
 }
@@ -45,8 +47,7 @@ export function passRule(unitId: string): string {
 export function practiceAbout(unitId: string): string {
   const kind = practiceKind(unitId);
   if (kind === 'drill') return DRILLS[unitId]?.about ?? '';
-  if (kind === 'game')
-    return 'Quote a bid and an ask on the total of three dice while traders deal with you. Some of them already know the next die. Make money from the spread without getting picked off, and keep your position under control.';
+  if (kind === 'game') return gameSpec(unitId)?.about ?? '';
   if (kind === 'case') return caseById.get(unitId)?.setup ?? '';
   return '';
 }
@@ -61,11 +62,7 @@ export function recordLine(p: Progress, unitId: string): string {
     if (rec) return `Best ${rec.bestRight}/${spec?.count}`;
     return `${spec?.count ?? ''}-question drill`;
   }
-  if (kind === 'game') {
-    if (rec?.passed) return rec.best !== undefined ? `Passed · best ${points(rec.best)} pts` : 'Passed';
-    if (rec) return `${rec.rounds} game${rec.rounds === 1 ? '' : 's'} played`;
-    return 'Trading game';
-  }
+  if (kind === 'game') return gameSpec(unitId)?.record(rec) ?? '';
   if (kind === 'case') {
     const steps = caseById.get(unitId)?.steps.length ?? 0;
     if (rec?.passed) return `Passed · ${rec.bestRight}/${steps}`;
@@ -88,4 +85,17 @@ export function recordRound(p: Progress, unitId: string, score: number, passed: 
   if (best !== undefined) next.best = Math.max(r.best ?? best, best);
   if (next.passed) delete next.snoozed;
   return { ...p, drills: { ...p.drills, [unitId]: next } };
+}
+
+/**
+ * Close a game round: record it, move the learner's pick on if it is done,
+ * and count the day. XP is 5 for playing, plus the score, plus 5 for a pass.
+ */
+export function finishGame(progress: Progress, unitId: string, today: string, score: number, passed: boolean, best?: number): { progress: Progress; xp: number; firstPass: boolean } {
+  const firstPass = passed && !progress.drills?.[unitId]?.passed;
+  const xp = 5 + score + (passed ? 5 : 0);
+  let p = recordRound(progress, unitId, score, passed, today, best);
+  p = settleFocus(p);
+  p = finishLesson(p, today, xp);
+  return { progress: p, xp, firstPass };
 }

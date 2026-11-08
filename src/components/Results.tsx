@@ -68,13 +68,14 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
             : `${summary.newIds.length} new term${summary.newIds.length === 1 ? '' : 's'} learned.`;
   const good = round ? round.passed : drill ? drill.passed : pct >= 80;
   const practiceId = drill?.unitId ?? round?.unitId;
+  const scoreLabel = round?.score ?? (round?.kind === 'game' ? { label: 'checks met', short: 'Checks' } : { label: 'best calls', short: 'Calls' });
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-xl animate-pop flex-col px-4 pb-8 pt-12">
       <div className="flex flex-col items-center text-center">
         <Ring value={pct} max={100} size={148} stroke={12} tone={good ? 'brand' : 'amber'} label={round ? `${summary.firstTryCorrect} of ${summary.firstTryTotal}` : test || drill ? `${pct}% right` : `${pct}% right first time`}>
           <div className="leading-none">
             <p className="num text-4xl font-extrabold text-ink">{round ? `${summary.firstTryCorrect}/${summary.firstTryTotal}` : `${pct}%`}</p>
-            <p className="mt-1.5 text-xs font-bold text-ink-3">{round ? (round.kind === 'game' ? 'checks met' : 'best calls') : test ? 'score' : drill ? 'right' : 'first try'}</p>
+            <p className="mt-1.5 text-xs font-bold text-ink-3">{round ? scoreLabel.label : test ? 'score' : drill ? 'right' : 'first try'}</p>
           </div>
         </Ring>
         <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-ink">{title}</h1>
@@ -91,7 +92,7 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
         ) : (
           <Stat icon={<Flame className="h-4 w-4" />} tone="text-amber-ink bg-amber-soft" label="Best run" value={String(summary.bestRun)} />
         )}
-        <Stat icon={<Target className="h-4 w-4" />} tone="text-brand-ink bg-brand-soft" label={round ? (round.kind === 'game' ? 'Checks' : 'Calls') : 'Right'} value={`${summary.firstTryCorrect}/${summary.firstTryTotal}`} />
+        <Stat icon={<Target className="h-4 w-4" />} tone="text-brand-ink bg-brand-soft" label={round ? scoreLabel.short : 'Right'} value={`${summary.firstTryCorrect}/${summary.firstTryTotal}`} />
       </div>
 
       {summary.newIds.length > 0 && (
