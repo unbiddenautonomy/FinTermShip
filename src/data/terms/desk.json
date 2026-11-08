@@ -1213,6 +1213,11 @@
           "s": "Short covering can push a price up even with no new buyers who want to own the stock.",
           "a": true,
           "why": "Shorts must buy to close, and that buying lifts the price."
+        },
+        {
+          "s": "In F&O data, short covering shows up as the price rising while open interest falls.",
+          "a": true,
+          "why": "Shorts buying back close their positions, so OI drops as the price climbs."
         }
       ],
       "difficulty": 2

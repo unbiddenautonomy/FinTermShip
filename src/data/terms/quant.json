@@ -27,6 +27,16 @@
       "id": "q5",
       "name": "Backtesting",
       "core": false
+    },
+    {
+      "id": "q6",
+      "name": "Trade statistics",
+      "core": false
+    },
+    {
+      "id": "q7",
+      "name": "Signals and book exposure",
+      "core": false
     }
   ],
   "terms": [
@@ -1705,6 +1715,560 @@
         "A change in the exchange's trading hours",
         "A change of fund manager",
         "A switch from one benchmark to another"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "hit-rate",
+      "term": "hit rate",
+      "aliases": [
+        "win rate",
+        "win ratio"
+      ],
+      "unit": "q6",
+      "short": "Share of trades that make money",
+      "definition": "The share of trades, days or bets that make money. On its own it says little: a strategy can win 30% of the time and still do well if the wins are much larger than the losses.",
+      "examples": [
+        "Hit rate is only 38%, but the average win is three times the average loss.",
+        "A 90% hit rate selling options sounds great until one loss wipes out the year."
+      ],
+      "fill": "Of 200 trades, 110 made money, so the strategy's ____ is 55%.",
+      "confusables": [
+        "payoff-ratio",
+        "expectancy",
+        "profit-factor"
+      ],
+      "wrong": [
+        "Average profit per trade",
+        "Gross profit divided by gross loss",
+        "Share of orders that get filled"
+      ],
+      "tf": [
+        {
+          "s": "A strategy with a hit rate below 50% must lose money.",
+          "a": false,
+          "why": "If the average win is big enough compared with the average loss, it still makes money."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "payoff-ratio",
+      "term": "payoff ratio",
+      "aliases": [
+        "win-loss ratio"
+      ],
+      "unit": "q6",
+      "short": "Average win ÷ average loss",
+      "definition": "The average winning trade divided by the average losing trade. Read with the hit rate, it tells you whether a strategy makes money.",
+      "examples": [
+        "Our payoff ratio is 2.5, so we can afford to be wrong more often than right.",
+        "Trend systems live on a high payoff ratio and a low hit rate."
+      ],
+      "fill": "The average winner makes ₹12,000 and the average loser costs ₹4,000, so the ____ is 3.",
+      "confusables": [
+        "hit-rate",
+        "profit-factor",
+        "expectancy"
+      ],
+      "wrong": [
+        "Gross profit divided by gross loss",
+        "Share of trades that make money",
+        "Return divided by maximum drawdown"
+      ],
+      "formula": "Average win ÷ average loss",
+      "calcs": [
+        {
+          "q": "A strategy wins 40% of the time. What payoff ratio does it need just to break even, before costs?",
+          "options": [
+            "1.5",
+            "0.67",
+            "2.5",
+            "1.0"
+          ],
+          "answer": 0,
+          "why": "Break-even needs 0.4 × average win = 0.6 × average loss, so win ÷ loss = 0.6 ÷ 0.4 = 1.5."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "profit-factor",
+      "term": "profit factor",
+      "unit": "q6",
+      "short": "Gross profit ÷ gross loss",
+      "definition": "Total profit from winning trades divided by total loss from losing trades. Above 1 the strategy made money; desks look for comfortably above 1 after costs.",
+      "examples": [
+        "Profit factor is 1.1 before costs and 0.9 after, so there's no edge left.",
+        "A profit factor of 1.6 over 800 trades is worth a closer look."
+      ],
+      "fill": "Winning trades made ₹30 lakh and losing trades lost ₹20 lakh, so the ____ is 1.5.",
+      "confusables": [
+        "payoff-ratio",
+        "hit-rate",
+        "sharpe-ratio"
+      ],
+      "wrong": [
+        "Average win divided by average loss",
+        "Profit as a share of the capital used",
+        "Return above the risk-free rate per unit of volatility"
+      ],
+      "formula": "Gross profit ÷ gross loss",
+      "calcs": [
+        {
+          "q": "A strategy has 60 winning trades averaging ₹5,000 and 40 losing trades averaging ₹6,000. What is its profit factor?",
+          "options": [
+            "1.25",
+            "0.83",
+            "1.5",
+            "0.6"
+          ],
+          "answer": 0,
+          "why": "Gross profit 60 × 5,000 = ₹3 lakh; gross loss 40 × 6,000 = ₹2.4 lakh; 3 ÷ 2.4 = 1.25."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A profit factor above 1 means the strategy made money over the period.",
+          "a": true,
+          "why": "Gross profit beat gross loss, so the net result was positive."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "expectancy",
+      "term": "expectancy",
+      "aliases": [
+        "edge per trade"
+      ],
+      "unit": "q6",
+      "short": "Average profit expected per trade",
+      "definition": "The average amount a strategy expects to make per trade: the hit rate times the average win, minus the loss rate times the average loss. It has to stay clearly positive after costs.",
+      "examples": [
+        "Expectancy is ₹350 a trade but costs are ₹300, so the edge is thin.",
+        "We'd take a lower hit rate if it lifts the expectancy."
+      ],
+      "fill": "A strategy wins half the time, making ₹3,000 on winners and losing ₹2,000 on losers, so its ____ is ₹500 a trade.",
+      "confusables": [
+        "hit-rate",
+        "payoff-ratio",
+        "profit-factor"
+      ],
+      "wrong": [
+        "Share of trades that make money",
+        "Average win divided by average loss",
+        "Profit target set before entering a trade"
+      ],
+      "formula": "Hit rate × average win − (1 − hit rate) × average loss",
+      "calcs": [
+        {
+          "q": "Hit rate 40%, average win ₹5,000, average loss ₹2,500. What is the expectancy per trade?",
+          "options": [
+            "₹500",
+            "₹2,500",
+            "₹1,000",
+            "−₹500"
+          ],
+          "answer": 0,
+          "why": "0.4 × 5,000 − 0.6 × 2,500 = 2,000 − 1,500 = ₹500."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "max-adverse-excursion",
+      "term": "maximum adverse excursion",
+      "aliases": [
+        "MAE"
+      ],
+      "said": "M A E",
+      "unit": "q6",
+      "short": "Worst open loss before a trade closed",
+      "definition": "The largest open loss a trade showed at any point before it was closed. Studied across many trades, it shows how much heat the winners take, which helps set stop-losses.",
+      "examples": [
+        "Most winners never had an MAE beyond 1.5%, so a 2% stop would cost us very few good trades.",
+        "The MAE on that trade was ₹4 lakh even though it closed in profit."
+      ],
+      "fill": "A trade bought at ₹500 fell to ₹470 before closing at ₹530, so its ____ was ₹30 a share.",
+      "confusables": [
+        "max-favourable-excursion",
+        "max-drawdown",
+        "stop-loss"
+      ],
+      "wrong": [
+        "Largest open profit a trade showed before closing",
+        "Worst fall of the whole portfolio from a peak",
+        "Largest loss the risk limits allow"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "max-favourable-excursion",
+      "term": "maximum favourable excursion",
+      "aliases": [
+        "MFE",
+        "maximum favorable excursion"
+      ],
+      "said": "M F E",
+      "unit": "q6",
+      "short": "Best open profit before a trade closed",
+      "definition": "The largest open profit a trade showed at any point before it was closed. Comparing it with the final profit shows how much gain the exits give back.",
+      "examples": [
+        "Average MFE is 3% but we only keep 1%, so the exits leave too much on the table.",
+        "That trade had an MFE of ₹2 lakh and still closed as a loss."
+      ],
+      "fill": "A short sold at ₹800 dropped to ₹740 before being bought back at ₹770, so its ____ was ₹60 a share.",
+      "confusables": [
+        "max-adverse-excursion",
+        "profit-target",
+        "unrealised-pnl"
+      ],
+      "wrong": [
+        "Worst open loss a trade showed before closing",
+        "Final profit on a trade after costs",
+        "Highest price a stock reached in the year"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "calmar-ratio",
+      "term": "Calmar ratio",
+      "aliases": [
+        "Calmar"
+      ],
+      "unit": "q6",
+      "short": "Annual return ÷ maximum drawdown",
+      "definition": "Annualised return divided by the maximum drawdown, often over the last three years. It shows how much return a strategy earns for the worst loss an investor had to sit through.",
+      "examples": [
+        "The Sharpe looks fine, but the Calmar is 0.4 because of that one ugly year.",
+        "Trend-following funds often quote Calmar alongside Sharpe."
+      ],
+      "fill": "A fund earns 15% a year and its worst peak-to-trough fall was 30%, so its ____ is 0.5.",
+      "confusables": [
+        "sharpe-ratio",
+        "max-drawdown",
+        "sortino-ratio"
+      ],
+      "wrong": [
+        "Return above the risk-free rate per unit of volatility",
+        "Return per unit of downside volatility",
+        "Gross profit divided by gross loss"
+      ],
+      "formula": "Annualised return ÷ maximum drawdown",
+      "calcs": [
+        {
+          "q": "Strategy A makes 20% a year with a 40% max drawdown; B makes 12% with a 10% max drawdown. Which has the higher Calmar ratio, and what is it?",
+          "options": [
+            "B, 1.2",
+            "A, 0.5",
+            "B, 0.12",
+            "A, 2.0"
+          ],
+          "answer": 0,
+          "why": "A: 20 ÷ 40 = 0.5. B: 12 ÷ 10 = 1.2, so B earns more for each unit of drawdown."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "drawdown-duration",
+      "term": "drawdown duration",
+      "aliases": [
+        "time under water",
+        "recovery time"
+      ],
+      "unit": "q6",
+      "short": "How long it takes to regain a peak",
+      "definition": "How long a strategy or fund stays below its previous peak before it gets back there. A long one tests investors as much as a deep one.",
+      "examples": [
+        "The drawdown was only 12%, but it lasted 20 months, and clients left.",
+        "Our longest time under water in the backtest was 14 months, so seven flat months is no surprise."
+      ],
+      "fill": "The NAV peaked in March 2024 and only got back above that level in September 2025, so its ____ was 18 months.",
+      "confusables": [
+        "max-drawdown",
+        "calmar-ratio",
+        "v-shaped-recovery"
+      ],
+      "wrong": [
+        "Largest fall from a peak to a later low",
+        "How long a single trade is held",
+        "Number of losing days in a row"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "time-in-market",
+      "term": "time in market",
+      "aliases": [
+        "exposure time"
+      ],
+      "unit": "q6",
+      "short": "Share of time a strategy holds a position",
+      "definition": "The share of time a strategy actually holds a position. A system that's in the market only 30% of the time carries risk less often, and its returns should be judged with that in mind.",
+      "examples": [
+        "Time in market is only 25%, so the capital sits idle most days.",
+        "Its return looks low until you see it's flat three days out of four."
+      ],
+      "fill": "A system that holds positions on 60 of the year's 250 trading days has a ____ of 24%.",
+      "confusables": [
+        "exposure",
+        "hit-rate",
+        "leverage"
+      ],
+      "wrong": [
+        "How long the average trade is held",
+        "Share of trades that make money",
+        "Number of years a strategy has run live"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "information-coefficient",
+      "term": "information coefficient",
+      "aliases": [
+        "IC",
+        "rank IC"
+      ],
+      "said": "I C",
+      "unit": "q7",
+      "short": "Correlation of forecasts with later returns",
+      "definition": "The correlation between a signal's forecasts and the returns that follow, usually measured across stocks each day or month. Small numbers matter: an IC of 0.05 applied across hundreds of stocks can be a good signal.",
+      "examples": [
+        "The rank IC is 0.04 at one day and close to zero by day five, so it has to be traded fast.",
+        "The IC is decent but unstable: it flips sign in most quarters."
+      ],
+      "fill": "Across 500 stocks, the signal's scores had a correlation of 0.04 with next month's returns, so its ____ is 0.04.",
+      "confusables": [
+        "correlation",
+        "information-ratio",
+        "r-squared"
+      ],
+      "wrong": [
+        "Excess return over the index per unit of tracking error",
+        "Share of a signal's trades that make money",
+        "Correlation between two stocks' returns"
+      ],
+      "note": "The fundamental law of active management links IC to results: information ratio ≈ IC × √(number of independent bets).",
+      "calcs": [
+        {
+          "q": "Using IR ≈ IC × √breadth, what information ratio does an IC of 0.05 give over 400 independent bets a year?",
+          "options": [
+            "1.0",
+            "20",
+            "0.05",
+            "0.25"
+          ],
+          "answer": 0,
+          "why": "√400 = 20, and 0.05 × 20 = 1.0."
+        }
+      ],
+      "tf": [
+        {
+          "s": "An IC of 0.05 is too small to be worth trading.",
+          "a": false,
+          "why": "Spread across hundreds of stocks and rebalanced often, it can earn a good risk-adjusted return."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "deflated-sharpe-ratio",
+      "term": "deflated Sharpe ratio",
+      "aliases": [
+        "deflated Sharpe",
+        "DSR"
+      ],
+      "unit": "q7",
+      "short": "Sharpe adjusted for how many tries it took",
+      "definition": "A Sharpe ratio corrected for how many strategies were tried before this one was picked, how short the record is and how fat-tailed the returns are. It's read as the probability that the edge is real rather than luck.",
+      "examples": [
+        "Sharpe of 2 in the backtest, but we tried 300 variants; the deflated Sharpe says it's a coin flip.",
+        "Write down how many configurations you tested, or nobody can work out the deflated Sharpe."
+      ],
+      "fill": "After testing 500 variants and keeping the best, the researcher reports a ____ that corrects the headline Sharpe for all those tries.",
+      "confusables": [
+        "sharpe-ratio",
+        "data-snooping",
+        "overfitting"
+      ],
+      "wrong": [
+        "Sharpe ratio after deducting trading costs",
+        "Sharpe ratio measured on out-of-sample data only",
+        "Sharpe ratio using downside volatility"
+      ],
+      "note": "From Bailey and López de Prado (2014). Try 100 random strategies and the best will show a high Sharpe by chance; the deflated Sharpe allows for that.",
+      "tf": [
+        {
+          "s": "Testing more strategy variants makes a given backtest Sharpe more convincing.",
+          "a": false,
+          "why": "The more you try, the higher the best Sharpe you'd expect from luck alone, so the same number means less."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "winsorising",
+      "term": "winsorising",
+      "aliases": [
+        "winsorizing",
+        "winsorise",
+        "winsorize"
+      ],
+      "said": "win-SOR-ising",
+      "unit": "q7",
+      "short": "Capping extreme values at a percentile",
+      "definition": "Capping extreme values at a chosen percentile, such as the 1st and 99th, instead of deleting them. Researchers do it so a few wild data points don't dominate a signal or a regression.",
+      "examples": [
+        "Winsorise the earnings surprise at 1 and 99 before ranking, or two penny stocks will drive the whole signal.",
+        "We winsorised returns at 5 sigma; check the result doesn't flip without it."
+      ],
+      "fill": "Instead of dropping the five stocks with absurd returns, the analyst set every value above the 99th percentile equal to the 99th percentile: that's ____.",
+      "confusables": [
+        "outlier",
+        "z-score",
+        "data-snooping"
+      ],
+      "wrong": [
+        "Deleting every outlier from the data",
+        "Turning values into ranks from 1 to N",
+        "Removing the market's effect from a signal"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "neutralisation",
+      "term": "neutralisation",
+      "aliases": [
+        "neutralization",
+        "neutralise",
+        "neutralize",
+        "sector-neutral"
+      ],
+      "unit": "q7",
+      "short": "Removing market or sector bets from a signal",
+      "definition": "Removing a signal's or portfolio's exposure to the market, sectors or factors, so that what's left is the stock-picking bet. The simplest way is to subtract each sector's average score from its stocks.",
+      "examples": [
+        "Neutralise it against sector, or it's just a long-banks, short-IT trade.",
+        "After beta neutralisation, half the backtest return disappears."
+      ],
+      "fill": "Before ranking, the quant subtracts each sector's average score from every stock in that sector, so the signal stops being a sector bet. This step is ____.",
+      "confusables": [
+        "factor-exposure",
+        "delta-neutral",
+        "winsorising"
+      ],
+      "wrong": [
+        "Capping extreme values at a percentile",
+        "Hedging all the currency risk in a portfolio",
+        "Selling every position before results"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "gross-exposure",
+      "term": "gross exposure",
+      "aliases": [
+        "gross",
+        "GMV",
+        "gross market value"
+      ],
+      "unit": "q7",
+      "short": "Longs plus shorts, ignoring sign",
+      "definition": "The total size of a book's long and short positions added together, ignoring their sign, usually as a percentage of capital. It shows how much is at work, and so how much could go wrong at once.",
+      "examples": [
+        "You're at 260% gross against a 250% limit; cut something before the close.",
+        "Same net, but doubling gross doubles what a bad day for the pairs can cost."
+      ],
+      "fill": "A ₹100 crore fund with ₹130 crore of longs and ₹90 crore of shorts has ₹220 crore of ____, against ₹40 crore net.",
+      "confusables": [
+        "net-exposure",
+        "leverage",
+        "margin"
+      ],
+      "wrong": [
+        "Longs minus shorts",
+        "Total value of the fund's cash",
+        "Profit before costs and fees"
+      ],
+      "formula": "Longs + |shorts|",
+      "calcs": [
+        {
+          "q": "A ₹50 crore book is long ₹60 crore and short ₹40 crore. What are its gross and net exposure?",
+          "options": [
+            "200% gross, 40% net",
+            "100% gross, 20% net",
+            "200% gross, 200% net",
+            "40% gross, 200% net"
+          ],
+          "answer": 0,
+          "why": "Gross = (60 + 40) ÷ 50 = 200%. Net = (60 − 40) ÷ 50 = 40%."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "net-exposure",
+      "term": "net exposure",
+      "aliases": [
+        "net long",
+        "net short"
+      ],
+      "unit": "q7",
+      "short": "Longs minus shorts",
+      "definition": "Long positions minus short positions, usually as a percentage of capital. It shows how much the book gains or loses if the whole market moves.",
+      "examples": [
+        "We're 15% net long, so a 3% Nifty fall costs us about half a percent.",
+        "Take net to zero into the results and keep the stock bets."
+      ],
+      "fill": "A fund long ₹120 crore and short ₹100 crore on ₹100 crore of capital has a ____ of 20%.",
+      "confusables": [
+        "gross-exposure",
+        "leverage",
+        "delta"
+      ],
+      "wrong": [
+        "Longs plus shorts, ignoring sign",
+        "Profit after costs and fees",
+        "Exposure left after hedging the currency risk"
+      ],
+      "formula": "Longs − shorts",
+      "tf": [
+        {
+          "s": "A book with zero net exposure carries no risk.",
+          "a": false,
+          "why": "It can still lose on the gap between its longs and shorts: sectors, factors or single names. Gross exposure shows how big those bets are."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "pnl-attribution",
+      "term": "PnL attribution",
+      "aliases": [
+        "PnL explain",
+        "P&L attribution",
+        "performance attribution"
+      ],
+      "said": "P N L attribution",
+      "unit": "q7",
+      "short": "Splitting PnL into what caused it",
+      "definition": "Breaking a book's profit or loss into its sources: for an options book by Greek (delta, gamma, vega, theta), for a stock book by market, sector, factor and stock picking. A large unexplained part means a model or a booking is wrong.",
+      "examples": [
+        "PnL explain says we made 30 lakh on vega and lost 20 lakh on theta; delta was flat.",
+        "Attribution shows the whole quarter's return came from the value tilt, not stock picking."
+      ],
+      "fill": "The risk team splits yesterday's ₹40 lakh loss into ₹25 lakh from delta, ₹10 lakh from vega and ₹5 lakh unexplained. That's ____.",
+      "confusables": [
+        "greeks",
+        "factor-exposure",
+        "tca"
+      ],
+      "wrong": [
+        "Report of each trader's commissions",
+        "Forecast of next quarter's profit",
+        "Splitting a trade's cost into fees and impact"
       ],
       "difficulty": 2
     }

@@ -25,6 +25,21 @@ describe('reading what the learner types', () => {
     expect(termOf(ask('risk on'))).toBe('risk-on');
   });
 
+  it('reads Indian F&O shorthand', () => {
+    expect(termOf(ask('what is CE'))).toBe('ce-option');
+    expect(termOf(ask('NIFTY 24,500 PE'))).toBe('pe-option');
+    expect(termOf(ask('banknifty 52000 ce'))).toBe('ce-option');
+    // "PE" alone is a put on the chain or the P/E ratio, so the guide asks.
+    const pe = ask('pe');
+    expect(pe.kind === 'choices' && pe.options.map((o) => o.target.id).sort()).toEqual(['pe-option', 'pe-ratio']);
+    expect(termOf(ask('pe ratio'))).toBe('pe-ratio');
+    expect(termOf(ask('long build up'))).toBe('long-build-up');
+    expect(termOf(ask('delivery %'))).toBe('delivery-percentage');
+    expect(termOf(ask('fii long short ratio'))).toBe('participant-wise-oi');
+    expect(termOf(ask('iv percentile'))).toBe('iv-percentile');
+    expect(ask('difference between iv rank and iv percentile')).toEqual({ kind: 'compare', termIds: ['iv-rank', 'iv-percentile'] });
+  });
+
   it('forgives typos', () => {
     expect(termOf(ask('whats thetha'))).toBe('theta');
     expect(termOf(ask('straddel'))).toBe('straddle');

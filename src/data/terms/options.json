@@ -34,6 +34,11 @@
       "core": false
     },
     {
+      "id": "o8",
+      "name": "Reading the option chain",
+      "core": false
+    },
+    {
       "id": "o7",
       "name": "Case: a short straddle into the Budget",
       "core": false,
@@ -1960,6 +1965,345 @@
           ],
           "answer": 0,
           "why": "Straddle cost ÷ stock price = 50 ÷ 1,000 = 5%."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "ce-option",
+      "term": "CE",
+      "aliases": [
+        "call European"
+      ],
+      "said": "C E",
+      "speak": "C E",
+      "unit": "o8",
+      "short": "NSE shorthand for a call option",
+      "definition": "The label NSE uses for a call option in contract names and on the option chain, short for \"call European\". NIFTY 25000 CE is a call on the Nifty with a 25,000 strike.",
+      "examples": [
+        "Call writers are stacked at the 25,000 CE, so the desk sees that strike as a ceiling for the week.",
+        "We're long the 25,500 CE into the policy, so we need a big move up, and soon."
+      ],
+      "fill": "NIFTY 26000 ____ gains in value if the Nifty rallies well above 26,000 before expiry.",
+      "confusables": [
+        "pe-option",
+        "option-chain",
+        "european-option"
+      ],
+      "wrong": [
+        "NSE shorthand for a put option",
+        "An option that can be exercised on any day before expiry",
+        "Code for a cash-market buy order"
+      ],
+      "tf": [
+        {
+          "s": "CE stands for \"call European\": the option can be exercised only at expiry.",
+          "a": true,
+          "why": "All NSE index and stock options are European-style, so the label says so."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.kotaksecurities.com/investing-guide/share-market/ce-and-pe-in-stockmarket",
+      "difficulty": 1
+    },
+    {
+      "id": "pe-option",
+      "term": "PE",
+      "aliases": [
+        "put European"
+      ],
+      "said": "P E",
+      "speak": "P E",
+      "unit": "o8",
+      "short": "NSE shorthand for a put option",
+      "definition": "The label NSE uses for a put option in contract names and on the option chain, short for \"put European\". On a trading screen, PE means a put, not the P/E ratio.",
+      "examples": [
+        "Writers added a lot of 24,000 PE this week, so traders see 24,000 as support.",
+        "He bought the weekly 24,500 PE as a cheap hedge before the results."
+      ],
+      "fill": "NIFTY 24000 ____ pays off if the Nifty falls well below 24,000 by expiry.",
+      "confusables": [
+        "ce-option",
+        "pe-ratio",
+        "option-chain"
+      ],
+      "wrong": [
+        "NSE shorthand for a call option",
+        "Share price divided by earnings per share",
+        "A put that can be exercised on any day before expiry"
+      ],
+      "tf": [
+        {
+          "s": "On an option chain, PE is the stock's price-to-earnings ratio.",
+          "a": false,
+          "why": "On the chain, PE marks the puts. The price-to-earnings ratio belongs on a stock's valuation page."
+        }
+      ],
+      "asOf": "2026-11",
+      "source": "https://www.kotaksecurities.com/investing-guide/share-market/ce-and-pe-in-stockmarket",
+      "difficulty": 1
+    },
+    {
+      "id": "option-chain",
+      "term": "option chain",
+      "aliases": [
+        "options chain"
+      ],
+      "unit": "o8",
+      "short": "Table of all strikes for one expiry",
+      "definition": "A table of every strike for one underlying and expiry, with calls on one side and puts on the other. Each row shows the strike's price, volume, open interest, change in OI and implied volatility.",
+      "examples": [
+        "Pull up the Nifty chain for this week and check where the biggest OI sits.",
+        "On the chain, 25,000 has the most call OI and 24,500 the most put OI, so that's the range traders expect."
+      ],
+      "fill": "To see every Nifty strike for this week's expiry with its price, OI and IV side by side, traders open the ____.",
+      "confusables": [
+        "open-interest",
+        "market-depth",
+        "change-in-oi"
+      ],
+      "wrong": [
+        "List of a stock's bids and offers at each price",
+        "Chart of one option's price through the day",
+        "List of all the futures expiries for an index"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "option-writer",
+      "term": "option writer",
+      "aliases": [
+        "writer",
+        "option seller",
+        "writing"
+      ],
+      "unit": "o8",
+      "short": "Seller of an option",
+      "definition": "The seller of an option. The writer collects the premium and takes on the obligation, so the most a writer can make is the premium, while a written call with no hedge can lose without limit.",
+      "examples": [
+        "Call writers piled into 25,000 today, so the desk reads it as a ceiling for the expiry.",
+        "Writers are making money as IV drifts lower ahead of the long weekend."
+      ],
+      "fill": "The ____ of a Nifty call keeps the premium if the index stays below the strike, but faces a large loss if it rallies far above it.",
+      "confusables": [
+        "short",
+        "option-premium",
+        "short-gamma"
+      ],
+      "wrong": [
+        "Buyer who pays the premium for the right",
+        "Broker who records option trades for clients",
+        "Exchange official who sets the strike prices"
+      ],
+      "note": "In Indian commentary, heavy call writing at a strike is read as resistance and heavy put writing as support. It's a reading of positioning, not a rule.",
+      "tf": [
+        {
+          "s": "An option writer's maximum gain is the premium received.",
+          "a": true,
+          "why": "The premium is all the writer collects; any move against the position eats into it."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "change-in-oi",
+      "term": "change in OI",
+      "aliases": [
+        "change in open interest",
+        "OI change"
+      ],
+      "said": "change in O I",
+      "unit": "o8",
+      "short": "How much open interest moved today",
+      "definition": "How much a strike's or contract's open interest rose or fell during the day. A big rise shows fresh positions being opened; a fall shows positions being closed.",
+      "examples": [
+        "Change in OI is sharply up on the 24,500 PE, so writers are adding fresh puts there.",
+        "Total OI looks steady, but the change in OI shows calls being cut at 25,000 and added at 25,500."
+      ],
+      "fill": "Open interest in the 25,000 call rose from 1.2 lakh to 1.9 lakh contracts today, so its ____ is +70,000 contracts.",
+      "confusables": [
+        "open-interest",
+        "volume",
+        "option-chain"
+      ],
+      "wrong": [
+        "Number of contracts traded today",
+        "Total contracts still open at the close",
+        "Change in an option's price since yesterday"
+      ],
+      "calcs": [
+        {
+          "q": "A strike's OI was 2.4 lakh contracts yesterday and 1.8 lakh today, while 3 lakh contracts traded. What is the change in OI?",
+          "options": [
+            "−60,000 contracts",
+            "+3 lakh contracts",
+            "1.8 lakh contracts",
+            "+60,000 contracts"
+          ],
+          "answer": 0,
+          "why": "1.8 lakh − 2.4 lakh = −60,000. Volume doesn't enter into it: many trades just pass a position from one trader to another."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "max-pain",
+      "term": "max pain",
+      "aliases": [
+        "max pain point",
+        "maximum pain"
+      ],
+      "unit": "o8",
+      "short": "Strike where option buyers lose the most",
+      "definition": "The strike at which all open options, calls and puts together, would expire worth the least, so option buyers lose the most and writers pay out the least. Some traders expect expiry to settle near it.",
+      "examples": [
+        "Max pain is 24,800 and we're at 24,820 on expiry morning, so the writers are comfortable.",
+        "Don't trade off max pain alone; it moves every day as OI changes."
+      ],
+      "fill": "Some traders work out the strike at which open calls and puts would together be worth the least at expiry, the ____, and expect the index to settle near it.",
+      "confusables": [
+        "pin-risk",
+        "open-interest",
+        "put-call-ratio"
+      ],
+      "wrong": [
+        "The strike with the highest option premium",
+        "The index level that halts trading market-wide",
+        "The largest loss an option writer can face"
+      ],
+      "note": "It's a rule of thumb about positioning, not a law: big news moves the index straight through it.",
+      "calcs": [
+        {
+          "q": "Strikes 24,800, 24,900 and 25,000 have call OI of 10, 20 and 40 lakh and put OI of 40, 20 and 10 lakh. Which strike is max pain?",
+          "options": [
+            "24,900",
+            "25,000",
+            "24,800",
+            "24,850"
+          ],
+          "answer": 0,
+          "why": "At 24,900 only the 24,800 calls (100 × 10) and the 25,000 puts (100 × 10) are in the money: 2,000 in all. At 24,800 or 25,000 the options left in the money would be worth 4,000."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "atm-iv",
+      "term": "ATM IV",
+      "aliases": [
+        "ATM vol",
+        "at-the-money IV"
+      ],
+      "said": "A T M I V",
+      "speak": "A T M I V",
+      "unit": "o8",
+      "short": "Implied vol of the at-the-money option",
+      "definition": "The implied volatility of the option whose strike is closest to the current price, often the average of the ATM call and put. It's the single number traders quote for an expiry's vol.",
+      "examples": [
+        "Weekly ATM IV is 13 against 11 last week, so straddles got pricier into the data.",
+        "ATM vol is bid but the wings are flat, so it's the event, not crash fear."
+      ],
+      "fill": "The strike nearest the spot trades at 12.5 vol and the wings at 15, so this expiry's ____ is 12.5.",
+      "confusables": [
+        "implied-volatility",
+        "india-vix",
+        "volatility-skew"
+      ],
+      "wrong": [
+        "Average implied vol across all strikes on the chain",
+        "Volatility of the index over the last 30 days",
+        "Implied vol of the strike with the most open interest"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "iv-rank",
+      "term": "IV rank",
+      "aliases": [
+        "IVR",
+        "implied volatility rank"
+      ],
+      "said": "I V rank",
+      "speak": "I V rank",
+      "unit": "o8",
+      "short": "Where IV sits in its one-year range",
+      "definition": "Where today's implied volatility sits between its lowest and highest level of the past year, as a percentage. 0 means it's at the year's low and 100 at the year's high.",
+      "examples": [
+        "IV rank is 85, so premiums are rich by this stock's own standards; we'd rather sell than buy.",
+        "Don't compare raw IV across stocks; compare where each sits in its own range."
+      ],
+      "fill": "Bank Nifty IV is 18, against a one-year low of 12 and high of 27, so its ____ is 40.",
+      "confusables": [
+        "iv-percentile",
+        "implied-volatility",
+        "india-vix"
+      ],
+      "wrong": [
+        "Share of past-year days when IV was lower than today",
+        "Implied volatility divided by realised volatility",
+        "Rank of a stock's IV among all F&O stocks"
+      ],
+      "formula": "(IV now − 1-year low) ÷ (1-year high − 1-year low) × 100",
+      "calcs": [
+        {
+          "q": "A stock's IV is 30. Over the past year it ranged from 20 to 60. What is its IV rank?",
+          "options": [
+            "25",
+            "50",
+            "30",
+            "67"
+          ],
+          "answer": 0,
+          "why": "(30 − 20) ÷ (60 − 20) = 10 ÷ 40 = 25%."
+        }
+      ],
+      "tf": [
+        {
+          "s": "An IV rank of 25 means IV was lower than today on 25% of the past year's days.",
+          "a": false,
+          "why": "That's IV percentile. IV rank only uses the year's high and low."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "iv-percentile",
+      "term": "IV percentile",
+      "aliases": [
+        "IVP",
+        "implied volatility percentile"
+      ],
+      "said": "I V percentile",
+      "speak": "I V percentile",
+      "unit": "o8",
+      "short": "Share of past days with lower IV",
+      "definition": "The share of trading days in the past year on which implied volatility closed below today's level. Unlike IV rank, one spike to an extreme high doesn't distort it.",
+      "examples": [
+        "IV percentile is 92, so vol has been lower than this on almost every day this year.",
+        "IV rank looks low after March's spike, but the percentile says vol is still above most of the year."
+      ],
+      "fill": "Nifty's IV has closed below today's level on 180 of the last 250 trading days, so its ____ is 72.",
+      "confusables": [
+        "iv-rank",
+        "implied-volatility",
+        "realised-volatility"
+      ],
+      "wrong": [
+        "Where IV sits between its one-year high and low",
+        "Implied vol as a percentage of the strike",
+        "Percentage change in IV since yesterday"
+      ],
+      "calcs": [
+        {
+          "q": "Over 200 trading days, IV closed below today's level on 50 days. What is the IV percentile?",
+          "options": [
+            "25",
+            "50",
+            "75",
+            "20"
+          ],
+          "answer": 0,
+          "why": "50 ÷ 200 = 25%."
         }
       ],
       "difficulty": 2

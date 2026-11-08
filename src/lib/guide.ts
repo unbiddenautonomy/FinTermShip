@@ -45,13 +45,14 @@ export type Reply =
 // ---------------------------------------------------------------------------
 // Text handling
 
-/** Lower case, "F&O" → "fno", "SEBI's" → "sebi", "I'm" → "im", everything but letters and digits → spaces. */
+/** Lower case, "F&O" → "fno", "SEBI's" → "sebi", "I'm" → "im", "%" → "percent", everything but letters and digits → spaces. */
 export function normalize(s: string): string {
   return s
     .toLowerCase()
     .replace(/[’']s\b/g, '')
     .replace(/[’']/g, '')
     .replace(/(\p{L})\s*&\s*(\p{L})/gu, '$1n$2')
+    .replace(/%/g, ' percent ')
     .replace(/[^\p{L}\p{N}]+/gu, ' ')
     .trim();
 }
@@ -145,7 +146,8 @@ const SYNONYMS: Record<string, string[]> = {
   'unit:k6': ['combinatorics', 'permutations', 'combinations'],
   'unit:s6': ['market making', 'market making game', 'dice game'],
   'unit:s7': ['sebi rules', 'algo rules', 'fno rules'],
-  'term:pe-ratio': ['p e', 'p e ratio', 'pe multiple'],
+  'term:pe-ratio': ['p e', 'p e ratio', 'pe ratio', 'pe multiple'],
+  'term:participant-wise-oi': ['fii long short ratio', 'long short ratio', 'fii positions'],
   'term:realised-volatility': ['rv', 'realized volatility', 'realized vol'],
   'term:sortino-ratio': ['sortino'],
   'term:max-drawdown': ['drawdown', 'drawdowns'],
@@ -173,7 +175,7 @@ const SYNONYMS: Record<string, string[]> = {
   'term:fno': ['fno segment'],
   'term:pnl': ['pl', 'p l'],
   'term:stop-loss': ['stoploss'],
-  'term:implied-volatility': ['implied volatility', 'iv percentile'],
+  'term:implied-volatility': ['implied volatility'],
   'term:black-scholes': ['black scholes merton', 'bs model'],
   'role:quant-trader': ['qt', 'quantitative trader', 'quant trading'],
   'role:quant-researcher': ['qr', 'quantitative researcher', 'quant research', 'researcher'],
@@ -440,6 +442,8 @@ function compare(t: string, p: Progress): Reply | null {
 }
 
 /** Everything the guide can say back to one message. */
+const CONTRACT = /\b\d+(?: \d+)* (ce|pe)\b/;
+
 export function answer(text: string, p: Progress): Reply {
   const t = normalize(text);
   if (!t) return { kind: 'text', text: 'Ask me about a term, a topic, or what to learn next.' };
@@ -454,6 +458,10 @@ export function answer(text: string, p: Progress): Reply {
     const c = compare(t, p);
     if (c) return c;
   }
+
+  // A contract name such as "NIFTY 24500 PE": the strike followed by CE or PE.
+  const contract = CONTRACT.exec(t);
+  if (contract) return { kind: 'term', termId: contract[1] === 'ce' ? 'ce-option' : 'pe-option', intent: 'define' };
 
   const intent = readIntent(t);
   const subj = subject(t);
