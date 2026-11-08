@@ -37,7 +37,9 @@
       "short": "Buy or sell now at the best price available",
       "definition": "An order to buy or sell straight away at whatever price the market offers. It fills fast, but the price isn't guaranteed, which can hurt when few people are trading or prices are jumping.",
       "examples": [
-        "It's a liquid Nifty stock, so a market order will fill within a few paise of the last price."
+        "It's a liquid Nifty stock, so a market order will fill within a few paise of the last price.",
+        "In a fast fall, your market order fills at once but can land well below the price on your screen.",
+        "The client asked why her market order bought at ₹512 when the screen said ₹505: the offers were thin."
       ],
       "fill": "You want to sell right now and don't mind the exact price, so you place a ____.",
       "confusables": [
@@ -68,7 +70,9 @@
       "short": "Trade only at your price or better",
       "definition": "An order to buy at or below, or sell at or above, a price you choose. You control the price, but the order may never fill if the market doesn't reach it.",
       "examples": [
-        "Put in a limit to buy Infosys at 1,480; I don't want to chase it."
+        "Put in a limit to buy Infosys at 1,480; I don't want to chase it.",
+        "The client's limit order at ₹480 sat all day unfilled because the stock never fell that far.",
+        "In thin small caps, risk wants every limit order checked so none sits miles from the market by mistake."
       ],
       "fill": "To buy only if the price drops to ₹500 or lower, place a ____ at 500.",
       "confusables": [
@@ -113,7 +117,9 @@
       "short": "When your order is executed",
       "definition": "The completion of an order: a matching buyer or seller was found and the trade happened. Traders say an order got filled, and ask what fill they got, meaning the price.",
       "examples": [
-        "We got filled at 2,412 on the Reliance buy, two rupees better than we expected."
+        "We got filled at 2,412 on the Reliance buy, two rupees better than we expected.",
+        "Risk compares each fill with the price when the order was sent.",
+        "The client asked why one order showed two fills: it matched against two different sellers."
       ],
       "fill": "The trade went through at ₹300; in desk talk, you got a ____ at 300.",
       "confusables": [
@@ -137,7 +143,9 @@
       "short": "An order placed but not yet filled",
       "definition": "An order that has reached the exchange but hasn't traded or been cancelled yet. It waits in the queue at its price until it fills, you cancel it, or the day ends.",
       "examples": [
-        "Check your open orders before you log off; an old limit could fill on a sudden drop."
+        "Check your open orders before you log off; an old limit could fill on a sudden drop.",
+        "Risk cancels every open order at the close so nothing fills overnight by surprise.",
+        "The client forgot an open order from last week, and it filled on today's dip."
       ],
       "fill": "Your limit to buy at 480 is still waiting with the stock at 495, so it shows as an ____.",
       "confusables": [
@@ -166,7 +174,9 @@
       "short": "Only part of the order executed",
       "definition": "When only some of an order's quantity trades. The rest stays open at the same price, unless the order type cancels it.",
       "examples": [
-        "Only 400 of the 1,000 shares got done before the price ran away; it's a partial fill."
+        "Only 400 of the 1,000 shares got done before the price ran away; it's a partial fill.",
+        "The client's partial fill left her with 30 of the 100 shares she wanted.",
+        "Risk treats any partial fill as a live position: the filled part needs a stop too."
       ],
       "fill": "You asked to buy 1,000 shares but only 400 traded at your limit: a ____.",
       "confusables": [
@@ -204,7 +214,9 @@
       "short": "Level where you exit to cap a loss",
       "definition": "A price at which you'll get out of a losing trade so the loss can't keep growing. Traders decide it before entering, and often place a stop-loss order so the exit happens on its own.",
       "examples": [
-        "Long HDFC Bank at 1,700 with a stop at 1,660."
+        "Long HDFC Bank at 1,700 with a stop at 1,660.",
+        "Risk wants the stop-loss on every intraday trade written down before entry.",
+        "The client moved her stop-loss lower to avoid getting hit, and lost more."
       ],
       "fill": "Bought at ₹1,000? Set a ____ at ₹950 so a bad trade costs you about ₹50 a share.",
       "confusables": [
@@ -246,7 +258,9 @@
       "short": "Price that activates a stop order",
       "definition": "The price that switches a stop-loss order on. Until the stock trades at the trigger, the order waits unseen; once it does, the order goes to the market.",
       "examples": [
-        "Trigger 1,655, limit 1,650: if it trades at 1,655, my sell goes in at 1,650 or better."
+        "Trigger 1,655, limit 1,650: if it trades at 1,655, my sell goes in at 1,650 or better.",
+        "The client's stop never fired because the stock didn't trade at the trigger price.",
+        "Risk checks that every stop order has its trigger price close enough to matter."
       ],
       "fill": "A stop-loss order springs into action only when the stock trades at its ____.",
       "confusables": [
@@ -281,7 +295,9 @@
       "short": "Stop order that becomes a limit order",
       "definition": "A stop-loss order with two prices, a trigger and a limit. When the trigger trades, a limit order goes in. You control the worst price, but may not get out if the price jumps past your limit.",
       "examples": [
-        "Use an SL with trigger 98 and limit 97.50 so it can't fill at a silly price."
+        "Use an SL with trigger 98 and limit 97.50 so it can't fill at a silly price.",
+        "In a gap-down, an SL order can stay unfilled if the price jumps past its limit.",
+        "The client prefers the SL order to SL-M because she hates bad fills in thin stocks."
       ],
       "fill": "For options on Indian exchanges, a stop-loss has to be an ____, with both a trigger and a limit price.",
       "confusables": [
@@ -322,7 +338,9 @@
       "short": "Stop order that becomes a market order",
       "definition": "A stop-loss order with only a trigger. Once the trigger trades, it becomes a market order. It makes sure you get out, but the fill can be far from the trigger in a fast market.",
       "examples": [
-        "Put an SL-M on the future; if it breaks 24,000 I want out, whatever the price."
+        "Put an SL-M on the future; if it breaks 24,000 I want out, whatever the price.",
+        "On results day, the trader uses an SL-M order so the exit happens even if the price jumps.",
+        "The client's SL-M order sold at ₹92 when her trigger was ₹95: in a fast fall, a market exit takes what it gets."
       ],
       "fill": "To be sure of getting out once the trigger trades, whatever the price, you'd use an ____.",
       "confusables": [
@@ -358,7 +376,9 @@
       "short": "Price where you plan to book profit",
       "definition": "The price at which you plan to close a winning trade and lock in the gain. Traders set it alongside the stop-loss, so the trade has a planned exit either way.",
       "examples": [
-        "Buying Tata Motors at 700, target 760, stop 680."
+        "Buying Tata Motors at 700, target 760, stop 680.",
+        "The analyst's profit target is ₹1,250, about 15% above today's price.",
+        "Risk asks traders to write down a stop and a profit target before they enter."
       ],
       "fill": "Before entering, write down your stop-loss and your ____, the price where you'll take the gain.",
       "confusables": [
@@ -396,7 +416,9 @@
       "short": "Stop that follows the price as it moves",
       "definition": "A stop-loss that moves with the price as a trade goes your way, keeping a set gap, but never moves back. It locks in more of the gain the further the trade runs.",
       "examples": [
-        "Trail the stop 20 points under the high and let the winner run."
+        "Trail the stop 20 points under the high and let the winner run.",
+        "Trend traders rely on the trailing stop-loss to let winners run while locking in profit.",
+        "The client used a trailing stop-loss and kept most of the gain when the stock turned."
       ],
       "fill": "To let a winner run while protecting the gain, move the stop up behind the price with a ____.",
       "confusables": [
@@ -434,7 +456,9 @@
       "short": "Close a position with the opposite trade",
       "definition": "To close a position with the opposite trade: sell what you bought, or buy back what you sold short. Once squared off you're flat, with no position left.",
       "examples": [
-        "Square off everything before the RBI announcement."
+        "Square off everything before the RBI announcement.",
+        "Risk tells everyone to square off intraday positions by 3:15.",
+        "The client asked what it means to square off: close the position with the opposite trade."
       ],
       "fill": "Selling the 100 shares you bought this morning is how you ____ the position.",
       "confusables": [
@@ -465,7 +489,9 @@
       "short": "Opened and closed the same day",
       "definition": "A trade that's opened and squared off within the same trading day, so nothing is held overnight and no shares move into or out of your demat account.",
       "examples": [
-        "Pure intraday today; I'll be flat well before the close."
+        "Pure intraday today; I'll be flat well before the close.",
+        "The client's intraday trade made ₹2,000, but brokerage and taxes took ₹400 of it.",
+        "Risk caps each trader's loss on any intraday trade at ₹5 lakh."
       ],
       "fill": "Buying at 10 am and selling at 2 pm the same day is an ____.",
       "confusables": [
@@ -490,7 +516,9 @@
       "short": "Buying shares to hold in your demat",
       "definition": "Buying shares to own them: you pay the full price and the shares land in your demat account on settlement, so you can hold them as long as you like.",
       "examples": [
-        "I'm taking delivery of ITC; this is a three-year hold."
+        "I'm taking delivery of ITC; this is a three-year hold.",
+        "The client asked why her delivery trade cost more in STT than an intraday one: STT is higher on delivery.",
+        "The analyst's ideas are meant as a delivery trade held for months, not for a quick flip."
       ],
       "fill": "To hold shares for years, you buy them as a ____, not intraday.",
       "confusables": [
@@ -524,7 +552,9 @@
       "short": "Intraday product with extra leverage",
       "definition": "Margin Intraday Square-off: the broker product for intraday trades. It needs less margin than holding overnight, but the broker closes any open MIS position shortly before the market shuts.",
       "examples": [
-        "Buy it under MIS; I'm not carrying this overnight."
+        "Buy it under MIS; I'm not carrying this overnight.",
+        "The client's MIS position was closed by the broker at 3:20 because she forgot it.",
+        "Risk doesn't allow MIS on stocks near their circuit limits."
       ],
       "fill": "You pick the ____ product when you'll close the trade today and want extra leverage.",
       "confusables": [
@@ -562,7 +592,9 @@
       "short": "Broker closes your intraday trade for you",
       "definition": "When the broker closes your open intraday positions at the market price near the end of the day because you didn't. Each broker sets its own cut-off time and usually charges a fee.",
       "examples": [
-        "Forgot my MIS position and got auto squared off just before the close."
+        "Forgot my MIS position and got auto squared off just before the close.",
+        "The broker charges a fee for every auto square-off, so the client now closes trades herself.",
+        "Risk prefers traders close their own trades rather than wait for the auto square-off near the end of the day."
       ],
       "fill": "Leave an MIS position open too late and the broker's ____ will close it at market.",
       "confusables": [
@@ -596,7 +628,9 @@
       "short": "Delivery product for holding shares",
       "definition": "Cash and Carry: the broker product for delivery trades in stocks. You pay the full price with no leverage, and the shares go to your demat account to hold as long as you want.",
       "examples": [
-        "Place it as CNC; I want these in my demat."
+        "Place it as CNC; I want these in my demat.",
+        "The client bought the shares under CNC because she plans to hold them for years.",
+        "If you buy under CNC, the shares go to your demat and there's no forced square-off."
       ],
       "fill": "To pay in full for shares and keep them, choose the ____ product.",
       "confusables": [
@@ -629,7 +663,9 @@
       "short": "Hold a position into the next day",
       "definition": "Keeping a position open past the close into the next trading day. Carried F&O positions need full margin and are exposed to news that breaks while the market is shut.",
       "examples": [
-        "We're carrying forward the long futures into results."
+        "We're carrying forward the long futures into results.",
+        "Risk asked for a list of every carry forward position before the long weekend.",
+        "The client asked if she can carry forward a futures trade: yes, if she keeps the margin."
       ],
       "fill": "If you don't square off by the close, you ____ the position to tomorrow.",
       "confusables": [
@@ -653,7 +689,9 @@
       "short": "Product for carrying F&O positions",
       "definition": "Short for normal: the broker product for F&O positions you want to hold overnight or until the contract ends. It needs the full margin the exchange sets, and the broker won't square it off at the end of the day.",
       "examples": [
-        "Switch that Bank Nifty future from MIS to NRML so it isn't squared off."
+        "Switch that Bank Nifty future from MIS to NRML so it isn't squared off.",
+        "The client put her futures trade under NRML so she can hold it until expiry.",
+        "Risk checks that every overnight F&O position is in NRML, not an intraday product."
       ],
       "fill": "To carry a Nifty futures position into next week, you place the order under ____.",
       "confusables": [
@@ -680,7 +718,9 @@
       "short": "Broker loan to buy shares for delivery",
       "definition": "Margin Trading Facility: the broker pays part of the price of a delivery buy and charges you daily interest on that loan. The shares are pledged to the broker as security until you repay or sell.",
       "examples": [
-        "Bought it on MTF, so I'm paying interest every day I hold it."
+        "Bought it on MTF, so I'm paying interest every day I hold it.",
+        "The client asked what MTF costs: interest on the borrowed amount, charged daily.",
+        "Risk worries about clients using MTF in small caps, because a fall triggers forced selling."
       ],
       "fill": "To buy ₹2 lakh of shares with ₹1 lakh of your own money and hold them for weeks, you'd use ____.",
       "confusables": [
@@ -715,7 +755,9 @@
       "short": "Valid until the end of today's session",
       "definition": "The default validity in India: an order that stays live until it fills, you cancel it, or the trading day ends, when the exchange cancels whatever is left.",
       "examples": [
-        "It's a day order; if it doesn't fill by the close, it's gone."
+        "It's a day order; if it doesn't fill by the close, it's gone.",
+        "The client's day order expired at the close, so she has to place it again tomorrow.",
+        "Most orders on the desk go in as a day order, so nothing is left hanging overnight."
       ],
       "fill": "Most orders in India are a ____: anything unfilled is cancelled at the close.",
       "confusables": [
@@ -742,7 +784,9 @@
       "short": "Fill what you can now, cancel the rest",
       "definition": "Immediate or Cancel: an order validity where whatever can trade right away does, and any unfilled quantity is cancelled at once instead of waiting in the queue.",
       "examples": [
-        "Send it IOC so we don't leave a big bid sitting there."
+        "Send it IOC so we don't leave a big bid sitting there.",
+        "The algo sends each slice as IOC, so unfilled parts don't sit on the book.",
+        "The client's IOC order bought only 200 shares and cancelled the rest at once."
       ],
       "fill": "To grab whatever is available at your price without leaving the rest waiting, mark the order ____.",
       "confusables": [
@@ -782,7 +826,9 @@
       "short": "Order placed after hours for the next open",
       "definition": "After Market Order: an order you place while the market is shut. The broker holds it and sends it to the exchange when trading next opens.",
       "examples": [
-        "Saw the results at night, so I put in an AMO to buy at the open."
+        "Saw the results at night, so I put in an AMO to buy at the open.",
+        "The client placed an AMO at night to sell at the next morning's open.",
+        "An AMO goes to the exchange when the market opens, not when you place it."
       ],
       "fill": "Results came out at 8 pm; you can still queue an order for tomorrow's open as an ____.",
       "confusables": [
@@ -815,7 +861,9 @@
       "short": "Broker-held trigger that lasts for months",
       "definition": "Good Till Triggered: a broker feature that watches the price for you, often for up to a year, and sends your order to the exchange only when the trigger price trades. It suits stop-losses and targets on long-term holdings.",
       "examples": [
-        "Set a GTT to buy Titan if it dips to 3,200; I don't want to watch it every day."
+        "Set a GTT to buy Titan if it dips to 3,200; I don't want to watch it every day.",
+        "The client set a GTT to sell if the stock falls to ₹850, and it can stay live for a year.",
+        "A GTT sits with the broker until the price is hit; only then does an order go to the exchange."
       ],
       "fill": "To keep a stop-loss on a long-term holding without re-entering it every morning, set a ____.",
       "confusables": [
@@ -852,7 +900,9 @@
       "short": "Order that lasts until you cancel it",
       "definition": "Good Till Cancelled: an order that stays live across days until it fills or you cancel it. It's common abroad, but Indian exchanges accept only day and IOC orders, so Indian brokers offer GTT instead.",
       "examples": [
-        "Our London desk left a GTC bid; here we'd set a GTT."
+        "Our London desk left a GTC bid; here we'd set a GTT.",
+        "The client asked if Indian exchanges accept a GTC order; mostly no, so brokers offer GTT instead.",
+        "Overseas brokers let you leave a GTC limit for weeks until you cancel it."
       ],
       "fill": "With a US broker you can leave a ____ buy order that lasts for weeks.",
       "confusables": [
@@ -880,7 +930,9 @@
       "short": "Two exit orders; one fill cancels the other",
       "definition": "One Cancels the Other: a pair of orders, usually a target above and a stop-loss below, where the one that triggers first cancels the other. Indian brokers usually offer it as a two-leg GTT.",
       "examples": [
-        "Set an OCO on the Infosys position: target 1,650, stop 1,520."
+        "Set an OCO on the Infosys position: target 1,650, stop 1,520.",
+        "The client set an OCO: sell at ₹560 for profit or at ₹505 to cut the loss.",
+        "With an OCO, once the target fills, the stop is cancelled automatically."
       ],
       "fill": "A target at 560 and a stop at 480, linked so only one can ever execute, form an ____ order.",
       "confusables": [
@@ -905,7 +957,9 @@
       "short": "Intraday entry with a compulsory stop-loss",
       "definition": "An intraday order that must come with a stop-loss attached. Because the risk is capped, some brokers ask for less margin. It's squared off automatically at the end of the day.",
       "examples": [
-        "Took it as a cover order with the stop 1% away."
+        "Took it as a cover order with the stop 1% away.",
+        "A cover order forces you to set a stop-loss, so the broker asks for less margin.",
+        "The client likes the cover order because she can't forget her stop."
       ],
       "fill": "An intraday trade the broker accepts only with a stop-loss attached is a ____.",
       "confusables": [
@@ -930,7 +984,9 @@
       "short": "Entry with a target and a stop attached",
       "definition": "An intraday order that places an entry together with both a profit target and a stop-loss. When one exit fills, the other is cancelled. Some Indian brokers have dropped it; others still offer it.",
       "examples": [
-        "Bracket order: buy at 400, target 412, stop 395."
+        "Bracket order: buy at 400, target 412, stop 395.",
+        "The client's bracket order sold at the target, and the stop was cancelled at once.",
+        "Some brokers have stopped offering the bracket order, so traders set targets and stops by hand."
       ],
       "fill": "An entry that comes with both a target and a stop-loss attached is a ____.",
       "confusables": [
@@ -968,7 +1024,9 @@
       "short": "Big order shown in small pieces",
       "definition": "A large order split into smaller slices that are sent one after another, so the market only sees a little at a time. In F&O it also gets round the exchange's cap on the size of a single order.",
       "examples": [
-        "Use an iceberg for the 3,000 lots so we don't scare the sellers away."
+        "Use an iceberg for the 3,000 lots so we don't scare the sellers away.",
+        "The client asked how big funds buy without moving the price; one way is the iceberg order.",
+        "With an iceberg order, the market sees only 1,000 shares at a time of a 50,000-share buy."
       ],
       "fill": "To sell 5 lakh shares without showing the whole size, send it as an ____.",
       "confusables": [
@@ -995,7 +1053,9 @@
       "short": "Several orders sent together in one go",
       "definition": "A set of orders, often in different stocks or contracts, saved together and placed in one go. Traders use it to put on several legs of a trade at the same moment.",
       "examples": [
-        "Load the four option legs into a basket and fire them together."
+        "Load the four option legs into a basket and fire them together.",
+        "The PM sent the rebalance as one basket order across 40 stocks.",
+        "The client uses a basket order to buy all five ETFs in one go each month."
       ],
       "fill": "To buy all 20 stocks of a model portfolio with one click, use a ____.",
       "confusables": [
@@ -1019,7 +1079,9 @@
       "short": "Exchange's estimate of a bad day's loss",
       "definition": "The main part of F&O margin, worked out by the clearing corporation with the SPAN system. It tests a portfolio against a range of price and volatility moves and charges for the worst likely one-day loss.",
       "examples": [
-        "The hedge cut our SPAN margin by more than half."
+        "The hedge cut our SPAN margin by more than half.",
+        "Risk checks how the SPAN margin changes if we add the hedge.",
+        "The client asked why her margin jumped: the exchange raised SPAN margin after volatility spiked."
       ],
       "fill": "The clearing corporation's ____ estimates how much your F&O positions could lose in one bad day.",
       "confusables": [
@@ -1052,7 +1114,9 @@
       "short": "Extra buffer on top of SPAN margin",
       "definition": "An additional margin the exchange charges on F&O positions on top of SPAN, to cover moves bigger than the SPAN scenarios. It's usually a set percentage of the contract's value.",
       "examples": [
-        "SPAN plus exposure came to about 12% of notional."
+        "SPAN plus exposure came to about 12% of notional.",
+        "Risk adds exposure margin to SPAN to see the full margin blocked.",
+        "The client asked what exposure margin is: an extra buffer the exchange adds on top of SPAN."
       ],
       "fill": "Your F&O margin is SPAN plus ____, an extra buffer for extreme moves.",
       "confusables": [
@@ -1086,7 +1150,9 @@
       "short": "Margin checked at random times in the day",
       "definition": "SEBI's rule that you must have full margin at every point in the day, not just at the close. The clearing corporation checks positions at random moments and penalises any shortfall against the highest margin needed.",
       "examples": [
-        "After the peak margin rules, intraday leverage on stocks fell to 5×."
+        "After the peak margin rules, intraday leverage on stocks fell to 5×.",
+        "Under peak margin rules, the client needs full margin up front, even for a few minutes.",
+        "Risk tracks peak margin through the day, not just the end-of-day number."
       ],
       "fill": "Under the ____ rules, brokers must collect margin for your biggest position of the day, not just your closing one.",
       "confusables": [
@@ -1110,7 +1176,9 @@
       "short": "Demand to add funds or cut positions",
       "definition": "A demand from your broker to add money or reduce positions because losses or higher margin needs have left you short of the required margin. If you don't act, the broker can square off your positions.",
       "examples": [
-        "Nifty fell 2% and half the desk got margin calls by lunch."
+        "Nifty fell 2% and half the desk got margin calls by lunch.",
+        "The client got a margin call at 11 am after her futures fell 5%.",
+        "Risk models how many clients would face a margin call if the Nifty fell 5% in a day."
       ],
       "fill": "Your futures lost money overnight and the broker asks you to top up funds: that's a ____.",
       "confusables": [
@@ -1141,7 +1209,9 @@
       "short": "Having less margin than required",
       "definition": "When the money and collateral in your account fall short of the margin your positions need. The exchange penalises the broker for it, and brokers pass the penalty on to the client.",
       "examples": [
-        "We paid a shortfall penalty when the exchange raised margins overnight."
+        "We paid a shortfall penalty when the exchange raised margins overnight.",
+        "The client paid a penalty for a margin shortfall that lasted just one day.",
+        "Risk flags any margin shortfall before the exchange's end-of-day check."
       ],
       "fill": "If the exchange raises margins and you can't top up, you'll have a ____ and may pay a penalty.",
       "confusables": [
@@ -1165,7 +1235,9 @@
       "short": "Shares pledged to get margin for trading",
       "definition": "Pledging shares you already own to your broker so they count as margin for F&O or intraday trades. The shares stay in your demat and still earn dividends, but count for less than their market value after a haircut.",
       "examples": [
-        "Pledge the ETFs; that frees up margin for the options book."
+        "Pledge the ETFs; that frees up margin for the options book.",
+        "The client uses a margin pledge on her mutual fund units to trade options.",
+        "Risk tracks the shares under margin pledge, because their value falls in a sell-off just when margin is needed."
       ],
       "fill": "Instead of adding cash, you can use a ____ of your long-term shares to back an F&O position.",
       "confusables": [
@@ -1187,7 +1259,9 @@
       "short": "Cut applied to collateral's value",
       "definition": "The percentage knocked off an asset's market value when it's used as collateral, to allow for its price falling. Riskier shares get bigger haircuts.",
       "examples": [
-        "Small-caps carry a big haircut, so they barely count as margin."
+        "Small-caps carry a big haircut, so they barely count as margin.",
+        "Risk checks the haircut on pledged shares each day, because the exchange can raise it.",
+        "The client's ₹10 lakh of shares gave only ₹7.5 lakh of margin after the haircut."
       ],
       "fill": "Shares worth ₹1 lakh with a 20% ____ give you only ₹80,000 of margin.",
       "confusables": [
@@ -1224,7 +1298,9 @@
       "short": "Futures gains and losses paid each day",
       "definition": "Settling futures gains and losses in cash every day: each evening the clearing corporation marks every futures position to the day's settlement price and moves the difference between the accounts.",
       "examples": [
-        "The MTM hit on the short futures was ₹3 lakh today, already debited."
+        "The MTM hit on the short futures was ₹3 lakh today, already debited.",
+        "The client asked why money left her account each day: daily MTM settlement on her futures.",
+        "Risk funds daily MTM settlement from a cash buffer so a bad day never forces a sale."
       ],
       "fill": "With ____, a futures loss leaves your account tonight, even though the contract runs for weeks more.",
       "confusables": [
@@ -1264,7 +1340,9 @@
       "short": "Broker's system that checks every order",
       "definition": "Risk Management System: the broker's automatic checks on every order and position, such as margin, price limits and banned contracts. It rejects orders that break the rules and can square off positions that run short of margin.",
       "examples": [
-        "Order rejected by RMS: insufficient margin."
+        "Order rejected by RMS: insufficient margin.",
+        "The client's order was rejected by the broker's RMS because she didn't have enough margin.",
+        "Our RMS blocks any order that would take a trader past their limit."
       ],
       "fill": "When your order bounces with 'insufficient funds', it's the broker's ____ that rejected it.",
       "confusables": [
@@ -1289,7 +1367,9 @@
       "short": "Fixed number of units in one F&O contract",
       "definition": "The fixed quantity in one futures or options contract, set by the exchange. You trade in whole lots, so a Nifty option position is always a multiple of the lot size. Exchanges revise lot sizes from time to time.",
       "examples": [
-        "One Bank Nifty lot is too big for my account, so I trade Nifty."
+        "One Bank Nifty lot is too big for my account, so I trade Nifty.",
+        "SEBI raised the minimum contract value, so lot size went up for most index options.",
+        "The client asked why she can't buy just one Nifty future: you have to trade the full lot size."
       ],
       "fill": "You can't buy 10 units of a Nifty future; you trade in multiples of the ____.",
       "confusables": [
@@ -1331,7 +1411,9 @@
       "short": "Largest quantity allowed in one F&O order",
       "definition": "The largest quantity the exchange accepts in a single F&O order. Bigger orders must be split into several smaller ones, which brokers do with order slicing or iceberg orders.",
       "examples": [
-        "It's above freeze quantity, so slice it into three."
+        "It's above freeze quantity, so slice it into three.",
+        "The algo splits big F&O orders below the freeze quantity automatically.",
+        "The client's order for 2,000 lots was rejected because it was above the freeze quantity."
       ],
       "fill": "Your 4,500-unit Nifty order was rejected because it was above the ____.",
       "confusables": [
@@ -1371,7 +1453,9 @@
       "short": "Contract settled by paying the difference",
       "definition": "Closing a derivative at expiry by paying the gain or loss in cash, with no shares changing hands. Index futures and options in India are cash-settled, because you can't deliver an index.",
       "examples": [
-        "Nifty options are cash-settled, so there's no delivery risk at expiry."
+        "Nifty options are cash-settled, so there's no delivery risk at expiry.",
+        "Index options in India use cash settlement, so nobody has to deliver 50 stocks.",
+        "The client asked how cash settlement works: the difference from the final price is paid in rupees."
       ],
       "fill": "You can't hand over 'one Nifty', so index options use ____ at expiry.",
       "confusables": [
@@ -1408,7 +1492,9 @@
       "short": "Contract settled by delivering the shares",
       "definition": "Settling a derivative at expiry with actual shares. A stock future, or an in-the-money stock option, still open at expiry turns into a purchase or sale of the shares. All stock futures and options in India settle this way.",
       "examples": [
-        "Close the in-the-money stock calls before expiry unless you want to take delivery."
+        "Close the in-the-money stock calls before expiry unless you want to take delivery.",
+        "Risk closes in-the-money stock options before expiry to avoid physical settlement.",
+        "The client asked why her broker wanted more margin near expiry: physical settlement needs the full value."
       ],
       "fill": "Hold an in-the-money Tata Steel call into expiry and you'll have to buy the shares, because stock options use ____.",
       "confusables": [
@@ -1458,7 +1544,9 @@
       "short": "Cap on total F&O positions in a stock",
       "definition": "Market-Wide Position Limit: the cap on how big the total open futures and options positions in one stock can grow, across all traders. It's set from the stock's free float and how much of it changes hands.",
       "examples": [
-        "It's at 92% of MWPL; one more push and it's in the ban."
+        "It's at 92% of MWPL; one more push and it's in the ban.",
+        "The stock is close to its MWPL, so a ban could come tomorrow.",
+        "Risk checks each F&O stock's MWPL use before adding to positions."
       ],
       "fill": "When open positions in a stock's F&O reach 95% of its ____, no one may add new positions in it.",
       "confusables": [
@@ -1487,7 +1575,9 @@
       "short": "No new F&O positions allowed in a stock",
       "definition": "The period after a stock's open F&O positions cross 95% of its market-wide limit. Traders may only reduce positions, not add to them, until the total falls below 80% of the limit. Adding during a ban draws a penalty.",
       "examples": [
-        "That stock's in the F&O ban, so you can only close what you hold."
+        "That stock's in the F&O ban, so you can only close what you hold.",
+        "The client can't open new futures in the stock because it's in the F&O ban.",
+        "Stocks often swing sharply when they leave the F&O ban and new positions flood in."
       ],
       "fill": "A stock in the ____ lets you close your futures but not open new ones.",
       "confusables": [
@@ -1522,7 +1612,9 @@
       "short": "Selling shares you don't own",
       "definition": "Selling shares you don't own, hoping to buy them back cheaper. In India's cash market, retail traders short intraday and must buy back the same day; holding a short longer needs borrowed shares or a short future. Selling with no way to deliver, called naked short selling, is banned.",
       "examples": [
-        "We shorted it intraday after the downgrade and covered by 2 pm."
+        "We shorted it intraday after the downgrade and covered by 2 pm.",
+        "Risk allows short selling only in stocks we can borrow through SLB.",
+        "The client asked if short selling is allowed for small investors: yes, but intraday unless you borrow the shares."
       ],
       "fill": "If you think a stock will fall, you can profit through ____ it and buying back lower.",
       "confusables": [
@@ -1573,7 +1665,9 @@
       "short": "Market for lending and borrowing shares",
       "definition": "Securities Lending and Borrowing: an exchange platform where holders lend shares for a fee and borrowers take them, mostly to short sell or to meet a delivery. The clearing corporation guarantees the shares come back.",
       "examples": [
-        "Lend your idle HDFC Bank shares on SLB and earn a small fee."
+        "Lend your idle HDFC Bank shares on SLB and earn a small fee.",
+        "The fund earns extra income by lending idle shares through SLB.",
+        "Risk checks the SLB borrowing fee before any short we plan to hold for weeks."
       ],
       "fill": "To hold a short in a stock for several weeks, a fund borrows the shares through ____.",
       "confusables": [
@@ -1594,7 +1688,9 @@
       "short": "Seller fails to hand over the shares",
       "definition": "When a seller doesn't deliver shares they sold, often because they sold shares they never received. The exchange buys them in an auction at the seller's cost; if that fails, it closes the deal at a penalty price at least 20% above the closing price.",
       "examples": [
-        "The shares I bought never arrived, so the shares I sold on were short-delivered and I paid the auction cost."
+        "The shares I bought never arrived, so the shares I sold on were short-delivered and I paid the auction cost.",
+        "The client asked why she was charged an auction penalty: her sale ended in short delivery.",
+        "Risk tracks every short delivery, because the exchange auction can cost far more than the trade made."
       ],
       "fill": "If you sell shares and can't give them to the exchange on settlement, it's a ____, and they go to auction.",
       "confusables": [
@@ -1631,7 +1727,9 @@
       "short": "Buy today, sell before the shares arrive",
       "definition": "Buy Today, Sell Tomorrow: selling shares the next day, before they've reached your demat. It frees the money a day sooner, but if your own seller fails to deliver, you face a short delivery.",
       "examples": [
-        "It's a BTST; I'll sell at the open if the move holds."
+        "It's a BTST; I'll sell at the open if the move holds.",
+        "The client lost money on a BTST when the seller of the shares failed to deliver.",
+        "Risk doesn't allow BTST in stocks prone to short delivery, since the shares you sell may not have arrived yet."
       ],
       "fill": "Buying on Monday and selling on Tuesday, before the shares reach your demat, is a ____ trade.",
       "confusables": [
