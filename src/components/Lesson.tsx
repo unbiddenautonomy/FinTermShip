@@ -263,15 +263,15 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
         {q.kind === 'fill' && term && (
           <>
             <p className="mb-8 text-xl font-semibold leading-relaxed text-ink">
-              {term.fill.split('____').map((part, i) =>
+              {(q.context?.text ?? term.fill).split('____').map((part, i) =>
                 i === 0 ? (
                   <span key={i}>{part}</span>
                 ) : (
                   <span key={i}>
                     <span
-                      className={`mx-1 inline-block min-w-[5rem] rounded-lg border-b-[3px] px-2 text-center font-extrabold ${answered ? 'border-brand bg-brand-soft text-brand-ink' : 'border-ink-3 bg-sunken'}`}
+                      className={`${/^[,.;:!?)]/.test(part) ? 'ml-1' : 'mx-1'} inline-block min-w-[5rem] rounded-lg border-b-[3px] px-2 text-center font-extrabold ${answered ? 'border-brand bg-brand-soft text-brand-ink' : 'border-ink-3 bg-sunken'}`}
                     >
-                      {answered ? term.term : ' '}
+                      {answered ? (q.context?.blank ?? term.term) : ' '}
                     </span>
                     {part}
                   </span>
@@ -351,6 +351,9 @@ function Feedback({ q, term, correct, retryQueued, onNext }: { q: ScoredQuestion
   // Stable per question so the word doesn't change between renders.
   const praise = q.kind === 'calc' ? 'Worked it out' : PRAISE[(q.termId.length + q.answer) % PRAISE.length];
   const misuse = q.kind === 'talk' && q.format === 'misuse';
+  // An example to show after a miss: not the sentence just asked, and not always the first one.
+  const examples = term.examples.filter((_, i) => q.kind !== 'fill' || i !== q.context?.from);
+  const example = examples.length ? examples[(q.termId.length + q.answer) % examples.length] : undefined;
   const headline = correct ? praise : talk ? (misuse ? 'That one is fine' : 'Not quite') : worked ? `Answer: ${q.options[q.answer]}` : `Answer: ${term.term}`;
   return (
     <footer
@@ -380,7 +383,7 @@ function Feedback({ q, term, correct, retryQueued, onNext }: { q: ScoredQuestion
             Practises: <b className="text-ink-2">{term.term}</b>
           </p>
         )}
-        {!correct && !worked && !talk && term.examples[0] && <p className="text-sm italic leading-relaxed text-ink-2">“{term.examples[0]}”</p>}
+        {!correct && !worked && !talk && example && <p className="text-sm italic leading-relaxed text-ink-2">“{example}”</p>}
         {retryQueued && <p className="text-xs font-bold text-bad-ink">You'll get another go at the end.</p>}
         <Button onClick={onNext} variant={correct ? 'primary' : 'danger'} className="w-full">
           Continue

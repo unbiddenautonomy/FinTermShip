@@ -43,7 +43,8 @@
       "definition": "The highest price a buyer is currently willing to pay for a security.",
       "examples": [
         "The bid on Infosys is ₹1,502, so that's where you can sell right now.",
-        "Bids dried up after the results and the stock gapped down."
+        "Bids dried up after the results and the stock gapped down.",
+        "Risk asked why we marked the bonds at the bid, not the mid: that's what we'd get if we had to sell today."
       ],
       "fill": "To sell right away, you hit the ____.",
       "confusables": [
@@ -77,7 +78,8 @@
       "definition": "The lowest price a seller is currently willing to accept. Also called the offer.",
       "examples": [
         "Reliance is ₹2,850 bid, ₹2,851 offered.",
-        "We lifted the offer to get filled before the news."
+        "We lifted the offer to get filled before the news.",
+        "For the client's buy order, the dealer took the ask at ₹612.50 and got filled straight away."
       ],
       "fill": "To buy immediately, you pay the ____, the lowest price any seller is showing.",
       "confusables": [
@@ -104,7 +106,8 @@
       "definition": "The difference between the best bid and the best ask. A narrow spread means a stock is cheap to trade.",
       "examples": [
         "The spread on this small cap is 40 bips, so getting in and out costs real money.",
-        "Spreads widen when volatility jumps."
+        "Spreads widen when volatility jumps.",
+        "The analyst flagged that the bid-ask spread in these bonds doubled in March, so getting out would cost more."
       ],
       "fill": "Liquid large caps trade with a tight ____, so crossing from buyer's price to seller's price costs very little.",
       "confusables": [
@@ -143,7 +146,9 @@
       "short": "Price of the latest trade",
       "definition": "The price at which the most recent trade in a security happened. Indian apps and terminals show it as LTP.",
       "examples": [
-        "LTP is ₹845 but the bid is ₹844, so a market sell won't get ₹845."
+        "LTP is ₹845 but the bid is ₹844, so a market sell won't get ₹845.",
+        "The client saw an LTP of ₹212 on the app, but the stock had traded only twice in an hour.",
+        "Risk won't value thin positions at the last traded price, because one small trade can move it a long way."
       ],
       "fill": "The ____ shows where the latest deal happened, not where you can trade next.",
       "confusables": [
@@ -165,7 +170,8 @@
       "definition": "How easily you can buy or sell a security in size without moving its price much.",
       "examples": [
         "Liquidity in midcaps dries up in a sell-off.",
-        "HDFC Bank has deep liquidity; you can trade large size without much impact."
+        "HDFC Bank has deep liquidity; you can trade large size without much impact.",
+        "The client asked about liquidity: how quickly can they get their money out of the fund?"
       ],
       "fill": "Thin ____ means even a modest order can push the price sharply.",
       "confusables": [
@@ -188,7 +194,9 @@
       "short": "Number of shares traded",
       "definition": "The number of shares or contracts traded in a period, usually a day.",
       "examples": [
-        "Volume was three times the average on results day."
+        "Volume was three times the average on results day.",
+        "The breakout came on thin volume, so the desk didn't trust it.",
+        "The screen drops any stock whose average daily volume is under one lakh shares."
       ],
       "fill": "The breakout came on heavy ____, which traders read as conviction.",
       "confusables": [
@@ -210,7 +218,9 @@
       "short": "1,00,000 (one hundred thousand)",
       "definition": "Indian unit for one hundred thousand, written 1,00,000. Ten lakh make one million.",
       "examples": [
-        "The minimum ticket size for the PMS is ₹50 lakh."
+        "The minimum ticket size for the PMS is ₹50 lakh.",
+        "The client wants to put ₹25 lakh into the fund in three parts.",
+        "Our stop on this trade is a loss of ₹2 lakh, no more."
       ],
       "fill": "₹1,00,000 is one ____.",
       "confusables": [
@@ -243,7 +253,9 @@
       "short": "1,00,00,000 (ten million)",
       "definition": "Indian unit for ten million, written 1,00,00,000. 100 crore make one billion.",
       "examples": [
-        "The block was ₹1,200 crore, or 12 billion rupees."
+        "The block was ₹1,200 crore, or 12 billion rupees.",
+        "FPIs sold ₹3,400 crore of Indian shares yesterday.",
+        "Risk caps the desk at ₹50 crore in any one stock."
       ],
       "fill": "₹100 ____ equals one billion rupees.",
       "confusables": [
@@ -281,7 +293,9 @@
       "short": "Share price × shares outstanding",
       "definition": "The total market value of a company's shares: share price times the number of shares outstanding.",
       "examples": [
-        "It's a ₹2,000 crore market cap company, so most large funds can't build a big position."
+        "It's a ₹2,000 crore market cap company, so most large funds can't build a big position.",
+        "The analyst only covers companies with a market cap above ₹20,000 crore.",
+        "Nifty weights stocks by free-float market cap, not by share price."
       ],
       "fill": "With 100 crore shares at ₹500 each, the company's ____ is ₹50,000 crore.",
       "confusables": [
@@ -325,7 +339,8 @@
       "definition": "One hundredth of one percent (0.01%). Used for interest rates, spreads, costs and small returns.",
       "examples": [
         "The RBI cut the repo rate by 25 bips.",
-        "We're paying 3 bips in brokerage on this order."
+        "We're paying 3 bips in brokerage on this order.",
+        "The client's deposit rate rose by 50 bps to 7.25%."
       ],
       "fill": "One ____ equals 0.01%, so 25 of them make a quarter of a percent.",
       "confusables": [
@@ -364,7 +379,9 @@
       "short": "Plain difference between two percentages",
       "definition": "The plain difference between two percentages. A move from 10% to 12% is 2 percentage points, even though it is a 20% increase.",
       "examples": [
-        "Promoter holding fell 3 percentage points to 51%."
+        "Promoter holding fell 3 percentage points to 51%.",
+        "Margins fell from 22% to 20%: that's 2 percentage points, or about a 9% drop.",
+        "Risk wants the fund's cash kept within one percentage point of its target."
       ],
       "fill": "If a bank's bad-loan ratio goes from 4% to 5%, it has risen by one ____.",
       "confusables": [
@@ -405,7 +422,8 @@
       "definition": "The amount of a security you hold, long or short.",
       "examples": [
         "We're building a position in Larsen over the next week.",
-        "Close out the position before expiry."
+        "Close out the position before expiry.",
+        "Risk asked for every position over ₹10 crore to be listed with its stop."
       ],
       "fill": "We bought 50,000 shares over three days to build our ____.",
       "confusables": [
@@ -428,7 +446,8 @@
       "definition": "Holding a position that gains when the price rises, usually by owning the security.",
       "examples": [
         "We're long HDFC Bank into the results.",
-        "Stay long, but tighten the stop."
+        "Stay long, but tighten the stop.",
+        "The client is long gold through an ETF and wants to know how to protect it."
       ],
       "fill": "If you own 1,000 shares of Infosys, you are ____ Infosys.",
       "confusables": [
@@ -450,7 +469,9 @@
       "short": "Money blocked to cover a position's risk",
       "definition": "The money your broker blocks so you can hold a position, as a cushion against losses. It's a deposit, not the cost of the trade, and it lets you control more than the cash you put up.",
       "examples": [
-        "My margin's all used up, so I can't add to the position."
+        "My margin's all used up, so I can't add to the position.",
+        "The broker asked for more margin after the stock fell 8%.",
+        "Risk tracks how much margin the desk is using, so one bad day doesn't start a scramble for cash."
       ],
       "fill": "You don't pay the full value of the position, only the ____ the broker blocks as a deposit.",
       "confusables": [
@@ -489,7 +510,9 @@
       "short": "Deal to trade at a set price on a set date",
       "definition": "An exchange-traded agreement to buy or sell an asset at a price fixed today, on a set date in the future. Both sides are bound, gains and losses are settled every day, and you put up only margin, not the full value.",
       "examples": [
-        "Reliance futures are trading 15 rupees above the share price."
+        "Reliance futures are trading 15 rupees above the share price.",
+        "Each Nifty futures contract comes in a fixed lot size, so you trade in lots, not single units.",
+        "The client asked why the futures contract trades above the share price; the answer is the cost of carry."
       ],
       "fill": "You agree today to buy Nifty at 25,000 on a set date next month: that's a ____.",
       "confusables": [
@@ -531,7 +554,9 @@
       "short": "Positioned to gain if price falls",
       "definition": "A position that gains when the price falls, usually by selling futures or selling shares you have borrowed.",
       "examples": [
-        "We're short the IT pack via futures ahead of the results."
+        "We're short the IT pack via futures ahead of the results.",
+        "Risk limits how big we can be short in one stock, because the loss on a short has no ceiling.",
+        "The client asked how a fund can make money in a fall: it holds a short position."
       ],
       "fill": "A trader who expects the stock to fall can go ____ by selling its futures.",
       "confusables": [
@@ -567,7 +592,8 @@
       "definition": "Profit and loss: how much money a trade, book or fund has made or lost.",
       "examples": [
         "What's the P&L on the Bank Nifty trade?",
-        "The desk's P&L was down ₹2 crore on the day."
+        "The desk's P&L was down ₹2 crore on the day.",
+        "The client's quarterly report shows P&L by stock, so they can see what worked."
       ],
       "fill": "The trader checked the ____ at the close to see how much the book made today.",
       "confusables": [
@@ -593,7 +619,9 @@
       "short": "Profit locked in by closing",
       "definition": "Profit or loss on positions you have already closed. It is final.",
       "examples": [
-        "Realised P&L is ₹4 lakh; the rest is still open."
+        "Realised P&L is ₹4 lakh; the rest is still open.",
+        "Tax is due on realised P&L, so the client wants to book some losses before March.",
+        "Risk looks at realised P&L and open losses together, not just what's been booked."
       ],
       "fill": "Once you sell the shares, the gain becomes ____ and no longer moves with the price.",
       "confusables": [
@@ -620,7 +648,9 @@
       "short": "Gain or loss on open positions",
       "definition": "Profit or loss on positions you still hold, valued at current prices. It keeps changing until you close the position.",
       "examples": [
-        "We're up ₹10 lakh unrealised, but nothing's booked yet."
+        "We're up ₹10 lakh unrealised, but nothing's booked yet.",
+        "The fund's NAV includes unrealised P&L, so it moves even when nothing is sold.",
+        "Don't celebrate unrealised P&L at noon; it can be gone by the close."
       ],
       "fill": "The stock rallied, but we haven't sold, so the gain is still ____ and could vanish tomorrow.",
       "confusables": [
@@ -651,7 +681,9 @@
       "short": "Revaluing at today's price",
       "definition": "Valuing positions at current market prices, usually every day. In futures, MTM gains and losses are settled in cash daily.",
       "examples": [
-        "MTM losses on the futures have to be paid in by tomorrow."
+        "MTM losses on the futures have to be paid in by tomorrow.",
+        "Futures are settled mark-to-market every day, so losses are paid in cash daily.",
+        "Risk runs MTM on the whole book at 3:30 and flags anything down more than 2%."
       ],
       "fill": "Futures positions are ____ every day, and any losses are taken from your margin.",
       "confusables": [
@@ -675,7 +707,9 @@
       "short": "Full value a position controls",
       "definition": "The total value a derivative or leveraged position controls, as opposed to the cash put up for it.",
       "examples": [
-        "The futures position is ₹5 crore notional, but we've only posted ₹80 lakh of margin."
+        "The futures position is ₹5 crore notional, but we've only posted ₹80 lakh of margin.",
+        "Risk limits the desk on notional as well as margin, because margin understates the size of the bet.",
+        "The client asked what ₹10 crore notional means: it's the full value of the shares the futures control."
       ],
       "fill": "We only posted margin, but the ____ of the futures position is several times bigger.",
       "confusables": [
@@ -710,7 +744,9 @@
       "short": "Controlling more than your capital",
       "definition": "Controlling a position larger than your own capital, through borrowing or derivatives. It magnifies both gains and losses.",
       "examples": [
-        "At 5x leverage, a 4% move against you wipes out 20% of your capital."
+        "At 5x leverage, a 4% move against you wipes out 20% of your capital.",
+        "SEBI's margin rules cut intraday leverage, so brokers now block far more money up front.",
+        "The analyst worries about the company's leverage: its debt is four times its EBITDA."
       ],
       "fill": "Futures give you ____, so a small price move makes a big dent in your capital.",
       "confusables": [
@@ -745,7 +781,9 @@
       "short": "Gain or loss as a percentage",
       "definition": "The gain or loss on an investment, usually shown as a percentage of the amount invested.",
       "examples": [
-        "The fund's one-year return is 18%."
+        "The fund's one-year return is 18%.",
+        "The client compared the fund's return with a fixed deposit and asked why it was lower this year.",
+        "Risk judges each desk on profit per unit of risk, not on raw return."
       ],
       "fill": "Bought at ₹100, sold at ₹120: that's a 20% ____.",
       "confusables": [
@@ -773,7 +811,9 @@
       "short": "Average yearly growth, compounded",
       "definition": "Compound annual growth rate: the steady yearly rate that would take a starting value to an ending value over several years.",
       "examples": [
-        "Earnings grew at a 15% CAGR over five years."
+        "Earnings grew at a 15% CAGR over five years.",
+        "The client's portfolio has compounded at a CAGR of 14% over seven years.",
+        "The research note assumes a 12% CAGR in loan growth to 2030."
       ],
       "fill": "Money that roughly doubles in 6 years has grown at about a 12% ____.",
       "confusables": [
@@ -811,7 +851,9 @@
       "short": "How much prices swing",
       "definition": "How much and how fast a price moves up and down. Higher volatility means bigger swings and more risk.",
       "examples": [
-        "Volatility spiked ahead of the election results."
+        "Volatility spiked ahead of the election results.",
+        "Risk sizes positions so that each one carries about the same volatility.",
+        "The client asked why small caps feel scarier: their volatility is much higher than the Nifty's."
       ],
       "fill": "Small caps can swing 5% in a day, so their ____ is much higher than that of large caps.",
       "confusables": [
@@ -832,7 +874,9 @@
       "short": "Cash paid to shareholders",
       "definition": "A payment a company makes to its shareholders out of profits, usually in cash.",
       "examples": [
-        "The board declared an interim dividend; the record date is next Friday."
+        "The board declared an interim dividend; the record date is next Friday.",
+        "The analyst expects the dividend to rise once the company's big spending is done.",
+        "The client wants stocks that pay a steady dividend for income."
       ],
       "fill": "Mature companies like utilities often pay out a large share of their profits as a ____.",
       "confusables": [
@@ -854,7 +898,9 @@
       "short": "Yearly dividend ÷ share price",
       "definition": "Annual dividends per share divided by the share price, shown as a percentage.",
       "examples": [
-        "At ₹400 with a ₹20 dividend, the yield is 5%."
+        "At ₹400 with a ₹20 dividend, the yield is 5%.",
+        "PSU stocks are popular with income investors for their high dividend yield.",
+        "The analyst compared the stock's dividend yield with the 10-year government bond."
       ],
       "fill": "A ₹10 annual dividend on a ₹200 stock is a 5% ____.",
       "confusables": [
@@ -889,7 +935,9 @@
       "short": "Price change plus dividends",
       "definition": "The full return on an investment, including both price change and income such as dividends, assuming the income is reinvested.",
       "examples": [
-        "The index was up 10%, but total return was 11.3% with dividends."
+        "The index was up 10%, but total return was 11.3% with dividends.",
+        "Our benchmark is the Nifty 50 total return index, so dividends count.",
+        "The client was surprised that total return beat the price chart by over 1% a year."
       ],
       "fill": "To compare a high-dividend stock fairly with a growth stock, look at ____, not price change alone.",
       "confusables": [
@@ -926,7 +974,9 @@
       "short": "Nominal value printed on a share",
       "definition": "The nominal value of a share set by the company, such as ₹1, ₹2 or ₹10. It has little to do with the market price, but Indian companies often announce dividends as a percentage of it.",
       "examples": [
-        "A 200% dividend on a ₹1 face value share is just ₹2 per share."
+        "A 200% dividend on a ₹1 face value share is just ₹2 per share.",
+        "Indian companies often announce dividends as a percentage of face value, which confuses new investors.",
+        "After the split, the face value went from ₹10 to ₹2 and the share count rose five times."
       ],
       "fill": "A \"500% dividend\" sounds huge, but on a ₹2 ____ share it is only ₹10.",
       "confusables": [
@@ -947,7 +997,9 @@
       "short": "Net worth on the balance sheet",
       "definition": "A company's net worth on its balance sheet: assets minus liabilities. Book value per share divides it by the number of shares.",
       "examples": [
-        "Several PSU banks traded below book value for years."
+        "Several PSU banks traded below book value for years.",
+        "The analyst values the bank on book value because its assets are mostly loans.",
+        "Risk asked whether the book value allows for the bad loans that haven't been written off yet."
       ],
       "fill": "When a bank trades at less than its ____, the market values it below its accounting net worth.",
       "confusables": [
@@ -969,7 +1021,9 @@
       "short": "Estimate of what it's really worth",
       "definition": "An estimate of what an asset is really worth, from a valuation model or pricing formula, compared with its market price.",
       "examples": [
-        "Our fair value for the stock is ₹1,400, so we see 20% upside."
+        "Our fair value for the stock is ₹1,400, so we see 20% upside.",
+        "The PM plans to trim once the stock gets within 5% of fair value.",
+        "The client asked how the analyst reached that fair value: it comes from a discounted cash flow model."
       ],
       "fill": "Analysts compare the market price with their estimate of ____ to decide if a stock is cheap.",
       "confusables": [
@@ -991,7 +1045,9 @@
       "short": "Trading above a reference value",
       "definition": "Trading above a reference value, such as fair value, NAV, the issue price or the price in another market. The opposite of a discount.",
       "examples": [
-        "The stock listed at a 40% premium to its IPO price."
+        "The stock listed at a 40% premium to its IPO price.",
+        "Futures usually trade at a premium to the share price because of the cost of carry.",
+        "The client asked why the gold ETF trades at a premium to its NAV this week."
       ],
       "fill": "The ETF is trading above its NAV, so buyers are paying a ____.",
       "confusables": [
@@ -1013,7 +1069,9 @@
       "short": "Trading below a reference value",
       "definition": "Trading below a reference value, such as NAV, fair value or the price in another market. The opposite of a premium.",
       "examples": [
-        "The holding company trades at a 50% discount to the value of its stakes."
+        "The holding company trades at a 50% discount to the value of its stakes.",
+        "The stock trades at a discount to its peers because of governance worries.",
+        "Risk marks the unlisted shares at a 30% discount to the last funding round."
       ],
       "fill": "The share sale was priced at a 5% ____ to the market price to attract big investors.",
       "confusables": [
@@ -1034,7 +1092,9 @@
       "short": "Potential rise from here",
       "definition": "How much a price could rise from here, usually to an analyst's target. Downside is the potential fall.",
       "examples": [
-        "We see 25% upside to our target of ₹900."
+        "We see 25% upside to our target of ₹900.",
+        "With only 5% upside left to target, the PM wants to book profits.",
+        "The client asked whether there's any upside left after the rally."
       ],
       "fill": "With the stock at ₹800 and a target of ₹1,000, there's 25% ____.",
       "confusables": [
@@ -1060,7 +1120,9 @@
       "short": "Profit per share",
       "definition": "Earnings per share: a company's net profit divided by its number of shares.",
       "examples": [
-        "EPS grew 18% year on year."
+        "EPS grew 18% year on year.",
+        "The analyst raised her EPS estimate for next year by 6% after the margin beat.",
+        "The client asked why the stock fell when EPS rose: it rose less than expected."
       ],
       "fill": "Net profit of ₹500 crore spread over 100 crore shares gives an ____ of ₹5.",
       "confusables": [
@@ -1089,7 +1151,9 @@
       "short": "Share price ÷ EPS",
       "definition": "Share price divided by earnings per share. It shows how many rupees investors pay for each rupee of yearly profit.",
       "examples": [
-        "The stock trades at 40 times earnings, so expectations are high."
+        "The stock trades at 40 times earnings, so expectations are high.",
+        "The client asked if a P/E ratio of 60 means the stock is too expensive.",
+        "On forward earnings, the sector's P/E ratio is below its ten-year average."
       ],
       "fill": "At ₹600 a share and EPS of ₹30, the stock's ____ is 20.",
       "confusables": [
@@ -1130,7 +1194,9 @@
       "short": "Share price ÷ book value per share",
       "definition": "Share price divided by book value per share. Widely used to value banks and other financial companies.",
       "examples": [
-        "The bank trades at 1.2 times book."
+        "The bank trades at 1.2 times book.",
+        "The analyst compares banks on P/B ratio because their earnings swing with bad loans.",
+        "Risk noticed the fund holds mostly stocks with a high P/B ratio, which is a growth tilt."
       ],
       "fill": "Banks are often valued on ____, since their assets are mostly loans carried close to book value.",
       "confusables": [
@@ -1156,7 +1222,9 @@
       "short": "Market cap + debt − cash",
       "definition": "The value of the whole business to all its investors: market cap plus debt minus cash.",
       "examples": [
-        "On EV to EBITDA, the telecom stock looks cheap despite all the debt."
+        "On EV to EBITDA, the telecom stock looks cheap despite all the debt.",
+        "The bid values the company at an enterprise value of ₹40,000 crore, debt included.",
+        "The client asked why analysts use enterprise value: it counts the debt a buyer would take on."
       ],
       "fill": "To compare companies with very different debt levels, analysts use ____ rather than market cap.",
       "confusables": [
@@ -1194,7 +1262,9 @@
       "short": "Operating profit before D&A",
       "definition": "Earnings before interest, tax, depreciation and amortisation. A rough measure of a business's operating profit.",
       "examples": [
-        "EBITDA margin expanded 200 bips on lower raw material costs."
+        "EBITDA margin expanded 200 bips on lower raw material costs.",
+        "The loan's covenant caps debt at three times EBITDA.",
+        "The client asked why EBITDA is higher than profit: it's before interest, tax and depreciation."
       ],
       "fill": "Analysts value capital-heavy businesses on EV to ____, which ignores how they are financed.",
       "confusables": [
@@ -1218,7 +1288,9 @@
       "short": "Valuation ratio such as P/E",
       "definition": "A valuation ratio such as P/E or EV/EBITDA. \"Trading at 30x\" means 30 times earnings or another base.",
       "examples": [
-        "The sector re-rated; multiples expanded from 25x to 35x."
+        "The sector re-rated; multiples expanded from 25x to 35x.",
+        "The analyst argues the stock deserves a higher multiple once the debt is repaid.",
+        "Risk warned that if the multiple falls back to 20x, the stock loses a third even if earnings hold."
       ],
       "fill": "When investors turn more optimistic, a stock's ____ expands even if its earnings don't change.",
       "confusables": [
@@ -1242,7 +1314,9 @@
       "short": "A company's profit",
       "definition": "A company's profit, usually net profit, reported every quarter. Results season is when most companies report.",
       "examples": [
-        "Earnings beat estimates by 8%."
+        "Earnings beat estimates by 8%.",
+        "We go flat before earnings because this stock moves 6% on results day.",
+        "The client asked when earnings come out; the company reports on the 18th."
       ],
       "fill": "Stocks often move sharply when quarterly ____ come in above or below estimates.",
       "confusables": [
@@ -1265,7 +1339,9 @@
       "short": "Company's own forecast",
       "definition": "A company's own forecast of its future results, such as revenue growth or margins.",
       "examples": [
-        "Management cut revenue guidance to 4–6%, and the stock fell 7%."
+        "Management cut revenue guidance to 4–6%, and the stock fell 7%.",
+        "The analyst trusts this management's guidance because they have met it five years running.",
+        "The desk expects the big move tomorrow to come from the guidance, not the quarter's numbers."
       ],
       "fill": "The IT company raised its full-year ____, signalling demand is better than feared.",
       "confusables": [
@@ -1289,7 +1365,9 @@
       "short": "Average analyst forecast",
       "definition": "The average of analysts' forecasts for a company's results or an economic number. Results are judged as a beat or a miss against it.",
       "examples": [
-        "Profit came in 5% below consensus."
+        "Profit came in 5% below consensus.",
+        "Our profit estimate is 10% above consensus, so we expect a beat.",
+        "The client asked what consensus means: the average of the analysts' forecasts."
       ],
       "fill": "Results are called a \"beat\" when they come in above ____.",
       "confusables": [
@@ -1310,7 +1388,9 @@
       "short": "What it's worth; how it's priced",
       "definition": "What a company or asset is worth, or how expensive it is compared with its earnings, assets or peers.",
       "examples": [
-        "Valuations look stretched after the rally."
+        "Valuations look stretched after the rally.",
+        "The PM likes the business but not the valuation, so she's waiting for a dip.",
+        "Risk asked how the valuation of the unlisted holding was worked out."
       ],
       "fill": "After a 60% rally, many investors worry that the stock's ____ is no longer cheap.",
       "confusables": [
@@ -1331,7 +1411,9 @@
       "short": "Position that offsets risk",
       "definition": "A position taken to reduce the risk of another position, such as selling Nifty futures against a stock portfolio.",
       "examples": [
-        "We hedged the portfolio with Nifty puts into the budget."
+        "We hedged the portfolio with Nifty puts into the budget.",
+        "Risk wants a hedge on the bank exposure before the RBI policy.",
+        "The client asked whether gold is a good hedge against a falling rupee."
       ],
       "fill": "To protect the portfolio from a market fall without selling stocks, the PM put on a ____ with index futures.",
       "confusables": [
@@ -1352,7 +1434,9 @@
       "short": "Spreading risk across holdings",
       "definition": "Spreading money across different stocks, sectors or assets so that one bad outcome doesn't sink the portfolio.",
       "examples": [
-        "Ten bank stocks isn't diversification; it's one bet."
+        "Ten bank stocks isn't diversification; it's one bet.",
+        "The client's diversification is weak: 70% of the money is in two stocks.",
+        "Risk likes the diversification across sectors but not the heavy small-cap tilt."
       ],
       "fill": "Holding stocks from many unrelated sectors is a form of ____.",
       "confusables": [
@@ -1381,7 +1465,9 @@
       "short": "All the holdings of an investor or fund",
       "definition": "The full set of investments held by a person or a fund.",
       "examples": [
-        "The portfolio has 40 stocks with a tilt to financials."
+        "The portfolio has 40 stocks with a tilt to financials.",
+        "Risk runs a stress test on the portfolio every Friday.",
+        "The client wants a portfolio that pays some income every quarter."
       ],
       "fill": "The fund manager reviews the whole ____ every week, not just single stocks.",
       "confusables": [
@@ -1403,7 +1489,9 @@
       "short": "Index a fund is measured against",
       "definition": "The index or yardstick a fund's performance is compared with, such as the Nifty 50 for a large-cap fund.",
       "examples": [
-        "We beat the benchmark by 3% this year."
+        "We beat the benchmark by 3% this year.",
+        "The client asked why the fund uses the Nifty 500 as its benchmark.",
+        "Risk measures each month how far the fund strays from its benchmark."
       ],
       "fill": "A large-cap fund that returned 14% while the Nifty 50 returned 12% beat its ____ by 2 points.",
       "confusables": [
@@ -1424,7 +1512,9 @@
       "short": "Do better than a comparison",
       "definition": "To deliver a higher return than a benchmark or peers. As an analyst rating, it means the stock is expected to beat the market.",
       "examples": [
-        "Pharma outperformed the Nifty by 6% this quarter."
+        "Pharma outperformed the Nifty by 6% this quarter.",
+        "The analyst expects private banks to outperform PSU banks next year.",
+        "The client asked whether the fund will outperform if markets fall."
       ],
       "fill": "Our bank stocks rose 15% while the bank index rose 10%, so we managed to ____ the index.",
       "confusables": [
@@ -1445,7 +1535,9 @@
       "short": "Do worse than a comparison",
       "definition": "To deliver a lower return than a benchmark or peers, even if the return itself is positive.",
       "examples": [
-        "IT has underperformed the market for two years."
+        "IT has underperformed the market for two years.",
+        "Our rating is underperform, with a target 15% below today's price.",
+        "Risk warned that sitting on lots of cash will underperform in a rally."
       ],
       "fill": "Gaining 8% when the benchmark gains 12% means you ____ it by 4 points.",
       "confusables": [
@@ -1466,7 +1558,9 @@
       "short": "How much is riding on something",
       "definition": "How much of a portfolio is affected by a particular stock, sector, factor or market, in rupees or as a percentage of the portfolio.",
       "examples": [
-        "Our banking exposure is 30% of the fund."
+        "Our banking exposure is 30% of the fund.",
+        "Risk caps exposure to any one business group at 10% of the fund.",
+        "The client asked how much exposure the fund has to the US."
       ],
       "fill": "With 30% in banks, the fund has heavy ____ to interest rate moves.",
       "confusables": [
@@ -1488,7 +1582,9 @@
       "short": "Broad group of similar investments",
       "definition": "A broad group of investments that behave in similar ways, such as equities, bonds, commodities, real estate or cash.",
       "examples": [
-        "Gold was the best-performing asset class this year."
+        "Gold was the best-performing asset class this year.",
+        "The client wants to add a new asset class, such as gold or REITs.",
+        "Risk studies how each asset class moved in past sell-offs."
       ],
       "fill": "Equities, bonds and gold are each a different ____.",
       "confusables": [

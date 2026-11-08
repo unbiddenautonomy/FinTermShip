@@ -42,7 +42,9 @@
       "short": "India's largest stock exchange",
       "definition": "The National Stock Exchange of India, based in Mumbai. It is India's largest exchange by trading volume and runs the Nifty indices.",
       "examples": [
-        "Most of the volume in this stock is on NSE."
+        "Most of the volume in this stock is on NSE.",
+        "The desk routes most orders to NSE because that's where the depth is.",
+        "The client asked whether to buy on NSE or BSE; for a large stock the price is nearly the same."
       ],
       "fill": "The Nifty 50 index is run by the ____'s index arm.",
       "confusables": [
@@ -68,7 +70,9 @@
       "short": "Asia's oldest exchange; runs the Sensex",
       "definition": "BSE Ltd, formerly the Bombay Stock Exchange, founded in 1875 and the oldest stock exchange in Asia. Its flagship index is the Sensex.",
       "examples": [
-        "The stock is listed only on BSE, so liquidity is thin."
+        "The stock is listed only on BSE, so liquidity is thin.",
+        "BSE won a much bigger share of options trading once its Sensex weekly contracts took off.",
+        "Risk checks the price on both NSE and BSE before marking a thinly traded stock."
       ],
       "fill": "The Sensex is the flagship index of the ____.",
       "confusables": [
@@ -93,7 +97,9 @@
       "short": "Where shares themselves trade",
       "definition": "The part of an exchange where shares themselves are bought and sold, for delivery or intraday, as opposed to the derivatives (F&O) segment.",
       "examples": [
-        "Cash market volumes are a fraction of F&O volumes."
+        "Cash market volumes are a fraction of F&O volumes.",
+        "The desk buys the shares in the cash segment and sells futures against them to lock in the basis.",
+        "The client only trades the cash segment; she doesn't touch futures or options."
       ],
       "fill": "Buying shares to hold for the long term happens in the ____, not in F&O.",
       "confusables": [
@@ -119,7 +125,9 @@
       "short": "Futures and options segment",
       "definition": "Futures and options: the derivatives segment of an exchange, where contracts on indices and stocks are traded.",
       "examples": [
-        "SEBI tightened F&O rules to cut retail losses."
+        "SEBI tightened F&O rules to cut retail losses.",
+        "Risk asked how much of the desk's loss came from F&O and how much from cash positions.",
+        "The client wants to start trading F&O, so the broker first asks for proof of income."
       ],
       "fill": "Contracts like Nifty futures and Bank Nifty options trade in the ____ segment.",
       "confusables": [
@@ -142,7 +150,9 @@
       "short": "Founder or controlling shareholder",
       "definition": "The founder, family or parent company that controls an Indian listed company, as declared in its filings.",
       "examples": [
-        "Promoters own 55% and haven't sold a share."
+        "Promoters own 55% and haven't sold a share.",
+        "The analyst likes that the promoter has been buying shares in the open market.",
+        "Risk flags stocks where the promoter group has been selling steadily."
       ],
       "fill": "In India, the founding family that controls a listed company is called its ____.",
       "confusables": [
@@ -166,7 +176,9 @@
       "short": "Shares available to the public",
       "definition": "The shares freely available to trade, leaving out promoter holdings and other locked-in shares. Indices like the Nifty 50 weight companies by free-float market cap.",
       "examples": [
-        "With promoters holding 75%, the free float is small."
+        "With promoters holding 75%, the free float is small.",
+        "A small free float means a few large orders can move the price a long way.",
+        "The index weights the stock by its free float, so the promoter's 70% doesn't count."
       ],
       "fill": "A company whose promoters hold 90% of the shares has a very small ____.",
       "confusables": [
@@ -204,7 +216,9 @@
       "short": "NSE index of 50 large companies",
       "definition": "NSE's benchmark index of 50 large, liquid Indian companies, weighted by free-float market cap.",
       "examples": [
-        "Nifty closed up 1.2%, led by banks."
+        "Nifty closed up 1.2%, led by banks.",
+        "The client's index fund tracks the Nifty 50, so it holds the same 50 stocks.",
+        "Risk hedges the book with Nifty 50 futures because they are the most liquid."
       ],
       "fill": "The ____ tracks 50 large companies listed on NSE.",
       "confusables": [
@@ -226,7 +240,9 @@
       "short": "BSE index of 30 large companies",
       "definition": "BSE's benchmark index of 30 large, well-established companies. It is India's oldest stock index, with a base year of 1978–79.",
       "examples": [
-        "The Sensex hit a record high today."
+        "The Sensex hit a record high today.",
+        "The evening news led with the Sensex falling 800 points.",
+        "The client asked why the Sensex and Nifty move almost together: they hold many of the same big companies."
       ],
       "fill": "The ____ is made up of 30 large companies listed on BSE.",
       "confusables": [
@@ -250,7 +266,9 @@
       "short": "NSE index of large bank stocks",
       "definition": "NSE's index of the most liquid large Indian bank stocks. Its futures and options are among the most heavily traded contracts in India.",
       "examples": [
-        "Bank Nifty fell 2% as private lenders sold off."
+        "Bank Nifty fell 2% as private lenders sold off.",
+        "The desk hedged its bank stocks with Bank Nifty futures before the RBI policy.",
+        "Risk watches Bank Nifty closely because banks are such a big part of the Nifty."
       ],
       "fill": "A trader who wants to bet on banks as a group can trade ____ futures.",
       "confusables": [
@@ -271,7 +289,9 @@
       "short": "Top 100 companies by market cap",
       "definition": "In India, the 100 largest listed companies by full market cap, under the classification that SEBI, the market regulator, sets for mutual funds. AMFI updates the list every six months.",
       "examples": [
-        "Large caps held up better than small caps in the sell-off."
+        "Large caps held up better than small caps in the sell-off.",
+        "The client's large cap fund holds names like Reliance, HDFC Bank and Infosys.",
+        "Risk prefers large cap stocks for big positions because they can be sold quickly."
       ],
       "fill": "Under SEBI's rules, the 100 biggest companies by market cap are called ____ stocks.",
       "confusables": [
@@ -294,7 +314,9 @@
       "short": "Companies ranked 101 to 250",
       "definition": "In India, companies ranked 101st to 250th by full market cap, under the same SEBI classification.",
       "examples": [
-        "Mid caps have rallied 40% this year."
+        "Mid caps have rallied 40% this year.",
+        "The analyst thinks mid cap valuations have run ahead of earnings.",
+        "The client's mid cap fund fell more than the Nifty in the correction."
       ],
       "fill": "A company ranked 180th by market cap is classed as a ____.",
       "confusables": [
@@ -317,7 +339,9 @@
       "short": "Companies ranked 251 and below",
       "definition": "In India, companies ranked 251st and below by full market cap. They tend to be more volatile and less liquid.",
       "examples": [
-        "Small caps were hit hardest when SEBI warned about froth."
+        "Small caps were hit hardest when SEBI warned about froth.",
+        "Risk caps small cap holdings at 15% because they are hard to sell in a panic.",
+        "The client's small cap fund stopped taking lump sums for a while because the AMC worried about froth."
       ],
       "fill": "A company ranked 600th by market cap is a ____.",
       "confusables": [
@@ -345,7 +369,9 @@
       "short": "India's securities market regulator",
       "definition": "The Securities and Exchange Board of India, which regulates stock exchanges, brokers, mutual funds and listed companies.",
       "examples": [
-        "SEBI's new F&O rules raised minimum contract sizes."
+        "SEBI's new F&O rules raised minimum contract sizes.",
+        "The compliance team reads every SEBI circular the day it comes out.",
+        "The client asked who keeps brokers honest; SEBI regulates them and can ban them."
       ],
       "fill": "Rules on IPO disclosures and insider trading are set by ____.",
       "confusables": [
@@ -371,7 +397,9 @@
       "short": "India's central bank",
       "definition": "The Reserve Bank of India, the central bank. It sets the repo rate, manages the rupee and regulates banks.",
       "examples": [
-        "The RBI held the repo rate unchanged."
+        "The RBI held the repo rate unchanged.",
+        "The bond desk is waiting for the RBI policy at 10 am.",
+        "The client asked why the rupee jumped: traders think the RBI sold dollars."
       ],
       "fill": "The repo rate is set by the ____'s Monetary Policy Committee.",
       "confusables": [
@@ -394,7 +422,9 @@
       "short": "Firm that places your trades",
       "definition": "A firm registered with SEBI and a member of an exchange, which places orders on the exchange for its clients.",
       "examples": [
-        "Discount brokers charge a flat fee per order."
+        "Discount brokers charge a flat fee per order.",
+        "The client is moving to a stockbroker with a better app and lower fees.",
+        "The analyst covers listed stockbroker firms, whose profits swing with F&O volumes."
       ],
       "fill": "Retail investors can't trade directly on NSE; they go through a ____.",
       "confusables": [
@@ -415,7 +445,9 @@
       "short": "Holds securities electronically (NSDL, CDSL)",
       "definition": "An institution that holds securities in electronic form and records who owns them. India has two: NSDL and CDSL.",
       "examples": [
-        "Your shares are recorded with CDSL through your broker."
+        "Your shares are recorded with CDSL through your broker.",
+        "If your broker shuts down, your shares are still safe at the depository.",
+        "The analyst covers CDSL, a listed depository whose income rises with new demat accounts."
       ],
       "fill": "Your shares are actually recorded with a ____ such as NSDL or CDSL.",
       "confusables": [
@@ -437,7 +469,9 @@
       "short": "Electronic account that holds your shares",
       "definition": "An account that holds shares and other securities in electronic (dematerialised) form, opened through a depository participant.",
       "examples": [
-        "The shares will be credited to your demat account on listing day."
+        "The shares will be credited to your demat account on listing day.",
+        "The client asked why her bonus shares hadn't shown up in her demat account yet.",
+        "India now has well over 15 crore demat accounts."
       ],
       "fill": "After you buy shares, they are held in your ____, not in your bank account.",
       "confusables": [
@@ -464,7 +498,9 @@
       "short": "Agent that runs your demat account",
       "definition": "A depository participant: a broker or bank registered with a depository that opens and services your demat account.",
       "examples": [
-        "Your broker is also your DP, so it charges a DP fee when you sell."
+        "Your broker is also your DP, so it charges a DP fee when you sell.",
+        "The client was surprised by a DP charge on her contract note when she sold.",
+        "To move shares to another broker, you ask your DP to transfer them."
       ],
       "fill": "When you sell shares from your demat account, your ____ charges a small fee for the debit.",
       "confusables": [
@@ -485,7 +521,9 @@
       "short": "Broker account used to place orders",
       "definition": "The account with your broker that you use to place buy and sell orders. It is linked to your demat account, which holds shares, and your bank account, which holds money.",
       "examples": [
-        "Add funds to the trading account before the market opens."
+        "Add funds to the trading account before the market opens.",
+        "The client links her bank to her trading account so she can add money instantly.",
+        "The broker froze the trading account until the margin shortfall was paid."
       ],
       "fill": "You place orders through your ____, while the shares themselves sit in your demat account.",
       "confusables": [
@@ -511,7 +549,9 @@
       "short": "Settles and guarantees trades",
       "definition": "The entity that settles exchange trades and guarantees them, so neither side carries the other's default risk. For example, NSE Clearing for NSE and ICCL for BSE.",
       "examples": [
-        "The clearing corporation becomes the buyer to every seller and the seller to every buyer."
+        "The clearing corporation becomes the buyer to every seller and the seller to every buyer.",
+        "If the other side of your trade defaults, the clearing corporation still pays you.",
+        "Risk keeps track of the margin the clearing corporation demands each day."
       ],
       "fill": "If the other side of your trade defaults, the ____ still makes sure you are paid.",
       "confusables": [
@@ -537,7 +577,9 @@
       "short": "Settled one working day after the trade",
       "definition": "Settlement one working day after the trade date: shares and money change hands the next working day. India moved fully to T+1 in January 2023.",
       "examples": [
-        "Buy on Monday and the shares reach your demat on Tuesday under T+1."
+        "Buy on Monday and the shares reach your demat on Tuesday under T+1.",
+        "Under T+1, the money from Tuesday's sale reaches your account on Wednesday.",
+        "FPIs had to fund their trades faster when India moved to T+1 in 2023."
       ],
       "fill": "Under ____, a trade done on Thursday settles on Friday.",
       "confusables": [
@@ -565,7 +607,9 @@
       "short": "Tax on each trade in shares and F&O",
       "definition": "Securities transaction tax: a tax on buying and selling securities on Indian exchanges, collected through your broker. Rates differ for delivery, intraday and F&O trades.",
       "examples": [
-        "Higher STT on options raised trading costs for active traders."
+        "Higher STT on options raised trading costs for active traders.",
+        "The client's options profit shrank because STT is charged on the premium each time she sells.",
+        "The research note says the STT increase on F&O may cut trading volumes."
       ],
       "fill": "Every contract note shows ____, the tax charged on the trade itself.",
       "confusables": [
@@ -586,7 +630,9 @@
       "short": "Official record of your day's trades",
       "definition": "The legal document your broker sends after each trading day, listing your trades, prices, brokerage, taxes and other charges.",
       "examples": [
-        "Check the contract note for the exact charges."
+        "Check the contract note for the exact charges.",
+        "Risk checks our trades against the broker's contract note every evening.",
+        "The client asked what the stamp duty line on her contract note means."
       ],
       "fill": "Your broker must send a ____ within 24 hours listing every trade and charge.",
       "confusables": [
@@ -614,7 +660,9 @@
       "short": "Foreign investor in Indian markets",
       "definition": "A foreign portfolio investor: an overseas fund or institution investing in Indian securities. Many people still use the older term FII.",
       "examples": [
-        "FIIs sold ₹5,000 crore in the cash market yesterday."
+        "FIIs sold ₹5,000 crore in the cash market yesterday.",
+        "The analyst tracks FPI flows daily, because foreign money drives large caps in the short run.",
+        "Risk worries that heavy FPI selling could push the rupee lower."
       ],
       "fill": "Heavy selling by ____ often weakens both the market and the rupee.",
       "confusables": [
@@ -641,7 +689,9 @@
       "short": "Indian institutions such as MFs and insurers",
       "definition": "Domestic institutional investors: Indian mutual funds, insurance companies, banks and pension funds. Their buying has often offset foreign selling in recent years.",
       "examples": [
-        "DIIs bought ₹3,000 crore as FIIs sold."
+        "DIIs bought ₹3,000 crore as FIIs sold.",
+        "DII buying has cushioned the market every time foreigners sold this year.",
+        "The client asked who the DIIs are: mostly mutual funds and insurers such as LIC."
       ],
       "fill": "Indian mutual funds and LIC are counted as ____ in daily flow data.",
       "confusables": [
@@ -666,7 +716,9 @@
       "short": "Individual investor",
       "definition": "An individual investing their own money, as opposed to an institution. In Indian IPOs, the retail category covers individuals applying for up to ₹2 lakh.",
       "examples": [
-        "The retail portion was subscribed 20 times."
+        "The retail portion was subscribed 20 times.",
+        "SEBI's study found that most retail investors in F&O lose money.",
+        "The broker's app is built for the retail investor, with small order sizes and simple screens."
       ],
       "fill": "A college student buying 10 shares through an app is a ____.",
       "confusables": [
@@ -695,7 +747,9 @@
       "short": "Wealthy individual investor",
       "definition": "A high net worth individual. In Indian IPOs, individuals applying for more than ₹2 lakh fall in the non-institutional (NII) category, often called the HNI portion.",
       "examples": [
-        "HNI demand drove the IPO's subscription."
+        "HNI demand drove the IPO's subscription.",
+        "The HNI portion of the IPO was subscribed 80 times, much of it with borrowed money.",
+        "The PMS is aimed at HNI clients who can invest ₹50 lakh or more."
       ],
       "fill": "An individual applying for ₹10 lakh of shares in an IPO bids in the ____ portion.",
       "confusables": [
@@ -721,7 +775,9 @@
       "short": "Pooled fund run by an AMC",
       "definition": "A fund that pools money from many investors and invests it under a stated mandate. It is run by an asset management company and regulated by SEBI.",
       "examples": [
-        "Mutual funds now own a record share of Indian equities."
+        "Mutual funds now own a record share of Indian equities.",
+        "The client's mutual fund charges 0.5% a year in its direct plan.",
+        "The analyst says steady mutual fund buying is why mid caps stay expensive."
       ],
       "fill": "Rather than pick stocks herself, she invests through an equity ____.",
       "confusables": [
@@ -748,7 +804,9 @@
       "short": "Fixed regular investment into a fund",
       "definition": "A systematic investment plan: investing a fixed amount in a mutual fund at regular intervals, usually monthly. Monthly SIP inflows are a major support for Indian markets.",
       "examples": [
-        "Steady SIP flows give funds money to buy every month, even in a sell-off."
+        "Steady SIP flows give funds money to buy every month, even in a sell-off.",
+        "Monthly SIP inflows into equity funds are now above ₹20,000 crore.",
+        "The client asked whether to stop her SIP in a fall; the adviser said that's when it buys cheapest."
       ],
       "fill": "Putting ₹10,000 into a fund automatically every month is called a ____.",
       "confusables": [
@@ -775,7 +833,9 @@
       "short": "Per-unit value of a fund",
       "definition": "Net asset value: a fund's assets minus its liabilities, divided by the number of units. Mutual fund units are bought and sold at the day's NAV.",
       "examples": [
-        "The fund's NAV rose 1.5% today."
+        "The fund's NAV rose 1.5% today.",
+        "Mutual fund orders placed before the cut-off time get that day's NAV.",
+        "The ETF trades close to its NAV because market makers trade away any gap."
       ],
       "fill": "You buy mutual fund units at that day's ____, not at a live market price.",
       "confusables": [
@@ -801,7 +861,9 @@
       "short": "Company that runs mutual funds",
       "definition": "An asset management company: the firm that manages mutual fund schemes, such as SBI Mutual Fund or HDFC AMC.",
       "examples": [
-        "Listed AMCs rally when SIP flows rise."
+        "Listed AMCs rally when SIP flows rise.",
+        "The AMC launched a new Nifty index fund with a very low fee.",
+        "The analyst values the AMC on the money it manages and the fees it earns."
       ],
       "fill": "The fund manager works for an ____, which earns fees on the assets it manages.",
       "confusables": [
@@ -826,7 +888,9 @@
       "short": "Promoter shares used as loan collateral",
       "definition": "Shares that promoters have pledged as collateral for loans. High pledging is a warning sign, because a price fall can trigger forced selling by lenders.",
       "examples": [
-        "Promoter pledge rose to 40%, and the stock was hammered."
+        "Promoter pledge rose to 40%, and the stock was hammered.",
+        "Risk avoids stocks with a high promoter pledge, because forced selling can crash them.",
+        "The client asked why promoter pledge matters: if the price falls, lenders can sell the shares."
       ],
       "fill": "When a stock falls, lenders may sell shares held under a ____, pushing the price down further.",
       "confusables": [
@@ -858,7 +922,9 @@
       "short": "Maximum daily price move for a stock",
       "definition": "The most a stock's price can move in a day, set by the exchange as a price band such as 5%, 10% or 20%. Stocks in F&O have no fixed band and use dynamic limits instead.",
       "examples": [
-        "The exchange cut the band to 5% after wild moves."
+        "The exchange cut the band to 5% after wild moves.",
+        "The client couldn't sell because the stock hit its circuit limit early in the day.",
+        "Risk watches stocks near their circuit limit, because positions there may not be exitable."
       ],
       "fill": "The exchange cut the stock's ____ from 20% to 5% after wild moves.",
       "confusables": [
@@ -895,7 +961,9 @@
       "short": "Stuck at the maximum daily rise",
       "definition": "When a stock rises to the top of its price band and can't trade higher that day. Usually only buyers are left.",
       "examples": [
-        "The stock hit upper circuit on the order win, with lakhs of shares waiting to be bought."
+        "The stock hit upper circuit on the order win, with lakhs of shares waiting to be bought.",
+        "The client's buy order didn't fill: the stock was locked at upper circuit with no sellers.",
+        "Risk flags stocks that hit upper circuit day after day on thin volume."
       ],
       "fill": "With only buyers and no sellers at the limit, the stock is locked in ____.",
       "confusables": [
@@ -922,7 +990,9 @@
       "short": "Stuck at the maximum daily fall",
       "definition": "When a stock falls to the bottom of its price band and can't trade lower that day. Usually only sellers are left, so holders may be unable to exit.",
       "examples": [
-        "It's been in lower circuit for three days; nobody can get out."
+        "It's been in lower circuit for three days; nobody can get out.",
+        "Risk marks a stock stuck at lower circuit well below its last price, since nobody can sell there.",
+        "The client panicked when her small cap hit lower circuit after the fraud news."
       ],
       "fill": "Bad news hit, and the stock was locked in ____ with no buyers.",
       "confusables": [
@@ -946,7 +1016,9 @@
       "short": "Whole-market halt on a big index move",
       "definition": "A halt across all equity and equity derivatives trading when the Nifty 50 or Sensex moves 10%, 15% or 20% in a day. How long the halt lasts depends on the level and the time of day.",
       "examples": [
-        "The last market-wide halts in India were in March 2020."
+        "The last market-wide halts in India were in March 2020.",
+        "A 10% fall in the Nifty or Sensex triggers a market-wide circuit breaker and halts trading.",
+        "Risk's crash plan assumes the market-wide circuit breaker could freeze the whole book for a while."
       ],
       "fill": "If the Sensex falls 10% in a day, a ____ halts trading across the market.",
       "confusables": [
@@ -974,7 +1046,9 @@
       "short": "Exchange watchlist with stricter rules",
       "definition": "Additional Surveillance Measure: an exchange framework that puts stocks with unusual price or volume moves under stricter rules, such as 100% margin or tighter price bands.",
       "examples": [
-        "The stock moved into ASM stage 2, so traders now need full margin."
+        "The stock moved into ASM stage 2, so traders now need full margin.",
+        "The client asked why her broker wants full margin on a stock: it's on the ASM list.",
+        "Risk checks the ASM list each morning before taking intraday positions."
       ],
       "fill": "After a 300% rally in two months, the exchanges put the stock under ____.",
       "confusables": [
@@ -998,7 +1072,9 @@
       "short": "9:00–9:15 am auction before trading",
       "definition": "The session from 9:00 to 9:15 am, before normal trading, where orders are collected and a single opening price is found by call auction.",
       "examples": [
-        "The stock was indicated 8% higher in pre-open after the results."
+        "The stock was indicated 8% higher in pre-open after the results.",
+        "The desk watches the pre-open price to see where the heavyweights will start the day.",
+        "The client's order placed at 9:05 was matched in the pre-open session."
       ],
       "fill": "The opening price of Nifty stocks is discovered in the ____ before 9:15 am.",
       "confusables": [
@@ -1026,7 +1102,9 @@
       "short": "End-of-day auction that sets the close",
       "definition": "A short auction after normal trading ends that sets the official closing price of stocks with F&O contracts. Orders are collected for a few minutes, then matched at the single price that trades the most shares.",
       "examples": [
-        "Index funds now buy in the closing auction to match the official close."
+        "Index funds now buy in the closing auction to match the official close.",
+        "The desk sends its index rebalance orders into the closing auction to get the official close.",
+        "Risk prefers to exit big positions in the closing auction, when liquidity is deepest."
       ],
       "fill": "For an F&O stock, the official closing price now comes from the ____, not from the last trade.",
       "confusables": [
@@ -1058,7 +1136,9 @@
       "short": "Special Diwali trading session",
       "definition": "A short, symbolic trading session held on Diwali to mark the start of the new Samvat year.",
       "examples": [
-        "Volumes are light in Muhurat trading; it's mostly symbolic buying."
+        "Volumes are light in Muhurat trading; it's mostly symbolic buying.",
+        "The client buys one stock every year in Muhurat trading, for luck.",
+        "Risk keeps positions small in Muhurat trading because the session is short and thin."
       ],
       "fill": "Many investors buy a few shares during ____ on Diwali for good luck.",
       "confusables": [
@@ -1078,7 +1158,9 @@
       "short": "One large trade in a special window",
       "definition": "A single large trade, at least ₹25 crore, done in a separate block deal window before the open or in the afternoon.",
       "examples": [
-        "A promoter sold a 3% stake through a block deal this morning."
+        "A promoter sold a 3% stake through a block deal this morning.",
+        "The PM bought ₹300 crore of the stock in a block deal at a 3% discount.",
+        "Block deal prices are watched closely because they show where big holders are willing to sell."
       ],
       "fill": "A fund selling ₹500 crore of shares to another fund in one trade would use a ____.",
       "confusables": [
@@ -1101,7 +1183,9 @@
       "short": "One client trading over 0.5% of shares in a day",
       "definition": "When one client's total trades in a stock during a day exceed 0.5% of the company's listed shares. Exchanges publish bulk deals every day.",
       "examples": [
-        "Bulk deal data shows a foreign fund bought 1.2% of the company."
+        "Bulk deal data shows a foreign fund bought 1.2% of the company.",
+        "The analyst checks bulk deal data every evening to see which funds are buying.",
+        "The client asked how a famous investor's purchase became news: it showed up as a bulk deal."
       ],
       "fill": "Exchanges disclose a ____ when one buyer trades more than 0.5% of a company's shares in a day.",
       "confusables": [
@@ -1129,7 +1213,9 @@
       "short": "A company's first share sale to the public",
       "definition": "An initial public offering: when a company first sells shares to the public and lists on a stock exchange.",
       "examples": [
-        "The IPO was subscribed 50 times."
+        "The IPO was subscribed 50 times.",
+        "The analyst's IPO note says the price leaves little upside for long-term investors.",
+        "The client asked how IPO allotment works when retail demand is huge: lots are given out by lottery."
       ],
       "fill": "The startup raised ₹2,000 crore and listed on NSE through an ____.",
       "confusables": [
@@ -1156,7 +1242,9 @@
       "short": "Unofficial premium before listing",
       "definition": "Grey market premium: the unofficial premium at which IPO shares change hands before they list. It is unregulated and often unreliable.",
       "examples": [
-        "GMP was ₹200, but the stock listed flat."
+        "GMP was ₹200, but the stock listed flat.",
+        "The analyst warned clients not to trust GMP; it's an unregulated market.",
+        "GMP collapsed the day before listing when the market fell."
       ],
       "fill": "Before listing, traders watch the unofficial ____ to guess the listing price.",
       "confusables": [
@@ -1177,7 +1265,9 @@
       "short": "Profit on an IPO's first trading day",
       "definition": "The profit from selling IPO shares on listing day, when the listing price is above the issue price.",
       "examples": [
-        "Most applicants were in it for listing gains."
+        "Most applicants were in it for listing gains.",
+        "The client sold on day one to lock in listing gains of 30%.",
+        "Risk notes that listing gains have shrunk as more IPOs crowd the market."
       ],
       "fill": "The IPO was priced at ₹300 and opened at ₹420, giving 40% ____.",
       "confusables": [
@@ -1203,7 +1293,9 @@
       "short": "Existing holders sell their shares",
       "definition": "An offer for sale: existing shareholders such as promoters or the government sell their shares, in an IPO or through a special exchange window. The company gets no new money.",
       "examples": [
-        "The government sold 5% through an OFS."
+        "The government sold 5% through an OFS.",
+        "The promoter will sell 2% through an OFS on Thursday, with retail bidding on Friday.",
+        "The client asked how to bid in the OFS: through her broker, much like a normal order."
       ],
       "fill": "In an ____, the money goes to the selling shareholders, not to the company.",
       "confusables": [
@@ -1230,7 +1322,9 @@
       "short": "Quick share sale to institutions",
       "definition": "A qualified institutional placement: a listed company raises money by selling new shares only to large institutions, usually at a small discount.",
       "examples": [
-        "The bank raised ₹5,000 crore through a QIP."
+        "The bank raised ₹5,000 crore through a QIP.",
+        "The stock fell 4% because the QIP was priced at a discount to the market.",
+        "The analyst says the QIP money will cut the company's debt by half."
       ],
       "fill": "Listed companies use a ____ to raise money quickly from institutions without a full public offer.",
       "confusables": [
@@ -1252,7 +1346,9 @@
       "short": "New shares offered to existing holders",
       "definition": "An offer of new shares to existing shareholders in proportion to their holdings, usually at a discount to the market price.",
       "examples": [
-        "A 1-for-5 rights issue at ₹400 a share."
+        "A 1-for-5 rights issue at ₹400 a share.",
+        "The client must take up the rights issue or sell her entitlements, or her stake gets diluted.",
+        "The analyst says the deep discount in the rights issue is why the share price dropped."
       ],
       "fill": "To raise money while letting current shareholders keep their stake, the company announced a ____.",
       "confusables": [
@@ -1276,7 +1372,9 @@
       "short": "Free extra shares for holders",
       "definition": "Free extra shares given to existing shareholders out of the company's reserves, such as 1 bonus share for every share held. The price adjusts down, so the value of your holding doesn't change.",
       "examples": [
-        "After the 1:1 bonus, the share price halved."
+        "After the 1:1 bonus, the share price halved.",
+        "The client's holding doubled from 100 to 200 shares after the bonus issue.",
+        "Risk adjusts every stop and price history after a bonus issue."
       ],
       "fill": "In a 1:1 ____, you get one extra free share for each share you own.",
       "confusables": [
@@ -1320,7 +1418,9 @@
       "short": "Each share divided into smaller ones",
       "definition": "Dividing each share into several shares with a lower face value, such as one ₹10 share into five ₹2 shares. The price falls in proportion, so value doesn't change.",
       "examples": [
-        "The ₹10 shares were split into ₹1 shares to improve liquidity."
+        "The ₹10 shares were split into ₹1 shares to improve liquidity.",
+        "The client asked if the stock split made her richer; it didn't, she just holds more, cheaper shares.",
+        "The analyst expects more small investors to buy after the stock split."
       ],
       "fill": "After a 1-to-5 ____, a ₹5,000 share trades around ₹1,000.",
       "confusables": [
@@ -1362,7 +1462,9 @@
       "short": "Date that decides who gets a payout",
       "definition": "The date on which a company checks its register to decide which shareholders get a dividend, bonus or rights. Under T+1 you must buy at least one trading day before it.",
       "examples": [
-        "Record date for the dividend is Friday, so buy by Thursday."
+        "Record date for the dividend is Friday, so buy by Thursday.",
+        "The analyst noted the record date for the buyback, since only holders on that day can tender.",
+        "The client sold on the record date and still got the dividend, because her sale settled the next day."
       ],
       "fill": "To get the dividend, your name must be on the company's register on the ____.",
       "confusables": [
@@ -1386,7 +1488,9 @@
       "short": "Company buys its own shares",
       "definition": "When a company buys its own shares from shareholders, returning cash and reducing the number of shares.",
       "examples": [
-        "The company announced a buyback at a 20% premium to the market price."
+        "The company announced a buyback at a 20% premium to the market price.",
+        "The analyst likes the buyback because the company has spare cash and few places to invest it.",
+        "The client asked whether to tender her shares in the buyback or just sell in the market."
       ],
       "fill": "Instead of paying a dividend, the company returned cash through a ____, cutting the number of shares.",
       "confusables": [
