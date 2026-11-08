@@ -182,11 +182,22 @@ export interface TalkItem {
   why: string;
 }
 
+/** One of a term's example sentences with the term's name blanked out, for a fill question. */
+export interface FillContext {
+  /** The sentence with ____ where the name was. */
+  text: string;
+  /** The words that were blanked, as written in the sentence. */
+  blank: string;
+  /** Which example it came from, so the feedback can show a different one. */
+  from: number;
+}
+
 export type Question =
   | { kind: 'intro'; termId: string }
   | { kind: 'meaning'; termId: string; options: string[]; answer: number; review: boolean }
   | { kind: 'term'; termId: string; options: string[]; answer: number; review: boolean }
-  | { kind: 'fill'; termId: string; options: string[]; answer: number; review: boolean }
+  /** Fill the gap: the term's own fill sentence, or one of its examples when `context` is set. */
+  | { kind: 'fill'; termId: string; options: string[]; answer: number; review: boolean; context?: FillContext }
   | { kind: 'calc'; termId: string; prompt: string; why: string; options: string[]; answer: number; review: boolean }
   | { kind: 'tf'; termId: string; prompt: string; why?: string; options: string[]; answer: number; review: boolean }
   | { kind: 'talk'; format: TalkFormat; itemId: string; termId: string; options: string[]; answer: number; review: boolean }
