@@ -46,6 +46,16 @@
       "core": false
     },
     {
+      "id": "o11",
+      "name": "F&O trader talk",
+      "core": false
+    },
+    {
+      "id": "o12",
+      "name": "Premium and vol talk",
+      "core": false
+    },
+    {
       "id": "o9",
       "name": "Payoff builder",
       "core": false,
@@ -2321,6 +2331,724 @@
         }
       ],
       "difficulty": 2
+    },
+    {
+      "id": "hero-zero",
+      "term": "hero or zero",
+      "aliases": [
+        "hero-zero",
+        "zero to hero",
+        "hero zero trade"
+      ],
+      "unit": "o11",
+      "short": "Cheap expiry-day option: huge gain or zero",
+      "definition": "Indian trader slang for buying cheap, far out-of-the-money options on expiry day, hoping a sharp move multiplies them many times. Most expire worthless, so it's a lottery ticket, not a strategy.",
+      "examples": [
+        "He bought the ₹2 calls at 2 pm as a hero-zero; they expired at zero.",
+        "Hero-zero trades look great in screenshots; nobody posts the twenty that went to nothing."
+      ],
+      "fill": "Buying ₹3 out-of-the-money puts on expiry afternoon, hoping a crash turns them into ₹60, is a ____ trade.",
+      "confusables": [
+        "out-of-the-money",
+        "gamma-blast",
+        "theta"
+      ],
+      "wrong": [
+        "Selling ATM options to collect premium",
+        "Buying deep ITM options as a hedge",
+        "A futures trade with no stop-loss"
+      ],
+      "tf": [
+        {
+          "s": "Most hero-zero option buys expire worthless.",
+          "a": true,
+          "why": "The options are cheap because a big enough move is unlikely, and on most days it doesn't come."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "trapped-writers",
+      "term": "trapped writers",
+      "aliases": [
+        "writers trapped",
+        "call writers trapped",
+        "put writers trapped"
+      ],
+      "unit": "o11",
+      "short": "Option sellers caught as price runs past them",
+      "definition": "Option writers caught on the wrong side when the price moves through their strikes. Call writers at 25,000 are trapped if the Nifty rallies past it, and their buying to cover or hedge can push it further.",
+      "examples": [
+        "Call writers at 24,500 are trapped; the short covering could take us to 24,700.",
+        "Huge put OI at that strike and the index just broke below it. Put writers trapped."
+      ],
+      "fill": "The Nifty jumped through 24,800, where calls had been heavily sold, leaving ____ scrambling to buy them back.",
+      "confusables": [
+        "option-writer",
+        "short-covering",
+        "trapped-longs"
+      ],
+      "wrong": [
+        "Buyers stuck after a failed breakout",
+        "Option sellers who can't get margin",
+        "Writers banned from new F&O positions"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "put-base",
+      "term": "put base",
+      "aliases": [
+        "put support",
+        "put writing base"
+      ],
+      "unit": "o11",
+      "short": "Strike with heavy put writing, seen as support",
+      "definition": "The strike below the market with the most put open interest, read as support because put writers are betting the index stays above it. It moves: writers shift the base up in a rally and cover when it breaks.",
+      "examples": [
+        "The put base has shifted up to 24,000, so dips toward there are getting bought.",
+        "The put base broke; watch for writers to cover."
+      ],
+      "fill": "The biggest put open interest sat at 24,000, so traders called it the ____ for the week.",
+      "confusables": [
+        "call-wall",
+        "support",
+        "open-interest"
+      ],
+      "wrong": [
+        "Lowest premium a put can trade at",
+        "Strike with the most call open interest",
+        "Price at which puts are exercised"
+      ],
+      "tf": [
+        {
+          "s": "A big put base guarantees the index won't close below that strike.",
+          "a": false,
+          "why": "It shows where writers are positioned, and they can be wrong. When a put base breaks, writers covering can speed up the fall."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "call-wall",
+      "term": "call wall",
+      "aliases": [
+        "call resistance",
+        "call ceiling",
+        "call writing wall"
+      ],
+      "unit": "o11",
+      "short": "Strike with heavy call writing, seen as a cap",
+      "definition": "The strike above the market with the most call open interest, read as resistance because call writers are betting the index stays below it.",
+      "examples": [
+        "There's a big call wall at 25,000, so we probably stall there this week.",
+        "The call wall shifted down from 25,000 to 24,800 after the sell-off."
+      ],
+      "fill": "Writers have sold the most calls at 25,000, building a ____ that traders expect to cap the index.",
+      "confusables": [
+        "put-base",
+        "resistance",
+        "max-pain"
+      ],
+      "wrong": [
+        "Strike with the most put open interest",
+        "Highest price a call ever traded at",
+        "Limit on calls one client can sell"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "oi-shifting",
+      "term": "OI shifting",
+      "aliases": [
+        "OI shift",
+        "writers shifting",
+        "rolling up the writers"
+      ],
+      "unit": "o11",
+      "short": "Writers moving open interest to new strikes",
+      "definition": "Option writers closing at one strike and writing at another, so the open interest moves. Call writing shifting lower, or put writing shifting higher, is read as the expected range moving that way.",
+      "examples": [
+        "OI is shifting: put writers are moving up from 24,000 to 24,200.",
+        "Call OI shifted down to 24,700 by noon, which is bearish."
+      ],
+      "fill": "By lunch, put open interest had moved from 24,000 to 24,300 as writers rolled up, which traders describe as ____.",
+      "confusables": [
+        "change-in-oi",
+        "put-base",
+        "call-wall"
+      ],
+      "wrong": [
+        "The exchange moving OI to the next series",
+        "OI falling as contracts expire",
+        "Brokers moving clients' margin"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "gamma-blast",
+      "term": "gamma blast",
+      "aliases": [
+        "gamma burst",
+        "gamma spike"
+      ],
+      "unit": "o11",
+      "short": "Sharp expiry move that multiplies options",
+      "definition": "Indian trader slang for a sharp move on expiry day that makes cheap near-the-money options jump many times in value. Gamma is highest at the money close to expiry, so a small index move causes a huge option move.",
+      "examples": [
+        "The 24,500 calls went from ₹4 to ₹90 in twenty minutes. Gamma blast.",
+        "Short straddles on expiry day get hit hardest by a late gamma blast."
+      ],
+      "fill": "A 150-point rally in the last hour of expiry turned ₹5 calls into ₹120: what traders call a ____.",
+      "confusables": [
+        "gamma",
+        "short-gamma",
+        "hero-zero"
+      ],
+      "wrong": [
+        "Gamma falling to zero after expiry",
+        "IV dropping sharply after an event",
+        "Delta flipping from long to short"
+      ],
+      "tf": [
+        {
+          "s": "Close to expiry, at-the-money options have their highest gamma.",
+          "a": true,
+          "why": "With little time left, a small move decides whether the option ends in or out of the money, so delta changes fast."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "trapped-longs",
+      "term": "trapped longs",
+      "aliases": [
+        "trapped buyers",
+        "longs trapped"
+      ],
+      "unit": "o11",
+      "short": "Buyers stuck after a failed breakout",
+      "definition": "Traders who bought expecting a breakout or a rally and are now losing as the price falls back. Their selling, as they give up or hit stops, can push the price down further.",
+      "examples": [
+        "Everyone bought the breakout above 1,600 and it's back at 1,560. Trapped longs will sell any bounce.",
+        "Long build-up yesterday and a gap down today: lots of trapped longs."
+      ],
+      "fill": "Traders bought futures heavily above 24,800, then the Nifty fell to 24,500, leaving ____ waiting to sell.",
+      "confusables": [
+        "long-unwinding",
+        "trapped-writers",
+        "breakout"
+      ],
+      "wrong": [
+        "Buyers who can't sell in the T2T segment",
+        "Writers caught on the wrong side",
+        "Investors locked in after an IPO"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "nine-twenty-straddle",
+      "term": "9:20 straddle",
+      "aliases": [
+        "920 straddle",
+        "nine twenty straddle"
+      ],
+      "speak": "nine twenty straddle",
+      "unit": "o11",
+      "short": "Sell the ATM straddle at 9:20 with stops",
+      "definition": "A popular Indian intraday rule: sell the at-the-money straddle on the index at 9:20 am, put a stop-loss on each leg (often 25% to 30% above its sale price), and close what's left in the afternoon. It earns time decay on quiet days and loses on strong trend days.",
+      "examples": [
+        "The 9:20 straddle got stopped out on both legs today, first the call and then the put.",
+        "So many algos run a 9:20 straddle that their stops can bunch together on a fast move."
+      ],
+      "fill": "Every day at 9:20 am his algo sells the ATM call and put with a 25% stop on each: the ____.",
+      "confusables": [
+        "straddle",
+        "theta",
+        "short-gamma"
+      ],
+      "wrong": [
+        "Buy a straddle before 9:20 results",
+        "Exit all straddles by 9:20 am",
+        "A straddle priced off the opening auction"
+      ],
+      "tf": [
+        {
+          "s": "A short straddle with a stop-loss on each leg tends to lose on strong trend days.",
+          "a": true,
+          "why": "One leg's stop is hit, and the other leg doesn't earn enough to make up for it."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "sell-on-rise",
+      "term": "sell on rise",
+      "aliases": [
+        "sell on rallies",
+        "sell the rise"
+      ],
+      "unit": "o11",
+      "short": "In a weak market, use bounces to sell",
+      "definition": "A market call that the trend is down, so rallies are chances to sell or go short rather than buy. The opposite, in an uptrend, is 'buy on dips'.",
+      "examples": [
+        "It's a sell-on-rise market below 24,200; every bounce is getting sold.",
+        "FIIs are still selling, so I'd treat it as sell on rise until the trend changes."
+      ],
+      "fill": "In a downtrend the desk shorts every bounce into resistance, treating it as a ____ market.",
+      "confusables": [
+        "buy-the-dip",
+        "trending-market",
+        "resistance"
+      ],
+      "wrong": [
+        "Sell everything after the market rises",
+        "Take profit only at all-time highs",
+        "Buy breakouts in a strong trend"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "positional",
+      "term": "positional trade",
+      "aliases": [
+        "positional",
+        "swing trade",
+        "swing trading"
+      ],
+      "unit": "o11",
+      "short": "Held for days or weeks, not sold same day",
+      "definition": "A trade held overnight for days or weeks, as opposed to intraday. In India it means carrying F&O positions as NRML or shares as CNC, so it needs full margin and carries overnight gap risk.",
+      "examples": [
+        "This is a positional trade, not intraday; I'm carrying the futures till expiry.",
+        "Positional traders sold calls two strikes out for the whole week."
+      ],
+      "fill": "Unlike his intraday trades, he holds this ____ for two weeks as NRML, with full margin.",
+      "confusables": [
+        "intraday",
+        "carry-forward",
+        "nrml"
+      ],
+      "wrong": [
+        "A trade closed before the market shuts",
+        "A trade sized by the position limit",
+        "Trading only one position at a time"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "scalping",
+      "term": "scalping",
+      "aliases": [
+        "scalp",
+        "scalper"
+      ],
+      "unit": "o11",
+      "short": "Many quick trades for small gains",
+      "definition": "Very short trades, held for seconds to minutes, aiming for a few ticks each. Costs matter hugely: on index options, STT, exchange charges and the spread can eat most of a scalper's gross profit.",
+      "examples": [
+        "He scalps Bank Nifty options for 3 to 5 points, 50 times a day.",
+        "Scalping only works if your cost per round trip is well below your average win."
+      ],
+      "fill": "Taking dozens of tiny profits of a few ticks each, holding for under a minute, is called ____.",
+      "confusables": [
+        "gamma-scalping",
+        "intraday",
+        "overtrading"
+      ],
+      "wrong": [
+        "Holding a position for weeks",
+        "Hedging gamma with the future",
+        "Selling a stock you don't own"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "margin-blocked",
+      "term": "margin blocked",
+      "aliases": [
+        "blocked margin",
+        "margin utilised",
+        "margin used"
+      ],
+      "unit": "o11",
+      "short": "Funds the broker holds for open positions",
+      "definition": "Money or collateral in your trading account that the broker sets aside to cover the margin on open positions and pending orders. It can't be used for new trades until those positions close.",
+      "examples": [
+        "Margin blocked is ₹3 lakh for one lot of short straddle, so I can't add another.",
+        "Buying a far OTM option as a hedge cut the margin blocked by more than half."
+      ],
+      "fill": "Selling a Nifty futures lot left part of his funds as ____ until he closed the trade.",
+      "confusables": [
+        "margin",
+        "span-margin",
+        "exposure-margin"
+      ],
+      "wrong": [
+        "Margin the exchange refuses to accept",
+        "Money a broker lends you to buy stocks",
+        "Profit the broker holds back as tax"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "atm-straddle-price",
+      "term": "ATM straddle price",
+      "aliases": [
+        "straddle price",
+        "ATM straddle",
+        "straddle premium"
+      ],
+      "unit": "o12",
+      "short": "Call plus put at the money: the priced move",
+      "definition": "The at-the-money call price plus the put price. Desks quote it as a quick read of the move the market is pricing by expiry: with the Nifty at 24,500 and the straddle at ₹350, the market prices about a 1.4% move.",
+      "examples": [
+        "The straddle price for the weekly is 280, so the market's pricing about 280 points either way.",
+        "The ATM straddle is cheap ahead of the policy; I'd own it."
+      ],
+      "fill": "The 24,500 call is ₹180 and the put ₹170, so the ____ is ₹350, about 1.4% of the index.",
+      "confusables": [
+        "implied-move",
+        "straddle",
+        "atm-iv"
+      ],
+      "wrong": [
+        "Price of the call alone at the money",
+        "Strike where most straddles are sold",
+        "Margin needed for a short straddle"
+      ],
+      "calcs": [
+        {
+          "q": "The Nifty is at 25,000. The 25,000 call trades at ₹210 and the put at ₹190. Roughly what move is the market pricing by expiry?",
+          "options": [
+            "About 1.6%",
+            "About 0.8%",
+            "About 4%",
+            "About 0.4%"
+          ],
+          "answer": 0,
+          "why": "The straddle is 210 + 190 = 400 points. 400 ÷ 25,000 = 1.6%."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "naked-selling",
+      "term": "naked option selling",
+      "aliases": [
+        "naked selling",
+        "naked short",
+        "selling naked"
+      ],
+      "unit": "o12",
+      "short": "Writing options with no hedge",
+      "definition": "Selling options without owning the underlying or a further-out option to limit the loss. A naked short call has unlimited loss, and brokers block the most margin for it.",
+      "examples": [
+        "Naked selling the 25,000 calls into the rally was a ₹3 lakh lesson.",
+        "We don't do naked selling on expiry day; buy a wing first."
+      ],
+      "fill": "Writing 10 lots of calls with no futures or bought calls behind them is ____.",
+      "confusables": [
+        "option-writer",
+        "covered-call",
+        "buy-wings"
+      ],
+      "wrong": [
+        "Selling shares you don't own",
+        "Selling options without a stop-loss order",
+        "Selling options to an unknown buyer"
+      ],
+      "tf": [
+        {
+          "s": "A naked short call has a limited maximum loss.",
+          "a": false,
+          "why": "If the price keeps rising, the loss keeps growing; that's why it's called unlimited."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "buy-wings",
+      "term": "buy wings",
+      "aliases": [
+        "buy the wings",
+        "hedge with wings",
+        "wings"
+      ],
+      "unit": "o12",
+      "short": "Buy far OTM options to cap a short's loss",
+      "definition": "Buying cheaper options further out of the money than the ones you've sold, so the loss on a short straddle or strangle is capped. It costs some premium but cuts the worst case and, in India, the margin blocked.",
+      "examples": [
+        "Sold the 24,500 straddle and bought the 24,000 and 25,000 wings, so the loss is capped.",
+        "Buy wings before the weekend; the gap risk on a naked straddle is too big."
+      ],
+      "fill": "To cap the loss on his short straddle, he bought cheap options 500 points away on each side: he chose to ____.",
+      "confusables": [
+        "iron-condor",
+        "naked-selling",
+        "protective-put"
+      ],
+      "wrong": [
+        "Sell far OTM options for extra premium",
+        "Buy at-the-money options to bet on a move",
+        "Close a spread one leg at a time"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "adjustment",
+      "term": "adjustment",
+      "aliases": [
+        "adjusting",
+        "adjust the position",
+        "adjustments"
+      ],
+      "unit": "o12",
+      "short": "Changing legs as the market moves",
+      "definition": "Changing an option position as the market moves: rolling a tested strike further away, adding a hedge, or turning a straddle into a strangle. It can keep a trade alive but adds costs, and can be a way of not admitting a loss.",
+      "examples": [
+        "The Nifty rallied 200 points, so the adjustment was to roll the short calls up to 24,800.",
+        "Make too many adjustments and you've paid away the premium you collected."
+      ],
+      "fill": "When the market moved toward his short strike, he rolled the calls 200 points higher: a typical ____.",
+      "confusables": [
+        "rollover",
+        "delta-hedging",
+        "unwind"
+      ],
+      "wrong": [
+        "The exchange changing lot sizes",
+        "A correction to a broker's bill",
+        "Moving a stop-loss to breakeven"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "expire-worthless",
+      "term": "expire worthless",
+      "aliases": [
+        "expired worthless",
+        "go to zero"
+      ],
+      "unit": "o12",
+      "short": "End with no value at expiry",
+      "definition": "An option that is out of the money at expiry is worth nothing: the buyer loses the whole premium and the seller keeps it. It isn't exercised; it simply ends at zero.",
+      "examples": [
+        "The 25,000 calls expired worthless, so the writers kept all the premium.",
+        "Most far OTM options bought on expiry day expire worthless."
+      ],
+      "fill": "The Nifty closed at 24,300, so his 24,500 calls ____ and he lost the ₹6,000 he paid.",
+      "confusables": [
+        "out-of-the-money",
+        "expiry",
+        "time-value"
+      ],
+      "wrong": [
+        "Get exercised for their full value",
+        "Roll over to the next month",
+        "Turn into a futures position"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "deep-itm",
+      "term": "deep in the money",
+      "aliases": [
+        "deep ITM"
+      ],
+      "unit": "o12",
+      "short": "Far in the money; moves like the future",
+      "definition": "An option whose strike is far on the winning side of the price, like a 23,000 call with the Nifty at 25,000. It is mostly intrinsic value, has a delta near 1 and moves almost point for point with the underlying.",
+      "examples": [
+        "He bought deep ITM calls instead of futures to cap the loss, paying very little time value.",
+        "Deep ITM stock options are physically settled at expiry, so close them before or be ready for delivery."
+      ],
+      "fill": "With the Nifty at 25,000, the 23,000 call has a delta near 1 because it is ____.",
+      "confusables": [
+        "in-the-money",
+        "intrinsic-value",
+        "delta"
+      ],
+      "wrong": [
+        "Strike far away on the losing side",
+        "Option whose strike equals the price",
+        "Option with most of its value in time"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "far-otm",
+      "term": "far out of the money",
+      "aliases": [
+        "far OTM",
+        "deep OTM",
+        "deep out of the money"
+      ],
+      "unit": "o12",
+      "short": "Strike far from the price; cheap, rarely pays",
+      "definition": "An option with a strike far on the losing side of the price, like a 26,500 call with the Nifty at 25,000. It is cheap, has a delta near zero and usually expires worthless; it pays only in a big move.",
+      "examples": [
+        "Far OTM puts are the cheapest crash insurance you can buy, and they still bleed most months.",
+        "He sold far OTM calls for ₹2 each; it's free money until it isn't."
+      ],
+      "fill": "With the Nifty at 25,000, the 27,000 call costs ₹1 because it is ____.",
+      "confusables": [
+        "out-of-the-money",
+        "hero-zero",
+        "tail-risk"
+      ],
+      "wrong": [
+        "Strike far inside the price",
+        "Option that expires far in the future",
+        "Option with its strike at the price"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "skew-bid",
+      "term": "skew is bid",
+      "aliases": [
+        "skew bid",
+        "put skew bid",
+        "skew is rich"
+      ],
+      "unit": "o12",
+      "short": "Downside puts getting pricier than usual",
+      "definition": "Desk talk for out-of-the-money puts trading at higher implied volatility than usual compared with at-the-money options. It means demand for downside protection is rising.",
+      "examples": [
+        "Skew is bid into the election result; everyone wants the 23,000 puts.",
+        "ATM vol is flat but skew is bid, so the market is buying crash protection, not vol in general."
+      ],
+      "fill": "OTM put IV went from 3 points to 6 points above ATM IV in a week, so traders said ____.",
+      "confusables": [
+        "volatility-skew",
+        "vol-offered",
+        "implied-volatility"
+      ],
+      "wrong": [
+        "Calls are trading below fair value",
+        "A buyer has a big bid in the futures",
+        "ATM vol has risen across all expiries"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "vol-offered",
+      "term": "vol is offered",
+      "aliases": [
+        "vol offered",
+        "vol is heavy",
+        "vol is better offered"
+      ],
+      "unit": "o12",
+      "short": "More sellers of implied vol than buyers",
+      "definition": "Desk talk for implied volatility drifting lower because sellers outnumber buyers, often after an event or in a calm, grinding market. 'Vol is bid' means the opposite.",
+      "examples": [
+        "After the Budget vol is offered; ATM IV dropped 3 points in an hour.",
+        "Vol is offered across the curve as the market grinds higher."
+      ],
+      "fill": "After the event passed, everyone sold options and IV slid all day: ____.",
+      "confusables": [
+        "offered",
+        "iv-crush",
+        "skew-bid"
+      ],
+      "wrong": [
+        "A broker is offering cheaper options",
+        "Volume is lighter than usual",
+        "A seller has quoted a futures price"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "vol-cheap",
+      "term": "vol is cheap",
+      "aliases": [
+        "IV is cheap",
+        "cheap vol",
+        "options are cheap"
+      ],
+      "unit": "o12",
+      "short": "Implied vol below what's likely to realise",
+      "definition": "Implied volatility is low compared with how much the trader expects the market to actually move, or with its own history. Buying options is then good value, if the forecast of realised vol is right.",
+      "examples": [
+        "ATM IV is 11 and the index has realised 15 over the past month. Vol is cheap; buy the straddle.",
+        "IV percentile is 5; options are cheap for the first time this year."
+      ],
+      "fill": "With implied vol at 10% and the index actually moving about 16% a year, traders said ____ and bought straddles.",
+      "confusables": [
+        "implied-volatility",
+        "realised-volatility",
+        "iv-percentile"
+      ],
+      "wrong": [
+        "Option premiums are low in rupees",
+        "Trading costs on options are low today",
+        "Margins for option selling are low"
+      ],
+      "tf": [
+        {
+          "s": "A low option price in rupees always means vol is cheap.",
+          "a": false,
+          "why": "A far OTM option is cheap in rupees but can still carry a high implied vol. Cheap vol means low IV compared with the vol you expect to realise."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "sell-premium",
+      "term": "selling premium",
+      "aliases": [
+        "sell premium",
+        "premium selling",
+        "premium seller"
+      ],
+      "unit": "o12",
+      "short": "Writing options to earn time decay",
+      "definition": "Indian desk talk for writing options, usually straddles, strangles or credit spreads, to collect the premium and earn theta as it decays. It wins small and often, and loses big in sharp moves.",
+      "examples": [
+        "We're selling premium this week; the Nifty's been stuck in a 300-point range.",
+        "Premium sellers love a quiet week; one big move takes back a month of gains."
+      ],
+      "fill": "Writing a strangle each week and pocketing the decay when nothing happens is called ____.",
+      "confusables": [
+        "option-writer",
+        "theta",
+        "short-gamma"
+      ],
+      "wrong": [
+        "Selling shares above book value",
+        "Paying extra for a fast fill",
+        "Buying options for a quick move"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "non-directional",
+      "term": "non-directional",
+      "aliases": [
+        "non-directional trade",
+        "direction-neutral"
+      ],
+      "unit": "o12",
+      "short": "Doesn't depend on which way the market goes",
+      "definition": "A trade whose profit doesn't depend on whether the market goes up or down, only on how much it moves or on time passing. A short straddle bets on a quiet market; a long straddle on a big move either way.",
+      "examples": [
+        "I'm non-directional this week: short strangle, delta-hedged daily.",
+        "Non-directional doesn't mean riskless. A short straddle loses either way on a big move."
+      ],
+      "fill": "A delta-neutral short strangle that earns from time decay, not from the market's direction, is a ____ trade.",
+      "confusables": [
+        "delta-neutral",
+        "straddle",
+        "strangle"
+      ],
+      "wrong": [
+        "A trade that only works in an uptrend",
+        "A trade with no stop-loss set",
+        "A trade placed by an algo"
+      ],
+      "difficulty": 1
     }
   ]
 }

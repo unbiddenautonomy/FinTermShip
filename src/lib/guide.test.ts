@@ -97,6 +97,19 @@ describe('routes, careers and help', () => {
     expect(ask('kelly betting', open)).toMatchObject({ kind: 'unit', unitId: 'z6' });
   });
 
+  it('reads meeting phrases, even ones with a verb in them', () => {
+    expect(termOf(ask('what is improve the bid'))).toBe('improve-the-bid');
+    expect(termOf(ask('too many knobs'))).toBe('too-many-knobs');
+    expect(termOf(ask("what does it's noise mean"))).toBe('its-noise');
+    expect(termOf(ask('de-gross'))).toBe('de-gross');
+    expect(termOf(ask('hero zero'))).toBe('hero-zero');
+    expect(termOf(ask('9:20 straddle'))).toBe('nine-twenty-straddle');
+    // A verb outside the name still sets the intent.
+    expect(ask('teach me improve the bid')).toMatchObject({ kind: 'unit', unitId: 'x5' });
+    expect(ask('teach me risk meeting talk')).toMatchObject({ kind: 'unit', unitId: 'q12' });
+    expect(ask('pm talk')).toMatchObject({ kind: 'unit', unitId: 'q11' });
+  });
+
   it('answers how the app works', () => {
     const topic = (q: string) => {
       const r = ask(q);
@@ -104,6 +117,8 @@ describe('routes, careers and help', () => {
     };
     expect(topic('how do I back up my progress')).toBe('backup');
     expect(topic('how do I change my daily goal')).toBe('goal');
+    expect(topic('this is too much')).toBe('goal');
+    expect(topic('too many new terms')).toBe('goal');
     expect(topic('how do reviews work')).toBe('reviews');
     expect(topic('how do tests work')).toBe('tests');
     expect(topic('phase 3')).toBe('phase3');
