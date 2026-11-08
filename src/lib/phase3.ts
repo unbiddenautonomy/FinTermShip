@@ -1,7 +1,7 @@
 /**
  * Phase 3: trading strategies. Its units sit at the end of the one track and
  * open only when the learner has entered the password and passed the readiness
- * test, a check on the options, futures and risk terms the strategies build on.
+ * test, a check on the options, futures, risk and backtesting terms the strategies build on.
  */
 import { categories, isPhase3Area, mainTermIds, path, termById } from './content';
 import type { LessonPlan } from './lesson';
@@ -13,7 +13,7 @@ export const PHASE3 = 'phase3';
 /** Questions in one readiness test. Passing takes 80% of them, as in the area tests. */
 export const PHASE3_TEST_SIZE = 20;
 
-/** What the strategies build on: option pricing and Greeks, futures and carry, risk, margins and execution. */
+/** What the strategies build on: option pricing and Greeks, futures and carry, risk, margins, execution, speed and backtesting. */
 export const PHASE3_PREREQS = [
   'call-option',
   'put-option',
@@ -61,6 +61,16 @@ export const PHASE3_PREREQS = [
   'adverse-selection',
   'slippage',
   'implementation-shortfall',
+  'market-impact',
+  'hft',
+  'latency',
+  'z-score',
+  'stationarity',
+  'autocorrelation',
+  'momentum-factor',
+  'backtest',
+  'overfitting',
+  'out-of-sample',
 ];
 
 /** Phase 3 is open once the password was entered and the readiness test passed. */

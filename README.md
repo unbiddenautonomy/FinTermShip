@@ -4,16 +4,16 @@ A Duolingo-style web app for learning and remembering trading and market terms, 
 
 What it has now:
 
-- 509 terms in 11 categories (plus 34 in phase 3), each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks.
+- 509 terms in 11 categories (plus 60 in phase 3), each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks.
 - 6 timed drills (mental maths, percentages and basis points, probability, expected value, Bayes, counting), with typed answers and questions generated fresh every round.
 - A market-making game: quote a bid and ask on the total of three dice while traders, some of whom know the next die, deal with you.
-- 5 desk cases (a short straddle into the Budget, working a big buy order, cash-futures arbitrage, and in phase 3 an iron condor through expiry week and hedging a portfolio before the Budget), each a short story of linked decisions with the reasoning behind every option.
+- 7 desk cases (a short straddle into the Budget, working a big buy order, cash-futures arbitrage, and in phase 3 an iron condor through expiry week, hedging a portfolio before the Budget, a pairs trade that breaks, and taking a trend system from backtest to live), each a short story of linked decisions with the reasoning behind every option.
 - Rates, macro and the rupee (RBI policy, liquidity, government bonds, USDINR), bond maths (yield, duration, PV01), and SEBI's current algo and F&O rules, each dated and sourced.
 - A career map: the main quant and trading jobs and the usual interview rounds, each linked to the units that prepare for it.
 - One track: the core units of every area first, then the rest. Term lessons, drills, the game and the cases sit on the same path; a drill, game or case holds up the path until it is passed (or skipped for the day).
 - Learners can pick any open unit to learn next, practise met terms, or take an area test to open its advanced units early.
 - A quant switch in Settings, behind a password, opens the quant areas (maths drills, quant and risk, options, futures, microstructure, execution) and puts them first.
-- Phase 3, trading strategies, at the end of the track: options and futures strategies so far (spreads, ratio spreads, butterflies, volatility and dispersion trades, payoffs and costs, hedging with futures), with arbitrage and HFT, MFT and LFT to come. It opens only with the password and a 20-question readiness test on options, futures and risk (16 to pass). Once open, picking a strategy unit keeps you on the strategies until they're done.
+- Phase 3, trading strategies, at the end of the track: options and futures strategies so far (spreads, ratio spreads, butterflies, volatility and dispersion trades, payoffs and costs, hedging with futures), then arbitrage (exchange, ETF, merger, triangular and statistical), HFT, MFT and LFT (holding periods, alpha decay, capacity, speed), and systematic strategies (trend following, mean reversion, pairs and cointegration, volatility targeting, Kelly sizing, event-driven trades). It opens only with the password and a 20-question readiness test on options, futures, risk and backtesting (16 to pass). Once open, picking a strategy unit keeps you on the strategies until they're done.
 - New terms slow down before reviews pile up: a day's new terms stop once any of the next four days' reviews would pass the daily cap of 80.
 - A 7-step spaced repetition ladder (1, 3, 7, 16, 35, 120 days; core terms 20% sooner).
 - Progress saved in the browser (IndexedDB), with backup export and import.
