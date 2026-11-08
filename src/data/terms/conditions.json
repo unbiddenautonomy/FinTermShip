@@ -46,7 +46,9 @@
       "short": "A long, broad rise in prices",
       "definition": "A long period in which prices rise broadly and investors are confident. A common rule of thumb is a rise of 20% or more from a recent low.",
       "examples": [
-        "We've been in a bull market since the 2020 low, with only short breaks."
+        "We've been in a bull market since the 2020 low, with only short breaks.",
+        "Risk reminds us that in a bull market almost every strategy looks clever.",
+        "The client asked how long a bull market usually lasts; the honest answer is that nobody knows."
       ],
       "fill": "Nifty has climbed steadily for two years and most stocks are up: a ____.",
       "confusables": [
@@ -71,7 +73,9 @@
       "short": "A long, deep fall in prices",
       "definition": "A long period of falling prices and gloomy sentiment. A common rule of thumb is a fall of 20% or more from a recent peak.",
       "examples": [
-        "Small caps are in a bear market, down 25% from the peak, even though Nifty is holding up."
+        "Small caps are in a bear market, down 25% from the peak, even though Nifty is holding up.",
+        "The PM keeps 20% in cash because she thinks a bear market in small caps has further to run.",
+        "The client asked what to do in a bear market; the adviser said keep the SIP going and avoid leverage."
       ],
       "fill": "An index that has fallen 22% from its peak over six months is in a ____.",
       "confusables": [
@@ -110,7 +114,9 @@
       "short": "A strong rise in prices",
       "definition": "A period of strong, sustained buying that pushes prices up, over days or weeks. Rallies can happen inside a bull or a bear market.",
       "examples": [
-        "Banks led the rally after the RBI cut rates."
+        "Banks led the rally after the RBI cut rates.",
+        "The analyst thinks the rally is running on hope, not on earnings upgrades.",
+        "Risk asked us to trim winners after the rally pushed several positions past their limits."
       ],
       "fill": "After the rate cut, buyers rushed in and Nifty jumped 4% in three days: a sharp ____.",
       "confusables": [
@@ -136,7 +142,9 @@
       "short": "A sharp wave of selling",
       "definition": "A quick, heavy bout of selling that pushes prices down, often set off by bad news or fear.",
       "examples": [
-        "The IT sell-off came after a US client cut its tech budget."
+        "The IT sell-off came after a US client cut its tech budget.",
+        "Risk's stress test replays the March 2020 sell-off on today's book.",
+        "The client called during the sell-off to ask whether she should sell everything."
       ],
       "fill": "Bad news hit and investors dumped shares all afternoon: a broad ____.",
       "confusables": [
@@ -158,7 +166,9 @@
       "short": "A fall of about 10% from a peak",
       "definition": "A fall of roughly 10% to 20% from a recent peak, often seen as a pause in a longer rise rather than a turn into a bear market.",
       "examples": [
-        "After a 10% correction, valuations look reasonable again."
+        "After a 10% correction, valuations look reasonable again.",
+        "The client asked if a correction is the same as a crash: no, it's a smaller fall, often about 10%.",
+        "The PM uses every correction to add to her favourite names."
       ],
       "fill": "Nifty is 12% off its high, more than a dip but not a bear market: a ____.",
       "confusables": [
@@ -196,7 +206,9 @@
       "short": "A sudden, very steep fall",
       "definition": "A sudden, very steep fall in prices over a day or a few days, usually driven by panic. Unlike a correction, it happens fast.",
       "examples": [
-        "The March 2020 crash took Nifty down nearly 40% in weeks."
+        "The March 2020 crash took Nifty down nearly 40% in weeks.",
+        "Risk wants to know what the fund would lose in a crash like 2008.",
+        "The client asked whether a crash means she should stop investing; history says no."
       ],
       "fill": "The market fell 13% in a single day: that's a ____, not a slow decline.",
       "confusables": [
@@ -223,7 +235,9 @@
       "short": "The highest price ever reached",
       "definition": "The highest level a stock or index has ever traded at. Above it there's no one sitting on old losses waiting to sell.",
       "examples": [
-        "Nifty is at an all-time high, and FPIs are still buying."
+        "Nifty is at an all-time high, and FPIs are still buying.",
+        "The client is nervous about investing with the index at an all-time high.",
+        "Risk notes that an all-time high often comes with record leverage in F&O."
       ],
       "fill": "When an index trades above every price in its history, it's at an ____.",
       "confusables": [
@@ -262,7 +276,9 @@
       "short": "Highest price in the past year",
       "definition": "The highest price of the last 52 weeks. Its twin, the 52-week low, is the lowest. Both are shown on every quote screen and used as a quick sense of where a stock sits.",
       "examples": [
-        "It's 30% below its 52-week high; is it cheap or broken?"
+        "It's 30% below its 52-week high; is it cheap or broken?",
+        "The momentum screen buys stocks trading within 5% of their 52-week high.",
+        "The client asked if a stock at its 52-week high is too expensive to buy."
       ],
       "fill": "The highest price a stock has traded at over the last year is its ____.",
       "confusables": [
@@ -299,7 +315,9 @@
       "short": "Price level where falls tend to stop",
       "definition": "A price level where buyers have stepped in before and stopped falls. Traders watch it closely, and a break below it is seen as a bad sign.",
       "examples": [
-        "24,000 is strong support for Nifty; it bounced there twice."
+        "24,000 is strong support for Nifty; it bounced there twice.",
+        "The trader keeps her stop just below support at 1,420.",
+        "The client asked why the stock bounced at ₹800 again: traders see support there."
       ],
       "fill": "The stock has bounced off ₹800 three times, so traders see ₹800 as ____.",
       "confusables": [
@@ -324,7 +342,9 @@
       "short": "Price level where rises tend to stall",
       "definition": "A price level where sellers have shown up before and capped rises. Once the price breaks above it, old resistance often turns into support.",
       "examples": [
-        "It keeps failing at 1,500; that's resistance until it closes above it."
+        "It keeps failing at 1,500; that's resistance until it closes above it.",
+        "The desk is selling calls at 25,500, where it sees strong resistance.",
+        "The client asked why the stock stalls at ₹1,000 every time; round numbers often act as resistance."
       ],
       "fill": "The stock has turned down from ₹1,500 four times, so ₹1,500 is ____.",
       "confusables": [
@@ -349,7 +369,9 @@
       "short": "Price pushing through a key level",
       "definition": "When a price moves decisively above resistance, or below support, usually on heavy volume, which traders take as the start of a new move. A move down through support is often called a breakdown.",
       "examples": [
-        "Clean breakout above 1,500 on twice the usual volume."
+        "Clean breakout above 1,500 on twice the usual volume.",
+        "Risk wants breakout trades sized small, because many breakouts fail.",
+        "The client bought on the breakout, but the stock fell back below the old high the next day."
       ],
       "fill": "After months stuck under ₹1,500, the stock closed at ₹1,560 on heavy volume: a ____.",
       "confusables": [
@@ -371,7 +393,9 @@
       "short": "Investors happy to take risk",
       "definition": "A mood in which investors favour riskier assets, such as shares, small caps and emerging markets, because they're confident about growth.",
       "examples": [
-        "Risk-on today: small caps up 2%, gold and bonds lower."
+        "Risk-on today: small caps up 2%, gold and bonds lower.",
+        "The strategist expects a risk-on mood if the US Fed signals rate cuts.",
+        "In a risk-on market the client's small cap fund tends to beat her large cap fund."
       ],
       "fill": "Small caps are flying and gold is falling; the market is in ____ mode.",
       "confusables": [
@@ -393,7 +417,9 @@
       "short": "Investors cutting risk and seeking safety",
       "definition": "A mood in which investors pull back from riskier assets and move to safer ones, such as government bonds, gold or cash, usually because of fear.",
       "examples": [
-        "Risk-off after the war headlines: gold up, small caps down 3%."
+        "Risk-off after the war headlines: gold up, small caps down 3%.",
+        "Risk-off days hit our high-beta book hardest.",
+        "The client asked why gold rose on a risk-off day: investors were running for safety."
       ],
       "fill": "War news hits, shares fall and gold jumps: a ____ day.",
       "confusables": [
@@ -418,7 +444,9 @@
       "short": "Selling to lock in gains after a rise",
       "definition": "Selling after a rise to lock in gains, which can pull prices back even when there's no bad news. Indian market reports often blame a dip on it.",
       "examples": [
-        "Nifty slipped on profit booking after five days of gains."
+        "Nifty slipped on profit booking after five days of gains.",
+        "The analyst says today's fall is just profit booking after a strong month, not bad news.",
+        "The client asked if profit booking means the rally is over; not necessarily."
       ],
       "fill": "After a 15% run in a month, investors sold to lock in gains: that's ____.",
       "confusables": [
@@ -443,7 +471,9 @@
       "short": "Selling in fear, at almost any price",
       "definition": "Heavy selling driven by fear rather than analysis, where investors dump holdings at almost any price to get out.",
       "examples": [
-        "Margin calls set off panic selling in the small caps."
+        "Margin calls set off panic selling in the small caps.",
+        "Risk's plan is to have cash ready to buy when panic selling hits quality stocks.",
+        "The client admitted that panic selling in 2020 cost her most of the rebound."
       ],
       "fill": "Investors dumped shares at any price as the market plunged: ____.",
       "confusables": [
@@ -465,7 +495,9 @@
       "short": "Final wave of selling as holders give up",
       "definition": "The last, heavy wave of selling when even patient holders give up. Volume spikes and prices plunge, and it often comes close to a bottom.",
       "examples": [
-        "That volume spike looked like capitulation; the selling has dried up since."
+        "That volume spike looked like capitulation; the selling has dried up since.",
+        "The strategist won't call the bottom until he sees capitulation in the small caps.",
+        "The client sold at the worst moment, in the capitulation, and missed the rebound."
       ],
       "fill": "After weeks of falls, a final day of huge-volume selling as holders throw in the towel is ____.",
       "confusables": [
@@ -492,7 +524,9 @@
       "short": "Buying for fear of missing out",
       "definition": "Fear of missing out: buying because prices are rising and others seem to be making money, rather than because of a careful view on value.",
       "examples": [
-        "Retail FOMO is back: every IPO is oversubscribed 100 times."
+        "Retail FOMO is back: every IPO is oversubscribed 100 times.",
+        "Risk warned that FOMO is driving the SME IPO frenzy, not fundamentals.",
+        "The client admitted she bought the theme fund out of FOMO after it doubled."
       ],
       "fill": "You buy a stock after a 50% jump only because your friends made money on it: that's ____.",
       "confusables": [
@@ -517,7 +551,9 @@
       "short": "Buying after a fall, expecting a recovery",
       "definition": "Buying after a price falls, on the view that the longer rise will resume. It works in bull markets and can hurt badly in bear markets.",
       "examples": [
-        "Every 3% fall gets bought; buy-the-dip is the only trade that's worked this year."
+        "Every 3% fall gets bought; buy-the-dip is the only trade that's worked this year.",
+        "Risk worries that buy the dip has worked so long that nobody is hedged anymore.",
+        "The client asked if she should buy the dip in a stock that just cut guidance."
       ],
       "fill": "Nifty fell 3% and you added more, expecting the uptrend to resume: you ____.",
       "confusables": [
@@ -539,7 +575,9 @@
       "short": "Brief rebound in a steep fall",
       "definition": "A short, weak recovery during a steep fall, after which the decline carries on. It's only clear in hindsight.",
       "examples": [
-        "Up 8% today, but I think it's a dead cat bounce; nothing has changed."
+        "Up 8% today, but I think it's a dead cat bounce; nothing has changed.",
+        "The analyst called the 6% jump a dead cat bounce, since the downgrade still stands.",
+        "The client asked how to tell a dead cat bounce from a real recovery: watch whether volume and news follow."
       ],
       "fill": "The stock fell 40%, bounced 10% in two days, then fell to new lows: a ____.",
       "confusables": [
@@ -574,7 +612,9 @@
       "short": "Rising price forces shorts to buy back",
       "definition": "A sharp rise that forces short sellers to buy back to limit losses, and their buying pushes the price up even faster. In India it shows up mostly in futures, where traders hold shorts overnight.",
       "examples": [
-        "Huge short build-up in the futures, then good results: classic short squeeze."
+        "Huge short build-up in the futures, then good results: classic short squeeze.",
+        "Risk asked us to cut the short before results, because a short squeeze could cost us 10% in a day.",
+        "The client asked why a weak stock jumped 15%: a short squeeze as sellers rushed to buy back."
       ],
       "fill": "Heavy shorting, then surprise good news, and shorts rushing to buy back: a ____.",
       "confusables": [
@@ -596,7 +636,9 @@
       "short": "A position too many investors share",
       "definition": "A position held by so many investors that, if the story changes, everyone tries to exit at once and the price moves violently.",
       "examples": [
-        "Long private banks is the most crowded trade among FPIs right now."
+        "Long private banks is the most crowded trade among FPIs right now.",
+        "Risk measures how crowded each position is, because a crowded trade falls hard when everyone exits.",
+        "The analyst says long defence stocks has become a crowded trade."
       ],
       "fill": "Every fund is long the same defence stocks, so any bad news could cause a rush for the exit: it's a ____.",
       "confusables": [
@@ -621,7 +663,9 @@
       "short": "Rushing into safe assets in a scare",
       "definition": "When investors rush out of risky assets into safe ones, such as government bonds, gold or cash, during a crisis or scare.",
       "examples": [
-        "Flight to safety: the 10-year bond yield fell 15 bps as shares tanked."
+        "Flight to safety: the 10-year bond yield fell 15 bps as shares tanked.",
+        "The bond desk did well on the flight to safety as yields fell.",
+        "The client asked why the rupee fell in the flight to safety: money ran to the dollar."
       ],
       "fill": "When a crisis hits and money pours into government bonds and gold, it's a ____.",
       "confusables": [
@@ -653,7 +697,9 @@
       "short": "Stuck between a steady high and low",
       "definition": "When a price moves back and forth between a fairly steady high and low for a while, with no clear trend.",
       "examples": [
-        "Nifty's been range-bound between 24,000 and 25,000 for two months."
+        "Nifty's been range-bound between 24,000 and 25,000 for two months.",
+        "The options desk sells strangles when it expects Nifty to stay range-bound.",
+        "The client asked why her momentum fund lagged: the market was range-bound all year."
       ],
       "fill": "The stock has traded between ₹480 and ₹520 for three months: it's ____.",
       "confusables": [
@@ -674,7 +720,9 @@
       "short": "A sideways pause after a big move",
       "definition": "A pause after a strong move in which the price trades sideways in a tightening range, as the market digests the move.",
       "examples": [
-        "Healthy consolidation after a 30% rally; I'd wait for the breakout."
+        "Healthy consolidation after a 30% rally; I'd wait for the breakout.",
+        "The analyst sees the long consolidation as a base for the next leg up.",
+        "The client asked why the stock hasn't moved in months; it's in consolidation after doubling."
       ],
       "fill": "After a 40% rise, the stock has moved sideways in a narrow band for weeks: ____.",
       "confusables": [
@@ -700,7 +748,9 @@
       "short": "Prices moving steadily one way",
       "definition": "A market moving steadily in one direction, with higher highs and higher lows in an uptrend, or the reverse in a downtrend.",
       "examples": [
-        "In a trending market, buying breakouts works; in a range, it gets you chopped up."
+        "In a trending market, buying breakouts works; in a range, it gets you chopped up.",
+        "Our trend system makes most of its money in a trending market and bleeds in a range.",
+        "Risk lets the momentum book run bigger in a trending market."
       ],
       "fill": "Each rise beats the last high and each dip stops above the last low: a ____.",
       "confusables": [
@@ -725,7 +775,9 @@
       "short": "Sharp move one way, then a sharp reversal",
       "definition": "When the price jumps one way and then quickly reverses, catching traders on both sides and triggering their stop-losses.",
       "examples": [
-        "Got whipsawed: stopped out on the drop, then it ripped back up."
+        "Got whipsawed: stopped out on the drop, then it ripped back up.",
+        "Risk asked why the trend book lost money; the answer was whipsaw in a choppy month.",
+        "Wide stops cut the whipsaw, but each loss is bigger when it comes."
       ],
       "fill": "Bought the breakout, got stopped out on the drop, then watched it soar: a classic ____.",
       "confusables": [
@@ -751,7 +803,9 @@
       "short": "Opening well above the last close",
       "definition": "When a stock or index opens well above the previous day's close, leaving a gap on the chart, usually after overnight news.",
       "examples": [
-        "Gap-up opening on the results; let's see if it holds."
+        "Gap-up opening on the results; let's see if it holds.",
+        "The trader sold into the gap-up because the good news was already priced in.",
+        "The client asked why her limit buy didn't fill: the stock opened with a gap-up above her price."
       ],
       "fill": "It closed at ₹1,000 and opened at ₹1,050 after strong results: a ____.",
       "confusables": [
@@ -789,7 +843,9 @@
       "short": "Opening well below the last close",
       "definition": "When a stock or index opens well below the previous day's close, leaving a gap on the chart. A stop-loss can't protect you from it.",
       "examples": [
-        "Gap-down on the fraud news; stops filled 8% below their levels."
+        "Gap-down on the fraud news; stops filled 8% below their levels.",
+        "Risk notes that a stop-loss can't protect you from a gap-down.",
+        "The client's stock opened with a gap-down of 12% after the auditor resigned."
       ],
       "fill": "Bad news overnight, and the stock opened 7% below yesterday's close: a ____.",
       "confusables": [
@@ -818,7 +874,9 @@
       "short": "Risen so far, so fast, a pullback looks likely",
       "definition": "When a price has risen so far, so fast, that traders expect a pause or pullback. Many use the RSI momentum indicator, where a reading above 70 counts as overbought.",
       "examples": [
-        "RSI at 82; it's overbought, so I'd wait for a dip."
+        "RSI at 82; it's overbought, so I'd wait for a dip.",
+        "The analyst says the stock is overbought but the story is intact, so she'd hold.",
+        "Risk warns that overbought markets can stay overbought for weeks."
       ],
       "fill": "After nine straight up days and an RSI of 80, traders call the stock ____.",
       "confusables": [
@@ -840,7 +898,9 @@
       "short": "Fallen so far, so fast, a bounce looks likely",
       "definition": "When a price has fallen so far, so fast, that traders expect a bounce. On the RSI indicator, a reading below 30 counts as oversold.",
       "examples": [
-        "Oversold, but oversold can stay oversold in a bear market."
+        "Oversold, but oversold can stay oversold in a bear market.",
+        "The trader buys stocks that look oversold after a panic, with a tight stop.",
+        "The client asked if oversold means cheap; not always, it only means it fell fast."
       ],
       "fill": "After a 25% drop in two weeks and an RSI of 22, the stock looks ____.",
       "confusables": [
@@ -873,7 +933,9 @@
       "short": "Sharp fall, then an equally sharp rebound",
       "definition": "A sharp fall followed by an equally quick recovery, so the chart looks like a V. Indian shares did this in 2020, regaining their pre-Covid level within months.",
       "examples": [
-        "Nobody expected a V-shaped recovery after March 2020."
+        "Nobody expected a V-shaped recovery after March 2020.",
+        "The strategist doesn't expect a V-shaped recovery this time, because earnings are falling.",
+        "The client sold in the fall and missed the V-shaped recovery that followed."
       ],
       "fill": "The index crashed 35% in a month and was back at its high six months later: a ____.",
       "confusables": [
@@ -910,7 +972,9 @@
       "short": "Huge fall and rebound within minutes",
       "definition": "An extremely fast, deep fall that reverses within minutes, usually caused by an erroneous order or algorithms reacting to each other. On 5 October 2012, a mistaken order sent Nifty down about 15% in minutes.",
       "examples": [
-        "The 2012 flash crash was one fat-finger order hitting every bid."
+        "The 2012 flash crash was one fat-finger order hitting every bid.",
+        "Risk asked what our algos would do in a flash crash, and whether they would stop trading.",
+        "The client's stop-loss filled 20% below her level in the flash crash, then the price came straight back."
       ],
       "fill": "Nifty fell 15% and recovered within minutes after an erroneous order: a ____.",
       "confusables": [
@@ -934,7 +998,9 @@
       "short": "How many stocks join a move",
       "definition": "How many stocks are taking part in a market move. Good breadth means most stocks are rising with the index; poor breadth means a few big names are carrying it.",
       "examples": [
-        "Nifty is up, but breadth is awful: two stocks fell for every one that rose."
+        "Nifty is up, but breadth is awful: two stocks fell for every one that rose.",
+        "The strategist worries about market breadth: only a handful of stocks are making new highs.",
+        "The client asked why her fund fell when the Nifty rose; market breadth was weak."
       ],
       "fill": "The index rose, but only five heavyweights went up while most stocks fell: poor ____.",
       "confusables": [
@@ -959,7 +1025,9 @@
       "short": "Rising stocks divided by falling stocks",
       "definition": "The number of stocks that rose in a session divided by the number that fell. Above 1 means more rose than fell.",
       "examples": [
-        "A/D ratio of 0.4 on NSE today; the index hides how bad it was."
+        "A/D ratio of 0.4 on NSE today; the index hides how bad it was.",
+        "The analyst tracks the advance-decline ratio to see whether a rally is broad.",
+        "An advance-decline ratio below 1 means more stocks fell than rose."
       ],
       "fill": "1,800 stocks up and 1,200 down gives an ____ of 1.5.",
       "confusables": [
@@ -996,7 +1064,9 @@
       "short": "A rise in which most stocks take part",
       "definition": "A rally in which most stocks and sectors rise, not just a few large ones. Traders see it as healthier than a narrow rally.",
       "examples": [
-        "Finally a broad-based rally: mid caps and small caps up more than Nifty."
+        "Finally a broad-based rally: mid caps and small caps up more than Nifty.",
+        "The analyst trusts a broad-based rally more than one led by three heavyweights.",
+        "In a broad-based rally, even the client's laggard stocks finally moved."
       ],
       "fill": "Banks, IT, pharma, mid caps and small caps all rose together: a ____.",
       "confusables": [
@@ -1021,7 +1091,9 @@
       "short": "Money moving from one sector to another",
       "definition": "Investors moving money from one sector to another, for example out of IT and into banks, as views on growth, rates or valuations change.",
       "examples": [
-        "Rotation out of FMCG into capital goods has been the trade this quarter."
+        "Rotation out of FMCG into capital goods has been the trade this quarter.",
+        "The PM's sector rotation this quarter was out of IT and into banks.",
+        "The client asked why IT fell while the market rose: sector rotation into other sectors."
       ],
       "fill": "Funds are selling pharma and buying autos as the economy picks up: ____.",
       "confusables": [
@@ -1046,7 +1118,9 @@
       "short": "Stocks that hold up when the economy slows",
       "definition": "Stocks whose earnings stay steady whatever the economy does, such as FMCG, pharma and utilities. Investors hide in them during downturns.",
       "examples": [
-        "In a slowdown, money hides in defensives like HUL and Sun Pharma."
+        "In a slowdown, money hides in defensives like HUL and Sun Pharma.",
+        "The PM moved into defensive stocks before the election.",
+        "The client asked which sectors count as defensive stocks: FMCG, pharma and utilities, mostly."
       ],
       "fill": "With a recession feared, funds buy FMCG and pharma, the classic ____.",
       "confusables": [
@@ -1078,7 +1152,9 @@
       "short": "Stocks that rise and fall with the economy",
       "definition": "Stocks whose earnings swing with the economic cycle, such as autos, metals, cement and capital goods. They tend to do well in recoveries and badly in slowdowns.",
       "examples": [
-        "Cyclicals are leading; the market is betting on a capex upturn."
+        "Cyclicals are leading; the market is betting on a capex upturn.",
+        "The analyst thinks cyclical stocks will lead if rates fall.",
+        "Risk notes that cyclical stocks fall hardest in a recession."
       ],
       "fill": "Metals and autos jump as the economy recovers, true to form as ____.",
       "confusables": [
@@ -1103,7 +1179,9 @@
       "short": "Stocks that swing more than the market",
       "definition": "Stocks that typically move more than the market in both directions, such as small caps, metals and PSU stocks. They lead rallies and get hit hardest in sell-offs.",
       "examples": [
-        "In risk-off, high-beta names get dumped first."
+        "In risk-off, high-beta names get dumped first.",
+        "Risk caps how much of the book can sit in high-beta stocks.",
+        "The client asked why her portfolio fell twice as much as the Nifty: it's full of high-beta stocks."
       ],
       "fill": "When Nifty rises 1%, these stocks often rise 2%, and fall 2% when it falls: ____.",
       "confusables": [
@@ -1128,7 +1206,9 @@
       "short": "How much risk investors want to take",
       "definition": "How willing investors are to take risk at a given time. Strong risk appetite shows up as money going into small caps, IPOs and leveraged trades.",
       "examples": [
-        "Risk appetite is strong: SME IPOs are oversubscribed 300 times."
+        "Risk appetite is strong: SME IPOs are oversubscribed 300 times.",
+        "The strategist says risk appetite is fading: SME IPOs are now struggling to fill.",
+        "Risk's job is to set the firm's risk appetite and stick to it in good times too."
       ],
       "fill": "When IPOs are flooded with bids and small caps soar, ____ is high.",
       "confusables": [
@@ -1155,7 +1235,9 @@
       "short": "Money moving into or out of markets",
       "definition": "Money moving into or out of a market, sector or fund type. In India, FPI and DII buying and selling figures come out every evening and are closely watched.",
       "examples": [
-        "FPIs were net sellers of ₹4,000 crore today, but DIIs bought it all."
+        "FPIs were net sellers of ₹4,000 crore today, but DIIs bought it all.",
+        "The analyst says fund flows, not earnings, have driven mid caps this year.",
+        "Risk watches fund flows into small cap funds as a sign of froth."
       ],
       "fill": "Every evening, traders check FPI and DII ____ to see who bought and sold.",
       "confusables": [
@@ -1180,7 +1262,9 @@
       "short": "Prices far above any sensible value",
       "definition": "When prices rise far above any reasonable value, driven by speculation and the belief that they'll keep rising. Bubbles usually end in a sharp fall.",
       "examples": [
-        "SME IPOs listing at 90% premiums look like a bubble."
+        "SME IPOs listing at 90% premiums look like a bubble.",
+        "Risk asked the PM how she'd know if her favourite theme was a bubble.",
+        "The client asked if Indian markets are in a bubble; the analyst said parts of them might be."
       ],
       "fill": "Prices tripled in a year on hype alone, with no earnings to back them: a ____.",
       "confusables": [
@@ -1205,7 +1289,9 @@
       "short": "A sudden, steep rise driven by FOMO",
       "definition": "A sharp, fast rise driven more by fear of missing out than by fundamentals, often late in a bull market. It can be followed by a sharp fall.",
       "examples": [
-        "This isn't earnings, it's a melt-up; everyone's chasing."
+        "This isn't earnings, it's a melt-up; everyone's chasing.",
+        "The PM is riding the melt-up but buying cheap puts in case the euphoria ends suddenly.",
+        "Risk warns that a melt-up often ends with a sharp fall."
       ],
       "fill": "Late in a bull run, the index shoots up 15% in a month with no change in earnings: a ____.",
       "confusables": [
@@ -1227,7 +1313,9 @@
       "short": "A rare shock nobody saw coming",
       "definition": "A rare, unexpected event with a huge impact that seems obvious only afterwards. The term was popularised by Nassim Taleb.",
       "examples": [
-        "Covid was the black swan nobody's risk model had."
+        "Covid was the black swan nobody's risk model had.",
+        "Risk keeps tail hedges for the black swan nobody can predict.",
+        "The client asked if a black swan could wipe out her fund; diversification limits the damage."
       ],
       "fill": "A sudden, unforeseen event that crashes markets worldwide is a ____.",
       "confusables": [
@@ -1249,7 +1337,9 @@
       "short": "Trouble spreading from one market to others",
       "definition": "When trouble in one company, sector or country spreads to others, as investors sell anything that looks similar or has links to it.",
       "examples": [
-        "The IL&FS default in 2018 caused contagion across NBFCs."
+        "The IL&FS default in 2018 caused contagion across NBFCs.",
+        "Risk is watching for contagion from the troubled lender to other NBFCs.",
+        "The client asked why her bank stock fell on another bank's news: contagion fears."
       ],
       "fill": "One lender defaults, and shares of every similar lender crash: that's ____.",
       "confusables": [
@@ -1271,7 +1361,9 @@
       "short": "Risk from a known upcoming event",
       "definition": "The risk of a big price move around a known event, such as an election result, an RBI policy decision, the Union Budget or a company's results.",
       "examples": [
-        "We're cutting positions ahead of the budget; too much event risk."
+        "We're cutting positions ahead of the budget; too much event risk.",
+        "The options desk prices in event risk before every RBI policy.",
+        "The client asked why option prices jump before the budget; that's event risk being priced."
       ],
       "fill": "Traders cut positions before the election results because of the ____.",
       "confusables": [
@@ -1293,7 +1385,9 @@
       "short": "Risk that sudden news moves prices",
       "definition": "The risk that a sudden news headline, such as a tariff threat, a raid or a policy rumour, moves prices sharply without warning.",
       "examples": [
-        "Tariff talk is pure headline risk; one tweet and the IT stocks swing 3%."
+        "Tariff talk is pure headline risk; one tweet and the IT stocks swing 3%.",
+        "Risk cut the defence positions because of headline risk from the border talks.",
+        "The client asked why her pharma stock swung 5% on one news report: headline risk."
       ],
       "fill": "A single surprise news report can knock the stock 5%: it carries high ____.",
       "confusables": [
@@ -1317,7 +1411,9 @@
       "short": "Weeks when most companies report results",
       "definition": "The few weeks after each quarter when most companies report results. In India, listed companies must report within 45 days of a quarter's end, or 60 days for the full-year results.",
       "examples": [
-        "Earnings season kicks off with TCS next week."
+        "Earnings season kicks off with TCS next week.",
+        "The analysts work late every night during earnings season.",
+        "Risk cuts position sizes into earnings season, when single stocks can move 10% overnight."
       ],
       "fill": "Mid-January to mid-February, when most companies report December-quarter results, is ____.",
       "confusables": [
@@ -1346,7 +1442,9 @@
       "short": "Cash and credit suddenly dry up",
       "definition": "When cash and credit suddenly become scarce, so borrowers can't roll over loans and sellers can't find buyers without big price cuts. India's NBFCs went through one after IL&FS defaulted in 2018.",
       "examples": [
-        "The liquidity crunch forced NBFCs to sell good assets at a loss."
+        "The liquidity crunch forced NBFCs to sell good assets at a loss.",
+        "Risk's stress test assumes a liquidity crunch where we can sell only a fifth of a position a day.",
+        "The client asked why her debt fund froze withdrawals: a liquidity crunch in corporate bonds."
       ],
       "fill": "Lenders stop lending and even good bonds can't be sold: a ____.",
       "confusables": [
@@ -1372,7 +1470,9 @@
       "short": "Cutting risk by shrinking positions",
       "definition": "Reducing risk by cutting positions, leverage or exposure to volatile areas, often ahead of uncertainty or after losses.",
       "examples": [
-        "Funds are de-risking into the election; cash levels are up."
+        "Funds are de-risking into the election; cash levels are up.",
+        "The PM started de-risking a month before the election, cutting small caps first.",
+        "The client asked if de-risking means selling everything; no, it means cutting the riskiest bets."
       ],
       "fill": "Ahead of the results, the fund sold small caps and raised cash: ____.",
       "confusables": [
@@ -1399,7 +1499,8 @@
       "definition": "Price rises while open interest rises, which suggests traders are opening fresh long positions. Indian F&O commentary reads it as a bullish sign.",
       "examples": [
         "Long build-up in bank stocks today: prices up 2% with OI up 8%.",
-        "Nifty futures show long build-up for a third day, so the rally has fresh money behind it."
+        "Nifty futures show long build-up for a third day, so the rally has fresh money behind it.",
+        "The F&O analyst flagged a long build-up in the stock ahead of results."
       ],
       "fill": "Reliance futures rose 3% and open interest rose 10%: the desk calls that ____.",
       "confusables": [
@@ -1433,7 +1534,8 @@
       "definition": "Price falls while open interest rises, which suggests traders are opening fresh short positions. It's read as a bearish sign.",
       "examples": [
         "Short build-up in IT futures after the guidance cut: price down 4%, OI up 15%.",
-        "If this short build-up meets good news, we could see a sharp short-covering rally."
+        "If this short build-up meets good news, we could see a sharp short-covering rally.",
+        "Risk asked the desk to check whether today's fall came with a short build-up or just long unwinding."
       ],
       "fill": "Infosys futures fell 4% while open interest jumped 15%, a classic case of ____.",
       "confusables": [
@@ -1459,7 +1561,8 @@
       "definition": "Price falls while open interest falls, which suggests traders who were long are closing out. It's milder than short build-up: holders are leaving rather than new sellers arriving.",
       "examples": [
         "It's long unwinding, not fresh shorting: OI is down 6% along with the price.",
-        "Expect some long unwinding into expiry from traders who don't want to roll."
+        "Expect some long unwinding into expiry from traders who don't want to roll.",
+        "The client asked why OI fell as the price dropped: that's long unwinding."
       ],
       "fill": "Price fell 2% and open interest fell 7% as holders sold out of their positions: the desk calls that ____.",
       "confusables": [
@@ -1499,7 +1602,8 @@
       "definition": "The part of a stock's traded quantity that ends in delivery, rather than being bought and sold within the day, as a percentage. NSE publishes it daily for every stock.",
       "examples": [
         "Delivery is 68% on today's rally, so real buyers are taking the stock home.",
-        "Volume tripled but delivery % fell to 12%: it's mostly intraday traders."
+        "Volume tripled but delivery % fell to 12%: it's mostly intraday traders.",
+        "The analyst likes the rising delivery percentage: buyers are holding the shares."
       ],
       "fill": "Of 10 lakh HDFC Bank shares traded today, 6 lakh went into demat accounts, so the ____ was 60%.",
       "confusables": [
@@ -1543,7 +1647,8 @@
       "definition": "NSE's end-of-day report that splits open F&O positions into four groups: clients, DIIs, FIIs and pros (brokers trading their own money). It covers index and stock futures and options, long and short.",
       "examples": [
         "FIIs hold only 20% of their index futures as longs, so they're heavily short going into the month.",
-        "Clients are net long index calls again; the pros are on the other side."
+        "Clients are net long index calls again; the pros are on the other side.",
+        "The strategist reads the participant-wise OI every evening to see how FIIs are positioned."
       ],
       "fill": "To see whether FIIs or retail clients are net short Nifty futures, traders check NSE's ____ report after the close.",
       "confusables": [
