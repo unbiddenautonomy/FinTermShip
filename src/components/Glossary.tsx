@@ -1,8 +1,6 @@
 import { useMemo, useState, type ReactNode } from 'react';
-import { categories as allCategories, isCore, termById } from '../lib/content';
-
-/** Drill-only areas have no terms to look up. */
-const categories = allCategories.filter((c) => c.terms.length > 0);
+import { categories as allCategories, isCore, isPhase3Area } from '../lib/content';
+import { phase3Open } from '../lib/phase3';
 import type { Progress } from '../lib/types';
 import { ChevronDown, Search } from './icons';
 import { Pill, SpeakButton, StepDots, TermDetails } from './ui';
@@ -10,6 +8,9 @@ import { Pill, SpeakButton, StepDots, TermDetails } from './ui';
 type Filter = 'all' | 'met' | 'trouble';
 
 export function Glossary({ progress }: { progress: Progress }) {
+  // Drill-only areas have no terms to look up, and phase 3 stays hidden until it's open.
+  const open3 = phase3Open(progress);
+  const categories = useMemo(() => allCategories.filter((c) => c.terms.length > 0 && (open3 || !isPhase3Area(c.id))), [open3]);
   const [query, setQuery] = useState('');
   const [cat, setCat] = useState<string>('all');
   const [filter, setFilter] = useState<Filter>('all');
@@ -36,7 +37,7 @@ export function Glossary({ progress }: { progress: Progress }) {
             })
             .sort((a, b) => a.term.localeCompare(b.term)),
         })),
-    [q, cat, filter, progress.terms],
+    [categories, q, cat, filter, progress.terms],
   );
   const shown = groups.reduce((n, g) => n + g.terms.length, 0);
 
@@ -44,7 +45,7 @@ export function Glossary({ progress }: { progress: Progress }) {
     <div className="mx-auto max-w-xl px-4 pb-32 pt-5">
       <div className="mb-4 flex items-baseline justify-between">
         <h1 className="text-2xl font-extrabold tracking-tight text-ink">Glossary</h1>
-        <span className="num text-sm font-semibold text-ink-3">{termById.size} terms</span>
+        <span className="num text-sm font-semibold text-ink-3">{categories.reduce((n, c) => n + c.terms.length, 0)} terms</span>
       </div>
 
       <div className="sticky top-0 z-20 -mx-4 space-y-3 bg-bg/95 px-4 pb-3 pt-1 backdrop-blur">

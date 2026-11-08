@@ -80,6 +80,8 @@ export interface Category {
   id: string;
   name: string;
   order: number;
+  /** 3 for phase 3 areas (trading strategies): after everything else, opened by the password and the readiness test. */
+  phase?: 3;
   units: Unit[];
   terms: Term[];
 }
@@ -129,6 +131,8 @@ export interface Progress {
   tests?: Record<string, TestAttempt>;
   /** Results of practice units (drills, games and cases), by unit id. */
   drills?: Record<string, DrillRecord>;
+  /** The password was entered for phase 3. With the readiness test passed, phase 3 opens. */
+  phase3Key?: boolean;
 }
 
 export interface DrillRecord {

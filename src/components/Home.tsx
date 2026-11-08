@@ -1,14 +1,16 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { areaCoreTermIds, canTakeTest, focusActive, focusQueue, unitOpen } from '../lib/choose';
-import { categories, isQuantArea, pathTermIds, practiceKind, unitById } from '../lib/content';
+import { categories, isPhase3Area, isQuantArea, practiceKind, unitById } from '../lib/content';
 import { DRILLS } from '../lib/drills';
 import { addDays, daysBetween } from '../lib/dates';
 import { todayStatus } from '../lib/lesson';
+import { PHASE3, phase3Open, reachableTermIds } from '../lib/phase3';
 import { KIND_LABEL, passRule, practiceAbout, recordLine, roundSize } from '../lib/practice';
 import { currentStreak, dayStats, isKnown } from '../lib/scheduler';
 import { currentUnit, isDrill, track, unitDone, type PathRow } from '../lib/track';
 import type { Progress } from '../lib/types';
 import { Bolt, Briefcase, Calculator, Check, Cross, Dice, Flame, Lock, Logo } from './icons';
+import { Phase3Gate } from './Phase3Gate';
 import { Bar, Button, Card, Pill, Ring, SectionTitle, StepDots } from './ui';
 
 interface Props {
@@ -17,8 +19,11 @@ interface Props {
   onStart: (ignoreNewCap: boolean) => void;
   onPractice: (unitId: string) => void;
   onFocus: (unitId: string | null) => void;
+  /** An area test, or the phase 3 readiness test (PHASE3). */
   onTest: (categoryId: string) => void;
   onDrill: (unitId: string) => void;
+  /** The password was entered for phase 3. */
+  onPhase3Key: () => void;
   onOpenSettings: () => void;
   onOpenCareers: () => void;
   /** A unit sheet to open straight away, e.g. when coming from the career map. */
@@ -30,7 +35,7 @@ type Row = PathRow & { i: number; met: number; known: number; total: number; ope
 
 const TOTAL_CATEGORIES = 17;
 
-export function Home({ progress, today, onStart, onPractice, onFocus, onTest, onDrill, onOpenSettings, onOpenCareers, initialSheet, showInstallHint }: Props) {
+export function Home({ progress, today, onStart, onPractice, onFocus, onTest, onDrill, onPhase3Key, onOpenSettings, onOpenCareers, initialSheet, showInstallHint }: Props) {
   const [sheet, setSheet] = useState<string | null>(initialSheet ?? null);
   const picked = focusActive(progress) && progress.focus ? unitById.get(progress.focus) : undefined;
   const status = todayStatus(progress, today);
@@ -41,6 +46,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
   const metCount = Object.keys(progress.terms).length;
   const backupDue = metCount >= 20 && (!progress.lastBackup || daysBetween(progress.lastBackup, today) >= 7);
   const practisedToday = todayStats.lessons > 0;
+  const gate = <Phase3Gate progress={progress} today={today} onKey={onPhase3Key} onTest={() => onTest(PHASE3)} />;
 
   const headline = !hasWork
     ? status.newAvailable === 0
@@ -127,7 +133,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
         )}
       </Card>
 
-      <LearningPath progress={progress} today={today} onOpen={setSheet} />
+      <LearningPath progress={progress} today={today} onOpen={setSheet} gate={gate} />
 
       {sheet && practiceKind(sheet) && (
         <PracticeSheet
@@ -139,6 +145,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
             setSheet(null);
             onDrill(sheet);
           }}
+          gate={gate}
         />
       )}
       {sheet && !practiceKind(sheet) && (
@@ -155,6 +162,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           onTest={onTest}
+          gate={gate}
         />
       )}
 
@@ -182,7 +190,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
       )}
 
       <p className="px-1 text-xs leading-relaxed text-ink-3">
-        {`${categories.filter((c) => c.terms.length > 0).length} of ${TOTAL_CATEGORIES} term categories are ready, plus ${Object.keys(DRILLS).length} timed drills, ${plural(countKind('game'), 'trading game')} and ${plural(countKind('case'), 'desk case')}.`}{' '}
+        {`${mainCategories.filter((c) => c.terms.length > 0).length} of ${TOTAL_CATEGORIES} term categories are ready, plus ${Object.keys(DRILLS).length} timed drills, ${plural(countKind('game'), 'trading game')} and ${plural(countKind('case'), 'desk case')}. Phase 3 adds ${phase3Terms} strategy terms and ${plural(countKind('case', true), 'desk case')}.`}{' '}
         A term counts as known once it reaches step 4 of 6 on the review ladder.
       </p>
     </div>
@@ -228,19 +236,20 @@ function currentIndex(progress: Progress, rows: Row[], today: string): number {
   return id ? rows.findIndex((r) => r.unit.id === id) : -1;
 }
 
-function LearningPath({ progress, today, onOpen }: { progress: Progress; today: string; onOpen: (unitId: string) => void }) {
+function LearningPath({ progress, today, onOpen, gate }: { progress: Progress; today: string; onOpen: (unitId: string) => void; gate: ReactNode }) {
   const [full, setFull] = useState(false);
   const rows = pathRows(progress);
   const currentIdx = currentIndex(progress, rows, today);
   const picked = currentIdx >= 0 && rows[currentIdx].unit.id === progress.focus;
   const done = rows.filter((r) => r.done).length;
-  const metTotal = pathTermIds.filter((id) => progress.terms[id]).length;
+  const reachable = reachableTermIds(progress);
+  const metTotal = reachable.filter((id) => progress.terms[id]).length;
 
   if (!full) {
     const shown = [rows[currentIdx], ...rows.filter((r) => !r.done && r.i !== currentIdx).slice(0, 2)].filter(Boolean);
     return (
       <section>
-        <SectionTitle aside={`${metTotal} of ${pathTermIds.length} terms met`}>Your path</SectionTitle>
+        <SectionTitle aside={`${metTotal} of ${reachable.length} terms met`}>Your path</SectionTitle>
         <p className="-mt-1 mb-3 px-1 text-sm text-ink-2">
           {done > 0 ? `${done} of ${rows.length} units done. ` : ''}Tap a unit to see what's in it, practise it, or do it next.
           {progress.settings.quantFirst ? ' Quant areas come first.' : ''}
@@ -257,6 +266,15 @@ function LearningPath({ progress, today, onOpen }: { progress: Progress; today: 
     );
   }
 
+  const open3 = phase3Open(progress);
+  const phase3 = {
+    key: 'p3',
+    title: 'Phase 3 · Strategies',
+    note: open3
+      ? 'Trading strategies, starting with options and futures. Pick any unit to learn next.'
+      : 'Trading strategies, starting with options and futures. They come after everything else, or open early with the password and a readiness test.',
+    rows: rows.filter((r) => r.pass === 3),
+  };
   const sections = progress.settings.quantFirst
     ? [
         {
@@ -269,8 +287,9 @@ function LearningPath({ progress, today, onOpen }: { progress: Progress; today: 
           key: 'rest',
           title: 'Everything else',
           note: "The other areas, core units first. An area's advanced units open once you've learned its core terms, or passed its test.",
-          rows: rows.filter((r) => !isQuantArea(r.category.id)),
+          rows: rows.filter((r) => !isQuantArea(r.category.id) && r.pass !== 3),
         },
+        phase3,
       ]
     : [
         { key: 'p1', title: 'Pass 1 · Core sweep', note: 'The most common terms, the first timed drills and the market-making game, from every area.', rows: rows.filter((r) => r.pass === 1) },
@@ -280,6 +299,7 @@ function LearningPath({ progress, today, onOpen }: { progress: Progress; today: 
           note: "Each area in depth. An area's advanced units open once you've done its core units, or passed its test.",
           rows: rows.filter((r) => r.pass === 2),
         },
+        phase3,
       ];
 
   return (
@@ -291,6 +311,7 @@ function LearningPath({ progress, today, onOpen }: { progress: Progress; today: 
             <SectionTitle aside={`${secDone} of ${sec.rows.length} units done`}>{sec.title}</SectionTitle>
             <p className="-mt-1 mb-3 px-1 text-sm text-ink-2">{sec.note}</p>
             {n === 0 && <Bar value={secDone} max={sec.rows.length} className="mb-4 h-1.5" label={`${sec.title} progress`} />}
+            {sec.key === 'p3' && !open3 && <div className="mb-4">{gate}</div>}
             <ol>
               {sec.rows.map((r, k) => (
                 <PathStop
@@ -316,8 +337,12 @@ function LearningPath({ progress, today, onOpen }: { progress: Progress; today: 
 
 const plural = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`;
 
-function countKind(kind: 'game' | 'case'): number {
-  return categories.reduce((n, c) => n + c.units.filter((u) => u.kind === kind).length, 0);
+const mainCategories = categories.filter((c) => !isPhase3Area(c.id));
+const phase3Terms = categories.filter((c) => isPhase3Area(c.id)).reduce((n, c) => n + c.terms.length, 0);
+
+/** Games or cases outside phase 3, or (with `phase3`) inside it. */
+function countKind(kind: 'game' | 'case', phase3 = false): number {
+  return categories.filter((c) => isPhase3Area(c.id) === phase3).reduce((n, c) => n + c.units.filter((u) => u.kind === kind).length, 0);
 }
 
 /** The Today card's line for a practice unit that's up next. */
@@ -442,7 +467,21 @@ function LockedBox({ children }: { children: ReactNode }) {
   );
 }
 
-function PracticeSheet({ unitId, progress, today, onClose, onStart }: { unitId: string; progress: Progress; today: string; onClose: () => void; onStart: () => void }) {
+function PracticeSheet({
+  unitId,
+  progress,
+  today,
+  onClose,
+  onStart,
+  gate,
+}: {
+  unitId: string;
+  progress: Progress;
+  today: string;
+  onClose: () => void;
+  onStart: () => void;
+  gate: ReactNode;
+}) {
   const rows = pathRows(progress);
   const r = rows.find((x) => x.unit.id === unitId);
   const kind = practiceKind(unitId);
@@ -456,9 +495,11 @@ function PracticeSheet({ unitId, progress, today, onClose, onStart }: { unitId: 
     case: "Pick the best call at each step. Every option says why it is or isn't the best one.",
   }[kind];
   const rule = passRule(unitId);
+  // Phase 3 stays closed until it's opened, so the case's story stays hidden too.
+  const shut3 = !r.open && isPhase3Area(r.category.id);
   return (
     <Sheet
-      kicker={`${r.category.name} · ${r.unit.core ? 'Core' : 'Advanced'} ${KIND_LABEL[kind]}`}
+      kicker={`${r.category.name} · ${r.pass === 3 ? 'Phase 3' : r.unit.core ? 'Core' : 'Advanced'} ${KIND_LABEL[kind]}`}
       title={r.unit.name}
       sub={`${roundSize(unitId)} · ${rule.charAt(0).toUpperCase()}${rule.slice(1)}`}
       onClose={onClose}
@@ -474,7 +515,8 @@ function PracticeSheet({ unitId, progress, today, onClose, onStart }: { unitId: 
         )
       }
     >
-      {!r.open && (
+      {shut3 && gate}
+      {!r.open && !shut3 && (
         <LockedBox>
           <p className="mt-1">
             {r.unit.core
@@ -483,10 +525,12 @@ function PracticeSheet({ unitId, progress, today, onClose, onStart }: { unitId: 
           </p>
         </LockedBox>
       )}
-      <div className="rounded-2xl border border-line px-4 py-3">
-        <p className="leading-relaxed text-ink-2">{practiceAbout(unitId)}</p>
-        <p className="mt-2 text-sm text-ink-3">{how}</p>
-      </div>
+      {!shut3 && (
+        <div className="rounded-2xl border border-line px-4 py-3">
+          <p className="leading-relaxed text-ink-2">{practiceAbout(unitId)}</p>
+          <p className="mt-2 text-sm text-ink-3">{how}</p>
+        </div>
+      )}
       <div className="rounded-2xl border border-line px-4 py-3 text-sm text-ink-2">
         {rec ? (
           <>
@@ -511,6 +555,7 @@ function UnitSheet({
   onPractice,
   onFocus,
   onTest,
+  gate,
 }: {
   unitId: string;
   progress: Progress;
@@ -519,6 +564,7 @@ function UnitSheet({
   onPractice: () => void;
   onFocus: (unitId: string | null) => void;
   onTest: (categoryId: string) => void;
+  gate: ReactNode;
 }) {
   const rows = pathRows(progress);
   const r = rows.find((x) => x.unit.id === unitId);
@@ -531,10 +577,12 @@ function UnitSheet({
   const coreCount = areaCoreTermIds(area.id).length;
   const attempt = progress.tests?.[area.id];
   const testReady = canTakeTest(progress, area.id, today);
+  // Phase 3 stays closed until it's opened, so its term list stays hidden too.
+  const shut3 = !r.open && isPhase3Area(area.id);
 
   return (
     <Sheet
-      kicker={`${area.name} · ${r.unit.core ? 'Core' : 'Advanced'}`}
+      kicker={`${area.name} · ${r.pass === 3 ? 'Phase 3' : r.unit.core ? 'Core' : 'Advanced'}`}
       title={r.unit.name}
       sub={`${r.met}/${r.total} met${r.known ? ` · ${r.known} known` : ''}`}
       onClose={onClose}
@@ -571,7 +619,13 @@ function UnitSheet({
         </>
       }
     >
-      {!r.open && (
+      {shut3 && (
+        <>
+          {gate}
+          <p className="px-1 text-sm text-ink-2">{r.total} terms, shown once phase 3 is open.</p>
+        </>
+      )}
+      {!r.open && !shut3 && (
         <LockedBox>
           <p className="mt-1">
             {area.name} advanced units open once you've learned its {coreCount} core terms, or when you pass the {area.name} test.
@@ -583,20 +637,22 @@ function UnitSheet({
           )}
         </LockedBox>
       )}
-      <ul className="divide-y divide-line rounded-2xl border border-line">
-        {r.terms.map((t) => {
-          const s = progress.terms[t.id];
-          return (
-            <li key={t.id} className="flex items-center gap-3 px-4 py-2.5">
-              <span className="min-w-0 flex-1">
-                <span className="block truncate font-bold text-ink">{t.term}</span>
-                <span className="block truncate text-xs text-ink-3">{t.short}</span>
-              </span>
-              {s ? <StepDots step={s.step} /> : <span className="text-xs font-semibold text-ink-3">Not met</span>}
-            </li>
-          );
-        })}
-      </ul>
+      {!shut3 && (
+        <ul className="divide-y divide-line rounded-2xl border border-line">
+          {r.terms.map((t) => {
+            const s = progress.terms[t.id];
+            return (
+              <li key={t.id} className="flex items-center gap-3 px-4 py-2.5">
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-bold text-ink">{t.term}</span>
+                  <span className="block truncate text-xs text-ink-3">{t.short}</span>
+                </span>
+                {s ? <StepDots step={s.step} /> : <span className="text-xs font-semibold text-ink-3">Not met</span>}
+              </li>
+            );
+          })}
+        </ul>
+      )}
     </Sheet>
   );
 }

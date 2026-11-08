@@ -63,6 +63,9 @@ for (const cat of categories) {
       if (c === t.id) errors.push(`${cat.id} > ${t.id}: lists itself as confusable`);
     }
   }
+  // Phase 3 areas sit after everything else and open as a whole, so none of their units is core.
+  if (cat.phase !== undefined && cat.phase !== 3) errors.push(`${cat.id}: phase must be 3 when set`);
+  if (cat.phase === 3 && cat.units.some((u) => u.core)) errors.push(`${cat.id}: phase 3 units can't be core`);
   const coreUnits = cat.units.filter((u) => u.core).map((u) => u.id);
   const coreCount = cat.terms.filter((t) => coreUnits.includes(t.unit)).length;
   const calcs = cat.terms.reduce((n, t) => n + (t.calcs?.length ?? 0), 0);

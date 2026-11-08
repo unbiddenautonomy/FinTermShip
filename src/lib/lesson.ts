@@ -1,5 +1,6 @@
 import { focusQueue } from './choose';
-import { isPracticeUnit, pathTermIds, termById } from './content';
+import { isPracticeUnit, termById } from './content';
+import { reachableTermIds } from './phase3';
 import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, tfQuestion, type Rng } from './questions';
 import { dayStats, dueTermIds, newLeftToday, reviewsLeftToday } from './scheduler';
 import { currentUnit, trackTermIds } from './track';
@@ -48,7 +49,7 @@ export interface TodayStatus {
 
 export function todayStatus(p: Progress, today: string): TodayStatus {
   const due = Math.min(dueTermIds(p, today).length, reviewsLeftToday(p, today));
-  const newAvailable = pathTermIds.filter((id) => !p.terms[id]).length;
+  const newAvailable = reachableTermIds(p).filter((id) => !p.terms[id]).length;
   const cur = currentUnit(p, today);
   const newLeft = Math.min(newLeftToday(p, today), newAvailable);
   const goalLeft = Math.max(0, p.settings.newPerDay - dayStats(p, today).newTerms);

@@ -1,7 +1,8 @@
-import { isPracticeUnit, isQuantArea, path, termById, termIdsOfUnit, unitById } from './content';
+import { isPhase3Area, isPracticeUnit, isQuantArea, path, termById, termIdsOfUnit, unitById } from './content';
 import { addDays } from './dates';
 import { drillPassed } from './drills';
 import type { LessonPlan } from './lesson';
+import { PHASE3, phase3Open, phase3UnitIds } from './phase3';
 import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, shuffle, termQuestion, tfQuestion, type Rng } from './questions';
 import type { Progress, Question, Term, TermState } from './types';
 
@@ -25,8 +26,10 @@ export function areaCoreDrillIds(categoryId: string): string[] {
 /**
  * An area's advanced units open once all its core terms are met and its core
  * drills and games passed, once its test is passed, or (for quant areas) with the quant switch.
+ * Phase 3 areas open only with the password and the readiness test.
  */
 export function areaOpen(p: Progress, categoryId: string): boolean {
+  if (isPhase3Area(categoryId)) return phase3Open(p);
   if (p.unlocked?.includes(categoryId)) return true;
   if (p.settings.quantFirst && isQuantArea(categoryId)) return true;
   return areaCoreTermIds(categoryId).every((id) => p.terms[id]) && areaCoreDrillIds(categoryId).every((id) => drillPassed(p, id));
@@ -62,10 +65,26 @@ export function focusActive(p: Progress): boolean {
   return isPracticeUnit(p.focus) ? !drillPassed(p, p.focus) : focusQueue(p).length > 0;
 }
 
-/** Drop a pick once its unit has been fully met (or its practice unit passed). */
+/** True when a unit still has terms to meet, or is a drill, game or case not yet passed. */
+function hasWork(p: Progress, unitId: string): boolean {
+  return isPracticeUnit(unitId) ? !drillPassed(p, unitId) : termIdsOfUnit(unitId).some((id) => !p.terms[id]);
+}
+
+/** The first phase 3 unit with work left, once phase 3 is open. */
+export function nextPhase3Unit(p: Progress): string | null {
+  if (!phase3Open(p)) return null;
+  return phase3UnitIds.find((id) => hasWork(p, id)) ?? null;
+}
+
+/**
+ * Drop a pick once its unit has been fully met (or its practice unit passed).
+ * A pick inside phase 3 moves on to the next strategy unit instead, so a
+ * learner who chose the strategies stays on them.
+ */
 export function settleFocus(p: Progress): Progress {
   if (!p.focus || focusActive(p)) return p;
-  return withFocus(p, null);
+  const inPhase3 = phase3UnitIds.includes(p.focus);
+  return withFocus(p, (inPhase3 && nextPhase3Unit(p)) || null);
 }
 
 /** Set or clear the picked unit. */
@@ -127,10 +146,16 @@ export function applyTest(p: Progress, categoryId: string, rightIds: string[], t
       const state: TermState = { step: 3, due: addDays(today, 4 + (i % 7)), seen: 1, correct: 1, wrong: 0, lapses: 0, trouble: false, introduced: today };
       terms[id] = state;
     });
-  return {
+  const next: Progress = {
     ...p,
     terms,
     unlocked: passed ? [...new Set([...(p.unlocked ?? []), categoryId])] : p.unlocked,
     tests: { ...(p.tests ?? {}), [categoryId]: { date: today, right: rightIds.length, total, passed } },
   };
+  // Passing the readiness test makes the first strategy unit the learner's pick.
+  if (categoryId === PHASE3 && passed && !focusActive(next)) {
+    const first = nextPhase3Unit(next);
+    if (first) return withFocus(next, first);
+  }
+  return next;
 }

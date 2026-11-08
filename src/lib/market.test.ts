@@ -146,6 +146,6 @@ describe('games and cases on the track', () => {
       expect(casePassMark(id)).toBe(c.steps.length - 1);
       for (const s of c.steps) expect(s.options.filter((o) => o.best)).toHaveLength(1);
     }
-    expect([...caseById.keys()].sort()).toEqual(['f3', 'o7', 'x4']);
+    expect([...caseById.keys()].sort()).toEqual(['f3', 'o7', 'x4', 'y4', 'y6']);
   });
 });

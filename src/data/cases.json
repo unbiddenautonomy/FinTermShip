@@ -231,5 +231,119 @@
         "terms": ["rollover", "futures-fair-value", "reverse-cash-and-carry"]
       }
     ]
+  },
+  "y4": {
+    "setup": "It's Wednesday. The Nifty is at 24,000 after a sharp fall last week, and options expiring next Tuesday look expensive. You expect the Nifty to stay between 23,500 and 24,500 until expiry. Your rule: never hold a position whose loss isn't capped.",
+    "facts": ["Nifty: 24,000", "Expiry: next Tuesday", "Implied volatility: high after last week's fall", "Your rule: every loss must be capped"],
+    "steps": [
+      {
+        "ask": "Which structure fits your view and your rule?",
+        "options": [
+          { "text": "Sell an iron condor: the 23,500–23,300 put spread and the 24,500–24,700 call spread", "best": true, "why": "It earns premium if the Nifty stays in your range, and the bought wings cap the loss on both sides, as your rule needs." },
+          { "text": "Sell the 23,500 put and the 24,500 call, a strangle", "why": "It fits the range view, but nothing caps the loss on a big move, so it breaks your rule." },
+          { "text": "Buy the 24,000 straddle", "why": "A long straddle needs a big move, the opposite of your view, and it buys options while they're expensive." },
+          { "text": "Buy the 24,000–24,500 call spread", "why": "That's a bet on a rally. Your view is a range." }
+        ],
+        "terms": ["iron-condor", "strangle", "straddle", "bull-call-spread"]
+      },
+      {
+        "text": "You sell the condor for a net credit of 70: 35 for the put spread and 35 for the call spread. Each spread is 200 points wide.",
+        "ask": "What's your maximum loss per unit, and when?",
+        "options": [
+          { "text": "130, if the Nifty ends below 23,300 or above 24,700", "best": true, "why": "Only one side can lose at expiry. That side's 200-point width minus the 70 credit for the whole condor leaves 130." },
+          { "text": "330, if the Nifty ends outside both wings", "why": "The Nifty can't end below 23,300 and above 24,700 at once, so only one spread can lose." },
+          { "text": "200, the width of one spread", "why": "The credit you took in counts against the loss: 200 − 70 = 130." },
+          { "text": "70, the credit collected", "why": "70 is your maximum profit, kept if the Nifty ends between 23,500 and 24,500." }
+        ],
+        "terms": ["max-loss", "net-credit", "iron-condor"]
+      },
+      {
+        "text": "Friday: the Nifty rallies to 24,420, close to your short 24,500 call. The call spread is now worth 110 and the put spread 5, so the condor costs 115 to close: a loss of 45. Your risk manager says this trade must not lose more than 100 a unit.",
+        "ask": "What do you do?",
+        "options": [
+          { "text": "Close the whole condor for 115, locking in a loss of 45", "best": true, "why": "At 115 the loss is 45, inside the limit, and nothing is left to go wrong. Holding on risks 130 if the rally runs past 24,700." },
+          { "text": "Buy back only the call spread and keep the put spread", "why": "That takes off the rally risk, but the put spread is then a trade of its own that could lose up to 165, with no call side to offset it. Closing both locks the loss at 45 with no risk left." },
+          { "text": "Hold: the wings already cap the loss", "why": "They cap it at 130, which is past the 100 limit." },
+          { "text": "Sell another 24,500–24,700 call spread to bring in more credit", "why": "That adds to the side that's losing. Another rally would double the damage." }
+        ],
+        "terms": ["max-loss", "bear-call-spread", "iron-condor"]
+      },
+      {
+        "text": "Tuesday, expiry day. At 10 a.m. the Nifty is at 24,000, and a colleague suggests selling a fresh condor expiring today, the 23,800–23,700 put spread and the 24,200–24,300 call spread, for a credit of 12.",
+        "ask": "What's the main risk in that trade?",
+        "options": [
+          { "text": "Gamma: a 1.25% move today can take it to its full loss of 88", "best": true, "why": "On expiry day near-the-money options swing hard with the Nifty. A rise to 24,300 is only 1.25%, and the call spread would lose its full 100 minus the 12 collected." },
+          { "text": "Vega: a jump in implied volatility", "why": "With hours left there is almost no time value, so vega barely matters. The swings come from gamma." },
+          { "text": "Theta: the options decay against you", "why": "Theta works for a seller. It's the one thing on your side today." },
+          { "text": "Delivery of shares if the options end in the money", "why": "Nifty options are cash-settled, so nothing is delivered." }
+        ],
+        "terms": ["zero-day-option", "gamma", "theta"]
+      },
+      {
+        "text": "Back to your condor: it lost 45 a unit, against a worst case of 130.",
+        "ask": "What kept the loss small?",
+        "options": [
+          { "text": "Capping the risk from the start and acting on the loss limit early", "best": true, "why": "The wings set a worst case before the trade began, and closing early kept the loss well inside it." },
+          { "text": "High implied volatility, which guaranteed a profit", "why": "High IV pays more premium but guarantees nothing. The rally nearly broke the call side." },
+          { "text": "Iron condors win most of the time, so the size didn't matter", "why": "A high probability of profit with a lopsided payoff makes size the main risk, not a detail." }
+        ],
+        "terms": ["probability-of-profit", "short-volatility", "iron-condor"]
+      }
+    ]
+  },
+  "y6": {
+    "setup": "You manage a ₹10 crore portfolio of large Indian stocks with a beta of 1.2 to the Nifty. The Union Budget is next week, and the investment committee wants protection against a market fall without selling any stocks.",
+    "facts": ["Portfolio: ₹10 crore, beta 1.2", "Nifty futures (this month): 25,000", "Lot size: 65, so one lot is about ₹16.25 lakh", "Goal: protection for about two weeks"],
+    "steps": [
+      {
+        "ask": "Which trade gives the protection?",
+        "options": [
+          { "text": "Sell Nifty futures against the portfolio", "best": true, "why": "Short futures gain as the market falls, offsetting the stocks, and you keep every share." },
+          { "text": "Buy Nifty futures", "why": "Long futures lose in a fall too. They add to your exposure instead of offsetting it." },
+          { "text": "Buy Nifty calls", "why": "Calls pay when the market rises. They don't protect a portfolio of stocks you own." },
+          { "text": "Sell the stocks and buy them back after the Budget", "why": "That's what the committee wants to avoid: it costs spreads, impact and tax, and you may miss a rebound." }
+        ],
+        "terms": ["hedge", "beta-hedging"]
+      },
+      {
+        "ask": "How many lots do you sell to take out the market risk?",
+        "options": [
+          { "text": "About 74 lots", "best": true, "why": "Beta × portfolio ÷ one lot: 1.2 × ₹10 crore ÷ ₹16.25 lakh ≈ 73.8, so about 74 lots." },
+          { "text": "About 62 lots", "why": "₹10 crore ÷ ₹16.25 lakh ≈ 61.5 ignores beta. A portfolio with beta 1.2 tends to move 20% more than the Nifty." },
+          { "text": "About 51 lots", "why": "That divides by the beta instead of multiplying: ₹10 crore ÷ 1.2 ÷ ₹16.25 lakh ≈ 51." }
+        ],
+        "terms": ["beta-hedging", "hedge-ratio", "lot-size"]
+      },
+      {
+        "text": "You sell 74 lots. On Budget day the Nifty falls 3%, but your stocks fall 4%, because the banks you hold had a bad day of their own. The stocks lose ₹40 lakh and the futures make about ₹36 lakh.",
+        "ask": "Why isn't the hedge perfect?",
+        "options": [
+          { "text": "A beta hedge only covers the market part of the move; the extra fall came from your stocks themselves", "best": true, "why": "A beta hedge removes market risk. What's left is the stocks' own moves, here the banks' bad day, and that stays with you." },
+          { "text": "You sold too few lots", "why": "74 lots matched the beta. The gap came from stock-specific moves, which no index hedge removes." },
+          { "text": "Futures don't follow the Nifty on Budget day", "why": "Futures track the index closely. The basis can shift a little, but that isn't the main gap here." }
+        ],
+        "terms": ["beta-hedging", "idiosyncratic-risk", "basis-risk"]
+      },
+      {
+        "text": "A week later the market has steadied, and the committee wants half the protection off.",
+        "ask": "What do you do?",
+        "options": [
+          { "text": "Buy back about 37 lots", "best": true, "why": "Buying back half the short futures halves the hedge, and the stocks stay untouched." },
+          { "text": "Sell 37 more lots", "why": "That adds to the short futures, doubling the protection instead of halving it." },
+          { "text": "Sell half the stocks", "why": "That cuts the exposure too, but the committee wants to keep the stocks. The futures are the tool for changing it." }
+        ],
+        "terms": ["hedge-ratio", "beta-hedging"]
+      },
+      {
+        "text": "The futures you're short expire next Tuesday, but the committee wants the remaining hedge kept for another month.",
+        "ask": "How do you keep the hedge on?",
+        "options": [
+          { "text": "Roll it: buy back this month's futures and sell next month's before expiry", "best": true, "why": "Rolling carries the hedge into the next month. You pay the gap between the two months, the roll cost." },
+          { "text": "Do nothing: the hedge carries on by itself", "why": "Index futures are cash-settled at expiry, and then the position is gone." },
+          { "text": "Sell next month's futures and keep this month's as well", "why": "Until this month's expire you'd hold twice the hedge, an over-hedge that bets on a fall." }
+        ],
+        "terms": ["rollover", "rollover-cost", "over-hedging"]
+      }
+    ]
   }
 }
