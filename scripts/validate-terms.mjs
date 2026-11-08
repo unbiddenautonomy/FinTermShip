@@ -96,6 +96,32 @@ for (const [id, c] of Object.entries(cases)) {
 }
 console.log(`Desk cases: ${Object.keys(cases).length}, ${Object.values(cases).reduce((n, c) => n + c.steps.length, 0)} decisions`);
 
+// Talk items (decode it, say it like the desk, respond in the room, spot the misuse):
+// four different options with the right one first, a reason, and known terms.
+const talk = JSON.parse(readFileSync(join(dir, '..', 'talk.json'), 'utf8'));
+const FORMATS = ['decode', 'say', 'reply', 'misuse'];
+const talkIds = new Set();
+for (const it of talk) {
+  const at = `talk.json > ${it.id ?? '(no id)'}`;
+  if (!it.id) errors.push(`${at}: missing id`);
+  if (talkIds.has(it.id)) errors.push(`${at}: duplicate id`);
+  talkIds.add(it.id);
+  if (!FORMATS.includes(it.format)) errors.push(`${at}: unknown format "${it.format}"`);
+  for (const id of [it.term, ...(it.also || [])]) if (!allIds.has(id)) errors.push(`${at}: term "${id}" is not a known term id`);
+  if ((it.also || []).includes(it.term)) errors.push(`${at}: lists its own term in also`);
+  if (it.format !== 'misuse' && !it.prompt) errors.push(`${at}: needs a prompt`);
+  if (it.format === 'reply' && !it.who) errors.push(`${at}: a reply needs who is speaking`);
+  if (!it.why) errors.push(`${at}: needs why`);
+  if (!Array.isArray(it.options) || it.options.length !== 4) errors.push(`${at}: needs exactly 4 options`);
+  else {
+    if (new Set(it.options).size !== 4) errors.push(`${at}: options must be different`);
+    // The right option (written first) must not give itself away by being much longer.
+    const longestWrong = Math.max(...it.options.slice(1).map((o) => o.length));
+    if (it.options[0].length > 1.25 * longestWrong) errors.push(`${at}: the right option is much longer than the others`);
+  }
+}
+console.log(`Talk items: ${talk.length} (${FORMATS.map((f) => `${talk.filter((i) => i.format === f).length} ${f}`).join(', ')})`);
+
 // Career map: every role and round has its text, and points at units that exist.
 const careers = JSON.parse(readFileSync(join(dir, '..', 'careers.json'), 'utf8'));
 const unitIdsAll = new Set(categories.flatMap((c) => c.units.map((u) => u.id)));
