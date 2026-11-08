@@ -17,7 +17,8 @@
       "id": "s6",
       "name": "Make a market",
       "core": true,
-      "kind": "game"
+      "kind": "game",
+      "game": "market"
     },
     {
       "id": "s3",

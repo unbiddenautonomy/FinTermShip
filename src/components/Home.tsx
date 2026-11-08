@@ -190,7 +190,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
       )}
 
       <p className="px-1 text-xs leading-relaxed text-ink-3">
-        {`${mainCategories.filter((c) => c.terms.length > 0).length} of ${TOTAL_CATEGORIES} term categories are ready, plus ${Object.keys(DRILLS).length} timed drills, ${plural(countKind('game'), 'trading game')} and ${plural(countKind('case'), 'desk case')}. Phase 3 adds ${phase3Terms} strategy terms and ${plural(countKind('case', true), 'desk case')}.`}{' '}
+        {`${mainCategories.filter((c) => c.terms.length > 0).length} of ${TOTAL_CATEGORIES} term categories are ready, plus ${Object.keys(DRILLS).length} timed drills, ${plural(countKind('game'), 'game')} and ${plural(countKind('case'), 'desk case')}. Phase 3 adds ${phase3Terms} strategy terms, ${plural(countKind('game', true), 'game')} and ${plural(countKind('case', true), 'desk case')}.`}{' '}
         A term counts as known once it reaches step 4 of 6 on the review ladder.
       </p>
     </div>
@@ -349,7 +349,7 @@ function countKind(kind: 'game' | 'case', phase3 = false): number {
 function upNext(unitId: string): string {
   const kind = practiceKind(unitId);
   if (kind === 'drill') return `${roundSize(unitId)} against the clock`;
-  if (kind === 'game') return `a trading game of ${roundSize(unitId)}`;
+  if (kind === 'game') return `a game of ${roundSize(unitId)}`;
   return `a desk case of ${roundSize(unitId)}`;
 }
 

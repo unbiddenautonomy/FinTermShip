@@ -1,0 +1,170 @@
+[
+  {
+    "id": "seconds-year",
+    "q": "How many seconds are there in a year?",
+    "answer": 31536000,
+    "how": "60 × 60 × 24 × 365 = 3.15 crore, about 32 million. A handy number: π × 10⁷ is close."
+  },
+  {
+    "id": "session-seconds",
+    "q": "How many seconds long is one NSE equity session, from 9:15 am to 3:30 pm?",
+    "answer": 22500,
+    "how": "6¼ hours × 3,600 seconds = 22,500."
+  },
+  {
+    "id": "session-minutes-year",
+    "q": "How many minutes does the NSE equity market trade in a year?",
+    "answer": 93750,
+    "how": "375 minutes a day × about 250 trading days = 93,750."
+  },
+  {
+    "id": "trading-days-30y",
+    "q": "Roughly how many trading days are there in 30 years?",
+    "answer": 7500,
+    "how": "About 250 trading days a year (weekdays less holidays) × 30 = 7,500."
+  },
+  {
+    "id": "notes-crore",
+    "q": "How many ₹500 notes make ₹1 crore?",
+    "answer": 20000,
+    "how": "₹1 crore is ₹1,00,00,000. Divide by 500: 20,000 notes."
+  },
+  {
+    "id": "bp-100-crore",
+    "q": "How many rupees is one basis point on ₹100 crore?",
+    "answer": 100000,
+    "how": "A basis point is 0.01%. ₹100 crore × 0.0001 = ₹1 lakh."
+  },
+  {
+    "id": "one-pct-big-cap",
+    "q": "A company worth ₹10 lakh crore moves 1%. How many rupees of value is that?",
+    "answer": 100000000000,
+    "how": "1% of ₹10 lakh crore is ₹10,000 crore, which is 10¹¹ rupees (100 billion)."
+  },
+  {
+    "id": "olympic-pool",
+    "q": "How many litres of water does an Olympic swimming pool hold?",
+    "answer": 2500000,
+    "unit": "litres",
+    "how": "50 m × 25 m × 2 m deep = 2,500 cubic metres, and each holds 1,000 litres: 25 lakh litres (2.5 million). Deeper pools hold more."
+  },
+  {
+    "id": "heartbeats",
+    "q": "How many times does a heart beat in a 70-year life?",
+    "answer": 2575440000,
+    "how": "About 70 beats a minute × 60 × 24 × 365 × 70 years ≈ 2.6 billion (260 crore)."
+  },
+  {
+    "id": "breaths-day",
+    "q": "How many breaths does an adult take in a day?",
+    "answer": 21600,
+    "how": "About 15 breaths a minute at rest × 1,440 minutes = 21,600."
+  },
+  {
+    "id": "rice-grains",
+    "q": "How many grains of rice are in a 1 kg bag?",
+    "answer": 45000,
+    "how": "A grain of milled rice weighs roughly 20 to 25 mg, so 1,000 g ÷ 0.022 g ≈ 45,000."
+  },
+  {
+    "id": "novel-words",
+    "q": "How many words are in a 300-page novel?",
+    "answer": 90000,
+    "how": "About 300 words a page × 300 pages = 90,000."
+  },
+  {
+    "id": "days-old-30",
+    "q": "How many days old is someone on their 30th birthday?",
+    "answer": 10957,
+    "unit": "days",
+    "how": "30 × 365 = 10,950, plus 7 or 8 leap days: about 10,957."
+  },
+  {
+    "id": "pitch-people",
+    "q": "How many people could stand packed onto a football pitch?",
+    "answer": 28000,
+    "how": "105 m × 68 m ≈ 7,100 square metres, at about 4 people a square metre: roughly 28,000."
+  },
+  {
+    "id": "cricket-balls-room",
+    "q": "How many cricket balls would fill a room 4 m by 4 m by 3 m?",
+    "answer": 157000,
+    "how": "The room is 48 cubic metres. A ball is about 7.2 cm across, so about 195 cubic cm. Balls fill about 64% of the space: 48,000,000 × 0.64 ÷ 195 ≈ 1.6 lakh."
+  },
+  {
+    "id": "lakh-crore-zeros",
+    "q": "₹1 lakh crore written out in rupees: what number is it?",
+    "answer": 1000000000000,
+    "how": "A lakh is 10⁵ and a crore is 10⁷, so a lakh crore is 10¹²: one trillion rupees."
+  },
+  {
+    "id": "india-population",
+    "q": "How many people live in India?",
+    "answer": 1460000000,
+    "how": "About 146 crore (1.46 billion), the most of any country, by the UN's estimate for 2025.",
+    "source": "https://www.worldometers.info/world-population/india-population/",
+    "asOf": "2025"
+  },
+  {
+    "id": "upi-month",
+    "q": "How many UPI payments are made in India in a month?",
+    "answer": 20700000000,
+    "how": "October 2025 set a record: 2,070 crore payments (20.7 billion), about 67 crore a day. A Fermi path: tens of crores of users making a payment or two a day.",
+    "source": "https://www.businesstoday.in/personal-finance/banking/story/upi-hits-record-754-mn-transactions-in-a-single-day-monthly-volume-surges-to-207-bn-in-october-500469-2025-11-01",
+    "asOf": "2025-10"
+  },
+  {
+    "id": "demat-accounts",
+    "q": "How many demat accounts are there in India?",
+    "answer": 210000000,
+    "unit": "accounts",
+    "how": "About 21 crore across CDSL and NSDL by October 2025. Many investors hold more than one, so it is more than the number of investors.",
+    "source": "https://www.business-standard.com/amp/markets/capital-market-news/overall-tally-of-dmat-accounts-in-india-hits-21-crore-125120800942_1.html",
+    "asOf": "2025-10"
+  },
+  {
+    "id": "mf-folios",
+    "q": "How many mutual fund folios are there in India?",
+    "answer": 256000000,
+    "unit": "folios",
+    "how": "About 25.6 crore in October 2025. A folio is one investor's account with one fund house, so one person often has several.",
+    "source": "https://www.indiainfoline.com/blog/mutual-funds-add-40-81-lakh-folios-in-october-to-touch-25-60-crore",
+    "asOf": "2025-10"
+  },
+  {
+    "id": "car-sales",
+    "q": "How many passenger vehicles (cars, SUVs and vans) are sold in India in a year?",
+    "answer": 4300000,
+    "unit": "vehicles",
+    "how": "A record 43 lakh in 2024-25, by SIAM's count of sales to dealers.",
+    "source": "https://www.tribuneindia.com/news/business/indias-passenger-vehicle-sales-hit-record-high-at-43-lakh-units-in-fy24-25-utility-vehicles-driver-of-growth-siam",
+    "asOf": "2025-03"
+  },
+  {
+    "id": "milk-tonnes",
+    "q": "How many tonnes of milk does India produce in a year?",
+    "answer": 239300000,
+    "unit": "tonnes",
+    "how": "239.3 million tonnes in 2023-24, the most of any country: about 65 crore kg a day.",
+    "source": "https://business-standard.com/india-news/india-s-milk-output-up-by-4-to-239-30-mn-tonnes-in-2023-24-union-minister-124112600818_1.html",
+    "asOf": "2024-03"
+  },
+  {
+    "id": "atms",
+    "q": "How many ATMs are there in India?",
+    "answer": 251057,
+    "unit": "ATMs",
+    "how": "2,51,057 at the end of March 2025, slightly fewer than a year before as UPI took over small payments.",
+    "source": "https://www.outlookbusiness.com/finance-news/atm-numbers-dip-in-fy25-as-digital-payments-rise-rbi",
+    "asOf": "2025-03"
+  },
+  {
+    "id": "rail-passengers",
+    "q": "How many passengers does Indian Railways carry in a day?",
+    "answer": 23000000,
+    "unit": "passengers",
+    "how": "About 2.3 crore (23 million) a day, close to the population of Australia.",
+    "source": "https://www.businesstoday.in/latest/trends/photo/did-you-know-indian-railways-moves-23-million-passengers-daily-nearly-australias-entire-population-542039-2026-07-09",
+    "asOf": "2026-07"
+  }
+]

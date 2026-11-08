@@ -8,7 +8,8 @@
     { "id": "k3", "name": "Probability: coins, dice and cards", "core": true, "kind": "drill" },
     { "id": "k4", "name": "Expected value", "core": false, "kind": "drill" },
     { "id": "k5", "name": "Conditional probability and Bayes", "core": false, "kind": "drill" },
-    { "id": "k6", "name": "Counting and combinations", "core": false, "kind": "drill" }
+    { "id": "k6", "name": "Counting and combinations", "core": false, "kind": "drill" },
+    { "id": "k7", "name": "Fermi estimates", "core": false, "kind": "game", "game": "fermi" }
   ],
   "terms": []
 }

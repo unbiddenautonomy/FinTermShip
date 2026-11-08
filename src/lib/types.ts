@@ -43,13 +43,18 @@ export interface Unit {
   core: boolean;
   /**
    * Units without terms are practice on the same track: 'drill' units are timed
-   * rounds of generated questions, 'game' units are trading games, and 'case'
+   * rounds of generated questions, 'game' units are games, and 'case'
    * units are desk cases of linked decisions.
    */
   kind?: 'terms' | PracticeKind;
+  /** Which game a 'game' unit plays. */
+  game?: GameId;
 }
 
 export type PracticeKind = 'drill' | 'game' | 'case';
+
+/** The games: quoting a market, building payoffs, calling Greeks PnL, sizing bets, reading charts and Fermi estimates. */
+export type GameId = 'market' | 'payoff' | 'greeks' | 'kelly' | 'guess' | 'fermi';
 
 /** The career map: roles and interview rounds, each pointing at units that prepare for it. */
 export interface CareerMap {

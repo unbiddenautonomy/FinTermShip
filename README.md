@@ -7,12 +7,18 @@ What it has now:
 - 541 terms in 11 categories (plus 60 in phase 3), each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks. They include the Indian F&O screen (CE and PE, option writers, long and short build-up, max pain, IV rank, participant-wise OI, delivery percentage) and the numbers a PM asks about a strategy (hit rate, profit factor, expectancy, Calmar, IC, gross and net exposure, PnL attribution, markouts).
 - Lessons that go past definitions: besides picking meanings, filling gaps and working sums, learners decode a dense desk line, say a plain sentence the way a trader would, pick the strongest reply to a PM or risk manager, spot a term used wrongly, and hear terms said aloud (CE, bips, PCR) and pick what they mean. 72 talk items so far, each tied to the terms it needs, so a learner only sees one once they've met those terms.
 - 6 timed drills (mental maths, percentages and basis points, probability, expected value, Bayes, counting), with typed answers and questions generated fresh every round.
-- A market-making game: quote a bid and ask on the total of three dice while traders, some of whom know the next die, deal with you.
+- 6 games, each with a pass mark checked by simulating thousands of plays:
+  - Make a market: quote a bid and ask on the total of three dice while traders, some of whom know the next die, deal with you.
+  - Payoff builder: buy and sell calls, puts and futures until your payoff matches the target, from single options up to condors and parity trades.
+  - Greeks PnL: a book's delta, gamma, vega and theta in rupees, then a move in spot, IV and time; call the PnL, then see how it splits.
+  - Guess the number: correlation from a scatter, annual vol from a price chart, and which return series has fat tails.
+  - Fermi estimates: a minute to estimate a size or a count, scored in powers of ten, with sourced answers for the facts.
+  - Kelly betting (phase 3): size bets on three biased coins, one with no edge, judged on your sizing rather than your luck.
 - 7 desk cases (a short straddle into the Budget, working a big buy order, cash-futures arbitrage, and in phase 3 an iron condor through expiry week, hedging a portfolio before the Budget, a pairs trade that breaks, and taking a trend system from backtest to live), each a short story of linked decisions with the reasoning behind every option.
 - Rates, macro and the rupee (RBI policy, liquidity, government bonds, USDINR), bond maths (yield, duration, PV01), and SEBI's current algo and F&O rules, each dated and sourced.
 - A career map: the main quant and trading jobs and the usual interview rounds, each linked to the units that prepare for it.
 - A guide chat with no AI model. It answers from the app's own content: what a term means (typos allowed, and contract names such as NIFTY 24500 PE), the difference between two terms, which unit teaches a topic, an area test if you already know it, where to start, which units prepare for a role, and how the app works. From its answers you can pick a unit to learn next, open it, or take a test. Phase 3 stays hidden until it opens, and it never gives out the password.
-- One track: the core units of every area first, then the rest. Term lessons, drills, the game and the cases sit on the same path; a drill, game or case holds up the path until it is passed (or skipped for the day).
+- One track: the core units of every area first, then the rest. Term lessons, drills, games and cases sit on the same path; a drill, game or case holds up the path until it is passed (or skipped for the day).
 - Learners can pick any open unit to learn next, practise met terms, or take an area test to open its advanced units early.
 - A quant switch in Settings, behind a password, opens the quant areas (maths drills, quant and risk, options, futures, microstructure, execution) and puts them first.
 - Phase 3, trading strategies, at the end of the track: options and futures strategies (spreads, ratio spreads, butterflies, volatility and dispersion trades, payoffs and costs, hedging with futures), then arbitrage (exchange, ETF, merger, triangular and statistical), HFT, MFT and LFT (holding periods, alpha decay, capacity, speed), and systematic strategies (trend following, mean reversion, pairs and cointegration, volatility targeting, Kelly sizing, event-driven trades). It opens only with the password and a 20-question readiness test on options, futures, risk and backtesting (16 to pass). Once open, picking a strategy unit keeps you on the strategies until they're done.
@@ -53,7 +59,11 @@ The career map is `src/data/careers.json`: roles and interview rounds, each with
 
 The guide's matching, extra names (abbreviations and short forms, in `SYNONYMS`) and help answers (`HELP`) are in `src/lib/guide.ts`. `src/lib/guide.test.ts` checks that every term can be found by its own name, that typos and the usual ways of asking work, and that phase 3 and the password stay hidden. A new term needs nothing extra: the guide indexes it automatically.
 
-The market game's rules and pass marks are in `src/lib/market.ts`; `src/lib/market.test.ts` plays thousands of games to check that sound quoting passes and lazy quoting doesn't.
+## Adding or editing games
+
+A game unit is a unit with `"kind": "game"` and `"game"` set to one of `market`, `payoff`, `greeks`, `kelly`, `guess` or `fermi`. Each game's rules and pass marks are in its own file in `src/lib` (`market.ts`, `payoff.ts`, `greeks.ts`, `kelly.ts`, `guess.ts`, `fermi.ts`), its screen is in `src/components`, and `src/lib/games.ts` says how big a round is, the pass rule and how a record reads. `src/lib/market.test.ts` and `src/lib/games.test.ts` play thousands of rounds to check that sound play passes and guessing doesn't.
+
+Fermi questions are in `src/data/fermi.json`. A question that rests on a fact (a population, a count of accounts) needs a `source` link and an `asOf` date; a question you can work out (seconds in a session) needs neither. `npm run check:terms` checks them.
 
 ## The password
 
