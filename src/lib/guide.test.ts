@@ -87,6 +87,16 @@ describe('routes, careers and help', () => {
     for (const id of [...careers.roles.flatMap((r) => r.practise), ...careers.rounds.flatMap((r) => r.practise)]) expect(unitById.has(id), id).toBe(true);
   });
 
+  it('finds the games by name', () => {
+    expect(ask('payoff builder')).toMatchObject({ kind: 'unit', unitId: 'o9' });
+    expect(ask('greeks pnl')).toMatchObject({ kind: 'unit', unitId: 'o10' });
+    expect(ask('fermi estimates')).toMatchObject({ kind: 'unit', unitId: 'k7' });
+    expect(ask('guess the correlation')).toMatchObject({ kind: 'unit', unitId: 'q8' });
+    // Kelly betting is in phase 3, so it stays locked until phase 3 opens.
+    expect(ask('kelly betting').kind).toBe('locked3');
+    expect(ask('kelly betting', open)).toMatchObject({ kind: 'unit', unitId: 'z6' });
+  });
+
   it('answers how the app works', () => {
     const topic = (q: string) => {
       const r = ask(q);
