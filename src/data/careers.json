@@ -1,0 +1,96 @@
+{
+  "intro": "Where the quant track can lead: the main trading and quant jobs, and the rounds most firms put candidates through. Each one lists the units in this app that prepare you for it.",
+  "roles": [
+    {
+      "id": "quant-trader",
+      "title": "Quant trader",
+      "where": "Prop trading firms, market makers, hedge funds and bank trading desks",
+      "what": "Runs trading strategies or quotes prices, deciding how much to trade and how much risk to hold, often within seconds. Many firms hire graduates straight from campus and teach the markets on the job.",
+      "skills": ["Quick, accurate mental maths", "Probability and expected value", "Options and the Greeks", "Calm decisions under pressure"],
+      "practise": ["k1", "k2", "k3", "k4", "s6", "o2"]
+    },
+    {
+      "id": "quant-researcher",
+      "title": "Quant researcher",
+      "where": "Hedge funds, prop trading firms and quant fund managers",
+      "what": "Looks for patterns in market data that predict prices, tests them hard and turns the ones that survive into strategies. It needs strong statistics and coding, and many hires have a master's or a PhD.",
+      "skills": ["Statistics and regression", "Backtesting without fooling yourself", "Python and handling data", "Probability"],
+      "practise": ["q1", "q3", "q4", "q5", "k5"]
+    },
+    {
+      "id": "quant-developer",
+      "title": "Quant developer",
+      "where": "Trading firms, exchanges and brokers' technology teams",
+      "what": "Builds the systems that trade: market data feeds, order gateways, risk checks and backtesting tools. At high-frequency firms, shaving microseconds off the code is the job.",
+      "skills": ["C++ or another fast language", "Data structures and algorithms", "Networks and Linux", "How exchanges and order books work"],
+      "practise": ["s1", "s3", "s5", "x2"]
+    },
+    {
+      "id": "execution-trader",
+      "title": "Execution trader",
+      "where": "Mutual funds, insurers, foreign funds and brokers' algo desks",
+      "what": "Buys and sells large orders for a fund without moving the price too much, choosing the algo, the venue and the timing, then measuring what it cost.",
+      "skills": ["Order books and liquidity", "Execution algos", "Measuring trading costs", "Working with brokers and fund managers"],
+      "practise": ["s2", "x1", "x2", "x3", "x4"]
+    },
+    {
+      "id": "risk-manager",
+      "title": "Risk manager",
+      "where": "Banks, brokers, clearing corporations, exchanges and funds",
+      "what": "Measures how much a desk or fund could lose and sets the limits, margins and stress tests that stop one bad day from sinking the firm.",
+      "skills": ["VaR and stress tests", "Margins and position limits", "Options and the Greeks", "Explaining risk to traders"],
+      "practise": ["q2", "t4", "o4", "s7"]
+    },
+    {
+      "id": "rates-fx-trader",
+      "title": "Rates and currency trader",
+      "where": "Bank treasuries, primary dealers and foreign banks",
+      "what": "Trades government bonds, T-bills, interest rate swaps and the rupee, reacting to RBI policy, inflation data and money flowing in and out of India.",
+      "skills": ["Bond maths: yield, duration and PV01", "RBI policy and liquidity", "Currency markets", "Reading economic data"],
+      "practise": ["m1", "m2", "m3", "f4"]
+    }
+  ],
+  "rounds": [
+    {
+      "name": "Online test",
+      "what": "A timed test, often 30 to 60 minutes, of arithmetic, probability and number puzzles, sometimes with coding. Speed counts as much as accuracy.",
+      "practise": ["k1", "k2", "k3", "k6"]
+    },
+    {
+      "name": "Mental maths",
+      "what": "Multiplying, dividing and working out percentages in your head, fast. Some firms run a set of quick-fire sums against a tight clock.",
+      "practise": ["k1", "k2"]
+    },
+    {
+      "name": "Probability and puzzles",
+      "what": "Dice, cards, coins and brainteasers, worked out loud. Interviewers want to hear how you reason, so talk through each step and check your answer.",
+      "practise": ["k3", "k4", "k5", "k6"]
+    },
+    {
+      "name": "Market-making game",
+      "what": "The interviewer asks for a bid and an ask on something uncertain, like the total of some dice, trades with you and drops clues. You must move your prices and manage your position.",
+      "practise": ["s6"]
+    },
+    {
+      "name": "Markets and options",
+      "what": "Why options cost what they do, the Greeks, put-call parity, futures fair value, and what's moving the market this week.",
+      "practise": ["o1", "o2", "o3", "o6", "f1"]
+    },
+    {
+      "name": "Statistics and research",
+      "what": "Mostly for research roles: regression, overfitting, what can go wrong in a backtest, and a deep dive into a project of yours.",
+      "practise": ["q1", "q3", "q5"]
+    },
+    {
+      "name": "Coding",
+      "what": "For research and developer roles: data structures, algorithms and handling data in Python or C++. This app doesn't teach coding, so practise it separately.",
+      "practise": []
+    },
+    {
+      "name": "Fit and motivation",
+      "what": "Why trading, how you handle a losing streak, and a project you're proud of. It's short, but it counts.",
+      "practise": []
+    }
+  ],
+  "note": "Every firm runs its own process, and it changes from year to year; this is the usual shape. Check each firm's careers page before you apply."
+}

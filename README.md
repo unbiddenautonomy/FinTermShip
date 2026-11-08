@@ -4,14 +4,16 @@ A Duolingo-style web app for learning and remembering trading and market terms, 
 
 What it has now:
 
-- 460 terms in 10 categories, each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks.
+- 509 terms in 11 categories, each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks.
 - 6 timed drills (mental maths, percentages and basis points, probability, expected value, Bayes, counting), with typed answers and questions generated fresh every round.
 - A market-making game: quote a bid and ask on the total of three dice while traders, some of whom know the next die, deal with you.
 - 3 desk cases (a short straddle into the Budget, working a big buy order, cash-futures arbitrage), each a short story of linked decisions with the reasoning behind every option.
+- Rates, macro and the rupee (RBI policy, liquidity, government bonds, USDINR), bond maths (yield, duration, PV01), and SEBI's current algo and F&O rules, each dated and sourced.
+- A career map: the main quant and trading jobs and the usual interview rounds, each linked to the units that prepare for it.
 - One track: the core units of every area first, then the rest. Term lessons, drills, the game and the cases sit on the same path; a drill, game or case holds up the path until it is passed (or skipped for the day).
 - Learners can pick any open unit to learn next, practise met terms, or take an area test to open its advanced units early.
 - A quant switch in Settings, behind a password, opens the quant areas (maths drills, quant and risk, options, futures, microstructure, execution) and puts them first.
-- New terms slow down before reviews pile up: a day's new terms stop once tomorrow's reviews would pass the daily cap of 80.
+- New terms slow down before reviews pile up: a day's new terms stop once any of the next four days' reviews would pass the daily cap of 80.
 - A 7-step spaced repetition ladder (1, 3, 7, 16, 35, 120 days; core terms 20% sooner).
 - Progress saved in the browser (IndexedDB), with backup export and import.
 - Speaker buttons using the browser's built-in voice (Indian English when available).
@@ -37,6 +39,8 @@ Drill units live in `src/data/terms/skills.json` (units with `"kind": "drill"` a
 ## Adding or editing desk cases
 
 Cases live in `src/data/cases.json`, keyed by the id of a unit with `"kind": "case"`. Each has a setup, a few facts, and steps; every step has 3 or 4 options, exactly one marked `best`, and a `why` for each option. `npm run check:terms` checks all of this, and that every term a step names exists. A learner passes with all but one best call.
+
+The career map is `src/data/careers.json`: roles and interview rounds, each with the unit ids to practise. `npm run check:terms` checks that those units exist.
 
 The market game's rules and pass marks are in `src/lib/market.ts`; `src/lib/market.test.ts` plays thousands of games to check that sound quoting passes and lazy quoting doesn't.
 
