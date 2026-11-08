@@ -93,6 +93,24 @@ for (const [id, c] of Object.entries(cases)) {
 }
 console.log(`Desk cases: ${Object.keys(cases).length}, ${Object.values(cases).reduce((n, c) => n + c.steps.length, 0)} decisions`);
 
+// Career map: every role and round has its text, and points at units that exist.
+const careers = JSON.parse(readFileSync(join(dir, '..', 'careers.json'), 'utf8'));
+const unitIdsAll = new Set(categories.flatMap((c) => c.units.map((u) => u.id)));
+if (!careers.intro || !careers.note) errors.push('careers.json: needs intro and note');
+for (const r of careers.roles || []) {
+  const at = `careers.json > ${r.id ?? r.title}`;
+  for (const k of ['id', 'title', 'where', 'what']) if (!r[k]) errors.push(`${at}: missing ${k}`);
+  if (!Array.isArray(r.skills) || r.skills.length < 2) errors.push(`${at}: needs at least 2 skills`);
+  if (!Array.isArray(r.practise) || r.practise.length < 1) errors.push(`${at}: needs at least 1 unit to practise`);
+}
+for (const round of careers.rounds || []) {
+  if (!round.name || !round.what) errors.push(`careers.json > round ${round.name ?? '?'}: needs name and what`);
+}
+for (const item of [...(careers.roles || []), ...(careers.rounds || [])]) {
+  for (const u of item.practise || []) if (!unitIdsAll.has(u)) errors.push(`careers.json > ${item.id ?? item.name}: unknown unit "${u}"`);
+}
+console.log(`Career map: ${careers.roles?.length ?? 0} roles, ${careers.rounds?.length ?? 0} interview rounds`);
+
 if (errors.length) {
   console.error(`\n${errors.length} problem(s):\n- ` + errors.join('\n- '));
   process.exit(1);

@@ -10,6 +10,7 @@ import {
   MAX_REVIEWS_PER_DAY,
   newLeftToday,
   newProgress,
+  peakLoadAhead,
   review,
   tomorrowLoad,
 } from './scheduler';
@@ -107,6 +108,15 @@ describe('daily new terms', () => {
 
   it("counts some of today's reviews as coming back tomorrow", () => {
     expect(tomorrowLoad(booked(50, today), today)).toBe(10);
+  });
+
+  it('also holds new terms back when a day later this week is already full', () => {
+    const p = booked(MAX_REVIEWS_PER_DAY - 4, addDays(today, 3));
+    expect(tomorrowLoad(p, today)).toBe(0);
+    expect(peakLoadAhead(p, today)).toBe(MAX_REVIEWS_PER_DAY - 4);
+    expect(newLeftToday(p, today)).toBe(4);
+    // Past the look-ahead, the same pile doesn't hold today back.
+    expect(newLeftToday(booked(MAX_REVIEWS_PER_DAY - 4, addDays(today, 7)), today)).toBe(20);
   });
 });
 
