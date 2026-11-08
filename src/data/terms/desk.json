@@ -46,7 +46,9 @@
       "short": "Sell straight away at the best bid",
       "definition": "To sell immediately at the highest price a buyer is showing, instead of waiting for a better price. It gets you out fast but gives up the spread.",
       "examples": [
-        "News is out and it's falling; just hit the bid on the lot."
+        "News is out and it's falling; just hit the bid on the lot.",
+        "Risk told the trader to hit the bid on half the position before the close.",
+        "The client asked why her sale filled below the last price: to sell at once, the dealer had to hit the bid."
       ],
       "fill": "You need to sell right now, so you ____ at 412 instead of offering at 413.",
       "confusables": [
@@ -85,7 +87,9 @@
       "short": "Buy straight away at the best offer",
       "definition": "To buy immediately at the lowest price a seller is showing. It's the buyer's version of hitting the bid: fast, but you pay the spread.",
       "examples": [
-        "Someone's lifting every offer in Infosys; there's a big buyer around."
+        "Someone's lifting every offer in Infosys; there's a big buyer around.",
+        "The PM wanted the stock before results, so the dealer was told to lift the offer up to 1,520.",
+        "Risk noticed the trader lift the offer on every clip, paying the spread all day."
       ],
       "fill": "You must buy before the news, so you ____ at 250 rather than bidding 249.80.",
       "confusables": [
@@ -124,7 +128,9 @@
       "short": "A quote with both a bid and an offer",
       "definition": "A quote showing both the price you'd buy at and the price you'd sell at, so the other side can choose. Asking for a two-way hides whether you want to buy or sell.",
       "examples": [
-        "Show me a two-way in the Bank Nifty December future."
+        "Show me a two-way in the Bank Nifty December future.",
+        "The options desk shows its two-way price on the Nifty straddle: 310 bid, 318 offered.",
+        "Risk checks that every two-way price we show, bid and offer both, stays within our limits."
       ],
       "fill": "To avoid revealing whether you're a buyer or a seller, ask the broker for a ____.",
       "confusables": [
@@ -162,7 +168,9 @@
       "short": "Quantity of an order or position",
       "definition": "Desk shorthand for quantity. 'What size?' asks how many shares or lots, and 'in size' means a large amount, enough to move the price.",
       "examples": [
-        "There's a buyer in size in Tata Steel; he's been lifting offers all morning."
+        "There's a buyer in size in Tata Steel; he's been lifting offers all morning.",
+        "Risk asked whether we can exit in size if the news turns.",
+        "The client asked why her 5-lakh-share order moved the price: in this stock, that's real size."
       ],
       "fill": "When a broker says a fund wants to buy 'in ____', it means a large quantity.",
       "confusables": [
@@ -188,7 +196,9 @@
       "short": "Filling a big order bit by bit",
       "definition": "Carrying out a large order gradually over hours or days, buying or selling in pieces so the price isn't pushed too far. Brokers say they're working an order for a client.",
       "examples": [
-        "We're working a large sell order in HUL; don't be surprised if it's heavy all day."
+        "We're working a large sell order in HUL; don't be surprised if it's heavy all day.",
+        "The dealer is working an order for 3 lakh shares, so he can't take another big one now.",
+        "Risk asked why we're still working an order that's only half done at 2 pm."
       ],
       "fill": "A broker selling a fund's 20 lakh shares slowly through the day is ____.",
       "confusables": [
@@ -213,7 +223,9 @@
       "short": "A trade that has been reported",
       "definition": "A trade that has gone through and shows up in the market data, especially a large one. Traders watch big prints for clues about who is buying or selling.",
       "examples": [
-        "Big print in Reliance at 1,412, about 8 lakh shares."
+        "Big print in Reliance at 1,412, about 8 lakh shares.",
+        "The analyst saw a big print at the close and checked the bulk deal data that evening.",
+        "Risk wants every large print in our stocks flagged, in case a big holder is selling."
       ],
       "fill": "A single trade of 10 lakh shares flashing across the screen is a big ____.",
       "confusables": [
@@ -239,7 +251,9 @@
       "short": "Context on who's trading what, and why",
       "definition": "Information from brokers and traders about what's happening behind the prices: who is buying or selling, how big, and the story driving it. 'What's the color on HDFC Bank?' asks for exactly that.",
       "examples": [
-        "What's the color on HDFC Bank? It's down 3% on no news."
+        "What's the color on HDFC Bank? It's down 3% on no news.",
+        "The PM calls her sales trader each morning for market color on the stocks she owns.",
+        "The client asked for some market color: why was her bank stock down 3% on no news?"
       ],
       "fill": "You ask your broker for ____ when a stock moves sharply and you want to know who's behind it.",
       "confusables": [
@@ -264,7 +278,9 @@
       "short": "Client buying and selling through a desk",
       "definition": "The stream of buy and sell orders coming from clients through a broker's desk. 'Flow is better for sale' means clients have mostly been selling.",
       "examples": [
-        "Flows have been two-way in IT, but banks are seeing steady foreign selling."
+        "Flows have been two-way in IT, but banks are seeing steady foreign selling.",
+        "The sales trader says the flow in IT this week is all foreign selling.",
+        "Risk watches the flow in small caps, because one-way selling can hit our inventory."
       ],
       "fill": "The desk said client ____ was heavily on the buying side all morning.",
       "confusables": [
@@ -289,7 +305,9 @@
       "short": "A broker's interest to buy or sell a stock",
       "definition": "A desk's known interest in buying or selling a particular stock, often because it has a client order to fill. A broker 'axed to sell' has stock to offer and may give a good price.",
       "examples": [
-        "We're axed to sell L&T; if you're a buyer, we can work something out."
+        "We're axed to sell L&T; if you're a buyer, we can work something out.",
+        "The PM likes hearing the broker's axe early, because it tells her who wants to sell.",
+        "Risk asked the desk to show its axe to sell L&T only to clients who could take the whole block."
       ],
       "fill": "Your broker has a big client sell order in L&T, so it has an ____ to sell.",
       "confusables": [
@@ -311,7 +329,9 @@
       "short": "Holding no position",
       "definition": "Having no position at all in something: neither long nor short. Traders go flat before big events when they don't want any risk.",
       "examples": [
-        "I'm flat Infosys into results; too hard to call."
+        "I'm flat Infosys into results; too hard to call.",
+        "Risk wants the intraday desk flat by 3:20 every day.",
+        "The client asked what being flat means: she owns nothing and is short nothing."
       ],
       "fill": "You sold the last of your shares and have no short either, so you're ____.",
       "confusables": [
@@ -343,7 +363,9 @@
       "short": "All the positions a trader runs",
       "definition": "All the positions a trader or desk is responsible for. 'Running a book' means managing those positions and their risk, and 'the book is long' means it gains if prices rise.",
       "examples": [
-        "My book is too long banks; I need to cut some before the RBI meeting."
+        "My book is too long banks; I need to cut some before the RBI meeting.",
+        "Risk reviews each trader's book at the end of the day.",
+        "The PM asked the trader how much of his book is in mid caps."
       ],
       "fill": "A trader who looks after the desk's options positions is running the options ____.",
       "confusables": [
@@ -368,7 +390,9 @@
       "short": "Firms that invest money",
       "definition": "The firms that invest money and buy research and trading services: fund houses, insurers, pension funds and hedge funds. Buy-side people decide what to own.",
       "examples": [
-        "She moved from broking to the buy side and now runs a midcap fund."
+        "She moved from broking to the buy side and now runs a midcap fund.",
+        "The analyst moved to the buy side, joining a mutual fund to pick stocks rather than write reports on them.",
+        "The client asked what the buy side is: firms like mutual funds that invest money."
       ],
       "fill": "Fund houses and insurers that pay brokers for research and trading are the ____.",
       "confusables": [
@@ -393,7 +417,9 @@
       "short": "Brokers and banks that sell services",
       "definition": "The brokers and investment banks that sell services to investors: trading, research and deals. Sell-side analysts write the reports the buy side reads.",
       "examples": [
-        "Sell-side estimates for Infosys have come down 5% since the last results."
+        "Sell-side estimates for Infosys have come down 5% since the last results.",
+        "The PM reads sell side research but builds her own models.",
+        "The client asked what the sell side does: brokers and banks that sell research and trading to investors."
       ],
       "fill": "Brokers' research analysts and sales traders work on the ____.",
       "confusables": [
@@ -419,7 +445,9 @@
       "short": "Person who decides what a fund buys",
       "definition": "The person who decides what a fund buys, holds and sells, and answers for its returns. In global desks they're often called the PM, short for portfolio manager.",
       "examples": [
-        "The PM wants to add to HDFC Bank but not above 1,700."
+        "The PM wants to add to HDFC Bank but not above 1,700.",
+        "The client asked who chooses the stocks in her fund: the fund manager, within the fund's mandate.",
+        "Risk meets each fund manager monthly to review their biggest bets."
       ],
       "fill": "The decision to buy 2% of the fund in Titan was made by the ____.",
       "confusables": [
@@ -445,7 +473,9 @@
       "short": "Person who studies companies and rates them",
       "definition": "A specialist who follows a set of companies or a sector, builds forecasts and publishes reports with a view on whether to buy or sell. In India, research analysts must be registered with SEBI.",
       "examples": [
-        "The analyst cut his estimates after the weak margin guidance."
+        "The analyst cut his estimates after the weak margin guidance.",
+        "The research analyst visited three plants before raising her estimates.",
+        "The client asked whether to trust the research analyst's buy call; check her track record first."
       ],
       "fill": "The ____ covering cement stocks expects margins to recover next year.",
       "confusables": [
@@ -470,7 +500,9 @@
       "short": "Broker who takes funds' orders and shares color",
       "definition": "The person at a broker who talks to fund dealers and managers all day, takes their orders, and passes on market color and flow. They link the client to the broker's trading desk.",
       "examples": [
-        "My sales trader says there's a large seller in Asian Paints."
+        "My sales trader says there's a large seller in Asian Paints.",
+        "The PM rates each sales trader on how useful their market color is.",
+        "Risk asked the sales trader not to share our client's order with other clients."
       ],
       "fill": "Fund dealers call their ____ at the broker to place orders and hear what others are doing.",
       "confusables": [
@@ -495,7 +527,9 @@
       "short": "Person who places orders for a fund or broker",
       "definition": "In India, the person on a fund's or broker's desk who actually places and manages orders on the exchange, following the fund manager's or client's instructions.",
       "examples": [
-        "The PM decides; the dealer works the order through the day."
+        "The PM decides; the dealer works the order through the day.",
+        "Risk records every call the dealer takes from clients.",
+        "The client asked who actually places her fund's trades: the dealer, on the PM's instructions."
       ],
       "fill": "The fund manager wants 5 lakh shares; the ____ places the orders and watches the fills.",
       "confusables": [
@@ -521,7 +555,9 @@
       "short": "Arranges share sales, deals and mergers",
       "definition": "A firm that helps companies raise money and do deals: share sales such as IPOs, large block sales, and mergers and acquisitions. SEBI's rules call them merchant bankers.",
       "examples": [
-        "Three investment banks are running the IPO."
+        "Three investment banks are running the IPO.",
+        "The analyst can't publish on the company while her investment bank is advising on its merger.",
+        "The client asked who sets the IPO price: the company and its investment bank, after hearing from investors."
       ],
       "fill": "A company planning an IPO hires an ____ to price it and find investors.",
       "confusables": [
@@ -547,7 +583,9 @@
       "short": "Trading with the firm's own money",
       "definition": "Short for proprietary trading: a firm trading with its own money for its own profit, rather than executing for clients.",
       "examples": [
-        "The broker's prop desk was short the futures while clients were buying."
+        "The broker's prop desk was short the futures while clients were buying.",
+        "Risk sets separate limits for prop trading, since it's the firm's own money at stake.",
+        "The client asked whether her broker's prop trading could trade against her; the rules keep the two apart."
       ],
       "fill": "A broker's desk that takes its own risk with the firm's capital does ____.",
       "confusables": [
@@ -569,7 +607,9 @@
       "short": "Fund that can short, use leverage and more",
       "definition": "A pooled fund for wealthy and institutional investors that can go long and short, use leverage and derivatives, and charges a share of profits. In India most are set up as Category III AIFs.",
       "examples": [
-        "A long-short hedge fund was shorting the stock while buying its rival."
+        "A long-short hedge fund was shorting the stock while buying its rival.",
+        "The client asked whether she can invest in a hedge fund; in India they're Category III AIFs with a ₹1 crore minimum.",
+        "Risk watches which hedge fund names are crowded, since a forced seller could hit the same stocks."
       ],
       "fill": "A fund for wealthy investors that can short stocks and use leverage is a ____.",
       "confusables": [
@@ -597,7 +637,9 @@
       "short": "Fund that can only buy",
       "definition": "A fund that can only own securities and can't short them, so it makes money only when its holdings rise. Most mutual funds and insurers are long-only.",
       "examples": [
-        "Long-only money has been buying every dip in the banks."
+        "Long-only money has been buying every dip in the banks.",
+        "The PM's long-only fund can't short, so she turns bearish by holding cash.",
+        "Risk measures the long-only fund against its benchmark, not against cash."
       ],
       "fill": "A fund that can't short and only profits when its holdings rise is a ____.",
       "confusables": [
@@ -619,7 +661,9 @@
       "short": "Bank that holds securities for institutions",
       "definition": "A bank that holds securities for large investors, settles their trades and handles dividends and corporate actions. Every foreign portfolio investor in India must have one.",
       "examples": [
-        "The FPI's custodian confirmed the shares arrived on settlement."
+        "The FPI's custodian confirmed the shares arrived on settlement.",
+        "Risk checks the custodian's holdings report against our own records every day.",
+        "The client asked who holds the fund's shares if the AMC fails: the custodian, separately from the AMC."
       ],
       "fill": "A foreign fund buying Indian shares keeps them with a ____, which also settles its trades.",
       "confusables": [
@@ -647,7 +691,9 @@
       "short": "The companies an analyst follows",
       "definition": "The set of companies an analyst or broker follows and publishes on. Initiating coverage means publishing the first report on a company, with a rating.",
       "examples": [
-        "Kotak initiated coverage on the stock with a buy."
+        "Kotak initiated coverage on the stock with a buy.",
+        "The analyst dropped coverage of the company after its accounts were delayed.",
+        "The client asked why no one writes on her small cap: few brokers have coverage of it."
       ],
       "fill": "A broker that publishes its first report on a company is initiating ____.",
       "confusables": [
@@ -673,7 +719,9 @@
       "short": "Analyst's call: buy, hold or sell",
       "definition": "An analyst's recommendation on a stock, such as buy, hold or sell. Indian brokers also use add and reduce for milder views.",
       "examples": [
-        "Rating cut to reduce from add; the valuation has run ahead."
+        "Rating cut to reduce from add; the valuation has run ahead.",
+        "The analyst's stock rating moved from buy to hold after the rally.",
+        "Risk ignores the stock rating when sizing positions; it looks at liquidity and volatility."
       ],
       "fill": "Moving a stock from hold to buy changes its ____.",
       "confusables": [
@@ -699,7 +747,9 @@
       "short": "Where an analyst thinks the price will go",
       "definition": "An analyst's estimate of where a stock should trade, usually in 12 months. The gap to today's price is the implied upside or downside.",
       "examples": [
-        "Target price raised to 1,850, about 20% upside."
+        "Target price raised to 1,850, about 20% upside.",
+        "The client asked whether to sell now that the stock has hit the analyst's target price.",
+        "Risk notes the target price assumes a multiple the stock has never traded at."
       ],
       "fill": "The analyst's ____ of ₹960 implies 20% upside from ₹800.",
       "confusables": [
@@ -734,7 +784,9 @@
       "short": "Analyst raises the rating",
       "definition": "When an analyst raises a stock's rating, for example from hold to buy. Raising the target price or earnings forecasts is also loosely called an upgrade.",
       "examples": [
-        "The stock jumped 4% on a double upgrade, from sell to buy."
+        "The stock jumped 4% on a double upgrade, from sell to buy.",
+        "The stock rose 5% after the analyst's upgrade to buy.",
+        "The client asked whether to buy after the broker's upgrade from hold to buy; the move may already be in the price."
       ],
       "fill": "The broker moved the stock from hold to buy: an ____.",
       "confusables": [
@@ -756,7 +808,9 @@
       "short": "Analyst cuts the rating",
       "definition": "When an analyst cuts a stock's rating, for example from buy to hold. Cutting the target price or forecasts is also loosely called a downgrade.",
       "examples": [
-        "Downgraded to sell after the margin miss; the stock is off 6%."
+        "Downgraded to sell after the margin miss; the stock is off 6%.",
+        "Risk cut the position after the downgrade from the analyst with the best track record.",
+        "The client asked why her stock fell 6% on no news: it was a broker downgrade."
       ],
       "fill": "Cutting a stock from buy to hold is a ____.",
       "confusables": [
@@ -780,7 +834,9 @@
       "short": "Holding more than the benchmark does",
       "definition": "Holding more of a stock or sector than its weight in the benchmark. Some brokers also use overweight as a rating meaning the stock should beat the market.",
       "examples": [
-        "We're overweight private banks and underweight IT."
+        "We're overweight private banks and underweight IT.",
+        "Risk asked why the fund is so overweight banks when the benchmark already holds a third in them.",
+        "The client asked what overweight means: holding more of a stock or sector than the index does."
       ],
       "fill": "The fund holds 11% in HDFC Bank against an index weight of 8%, so it's ____.",
       "confusables": [
@@ -818,7 +874,9 @@
       "short": "Holding less than the benchmark does",
       "definition": "Holding less of a stock or sector than its weight in the benchmark, or none at all. As a rating, it means the analyst expects the stock to lag the market.",
       "examples": [
-        "We've stayed underweight IT all year, and it's helped."
+        "We've stayed underweight IT all year, and it's helped.",
+        "Risk noticed the fund is underweight the five biggest Nifty stocks, a big bet against the index.",
+        "The analyst moved IT to underweight after the weak deal wins."
       ],
       "fill": "Holding no Reliance when it is 9% of the index makes you heavily ____.",
       "confusables": [
@@ -851,7 +909,9 @@
       "short": "Management's call with analysts after results",
       "definition": "A call where a company's management discusses its results and takes questions from analysts and investors. In India it's usually called the concall.",
       "examples": [
-        "On the concall, management said demand is picking up in rural India."
+        "On the concall, management said demand is picking up in rural India.",
+        "The analyst listens to every earnings call for changes in management's tone.",
+        "The client asked where to hear management explain the results; the earnings call recording is on the company website."
       ],
       "fill": "After the results, analysts quiz the CFO on the ____.",
       "confusables": [
@@ -876,7 +936,9 @@
       "short": "Results better than expected",
       "definition": "When a company's results come in above the consensus forecast. 'In line' means close to it; the stock's reaction also depends on guidance.",
       "examples": [
-        "A big beat on margins, but the stock is flat because guidance was soft."
+        "A big beat on margins, but the stock is flat because guidance was soft.",
+        "Risk reminds traders that the earnings beat means little if guidance disappoints.",
+        "The client asked why her stock fell despite the earnings beat on profits: the market wanted more."
       ],
       "fill": "Profit came in 15% above what analysts expected: a clear ____.",
       "confusables": [
@@ -914,7 +976,9 @@
       "short": "Results worse than expected",
       "definition": "When a company's results come in below the consensus forecast. A miss often hits the stock, unless the market expected worse.",
       "examples": [
-        "Revenue was fine but it's a miss on margins."
+        "Revenue was fine but it's a miss on margins.",
+        "The analyst cut her target after the earnings miss on margins.",
+        "Risk sizes positions into results so that one earnings miss on the quarter's numbers can't hurt the fund much."
       ],
       "fill": "Profit came in well below analysts' forecasts: an ____.",
       "confusables": [
@@ -960,7 +1024,9 @@
       "short": "Market paying a higher multiple",
       "definition": "When investors start paying a higher valuation multiple for a stock or sector, for example its P/E rising from 20 to 30, usually because they see better growth or lower risk. The opposite is a de-rating.",
       "examples": [
-        "Defence stocks got a big re-rating once order books took off."
+        "Defence stocks got a big re-rating once order books took off.",
+        "The analyst says the re-rating isn't over: the stock still trades below its peers.",
+        "The client asked how a stock can rise 50% when profits rose 10%: a re-rating."
       ],
       "fill": "Earnings didn't change, but the P/E went from 20 to 30: a ____.",
       "confusables": [
@@ -999,7 +1065,9 @@
       "short": "Plenty of eager buyers",
       "definition": "When buyers are keen and keep raising their bids, so the price holds up or rises. 'Banks are well bid' means there's steady buying in bank stocks.",
       "examples": [
-        "PSU banks are well bid after the budget."
+        "PSU banks are well bid after the budget.",
+        "Risk notes the stock is well bid, so we can sell our block without much impact.",
+        "The client asked what well bid means: there are lots of eager buyers just below the price."
       ],
       "fill": "Every dip in pharma is being bought; the sector is ____.",
       "confusables": [
@@ -1025,7 +1093,9 @@
       "short": "Sellers are in control",
       "definition": "When sellers dominate and keep lowering their offers, so the price drifts down. 'IT is offered' means there's steady selling in IT stocks.",
       "examples": [
-        "Metals are offered all day; nobody wants to catch them."
+        "Metals are offered all day; nobody wants to catch them.",
+        "The dealer says the stock has been offered all morning, so there's no rush to buy.",
+        "The client asked what offered means on the desk: sellers are in control and buyers are scarce."
       ],
       "fill": "Sellers keep lowering their prices in metals; the sector is ____.",
       "confusables": [
@@ -1051,7 +1121,9 @@
       "short": "Keep paying up to get filled",
       "definition": "To keep raising your buying price, or lowering your selling price, as the market runs away from you, just to get the trade done.",
       "examples": [
-        "Don't chase it; if we miss it at 410, we wait."
+        "Don't chase it; if we miss it at 410, we wait.",
+        "Risk told the dealer not to chase the stock above the PM's limit.",
+        "The client asked whether to chase the IPO stock after its 40% jump; the analyst said wait."
       ],
       "fill": "If you keep raising your bid as the stock runs from 400 to 420, you ____ it.",
       "confusables": [
@@ -1075,7 +1147,9 @@
       "short": "Trade against a move",
       "definition": "To trade against a move you think will reverse: selling into a rally or buying into a drop. 'Fade the gap' means betting an opening jump won't last.",
       "examples": [
-        "I'd fade this rally; it's all short covering."
+        "I'd fade this rally; it's all short covering.",
+        "The PM likes to fade big gaps on no news.",
+        "Risk limits how much a trader can fade a strong trend, because those trades can run hard against you."
       ],
       "fill": "You sell into a sharp rally you think will reverse: you ____ the move.",
       "confusables": [
@@ -1099,7 +1173,9 @@
       "short": "Exited because the stop-loss was hit",
       "definition": "Taken out of a trade because the price reached your stop-loss. Traders say they got stopped out, often just before the price turned back.",
       "examples": [
-        "Got stopped out at 1,640, and of course it bounced to 1,700."
+        "Got stopped out at 1,640, and of course it bounced to 1,700.",
+        "Risk is fine with a trader getting stopped out; it's ignoring the stop that worries them.",
+        "The client asked why her shares were sold at ₹940: she got stopped out when the price hit her stop-loss."
       ],
       "fill": "Your sell stop at 1,640 filled before the stock recovered: you were ____.",
       "confusables": [
@@ -1136,7 +1212,9 @@
       "short": "Cut part of a position",
       "definition": "To sell part of a holding, not all of it, often to lock in some profit or reduce risk. The opposite is to add.",
       "examples": [
-        "We trimmed Titan after the run-up but still like it."
+        "We trimmed Titan after the run-up but still like it.",
+        "Risk asked the PM to trim the stock once it passed 8% of the fund.",
+        "The analyst says trim, not sell: the story is intact but the price is rich."
       ],
       "fill": "Selling a quarter of your Titan holding after a big rally is a ____.",
       "confusables": [
@@ -1174,7 +1252,9 @@
       "short": "Close out a position or trade",
       "definition": "To close out a position or a whole trade, often a large or multi-part one, usually step by step. 'Long unwinding' means longs being closed, pushing prices down.",
       "examples": [
-        "Funds are unwinding the pair trade after the merger news."
+        "Funds are unwinding the pair trade after the merger news.",
+        "Risk asked how long it would take to unwind the whole position in a falling market.",
+        "The client asked why the stock fell after the deal was cancelled: arb funds had to unwind their trades."
       ],
       "fill": "Closing out all four legs of an options trade over two days is an ____.",
       "confusables": [
@@ -1200,7 +1280,9 @@
       "short": "Buying back shares that were sold short",
       "definition": "Buying to close short positions. When many shorts cover at once, the buying can push the price up sharply, even without good news.",
       "examples": [
-        "The rally is mostly short covering; there's no fresh buying yet."
+        "The rally is mostly short covering; there's no fresh buying yet.",
+        "The analyst thinks short covering drove the jump, since open interest fell as the price rose.",
+        "Risk warns that a rally built on short covering can fade once the shorts are done."
       ],
       "fill": "A stock jumps as traders who sold it short rush to buy it back: that's ____.",
       "confusables": [
@@ -1238,7 +1320,9 @@
       "short": "Live stream of trades and prices",
       "definition": "The live record of trades and prices as they happen. 'Reading the tape' means judging buying and selling pressure from that stream.",
       "examples": [
-        "The tape feels heavy; every bounce is getting sold."
+        "The tape feels heavy; every bounce is getting sold.",
+        "The PM says the tape tells her more than the news: buyers keep stepping in.",
+        "Risk asked the trader why he kept buying when the tape was so weak."
       ],
       "fill": "Watching every trade as it prints to judge the mood is reading ____.",
       "confusables": [
@@ -1264,7 +1348,9 @@
       "short": "Broker takes the client's trade on its own book",
       "definition": "A trade where the broker buys or sells with the client directly, using its own capital, at an agreed price. The broker takes on the risk of then unwinding the position.",
       "examples": [
-        "The fund wanted out at once, so the broker gave a risk bid on a principal basis."
+        "The fund wanted out at once, so the broker gave a risk bid on a principal basis.",
+        "Risk approves every principal trade above ₹50 crore, since the firm takes the stock on its book.",
+        "The client asked why the broker's price was below the screen: in a principal trade, the broker takes the risk."
       ],
       "fill": "The broker bought the whole block itself at 2% below market, a ____, and took on the risk.",
       "confusables": [
@@ -1302,7 +1388,9 @@
       "short": "Broker trades for the client, no risk taken",
       "definition": "A trade where the broker acts only as the client's agent, buying or selling in the market for a commission and taking no price risk itself.",
       "examples": [
-        "We'll do it agency and work it over three days."
+        "We'll do it agency and work it over three days.",
+        "Risk likes the agency trade for big blocks, since the firm holds no stock itself.",
+        "The client asked how the broker earns on an agency trade: commission only."
       ],
       "fill": "The broker works the order in the market for a commission and takes no risk: an ____.",
       "confusables": [
@@ -1327,7 +1415,9 @@
       "short": "Your trade is confirmed",
       "definition": "The words that confirm a trade has happened at the agreed price and size. Once a dealer says 'done', both sides are bound.",
       "examples": [
-        "'Two lakh at 412?' 'You're done.'"
+        "'Two lakh at 412?' 'You're done.'",
+        "The dealer confirmed the block with two words: you're done.",
+        "Risk reminds dealers that once they say you're done, the trade is binding."
       ],
       "fill": "The broker confirms your 2 lakh shares at 412 with: '____'.",
       "confusables": [
@@ -1358,7 +1448,9 @@
       "short": "A price you can trade on right now",
       "definition": "A price someone is committed to trade at if you accept it straight away. It's the opposite of an indicative price.",
       "examples": [
-        "That's a firm price for 5 lakh, good for the next minute."
+        "That's a firm price for 5 lakh, good for the next minute.",
+        "The PM wants the broker's firm price on the 5 lakh shares before the close.",
+        "Risk treats a firm price as a commitment, so dealers can't walk away from it."
       ],
       "fill": "If you can say 'done' and the trade is fixed, the broker gave you a ____.",
       "confusables": [
@@ -1385,7 +1477,9 @@
       "short": "A rough price, not a commitment",
       "definition": "A guide to where something might trade, given without a commitment. The final price can be different, so traders ask whether a quote is firm or indicative.",
       "examples": [
-        "It's only indicative, around 1,410; I'll come back with a firm level."
+        "It's only indicative, around 1,410; I'll come back with a firm level.",
+        "The client asked why she didn't get the price from the call: the dealer's indicative price wasn't a promise.",
+        "Risk won't mark the bonds at the indicative price, since nobody has to trade there."
       ],
       "fill": "'Around 1,410, depending on size' is an ____, not a price you can deal on.",
       "confusables": [
@@ -1411,7 +1505,9 @@
       "short": "The market and its professionals",
       "definition": "Shorthand for the financial market and the people who work in it, especially analysts. In India 'Dalal Street', the road where BSE stands in Mumbai, means the stock market.",
       "examples": [
-        "The street was expecting 12% growth; they did 9%."
+        "The street was expecting 12% growth; they did 9%.",
+        "The analyst's estimate is 8% above the street's, so she expects a beat.",
+        "The client asked what the street expects from the results."
       ],
       "fill": "When analysts' average forecast is quoted as the '____ estimate', it means the market's consensus.",
       "confusables": [
@@ -1437,7 +1533,9 @@
       "short": "Already reflected in the price",
       "definition": "When news or an expected event is already reflected in the price, so the price barely moves when it actually happens.",
       "examples": [
-        "The rate cut was fully priced in; the market didn't budge."
+        "The rate cut was fully priced in; the market didn't budge.",
+        "The analyst says the rate cut is priced in, so the stock needs more good news to rise.",
+        "The client asked why her stock fell on good results: the good news was already priced in."
       ],
       "fill": "Everyone expected the dividend, so it was ____ and the stock didn't move.",
       "confusables": [
@@ -1469,7 +1567,9 @@
       "short": "Price falls on good news it already rose on",
       "definition": "When a stock that rose ahead of an expected event falls once the event happens, as traders who bought the rumour take profits. In full: buy the rumour, sell the news.",
       "examples": [
-        "Classic sell the news: up 20% into the listing, down 8% on the day."
+        "Classic sell the news: up 20% into the listing, down 8% on the day.",
+        "Risk trims positions before big events, since sell the news often follows a run-up.",
+        "The client asked why the stock fell after the big contract win: sell the news."
       ],
       "fill": "The stock rallied for weeks before the results, then fell on a good report: buy the rumour, ____.",
       "confusables": [
@@ -1493,7 +1593,9 @@
       "short": "A stock in a steep, fast fall",
       "definition": "A stock dropping sharply and quickly. 'Don't catch a falling knife' warns against buying it before the fall has clearly stopped.",
       "examples": [
-        "It's down 30% in a week; I'm not catching that falling knife."
+        "It's down 30% in a week; I'm not catching that falling knife.",
+        "The PM waits for the falling knife to hit the floor before she buys.",
+        "Risk warned the client that buying the falling knife could mean losing another 30%."
       ],
       "fill": "Buying a stock that's down 25% in three days, before it settles, is catching a ____.",
       "confusables": [
@@ -1514,7 +1616,9 @@
       "short": "Holding a long that's going against you",
       "definition": "Being long a stock while it falls: you bet on a rise and the market went the other way. Traders use it to admit a losing position.",
       "examples": [
-        "I'm long and wrong on the metals; cutting it before it gets worse."
+        "I'm long and wrong on the metals; cutting it before it gets worse.",
+        "Risk asked the trader how much longer he'd stay long and wrong before cutting.",
+        "The client admitted she's long and wrong on the theme fund and doesn't know when to sell."
       ],
       "fill": "You bought before results and the stock fell 10%: you're ____.",
       "confusables": [
@@ -1540,7 +1644,8 @@
       "definition": "To sell part of a profitable position and bank the gain, while keeping the rest. It cuts the risk of giving the whole profit back.",
       "examples": [
         "The stock's up 30% since we bought it. Take some off the table and let the rest ride.",
-        "Into the results I'd take some off the table; we've made our money."
+        "Into the results I'd take some off the table; we've made our money.",
+        "Risk suggested the PM take some off the table after the stock doubled."
       ],
       "fill": "Up 40% on the trade, she sold a third of the shares to ____ and kept the rest.",
       "confusables": [
@@ -1567,7 +1672,8 @@
       "definition": "Old trading advice: keep a profitable trade while it keeps working, often with a trailing stop, instead of selling at the first small gain. Trend followers earn most of their money from a few winners left to run.",
       "examples": [
         "You sold at 5% up and it went 40%. Cut your losers and let your winners run.",
-        "Move the stop up to breakeven and let the winner run."
+        "Move the stop up to breakeven and let the winner run.",
+        "The adviser's tip for the client was simple: let your winners run and cut the losers early."
       ],
       "fill": "Trend followers lose on most trades, so they ____ with trailing stops to make up for it.",
       "confusables": [
@@ -1595,7 +1701,8 @@
       "definition": "Get out of a losing trade early, at a planned stop, instead of hoping it comes back. Small losses are easy to recover from; a 50% loss needs a 100% gain to get back.",
       "examples": [
         "It broke the level that proved us wrong, so cut your loser now.",
-        "The best traders cut losers fast and don't argue with the tape."
+        "The best traders cut losers fast and don't argue with the tape.",
+        "Risk's first rule for new traders: cut your losers before they become big ones."
       ],
       "fill": "A 50% loss needs a 100% gain to recover, which is why traders are told to ____ early.",
       "confusables": [
@@ -1635,7 +1742,8 @@
       "definition": "Buying more of a stock as it falls, which lowers your average cost. It can make sense if the reason for owning it still holds, but it adds to a losing position, and many desks forbid it without a fresh reason.",
       "examples": [
         "I bought at 1,000 and again at 900, so I've averaged down to 950.",
-        "Don't average down on a stock that's falling on bad news; that's how small losses get big."
+        "Don't average down on a stock that's falling on bad news; that's how small losses get big.",
+        "The client asked whether to average down on her falling stock; the adviser said only if the story still holds."
       ],
       "fill": "She bought 100 shares at ₹200 and 100 more at ₹160, bringing her cost to ₹180: she chose to ____.",
       "confusables": [
@@ -1681,7 +1789,8 @@
       "definition": "To make a position much bigger, often double, usually after it has moved against you. Done on fresh evidence it can be bold; done to win back a loss, it is how blow-ups start.",
       "examples": [
         "The stock fell 15% on results and he doubled down, saying the market had it wrong.",
-        "Don't double down just to get back to flat for the month."
+        "Don't double down just to get back to flat for the month.",
+        "Risk stops traders who double down after a big loss in the same stock."
       ],
       "fill": "After the trade lost 10%, the PM bought twice as much again, saying it was time to ____.",
       "confusables": [
@@ -1708,7 +1817,8 @@
       "definition": "Building a position in several pieces, over time or at different prices, instead of all at once. It lowers the risk of bad timing and the market impact of one big order.",
       "examples": [
         "We'll scale in: a third today, a third after results, the rest on any dip.",
-        "Scaling in over a week kept our impact under 10 bps."
+        "Scaling in over a week kept our impact under 10 bps.",
+        "The PM likes to scale in over a month, so she can learn from the first purchase."
       ],
       "fill": "Instead of buying all 6 lakh shares today, she bought 2 lakh each week for three weeks to ____.",
       "confusables": [
@@ -1735,7 +1845,8 @@
       "definition": "Closing a position in several pieces, for example selling a third at each target. It locks in some gains early while keeping part of the trade for a bigger move.",
       "examples": [
         "Scale out: a third at 24,500, a third at 24,800, and trail a stop on the rest.",
-        "We scaled out over three days so we didn't hit the bid too hard."
+        "We scaled out over three days so we didn't hit the bid too hard.",
+        "The client asked how to sell a big winner without regret; the adviser said scale out in three parts."
       ],
       "fill": "The trader sold a third at each of three targets instead of all at once: she chose to ____.",
       "confusables": [
@@ -1762,7 +1873,8 @@
       "definition": "A PM's or risk manager's question before any trade: at what price does the idea stop working, so you get out? A trade with no stop, or a stop moved further away as it loses, is a warning sign.",
       "examples": [
         "Love the idea. Where's your stop?",
-        "You said your stop was 1,450. It's 1,420 now; why are we still long?"
+        "You said your stop was 1,450. It's 1,420 now; why are we still long?",
+        "Risk asks every trader the same question before a new position: where's your stop?"
       ],
       "fill": "Before approving the long at ₹1,500, the PM asked ____, and the trader said ₹1,440.",
       "confusables": [
@@ -1789,7 +1901,8 @@
       "definition": "Adding to a profitable position in steps as the price moves in your favour, usually in smaller lots each time. It's the opposite of averaging down: you only add when you're already right.",
       "examples": [
         "He started with 2 lots and pyramided up to 6 as the breakout held.",
-        "Pyramiding with ever bigger lots is dangerous; the last add drags your average up near the top."
+        "Pyramiding with ever bigger lots is dangerous; the last add drags your average up near the top.",
+        "Risk allows pyramiding only if each new add is smaller than the last."
       ],
       "fill": "The trader bought 4 lots at the breakout, then 2 more at each higher level as it kept rising: classic ____.",
       "confusables": [
@@ -1816,7 +1929,8 @@
       "definition": "Trading bigger or more often right after a loss, to win the money back quickly. It breaks the trader's own rules and usually turns a bad day into a terrible one.",
       "examples": [
         "He lost ₹50,000 by 10 am and tripled his size to get it back. Textbook revenge trading.",
-        "After a big loss, step away; the next trade will be revenge trading."
+        "After a big loss, step away; the next trade will be revenge trading.",
+        "Risk locks a trader out for the day after a big loss, to stop revenge trading."
       ],
       "fill": "After losing a week's profit in an hour, he doubled his lot size to win it back before the close: ____.",
       "confusables": [
@@ -1843,7 +1957,8 @@
       "definition": "Making more trades than your edge supports, often out of boredom or to win back losses. Every trade pays brokerage, STT and the spread, so overtrading turns a small edge into a loss.",
       "examples": [
         "You did 140 trades yesterday for ₹3,000 gross and ₹9,000 in charges. That's overtrading.",
-        "On a range-bound day the best trade is often no trade."
+        "On a range-bound day the best trade is often no trade.",
+        "The client's statement showed overtrading: 300 trades a month and most of her gains gone in charges."
       ],
       "fill": "He made 60 trades a day, and the costs ate more than his gains: a clear case of ____.",
       "confusables": [
@@ -1870,7 +1985,8 @@
       "definition": "Someone left holding a stock, often bought near the top of a hyped run, after others sold out and the price collapsed. Common after pump-and-dumps and frothy listings.",
       "examples": [
         "The operators sold into the hype and retail buyers were left as bag holders.",
-        "Don't be the bag holder in a stock that's up 400% on no news."
+        "Don't be the bag holder in a stock that's up 400% on no news.",
+        "The analyst warned that late IPO buyers often end up the bag holder when the hype fades."
       ],
       "fill": "After the insiders sold and the stock fell 80%, small investors who bought at the top were the ____.",
       "confusables": [

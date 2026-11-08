@@ -31,7 +31,9 @@
       "short": "Rate at which the RBI lends to banks",
       "definition": "The rate at which the RBI lends to banks for short periods, against government bonds as collateral. It's the rate the Monetary Policy Committee votes on: raised to cool inflation, cut to support growth. Other short-term rates move around it.",
       "examples": [
-        "The RBI raised the repo rate by 25 bp in October 2026, to 5.50%."
+        "The RBI raised the repo rate by 25 bp in October 2026, to 5.50%.",
+        "The client asked why her home loan EMI went up: her bank's rate is linked to the repo rate.",
+        "Risk runs the bond book through a 50 bp jump in the repo rate every week."
       ],
       "fill": "To cool inflation, the MPC votes to raise the ____, and the rest of the RBI's corridor moves with it.",
       "confusables": [
@@ -80,7 +82,9 @@
       "short": "RBI panel that votes on the repo rate",
       "definition": "The six-member committee that sets the repo rate: the RBI Governor, two other RBI officials and three outside members chosen by the government. It meets at least four times a year, usually six, and decides by majority vote, with the Governor breaking any tie.",
       "examples": [
-        "The MPC voted 6–0 to raise rates, though two members wanted to keep the stance neutral."
+        "The MPC voted 6–0 to raise rates, though two members wanted to keep the stance neutral.",
+        "The bond desk cut duration the day before the MPC meeting.",
+        "The client asked who decides rates in India: the six-member MPC, three from the RBI and three from outside."
       ],
       "fill": "Six members, three from the RBI and three from outside, vote on the repo rate about every two months in the ____.",
       "confusables": [
@@ -114,7 +118,9 @@
       "short": "RBI's signal of which way rates lean next",
       "definition": "The short phrase the RBI's rate-setters attach to each decision to say which way they lean next, such as accommodative, neutral or tightening. Markets read a change of wording as closely as the rate move itself.",
       "examples": [
-        "The hike was expected; the switch in stance to calibrated tightening is what sank bonds."
+        "The hike was expected; the switch in stance to calibrated tightening is what sank bonds.",
+        "The economist says the policy stance matters more than the hike, because it tells you what comes next.",
+        "Risk asked the bond desk how it would position if the RBI changed its policy stance to neutral."
       ],
       "fill": "The MPC kept rates on hold but changed its ____ from neutral to accommodative, hinting at cuts ahead.",
       "confusables": [
@@ -148,7 +154,9 @@
       "short": "Leaning towards higher rates to fight inflation",
       "definition": "Leaning towards tighter policy: higher rates, or keeping them high for longer, to bring inflation down. A hawk on the MPC worries more about inflation than about growth.",
       "examples": [
-        "The minutes were hawkish: three members flagged food prices."
+        "The minutes were hawkish: three members flagged food prices.",
+        "The bond desk sold 10-year bonds after the governor sounded hawkish in the press conference.",
+        "The client asked why her debt fund fell: the RBI sounded hawkish and bond yields rose."
       ],
       "fill": "The governor warned that inflation risks were rising and rate cuts were off the table. Bond traders called the tone ____.",
       "confusables": [
@@ -179,7 +187,9 @@
       "short": "Leaning towards lower rates to support growth",
       "definition": "Leaning towards easier policy: lower rates, or keeping them low for longer, to support growth and jobs. A dove on the MPC worries more about growth than about inflation.",
       "examples": [
-        "A dovish policy sent bank stocks up and the 10-year yield down 10 bp."
+        "A dovish policy sent bank stocks up and the 10-year yield down 10 bp.",
+        "The economist expects a dovish tone now that inflation is back near 4%.",
+        "The client asked why her bank stocks jumped: the RBI turned dovish, so markets expect rate cuts."
       ],
       "fill": "The MPC hinted at more cuts to help slowing growth, a ____ message that sent bond prices higher.",
       "confusables": [
@@ -201,7 +211,9 @@
       "short": "The RBI's 4% CPI goal, with a 2% to 6% band",
       "definition": "The goal the government sets for the RBI: consumer price inflation of 4%, with a band of 2% to 6%. If inflation stays outside the band for three quarters in a row, the RBI must write to the government explaining why and what it will do.",
       "examples": [
-        "With inflation at 6.5%, the RBI is above the top of its band."
+        "With inflation at 6.5%, the RBI is above the top of its band.",
+        "The economist notes prices have run above the RBI's inflation target for six straight months.",
+        "The client asked why the RBI cares about 4%: that's the midpoint of its inflation target."
       ],
       "fill": "The government has told the RBI to aim for 4% CPI inflation, with room between 2% and 6%. That goal is the ____.",
       "confusables": [
@@ -230,7 +242,9 @@
       "short": "Yearly rise in the prices shoppers pay",
       "definition": "How much the consumer price index, a basket of food, fuel, housing, clothing and services, has risen over the past year. It's the inflation measure the RBI targets, so the monthly release can move bond yields and rate bets.",
       "examples": [
-        "CPI came in at 5.4% against 5.1% expected, and the 10-year yield jumped 6 bp."
+        "CPI came in at 5.4% against 5.1% expected, and the 10-year yield jumped 6 bp.",
+        "The bond desk stays light before every CPI inflation print.",
+        "The client asked why her FD barely grows in real terms: CPI inflation is eating most of the interest."
       ],
       "fill": "Each month the government reports how much the prices of food, fuel and household goods have risen over the past year. That figure is ____.",
       "confusables": [
@@ -256,7 +270,9 @@
       "short": "How a repo change reaches loan and deposit rates",
       "definition": "How far, and how fast, a change in the repo rate passes through to the rates banks charge on loans and pay on deposits. Loans tied to the repo rate pass a change on quickly; fixed deposits and older loans take longer.",
       "examples": [
-        "The RBI cut 100 bp, but transmission to deposit rates has been slow."
+        "The RBI cut 100 bp, but transmission to deposit rates has been slow.",
+        "The banking analyst says slow transmission to loan rates will protect bank margins this year.",
+        "The client asked why her loan rate didn't fall after the cut; transmission takes months."
       ],
       "fill": "The RBI cut rates by 50 bp, but banks lowered their lending rates by only 20 bp. Economists said the ____ was weak.",
       "confusables": [
@@ -284,7 +300,9 @@
       "short": "Rupees needed to buy one US dollar",
       "definition": "The exchange rate between the US dollar and the rupee, quoted as how many rupees one dollar buys. When the number goes up, the rupee has weakened.",
       "examples": [
-        "USDINR jumped 30 paise as FPIs sold heavily."
+        "USDINR jumped 30 paise as FPIs sold heavily.",
+        "Risk stresses the importers in the book for a 3% jump in USDINR.",
+        "The client asked what USDINR at 88 means: it takes ₹88 to buy one US dollar."
       ],
       "fill": "If one dollar costs ₹88.50, the ____ rate is 88.50.",
       "confusables": [
@@ -323,7 +341,9 @@
       "short": "Rupee losing value against other currencies",
       "definition": "A fall in the rupee's value against other currencies, so each dollar costs more rupees. It makes imports like oil dearer and exports cheaper abroad, and cuts the dollar returns of foreign investors.",
       "examples": [
-        "IT stocks rallied on rupee depreciation, since they earn in dollars."
+        "IT stocks rallied on rupee depreciation, since they earn in dollars.",
+        "The pharma analyst counts rupee depreciation as a tailwind, since most sales are in dollars.",
+        "The client asked why her US fund beat the S&P 500: rupee depreciation added to her return."
       ],
       "fill": "The dollar went from ₹85 to ₹88 in six months, making imported oil dearer. That's ____.",
       "confusables": [
@@ -356,7 +376,9 @@
       "short": "RBI dealing in dollars to steady the rupee",
       "definition": "The central bank buying or selling dollars in the currency market to calm sharp moves in the rupee. It sells dollars from its reserves when the rupee is falling fast and buys them when inflows pile up. The RBI says it targets volatility, not a level.",
       "examples": [
-        "State-run banks were selling dollars at the highs, a sign of RBI intervention."
+        "State-run banks were selling dollars at the highs, a sign of RBI intervention.",
+        "The FX desk thinks RBI intervention will cap the rupee's fall near the old low.",
+        "Risk asked how long RBI intervention can hold the rupee if foreign selling continues."
       ],
       "fill": "The rupee was sliding fast until state-run banks started selling dollars for the central bank. Traders called it ____.",
       "confusables": [
@@ -389,7 +411,9 @@
       "short": "RBI's stock of foreign currency and gold",
       "definition": "The foreign currency, gold and other foreign assets the RBI holds, mostly in US dollar bonds. They're the war chest it uses to defend the rupee, and it publishes the total every Friday.",
       "examples": [
-        "Reserves fell $5 billion in a week as the RBI defended the rupee."
+        "Reserves fell $5 billion in a week as the RBI defended the rupee.",
+        "The economist checks how many months of imports the forex reserves would cover.",
+        "The client asked why falling forex reserves were in the news: the RBI had sold dollars to defend the rupee."
       ],
       "fill": "The RBI's pile of dollars, other currencies and gold, which it draws on to defend the rupee, is its ____.",
       "confusables": [
@@ -415,7 +439,9 @@
       "short": "Exchange-traded futures on exchange rates",
       "definition": "Futures on an exchange rate, traded on NSE and BSE. A USDINR contract is for $1,000, priced in rupees with a tick of ₹0.0025, and settles in cash against the official reference rate. Importers and exporters use them to hedge.",
       "examples": [
-        "We sold USDINR futures to hedge the export bills due in March."
+        "We sold USDINR futures to hedge the export bills due in March.",
+        "The importer's treasury buys currency futures each month to fix the rupee cost of its bills.",
+        "The client asked if she can hedge her son's US tuition fees with currency futures on NSE."
       ],
       "fill": "An importer locks in the rupee cost of next month's dollar payment by buying $1,000 lots on NSE. They're trading ____.",
       "confusables": [
@@ -456,7 +482,9 @@
       "short": "Forward rate above spot, from the rate gap",
       "definition": "How much more a dollar for future delivery costs than one today. Rupee interest rates are higher than dollar rates, so the forward trades above spot by roughly the rate gap; it's usually quoted as an annual percentage.",
       "examples": [
-        "The one-year forward premium is close to the gap between Indian and US interest rates."
+        "The one-year forward premium is close to the gap between Indian and US interest rates.",
+        "The exporter's treasurer sells dollars forward because the forward premium adds about 2% a year.",
+        "Risk notes the forward premium shrank as the gap between Indian and US rates narrowed."
       ],
       "fill": "Spot is 88.00 and the 12-month forward is 89.76, a 2% annual ____ that mirrors the gap in interest rates.",
       "confusables": [
@@ -502,7 +530,9 @@
       "short": "Offshore rupee forward settled in dollars",
       "definition": "A non-deliverable forward: a forward on the rupee traded outside India, mainly in Singapore, Dubai and London, and settled in dollars rather than rupees. Overnight moves there often show where the rupee will open at home.",
       "examples": [
-        "The rupee is seen opening weaker; NDFs are pointing to a 20-paise fall."
+        "The rupee is seen opening weaker; NDFs are pointing to a 20-paise fall.",
+        "The FX dealer checks the overnight NDF moves before the onshore market opens.",
+        "Risk asked why the rupee gapped down at the open: offshore NDF trading had already priced the news."
       ],
       "fill": "Overnight, a rupee forward traded in Singapore and settled in dollars pointed to a weak open. That contract is an ____.",
       "confusables": [
@@ -527,7 +557,9 @@
       "short": "Dollar's value against six major currencies",
       "definition": "A measure of the US dollar against six major currencies, with the euro making up more than half. A rising index means a broadly stronger dollar, which usually weighs on the rupee and other emerging-market currencies.",
       "examples": [
-        "The dollar index is up 1% on the week, so the rupee's slip is no surprise."
+        "The dollar index is up 1% on the week, so the rupee's slip is no surprise.",
+        "The strategist says a weaker dollar index usually helps FPI flows into India.",
+        "The client asked why the rupee fell though India's news was good: the dollar index jumped worldwide."
       ],
       "fill": "A single number tracking the US dollar against the euro, yen, pound and three other currencies is the ____.",
       "confusables": [
@@ -556,7 +588,9 @@
       "short": "Borrow a low-rate currency, buy a high-rate one",
       "definition": "Borrowing in a currency with low interest rates and investing in one with higher rates, such as the rupee, to earn the gap. It pays while exchange rates stay calm, and can unwind fast when they don't.",
       "examples": [
-        "Foreign funds piled into rupee bonds as a carry trade, then ran when the rupee fell 3% in a week."
+        "Foreign funds piled into rupee bonds as a carry trade, then ran when the rupee fell 3% in a week.",
+        "Risk worries the carry trade into rupee bonds will unwind fast if the rupee slips.",
+        "The client asked what a carry trade is: borrow cheap in one currency, invest at a higher rate in another."
       ],
       "fill": "A fund borrows yen at 1%, buys rupee bonds yielding 7% and pockets the gap, as long as the rupee holds. That's a ____.",
       "confusables": [
@@ -581,7 +615,9 @@
       "short": "Country paying abroad more than it earns",
       "definition": "When a country pays the rest of the world more for imports, interest and dividends than it earns from exports and money sent home. India usually runs one, mainly because of oil and gold imports, so it relies on foreign investment to fund it.",
       "examples": [
-        "A wider current account deficit leaves the rupee more exposed when FPIs pull money out."
+        "A wider current account deficit leaves the rupee more exposed when FPIs pull money out.",
+        "The economist expects the current account deficit to narrow as oil prices fall.",
+        "The client asked why oil prices matter for the rupee: costly oil widens the current account deficit."
       ],
       "fill": "India's oil and gold imports cost more than it earns from exports and money sent home, so it runs a ____.",
       "confusables": [
@@ -608,7 +644,9 @@
       "short": "Where banks park spare cash with the RBI",
       "definition": "The standing deposit facility: banks can leave surplus cash with the RBI overnight, and the RBI doesn't have to hand over bonds as collateral. Its rate, 25 bp below the repo rate, is the floor of the RBI's rate corridor.",
       "examples": [
-        "Banks are parking record sums in the SDF, so liquidity is in big surplus."
+        "Banks are parking record sums in the SDF, so liquidity is in big surplus.",
+        "The bank's treasury desk parks its spare cash in the SDF overnight.",
+        "The economist notes the SDF rate now sets the floor for overnight rates."
       ],
       "fill": "Surplus cash that banks leave with the RBI overnight earns the ____ rate, the floor of the corridor.",
       "confusables": [
@@ -650,7 +688,9 @@
       "short": "Banks' emergency overnight loans from the RBI",
       "definition": "The marginal standing facility: banks can borrow overnight from the RBI at a penalty rate, 25 bp above the repo rate, pledging government bonds, even ones they hold to meet their statutory liquidity rule. It's the ceiling of the corridor, and the Bank Rate is set equal to it.",
       "examples": [
-        "Liquidity is tight and banks are dipping into the MSF."
+        "Liquidity is tight and banks are dipping into the MSF.",
+        "Risk tracks how often our bank borrows from the MSF, because it's the costliest window.",
+        "The economist says heavy MSF borrowing is a sign the system is short of cash."
       ],
       "fill": "Short of cash late in the day, a bank borrows overnight from the RBI at 25 bp above repo through the ____.",
       "confusables": [
@@ -692,7 +732,9 @@
       "short": "Overnight rate banks pay each other",
       "definition": "The rate at which banks lend to each other overnight without collateral, in the call money market. The weighted average of these deals is the RBI's operating target: it runs its liquidity operations to keep that rate close to the repo rate.",
       "examples": [
-        "The call rate drifted to 5.30%, near the floor, so there's too much cash around."
+        "The call rate drifted to 5.30%, near the floor, so there's too much cash around.",
+        "The money market desk watches the call rate all morning to price its overnight lending.",
+        "The economist says the call rate is trading above the repo rate, a sign liquidity is tight."
       ],
       "fill": "The RBI steers liquidity so that the rate banks charge each other for unsecured overnight loans stays near repo. That rate, its operating target, is the ____.",
       "confusables": [
@@ -726,7 +768,9 @@
       "short": "Spare cash across the whole banking system",
       "definition": "How much spare cash banks have in total, after meeting their reserve needs. In surplus, banks park the extra with the RBI and short-term rates sink; in deficit, they borrow from it and rates rise. Tax dates, government spending and RBI dollar sales all shift it.",
       "examples": [
-        "Advance tax outflows swung system liquidity into deficit this week."
+        "Advance tax outflows swung system liquidity into deficit this week.",
+        "The bond desk expects yields to ease as system liquidity swings into surplus.",
+        "Risk asked how tight system liquidity would affect our short-term borrowing costs."
       ],
       "fill": "In mid-June companies pay advance tax, cash drains from banks into the government's account, and overnight rates jump. Traders say ____ has tightened.",
       "confusables": [
@@ -753,7 +797,9 @@
       "short": "RBI auction that soaks up spare bank cash",
       "definition": "A variable rate reverse repo: an auction in which banks bid to park surplus cash with the RBI for a set term, usually 7 days, at rates set by the bids. The RBI uses it to drain extra liquidity; its mirror image, the variable rate repo, lends cash in.",
       "examples": [
-        "The RBI ran a 7-day VRRR to soak up the cash from government spending."
+        "The RBI ran a 7-day VRRR to soak up the cash from government spending.",
+        "The money market desk lends its spare cash to the RBI in the 7-day VRRR, earning a bit more than the SDF.",
+        "The economist says the RBI's VRRR auctions, where banks lend it cash at a variable rate, are back in heavy use."
       ],
       "fill": "With banks flush with cash, the RBI holds a 7-day auction to absorb the surplus. It's a ____.",
       "confusables": [
@@ -783,7 +829,9 @@
       "short": "RBI buying or selling government bonds",
       "definition": "When the RBI buys or sells government bonds in the market to change how much cash banks have for months, not days. Buying bonds pumps cash in and tends to push yields down; selling drains cash.",
       "examples": [
-        "The RBI announced bond purchases through OMOs, and yields fell 8 bp."
+        "The RBI announced bond purchases through OMOs, and yields fell 8 bp.",
+        "The bond desk bought ahead of the OMO purchase, expecting yields to fall.",
+        "The client asked why bond prices rose; the RBI was buying bonds through OMO purchases."
       ],
       "fill": "To add cash to the banking system for the long haul, the RBI buys government bonds from banks in an ____.",
       "confusables": [
@@ -817,7 +865,9 @@
       "short": "Share of deposits kept as cash with the RBI",
       "definition": "The cash reserve ratio: the share of a bank's deposits it must keep as cash with the RBI, earning no interest. It's 3%, and cutting it frees money for banks to lend.",
       "examples": [
-        "The 100 bp cut in CRR in 2025 freed about ₹2.5 lakh crore for banks to lend."
+        "The 100 bp cut in CRR in 2025 freed about ₹2.5 lakh crore for banks to lend.",
+        "The banking analyst says the CRR cut lets banks lend more of each deposit.",
+        "The client asked why banks keep some deposits idle at the RBI: that's the CRR, and it earns nothing."
       ],
       "fill": "A bank must keep 3% of its deposits as cash with the RBI, earning nothing. That 3% is the ____.",
       "confusables": [
@@ -859,7 +909,9 @@
       "short": "Share of deposits held in safe assets",
       "definition": "The statutory liquidity ratio: the share of deposits a bank must hold in safe, liquid assets, mostly government bonds, plus cash and gold. It's 18%, which makes banks the biggest buyers of government debt.",
       "examples": [
-        "Banks hold well above their SLR, so they can pledge the extra bonds for repo."
+        "Banks hold well above their SLR, so they can pledge the extra bonds for repo.",
+        "The economist says banks' SLR holdings make them the biggest buyers of government bonds.",
+        "Risk counts only bonds above the SLR as free to pledge for funding."
       ],
       "fill": "Indian banks must keep 18% of their deposits in government bonds and other safe assets. That rule is the ____.",
       "confusables": [
@@ -890,7 +942,9 @@
       "short": "Bond issued by the government of India",
       "definition": "A bond issued by the central government and sold through RBI auctions. It pays a coupon every six months and can run for 30 years or more. Strictly, treasury bills are government securities too, but on desks the name means these dated bonds.",
       "examples": [
-        "The 10-year G-sec yield rose 8 bp after the hawkish policy."
+        "The 10-year G-sec yield rose 8 bp after the hawkish policy.",
+        "The bond desk is long the 10-year G-sec into the policy.",
+        "The client asked if her G-sec fund can lose money: yes, when yields rise, prices fall."
       ],
       "fill": "The 10-year bond the central government sells at RBI auctions, the benchmark for every Indian rates desk, is a ____.",
       "confusables": [
@@ -924,7 +978,9 @@
       "short": "Short government paper sold at a discount",
       "definition": "Short-term borrowing by the central government that lasts 91, 182 or 364 days. It pays no coupon: it's sold below face value at a weekly RBI auction and repaid at face value, and the gap is the holder's return.",
       "examples": [
-        "The 91-day T-bill cut-off came in a touch above the repo rate."
+        "The 91-day T-bill cut-off came in a touch above the repo rate.",
+        "The fund parks idle cash in the 91-day T-bill until it finds stocks to buy.",
+        "The client asked how her T-bill pays interest: she buys below ₹100 and gets ₹100 at maturity."
       ],
       "fill": "The government's 91-day paper, auctioned by the RBI every week below face value, is a ____.",
       "confusables": [
@@ -965,7 +1021,9 @@
       "short": "Bond issued by a state government",
       "definition": "A bond issued by one of India's state governments and auctioned by the RBI on their behalf, usually every week. It yields a little more than a central government bond of the same length.",
       "examples": [
-        "SDLs are trading about 40 bp over G-secs, so the state bond fund looks attractive."
+        "SDLs are trading about 40 bp over G-secs, so the state bond fund looks attractive.",
+        "The bond desk likes SDL paper for the extra yield over central government bonds.",
+        "Risk treats each state's SDL as near-sovereign but still caps how much we hold."
       ],
       "fill": "A 10-year bond sold by the Maharashtra government to fund its budget is an ____.",
       "confusables": [
