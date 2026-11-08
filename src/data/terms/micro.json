@@ -53,7 +53,9 @@
       "short": "Live list of all waiting buy and sell orders",
       "definition": "The exchange's live list of every waiting buy and sell limit order in a security, sorted by price. Bids sit on one side, offers on the other, and trades happen where they meet. Broker apps also use 'order book' for the list of your own orders.",
       "examples": [
-        "The order book is thin above 1,500; one big buyer could run it."
+        "The order book is thin above 1,500; one big buyer could run it.",
+        "The client asked why her limit order wasn't filled: it's still sitting in the order book behind others.",
+        "Risk looks at the order book before approving a big sell in a small cap."
       ],
       "fill": "Every unfilled limit order for Infosys sits in the exchange's ____ until it trades or is cancelled.",
       "confusables": [
@@ -81,7 +83,9 @@
       "short": "Highest bid and lowest offer right now",
       "definition": "The highest price any buyer is bidding and the lowest price any seller is offering at this moment. Together they're called the top of the book or the touch, and the gap between them is the spread.",
       "examples": [
-        "Best bid 412.40, best offer 412.55, five thousand on each side."
+        "Best bid 412.40, best offer 412.55, five thousand on each side.",
+        "The dealer reads the client the best bid and offer before suggesting a limit.",
+        "Risk checks fills against the best bid and offer at the moment each order went in."
       ],
       "fill": "The highest bid and lowest offer showing on screen are the ____.",
       "confusables": [
@@ -107,7 +111,9 @@
       "short": "How much is bid and offered near the best price",
       "definition": "How many shares are waiting to be bought and sold at each price close to the best bid and offer. Deep markets absorb big orders with little price change. NSE shows the best five levels, and some brokers show twenty.",
       "examples": [
-        "Depth is great in HDFC Bank; you can sell ₹10 crore and barely move it."
+        "Depth is great in HDFC Bank; you can sell ₹10 crore and barely move it.",
+        "The client asked how much she could sell without moving the price; the market depth screen shows it.",
+        "Risk sizes exits by market depth, not by the day's volume alone."
       ],
       "fill": "To see how many shares are bid at each of the five best prices, check the ____.",
       "confusables": [
@@ -133,7 +139,9 @@
       "short": "Halfway between the best bid and offer",
       "definition": "The price halfway between the best bid and the best offer. It's a quick gauge of what the stock is worth right now, and execution costs are often measured against it.",
       "examples": [
-        "We filled 3 bps through mid, which is fine for that size."
+        "We filled 3 bps through mid, which is fine for that size.",
+        "Risk marks the options book at the mid price, not the last trade.",
+        "The client asked why her limit at the mid price filled slowly: she wasn't paying the offer."
       ],
       "fill": "With the bid at 100 and the offer at 101, the ____ is 100.50.",
       "confusables": [
@@ -171,7 +179,9 @@
       "short": "Smallest step a price can move",
       "definition": "The smallest amount by which a price can change, set by the exchange. A smaller tick lets bids and offers sit closer together, which narrows spreads.",
       "examples": [
-        "Since the tick went to one paisa, the spread in that stock is a fraction of what it was."
+        "Since the tick went to one paisa, the spread in that stock is a fraction of what it was.",
+        "The quant checks the tick size, because in a cheap stock one tick is a big share of the price.",
+        "The client asked why her limit order was rejected: the price wasn't a multiple of the tick size."
       ],
       "fill": "If prices can move only in steps of 5 paise, the ____ is ₹0.05.",
       "confusables": [
@@ -207,7 +217,9 @@
       "short": "Best price first, then first come first served",
       "definition": "The rule exchanges like NSE use to match orders: the best price trades first, and among orders at the same price, the one that arrived first trades first.",
       "examples": [
-        "Two of us bid 500, but his order got there first, so he got filled first."
+        "Two of us bid 500, but his order got there first, so he got filled first.",
+        "The dealer joined the bid early, because under price-time priority the first order at a price fills first.",
+        "The client asked why someone else's order at the same price filled before hers: price-time priority."
       ],
       "fill": "Two buyers bid ₹500 and the earlier one fills first, because of ____.",
       "confusables": [
@@ -236,7 +248,9 @@
       "short": "The exchange computer that matches orders",
       "definition": "The exchange's system that receives every order, keeps the order book and matches buyers with sellers under its priority rules, usually in microseconds.",
       "examples": [
-        "The matching engine handled a record number of orders on expiry day."
+        "The matching engine handled a record number of orders on expiry day.",
+        "Risk asked what happens to our open orders if the exchange's matching engine goes down.",
+        "The quant measures how long the matching engine takes to confirm each order."
       ],
       "fill": "Orders from every broker meet in the exchange's ____, which decides which ones trade.",
       "confusables": [
@@ -262,7 +276,9 @@
       "short": "Order that waits in the book for a match",
       "definition": "A limit order that sits in the order book waiting for someone to trade against it, rather than trading at once. It adds liquidity, may get a better price, but risks not filling.",
       "examples": [
-        "Let's stay passive, bid on the touch and see if it comes to us."
+        "Let's stay passive, bid on the touch and see if it comes to us.",
+        "The dealer's passive order sat at the bid all morning and filled as sellers came.",
+        "Risk notes that every passive order risks being picked off when news breaks."
       ],
       "fill": "A buy limit at the best bid, waiting for a seller to come to it, is a ____.",
       "confusables": [
@@ -288,7 +304,9 @@
       "short": "Order that trades at once against the book",
       "definition": "An order that trades immediately against orders already waiting in the book, by crossing the spread. It takes liquidity: you're sure of a fill but pay the spread.",
       "examples": [
-        "Need it done now, so go aggressive and take the offers."
+        "Need it done now, so go aggressive and take the offers.",
+        "The PM wanted it done before the news, so the dealer's aggressive order took every offer up to ₹612.",
+        "Risk notes that each aggressive order pays the spread, so costs add up fast for scalpers."
       ],
       "fill": "A buy at the best offer that trades instantly is an ____: it takes liquidity.",
       "confusables": [
@@ -314,7 +332,9 @@
       "short": "Few orders, wide spreads, jumpy prices",
       "definition": "A market with few orders waiting, so spreads are wide, depth is small and even modest trades move the price.",
       "examples": [
-        "It's a thin market in that small cap; a ₹20 lakh order moved it 3%."
+        "It's a thin market in that small cap; a ₹20 lakh order moved it 3%.",
+        "Risk caps our size in any thin market at two days' volume.",
+        "The client asked why her stop filled so far below: the thin market had few bids near her price."
       ],
       "fill": "Only a few hundred shares bid and offered, with a 1% spread: a ____.",
       "confusables": [
@@ -336,7 +356,9 @@
       "short": "How trading arrives at a fair price",
       "definition": "The process by which buying and selling settle on a price that reflects everyone's information and views. Auctions and deep, open order books make it work well.",
       "examples": [
-        "Nifty futures often lead price discovery when big news hits."
+        "Nifty futures often lead price discovery when big news hits.",
+        "The analyst says the IPO's first hour is pure price discovery.",
+        "Risk avoids trading in the first minutes, while price discovery is still messy."
       ],
       "fill": "The open interplay of buyers and sellers that sets a fair price is called ____.",
       "confusables": [
@@ -362,7 +384,9 @@
       "short": "Firm that always quotes a bid and an offer",
       "definition": "A firm that keeps quoting both a bid and an offer in a security, standing ready to buy or sell. It earns the spread, takes on inventory risk, and keeps markets liquid.",
       "examples": [
-        "The market maker widened its quotes when the news hit."
+        "The market maker widened its quotes when the news hit.",
+        "The client asked who buys when everyone is selling; often the market maker does, at a lower price.",
+        "Risk limits how much stock our market maker desk can hold overnight."
       ],
       "fill": "A firm that stands ready to buy at 99.95 and sell at 100.05 all day is a ____.",
       "confusables": [
@@ -397,7 +421,9 @@
       "short": "Trading with someone who knows more",
       "definition": "The risk that the people trading with you know something you don't. Market makers lose when better-informed traders buy just before prices rise or sell before they fall, so they widen spreads to protect themselves.",
       "examples": [
-        "We widened quotes before results; the adverse selection risk is huge."
+        "We widened quotes before results; the adverse selection risk is huge.",
+        "The quant says adverse selection is why our passive fills lose money right after they happen.",
+        "Risk asked the market making desk how it guards against adverse selection before results."
       ],
       "fill": "A market maker keeps losing to traders who seem to know where prices will go: that's ____.",
       "confusables": [
@@ -419,7 +445,9 @@
       "short": "Trader who knows more than the market",
       "definition": "A trader whose orders carry real information about where prices are heading, from research, faster data or better analysis. The rest of the market tries to spot and avoid them.",
       "examples": [
-        "That buyer is informed; every time he shows up, the stock moves 2% the next day."
+        "That buyer is informed; every time he shows up, the stock moves 2% the next day.",
+        "The quant spots the informed trader in the data: the price keeps moving his way after each fill.",
+        "Risk widens our quotes when an informed trader seems to be active before news."
       ],
       "fill": "Market makers widen spreads when they suspect an ____ is on the other side.",
       "confusables": [
@@ -441,7 +469,9 @@
       "short": "Trader acting on no real information",
       "definition": "A trader who buys and sells for reasons unrelated to real information, such as hunches, tips or the need for cash. Market makers profit from trading with them.",
       "examples": [
-        "Noise traders pile into stocks after a TV tip, and the move fades in a week."
+        "Noise traders pile into stocks after a TV tip, and the move fades in a week.",
+        "The market maker likes trading against the noise trader, since his orders carry no information.",
+        "The analyst blames the noise trader chasing TV tips for the stock's swings, not any news."
       ],
       "fill": "Someone who buys on a WhatsApp tip with no real analysis is a ____.",
       "confusables": [
@@ -466,7 +496,9 @@
       "short": "Computer programs that place orders by rules",
       "definition": "Using computer programs to place orders automatically according to set rules, such as price, time or volume. A large share of trading on Indian exchanges now comes from algorithms.",
       "examples": [
-        "Our algo will work the order over the day at 10% of volume."
+        "Our algo will work the order over the day at 10% of volume.",
+        "SEBI's rules on algorithmic trading now cover retail clients who use broker APIs.",
+        "The client asked whether algorithmic trading is allowed for small investors: yes, through approved broker platforms."
       ],
       "fill": "A program that buys whenever a stock crosses its 50-day average is doing ____.",
       "confusables": [
@@ -494,7 +526,9 @@
       "short": "Ultra-fast algorithmic trading",
       "definition": "Algorithmic trading at extreme speed, sending large numbers of orders, holding positions for seconds or less, and competing on tiny delays measured in microseconds.",
       "examples": [
-        "HFT firms dominate the quotes in index options."
+        "HFT firms dominate the quotes in index options.",
+        "The quant says high-frequency trading has narrowed spreads in the big stocks.",
+        "Risk asked whether high-frequency trading firms, working in microseconds, would pull their quotes in a crash."
       ],
       "fill": "Firms that send thousands of orders a second and hold positions for milliseconds do ____.",
       "confusables": [
@@ -516,7 +550,9 @@
       "short": "Delay between sending an order and it arriving",
       "definition": "The time it takes for data or an order to travel between a trader and the exchange. Fast traders spend heavily to cut it, because the first order at a price fills first.",
       "examples": [
-        "Our latency to the exchange is under 50 microseconds."
+        "Our latency to the exchange is under 50 microseconds.",
+        "The quant measures latency on every order to spot a slow network link.",
+        "The client asked why her app order filled late: latency on her phone network."
       ],
       "fill": "High-frequency firms fight to cut their ____, the delay before their orders reach the exchange.",
       "confusables": [
@@ -541,7 +577,9 @@
       "short": "Servers placed inside the exchange's data centre",
       "definition": "Renting space for your servers inside the exchange's data centre, so orders travel the shortest possible distance and latency is lowest.",
       "examples": [
-        "Without co-location, you can't compete with the market makers on speed."
+        "Without co-location, you can't compete with the market makers on speed.",
+        "Risk tests the kill switch on the co-location servers every morning.",
+        "The client asked whether she can get co-location; it's costly and meant for trading firms."
       ],
       "fill": "To shave microseconds off every order, a firm puts its servers in the exchange's building: ____.",
       "confusables": [
@@ -562,7 +600,9 @@
       "short": "Gap between expected and actual price",
       "definition": "The difference between the price you expected when you decided to trade and the price you actually got. It comes from the spread, price moves while you wait, and your own order moving the market.",
       "examples": [
-        "Expected to buy at 500, averaged 501.50; that's 30 bps of slippage."
+        "Expected to buy at 500, averaged 501.50; that's 30 bps of slippage.",
+        "Risk tracks slippage by algo and by broker every week.",
+        "The client asked why her market order cost more than the price she saw: slippage."
       ],
       "fill": "You planned to buy at ₹500 but your average price was ₹501.50: that gap is ____.",
       "confusables": [
@@ -597,7 +637,9 @@
       "short": "Extra cost of a big order moving the price",
       "definition": "How much worse than the mid price you pay because your order is large enough to eat through several price levels in the book. NSE uses it to judge how liquid a stock is, for example when picking index members.",
       "examples": [
-        "Impact cost on a ₹10 crore order in this stock is under 0.05%."
+        "Impact cost on a ₹10 crore order in this stock is under 0.05%.",
+        "The analyst says the stock's impact cost is too high for big funds to own it.",
+        "NSE publishes impact cost data, and the index team uses it to check liquidity."
       ],
       "fill": "Your big order cleared the first three price levels, so you paid more than the mid price: that's ____.",
       "confusables": [
@@ -632,7 +674,9 @@
       "short": "Collect orders, then match at one price",
       "definition": "A way of trading where orders are collected over a set window and then all matched at one price, the one that lets the most shares trade. India's pre-open and closing sessions use it.",
       "examples": [
-        "The pre-open is a call auction, so everyone gets the same opening price."
+        "The pre-open is a call auction, so everyone gets the same opening price.",
+        "Risk likes selling into the call auction at the close, when all orders meet at one price.",
+        "The client asked why her pre-open order filled at a different price: the call auction picks one price for everyone."
       ],
       "fill": "Orders are collected for a few minutes, then all trade at a single price: a ____.",
       "confusables": [
@@ -657,7 +701,9 @@
       "short": "Hourly auctions for illiquid stocks",
       "definition": "The way NSE trades its most illiquid stocks: instead of continuous trading, they trade only in one-hour call auction sessions during the day.",
       "examples": [
-        "You can only trade that one in the periodic call auction, so wait for the next session."
+        "You can only trade that one in the periodic call auction, so wait for the next session.",
+        "Risk avoids stocks stuck in the periodic call auction, since you can trade them only once an hour.",
+        "The client asked why her order waited an hour: the stock trades in the periodic call auction."
       ],
       "fill": "A tiny, rarely traded stock that can be bought only in hourly auction sessions trades by ____.",
       "confusables": [
@@ -686,7 +732,9 @@
       "short": "Stocks where every trade must be delivered",
       "definition": "A surveillance segment where every trade in a stock must be settled by delivery: no intraday trading and no selling before the shares arrive. Exchanges move stocks there to cool speculation.",
       "examples": [
-        "It's moved to T2T, so you can't trade it intraday any more."
+        "It's moved to T2T, so you can't trade it intraday any more.",
+        "Risk won't hold stocks in the trade-to-trade segment, because they can't be traded intraday.",
+        "The client asked why she had to take delivery: the stock moved to the trade-to-trade segment."
       ],
       "fill": "The exchange moved the stock to the ____ after wild moves, so every buy must be taken as delivery.",
       "confusables": [
@@ -720,7 +768,9 @@
       "short": "Showing only part of an order on screen",
       "definition": "An exchange feature for shares that shows only part of your order in the market depth. As each part fills, the next appears. It must be at least 10% of the order and isn't available in F&O.",
       "examples": [
-        "Put a disclosed quantity of 5,000 on the 50,000-share order."
+        "Put a disclosed quantity of 5,000 on the 50,000-share order.",
+        "The dealer set the disclosed quantity at 10% so the full size stays hidden.",
+        "The client asked why only 500 shares showed on screen: she had set a disclosed quantity."
       ],
       "fill": "To show just 5,000 shares of a 50,000-share order on screen, set a ____.",
       "confusables": [
@@ -747,7 +797,9 @@
       "short": "Orders sent per trade actually done",
       "definition": "How many orders, including changes and cancellations, a trader sends for each trade that actually happens. Exchanges charge traders, mostly algos, whose ratio is very high.",
       "examples": [
-        "Our OTR spiked on the volatile day and we got a penalty notice."
+        "Our OTR spiked on the volatile day and we got a penalty notice.",
+        "Risk tracks each algo's order-to-trade ratio so we stay under the exchange's limits.",
+        "The quant cut cancellations after the order-to-trade ratio crossed the penalty level."
       ],
       "fill": "An algo that sends 500 orders and changes for every trade it completes has a high ____.",
       "confusables": [
@@ -785,7 +837,9 @@
       "short": "Exchange tag on every algo order",
       "definition": "A unique identifier issued by the exchange that's attached to every order from an approved algorithm, so the exchange can trace which strategy sent it. It's at the heart of SEBI's retail algo rules.",
       "examples": [
-        "Orders without a valid algo ID are rejected from the API."
+        "Orders without a valid algo ID are rejected from the API.",
+        "Risk checks that every live strategy carries the algo ID the exchange assigned.",
+        "The client asked why her bot's orders failed: the broker hadn't tagged them with an algo ID."
       ],
       "fill": "Each order from an approved strategy carries an ____ so the exchange knows which algo sent it.",
       "confusables": [
@@ -812,7 +866,9 @@
       "short": "Algo whose logic isn't shown to users",
       "definition": "A trading algorithm whose rules aren't disclosed to the people using it. Under SEBI's retail algo framework, firms that offer black-box algos must register as research analysts.",
       "examples": [
-        "It's a black-box algo, so you're trusting the vendor's research report."
+        "It's a black-box algo, so you're trusting the vendor's research report.",
+        "Risk won't approve the black-box algo until the vendor shares its live results and risk limits.",
+        "The client asked what a black-box algo is: one whose rules the provider keeps secret."
       ],
       "fill": "An algo sold to retail clients without revealing how it decides trades is a ____.",
       "confusables": [
@@ -840,7 +896,9 @@
       "short": "Every order and trade, message by message",
       "definition": "A data feed with every single order, change, cancellation and trade as it happens, rather than snapshots taken every second or so. Algo and HFT firms rely on it.",
       "examples": [
-        "Snapshot data misses the order flow; you need tick-by-tick for this research."
+        "Snapshot data misses the order flow; you need tick-by-tick for this research.",
+        "The quant needs tick-by-tick data to study queue position.",
+        "Risk asked how much storage a year of tick-by-tick data would take."
       ],
       "fill": "To rebuild the full order book at every moment, a quant buys ____ from the exchange.",
       "confusables": [
@@ -866,7 +924,9 @@
       "short": "Limit on how far a market order can fill",
       "definition": "A safeguard that caps how far from the last price a market or SL-M order can fill, by turning it into a limit order a set percentage away. It stops a market order in a thin stock filling at a silly price.",
       "examples": [
-        "The market order went in with 3% protection, so it couldn't fill above 103."
+        "The market order went in with 3% protection, so it couldn't fill above 103.",
+        "Risk set market price protection on every market order, so none fills too far from the last price.",
+        "The client asked why her market order was cancelled: market price protection stopped it filling 5% away."
       ],
       "fill": "Your market order was converted to a limit 3% from the last price, thanks to ____.",
       "confusables": [
@@ -890,7 +950,9 @@
       "short": "Fake orders meant to be cancelled",
       "definition": "Placing large orders you never intend to fill, to trick others into thinking there's buying or selling interest, then cancelling them once the price moves. It's market manipulation.",
       "examples": [
-        "Huge bids appeared and vanished every few seconds: textbook spoofing."
+        "Huge bids appeared and vanished every few seconds: textbook spoofing.",
+        "Surveillance flagged spoofing when big bids kept vanishing just before they could fill.",
+        "The client asked why the bids disappeared as she tried to sell: possibly spoofing."
       ],
       "fill": "Showing a big bid to lure buyers, then cancelling it before it fills, is ____.",
       "confusables": [
@@ -912,7 +974,9 @@
       "short": "Fake orders stacked at several prices",
       "definition": "A form of spoofing where many fake orders are stacked at several price levels on one side of the book, to push the price, while the real trade is done on the other side.",
       "examples": [
-        "They layered offers at five price levels, then bought the dip they created."
+        "They layered offers at five price levels, then bought the dip they created.",
+        "Compliance checks that our algos never stack orders at several prices they mean to cancel, which would look like layering.",
+        "SEBI's order described layering: fake orders at many prices to push the stock up."
       ],
       "fill": "Stacking fake sell orders at five prices to push the price down, then buying, is ____.",
       "confusables": [
@@ -936,7 +1000,9 @@
       "short": "Trading ahead of a client's big order",
       "definition": "Trading ahead of a large order you know is coming, such as a client's or your fund's, to profit from the price move it will cause. SEBI has penalised fund dealers and brokers for it.",
       "examples": [
-        "The dealer bought in his relative's account just before the fund's big buy: front-running."
+        "The dealer bought in his relative's account just before the fund's big buy: front-running.",
+        "Compliance compares dealers' personal trades with client orders to catch front-running.",
+        "The client asked why the fund manager was banned: front-running the fund's own orders."
       ],
       "fill": "A dealer who buys for himself just before placing his fund's huge buy order is ____.",
       "confusables": [
@@ -958,7 +1024,9 @@
       "short": "Trading on secret price-sensitive information",
       "definition": "Trading in a company's shares while holding unpublished information that would move the price, such as results or a merger. It's illegal in India under SEBI's insider trading rules.",
       "examples": [
-        "SEBI barred the CFO's brother for trading before the merger news."
+        "SEBI barred the CFO's brother for trading before the merger news.",
+        "Compliance blocks staff from trading the stock while we advise on the deal, to prevent insider trading.",
+        "The client asked whether trading on a tip from a friend at the company counts as insider trading: it can."
       ],
       "fill": "Buying shares because your friend in the company told you about a merger before it's announced is ____.",
       "confusables": [
@@ -982,7 +1050,9 @@
       "short": "Unpublished price sensitive information",
       "definition": "Unpublished price sensitive information: news about a company that isn't public yet and would likely move its share price, such as results, dividends, mergers or top management changes.",
       "examples": [
-        "Draft results are UPSI; don't share them outside the deal team."
+        "Draft results are UPSI; don't share them outside the deal team.",
+        "The analyst must not pass on UPSI she hears in a management meeting.",
+        "Compliance logs everyone who holds the UPSI on the deal."
       ],
       "fill": "Unannounced quarterly results that would move the stock are ____.",
       "confusables": [
@@ -1007,7 +1077,9 @@
       "short": "When company insiders may trade",
       "definition": "The period when a listed company's insiders are allowed to trade its shares. It closes from the end of each quarter until 48 hours after results are announced, and whenever other unpublished news is pending.",
       "examples": [
-        "The trading window is closed until two days after results."
+        "The trading window is closed until two days after results.",
+        "Compliance reminds staff with insider status that the trading window closes at quarter end.",
+        "The client, a company director, asked when the trading window opens after results."
       ],
       "fill": "Directors can't trade the company's shares from quarter-end until results are out, because the ____ is closed.",
       "confusables": [
@@ -1034,7 +1106,9 @@
       "short": "Hype a small stock, then sell into the rise",
       "definition": "Talking up a small, thinly traded stock with tips and hype, often through social media, so others buy, then selling into the rise. Late buyers are left with the losses.",
       "examples": [
-        "SEBI caught a pump and dump run through YouTube videos and Telegram tips."
+        "SEBI caught a pump and dump run through YouTube videos and Telegram tips.",
+        "Risk keeps a list of stocks hit by pump and dump schemes and won't touch them.",
+        "The client asked why the stock tipped on Telegram crashed: it was a pump and dump."
       ],
       "fill": "A group hypes a tiny stock on Telegram, it doubles, and they sell to the new buyers: a ____.",
       "confusables": [
@@ -1056,7 +1130,9 @@
       "short": "A group trading shares among themselves",
       "definition": "A group of related accounts trading the same shares back and forth among themselves to create fake volume and push the price, without any real change in ownership.",
       "examples": [
-        "The volume was all circular trading among 30 linked accounts."
+        "The volume was all circular trading among 30 linked accounts.",
+        "Surveillance found circular trading among accounts that shared one address.",
+        "The analyst says the volume spike looks like circular trading, not real buying."
       ],
       "fill": "Ten linked accounts passing the same shares around to fake volume is ____.",
       "confusables": [
@@ -1082,7 +1158,9 @@
       "short": "Trading with yourself to fake activity",
       "definition": "A trade where the same person, or accounts they control, are on both sides, so nothing really changes hands. It creates fake volume and is banned.",
       "examples": [
-        "The exchange flagged it as a wash trade: same beneficial owner on both sides."
+        "The exchange flagged it as a wash trade: same beneficial owner on both sides.",
+        "Our algo blocks any wash trade where both sides would come from the same fund.",
+        "The client asked why her buy and sell orders were rejected together: the system saw a wash trade."
       ],
       "fill": "Buying from your own second account to make a stock look active is a ____.",
       "confusables": [
@@ -1106,7 +1184,9 @@
       "short": "Indian slang for a stock manipulator",
       "definition": "Indian market slang for a person or group who rigs the price of a small stock, through circular trading, tips and cornering supply. An 'operator stock' is one such a group is thought to control.",
       "examples": [
-        "Stay away, it's an operator stock; the volume is all fake."
+        "Stay away, it's an operator stock; the volume is all fake.",
+        "The analyst says the operator in this stock is selling into retail buying.",
+        "Risk avoids small caps where an operator controls most of the free float."
       ],
       "fill": "In Indian slang, the person rigging a small stock's price is the ____.",
       "confusables": [
@@ -1128,7 +1208,9 @@
       "short": "Venue where orders are visible before trading",
       "definition": "A trading venue, such as NSE or BSE, where waiting orders are shown to everyone in the order book before they trade.",
       "examples": [
-        "All Indian equity trading happens on lit markets."
+        "All Indian equity trading happens on lit markets.",
+        "Risk prefers the lit market for exits because the prices are public.",
+        "The client asked whether big funds trade out of sight in India: almost everything happens on the lit market."
       ],
       "fill": "An exchange where everyone can see the bids and offers before they trade is a ____.",
       "confusables": [
@@ -1149,7 +1231,9 @@
       "short": "Private venue where orders are hidden",
       "definition": "A private trading venue where orders aren't shown before they trade, so big investors can trade size without others seeing. Common in the US and Europe, but not permitted in India.",
       "examples": [
-        "In the US we'd cross it in a dark pool; here it goes through the block window."
+        "In the US we'd cross it in a dark pool; here it goes through the block window.",
+        "The PM likes dark pool access in the US because big orders don't show.",
+        "The client asked whether India has a dark pool: no, block deals go through a special window."
       ],
       "fill": "A venue where funds trade large blocks without showing their orders is a ____.",
       "confusables": [
@@ -1176,7 +1260,9 @@
       "short": "Trading split across many venues",
       "definition": "When trading in the same security is split across several venues, so no single order book shows all the liquidity. India's equities trade mostly on NSE and BSE.",
       "examples": [
-        "The US is fragmented across dozens of venues; India is mostly NSE and BSE."
+        "The US is fragmented across dozens of venues; India is mostly NSE and BSE.",
+        "The quant says market fragmentation in the US makes smart routing essential.",
+        "Risk notes market fragmentation is low in India, since most trading happens on NSE."
       ],
       "fill": "When the same stock trades on many exchanges and private venues, liquidity suffers from ____.",
       "confusables": [
@@ -1200,7 +1286,9 @@
       "short": "Sending each order to the best venue",
       "definition": "A system that checks prices on different exchanges and sends each order, or parts of it, to wherever the best price is.",
       "examples": [
-        "Our smart order routing splits fills between NSE and BSE."
+        "Our smart order routing splits fills between NSE and BSE.",
+        "Risk checks that smart order routing sends each order to the venue with the best price.",
+        "The client asked whether her broker uses smart order routing to pick between NSE and BSE."
       ],
       "fill": "A broker system that sends your buy to NSE or BSE, whichever offers the better price, uses ____.",
       "confusables": [
@@ -1221,7 +1309,9 @@
       "short": "Orders that tend to beat whoever takes them",
       "definition": "Order flow from well-informed or very fast traders that tends to leave the other side with losses. Market makers try to spot it and widen spreads or avoid it.",
       "examples": [
-        "That client's flow is toxic: the price always runs right after we fill them."
+        "That client's flow is toxic: the price always runs right after we fill them.",
+        "The market making desk widens its prices for toxic flow from clients who always seem to know.",
+        "Risk asked the quant how to spot toxic flow before it costs us."
       ],
       "fill": "Orders that consistently move against the market maker right after they trade are ____.",
       "confusables": [
@@ -1243,7 +1333,9 @@
       "short": "Profiting from being faster than others",
       "definition": "Profiting from seeing and reacting to price changes a fraction of a second before slower traders, for example trading against stale quotes before they're updated.",
       "examples": [
-        "Their edge is latency arbitrage between the futures and the stocks."
+        "Their edge is latency arbitrage between the futures and the stocks.",
+        "Risk thinks latency arbitrage against our slow quotes cost the desk ₹2 lakh last month.",
+        "The quant says latency arbitrage needs the fastest links, so it's a game for few firms."
       ],
       "fill": "A firm that picks off stale quotes a few microseconds before others can update them does ____.",
       "confusables": [
@@ -1268,7 +1360,9 @@
       "short": "Shares available but not shown",
       "definition": "Buying or selling interest that isn't visible in the order book, such as the unshown part of disclosed-quantity orders, iceberg slices still to come, or large orders being worked slowly.",
       "examples": [
-        "There's hidden liquidity at 500; every time it trades there, more appears."
+        "There's hidden liquidity at 500; every time it trades there, more appears.",
+        "The dealer suspects hidden liquidity at 1,200 because the offer keeps refilling.",
+        "The client asked why her order filled more than the screen showed: there was hidden liquidity."
       ],
       "fill": "More shares keep appearing at 500 though the screen shows only a few: ____.",
       "confusables": [
@@ -1295,7 +1389,8 @@
       "definition": "The change in the mid-price a set time after a fill, such as one second or one minute, measured from the trader's side. Steadily negative markouts on passive fills mean better-informed traders are picking you off.",
       "examples": [
         "Our one-second markouts on that venue are minus half a tick, so the flow there is toxic.",
-        "The fills look cheap, but the markouts say the price runs away right after."
+        "The fills look cheap, but the markouts say the price runs away right after.",
+        "Risk reviews markout charts each week to see which venues hurt our fills."
       ],
       "fill": "We bought at ₹100.00 and ten seconds later the mid was ₹99.95, so our ten-second ____ was −5 paise.",
       "confusables": [
@@ -1328,7 +1423,8 @@
       "definition": "The share of an order's quantity, or of the orders sent, that actually gets executed. Passive orders fill less often than aggressive ones but don't pay the spread.",
       "examples": [
         "The fill rate on our passive bids dropped to 30% once the queue got longer.",
-        "A high fill rate on passive orders isn't always good news; check the markouts."
+        "A high fill rate on passive orders isn't always good news; check the markouts.",
+        "The client asked why her low bids rarely fill; her fill rate is 5% because she bids far below the market."
       ],
       "fill": "We sent 200 passive bids during the day and 80 of them traded, a ____ of 40%.",
       "confusables": [
@@ -1353,7 +1449,9 @@
       "short": "Algo whose rules are disclosed and replicable",
       "definition": "An algorithm whose logic is fully shown to the user, so it can be checked and rebuilt. Under SEBI's retail algo framework, brokers can offer exchange-registered algos like this to clients; algos with hidden logic need a SEBI-registered research analyst behind them.",
       "examples": [
-        "It's a white-box strategy: buy when the 20-day average crosses above the 50-day, sell on the reverse."
+        "It's a white-box strategy: buy when the 20-day average crosses above the 50-day, sell on the reverse.",
+        "Risk prefers the white-box algo, because we can check every rule it follows.",
+        "The client asked whether a white-box algo can still lose money: of course, the rules are just visible."
       ],
       "fill": "The broker shows you the exact rules the strategy follows, so you could rebuild it yourself. It's a ____.",
       "confusables": [
@@ -1382,7 +1480,9 @@
       "short": "Order rate above which an algo is registered",
       "definition": "The order rate, set by the exchanges at 10 orders a second, above which a retail trader's automated strategy has to be registered with the exchange as an algo. Below it the strategy needn't be registered, though API orders still have to come from the trader's registered static IP.",
       "examples": [
-        "Our scalper fires 15 orders a second, over the OPS threshold, so it has to be registered."
+        "Our scalper fires 15 orders a second, over the OPS threshold, so it has to be registered.",
+        "Risk keeps our retail algos under the OPS threshold so they don't need extra registration.",
+        "The client asked why her broker wanted her bot registered: it crossed the OPS threshold."
       ],
       "fill": "A retail trader's script sends 25 orders a second, more than the exchange's limit of 10, so the strategy must be registered as an algo. That limit is the ____.",
       "confusables": [
@@ -1411,7 +1511,9 @@
       "short": "Fixed internet address for API orders",
       "definition": "A fixed internet address registered with the broker. Under SEBI's retail algo rules, orders sent through a broker's API are accepted only from the trader's registered address, so every automated order can be traced to whoever sent it.",
       "examples": [
-        "My orders bounced because the cloud server's address changed; I need a static IP on the broker's list."
+        "My orders bounced because the cloud server's address changed; I need a static IP on the broker's list.",
+        "Risk keeps the static IP list short, so only our own servers can send API orders.",
+        "The client asked why her API orders failed from a café: they must come from her registered static IP."
       ],
       "fill": "Your broker rejects API orders unless they come from the one fixed internet address you registered with it. That address is your ____.",
       "confusables": [
@@ -1438,7 +1540,9 @@
       "short": "Firm that builds algos for a broker's clients",
       "definition": "A firm that builds trading algorithms and offers them to retail clients through a broker. Under SEBI's framework it must be empanelled with the exchanges and pass the broker's checks; it can't connect to the exchange directly, and the broker answers for the algos it carries.",
       "examples": [
-        "The algo provider is empanelled with NSE, so the broker can list its strategies."
+        "The algo provider is empanelled with NSE, so the broker can list its strategies.",
+        "Risk checks that the algo provider is registered with the exchange before we list its strategies.",
+        "The client asked who is responsible if the strategy misbehaves: the broker and the algo provider."
       ],
       "fill": "A fintech that writes strategies for retail clients, approved by the exchanges and offered only through a broker, is an ____.",
       "confusables": [
@@ -1466,7 +1570,9 @@
       "short": "Index options that expire every week",
       "definition": "Options that expire each week instead of each month. SEBI lets each exchange keep this on just one benchmark index: on NSE that's the Nifty, expiring on Tuesdays, and on BSE the Sensex, on Thursdays. Other indices have monthly options only.",
       "examples": [
-        "Bank Nifty lost its weekly expiry, so the action moved to the Nifty."
+        "Bank Nifty lost its weekly expiry, so the action moved to the Nifty.",
+        "The options desk sells more premium into the weekly expiry, when time value drains fast.",
+        "The client asked why the Nifty swings so much on Tuesdays: it's the weekly expiry."
       ],
       "fill": "Nifty options that run out every Tuesday, rather than once a month, are on a ____.",
       "confusables": [
@@ -1500,7 +1606,9 @@
       "short": "Least value one index F&O lot can have",
       "definition": "The least value one index futures or options contract may have. SEBI set it at ₹15 lakh when a contract is launched, and lot sizes are reviewed so the value stays between ₹15 lakh and ₹20 lakh. That's why lot sizes change after big index moves.",
       "examples": [
-        "The Nifty lot came down to 65 so the contract stays inside the size band."
+        "The Nifty lot came down to 65 so the contract stays inside the size band.",
+        "The client asked why one Nifty lot now needs so much money: SEBI raised the minimum contract size.",
+        "Risk reworked its position sizing after the minimum contract size for index F&O lots went up."
       ],
       "fill": "SEBI wants each index F&O lot to be worth at least ₹15 lakh, so lots are resized when the index moves a lot. That floor is the ____.",
       "confusables": [
@@ -1540,7 +1648,9 @@
       "short": "Option buyers pay the full premium first",
       "definition": "The rule that brokers must collect the full premium from an option buyer before the order goes in, rather than letting it be covered later. It stops buyers taking on positions bigger than the cash in their account.",
       "examples": [
-        "With premium collected upfront, I can't buy ₹2 lakh of options with ₹50,000 in the account any more."
+        "With premium collected upfront, I can't buy ₹2 lakh of options with ₹50,000 in the account any more.",
+        "Risk welcomed upfront premium collection, since clients can no longer buy options on credit.",
+        "The client asked why she needs the full premium in her account before buying: upfront premium collection."
       ],
       "fill": "Your account has ₹40,000 and the options you want cost ₹60,000, so the broker blocks the order. SEBI's rule of ____ is why.",
       "confusables": [
@@ -1569,7 +1679,9 @@
       "short": "Extra 2% margin on shorts expiring that day",
       "definition": "An extra 2% extreme loss margin on short options that expire that day, both those open at the start of the day and those sold during it. It makes selling cheap options in their last hours costlier.",
       "examples": [
-        "Selling Tuesday's Nifty strikes on the day now needs 2% more margin."
+        "Selling Tuesday's Nifty strikes on the day now needs 2% more margin.",
+        "Risk plans for expiry-day ELM, so short positions expiring today carry more margin.",
+        "The client asked why her margin rose on expiry morning: expiry-day ELM adds 2% on shorts expiring that day."
       ],
       "fill": "On the day Nifty weekly options run out, a trader selling them pays an extra 2% margin on top of the usual. That add-on is the ____.",
       "confusables": [
@@ -1596,7 +1708,9 @@
       "short": "Lower margin for offsetting expiries",
       "definition": "The margin discount for holding opposite positions in two expiries of the same underlying, such as long this month and short next month, since they largely offset. On expiry day the expiring leg no longer counts, so full margin is charged on the other one.",
       "examples": [
-        "My spread margin jumped on expiry morning: no calendar spread benefit on the day."
+        "My spread margin jumped on expiry morning: no calendar spread benefit on the day.",
+        "Risk recalculates margins on expiry day, when the calendar spread benefit falls away.",
+        "The analyst says losing the calendar spread benefit on expiry day pushed traders out of near-month spreads."
       ],
       "fill": "Long this month's Nifty future and short next month's, you post less margin because the two largely cancel. That discount is the ____, and it goes on expiry day.",
       "confusables": [
@@ -1626,7 +1740,9 @@
       "short": "Open interest counted by delta",
       "definition": "Open interest measured by risk rather than by contract count: each option position is multiplied by its delta, so a far out-of-the-money option counts for much less than a future. SEBI now uses it for market-wide limits and the F&O ban.",
       "examples": [
-        "Lots of cheap calls were sold, but futures-equivalent OI barely moved because their deltas were tiny."
+        "Lots of cheap calls were sold, but futures-equivalent OI barely moved because their deltas were tiny.",
+        "Risk tracks futures-equivalent OI because the exchange's limits now use it.",
+        "The analyst says futures-equivalent OI gives a truer picture of positioning than counting contracts."
       ],
       "fill": "1,000 lots of calls with a delta of 0.2 count as just 200 lots when the exchange checks position limits. That way of counting gives ____.",
       "confusables": [
@@ -1666,7 +1782,9 @@
       "short": "Position limits checked during the day too",
       "definition": "Exchanges checking index F&O position limits during the day as well as at the close, using at least four snapshots at random times. Big traders can no longer build huge positions in the morning and cut them before the end-of-day check.",
       "examples": [
-        "We breached the limit at 11:40 and were caught, even though we were flat by the close."
+        "We breached the limit at 11:40 and were caught, even though we were flat by the close.",
+        "Risk built alerts for intraday position monitoring, since being flat by the close is no longer enough.",
+        "The client asked why her broker warned her at noon: intraday position monitoring showed her above the limit."
       ],
       "fill": "The exchange takes at least four surprise snapshots of index F&O positions during the day, not just one at the close. That's ____.",
       "confusables": [
