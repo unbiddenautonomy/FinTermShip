@@ -27,6 +27,11 @@
       "id": "d5",
       "name": "Desk phrases",
       "core": false
+    },
+    {
+      "id": "d6",
+      "name": "Managing a trade",
+      "core": false
     }
   ],
   "terms": [
@@ -1520,6 +1525,363 @@
         "Holding a stock for too many years",
         "Using the wrong order type",
         "Buying a stock for the wrong reasons but making money"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "take-some-off",
+      "term": "take some off the table",
+      "aliases": [
+        "take money off the table",
+        "take chips off the table"
+      ],
+      "unit": "d6",
+      "short": "Sell part of a winner to lock in gains",
+      "definition": "To sell part of a profitable position and bank the gain, while keeping the rest. It cuts the risk of giving the whole profit back.",
+      "examples": [
+        "The stock's up 30% since we bought it. Take some off the table and let the rest ride.",
+        "Into the results I'd take some off the table; we've made our money."
+      ],
+      "fill": "Up 40% on the trade, she sold a third of the shares to ____ and kept the rest.",
+      "confusables": [
+        "profit-booking",
+        "trim",
+        "realised-pnl"
+      ],
+      "wrong": [
+        "Add more to a winning position",
+        "Sell the whole of a losing position",
+        "Put a deal on hold"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "let-winners-run",
+      "term": "let your winners run",
+      "aliases": [
+        "let winners run",
+        "let profits run"
+      ],
+      "unit": "d6",
+      "short": "Don't sell a good trade too early",
+      "definition": "Old trading advice: keep a profitable trade while it keeps working, often with a trailing stop, instead of selling at the first small gain. Trend followers earn most of their money from a few winners left to run.",
+      "examples": [
+        "You sold at 5% up and it went 40%. Cut your losers and let your winners run.",
+        "Move the stop up to breakeven and let the winner run."
+      ],
+      "fill": "Trend followers lose on most trades, so they ____ with trailing stops to make up for it.",
+      "confusables": [
+        "trailing-stop-loss",
+        "profit-target",
+        "cut-losers"
+      ],
+      "wrong": [
+        "Close winners fast before they reverse",
+        "Add to losing trades as they fall",
+        "Trade only stocks on a winning streak"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "cut-losers",
+      "term": "cut your losers",
+      "aliases": [
+        "cut losses",
+        "cut your losses",
+        "cut losers"
+      ],
+      "unit": "d6",
+      "short": "Exit losing trades quickly",
+      "definition": "Get out of a losing trade early, at a planned stop, instead of hoping it comes back. Small losses are easy to recover from; a 50% loss needs a 100% gain to get back.",
+      "examples": [
+        "It broke the level that proved us wrong, so cut your loser now.",
+        "The best traders cut losers fast and don't argue with the tape."
+      ],
+      "fill": "A 50% loss needs a 100% gain to recover, which is why traders are told to ____ early.",
+      "confusables": [
+        "stop-loss",
+        "stopped-out",
+        "let-winners-run"
+      ],
+      "wrong": [
+        "Close winning trades to lock in profit",
+        "Sell the lowest-priced stocks first",
+        "Lower your stop as the price falls"
+      ],
+      "calcs": [
+        {
+          "q": "A stock you own falls 20%. What gain do you need to get back to where you started?",
+          "options": [
+            "25%",
+            "20%",
+            "40%",
+            "15%"
+          ],
+          "answer": 0,
+          "why": "After a 20% fall, ₹100 becomes ₹80. Getting back to ₹100 needs 20 ÷ 80 = 25%."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "average-down",
+      "term": "average down",
+      "aliases": [
+        "averaging down",
+        "average a loser"
+      ],
+      "unit": "d6",
+      "short": "Buy more as the price falls",
+      "definition": "Buying more of a stock as it falls, which lowers your average cost. It can make sense if the reason for owning it still holds, but it adds to a losing position, and many desks forbid it without a fresh reason.",
+      "examples": [
+        "I bought at 1,000 and again at 900, so I've averaged down to 950.",
+        "Don't average down on a stock that's falling on bad news; that's how small losses get big."
+      ],
+      "fill": "She bought 100 shares at ₹200 and 100 more at ₹160, bringing her cost to ₹180: she chose to ____.",
+      "confusables": [
+        "double-down",
+        "buy-the-dip",
+        "falling-knife"
+      ],
+      "wrong": [
+        "Sell some shares to cut the average",
+        "Buy more as the price rises",
+        "Lower the average price of a fund"
+      ],
+      "calcs": [
+        {
+          "q": "You buy 200 shares at ₹500 and later 300 shares at ₹450. What is your average cost?",
+          "options": [
+            "₹470",
+            "₹475",
+            "₹480",
+            "₹465"
+          ],
+          "answer": 0,
+          "why": "(200 × 500 + 300 × 450) ÷ 500 = (1,00,000 + 1,35,000) ÷ 500 = ₹470."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Averaging down lowers your average cost but makes a losing position bigger.",
+          "a": true
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "double-down",
+      "term": "double down",
+      "aliases": [
+        "doubling down",
+        "doubled down"
+      ],
+      "unit": "d6",
+      "short": "Make a bet much bigger, often after a loss",
+      "definition": "To make a position much bigger, often double, usually after it has moved against you. Done on fresh evidence it can be bold; done to win back a loss, it is how blow-ups start.",
+      "examples": [
+        "The stock fell 15% on results and he doubled down, saying the market had it wrong.",
+        "Don't double down just to get back to flat for the month."
+      ],
+      "fill": "After the trade lost 10%, the PM bought twice as much again, saying it was time to ____.",
+      "confusables": [
+        "average-down",
+        "revenge-trading",
+        "size-up"
+      ],
+      "wrong": [
+        "Cut a position in half",
+        "Hedge both sides of a trade",
+        "Place two stop-losses on one trade"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "scale-in",
+      "term": "scale in",
+      "aliases": [
+        "scaling in",
+        "build in stages"
+      ],
+      "unit": "d6",
+      "short": "Build a position in steps, not all at once",
+      "definition": "Building a position in several pieces, over time or at different prices, instead of all at once. It lowers the risk of bad timing and the market impact of one big order.",
+      "examples": [
+        "We'll scale in: a third today, a third after results, the rest on any dip.",
+        "Scaling in over a week kept our impact under 10 bps."
+      ],
+      "fill": "Instead of buying all 6 lakh shares today, she bought 2 lakh each week for three weeks to ____.",
+      "confusables": [
+        "scale-out",
+        "average-down",
+        "working-an-order"
+      ],
+      "wrong": [
+        "Buy the whole position in one order",
+        "Sell a position in pieces",
+        "Raise the size of each lot"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "scale-out",
+      "term": "scale out",
+      "aliases": [
+        "scaling out",
+        "exit in stages"
+      ],
+      "unit": "d6",
+      "short": "Exit a position in steps",
+      "definition": "Closing a position in several pieces, for example selling a third at each target. It locks in some gains early while keeping part of the trade for a bigger move.",
+      "examples": [
+        "Scale out: a third at 24,500, a third at 24,800, and trail a stop on the rest.",
+        "We scaled out over three days so we didn't hit the bid too hard."
+      ],
+      "fill": "The trader sold a third at each of three targets instead of all at once: she chose to ____.",
+      "confusables": [
+        "scale-in",
+        "take-some-off",
+        "trim"
+      ],
+      "wrong": [
+        "Build a position in steps",
+        "Exit everything in one order",
+        "Cut the lot size of a contract"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "wheres-your-stop",
+      "term": "where's your stop?",
+      "aliases": [
+        "what's your stop?",
+        "where's the stop?"
+      ],
+      "unit": "d6",
+      "short": "At what price will you admit you're wrong?",
+      "definition": "A PM's or risk manager's question before any trade: at what price does the idea stop working, so you get out? A trade with no stop, or a stop moved further away as it loses, is a warning sign.",
+      "examples": [
+        "Love the idea. Where's your stop?",
+        "You said your stop was 1,450. It's 1,420 now; why are we still long?"
+      ],
+      "fill": "Before approving the long at ₹1,500, the PM asked ____, and the trader said ₹1,440.",
+      "confusables": [
+        "stop-loss",
+        "risk-reward",
+        "stopped-out"
+      ],
+      "wrong": [
+        "Where will you take your profit?",
+        "When will the trade settle?",
+        "Which broker will you route it to?"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "pyramiding",
+      "term": "pyramiding",
+      "aliases": [
+        "pyramid",
+        "add to winners"
+      ],
+      "unit": "d6",
+      "short": "Adding to a winner as it moves your way",
+      "definition": "Adding to a profitable position in steps as the price moves in your favour, usually in smaller lots each time. It's the opposite of averaging down: you only add when you're already right.",
+      "examples": [
+        "He started with 2 lots and pyramided up to 6 as the breakout held.",
+        "Pyramiding with ever bigger lots is dangerous; the last add drags your average up near the top."
+      ],
+      "fill": "The trader bought 4 lots at the breakout, then 2 more at each higher level as it kept rising: classic ____.",
+      "confusables": [
+        "average-down",
+        "scale-in",
+        "let-winners-run"
+      ],
+      "wrong": [
+        "Adding to a loser as its price falls",
+        "Selling in steps as the price rises",
+        "Building a fund that holds other funds"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "revenge-trading",
+      "term": "revenge trading",
+      "aliases": [
+        "revenge trade",
+        "trading to get even"
+      ],
+      "unit": "d6",
+      "short": "Trading big to win back a loss",
+      "definition": "Trading bigger or more often right after a loss, to win the money back quickly. It breaks the trader's own rules and usually turns a bad day into a terrible one.",
+      "examples": [
+        "He lost ₹50,000 by 10 am and tripled his size to get it back. Textbook revenge trading.",
+        "After a big loss, step away; the next trade will be revenge trading."
+      ],
+      "fill": "After losing a week's profit in an hour, he doubled his lot size to win it back before the close: ____.",
+      "confusables": [
+        "overtrading",
+        "double-down",
+        "fomo"
+      ],
+      "wrong": [
+        "Trading against a rival desk",
+        "Shorting a stock that cost you money",
+        "Trading only after hours"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "overtrading",
+      "term": "overtrading",
+      "aliases": [
+        "over-trading",
+        "trading too much"
+      ],
+      "unit": "d6",
+      "short": "Trading too often for the edge you have",
+      "definition": "Making more trades than your edge supports, often out of boredom or to win back losses. Every trade pays brokerage, STT and the spread, so overtrading turns a small edge into a loss.",
+      "examples": [
+        "You did 140 trades yesterday for ₹3,000 gross and ₹9,000 in charges. That's overtrading.",
+        "On a range-bound day the best trade is often no trade."
+      ],
+      "fill": "He made 60 trades a day, and the costs ate more than his gains: a clear case of ____.",
+      "confusables": [
+        "revenge-trading",
+        "transaction-costs",
+        "scalping"
+      ],
+      "wrong": [
+        "Trading more than the exchange allows",
+        "Buying more than your margin covers",
+        "Placing orders above the freeze limit"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "bag-holder",
+      "term": "bag holder",
+      "aliases": [
+        "left holding the bag",
+        "bagholder"
+      ],
+      "unit": "d6",
+      "short": "Stuck with a stock after the crowd sold",
+      "definition": "Someone left holding a stock, often bought near the top of a hyped run, after others sold out and the price collapsed. Common after pump-and-dumps and frothy listings.",
+      "examples": [
+        "The operators sold into the hype and retail buyers were left as bag holders.",
+        "Don't be the bag holder in a stock that's up 400% on no news."
+      ],
+      "fill": "After the insiders sold and the stock fell 80%, small investors who bought at the top were the ____.",
+      "confusables": [
+        "pump-and-dump",
+        "fomo",
+        "bubble"
+      ],
+      "wrong": [
+        "A trader who carries client orders",
+        "A fund that holds only cash",
+        "A custodian that holds shares"
       ],
       "difficulty": 1
     }

@@ -44,6 +44,26 @@
       "id": "q7",
       "name": "Signals and book exposure",
       "core": false
+    },
+    {
+      "id": "q9",
+      "name": "Research review talk",
+      "core": false
+    },
+    {
+      "id": "q10",
+      "name": "Signal research talk",
+      "core": false
+    },
+    {
+      "id": "q11",
+      "name": "PM talk",
+      "core": false
+    },
+    {
+      "id": "q12",
+      "name": "Risk meeting talk",
+      "core": false
     }
   ],
   "terms": [
@@ -2278,6 +2298,1646 @@
         "Splitting a trade's cost into fees and impact"
       ],
       "difficulty": 2
+    },
+    {
+      "id": "doesnt-survive-costs",
+      "term": "doesn't survive costs",
+      "aliases": [
+        "dies after costs",
+        "doesn't survive transaction costs"
+      ],
+      "unit": "q9",
+      "short": "Makes money before costs, loses after",
+      "definition": "Said of a strategy whose backtest is profitable before trading costs but not after them. Brokerage, STT, exchange charges, slippage and impact can wipe out a small edge, especially one that trades often.",
+      "examples": [
+        "It makes 9 bps a trade and costs us 12 bps to get in and out, so it doesn't survive costs.",
+        "Before you show me the gross Sharpe, tell me whether it survives costs."
+      ],
+      "fill": "A signal that earns 5 bps a trade but pays 8 bps in slippage and STT ____.",
+      "confusables": [
+        "transaction-costs",
+        "slippage",
+        "impact-cost"
+      ],
+      "wrong": [
+        "Loses money even before any costs",
+        "Too big to trade without moving price",
+        "Costs too much data to research"
+      ],
+      "tf": [
+        {
+          "s": "Showing a strategy's Sharpe ratio before costs is enough for a research review.",
+          "a": false,
+          "why": "Reviewers want returns after realistic costs. A good gross Sharpe can hide a strategy that loses money net."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "just-beta",
+      "term": "it's just beta",
+      "aliases": [
+        "just beta",
+        "that's just beta"
+      ],
+      "unit": "q9",
+      "short": "Its gains come from riding the market",
+      "definition": "A put-down for a strategy whose returns mostly come from being long the market, not from skill. Regress its returns on the Nifty: if beta explains most of it and the alpha left over is near zero, it's just beta.",
+      "examples": [
+        "The fund is up 18% in a year the Nifty rose 17%, with a beta of 1.05. That's just beta.",
+        "Before we call it alpha, hedge out the index and see what's left; it might be just beta."
+      ],
+      "fill": "The book rose 20% when the market rose 20%, with a beta near one: ____, not skill.",
+      "confusables": [
+        "beta",
+        "alpha",
+        "systematic-risk"
+      ],
+      "wrong": [
+        "Returns from picking the right stocks",
+        "Returns too small to be worth trading",
+        "A beta too high for the risk limits"
+      ],
+      "tf": [
+        {
+          "s": "A strategy can show a high return and still be just beta.",
+          "a": true,
+          "why": "If the market rallied and the book was long, a big return can come entirely from market exposure."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "factor-in-disguise",
+      "term": "a factor in disguise",
+      "aliases": [
+        "repackaged factor"
+      ],
+      "unit": "q9",
+      "short": "A known factor dressed up as a new signal",
+      "definition": "A new signal that turns out to be mostly an old, well-known factor such as momentum, value, size or low volatility. Regress it on the standard factors: if they explain it, the signal adds little.",
+      "examples": [
+        "Your earnings-strength signal has a 0.8 correlation with 12-month momentum; it's a factor in disguise.",
+        "Check the exposures first. A lot of new alphas turn out to be a value tilt in disguise."
+      ],
+      "fill": "The new signal's returns line up almost perfectly with the momentum factor's, so it's really ____.",
+      "confusables": [
+        "factor-exposure",
+        "momentum-factor",
+        "smart-beta"
+      ],
+      "wrong": [
+        "A factor that only works in secret",
+        "A signal that hides its trades from others",
+        "A factor that no longer earns a premium"
+      ],
+      "tf": [
+        {
+          "s": "If the value and momentum factors fully explain a new signal's returns, it adds little to a book that already holds those factors.",
+          "a": true
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "too-good-to-be-true",
+      "term": "too good to be true",
+      "unit": "q9",
+      "short": "So strong it probably hides a mistake",
+      "definition": "What a researcher says about a backtest with an unrealistically high Sharpe ratio or a perfectly smooth equity curve. It usually means a bug, look-ahead bias, missing costs or survivorship bias, not a discovery.",
+      "examples": [
+        "A Sharpe of 6 on a daily large-cap strategy is too good to be true; check the timestamps.",
+        "When a result looks too good to be true, the first suspect is the data, not the market."
+      ],
+      "fill": "A backtest with a Sharpe of 8 and no losing month is ____, so start by hunting for look-ahead bias.",
+      "confusables": [
+        "look-ahead-bias",
+        "overfitting",
+        "survivorship-bias"
+      ],
+      "wrong": [
+        "Proven by a long live track record",
+        "Good but too small to scale up",
+        "Real, but only in a bull market"
+      ],
+      "tf": [
+        {
+          "s": "A very high backtest Sharpe ratio is strong evidence of a great strategy.",
+          "a": false,
+          "why": "It's more often a sign of a bug, look-ahead bias or missing costs. Real strategies rarely keep a Sharpe above 2 or 3 for long."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "paper-trading",
+      "term": "paper trading",
+      "aliases": [
+        "paper trade",
+        "paper trade it",
+        "shadow trading"
+      ],
+      "unit": "q9",
+      "short": "Running it live without real money",
+      "definition": "Running a strategy on live market data and recording the trades it would make, without sending real orders. It catches bugs and shows whether live behaviour matches the backtest before capital goes in.",
+      "examples": [
+        "Paper trade it for a month, then we'll talk about capital.",
+        "The paper trading fills looked fine, but they ignored queue position, so live slippage was worse."
+      ],
+      "fill": "Before giving it money, the team ran the strategy on live prices for six weeks and only logged its orders: ____.",
+      "confusables": [
+        "backtest",
+        "out-of-sample",
+        "walk-forward"
+      ],
+      "wrong": [
+        "Testing on old data already collected",
+        "Trading only with borrowed money",
+        "Writing a strategy's rules on paper"
+      ],
+      "tf": [
+        {
+          "s": "Paper trading can look better than live trading, because no real orders move the market or wait in queues.",
+          "a": true
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "too-many-knobs",
+      "term": "too many knobs",
+      "aliases": [
+        "too many parameters",
+        "too many dials"
+      ],
+      "unit": "q9",
+      "short": "Enough settings to fit any history",
+      "definition": "Said of a model with so many adjustable parameters that it can be tuned to fit almost any past data. The more knobs, the more likely the backtest is overfit and the worse it does out of sample.",
+      "examples": [
+        "Eleven thresholds and four lookbacks for one signal? Too many knobs.",
+        "Cut it down to two parameters; with too many knobs the backtest tells us nothing."
+      ],
+      "fill": "With 14 settings tuned on five years of data, the reviewer said the model had ____.",
+      "confusables": [
+        "overfitting",
+        "data-snooping",
+        "deflated-sharpe-ratio"
+      ],
+      "wrong": [
+        "Too many traders working one book",
+        "Too many orders for the exchange",
+        "Too many markets to watch at once"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "knife-edge",
+      "term": "knife-edge result",
+      "aliases": [
+        "knife-edge",
+        "parameter cliff"
+      ],
+      "unit": "q9",
+      "short": "Works only at one exact setting",
+      "definition": "A backtest that looks good at one parameter value but falls apart when you nudge it. A sound strategy shows a broad plateau: similar results across nearby lookbacks and thresholds.",
+      "examples": [
+        "It works with a 23-day lookback but not with 20 or 25; that's a knife-edge result.",
+        "Show me the heat map of Sharpe against both parameters. If it's a single bright dot, it's knife-edge."
+      ],
+      "fill": "The Sharpe was 1.8 with a 14-day window and near zero at 12 or 16 days: a ____.",
+      "confusables": [
+        "overfitting",
+        "too-many-knobs",
+        "walk-forward"
+      ],
+      "wrong": [
+        "A result that holds across many settings",
+        "A strategy that trades only at the open",
+        "A test run on a single stock"
+      ],
+      "tf": [
+        {
+          "s": "A robust strategy should give similar results when its parameters are changed a little.",
+          "a": true
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "sanity-check",
+      "term": "sanity check",
+      "aliases": [
+        "smell test",
+        "sense check"
+      ],
+      "unit": "q9",
+      "short": "Quick test that a result is plausible",
+      "definition": "A fast, rough check that a number makes sense before anyone relies on it: does the PnL match the positions, are the returns the right size, do the trade counts add up?",
+      "examples": [
+        "Sanity check: a 2% move on a ₹10 crore book is ₹20 lakh, so a ₹2 crore loss means something's off.",
+        "Run a sanity check on the data before the backtest: no negative prices, no zero volume on trading days."
+      ],
+      "fill": "The report showed ₹50 crore of profit on a ₹5 crore book, which failed the most basic ____.",
+      "confusables": [
+        "back-of-the-envelope",
+        "outlier",
+        "backtest"
+      ],
+      "wrong": [
+        "Full audit of every trade",
+        "Check that a trader is fit to trade",
+        "Rule that limits a desk's leverage"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "back-of-the-envelope",
+      "term": "back of the envelope",
+      "aliases": [
+        "back-of-the-envelope",
+        "rough maths",
+        "napkin maths"
+      ],
+      "unit": "q9",
+      "short": "Rough sum done fast to get the size",
+      "definition": "A quick, rough calculation that gets the order of magnitude right without exact numbers. Desks use it to see whether an idea is worth more work, for example its capacity or its costs.",
+      "examples": [
+        "Back of the envelope: a 10 bps edge on ₹50 crore a day is ₹5 lakh a day before costs.",
+        "Do the back-of-the-envelope maths before you build the full simulation."
+      ],
+      "fill": "On the call she did a quick ____ sum: 2% of ₹300 crore is ₹6 crore, so the idea was worth pursuing.",
+      "confusables": [
+        "sanity-check",
+        "notional"
+      ],
+      "wrong": [
+        "Exact figure from a full model",
+        "Number written down to hide it",
+        "Estimate made by the client"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "garbage-in-garbage-out",
+      "term": "garbage in, garbage out",
+      "aliases": [
+        "GIGO",
+        "rubbish in, rubbish out"
+      ],
+      "unit": "q9",
+      "short": "Bad data gives bad results, however clever",
+      "definition": "No model can do better than its data. Unadjusted prices, missing delisted stocks, bad timestamps or wrong corporate actions make a backtest wrong however good the method.",
+      "examples": [
+        "The prices weren't adjusted for the bonus issue, so the stock 'crashed' 50% overnight in the data. Garbage in, garbage out.",
+        "Spend a week cleaning the tick data first; garbage in, garbage out."
+      ],
+      "fill": "The backtest used prices that ignored splits and bonuses, so its results were worthless: ____.",
+      "confusables": [
+        "survivorship-bias",
+        "adjusted-prices",
+        "point-in-time-data"
+      ],
+      "wrong": [
+        "Weak models fail even on clean data",
+        "Bad trades come back as bad fills",
+        "Losses in one book pass to the next"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "hypothesis-first",
+      "term": "hypothesis first",
+      "aliases": [
+        "economic rationale",
+        "what's the story?"
+      ],
+      "unit": "q9",
+      "short": "Start from a reason, then test it",
+      "definition": "The rule that a signal needs a reason to work, such as a risk premium, a behavioural bias or a forced flow, before you test it. Testing thousands of ideas with no reason behind them finds patterns by chance.",
+      "examples": [
+        "Hypothesis first: why would anyone leave this money on the table?",
+        "The PM's first question on any new alpha is the economic rationale, not the Sharpe."
+      ],
+      "fill": "Instead of mining 5,000 indicators, the team works ____: they write down why a signal should pay before they test it.",
+      "confusables": [
+        "data-snooping",
+        "overfitting",
+        "statistical-significance"
+      ],
+      "wrong": [
+        "Test everything, explain it afterwards",
+        "Trade first, research later",
+        "Pick the best backtest of many"
+      ],
+      "tf": [
+        {
+          "s": "Testing many ideas with no reason behind them raises the chance of finding a pattern that is pure luck.",
+          "a": true
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "its-noise",
+      "term": "it's noise",
+      "aliases": [
+        "just noise",
+        "that's noise",
+        "within the noise"
+      ],
+      "unit": "q9",
+      "short": "Small enough that chance could explain it",
+      "definition": "Said of a result, a day's PnL or a gap between two backtests that is small next to normal random variation. Before reacting, compare it with the standard deviation or a t-statistic.",
+      "examples": [
+        "We're down ₹3 lakh on a book that moves ₹10 lakh on a normal day. It's noise.",
+        "A Sharpe of 1.1 against 1.0 over two years is within the noise."
+      ],
+      "fill": "The new version beat the old one by 0.05 Sharpe over 18 months; the analyst said ____ and kept the simpler model.",
+      "confusables": [
+        "statistical-significance",
+        "t-statistic",
+        "noise-trader"
+      ],
+      "wrong": [
+        "A result too large to be chance",
+        "A signal built from noise traders' orders",
+        "Data that arrived with errors"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "small-sample",
+      "term": "small sample",
+      "aliases": [
+        "too few trades",
+        "sample size"
+      ],
+      "unit": "q9",
+      "short": "Too few data points to trust the result",
+      "definition": "A result based on too few trades, days or events to be reliable. With 10 trades a 70% win rate is easily luck; the error in an estimate shrinks only with the square root of the number of observations.",
+      "examples": [
+        "Twelve Budget days is a small sample; don't size up on that pattern.",
+        "That's 25 trades. Small sample, so show me the t-stat before we get excited."
+      ],
+      "fill": "The strategy won 7 of its 10 trades, but with a ____ like that, the win rate could be luck.",
+      "confusables": [
+        "statistical-significance",
+        "t-statistic",
+        "p-value"
+      ],
+      "wrong": [
+        "Data taken from a short time zone",
+        "A trade that is small in size",
+        "A test that skips costs"
+      ],
+      "tf": [
+        {
+          "s": "To halve the standard error of an average, you need about four times as many observations.",
+          "a": true,
+          "why": "Standard error falls with the square root of the sample size, so four times the data halves it."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "long-short-spread",
+      "term": "top-minus-bottom spread",
+      "aliases": [
+        "long-short spread",
+        "quintile spread",
+        "top minus bottom"
+      ],
+      "unit": "q10",
+      "short": "Best bucket's return minus the worst's",
+      "definition": "Rank stocks on a signal, split them into buckets such as fifths, and subtract the worst bucket's average forward return from the best's. It shows what a long-short version of the signal would have earned before costs.",
+      "examples": [
+        "The top-minus-bottom spread is 1.2% a month, but half of it comes from the bottom bucket's small caps.",
+        "Show me the quintile spread after costs, not just the IC."
+      ],
+      "fill": "The top fifth of stocks returned 2.1% a month and the bottom fifth 0.6%, so the signal's ____ was 1.5%.",
+      "confusables": [
+        "information-coefficient",
+        "monotonic-buckets",
+        "cross-sectional"
+      ],
+      "wrong": [
+        "Gap between bid and ask on the top stock",
+        "Return of the top stock minus the index",
+        "Difference between high and low prices"
+      ],
+      "calcs": [
+        {
+          "q": "On a signal, the top tenth of stocks returned 1.8% a month and the bottom tenth −0.4%. What is the top-minus-bottom spread?",
+          "options": [
+            "2.2%",
+            "1.4%",
+            "1.8%",
+            "0.7%"
+          ],
+          "answer": 0,
+          "why": "1.8 − (−0.4) = 2.2% a month."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "monotonic-buckets",
+      "term": "monotonic in the buckets",
+      "aliases": [
+        "monotonic",
+        "monotone buckets"
+      ],
+      "unit": "q10",
+      "short": "Returns step up bucket by bucket",
+      "definition": "A good sign in signal research: when stocks are sorted into buckets by a signal, average forward returns rise steadily from the lowest bucket to the highest. A spread that comes only from one extreme bucket is weaker evidence.",
+      "examples": [
+        "Returns are monotonic in the buckets: 0.2, 0.5, 0.8, 1.1 and 1.4% from the bottom fifth to the top.",
+        "It's not monotonic; all the spread is in the bottom tenth, which we can't easily short."
+      ],
+      "fill": "Quintile returns of 0.3%, 0.6%, 0.9%, 1.2% and 1.6% a month mean the signal is ____.",
+      "confusables": [
+        "long-short-spread",
+        "information-coefficient",
+        "outlier"
+      ],
+      "wrong": [
+        "All buckets earn the same return",
+        "Only the top bucket earns anything",
+        "Bucket sizes stay equal over time"
+      ],
+      "tf": [
+        {
+          "s": "If all of a signal's spread comes from the bottom bucket, it can be hard to capture in India, where holding a short in a cash stock overnight needs stock borrowing or single-stock futures.",
+          "a": true,
+          "why": "Overnight shorts need stock lending (SLB) or futures, and only F&O stocks have futures."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "cross-sectional",
+      "term": "cross-sectional signal",
+      "aliases": [
+        "cross-sectional",
+        "cross-section"
+      ],
+      "unit": "q10",
+      "short": "Ranks assets against each other on a date",
+      "definition": "A signal that compares many assets at the same moment, such as ranking all Nifty 500 stocks by their 12-month return and buying the top. It bets on relative performance, so it is often traded long-short.",
+      "examples": [
+        "Cross-sectional momentum buys this month's winners against its losers, whatever the market does.",
+        "On a cross-sectional signal a market crash matters less; what matters is which stocks fall more."
+      ],
+      "fill": "Ranking all the F&O stocks on earnings upgrades each month and buying the top 40 is a ____.",
+      "confusables": [
+        "time-series-signal",
+        "momentum-factor",
+        "neutralisation"
+      ],
+      "wrong": [
+        "Compares an asset with its own past",
+        "Uses intraday data from one stock",
+        "Signal that crosses a moving average"
+      ],
+      "tf": [
+        {
+          "s": "A cross-sectional signal decides how much to own of each stock compared with the others, not whether to be in the market at all.",
+          "a": true
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "time-series-signal",
+      "term": "time-series signal",
+      "aliases": [
+        "time-series",
+        "own-history signal"
+      ],
+      "unit": "q10",
+      "short": "Compares an asset with its own past",
+      "definition": "A signal that looks at one asset against its own history, such as going long the Nifty when it is above its 200-day average. It can leave the whole book long or short the market, unlike a cross-sectional signal.",
+      "examples": [
+        "A time-series rule on Nifty futures goes short once the index falls below its 200-day average.",
+        "This is a time-series signal, so in a crash the whole book can end up short."
+      ],
+      "fill": "Buying gold when it is above its own one-year average price and selling it when below is a ____.",
+      "confusables": [
+        "cross-sectional",
+        "autocorrelation",
+        "regression"
+      ],
+      "wrong": [
+        "Ranks assets against each other",
+        "Signal built only from news headlines",
+        "Compares two stocks' prices each day"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "point-in-time-data",
+      "term": "point-in-time data",
+      "aliases": [
+        "point-in-time",
+        "PIT data",
+        "as-was data"
+      ],
+      "unit": "q10",
+      "short": "Data as it was known on each past date",
+      "definition": "A database that keeps what was actually known on each date: the index members then, earnings as first reported (before restatements) and the day each figure became public. Using today's revised data in a backtest adds look-ahead bias.",
+      "examples": [
+        "Use point-in-time Nifty 50 membership, not today's list, or you've built in survivorship bias.",
+        "Results came out on the 12th, so point-in-time data shouldn't show them on the 1st."
+      ],
+      "fill": "Backtests should use ____, so a company's earnings appear only from the day they were announced.",
+      "confusables": [
+        "look-ahead-bias",
+        "survivorship-bias",
+        "data-leakage"
+      ],
+      "wrong": [
+        "Prices sampled once a day at the close",
+        "Data for one single trading day",
+        "Data adjusted for splits and bonuses"
+      ],
+      "tf": [
+        {
+          "s": "Backtesting ten years with today's index members adds survivorship bias.",
+          "a": true,
+          "why": "Today's members are the survivors; the stocks that fell out of the index are missing."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "data-leakage",
+      "term": "data leakage",
+      "aliases": [
+        "leakage",
+        "leaky backtest"
+      ],
+      "unit": "q10",
+      "short": "Future facts slipping into a test",
+      "definition": "When information that wasn't available at the time leaks into training or testing: for example, scaling data with the full sample's average, or using a closing price to trade at that same close. The model looks better than it can be live.",
+      "examples": [
+        "You normalised the features over the whole history, test years included. That's data leakage.",
+        "The signal used the closing price and then traded at the close; that's leakage, since you can't know the close before it prints."
+      ],
+      "fill": "Fitting the scaler on all ten years, test period included, caused ____ and flattered the results.",
+      "confusables": [
+        "look-ahead-bias",
+        "point-in-time-data",
+        "information-leakage"
+      ],
+      "wrong": [
+        "Losing data in a server crash",
+        "Orders leaking to other brokers",
+        "A signal fading as others copy it"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "forward-returns",
+      "term": "forward returns",
+      "aliases": [
+        "forward return",
+        "fwd returns"
+      ],
+      "unit": "q10",
+      "short": "Returns over the period after the signal",
+      "definition": "The returns that come after the moment a signal is measured, such as the next day or the next month. Signal research compares today's signal with forward returns; comparing it with past returns only finds what already happened.",
+      "examples": [
+        "Correlate the score with one-week forward returns, starting from the next open, not today's close.",
+        "The IC on five-day forward returns is 0.04 and drops to 0.01 at twenty days."
+      ],
+      "fill": "To judge a signal taken at Monday's close, compare it with the ____ from Tuesday onwards.",
+      "confusables": [
+        "information-coefficient",
+        "look-ahead-bias",
+        "return"
+      ],
+      "wrong": [
+        "Returns already earned before the signal",
+        "Returns promised by a forward contract",
+        "Returns of futures over cash"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "universe",
+      "term": "universe",
+      "aliases": [
+        "stock universe",
+        "trading universe"
+      ],
+      "unit": "q10",
+      "short": "The set of assets a strategy may trade",
+      "definition": "The list of instruments a strategy picks from, such as the Nifty 100 or all F&O stocks. Choosing it well matters: a universe of illiquid small caps can show great backtests that can't be traded.",
+      "examples": [
+        "Our universe is the F&O stocks, since we need futures to go short.",
+        "Rebuild the universe every month from point-in-time liquidity, not from today's list."
+      ],
+      "fill": "The quant limited the strategy's ____ to the 100 most liquid stocks so any position could be exited in a day.",
+      "confusables": [
+        "benchmark",
+        "liquidity-risk",
+        "survivorship-bias"
+      ],
+      "wrong": [
+        "All markets open around the world",
+        "The group of investors in a fund",
+        "The index a fund is judged against"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "rebalance",
+      "term": "rebalance",
+      "aliases": [
+        "rebalancing",
+        "rebal"
+      ],
+      "unit": "q10",
+      "short": "Trade back to the target weights",
+      "definition": "Trading a portfolio back to the weights the strategy wants, because prices have moved or the signal has changed. Rebalancing more often follows the signal more closely but costs more.",
+      "examples": [
+        "We rebalance monthly; weekly added 30 bps a year in costs for almost no extra return.",
+        "The index rebalance at the end of March means heavy buying of the new names at the close."
+      ],
+      "fill": "The momentum book moves back to its target weights once a month, and each ____ costs about 15 bps.",
+      "confusables": [
+        "no-trade-band",
+        "transaction-costs",
+        "portfolio"
+      ],
+      "wrong": [
+        "Move cash between two bank accounts",
+        "Adjust a backtest to match live results",
+        "Reset the margin a broker blocks"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "no-trade-band",
+      "term": "no-trade band",
+      "aliases": [
+        "no-trade zone",
+        "rebalance band",
+        "trading buffer"
+      ],
+      "unit": "q10",
+      "short": "Range where small drifts are left alone",
+      "definition": "A buffer around each target weight: the portfolio trades only when a position drifts outside it. It cuts turnover and costs a lot while barely changing returns, because most small trades add little.",
+      "examples": [
+        "With a 20% band around a 5% target, the stock trades only when its weight leaves the range 4% to 6%.",
+        "Adding a no-trade band halved the turnover and lifted the net Sharpe from 0.7 to 0.9."
+      ],
+      "fill": "The book leaves each weight alone until it is off target by more than a fifth: a ____ that halves turnover.",
+      "confusables": [
+        "rebalance",
+        "transaction-costs",
+        "doesnt-survive-costs"
+      ],
+      "wrong": [
+        "Price band where the exchange halts trading",
+        "Hours of the day with no trading",
+        "List of stocks you may not trade"
+      ],
+      "calcs": [
+        {
+          "q": "A stock's target weight is 4% and the no-trade band is ±25% of the target. Above what weight does the book sell?",
+          "options": [
+            "5%",
+            "4.25%",
+            "4.5%",
+            "6%"
+          ],
+          "answer": 0,
+          "why": "25% of 4% is 1%, so the band runs from 3% to 5%. The book sells only above 5%."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "ex-ante",
+      "term": "ex ante",
+      "aliases": [
+        "ex-ante",
+        "forecast risk"
+      ],
+      "unit": "q10",
+      "short": "Estimated beforehand",
+      "definition": "Latin for 'before the event': a number estimated in advance, such as the volatility a risk model forecasts or the tracking error a fund expects. It is compared with the ex post number measured afterwards.",
+      "examples": [
+        "Ex ante vol on the book is 12%, but it has realised 18% this quarter; the risk model is too slow.",
+        "Size the trade on ex ante risk, not on last month's PnL."
+      ],
+      "fill": "The risk model says the book should move about 1% a day: that is its ____ volatility.",
+      "confusables": [
+        "ex-post",
+        "realised-volatility",
+        "tracking-error"
+      ],
+      "wrong": [
+        "Measured after the fact",
+        "Taken from a former employer",
+        "With no costs counted"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "ex-post",
+      "term": "ex post",
+      "aliases": [
+        "ex-post",
+        "after the fact"
+      ],
+      "unit": "q10",
+      "short": "Measured after the fact",
+      "definition": "Latin for 'after the event': a number measured from what actually happened, such as realised volatility or last year's actual tracking error.",
+      "examples": [
+        "Ex post the hedge halved the drawdown, but ex ante we didn't know the crash was coming.",
+        "Ex post tracking error was 4% against the 2% we budgeted."
+      ],
+      "fill": "Looking back at last year's daily returns, the book's ____ volatility was 15%.",
+      "confusables": [
+        "ex-ante",
+        "realised-volatility",
+        "backtest"
+      ],
+      "wrong": [
+        "Estimated in advance",
+        "Sent by post to clients",
+        "Before costs and taxes"
+      ],
+      "tf": [
+        {
+          "s": "A book's ex ante risk estimate and its ex post realised risk always match.",
+          "a": false,
+          "why": "The forecast and the outcome differ. A big, lasting gap means the risk model needs fixing."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "adjusted-prices",
+      "term": "adjusted prices",
+      "aliases": [
+        "adjusted close",
+        "back-adjusted prices"
+      ],
+      "unit": "q10",
+      "short": "Past prices corrected for splits and bonuses",
+      "definition": "Price history changed so that splits, bonus issues and dividends don't show up as fake jumps. Use adjusted prices for returns; raw prices make a 1:1 bonus look like a 50% crash.",
+      "examples": [
+        "After the 1:1 bonus the stock trades at half the price; without adjusted prices your momentum signal sells it.",
+        "Back-adjust the futures series at each roll, or the jump between contracts looks like a return."
+      ],
+      "fill": "A 1:1 bonus halved the share price overnight, so the backtest needs ____ to avoid a fake 50% fall.",
+      "confusables": [
+        "garbage-in-garbage-out",
+        "bonus-issue",
+        "stock-split"
+      ],
+      "wrong": [
+        "Prices after brokerage and taxes",
+        "Prices changed to hide bad trades",
+        "Prices set by the exchange in a halt"
+      ],
+      "tf": [
+        {
+          "s": "A 1:1 bonus issue roughly halves the share price, but holders lose nothing.",
+          "a": true,
+          "why": "Each holder gets one new share for each one held, so the value of the holding stays the same."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "size-up",
+      "term": "size up",
+      "aliases": [
+        "sizing up",
+        "add size",
+        "size it up"
+      ],
+      "unit": "q11",
+      "short": "Make a position bigger",
+      "definition": "To increase the size of a position or of a strategy's risk, usually because conviction or the measured edge has grown. The opposite is to size down.",
+      "examples": [
+        "If the results confirm the margin story, I'll size up into the close.",
+        "The signal has matched its backtest for six months live, so we're sizing it up from ₹10 crore to ₹25 crore."
+      ],
+      "fill": "After the trade worked for two quarters, the PM told her to ____ from 2% of the book to 4%.",
+      "confusables": [
+        "size",
+        "high-conviction",
+        "scale-in"
+      ],
+      "wrong": [
+        "Judge how big a company is",
+        "Cut a position in half",
+        "Measure a stock's free float"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "high-conviction",
+      "term": "high conviction",
+      "aliases": [
+        "high-conviction",
+        "conviction trade",
+        "best idea"
+      ],
+      "unit": "q11",
+      "short": "A view you trust enough to size up",
+      "definition": "A trade or stock the PM or analyst believes in strongly, usually given a bigger position. Desks still ask what the risk is, because conviction is not evidence.",
+      "examples": [
+        "It's a high-conviction long, so it's 6% of the book against 2% for the rest.",
+        "High conviction is fine; now tell me what would prove you wrong."
+      ],
+      "fill": "The PM gave the stock a 7% weight, three times the usual, because it was her ____ idea.",
+      "confusables": [
+        "size-up",
+        "overweight",
+        "risk-reward"
+      ],
+      "wrong": [
+        "A trade the compliance team has approved",
+        "A position held for many years",
+        "A view shared by most of the street"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "risk-reward",
+      "term": "risk-reward",
+      "aliases": [
+        "risk/reward",
+        "risk to reward",
+        "reward-to-risk"
+      ],
+      "unit": "q11",
+      "short": "Possible loss set against possible gain",
+      "definition": "The possible loss on a trade set against the possible gain, often as a ratio. Buying at 1,000 with a stop at 960 and a target at 1,120 risks 40 to make 120, a 1:3 risk-reward.",
+      "examples": [
+        "The risk-reward isn't there: we're risking 8% to make 5%.",
+        "At these levels the risk-reward favours selling the rally."
+      ],
+      "fill": "With a stop 50 points below and a target 150 above, the trade offers a 1:3 ____.",
+      "confusables": [
+        "risk-adjusted-return",
+        "stop-loss",
+        "profit-target"
+      ],
+      "wrong": [
+        "Return earned per unit of volatility",
+        "Share of trades that end in profit",
+        "Extra return paid for taking on risk"
+      ],
+      "calcs": [
+        {
+          "q": "You buy at ₹500 with a stop-loss at ₹480 and a target of ₹560. What is the risk-reward?",
+          "options": [
+            "1:3",
+            "1:2",
+            "3:1",
+            "1:4"
+          ],
+          "answer": 0,
+          "why": "You risk ₹20 (500 − 480) to make ₹60 (560 − 500): 20 to 60, or 1:3."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A good risk-reward ratio on its own makes a trade worth taking.",
+          "a": false,
+          "why": "It also depends on how likely each outcome is. A 1:3 trade that hits its stop 90% of the time loses money."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "hedge-or-view",
+      "term": "a hedge or a view",
+      "aliases": [
+        "hedge or view",
+        "is it a hedge or a view?"
+      ],
+      "unit": "q11",
+      "short": "Is it cutting risk or adding a bet?",
+      "definition": "A PM's question about a new position: does it reduce a risk the book already has, or does it express a fresh opinion? A 'hedge' that only pays if a forecast comes true is really a view, and is sized and judged like one.",
+      "examples": [
+        "You bought Bank Nifty puts against your bank longs, fine. But three times the exposure? Is it a hedge or a view?",
+        "Call it what it is: shorting IT stocks when the book owns no IT stocks is a view, not a hedge."
+      ],
+      "fill": "Buying puts worth three times the book's exposure doesn't just cut risk, so the PM asked whether it was ____.",
+      "confusables": [
+        "hedge",
+        "exposure",
+        "net-exposure"
+      ],
+      "wrong": [
+        "Should the hedge be short- or long-dated?",
+        "Is the trade in cash or in F&O?",
+        "Is the order passive or aggressive?"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "de-gross",
+      "term": "de-gross",
+      "aliases": [
+        "degross",
+        "cut gross",
+        "take the gross down"
+      ],
+      "unit": "q11",
+      "short": "Cut longs and shorts together",
+      "definition": "To shrink a long-short book's gross exposure by cutting both the longs and the shorts, so the net stays about the same. Funds de-gross when volatility or crowding rises.",
+      "examples": [
+        "Crowded shorts are squeezing; let's de-gross by a third and keep the net flat.",
+        "Prime brokers saw funds de-gross across the board last week."
+      ],
+      "fill": "The fund cut both its longs and its shorts by a third and kept its net exposure the same: it chose to ____.",
+      "confusables": [
+        "gross-exposure",
+        "de-risking",
+        "net-exposure"
+      ],
+      "wrong": [
+        "Sell only the longs to go net short",
+        "Add to both longs and shorts",
+        "Swap gross returns for net returns"
+      ],
+      "calcs": [
+        {
+          "q": "A fund is ₹500 crore long and ₹300 crore short. It de-grosses by cutting both sides by 20%. What is its new gross exposure?",
+          "options": [
+            "₹640 crore",
+            "₹800 crore",
+            "₹160 crore",
+            "₹200 crore"
+          ],
+          "answer": 0,
+          "why": "Longs fall to ₹400 crore and shorts to ₹240 crore. Gross is 400 + 240 = ₹640 crore; net falls from ₹200 crore to ₹160 crore."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "bring-net-down",
+      "term": "bring the net down",
+      "aliases": [
+        "take the net down",
+        "cut the net",
+        "reduce net"
+      ],
+      "unit": "q11",
+      "short": "Move longs and shorts closer to balance",
+      "definition": "To reduce a book's net exposure, the gap between its longs and shorts, so it depends less on the market's direction. You can sell longs, add shorts or sell index futures.",
+      "examples": [
+        "We're 40% net long into the Fed meeting. Bring the net down to 15% with Nifty futures.",
+        "If you don't want to sell your best longs, bring the net down with an index short."
+      ],
+      "fill": "Worried about a fall, the PM sold Nifty futures so the book went from 50% net long to 20%: she chose to ____.",
+      "confusables": [
+        "net-exposure",
+        "de-gross",
+        "hedge"
+      ],
+      "wrong": [
+        "Lower the fund's fees after costs",
+        "Cut longs and shorts by the same share",
+        "Reduce the profit after tax"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "dollar-neutral",
+      "term": "dollar-neutral",
+      "aliases": [
+        "rupee-neutral",
+        "cash-neutral",
+        "money-neutral"
+      ],
+      "unit": "q11",
+      "short": "Same money on the long and short sides",
+      "definition": "A long-short book with the same value of longs as of shorts, so its net exposure is zero. It can still move with the market if the longs have a higher beta than the shorts.",
+      "examples": [
+        "We're dollar-neutral, ₹100 crore each side, but the longs are high-beta mid caps, so we're still long the market.",
+        "A rupee-neutral pair: ₹50 lakh long ICICI Bank against ₹50 lakh short HDFC Bank."
+      ],
+      "fill": "With ₹200 crore of longs and ₹200 crore of shorts, the book is ____, though not necessarily beta-neutral.",
+      "confusables": [
+        "beta-neutral",
+        "net-exposure",
+        "delta-neutral"
+      ],
+      "wrong": [
+        "Holding only US dollar assets",
+        "Hedged against moves in the rupee",
+        "Same number of shares long and short"
+      ],
+      "tf": [
+        {
+          "s": "A dollar-neutral book can still lose money when the whole market falls.",
+          "a": true,
+          "why": "If the longs have a higher beta than the shorts, the book is still long the market."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "beta-neutral",
+      "term": "beta-neutral",
+      "aliases": [
+        "beta-flat",
+        "zero beta"
+      ],
+      "unit": "q11",
+      "short": "Long and short betas cancel out",
+      "definition": "A book whose beta-weighted longs and shorts cancel, so small market moves leave it roughly flat. A book of high-beta longs and low-beta shorts needs more rupees of shorts than of longs to get there.",
+      "examples": [
+        "Longs have a beta of 1.3 and shorts 0.9, so ₹100 crore long needs about ₹144 crore short to be beta-neutral.",
+        "We run beta-neutral, so the Nifty's 3% fall barely showed up in the PnL."
+      ],
+      "fill": "₹100 crore of longs with a beta of 1.2 against ₹120 crore of shorts with a beta of 1.0 leaves the book ____.",
+      "confusables": [
+        "dollar-neutral",
+        "beta",
+        "delta-neutral"
+      ],
+      "wrong": [
+        "Same money on the long and short sides",
+        "Holding only stocks with zero beta",
+        "A book with no stock-specific risk"
+      ],
+      "calcs": [
+        {
+          "q": "Your longs are ₹50 crore with a beta of 1.4. Your shorts have a beta of 0.7. How much do you need short to be beta-neutral?",
+          "options": [
+            "₹100 crore",
+            "₹50 crore",
+            "₹35 crore",
+            "₹70 crore"
+          ],
+          "answer": 0,
+          "why": "Long beta exposure is 50 × 1.4 = ₹70 crore. Shorts with a beta of 0.7 need 70 ÷ 0.7 = ₹100 crore."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "risk-budget",
+      "term": "risk budget",
+      "aliases": [
+        "risk allocation",
+        "vol budget"
+      ],
+      "unit": "q11",
+      "short": "Risk a PM or strategy is allowed to run",
+      "definition": "The amount of risk, measured as volatility, VaR or a drawdown limit, given to a strategy or a PM. Capital follows from it: a calm strategy gets more capital than a volatile one for the same risk budget.",
+      "examples": [
+        "Your risk budget is 3% annual vol of the fund; you're using 2.4%.",
+        "We gave the stat-arb book a bigger risk budget after two good years."
+      ],
+      "fill": "Each PM gets a ____ of ₹5 crore of daily VaR and can't exceed it without approval.",
+      "confusables": [
+        "var",
+        "drawdown-budget",
+        "tracking-error"
+      ],
+      "wrong": [
+        "Money set aside for the risk team's pay",
+        "Total margin blocked at the broker",
+        "Fees charged for risk reports"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "drawdown-budget",
+      "term": "drawdown budget",
+      "aliases": [
+        "drawdown limit",
+        "stop-out level"
+      ],
+      "unit": "q11",
+      "short": "Fall from the peak that triggers a cut",
+      "definition": "How far a PM or strategy may fall from its peak before risk is cut. A common setup: lose 5% from the high and your size is halved; lose 10% and you stop trading.",
+      "examples": [
+        "You're 6% off the peak against an 8% drawdown budget, so the next 2% decides your year.",
+        "Our drawdown budget is 10%; at 5% the size is halved automatically."
+      ],
+      "fill": "The fund's rule is to halve a PM's capital once she is 5% below her peak: a ____.",
+      "confusables": [
+        "max-drawdown",
+        "risk-budget",
+        "daily-loss-limit"
+      ],
+      "wrong": [
+        "Money kept aside to repay loans",
+        "Share of profit paid as a bonus",
+        "Limit on how much margin can be used"
+      ],
+      "tf": [
+        {
+          "s": "Near the limit of a drawdown budget, the usual rule is to cut position sizes, not raise them.",
+          "a": true,
+          "why": "Swinging harder to win the loss back is how a small drawdown becomes a blow-up."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "size-by-vol",
+      "term": "size by vol",
+      "aliases": [
+        "volatility sizing",
+        "vol-adjusted sizing",
+        "inverse-vol sizing"
+      ],
+      "unit": "q11",
+      "short": "Smaller positions in more volatile names",
+      "definition": "Setting each position's size so it carries the same risk: divide a fixed risk amount by the asset's volatility. A stock that moves 3% a day gets a third of the rupees of one that moves 1%.",
+      "examples": [
+        "Size by vol: ₹1 crore in the bank that moves 1% a day, ₹33 lakh in the small cap that moves 3%.",
+        "Equal rupees in every name means your small caps carry all the risk; size by vol."
+      ],
+      "fill": "Giving a stock that swings 2% a day half the rupees of one that swings 1% is how you ____.",
+      "confusables": [
+        "volatility",
+        "risk-budget",
+        "position"
+      ],
+      "wrong": [
+        "Buy more when the market is volatile",
+        "Put equal money in every stock",
+        "Size trades by their trading volume"
+      ],
+      "calcs": [
+        {
+          "q": "You want each position to risk ₹2 lakh on a typical day. A stock moves about 1.6% a day. How big should the position be?",
+          "options": [
+            "₹1.25 crore",
+            "₹3.2 lakh",
+            "₹12.5 lakh",
+            "₹2 crore"
+          ],
+          "answer": 0,
+          "why": "₹2 lakh ÷ 0.016 = ₹1.25 crore."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "days-to-liquidate",
+      "term": "days to liquidate",
+      "aliases": [
+        "days to exit",
+        "days of volume",
+        "liquidation horizon"
+      ],
+      "unit": "q11",
+      "short": "Days needed to exit without moving price",
+      "definition": "How many days it would take to sell a position while trading only a set share of daily volume, often 10% to 20%. Risk teams cap it, because a big position in a thin stock can't be cut quickly in a crisis.",
+      "examples": [
+        "At 20% participation that's 6 days to liquidate, and the limit is 3.",
+        "The small-cap long is fine on VaR, but it's 15 days to liquidate. That's the real risk."
+      ],
+      "fill": "Holding 30 lakh shares of a stock that trades 10 lakh a day, at 20% of volume, works out at 15 ____.",
+      "confusables": [
+        "liquidity-risk",
+        "participation-rate",
+        "concentration-risk"
+      ],
+      "wrong": [
+        "Days left until the contract expires",
+        "Time for a trade to settle at the depository",
+        "Days a broker waits before a margin call"
+      ],
+      "calcs": [
+        {
+          "q": "You hold 12 lakh shares. The stock trades 20 lakh shares a day and you'll take at most 15% of volume. How many days to liquidate?",
+          "options": [
+            "4 days",
+            "0.6 days",
+            "1.7 days",
+            "3 days"
+          ],
+          "answer": 0,
+          "why": "15% of 20 lakh is 3 lakh shares a day. 12 lakh ÷ 3 lakh = 4 days."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "downside",
+      "term": "downside",
+      "aliases": [
+        "what's the downside?",
+        "downside risk"
+      ],
+      "unit": "q11",
+      "short": "How much you lose if you're wrong",
+      "definition": "The possible loss on a trade or a stock if things go badly. 'What's the downside?' asks for a number: where it trades if the idea fails, and how much the book loses.",
+      "examples": [
+        "Upside is 20% to our target; downside is 10% if the results disappoint.",
+        "What's the downside if the RBI doesn't cut? About ₹40 lakh at the current size."
+      ],
+      "fill": "If the deal falls through, the stock goes back to ₹800 from ₹1,000, so the ____ is 20%.",
+      "confusables": [
+        "upside",
+        "risk-reward",
+        "var"
+      ],
+      "wrong": [
+        "Possible rise from here",
+        "Lowest price of the day",
+        "Fall already seen this year"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "limit-breach",
+      "term": "limit breach",
+      "aliases": [
+        "breach",
+        "in breach",
+        "over the limit"
+      ],
+      "unit": "q12",
+      "short": "Past an agreed risk or loss limit",
+      "definition": "When a position, exposure or loss goes past a limit the risk team has set. A breach is logged and escalated, and the trader usually has to cut back by a deadline or get approval to stay over.",
+      "examples": [
+        "You're at 112% of your gross limit. That's a breach; get it back under by the close.",
+        "A soft breach sends an email; a hard breach means the risk team cuts the position for you."
+      ],
+      "fill": "Her loss hit ₹1.2 crore against a ₹1 crore daily limit, so the risk team logged a ____ and froze new trades.",
+      "confusables": [
+        "position-limit",
+        "daily-loss-limit",
+        "margin-call"
+      ],
+      "wrong": [
+        "A break in the trading system",
+        "A trade that crosses the spread",
+        "A price move through support"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "position-limit",
+      "term": "position limit",
+      "aliases": [
+        "position cap",
+        "single-name limit"
+      ],
+      "unit": "q12",
+      "short": "Most you may hold in one name or contract",
+      "definition": "A cap on how big a position can be, in rupees, shares, contracts or share of volume. Firms set their own for risk; exchanges and SEBI also set limits in F&O, such as each stock's market-wide position limit.",
+      "examples": [
+        "The single-name limit is 5% of the book, so the most I can own is ₹25 crore.",
+        "We can't add more futures; we're at the client-level position limit."
+      ],
+      "fill": "No stock may be more than 5% of the fund: that's the fund's ____ on single names.",
+      "confusables": [
+        "mwpl",
+        "concentration-risk",
+        "limit-breach"
+      ],
+      "wrong": [
+        "Price at which a stop-loss order fires",
+        "Margin a broker blocks per lot",
+        "Largest order the exchange takes at once"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "concentration-risk",
+      "term": "concentration risk",
+      "aliases": [
+        "concentrated book",
+        "concentration"
+      ],
+      "unit": "q12",
+      "short": "Too much riding on a few names or bets",
+      "definition": "The risk of having a large share of the book in a few stocks, one sector or one theme. Measures like VaR can understate it, because one bad event hits a big piece of the book at once.",
+      "examples": [
+        "The top five names are 45% of the book; that's concentration risk whatever the VaR says.",
+        "Three of your 'different' longs are all PSU banks. That's concentration."
+      ],
+      "fill": "With 60% of the book in three bank stocks, the risk report flagged ____.",
+      "confusables": [
+        "diversification",
+        "idiosyncratic-risk",
+        "position-limit"
+      ],
+      "wrong": [
+        "Risk of losing focus on a long day",
+        "Risk from trading too many stocks",
+        "Risk that a fund's units are all sold at once"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "stress-loss",
+      "term": "stress loss",
+      "aliases": [
+        "stress P&L",
+        "scenario loss",
+        "stress PnL"
+      ],
+      "unit": "q12",
+      "short": "What the book loses in a set bad scenario",
+      "definition": "The loss the book would take in a defined extreme scenario, such as the Nifty falling 10% in a day, a repeat of March 2020, or volatility doubling. Limits are often set on stress loss as well as VaR, since VaR ignores the worst days.",
+      "examples": [
+        "Stress loss on a 15% gap down is ₹18 crore against a limit of ₹20 crore.",
+        "VaR looks small because the book is short options, but the stress loss on a vol spike is huge."
+      ],
+      "fill": "If the Nifty fell 10% overnight and India VIX doubled, the book would lose ₹8 crore: that's its ____ in that scenario.",
+      "confusables": [
+        "stress-test",
+        "var",
+        "expected-shortfall"
+      ],
+      "wrong": [
+        "Average daily loss over the last year",
+        "Loss a trader can take before a review",
+        "Loss caused by stressed staff making errors"
+      ],
+      "tf": [
+        {
+          "s": "A short option book can show a small VaR and a large stress loss.",
+          "a": true,
+          "why": "VaR is built from normal days. Selling options earns small amounts until a big move, which only a stress scenario captures."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "daily-loss-limit",
+      "term": "daily loss limit",
+      "aliases": [
+        "loss limit",
+        "max daily loss",
+        "day stop"
+      ],
+      "unit": "q12",
+      "short": "Day's loss at which trading stops",
+      "definition": "The most a trader, desk or strategy may lose in one day. Hit it and positions are cut or new trading stops for the day. Many intraday traders set one for themselves too.",
+      "examples": [
+        "My daily loss limit is ₹2 lakh; I'm at ₹1.6 lakh, so I'm only closing trades now.",
+        "The algo hit its daily loss limit at 11:40 and switched itself off."
+      ],
+      "fill": "After losing ₹50,000 by noon, his ____, he closed everything and stopped for the day.",
+      "confusables": [
+        "stop-loss",
+        "drawdown-budget",
+        "kill-switch"
+      ],
+      "wrong": [
+        "Most a stock can fall in one day",
+        "Daily margin the broker blocks",
+        "Loss carried over to the next day"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "kill-switch",
+      "term": "kill switch",
+      "aliases": [
+        "killswitch",
+        "panic button"
+      ],
+      "unit": "q12",
+      "short": "One step that cancels orders and halts trading",
+      "definition": "A control that, in one action, cancels all open orders and blocks new ones, for an algo, a desk or a whole account. Firms use it when an algo misbehaves; many Indian brokers also let retail traders use one to stop themselves trading for a while.",
+      "examples": [
+        "The algo started sending orders in a loop, so we hit the kill switch.",
+        "After three losing days he used his broker's kill switch to block F&O trading for a week."
+      ],
+      "fill": "When the strategy began firing duplicate orders, the desk used the ____ to cancel everything and block new orders.",
+      "confusables": [
+        "daily-loss-limit",
+        "algo-trading",
+        "rms"
+      ],
+      "wrong": [
+        "Exchange-wide halt after a 10% fall",
+        "Order that closes a position at a set price",
+        "Rule that stops a stock trading for a day"
+      ],
+      "tf": [
+        {
+          "s": "A market-wide circuit breaker and a firm's kill switch are the same thing.",
+          "a": false,
+          "why": "The exchange's circuit breaker halts the whole market; a kill switch is a firm's or trader's own control over its orders."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "pain-trade",
+      "term": "pain trade",
+      "aliases": [
+        "the pain trade"
+      ],
+      "unit": "q12",
+      "short": "The move that hurts the most people",
+      "definition": "The market move that would hurt the most investors, given how they are positioned. If nearly everyone is short or underweight, the pain trade is a sharp rally. Desks watch it because crowded positions unwind violently.",
+      "examples": [
+        "FIIs are heavily short index futures, so the pain trade is higher.",
+        "Everyone's hiding in defensives; the pain trade is a jump in the beaten-down cyclicals."
+      ],
+      "fill": "Funds were heavily underweight Indian banks, so a sharp bank rally was the ____ that forced them to chase.",
+      "confusables": [
+        "crowded-trade",
+        "short-squeeze",
+        "capitulation"
+      ],
+      "wrong": [
+        "A trade that loses money slowly",
+        "A trade done only to cut tax",
+        "A trade kept open out of stubbornness"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "tail-risk",
+      "term": "tail risk",
+      "aliases": [
+        "tail event",
+        "left-tail risk"
+      ],
+      "unit": "q12",
+      "short": "Risk of rare, very large losses",
+      "definition": "The risk of rare, extreme moves far out in the tails of the return distribution, such as a 10% one-day fall. Market returns have fat tails, so these happen more often than a normal distribution predicts.",
+      "examples": [
+        "Selling far OTM puts makes money most months, but the tail risk can take a year's profit in a day.",
+        "We buy cheap puts every month as a tail-risk hedge."
+      ],
+      "fill": "Short option books earn steady premium but carry ____: a rare crash can wipe out years of gains.",
+      "confusables": [
+        "fat-tails",
+        "black-swan",
+        "expected-shortfall"
+      ],
+      "wrong": [
+        "Risk in the last hour of trading",
+        "Risk that a trend runs on too long",
+        "Risk from copying other traders"
+      ],
+      "tf": [
+        {
+          "s": "Five-standard-deviation daily falls happen far more often in real markets than a normal distribution predicts.",
+          "a": true
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "correlations-go-to-one",
+      "term": "correlations go to one",
+      "aliases": [
+        "correlation goes to one",
+        "everything sells off together"
+      ],
+      "unit": "q12",
+      "short": "In a crash, everything falls together",
+      "definition": "The tendency of assets that usually move separately to fall together in a panic, as investors sell whatever they can. Diversification that works in calm markets can vanish just when it's needed.",
+      "examples": [
+        "Our 30 longs looked diversified until March 2020, when correlations went to one.",
+        "Don't count on diversification in a crisis; correlations go to one."
+      ],
+      "fill": "In the panic, stocks, credit and even gold fell on the same days, as ____.",
+      "confusables": [
+        "correlation",
+        "diversification",
+        "contagion"
+      ],
+      "wrong": [
+        "Two stocks become one after a merger",
+        "Every trade ends up at the same price",
+        "A hedge ratio is set to exactly one"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "other-side",
+      "term": "who's on the other side?",
+      "aliases": [
+        "other side of the trade",
+        "who's the seller?"
+      ],
+      "unit": "q12",
+      "short": "Who trades against you, and why?",
+      "definition": "A question to ask of any trade or edge: who is taking the opposite position, and why are they willing to? If you can't name them, you may be the one with less information.",
+      "examples": [
+        "Who's on the other side? If it's a fund rebalancing, great. If it's someone with better information, we're the mug.",
+        "Before you buy that block, ask who's on the other side and why they're selling in size."
+      ],
+      "fill": "Before trusting a strategy's edge, ask ____: a forced seller, or someone who knows more than you?",
+      "confusables": [
+        "adverse-selection",
+        "informed-trader",
+        "flow"
+      ],
+      "wrong": [
+        "Who will clear the trade for you?",
+        "Which exchange will show the trade?",
+        "Who books the trade in the back office?"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "flat-into-event",
+      "term": "flat into the event",
+      "aliases": [
+        "go flat into",
+        "flat into results",
+        "flat into the number"
+      ],
+      "unit": "q12",
+      "short": "Close positions before a big announcement",
+      "definition": "To close or hedge positions before a known event like results, an RBI policy, the Budget or an election count, so a surprise can't hurt. It gives up any gain from the event in return for no gap risk.",
+      "examples": [
+        "I'm flat into the policy; the setup isn't worth the gap risk.",
+        "We go flat into results on single names and only re-enter after the earnings call."
+      ],
+      "fill": "Not wanting to guess the RBI's decision, the trader closed all her rate trades the day before: she went ____.",
+      "confusables": [
+        "flat",
+        "event-risk",
+        "gap-risk"
+      ],
+      "wrong": [
+        "Buy before a known event to profit",
+        "Keep positions the same size all week",
+        "Trade only when prices are flat"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "gap-risk",
+      "term": "gap risk",
+      "aliases": [
+        "overnight gap risk",
+        "jump risk"
+      ],
+      "unit": "q12",
+      "short": "Risk the price jumps past your stop",
+      "definition": "The risk that a price opens far from the last close, skipping past a stop-loss. Overnight news, results or global moves can gap a stock 10%, so a stop at −2% fills much worse.",
+      "examples": [
+        "Your stop is at 2%, but on results day the gap risk is 8%.",
+        "Holding short options over a weekend carries gap risk that intraday stops can't cover."
+      ],
+      "fill": "The stock closed at ₹1,000 and opened at ₹900 after bad results, so the stop at ₹980 filled near ₹900: that's ____.",
+      "confusables": [
+        "gap-down",
+        "stop-loss",
+        "event-risk"
+      ],
+      "wrong": [
+        "Gap between the bid and the offer",
+        "Risk of a gap in the price data",
+        "Gap between the futures and spot prices"
+      ],
+      "tf": [
+        {
+          "s": "A stop-loss order guarantees your exit price even if the stock gaps down overnight.",
+          "a": false,
+          "why": "The stop fires at the open, at whatever price is there, which can be far below the stop."
+        }
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "dry-powder",
+      "term": "dry powder",
+      "aliases": [
+        "keep your powder dry",
+        "cash on the sidelines"
+      ],
+      "unit": "q12",
+      "short": "Cash or risk kept back for later",
+      "definition": "Cash or unused risk budget held back so you can act when a better chance comes, such as after a sell-off. Keeping dry powder costs some return in quiet markets.",
+      "examples": [
+        "We're 80% invested and keeping dry powder for the IPO pipeline.",
+        "Don't use the whole risk budget in January; keep some dry powder."
+      ],
+      "fill": "The fund kept 15% in cash as ____ to buy if the market fell after the election.",
+      "confusables": [
+        "leverage",
+        "margin",
+        "risk-budget"
+      ],
+      "wrong": [
+        "Money lost to fees and costs",
+        "Gains not yet taxed",
+        "Cash a broker holds as margin"
+      ],
+      "difficulty": 1
     }
   ]
 }
