@@ -93,7 +93,9 @@
       "short": "Typical spread of results around the average",
       "definition": "A measure of how far results usually sit from their average. In finance it is the standard way to measure how much returns swing.",
       "examples": [
-        "Daily returns on this book have a standard deviation of about 1.2%."
+        "Daily returns on this book have a standard deviation of about 1.2%.",
+        "The client asked what standard deviation tells her: how far a typical year strays from the average.",
+        "Risk sets each desk's limit as a multiple of its daily standard deviation."
       ],
       "fill": "With a daily ____ of 1%, about two days in three land within 1% of the average return.",
       "confusables": [
@@ -136,7 +138,9 @@
       "short": "Average squared distance from the average",
       "definition": "The average of the squared gaps between each result and the average. Standard deviation is its square root. Quants like it because the variances of independent bets add up.",
       "examples": [
-        "Variances of independent bets add, so we budget risk in variance terms."
+        "Variances of independent bets add, so we budget risk in variance terms.",
+        "The quant splits the fund's variance into market, sector and stock parts.",
+        "Risk adds up each desk's variance only if their returns are unrelated."
       ],
       "fill": "Because it is measured in squared units, ____ is hard to read on its own, so people quote its square root instead.",
       "confusables": [
@@ -175,7 +179,9 @@
       "short": "The symmetric bell-shaped spread of outcomes",
       "definition": "The symmetric bell-shaped distribution in which about 68% of outcomes fall within 1 standard deviation of the average and about 95% within 2. Many risk models assume it, though market returns have fatter tails.",
       "examples": [
-        "Under a normal distribution a 5-sigma day should come once in thousands of years; markets see one every few years."
+        "Under a normal distribution a 5-sigma day should come once in thousands of years; markets see one every few years.",
+        "Risk warns that the normal distribution badly understates how often crashes happen.",
+        "The client asked why a 'once in a century' fall happened twice in her lifetime: markets don't follow the normal distribution."
       ],
       "fill": "Under a ____, about 95% of daily returns land within 2 standard deviations of the average.",
       "confusables": [
@@ -214,7 +220,9 @@
       "short": "Volatility scaled up to a one-year figure",
       "definition": "Volatility stated on a yearly basis so assets and time frames can be compared. Daily volatility is scaled up by the square root of the number of trading days in a year, about 252.",
       "examples": [
-        "Nifty has been running at about 13% annualised volatility, so a 1% day is still normal."
+        "Nifty has been running at about 13% annualised volatility, so a 1% day is still normal.",
+        "The client asked how risky her small cap fund is: about 25% annualised volatility, twice the Nifty's.",
+        "Risk scales each strategy's daily swings by the square root of 252 to get its annualised volatility."
       ],
       "fill": "Daily swings of about 1% work out to roughly 16% ____, because a year has about 252 trading days.",
       "confusables": [
@@ -257,7 +265,9 @@
       "short": "Return on a safe government investment",
       "definition": "The return on an investment treated as having no default risk, such as a short-term government treasury bill. Risky returns are measured against it.",
       "examples": [
-        "Cash already earns the risk-free rate, so a fund has to beat that before it's adding anything."
+        "Cash already earns the risk-free rate, so a fund has to beat that before it's adding anything.",
+        "The analyst uses the T-bill yield as the risk-free rate in her valuation.",
+        "The client asked why her fund's report uses a 6.5% risk-free rate: that's what cash would have earned."
       ],
       "fill": "In India, the 91-day treasury bill yield is often used as the ____ when working out Sharpe ratios.",
       "confusables": [
@@ -281,7 +291,9 @@
       "short": "Extra return per unit of volatility",
       "definition": "Return above the risk-free rate divided by the volatility of returns. It shows how much return a strategy earned for each unit of risk it took.",
       "examples": [
-        "It makes 30% a year, but the Sharpe is under 0.8, so it's mostly just riding risk."
+        "It makes 30% a year, but the Sharpe is under 0.8, so it's mostly just riding risk.",
+        "Risk ranks the strategies by Sharpe ratio, not by raw return.",
+        "The client asked why the adviser keeps quoting her fund's Sharpe ratio: it shows return per unit of risk."
       ],
       "fill": "Fund A made 18% with 20% vol and fund B 14% with 8% vol; with a 6% risk-free rate, B has the better ____.",
       "confusables": [
@@ -328,7 +340,9 @@
       "short": "Volatility of only the bad returns",
       "definition": "Like standard deviation, but counting only returns below a target, often zero or the risk-free rate. Upside swings are ignored.",
       "examples": [
-        "Downside deviation is half the total vol, because most of the swing comes on up days."
+        "Downside deviation is half the total vol, because most of the swing comes on up days.",
+        "The client asked why the report shows downside deviation: it measures only the bad months.",
+        "Risk prefers downside deviation for funds whose big swings are mostly gains."
       ],
       "fill": "The Sortino ratio divides extra return by ____ instead of by total volatility.",
       "confusables": [
@@ -350,7 +364,9 @@
       "short": "Extra return per unit of downside swing",
       "definition": "Like the Sharpe ratio, but it divides by downside deviation instead of total volatility, so only the bad swings count as risk.",
       "examples": [
-        "Its Sharpe is average, but the Sortino is strong because most of the volatility is on the upside."
+        "Its Sharpe is average, but the Sortino is strong because most of the volatility is on the upside.",
+        "The analyst quotes the Sortino ratio for the option-buying fund, since its big swings are on the upside.",
+        "Risk asked why the Sortino ratio looks so good: the fund has had few bad months, so far."
       ],
       "fill": "A strategy with big up days and small down days scores better on the ____ than on the Sharpe ratio.",
       "confusables": [
@@ -389,7 +405,9 @@
       "short": "Worst fall from a peak to a later low",
       "definition": "The largest percentage fall from a high point to a later low, before a new high is reached. It shows the worst loss an investor who bought at the top would have sat through.",
       "examples": [
-        "Great returns, but a 45% max drawdown means most clients would have quit halfway."
+        "Great returns, but a 45% max drawdown means most clients would have quit halfway.",
+        "The client asked how much the fund fell at its worst: the maximum drawdown was 32% in 2020.",
+        "Risk cuts a strategy's size once it loses half its backtested maximum drawdown."
       ],
       "fill": "The NAV fell from ₹150 to ₹105 before it recovered, so the fund's ____ was 30%.",
       "confusables": [
@@ -427,7 +445,9 @@
       "short": "How much a stock moves with the market",
       "definition": "How sensitive an asset's returns are to the market's. A beta of 1.2 means it tends to move 1.2% for every 1% move in the index; below 1 means it moves less.",
       "examples": [
-        "Metals are high beta, so they get hit hardest on risk-off days."
+        "Metals are high beta, so they get hit hardest on risk-off days.",
+        "The client asked why her fund fell more than the market: its beta is 1.3.",
+        "Risk hedges the book's beta with Nifty futures every morning."
       ],
       "fill": "This stock tends to move 1.4% for every 1% move in the Nifty, so its ____ is about 1.4.",
       "confusables": [
@@ -472,7 +492,9 @@
       "short": "Return beyond what market exposure explains",
       "definition": "The part of a return not explained by exposure to the market or other factors. Positive alpha is the extra return a manager adds through skill, after adjusting for risk.",
       "examples": [
-        "Strip out the beta and there's very little alpha left in this fund."
+        "Strip out the beta and there's very little alpha left in this fund.",
+        "The PM is paid on alpha, so the risk team hedges out her market exposure.",
+        "The client asked whether her fund's 15% return is alpha: no, the index rose 14%."
       ],
       "fill": "Stripping out the market's moves, the manager's stock picks added 3% of ____ a year.",
       "confusables": [
@@ -529,7 +551,9 @@
       "short": "How closely two things move together",
       "definition": "A number from −1 to +1 showing how closely two return series move together. +1 means they move in step, −1 means they move opposite, and 0 means no straight-line link.",
       "examples": [
-        "Gold's correlation with equities turned negative in the sell-off, so it cushioned the portfolio."
+        "Gold's correlation with equities turned negative in the sell-off, so it cushioned the portfolio.",
+        "Risk checks the correlation between our two biggest bets before adding to either.",
+        "The client asked why gold helps her portfolio: its correlation with stocks is low."
       ],
       "fill": "Two stocks with a ____ of 0.9 give you very little diversification.",
       "confusables": [
@@ -568,7 +592,9 @@
       "short": "Loss level breached only on rare days",
       "definition": "A loss level that should be exceeded only with a small chance over a set period. A one-day 95% VaR of ₹10 lakh means losses should be worse than ₹10 lakh on only about 1 day in 20.",
       "examples": [
-        "Risk wants the desk's one-day 99% VaR kept under ₹2 crore."
+        "Risk wants the desk's one-day 99% VaR kept under ₹2 crore.",
+        "Risk explains value at risk to the board: on 99 days out of 100, losses should stay below it.",
+        "The client asked what value at risk misses: how bad the worst days can get."
       ],
       "fill": "Our one-day 95% ____ is ₹50 lakh, so we expect a loss bigger than that about once a month.",
       "confusables": [
@@ -614,7 +640,9 @@
       "short": "Average loss on the days worse than VaR",
       "definition": "The average loss in the cases where losses are worse than the VaR level. It answers the question: when things go badly, how bad is it on average?",
       "examples": [
-        "VaR barely moved, but expected shortfall jumped because the tail got fatter."
+        "VaR barely moved, but expected shortfall jumped because the tail got fatter.",
+        "Risk now limits expected shortfall, because it looks at the size of the worst losses.",
+        "The analyst says expected shortfall gave the clearer warning, since it averages the losses beyond VaR."
       ],
       "fill": "VaR says losses pass ₹1 crore on 5% of days; ____ tells you those bad days average ₹1.8 crore.",
       "confusables": [
@@ -653,7 +681,9 @@
       "short": "How much a fund's return strays from its index",
       "definition": "The standard deviation of the gap between a portfolio's return and its benchmark's. Index funds aim for close to zero; active funds need more to have a chance of beating the index.",
       "examples": [
-        "Our tracking error budget is 4%, so we can't run big sector bets."
+        "Our tracking error budget is 4%, so we can't run big sector bets.",
+        "The client asked why her index fund didn't match the Nifty exactly: tracking error from costs and cash.",
+        "Risk flags any fund whose tracking error against its benchmark runs above budget."
       ],
       "fill": "An index fund that copies the Nifty almost perfectly has a ____ close to zero.",
       "confusables": [
@@ -685,7 +715,9 @@
       "short": "Extra return over index per unit of drift",
       "definition": "Return above the benchmark divided by tracking error. It measures how consistently a manager beats the index, not just by how much.",
       "examples": [
-        "Holding a 0.5 information ratio for ten years is genuinely good."
+        "Holding a 0.5 information ratio for ten years is genuinely good.",
+        "The PM's information ratio is 0.6, which puts her near the top of her peers.",
+        "Risk asked whether the information ratio holds up once the small-cap tilt is removed."
       ],
       "fill": "Dividing the 3% by which the fund beat its index by its 6% tracking error gives its ____: 0.5.",
       "confusables": [
@@ -721,7 +753,9 @@
       "short": "How lopsided returns are to one side",
       "definition": "A measure of how lopsided a return distribution is. Negative skew means many small gains with occasional big losses; positive skew means many small losses with occasional big wins.",
       "examples": [
-        "Selling options gives you negative skewness: steady small gains, then a big hit."
+        "Selling options gives you negative skewness: steady small gains, then a big hit.",
+        "Risk warns that option-selling funds show negative skewness: small gains, rare big losses.",
+        "The analyst likes the positive skewness of the trend fund's returns."
       ],
       "fill": "A lottery-like strategy that loses a little most days but sometimes wins big has positive ____.",
       "confusables": [
@@ -750,7 +784,9 @@
       "short": "How fat the tails of returns are",
       "definition": "A measure of how much of a distribution sits in the extreme tails. High kurtosis means big surprises happen more often than a normal bell curve predicts.",
       "examples": [
-        "Daily stock returns have high kurtosis, so 5-sigma days turn up far more often than the textbook says."
+        "Daily stock returns have high kurtosis, so 5-sigma days turn up far more often than the textbook says.",
+        "Risk adds a check for kurtosis, since fat-tailed returns break normal models.",
+        "The quant measured the strategy's kurtosis and found its worst days far beyond what the bell curve predicts."
       ],
       "fill": "Returns with high ____ look calm most days but produce extreme moves more often than a bell curve suggests.",
       "confusables": [
@@ -777,7 +813,9 @@
       "short": "Extreme moves happen more than models expect",
       "definition": "When extreme outcomes happen far more often than a normal distribution predicts. Market returns are fat-tailed, which is why crashes are less rare than simple models assume.",
       "examples": [
-        "Our risk model assumes normal returns, so it understates the fat tails in small caps."
+        "Our risk model assumes normal returns, so it understates the fat tails in small caps.",
+        "The client asked why her 'safe' fund lost 20% in a month: markets have fat tails.",
+        "Risk prices fat tails into its scenarios by replaying real crashes."
       ],
       "fill": "A 10% one-day fall should almost never happen under a bell curve, but ____ mean it turns up every few years.",
       "confusables": [
@@ -809,7 +847,9 @@
       "short": "Checking losses in a severe scenario",
       "definition": "Working out what a portfolio would lose in a specific severe scenario, such as a repeat of March 2020 or a sudden 2-point jump in interest rates. It covers shocks that VaR, built on recent history, can miss.",
       "examples": [
-        "Under the 2008 scenario the fund loses 38%, more than the board will accept."
+        "Under the 2008 scenario the fund loses 38%, more than the board will accept.",
+        "The client asked what the fund would lose in another 2008; the stress test says about 35%.",
+        "The analyst ran a stress test on the bank's loan book, assuming bad loans double."
       ],
       "fill": "Risk asked for a ____ showing the book's loss if the Nifty fell 20% and the rupee lost 10% overnight.",
       "confusables": [
@@ -831,7 +871,9 @@
       "short": "Return judged against the risk taken",
       "definition": "Return measured against the risk needed to earn it, using ratios such as Sharpe, Sortino or the information ratio. A calm 15% can be worth more than a wild 25%.",
       "examples": [
-        "On a risk-adjusted basis, the boring fund wins easily."
+        "On a risk-adjusted basis, the boring fund wins easily.",
+        "The client asked why the adviser prefers the quieter fund: its risk-adjusted return is higher.",
+        "Risk pays bonuses on risk-adjusted return, not raw profit."
       ],
       "fill": "Fund A made 25% with wild swings and fund B 15% calmly, so B may have the better ____.",
       "confusables": [
@@ -853,7 +895,9 @@
       "short": "Risk you can't exit without moving the price",
       "definition": "The risk that you cannot buy or sell a position quickly without moving the price a lot. It grows with position size and shrinks with daily trading volume.",
       "examples": [
-        "We own 12 days of volume in this small cap; that's real liquidity risk if we need to get out."
+        "We own 12 days of volume in this small cap; that's real liquidity risk if we need to get out.",
+        "Risk caps small cap holdings because of liquidity risk in a sell-off.",
+        "The client asked why her credit fund froze withdrawals: liquidity risk in the bonds it held."
       ],
       "fill": "Holding 15 days of average volume in one small cap leaves the fund carrying serious ____.",
       "confusables": [
@@ -892,7 +936,9 @@
       "short": "Fitting a line to explain one thing by others",
       "definition": "A statistical method that fits a line showing how one variable moves with one or more others. Regressing a stock's returns on the market's gives its beta as the slope.",
       "examples": [
-        "We regressed the fund's returns on four factors and most of the alpha disappeared."
+        "We regressed the fund's returns on four factors and most of the alpha disappeared.",
+        "The analyst's regression shows the stock moves about 0.3% for every 1% move in crude.",
+        "Risk asked whether the regression's slope still holds when the crash months are left out."
       ],
       "fill": "To estimate beta, run a ____ of the stock's daily returns on the Nifty's and read off the slope.",
       "confusables": [
@@ -919,7 +965,9 @@
       "short": "Share of the variation a model explains",
       "definition": "The share of the variation in one variable that a regression explains, from 0 to 1. An R-squared of 0.9 against the index means 90% of a fund's ups and downs are just the market.",
       "examples": [
-        "The fund's R-squared to the Nifty is 0.97, so it's a closet index fund charging active fees."
+        "The fund's R-squared to the Nifty is 0.97, so it's a closet index fund charging active fees.",
+        "The client asked how much of her fund's returns the Nifty explains; the R-squared says 95%.",
+        "Risk distrusts any hedge whose R-squared with the position is below 0.5."
       ],
       "fill": "If 95% of a fund's ups and downs are explained by the index, its ____ is 0.95.",
       "confusables": [
@@ -961,7 +1009,9 @@
       "short": "How two returns vary together, unscaled",
       "definition": "A measure of how two return series move together, in squared units. Divide it by both standard deviations and you get the correlation.",
       "examples": [
-        "Portfolio risk depends on the covariances between holdings, not just each one's volatility."
+        "Portfolio risk depends on the covariances between holdings, not just each one's volatility.",
+        "The quant builds the covariance matrix from three years of daily returns.",
+        "Risk asked why the covariance between our two books jumped in the sell-off."
       ],
       "fill": "Risk models use a ____ matrix built from every pair of stocks to work out portfolio volatility.",
       "confusables": [
@@ -999,7 +1049,9 @@
       "short": "An estimate divided by its standard error",
       "definition": "An estimate, such as an average return or a regression slope, divided by its standard error. It shows how many standard errors the estimate is from zero; above about 2 is usually called significant.",
       "examples": [
-        "The signal's t-stat is 1.4, which isn't enough to trade on."
+        "The signal's t-stat is 1.4, which isn't enough to trade on.",
+        "Risk won't fund a signal whose t-statistic is below 3, given how many we test.",
+        "The quant reports the t-statistic next to every backtest result."
       ],
       "fill": "With a ____ of 3.1, the factor's return is unlikely to be just noise.",
       "confusables": [
@@ -1047,7 +1099,9 @@
       "short": "Chance of a result this strong by luck alone",
       "definition": "The probability of seeing a result at least this strong if there were really no effect. A small p-value, such as below 0.05, suggests the result is unlikely to be pure chance.",
       "examples": [
-        "The p-value is 0.3, so that pattern could easily be noise."
+        "The p-value is 0.3, so that pattern could easily be noise.",
+        "The client asked whether the fund manager's record could be luck; the p-value says it might be.",
+        "Risk asked how many tests were run before the p-value of 0.04 turned up."
       ],
       "fill": "A ____ of 0.01 means a result this strong would turn up only 1% of the time if the signal were pure noise.",
       "confusables": [
@@ -1081,7 +1135,9 @@
       "short": "Distance from average in standard deviations",
       "definition": "How many standard deviations a value sits above or below its average. Traders use it to flag stretched prices or spreads, for example selling a pair when its spread reaches +2.",
       "examples": [
-        "The spread's z-score just hit 2.5, so the pairs model wants to fade it."
+        "The spread's z-score just hit 2.5, so the pairs model wants to fade it.",
+        "Risk flags any stock whose volume z-score tops 4 before results.",
+        "The analyst ranks stocks by the z-score of their valuation against their own history."
       ],
       "fill": "The spread is now 2 standard deviations above its average, a ____ of 2.",
       "confusables": [
@@ -1120,7 +1176,9 @@
       "short": "A series' correlation with its own past",
       "definition": "How much a series is correlated with its own earlier values. Positive autocorrelation in returns hints at momentum; negative hints at mean reversion.",
       "examples": [
-        "This small cap's daily returns show strong autocorrelation, probably because it trades so thinly."
+        "This small cap's daily returns show strong autocorrelation, probably because it trades so thinly.",
+        "Risk adjusts the fund's Sharpe for autocorrelation, since smoothed returns look safer than they are.",
+        "The quant found autocorrelation in the weekly returns of illiquid stocks."
       ],
       "fill": "If today's return tends to predict tomorrow's, the return series has ____.",
       "confusables": [
@@ -1152,7 +1210,9 @@
       "short": "Statistics that stay stable over time",
       "definition": "When a series' average, volatility and correlations stay roughly the same over time. Most models assume it. Price levels are usually not stationary; returns are much closer.",
       "examples": [
-        "Price levels aren't stationary, so we model returns or the spread between two linked stocks."
+        "Price levels aren't stationary, so we model returns or the spread between two linked stocks.",
+        "The quant tests for stationarity before modelling the spread.",
+        "Risk asked whether the model assumes stationarity, since the market has changed a lot."
       ],
       "fill": "A pairs trade only works if the spread shows ____: it keeps drifting back to the same average.",
       "confusables": [
@@ -1173,7 +1233,9 @@
       "short": "A result unlikely to be just chance",
       "definition": "A result is statistically significant when it would be unlikely to appear by chance alone, usually judged by a p-value below 0.05 or a t-statistic above about 2.",
       "examples": [
-        "The effect is statistically significant but tiny; after costs it's worth nothing."
+        "The effect is statistically significant but tiny; after costs it's worth nothing.",
+        "The client asked whether the fund's three good years prove skill; they fall short of statistical significance.",
+        "Risk wants statistical significance after costs, not just before."
       ],
       "fill": "The backtest earned 0.1% a month with a t-stat of 0.8, so the result lacks ____.",
       "confusables": [
@@ -1202,7 +1264,9 @@
       "short": "A data point far from the rest",
       "definition": "A value far from the rest of the data, such as a circuit-limit day or a bad price print. Outliers can swamp averages and regressions, so researchers check, cap or remove them with care.",
       "examples": [
-        "One outlier day in March 2020 accounts for half the backtest's profit."
+        "One outlier day in March 2020 accounts for half the backtest's profit.",
+        "Risk checks the data for any outlier before it goes into the model.",
+        "The analyst left out one outlier quarter when a one-time gain inflated profits."
       ],
       "fill": "A single bad tick at ₹1 instead of ₹100 will wreck the volatility estimate unless that ____ is removed.",
       "confusables": [
@@ -1223,7 +1287,9 @@
       "short": "A shared driver of many stocks' returns",
       "definition": "A common trait that helps explain why groups of stocks move together and earn different returns, such as value, momentum, size, quality or low volatility.",
       "examples": [
-        "Half our P&L this month came from the momentum factor, not from stock picking."
+        "Half our P&L this month came from the momentum factor, not from stock picking.",
+        "Risk split the month's loss by factor: most came from the crowded small-cap bet.",
+        "The analyst says the low-debt factor has done well in every slowdown."
       ],
       "fill": "Cheap stocks rallied as a group, which was a ____ move rather than anything company-specific.",
       "confusables": [
@@ -1249,7 +1315,9 @@
       "short": "How much a portfolio leans into a factor",
       "definition": "How strongly a stock or portfolio is tied to a factor, measured like a beta. A high momentum exposure means the portfolio rises and falls with momentum stocks.",
       "examples": [
-        "The fund calls itself a stock picker, but its value factor exposure explains most of its returns."
+        "The fund calls itself a stock picker, but its value factor exposure explains most of its returns.",
+        "Risk reports the fund's factor exposure every week so no tilt grows by accident.",
+        "The client asked why her 'stock picker' fund tracks a value index: its factor exposure is mostly value."
       ],
       "fill": "The fund claims to pick stocks, but its heavy ____ to cheap stocks explains most of its returns.",
       "confusables": [
@@ -1271,7 +1339,9 @@
       "short": "Cheap stocks tending to beat expensive ones",
       "definition": "The tendency of cheap stocks, on measures such as low price-to-book or price-to-earnings, to beat expensive ones over long periods, though with long dry spells.",
       "examples": [
-        "PSU banks and utilities rallied hard; it was a big year for the value factor."
+        "PSU banks and utilities rallied hard; it was a big year for the value factor.",
+        "The analyst thinks the value factor will do well if rates stay high.",
+        "Risk noticed the fund's returns track the value factor, so its edge is mostly buying cheap stocks."
       ],
       "fill": "Low price-to-book stocks beat pricey growth stocks this year, a strong run for the ____.",
       "confusables": [
@@ -1296,7 +1366,9 @@
       "short": "Recent winners tending to keep winning",
       "definition": "The tendency of stocks that rose most over the past 6 to 12 months to keep beating the market for a while, and of recent losers to keep lagging. It can crash sharply when markets turn.",
       "examples": [
-        "The Nifty200 Momentum 30 index buys the stocks with the strongest recent run."
+        "The Nifty200 Momentum 30 index buys the stocks with the strongest recent run.",
+        "Risk warns that the momentum factor can crash when the market turns sharply.",
+        "The client asked why her fund bought last year's winners: it follows the momentum factor."
       ],
       "fill": "Buying last year's biggest winners and selling the biggest losers is the classic ____ trade.",
       "confusables": [
@@ -1329,7 +1401,9 @@
       "short": "Small firms tending to beat large ones",
       "definition": "The long-run tendency of smaller companies to earn higher returns than large ones, as payment for extra risk and lower liquidity. The effect is weaker and less reliable than once thought.",
       "examples": [
-        "Small caps crushed large caps for two years, so the size factor did the heavy lifting."
+        "Small caps crushed large caps for two years, so the size factor did the heavy lifting.",
+        "The analyst says the size factor tends to fade once small caps get expensive.",
+        "Risk measures how much of the fund's return comes from the size factor, its tilt to small caps."
       ],
       "fill": "Over long periods smaller companies have beaten giants, the pattern known as the ____.",
       "confusables": [
@@ -1354,7 +1428,9 @@
       "short": "Profitable, low-debt firms tending to do better",
       "definition": "The tendency of companies with high profitability, steady earnings and low debt to deliver better risk-adjusted returns than weak ones. They often hold up well in sell-offs.",
       "examples": [
-        "In the sell-off, quality held up: the high-ROE, low-debt names barely fell."
+        "In the sell-off, quality held up: the high-ROE, low-debt names barely fell.",
+        "The client asked why her fund held up in the fall: it leans on the quality factor.",
+        "Risk likes the quality factor as a cushion in a slowdown."
       ],
       "fill": "High return on equity, steady earnings and little debt are the traits screened for by the ____.",
       "confusables": [
@@ -1379,7 +1455,9 @@
       "short": "Calm stocks doing as well as risky ones",
       "definition": "The finding that low-volatility stocks have earned returns similar to or better than high-volatility stocks, with much less risk. It contradicts the idea that more risk always pays more.",
       "examples": [
-        "NSE's Nifty100 Low Volatility 30 index picks the 30 calmest stocks in the Nifty 100."
+        "NSE's Nifty100 Low Volatility 30 index picks the 30 calmest stocks in the Nifty 100.",
+        "The client asked why her calm fund kept up with the market: the low-volatility factor.",
+        "Risk notes the low-volatility factor can lag badly in a sharp rally."
       ],
       "fill": "The calmest stocks have earned as much as the riskiest ones with far smaller swings, an effect called the ____.",
       "confusables": [
@@ -1407,7 +1485,9 @@
       "short": "Risk unique to one company",
       "definition": "Risk that comes from a company's own events, such as fraud, a lost contract or a bad result, rather than from the market. Diversification can mostly remove it.",
       "examples": [
-        "The stock fell 20% on an audit issue while the Nifty was flat: pure idiosyncratic risk."
+        "The stock fell 20% on an audit issue while the Nifty was flat: pure idiosyncratic risk.",
+        "The analyst says owning 30 stocks cuts idiosyncratic risk a lot.",
+        "The client asked why one stock's fraud didn't sink her index fund: diversification removes most idiosyncratic risk."
       ],
       "fill": "The surprise CEO exit hurt only that one stock, so it was ____ rather than market risk.",
       "confusables": [
@@ -1433,7 +1513,9 @@
       "short": "Market-wide risk you can't diversify away",
       "definition": "Risk that affects the whole market, such as rate changes, recessions or a global sell-off. Spreading money across more stocks can't remove it; only hedging or holding less can.",
       "examples": [
-        "Owning 50 stocks didn't help in March 2020; that was systematic risk."
+        "Owning 50 stocks didn't help in March 2020; that was systematic risk.",
+        "The client asked why her diversified fund still fell 30%: systematic risk.",
+        "Risk hedges systematic risk with index futures, leaving only the stock bets."
       ],
       "fill": "A surprise rate hike pulled down every sector at once, a ____ no amount of diversification could avoid.",
       "confusables": [
@@ -1459,7 +1541,9 @@
       "short": "An index built on factors, not market value",
       "definition": "Index funds that pick or weight stocks by rules based on factors such as momentum, value, quality or low volatility, rather than by market value.",
       "examples": [
-        "The fund house launched a smart beta ETF tracking the Nifty200 Momentum 30."
+        "The fund house launched a smart beta ETF tracking the Nifty200 Momentum 30.",
+        "The client asked whether her smart beta fund is active or passive: it follows fixed rules, so it's passive.",
+        "Risk checks that the smart beta index's rules don't pile into a few sectors."
       ],
       "fill": "An ETF tracking the Nifty100 Low Volatility 30 instead of the plain Nifty 100 is a ____ product.",
       "confusables": [
@@ -1484,7 +1568,9 @@
       "short": "Testing a strategy on past data",
       "definition": "Running a trading rule on historical data to see how it would have done. Useful, but easy to fool yourself with, because the same past was used to build the rule.",
       "examples": [
-        "The backtest shows a Sharpe of 3, which almost always means something is wrong."
+        "The backtest shows a Sharpe of 3, which almost always means something is wrong.",
+        "Risk asks how many versions were tried before the backtest that's being shown.",
+        "The client asked why the fund's live returns lag its backtest: real costs and luck."
       ],
       "fill": "Before risking money, we ran the strategy's rules over ten years of history in a ____.",
       "confusables": [
@@ -1510,7 +1596,9 @@
       "short": "Tuning a model to past noise",
       "definition": "Tuning a model so closely to past data that it learns the noise instead of a real pattern. It looks brilliant in the backtest and fails on new data.",
       "examples": [
-        "Twelve parameters on three years of data: that's overfitting until proven otherwise."
+        "Twelve parameters on three years of data: that's overfitting until proven otherwise.",
+        "Risk suspects overfitting when a strategy has more rules than years of data.",
+        "The client asked why the trading course's strategy failed for her: overfitting to old data."
       ],
       "fill": "The strategy had 15 tuned settings and a perfect backtest, then lost money live: classic ____.",
       "confusables": [
@@ -1542,7 +1630,9 @@
       "short": "Using data you wouldn't have had then",
       "definition": "A backtest error where the rules use information that was not available at the time of the trade, such as results published after the date or economic data revised later.",
       "examples": [
-        "The model bought on yearly results dated to 31 March, weeks before they were actually published."
+        "The model bought on yearly results dated to 31 March, weeks before they were actually published.",
+        "Risk found look-ahead bias: the model traded on closing prices it couldn't have seen yet.",
+        "The analyst checks every data field's release date to avoid look-ahead bias."
       ],
       "fill": "The test bought at Monday's open using Monday's closing price, a ____ that made it look far too good.",
       "confusables": [
@@ -1577,7 +1667,9 @@
       "short": "Testing only on firms that survived",
       "definition": "A backtest error from using only companies that exist today, leaving out those that went bust, merged or were delisted. It makes past returns look better than they were.",
       "examples": [
-        "Testing on today's Nifty 50 members ignores every company that dropped out."
+        "Testing on today's Nifty 50 members ignores every company that dropped out.",
+        "The client asked why fund rankings look so good: survivorship bias, since closed funds drop out.",
+        "Risk asked the quant to include delisted stocks to remove survivorship bias."
       ],
       "fill": "Running the test only on stocks in today's index, and ignoring those since delisted, builds in ____.",
       "confusables": [
@@ -1615,7 +1707,9 @@
       "short": "Testing so many ideas one works by luck",
       "definition": "Testing many ideas on the same data until one looks good. With enough tries something will pass by luck alone, so the winner's results are overstated.",
       "examples": [
-        "We tried 400 signals and kept the best five; that's data snooping unless they hold up on new data."
+        "We tried 400 signals and kept the best five; that's data snooping unless they hold up on new data.",
+        "Risk counts every signal tried, so data snooping shows up in the review.",
+        "The analyst says the 'Diwali effect' in the research note is probably data snooping."
       ],
       "fill": "After trying 500 signal ideas on the same ten years of data, the best one probably owes its result to ____.",
       "confusables": [
@@ -1656,7 +1750,9 @@
       "short": "Data kept back to test a model fairly",
       "definition": "Data that was not used to build or tune a model and is kept back to test it. Good out-of-sample results are the best sign that a pattern is real.",
       "examples": [
-        "In-sample Sharpe 2.1, out-of-sample 0.4: the signal mostly fitted noise."
+        "In-sample Sharpe 2.1, out-of-sample 0.4: the signal mostly fitted noise.",
+        "Risk only funds strategies that held up on out-of-sample data.",
+        "The quant keeps the last two years out-of-sample until the model is final."
       ],
       "fill": "We built the model on 2010 to 2020 and kept 2021 to 2024 back as a fair ____ test.",
       "confusables": [
@@ -1682,7 +1778,9 @@
       "short": "Refit on a rolling window, test on the next",
       "definition": "A test that fits a model on one window of past data, trades it on the next unseen window, then rolls forward and repeats. It mimics how the model would really be used.",
       "examples": [
-        "Walk-forward results are weaker than the full backtest but far more believable."
+        "Walk-forward results are weaker than the full backtest but far more believable.",
+        "Risk prefers walk-forward testing because it mimics how the model would really be used.",
+        "The quant's walk-forward testing refits each year and trades the next."
       ],
       "fill": "Fit on 2015 to 2019 and trade 2020, then fit on 2016 to 2020 and trade 2021: that's ____.",
       "confusables": [
@@ -1706,7 +1804,9 @@
       "short": "All the costs of trading: fees, tax, slippage",
       "definition": "Everything a trade costs beyond the price itself: brokerage, exchange fees, STT and stamp duty, the bid-ask spread and market impact. Many great-looking backtests die once these are added.",
       "examples": [
-        "At 40 trades a day, transaction costs wipe out the whole edge."
+        "At 40 trades a day, transaction costs wipe out the whole edge.",
+        "The client asked why her trading profits vanished: transaction costs on 500 trades a month.",
+        "Risk checks every backtest for realistic transaction costs, including impact."
       ],
       "fill": "The backtest made 18% a year before ____ and lost money once brokerage, STT and slippage were added.",
       "confusables": [
@@ -1745,7 +1845,9 @@
       "short": "Markets behaving differently than before",
       "definition": "A lasting shift in how markets behave, such as from low to high inflation or from calm to volatile, that can break patterns a model learned from earlier data.",
       "examples": [
-        "The strategy worked through a decade of falling rates and broke when inflation came back in 2022."
+        "The strategy worked through a decade of falling rates and broke when inflation came back in 2022.",
+        "Risk asked whether the model can spot regime change before the losses pile up.",
+        "The analyst says the regime change in rates hurt every long-duration growth stock."
       ],
       "fill": "Stocks and bonds started falling together when inflation came back, a ____ that broke many models.",
       "confusables": [
@@ -1771,7 +1873,8 @@
       "definition": "The share of trades, days or bets that make money. On its own it says little: a strategy can win 30% of the time and still do well if the wins are much larger than the losses.",
       "examples": [
         "Hit rate is only 38%, but the average win is three times the average loss.",
-        "A 90% hit rate selling options sounds great until one loss wipes out the year."
+        "A 90% hit rate selling options sounds great until one loss wipes out the year.",
+        "The client asked why her strategy lost money with a 60% hit rate: the losses were bigger than the wins."
       ],
       "fill": "Of 200 trades, 110 made money, so the strategy's ____ is 55%.",
       "confusables": [
@@ -1804,7 +1907,8 @@
       "definition": "The average winning trade divided by the average losing trade. Read with the hit rate, it tells you whether a strategy makes money.",
       "examples": [
         "Our payoff ratio is 2.5, so we can afford to be wrong more often than right.",
-        "Trend systems live on a high payoff ratio and a low hit rate."
+        "Trend systems live on a high payoff ratio and a low hit rate.",
+        "Risk asks for the payoff ratio with every hit rate, since one means little alone."
       ],
       "fill": "The average winner makes ₹12,000 and the average loser costs ₹4,000, so the ____ is 3.",
       "confusables": [
@@ -1841,7 +1945,8 @@
       "definition": "Total profit from winning trades divided by total loss from losing trades. Above 1 the strategy made money; desks look for comfortably above 1 after costs.",
       "examples": [
         "Profit factor is 1.1 before costs and 0.9 after, so there's no edge left.",
-        "A profit factor of 1.6 over 800 trades is worth a closer look."
+        "A profit factor of 1.6 over 800 trades is worth a closer look.",
+        "The client asked what profit factor means: total gains divided by total losses."
       ],
       "fill": "Winning trades made ₹30 lakh and losing trades lost ₹20 lakh, so the ____ is 1.5.",
       "confusables": [
@@ -1888,7 +1993,8 @@
       "definition": "The average amount a strategy expects to make per trade: the hit rate times the average win, minus the loss rate times the average loss. It has to stay clearly positive after costs.",
       "examples": [
         "Expectancy is ₹350 a trade but costs are ₹300, so the edge is thin.",
-        "We'd take a lower hit rate if it lifts the expectancy."
+        "We'd take a lower hit rate if it lifts the expectancy.",
+        "Risk funds a strategy only if its expectancy stays positive after costs."
       ],
       "fill": "A strategy wins half the time, making ₹3,000 on winners and losing ₹2,000 on losers, so its ____ is ₹500 a trade.",
       "confusables": [
@@ -1929,7 +2035,8 @@
       "definition": "The largest open loss a trade showed at any point before it was closed. Studied across many trades, it shows how much heat the winners take, which helps set stop-losses.",
       "examples": [
         "Most winners never had an MAE beyond 1.5%, so a 2% stop would cost us very few good trades.",
-        "The MAE on that trade was ₹4 lakh even though it closed in profit."
+        "The MAE on that trade was ₹4 lakh even though it closed in profit.",
+        "Risk uses each trade's maximum adverse excursion to set sensible stops."
       ],
       "fill": "A trade bought at ₹500 fell to ₹470 before closing at ₹530, so its ____ was ₹30 a share.",
       "confusables": [
@@ -1957,7 +2064,8 @@
       "definition": "The largest open profit a trade showed at any point before it was closed. Comparing it with the final profit shows how much gain the exits give back.",
       "examples": [
         "Average MFE is 3% but we only keep 1%, so the exits leave too much on the table.",
-        "That trade had an MFE of ₹2 lakh and still closed as a loss."
+        "That trade had an MFE of ₹2 lakh and still closed as a loss.",
+        "The quant compares maximum favourable excursion with the final profit to judge the exits."
       ],
       "fill": "A short sold at ₹800 dropped to ₹740 before being bought back at ₹770, so its ____ was ₹60 a share.",
       "confusables": [
@@ -1983,7 +2091,8 @@
       "definition": "Annualised return divided by the maximum drawdown, often over the last three years. It shows how much return a strategy earns for the worst loss an investor had to sit through.",
       "examples": [
         "The Sharpe looks fine, but the Calmar is 0.4 because of that one ugly year.",
-        "Trend-following funds often quote Calmar alongside Sharpe."
+        "Trend-following funds often quote Calmar alongside Sharpe.",
+        "The client asked why the trend fund quotes its Calmar ratio: return against its worst fall."
       ],
       "fill": "A fund earns 15% a year and its worst peak-to-trough fall was 30%, so its ____ is 0.5.",
       "confusables": [
@@ -2024,7 +2133,8 @@
       "definition": "How long a strategy or fund stays below its previous peak before it gets back there. A long one tests investors as much as a deep one.",
       "examples": [
         "The drawdown was only 12%, but it lasted 20 months, and clients left.",
-        "Our longest time under water in the backtest was 14 months, so seven flat months is no surprise."
+        "Our longest time under water in the backtest was 14 months, so seven flat months is no surprise.",
+        "Risk tells clients that drawdown duration can matter more than depth: long flat years test patience."
       ],
       "fill": "The NAV peaked in March 2024 and only got back above that level in September 2025, so its ____ was 18 months.",
       "confusables": [
@@ -2050,7 +2160,8 @@
       "definition": "The share of time a strategy actually holds a position. A system that's in the market only 30% of the time carries risk less often, and its returns should be judged with that in mind.",
       "examples": [
         "Time in market is only 25%, so the capital sits idle most days.",
-        "Its return looks low until you see it's flat three days out of four."
+        "Its return looks low until you see it's flat three days out of four.",
+        "The quant reports time in market so the return can be judged against the capital actually used."
       ],
       "fill": "A system that holds positions on 60 of the year's 250 trading days has a ____ of 24%.",
       "confusables": [
@@ -2078,7 +2189,8 @@
       "definition": "The correlation between a signal's forecasts and the returns that follow, usually measured across stocks each day or month. Small numbers matter: an IC of 0.05 applied across hundreds of stocks can be a good signal.",
       "examples": [
         "The rank IC is 0.04 at one day and close to zero by day five, so it has to be traded fast.",
-        "The IC is decent but unstable: it flips sign in most quarters."
+        "The IC is decent but unstable: it flips sign in most quarters.",
+        "Risk asks how stable the information coefficient is from year to year."
       ],
       "fill": "Across 500 stocks, the signal's scores had a correlation of 0.04 with next month's returns, so its ____ is 0.04.",
       "confusables": [
@@ -2126,7 +2238,8 @@
       "definition": "A Sharpe ratio corrected for how many strategies were tried before this one was picked, how short the record is and how fat-tailed the returns are. It's read as the probability that the edge is real rather than luck.",
       "examples": [
         "Sharpe of 2 in the backtest, but we tried 300 variants; the deflated Sharpe says it's a coin flip.",
-        "Write down how many configurations you tested, or nobody can work out the deflated Sharpe."
+        "Write down how many configurations you tested, or nobody can work out the deflated Sharpe.",
+        "Risk asks for the deflated Sharpe ratio on every new signal, with the number of tries written down."
       ],
       "fill": "After testing 500 variants and keeping the best, the researcher reports a ____ that corrects the headline Sharpe for all those tries.",
       "confusables": [
@@ -2163,7 +2276,8 @@
       "definition": "Capping extreme values at a chosen percentile, such as the 1st and 99th, instead of deleting them. Researchers do it so a few wild data points don't dominate a signal or a regression.",
       "examples": [
         "Winsorise the earnings surprise at 1 and 99 before ranking, or two penny stocks will drive the whole signal.",
-        "We winsorised returns at 5 sigma; check the result doesn't flip without it."
+        "We winsorised returns at 5 sigma; check the result doesn't flip without it.",
+        "The quant's winsorising step caps the top and bottom 1% of each feature."
       ],
       "fill": "Instead of dropping the five stocks with absurd returns, the analyst set every value above the 99th percentile equal to the 99th percentile: that's ____.",
       "confusables": [
@@ -2192,7 +2306,8 @@
       "definition": "Removing a signal's or portfolio's exposure to the market, sectors or factors, so that what's left is the stock-picking bet. The simplest way is to subtract each sector's average score from its stocks.",
       "examples": [
         "Neutralise it against sector, or it's just a long-banks, short-IT trade.",
-        "After beta neutralisation, half the backtest return disappears."
+        "After beta neutralisation, half the backtest return disappears.",
+        "Risk checks the signal after sector neutralisation, so it isn't just a bet on banks."
       ],
       "fill": "Before ranking, the quant subtracts each sector's average score from every stock in that sector, so the signal stops being a sector bet. This step is ____.",
       "confusables": [
@@ -2220,7 +2335,8 @@
       "definition": "The total size of a book's long and short positions added together, ignoring their sign, usually as a percentage of capital. It shows how much is at work, and so how much could go wrong at once.",
       "examples": [
         "You're at 260% gross against a 250% limit; cut something before the close.",
-        "Same net, but doubling gross doubles what a bad day for the pairs can cost."
+        "Same net, but doubling gross doubles what a bad day for the pairs can cost.",
+        "Risk caps gross exposure at 250%, whatever the net."
       ],
       "fill": "A ₹100 crore fund with ₹130 crore of longs and ₹90 crore of shorts has ₹220 crore of ____, against ₹40 crore net.",
       "confusables": [
@@ -2261,7 +2377,8 @@
       "definition": "Long positions minus short positions, usually as a percentage of capital. It shows how much the book gains or loses if the whole market moves.",
       "examples": [
         "We're 15% net long, so a 3% Nifty fall costs us about half a percent.",
-        "Take net to zero into the results and keep the stock bets."
+        "Take net to zero into the results and keep the stock bets.",
+        "The client asked how much the hedge fund really bets on the market: its net exposure is 20%."
       ],
       "fill": "A fund long ₹120 crore and short ₹100 crore on ₹100 crore of capital has a ____ of 20%.",
       "confusables": [
@@ -2298,7 +2415,8 @@
       "definition": "Breaking a book's profit or loss into its sources: for an options book by Greek (delta, gamma, vega, theta), for a stock book by market, sector, factor and stock picking. A large unexplained part means a model or a booking is wrong.",
       "examples": [
         "PnL explain says we made 30 lakh on vega and lost 20 lakh on theta; delta was flat.",
-        "Attribution shows the whole quarter's return came from the value tilt, not stock picking."
+        "Attribution shows the whole quarter's return came from the value tilt, not stock picking.",
+        "Risk's PnL attribution showed the month's loss came from vega, not from direction."
       ],
       "fill": "The risk team splits yesterday's ₹40 lakh loss into ₹25 lakh from delta, ₹10 lakh from vega and ₹5 lakh unexplained. That's ____.",
       "confusables": [
@@ -2325,7 +2443,8 @@
       "definition": "Said of a strategy whose backtest is profitable before trading costs but not after them. Brokerage, STT, exchange charges, slippage and impact can wipe out a small edge, especially one that trades often.",
       "examples": [
         "It makes 9 bps a trade and costs us 12 bps to get in and out, so it doesn't survive costs.",
-        "Before you show me the gross Sharpe, tell me whether it survives costs."
+        "Before you show me the gross Sharpe, tell me whether it survives costs.",
+        "The quant dropped the signal because it doesn't survive costs at any realistic size."
       ],
       "fill": "A signal that earns 5 bps a trade but pays 8 bps in slippage and STT ____.",
       "confusables": [
@@ -2359,7 +2478,8 @@
       "definition": "A put-down for a strategy whose returns mostly come from being long the market, not from skill. Regress its returns on the Nifty: if beta explains most of it and the alpha left over is near zero, it's just beta.",
       "examples": [
         "The fund is up 18% in a year the Nifty rose 17%, with a beta of 1.05. That's just beta.",
-        "Before we call it alpha, hedge out the index and see what's left; it might be just beta."
+        "Before we call it alpha, hedge out the index and see what's left; it might be just beta.",
+        "The client asked whether her fund's gain is skill; with a beta of 1.2 in a rising market, it's just beta."
       ],
       "fill": "The book rose 20% when the market rose 20%, with a beta near one: ____, not skill.",
       "confusables": [
@@ -2392,7 +2512,8 @@
       "definition": "A new signal that turns out to be mostly an old, well-known factor such as momentum, value, size or low volatility. Regress it on the standard factors: if they explain it, the signal adds little.",
       "examples": [
         "Your earnings-strength signal has a 0.8 correlation with 12-month momentum; it's a factor in disguise.",
-        "Check the exposures first. A lot of new alphas turn out to be a value tilt in disguise."
+        "Check the exposures first. A lot of new alphas turn out to be a value tilt in disguise.",
+        "Risk asked the quant to prove the new signal isn't a factor in disguise."
       ],
       "fill": "The new signal's returns line up almost perfectly with the momentum factor's, so it's really ____.",
       "confusables": [
@@ -2421,7 +2542,8 @@
       "definition": "What a researcher says about a backtest with an unrealistically high Sharpe ratio or a perfectly smooth equity curve. It usually means a bug, look-ahead bias, missing costs or survivorship bias, not a discovery.",
       "examples": [
         "A Sharpe of 6 on a daily large-cap strategy is too good to be true; check the timestamps.",
-        "When a result looks too good to be true, the first suspect is the data, not the market."
+        "When a result looks too good to be true, the first suspect is the data, not the market.",
+        "The client asked about a scheme promising 5% a month; the adviser said it's too good to be true."
       ],
       "fill": "A backtest with a Sharpe of 8 and no losing month is ____, so start by hunting for look-ahead bias.",
       "confusables": [
@@ -2456,7 +2578,8 @@
       "definition": "Running a strategy on live market data and recording the trades it would make, without sending real orders. It catches bugs and shows whether live behaviour matches the backtest before capital goes in.",
       "examples": [
         "Paper trade it for a month, then we'll talk about capital.",
-        "The paper trading fills looked fine, but they ignored queue position, so live slippage was worse."
+        "The paper trading fills looked fine, but they ignored queue position, so live slippage was worse.",
+        "Risk requires a month of paper trading before any new algo gets capital."
       ],
       "fill": "Before giving it money, the team ran the strategy on live prices for six weeks and only logged its orders: ____.",
       "confusables": [
@@ -2489,7 +2612,8 @@
       "definition": "Said of a model with so many adjustable parameters that it can be tuned to fit almost any past data. The more knobs, the more likely the backtest is overfit and the worse it does out of sample.",
       "examples": [
         "Eleven thresholds and four lookbacks for one signal? Too many knobs.",
-        "Cut it down to two parameters; with too many knobs the backtest tells us nothing."
+        "Cut it down to two parameters; with too many knobs the backtest tells us nothing.",
+        "The analyst says the trading course's system has too many knobs to trust."
       ],
       "fill": "With 14 settings tuned on five years of data, the reviewer said the model had ____.",
       "confusables": [
@@ -2516,7 +2640,8 @@
       "definition": "A backtest that looks good at one parameter value but falls apart when you nudge it. A sound strategy shows a broad plateau: similar results across nearby lookbacks and thresholds.",
       "examples": [
         "It works with a 23-day lookback but not with 20 or 25; that's a knife-edge result.",
-        "Show me the heat map of Sharpe against both parameters. If it's a single bright dot, it's knife-edge."
+        "Show me the heat map of Sharpe against both parameters. If it's a single bright dot, it's knife-edge.",
+        "Risk rejected the signal: one lookback works and its neighbours don't, a classic knife-edge result."
       ],
       "fill": "The Sharpe was 1.8 with a 14-day window and near zero at 12 or 16 days: a ____.",
       "confusables": [
@@ -2549,7 +2674,8 @@
       "definition": "A fast, rough check that a number makes sense before anyone relies on it: does the PnL match the positions, are the returns the right size, do the trade counts add up?",
       "examples": [
         "Sanity check: a 2% move on a ₹10 crore book is ₹20 lakh, so a ₹2 crore loss means something's off.",
-        "Run a sanity check on the data before the backtest: no negative prices, no zero volume on trading days."
+        "Run a sanity check on the data before the backtest: no negative prices, no zero volume on trading days.",
+        "Risk runs a quick sanity check on every PnL number before it goes to the board."
       ],
       "fill": "The report showed ₹50 crore of profit on a ₹5 crore book, which failed the most basic ____.",
       "confusables": [
@@ -2577,7 +2703,8 @@
       "definition": "A quick, rough calculation that gets the order of magnitude right without exact numbers. Desks use it to see whether an idea is worth more work, for example its capacity or its costs.",
       "examples": [
         "Back of the envelope: a 10 bps edge on ₹50 crore a day is ₹5 lakh a day before costs.",
-        "Do the back-of-the-envelope maths before you build the full simulation."
+        "Do the back-of-the-envelope maths before you build the full simulation.",
+        "The PM did the back of the envelope: a 1% edge on ₹500 crore is ₹5 crore a year before costs."
       ],
       "fill": "On the call she did a quick ____ sum: 2% of ₹300 crore is ₹6 crore, so the idea was worth pursuing.",
       "confusables": [
@@ -2603,7 +2730,8 @@
       "definition": "No model can do better than its data. Unadjusted prices, missing delisted stocks, bad timestamps or wrong corporate actions make a backtest wrong however good the method.",
       "examples": [
         "The prices weren't adjusted for the bonus issue, so the stock 'crashed' 50% overnight in the data. Garbage in, garbage out.",
-        "Spend a week cleaning the tick data first; garbage in, garbage out."
+        "Spend a week cleaning the tick data first; garbage in, garbage out.",
+        "Risk reminds the quants that garbage in, garbage out applies to every model, however clever."
       ],
       "fill": "The backtest used prices that ignored splits and bonuses, so its results were worthless: ____.",
       "confusables": [
@@ -2630,7 +2758,8 @@
       "definition": "The rule that a signal needs a reason to work, such as a risk premium, a behavioural bias or a forced flow, before you test it. Testing thousands of ideas with no reason behind them finds patterns by chance.",
       "examples": [
         "Hypothesis first: why would anyone leave this money on the table?",
-        "The PM's first question on any new alpha is the economic rationale, not the Sharpe."
+        "The PM's first question on any new alpha is the economic rationale, not the Sharpe.",
+        "The PM insists on hypothesis first, so every signal must come with a reason it should work."
       ],
       "fill": "Instead of mining 5,000 indicators, the team works ____: they write down why a signal should pay before they test it.",
       "confusables": [
@@ -2664,7 +2793,8 @@
       "definition": "Said of a result, a day's PnL or a gap between two backtests that is small next to normal random variation. Before reacting, compare it with the standard deviation or a t-statistic.",
       "examples": [
         "We're down ₹3 lakh on a book that moves ₹10 lakh on a normal day. It's noise.",
-        "A Sharpe of 1.1 against 1.0 over two years is within the noise."
+        "A Sharpe of 1.1 against 1.0 over two years is within the noise.",
+        "Risk told the PM not to worry about a ₹50,000 loss on a ₹50 crore book: it's noise."
       ],
       "fill": "The new version beat the old one by 0.05 Sharpe over 18 months; the analyst said ____ and kept the simpler model.",
       "confusables": [
@@ -2691,7 +2821,8 @@
       "definition": "A result based on too few trades, days or events to be reliable. With 10 trades a 70% win rate is easily luck; the error in an estimate shrinks only with the square root of the number of observations.",
       "examples": [
         "Twelve Budget days is a small sample; don't size up on that pattern.",
-        "That's 25 trades. Small sample, so show me the t-stat before we get excited."
+        "That's 25 trades. Small sample, so show me the t-stat before we get excited.",
+        "The analyst won't trust the pattern: with only eight results days, the small sample could be luck."
       ],
       "fill": "The strategy won 7 of its 10 trades, but with a ____ like that, the win rate could be luck.",
       "confusables": [
@@ -2726,7 +2857,8 @@
       "definition": "Rank stocks on a signal, split them into buckets such as fifths, and subtract the worst bucket's average forward return from the best's. It shows what a long-short version of the signal would have earned before costs.",
       "examples": [
         "The top-minus-bottom spread is 1.2% a month, but half of it comes from the bottom bucket's small caps.",
-        "Show me the quintile spread after costs, not just the IC."
+        "Show me the quintile spread after costs, not just the IC.",
+        "Risk asks for the top-minus-bottom spread after costs, since shorting the bottom bucket is expensive."
       ],
       "fill": "The top fifth of stocks returned 2.1% a month and the bottom fifth 0.6%, so the signal's ____ was 1.5%.",
       "confusables": [
@@ -2766,7 +2898,8 @@
       "definition": "A good sign in signal research: when stocks are sorted into buckets by a signal, average forward returns rise steadily from the lowest bucket to the highest. A spread that comes only from one extreme bucket is weaker evidence.",
       "examples": [
         "Returns are monotonic in the buckets: 0.2, 0.5, 0.8, 1.1 and 1.4% from the bottom fifth to the top.",
-        "It's not monotonic; all the spread is in the bottom tenth, which we can't easily short."
+        "It's not monotonic; all the spread is in the bottom tenth, which we can't easily short.",
+        "The quant only trusts a score when returns are monotonic in the buckets, not just high at the top."
       ],
       "fill": "Quintile returns of 0.3%, 0.6%, 0.9%, 1.2% and 1.6% a month mean the signal is ____.",
       "confusables": [
@@ -2800,7 +2933,8 @@
       "definition": "A signal that compares many assets at the same moment, such as ranking all Nifty 500 stocks by their 12-month return and buying the top. It bets on relative performance, so it is often traded long-short.",
       "examples": [
         "Cross-sectional momentum buys this month's winners against its losers, whatever the market does.",
-        "On a cross-sectional signal a market crash matters less; what matters is which stocks fall more."
+        "On a cross-sectional signal a market crash matters less; what matters is which stocks fall more.",
+        "Risk notes the cross-sectional signal stays balanced long and short, so a crash hurts it less."
       ],
       "fill": "Ranking all the F&O stocks on earnings upgrades each month and buying the top 40 is a ____.",
       "confusables": [
@@ -2833,7 +2967,8 @@
       "definition": "A signal that looks at one asset against its own history, such as going long the Nifty when it is above its 200-day average. It can leave the whole book long or short the market, unlike a cross-sectional signal.",
       "examples": [
         "A time-series rule on Nifty futures goes short once the index falls below its 200-day average.",
-        "This is a time-series signal, so in a crash the whole book can end up short."
+        "This is a time-series signal, so in a crash the whole book can end up short.",
+        "The client asked how her trend fund decides to go short: its time-series signal compares each market with its own past."
       ],
       "fill": "Buying gold when it is above its own one-year average price and selling it when below is a ____.",
       "confusables": [
@@ -2861,7 +2996,8 @@
       "definition": "A database that keeps what was actually known on each date: the index members then, earnings as first reported (before restatements) and the day each figure became public. Using today's revised data in a backtest adds look-ahead bias.",
       "examples": [
         "Use point-in-time Nifty 50 membership, not today's list, or you've built in survivorship bias.",
-        "Results came out on the 12th, so point-in-time data shouldn't show them on the 1st."
+        "Results came out on the 12th, so point-in-time data shouldn't show them on the 1st.",
+        "Risk insists on point-in-time data for every backtest, so no result is seen before it was published."
       ],
       "fill": "Backtests should use ____, so a company's earnings appear only from the day they were announced.",
       "confusables": [
@@ -2895,7 +3031,8 @@
       "definition": "When information that wasn't available at the time leaks into training or testing: for example, scaling data with the full sample's average, or using a closing price to trade at that same close. The model looks better than it can be live.",
       "examples": [
         "You normalised the features over the whole history, test years included. That's data leakage.",
-        "The signal used the closing price and then traded at the close; that's leakage, since you can't know the close before it prints."
+        "The signal used the closing price and then traded at the close; that's leakage, since you can't know the close before it prints.",
+        "Risk found data leakage: the model's features were scaled using the test years too."
       ],
       "fill": "Fitting the scaler on all ten years, test period included, caused ____ and flattered the results.",
       "confusables": [
@@ -2922,7 +3059,8 @@
       "definition": "The returns that come after the moment a signal is measured, such as the next day or the next month. Signal research compares today's signal with forward returns; comparing it with past returns only finds what already happened.",
       "examples": [
         "Correlate the score with one-week forward returns, starting from the next open, not today's close.",
-        "The IC on five-day forward returns is 0.04 and drops to 0.01 at twenty days."
+        "The IC on five-day forward returns is 0.04 and drops to 0.01 at twenty days.",
+        "The analyst measures each signal against forward returns over one, five and twenty days."
       ],
       "fill": "To judge a signal taken at Monday's close, compare it with the ____ from Tuesday onwards.",
       "confusables": [
@@ -2949,7 +3087,8 @@
       "definition": "The list of instruments a strategy picks from, such as the Nifty 100 or all F&O stocks. Choosing it well matters: a universe of illiquid small caps can show great backtests that can't be traded.",
       "examples": [
         "Our universe is the F&O stocks, since we need futures to go short.",
-        "Rebuild the universe every month from point-in-time liquidity, not from today's list."
+        "Rebuild the universe every month from point-in-time liquidity, not from today's list.",
+        "Risk checks that the universe leaves out stocks too thin to trade in size."
       ],
       "fill": "The quant limited the strategy's ____ to the 100 most liquid stocks so any position could be exited in a day.",
       "confusables": [
@@ -2976,7 +3115,8 @@
       "definition": "Trading a portfolio back to the weights the strategy wants, because prices have moved or the signal has changed. Rebalancing more often follows the signal more closely but costs more.",
       "examples": [
         "We rebalance monthly; weekly added 30 bps a year in costs for almost no extra return.",
-        "The index rebalance at the end of March means heavy buying of the new names at the close."
+        "The index rebalance at the end of March means heavy buying of the new names at the close.",
+        "The client asked how often her index fund must rebalance: whenever the index changes its members."
       ],
       "fill": "The momentum book moves back to its target weights once a month, and each ____ costs about 15 bps.",
       "confusables": [
@@ -3004,7 +3144,8 @@
       "definition": "A buffer around each target weight: the portfolio trades only when a position drifts outside it. It cuts turnover and costs a lot while barely changing returns, because most small trades add little.",
       "examples": [
         "With a 20% band around a 5% target, the stock trades only when its weight leaves the range 4% to 6%.",
-        "Adding a no-trade band halved the turnover and lifted the net Sharpe from 0.7 to 0.9."
+        "Adding a no-trade band halved the turnover and lifted the net Sharpe from 0.7 to 0.9.",
+        "Risk likes the no-trade band because it stops the fund paying costs for tiny drifts."
       ],
       "fill": "The book leaves each weight alone until it is off target by more than a fifth: a ____ that halves turnover.",
       "confusables": [
@@ -3044,7 +3185,8 @@
       "definition": "Latin for 'before the event': a number estimated in advance, such as the volatility a risk model forecasts or the tracking error a fund expects. It is compared with the ex post number measured afterwards.",
       "examples": [
         "Ex ante vol on the book is 12%, but it has realised 18% this quarter; the risk model is too slow.",
-        "Size the trade on ex ante risk, not on last month's PnL."
+        "Size the trade on ex ante risk, not on last month's PnL.",
+        "The PM sizes each bet on ex ante volatility from the risk model."
       ],
       "fill": "The risk model says the book should move about 1% a day: that is its ____ volatility.",
       "confusables": [
@@ -3071,7 +3213,8 @@
       "definition": "Latin for 'after the event': a number measured from what actually happened, such as realised volatility or last year's actual tracking error.",
       "examples": [
         "Ex post the hedge halved the drawdown, but ex ante we didn't know the crash was coming.",
-        "Ex post tracking error was 4% against the 2% we budgeted."
+        "Ex post tracking error was 4% against the 2% we budgeted.",
+        "Risk reviews ex post losses against what the model predicted beforehand."
       ],
       "fill": "Looking back at last year's daily returns, the book's ____ volatility was 15%.",
       "confusables": [
@@ -3105,7 +3248,8 @@
       "definition": "Price history changed so that splits, bonus issues and dividends don't show up as fake jumps. Use adjusted prices for returns; raw prices make a 1:1 bonus look like a 50% crash.",
       "examples": [
         "After the 1:1 bonus the stock trades at half the price; without adjusted prices your momentum signal sells it.",
-        "Back-adjust the futures series at each roll, or the jump between contracts looks like a return."
+        "Back-adjust the futures series at each roll, or the jump between contracts looks like a return.",
+        "The client asked why her chart showed a 50% fall after the split: it wasn't using adjusted prices."
       ],
       "fill": "A 1:1 bonus halved the share price overnight, so the backtest needs ____ to avoid a fake 50% fall.",
       "confusables": [
@@ -3140,7 +3284,8 @@
       "definition": "To increase the size of a position or of a strategy's risk, usually because conviction or the measured edge has grown. The opposite is to size down.",
       "examples": [
         "If the results confirm the margin story, I'll size up into the close.",
-        "The signal has matched its backtest for six months live, so we're sizing it up from ₹10 crore to ₹25 crore."
+        "The signal has matched its backtest for six months live, so we're sizing it up from ₹10 crore to ₹25 crore.",
+        "Risk lets traders size up only after a month of live results match the backtest."
       ],
       "fill": "After the trade worked for two quarters, the PM told her to ____ from 2% of the book to 4%.",
       "confusables": [
@@ -3168,7 +3313,8 @@
       "definition": "A trade or stock the PM or analyst believes in strongly, usually given a bigger position. Desks still ask what the risk is, because conviction is not evidence.",
       "examples": [
         "It's a high-conviction long, so it's 6% of the book against 2% for the rest.",
-        "High conviction is fine; now tell me what would prove you wrong."
+        "High conviction is fine; now tell me what would prove you wrong.",
+        "The client asked why her adviser's high conviction pick is only 5% of the portfolio: risk limits."
       ],
       "fill": "The PM gave the stock a 7% weight, three times the usual, because it was her ____ idea.",
       "confusables": [
@@ -3196,7 +3342,8 @@
       "definition": "The possible loss on a trade set against the possible gain, often as a ratio. Buying at 1,000 with a stop at 960 and a target at 1,120 risks 40 to make 120, a 1:3 risk-reward.",
       "examples": [
         "The risk-reward isn't there: we're risking 8% to make 5%.",
-        "At these levels the risk-reward favours selling the rally."
+        "At these levels the risk-reward favours selling the rally.",
+        "The client asked whether to buy now; the analyst said the risk-reward is poor after the rally."
       ],
       "fill": "With a stop 50 points below and a target 150 above, the trade offers a 1:3 ____.",
       "confusables": [
@@ -3243,7 +3390,8 @@
       "definition": "A PM's question about a new position: does it reduce a risk the book already has, or does it express a fresh opinion? A 'hedge' that only pays if a forecast comes true is really a view, and is sized and judged like one.",
       "examples": [
         "You bought Bank Nifty puts against your bank longs, fine. But three times the exposure? Is it a hedge or a view?",
-        "Call it what it is: shorting IT stocks when the book owns no IT stocks is a view, not a hedge."
+        "Call it what it is: shorting IT stocks when the book owns no IT stocks is a view, not a hedge.",
+        "Risk asked the PM whether the big index short is a hedge or a view."
       ],
       "fill": "Buying puts worth three times the book's exposure doesn't just cut risk, so the PM asked whether it was ____.",
       "confusables": [
@@ -3271,7 +3419,8 @@
       "definition": "To shrink a long-short book's gross exposure by cutting both the longs and the shorts, so the net stays about the same. Funds de-gross when volatility or crowding rises.",
       "examples": [
         "Crowded shorts are squeezing; let's de-gross by a third and keep the net flat.",
-        "Prime brokers saw funds de-gross across the board last week."
+        "Prime brokers saw funds de-gross across the board last week.",
+        "Risk told the fund to de-gross by a quarter when the shorts started squeezing."
       ],
       "fill": "The fund cut both its longs and its shorts by a third and kept its net exposure the same: it chose to ____.",
       "confusables": [
@@ -3312,7 +3461,8 @@
       "definition": "To reduce a book's net exposure, the gap between its longs and shorts, so it depends less on the market's direction. You can sell longs, add shorts or sell index futures.",
       "examples": [
         "We're 40% net long into the Fed meeting. Bring the net down to 15% with Nifty futures.",
-        "If you don't want to sell your best longs, bring the net down with an index short."
+        "If you don't want to sell your best longs, bring the net down with an index short.",
+        "The PM decided to bring the net down before the election by selling index futures."
       ],
       "fill": "Worried about a fall, the PM sold Nifty futures so the book went from 50% net long to 20%: she chose to ____.",
       "confusables": [
@@ -3340,7 +3490,8 @@
       "definition": "A long-short book with the same value of longs as of shorts, so its net exposure is zero. It can still move with the market if the longs have a higher beta than the shorts.",
       "examples": [
         "We're dollar-neutral, ₹100 crore each side, but the longs are high-beta mid caps, so we're still long the market.",
-        "A rupee-neutral pair: ₹50 lakh long ICICI Bank against ₹50 lakh short HDFC Bank."
+        "A rupee-neutral pair: ₹50 lakh long ICICI Bank against ₹50 lakh short HDFC Bank.",
+        "The client asked whether her dollar-neutral fund can still lose on a market fall: yes, if its longs are riskier."
       ],
       "fill": "With ₹200 crore of longs and ₹200 crore of shorts, the book is ____, though not necessarily beta-neutral.",
       "confusables": [
@@ -3374,7 +3525,8 @@
       "definition": "A book whose beta-weighted longs and shorts cancel, so small market moves leave it roughly flat. A book of high-beta longs and low-beta shorts needs more rupees of shorts than of longs to get there.",
       "examples": [
         "Longs have a beta of 1.3 and shorts 0.9, so ₹100 crore long needs about ₹144 crore short to be beta-neutral.",
-        "We run beta-neutral, so the Nifty's 3% fall barely showed up in the PnL."
+        "We run beta-neutral, so the Nifty's 3% fall barely showed up in the PnL.",
+        "Risk rebalances the hedges daily to keep the book beta-neutral."
       ],
       "fill": "₹100 crore of longs with a beta of 1.2 against ₹120 crore of shorts with a beta of 1.0 leaves the book ____.",
       "confusables": [
@@ -3414,7 +3566,8 @@
       "definition": "The amount of risk, measured as volatility, VaR or a drawdown limit, given to a strategy or a PM. Capital follows from it: a calm strategy gets more capital than a volatile one for the same risk budget.",
       "examples": [
         "Your risk budget is 3% annual vol of the fund; you're using 2.4%.",
-        "We gave the stat-arb book a bigger risk budget after two good years."
+        "We gave the stat-arb book a bigger risk budget after two good years.",
+        "The PM asked for a bigger risk budget after the signal's strong year."
       ],
       "fill": "Each PM gets a ____ of ₹5 crore of daily VaR and can't exceed it without approval.",
       "confusables": [
@@ -3441,7 +3594,8 @@
       "definition": "How far a PM or strategy may fall from its peak before risk is cut. A common setup: lose 5% from the high and your size is halved; lose 10% and you stop trading.",
       "examples": [
         "You're 6% off the peak against an 8% drawdown budget, so the next 2% decides your year.",
-        "Our drawdown budget is 10%; at 5% the size is halved automatically."
+        "Our drawdown budget is 10%; at 5% the size is halved automatically.",
+        "The client asked why the fund cut its bets after a 6% fall: it had used half its drawdown budget."
       ],
       "fill": "The fund's rule is to halve a PM's capital once she is 5% below her peak: a ____.",
       "confusables": [
@@ -3476,7 +3630,8 @@
       "definition": "Setting each position's size so it carries the same risk: divide a fixed risk amount by the asset's volatility. A stock that moves 3% a day gets a third of the rupees of one that moves 1%.",
       "examples": [
         "Size by vol: ₹1 crore in the bank that moves 1% a day, ₹33 lakh in the small cap that moves 3%.",
-        "Equal rupees in every name means your small caps carry all the risk; size by vol."
+        "Equal rupees in every name means your small caps carry all the risk; size by vol.",
+        "Risk tells new PMs to size by vol, so no single stock dominates the book's risk."
       ],
       "fill": "Giving a stock that swings 2% a day half the rupees of one that swings 1% is how you ____.",
       "confusables": [
@@ -3517,7 +3672,8 @@
       "definition": "How many days it would take to sell a position while trading only a set share of daily volume, often 10% to 20%. Risk teams cap it, because a big position in a thin stock can't be cut quickly in a crisis.",
       "examples": [
         "At 20% participation that's 6 days to liquidate, and the limit is 3.",
-        "The small-cap long is fine on VaR, but it's 15 days to liquidate. That's the real risk."
+        "The small-cap long is fine on VaR, but it's 15 days to liquidate. That's the real risk.",
+        "Risk caps each position at three days to liquidate at 20% of daily volume."
       ],
       "fill": "Holding 30 lakh shares of a stock that trades 10 lakh a day, at 20% of volume, works out at 15 ____.",
       "confusables": [
@@ -3557,7 +3713,8 @@
       "definition": "The possible loss on a trade or a stock if things go badly. 'What's the downside?' asks for a number: where it trades if the idea fails, and how much the book loses.",
       "examples": [
         "Upside is 20% to our target; downside is 10% if the results disappoint.",
-        "What's the downside if the RBI doesn't cut? About ₹40 lakh at the current size."
+        "What's the downside if the RBI doesn't cut? About ₹40 lakh at the current size.",
+        "The client asked what the downside is if the market falls 20%: about ₹4 lakh on her portfolio."
       ],
       "fill": "If the deal falls through, the stock goes back to ₹800 from ₹1,000, so the ____ is 20%.",
       "confusables": [
@@ -3585,7 +3742,8 @@
       "definition": "When a position, exposure or loss goes past a limit the risk team has set. A breach is logged and escalated, and the trader usually has to cut back by a deadline or get approval to stay over.",
       "examples": [
         "You're at 112% of your gross limit. That's a breach; get it back under by the close.",
-        "A soft breach sends an email; a hard breach means the risk team cuts the position for you."
+        "A soft breach sends an email; a hard breach means the risk team cuts the position for you.",
+        "Risk logs every limit breach and the time it took to fix."
       ],
       "fill": "Her loss hit ₹1.2 crore against a ₹1 crore daily limit, so the risk team logged a ____ and froze new trades.",
       "confusables": [
@@ -3612,7 +3770,8 @@
       "definition": "A cap on how big a position can be, in rupees, shares, contracts or share of volume. Firms set their own for risk; exchanges and SEBI also set limits in F&O, such as each stock's market-wide position limit.",
       "examples": [
         "The single-name limit is 5% of the book, so the most I can own is ₹25 crore.",
-        "We can't add more futures; we're at the client-level position limit."
+        "We can't add more futures; we're at the client-level position limit.",
+        "The client asked why her broker wouldn't let her add more futures: she'd hit the exchange's position limit."
       ],
       "fill": "No stock may be more than 5% of the fund: that's the fund's ____ on single names.",
       "confusables": [
@@ -3639,7 +3798,8 @@
       "definition": "The risk of having a large share of the book in a few stocks, one sector or one theme. Measures like VaR can understate it, because one bad event hits a big piece of the book at once.",
       "examples": [
         "The top five names are 45% of the book; that's concentration risk whatever the VaR says.",
-        "Three of your 'different' longs are all PSU banks. That's concentration."
+        "Three of your 'different' longs are all PSU banks. That's concentration.",
+        "The client asked why the adviser worries about her portfolio: 60% in one stock is concentration risk."
       ],
       "fill": "With 60% of the book in three bank stocks, the risk report flagged ____.",
       "confusables": [
@@ -3667,7 +3827,8 @@
       "definition": "The loss the book would take in a defined extreme scenario, such as the Nifty falling 10% in a day, a repeat of March 2020, or volatility doubling. Limits are often set on stress loss as well as VaR, since VaR ignores the worst days.",
       "examples": [
         "Stress loss on a 15% gap down is ₹18 crore against a limit of ₹20 crore.",
-        "VaR looks small because the book is short options, but the stress loss on a vol spike is huge."
+        "VaR looks small because the book is short options, but the stress loss on a vol spike is huge.",
+        "The board asked for the stress loss on a 2008-style crash before approving the new fund."
       ],
       "fill": "If the Nifty fell 10% overnight and India VIX doubled, the book would lose ₹8 crore: that's its ____ in that scenario.",
       "confusables": [
@@ -3702,7 +3863,8 @@
       "definition": "The most a trader, desk or strategy may lose in one day. Hit it and positions are cut or new trading stops for the day. Many intraday traders set one for themselves too.",
       "examples": [
         "My daily loss limit is ₹2 lakh; I'm at ₹1.6 lakh, so I'm only closing trades now.",
-        "The algo hit its daily loss limit at 11:40 and switched itself off."
+        "The algo hit its daily loss limit at 11:40 and switched itself off.",
+        "The client's daily loss limit on her app stops her trading once she's down ₹5,000."
       ],
       "fill": "After losing ₹50,000 by noon, his ____, he closed everything and stopped for the day.",
       "confusables": [
@@ -3729,7 +3891,8 @@
       "definition": "A control that, in one action, cancels all open orders and blocks new ones, for an algo, a desk or a whole account. Firms use it when an algo misbehaves; many Indian brokers also let retail traders use one to stop themselves trading for a while.",
       "examples": [
         "The algo started sending orders in a loop, so we hit the kill switch.",
-        "After three losing days he used his broker's kill switch to block F&O trading for a week."
+        "After three losing days he used his broker's kill switch to block F&O trading for a week.",
+        "The client asked whether her broker has a kill switch to stop her trading after a bad day: yes, in the app."
       ],
       "fill": "When the strategy began firing duplicate orders, the desk used the ____ to cancel everything and block new orders.",
       "confusables": [
@@ -3762,7 +3925,8 @@
       "definition": "The market move that would hurt the most investors, given how they are positioned. If nearly everyone is short or underweight, the pain trade is a sharp rally. Desks watch it because crowded positions unwind violently.",
       "examples": [
         "FIIs are heavily short index futures, so the pain trade is higher.",
-        "Everyone's hiding in defensives; the pain trade is a jump in the beaten-down cyclicals."
+        "Everyone's hiding in defensives; the pain trade is a jump in the beaten-down cyclicals.",
+        "The strategist says the pain trade is a rally, since most funds are holding cash."
       ],
       "fill": "Funds were heavily underweight Indian banks, so a sharp bank rally was the ____ that forced them to chase.",
       "confusables": [
@@ -3789,7 +3953,8 @@
       "definition": "The risk of rare, extreme moves far out in the tails of the return distribution, such as a 10% one-day fall. Market returns have fat tails, so these happen more often than a normal distribution predicts.",
       "examples": [
         "Selling far OTM puts makes money most months, but the tail risk can take a year's profit in a day.",
-        "We buy cheap puts every month as a tail-risk hedge."
+        "We buy cheap puts every month as a tail-risk hedge.",
+        "The client asked why her fund buys cheap puts every month: to cover tail risk."
       ],
       "fill": "Short option books earn steady premium but carry ____: a rare crash can wipe out years of gains.",
       "confusables": [
@@ -3822,7 +3987,8 @@
       "definition": "The tendency of assets that usually move separately to fall together in a panic, as investors sell whatever they can. Diversification that works in calm markets can vanish just when it's needed.",
       "examples": [
         "Our 30 longs looked diversified until March 2020, when correlations went to one.",
-        "Don't count on diversification in a crisis; correlations go to one."
+        "Don't count on diversification in a crisis; correlations go to one.",
+        "Risk plans for the day when correlations go to one, so diversification can't be counted on."
       ],
       "fill": "In the panic, stocks, credit and even gold fell on the same days, as ____.",
       "confusables": [
@@ -3849,7 +4015,8 @@
       "definition": "A question to ask of any trade or edge: who is taking the opposite position, and why are they willing to? If you can't name them, you may be the one with less information.",
       "examples": [
         "Who's on the other side? If it's a fund rebalancing, great. If it's someone with better information, we're the mug.",
-        "Before you buy that block, ask who's on the other side and why they're selling in size."
+        "Before you buy that block, ask who's on the other side and why they're selling in size.",
+        "The client asked how to judge a hot tip; the adviser's first question was who's on the other side?"
       ],
       "fill": "Before trusting a strategy's edge, ask ____: a forced seller, or someone who knows more than you?",
       "confusables": [
@@ -3877,7 +4044,8 @@
       "definition": "To close or hedge positions before a known event like results, an RBI policy, the Budget or an election count, so a surprise can't hurt. It gives up any gain from the event in return for no gap risk.",
       "examples": [
         "I'm flat into the policy; the setup isn't worth the gap risk.",
-        "We go flat into results on single names and only re-enter after the earnings call."
+        "We go flat into results on single names and only re-enter after the earnings call.",
+        "The PM stayed flat into the event, so the surprise policy cost her nothing."
       ],
       "fill": "Not wanting to guess the RBI's decision, the trader closed all her rate trades the day before: she went ____.",
       "confusables": [
@@ -3904,7 +4072,8 @@
       "definition": "The risk that a price opens far from the last close, skipping past a stop-loss. Overnight news, results or global moves can gap a stock 10%, so a stop at −2% fills much worse.",
       "examples": [
         "Your stop is at 2%, but on results day the gap risk is 8%.",
-        "Holding short options over a weekend carries gap risk that intraday stops can't cover."
+        "Holding short options over a weekend carries gap risk that intraday stops can't cover.",
+        "The client asked why her stop-loss didn't save her: gap risk, as the stock opened 15% lower."
       ],
       "fill": "The stock closed at ₹1,000 and opened at ₹900 after bad results, so the stop at ₹980 filled near ₹900: that's ____.",
       "confusables": [
@@ -3938,7 +4107,8 @@
       "definition": "Cash or unused risk budget held back so you can act when a better chance comes, such as after a sell-off. Keeping dry powder costs some return in quiet markets.",
       "examples": [
         "We're 80% invested and keeping dry powder for the IPO pipeline.",
-        "Don't use the whole risk budget in January; keep some dry powder."
+        "Don't use the whole risk budget in January; keep some dry powder.",
+        "The client asked why her fund holds 10% cash: it's dry powder for buying in a fall."
       ],
       "fill": "The fund kept 15% in cash as ____ to buy if the market fell after the election.",
       "confusables": [

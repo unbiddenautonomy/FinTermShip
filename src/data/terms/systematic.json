@@ -54,7 +54,9 @@
       "short": "Same asset, same price everywhere",
       "definition": "The idea that the same thing should trade at the same price everywhere, once costs are counted. Arbitrage is what enforces it: when prices drift apart, traders buy where it's cheap and sell where it's dear until the gap closes.",
       "examples": [
-        "The futures can't stay ₹50 over fair value for long; the law of one price says someone will sell them and buy the stocks."
+        "The futures can't stay ₹50 over fair value for long; the law of one price says someone will sell them and buy the stocks.",
+        "The analyst says the law of one price is why the ETF trades so close to its holdings.",
+        "The client asked why a stock costs the same on NSE and BSE: the law of one price, enforced by arbitrage."
       ],
       "fill": "Arbitrage traders are what enforce the ____: if the same bond is cheaper in one place, they buy it there and sell it where it's dear.",
       "confusables": [
@@ -79,7 +81,9 @@
       "short": "Same stock, two exchanges, one gap",
       "definition": "Buying a stock on one exchange and selling it on another when their prices differ, such as NSE and BSE. The gaps are tiny and close within moments, so it's done by fast algorithms.",
       "examples": [
-        "NSE ticked up first and BSE lagged by 40 paise; the exchange arb algo was in and out before anyone saw it."
+        "NSE ticked up first and BSE lagged by 40 paise; the exchange arb algo was in and out before anyone saw it.",
+        "Risk caps the exchange arbitrage book's open positions, in case one leg fails.",
+        "The client asked whether she can profit from NSE–BSE price gaps; exchange arbitrage is a game for the fastest firms."
       ],
       "fill": "An algo that buys Infosys on BSE at ₹1,500.00 and sells it on NSE at ₹1,500.50 in the same instant is doing ____.",
       "confusables": [
@@ -101,7 +105,9 @@
       "short": "ETF price against its basket's value",
       "definition": "Trading the gap between an exchange-traded fund's price and the value of the shares it holds. When the ETF trades above that value, market makers sell units and buy the shares to create new ones; below it, they do the reverse. In India, only the fund's market makers and deals above ₹25 crore can create or redeem units directly with the fund house; everyone else trades on the exchange.",
       "examples": [
-        "The gold ETF is 0.5% over its iNAV, so the market maker is selling units and creating more."
+        "The gold ETF is 0.5% over its iNAV, so the market maker is selling units and creating more.",
+        "The analyst says ETF arbitrage keeps the gold ETF within a whisker of its holdings' value.",
+        "Risk notes that ETF arbitrage breaks down when the underlying market is closed."
       ],
       "fill": "With the Nifty ETF trading 0.4% above the value of its shares, the market maker sold units and bought the stocks to create more: ____.",
       "confusables": [
@@ -129,7 +135,9 @@
       "short": "An ETF's live value from its holdings",
       "definition": "An exchange-traded fund's indicative net asset value: what its units are worth from the live prices of the shares it holds. Exchanges show it through the trading day, at most 15 seconds old, so you can see whether the ETF trades at a premium or a discount.",
       "examples": [
-        "Don't buy the ETF blind: it's 1% over iNAV right now."
+        "Don't buy the ETF blind: it's 1% over iNAV right now.",
+        "The client asked why her ETF bought above the NAV; the dealer said to compare the price with the iNAV instead.",
+        "Risk checks the iNAV before every large ETF trade."
       ],
       "fill": "During the trading day, the ETF's ____, updated every few seconds from its holdings' live prices, read 251.20 while units traded at 252.10, a premium of 0.36%.",
       "confusables": [
@@ -170,7 +178,9 @@
       "short": "Betting a takeover deal will close",
       "definition": "Buying a company that's being taken over at less than the offer price and waiting for the deal to close. In a share-for-share deal the buyer's stock is sold short, or its futures sold, as a hedge. The gap is the pay for the risk that the deal fails.",
       "examples": [
-        "The spread on the takeover is 6% with four months to close; the merger arb desk thinks the regulator will clear it."
+        "The spread on the takeover is 6% with four months to close; the merger arb desk thinks the regulator will clear it.",
+        "Risk sizes merger arbitrage positions by what they'd lose if the deal broke.",
+        "The client asked why her merger arbitrage fund fell when one deal was blocked."
       ],
       "fill": "The stock trades at ₹940 against a cash takeover at ₹1,000 due to close in four months, and the desk buys it, betting the deal goes through: ____.",
       "confusables": [
@@ -212,7 +222,9 @@
       "short": "Three currency rates that don't line up",
       "definition": "Trading three currency pairs when one cross rate doesn't match the rate implied by the other two, such as EUR/INR against EUR/USD and USD/INR. Banks' systems close such gaps almost at once.",
       "examples": [
-        "EUR/INR was a few paise off the cross for a moment, and the bank's triangular arb engine took it."
+        "EUR/INR was a few paise off the cross for a moment, and the bank's triangular arb engine took it.",
+        "Risk asked how the triangular arbitrage engine handles a quote that turns out to be stale.",
+        "The analyst says triangular arbitrage keeps the rupee crosses lined up within a few paise."
       ],
       "fill": "With USD/INR at 88.00 and EUR/USD at 1.1600, EUR/INR should be 102.08. Quoted at 102.40, the desk sold euros for rupees and bought them back through dollars: ____.",
       "confusables": [
@@ -250,7 +262,9 @@
       "short": "Many small hedged bets, each with an edge",
       "definition": "Running many small long and short positions at once, each with a slight statistical edge, such as related stocks drifting back together, with market risk hedged out. No single trade is sure; the edge shows up across thousands of them.",
       "examples": [
-        "The stat arb book runs 400 names, beta-neutral, and turns over every few days."
+        "The stat arb book runs 400 names, beta-neutral, and turns over every few days.",
+        "Risk watches the statistical arbitrage book for crowding, since many funds hold similar bets.",
+        "The client asked what statistical arbitrage means: many small bets, each with a slight edge."
       ],
       "fill": "Running 300 small long-short stock bets at once, each with a slight edge and the market hedged out, is ____.",
       "confusables": [
@@ -279,7 +293,9 @@
       "short": "Why price gaps can persist",
       "definition": "The reasons price gaps can last: trading costs, the margin and capital a trade ties up, rules on short selling, and the risk that the gap widens before it closes. They're why a mispricing isn't always free money.",
       "examples": [
-        "The ADR premium is huge, but you can't short the Indian leg cheaply; limits to arbitrage."
+        "The ADR premium is huge, but you can't short the Indian leg cheaply; limits to arbitrage.",
+        "The analyst says limits to arbitrage explain why the holding company trades at a deep discount.",
+        "Risk reminds the desk that limits to arbitrage can make a mispricing get worse before it closes."
       ],
       "fill": "The futures sat 1% below fair value for weeks because shorting the stocks was hard and margin was tight, a textbook case of the ____.",
       "confusables": [
@@ -311,7 +327,9 @@
       "short": "One side fills, the other doesn't",
       "definition": "The risk in a trade with several parts that one part fills and another doesn't, or fills at a worse price, leaving an open position instead of a hedged one.",
       "examples": [
-        "We got the buy on BSE but the NSE sell missed; leg risk left us long 2,000 shares."
+        "We got the buy on BSE but the NSE sell missed; leg risk left us long 2,000 shares.",
+        "Risk caps leg risk by sending both orders together and cancelling if one misses.",
+        "The client asked why her spread trade lost money: one side filled and the other didn't, which is leg risk."
       ],
       "fill": "The algo bought on BSE, but its NSE sell order missed as the price moved, leaving it long: the trade's ____ had come true.",
       "confusables": [
@@ -336,7 +354,9 @@
       "short": "Positions held minutes to days",
       "definition": "Systematic trading that holds positions for roughly minutes to a few days, on signals such as short-term momentum, mean reversion or order flow. Speed matters less than in HFT, and trading costs and capacity matter more.",
       "examples": [
-        "We're an MFT shop: hold for hours, sometimes overnight, and never fight for microseconds."
+        "We're an MFT shop: hold for hours, sometimes overnight, and never fight for microseconds.",
+        "Risk says medium-frequency trading needs low costs more than raw speed.",
+        "The client asked what medium-frequency trading is: holding positions for minutes to days."
       ],
       "fill": "Their models hold positions for a few hours to two days, and an extra millisecond of speed doesn't matter: that's ____.",
       "confusables": [
@@ -361,7 +381,9 @@
       "short": "Positions held weeks to months",
       "definition": "Systematic trading that holds positions for weeks to months, such as trend following or factor portfolios. It can run much more money than faster styles, but each signal is weaker and takes longer to prove.",
       "examples": [
-        "The LFT book rebalances monthly, so a slow broker doesn't matter but costs per trade still do."
+        "The LFT book rebalances monthly, so a slow broker doesn't matter but costs per trade still do.",
+        "The PM runs low-frequency trading, rebalancing once a month.",
+        "Risk notes that low-frequency trading makes few bets a year, so luck matters for longer."
       ],
       "fill": "The fund rebalances its factor portfolio once a month and holds most stocks for a quarter, a style called ____.",
       "confusables": [
@@ -383,7 +405,9 @@
       "short": "How long a position is usually kept",
       "definition": "How long a strategy typically keeps a position, from under a second in high-frequency trading to months in slower styles. It sets the costs, the capacity, and how fast you learn whether the strategy works.",
       "examples": [
-        "Stretch the holding period to a week and the costs halve, but so does the number of bets."
+        "Stretch the holding period to a week and the costs halve, but so does the number of bets.",
+        "The client asked what the fund's holding period is: about six months per stock.",
+        "Risk checks the holding period against how fast the signal fades."
       ],
       "fill": "Moving from intraday signals to a ten-day ____ cut the strategy's trading costs by 80%.",
       "confusables": [
@@ -405,7 +429,9 @@
       "short": "How fast a signal's edge fades",
       "definition": "How fast a signal's edge fades: within seconds or days as prices catch up, or over months and years as more traders find and crowd it. Fast-decaying signals have to be traded quickly or not at all.",
       "examples": [
-        "The order-flow signal is worth 3 bp in the first second and nothing after ten; that's brutal alpha decay."
+        "The order-flow signal is worth 3 bp in the first second and nothing after ten; that's brutal alpha decay.",
+        "The quant measures alpha decay to decide how fast the signal must be traded.",
+        "Risk asked why returns fell: alpha decay, as other funds found the same signal."
       ],
       "fill": "The news signal earns 20 basis points in the first minute and almost nothing after five, showing steep ____.",
       "confusables": [
@@ -430,7 +456,9 @@
       "short": "Most money a strategy can run",
       "definition": "The most money a strategy can run before its own trading moves prices enough to eat its edge. Faster strategies usually have less of it; slow ones in deep markets can run far more.",
       "examples": [
-        "The signal is great but tiny: capacity is maybe ₹20 crore before impact eats it."
+        "The signal is great but tiny: capacity is maybe ₹20 crore before impact eats it.",
+        "The PM closed the fund to new money because strategy capacity was nearly used up.",
+        "The client asked why her favourite small cap fund closed to new money: its strategy capacity was full."
       ],
       "fill": "Beyond ₹50 crore, the book's own orders moved prices and the profits shrank: it had hit its ____.",
       "confusables": [
@@ -455,7 +483,9 @@
       "short": "Share of a portfolio traded per period",
       "definition": "How much a portfolio trades over a period, as a share of its size. High turnover means high costs, so the strategy's edge has to beat them.",
       "examples": [
-        "Turnover is 40 times a year, so every basis point of cost is 40 bp of return."
+        "Turnover is 40 times a year, so every basis point of cost is 40 bp of return.",
+        "The client asked why her active fund costs more than its fee: high turnover adds trading costs.",
+        "Risk caps turnover so costs don't eat the fund's edge."
       ],
       "fill": "Trading three times the portfolio's value each month gives a monthly ____ of 300%, so costs matter a lot.",
       "confusables": [
@@ -493,7 +523,9 @@
       "short": "Time from market data in to order out",
       "definition": "The time from a market data update arriving to your order going out in response. It's the speed high-frequency firms race on, measured in microseconds or less.",
       "examples": [
-        "Tick-to-trade is 800 nanoseconds on the FPGA path and 6 microseconds in software."
+        "Tick-to-trade is 800 nanoseconds on the FPGA path and 6 microseconds in software.",
+        "Risk asked what our tick-to-trade is on the backup servers.",
+        "The quant cut tick-to-trade by moving the strategy onto the FPGA."
       ],
       "fill": "After moving its logic onto FPGA cards, the firm's ____ fell from 5 microseconds to under 1.",
       "confusables": [
@@ -515,7 +547,9 @@
       "short": "Risk from the position a market maker builds",
       "definition": "A market maker's risk from the position it builds up while quoting: if sellers keep hitting its bid, it ends up long just as the price falls. Market makers limit it by capping their position and moving both quotes to attract trades that cut it.",
       "examples": [
-        "We're long 40 lots from the morning, so skew the quotes down: inventory risk, not a view."
+        "We're long 40 lots from the morning, so skew the quotes down: inventory risk, not a view.",
+        "Risk limits inventory risk by capping how many lots the market maker can hold.",
+        "The client asked why market makers widen quotes after a big trade: inventory risk."
       ],
       "fill": "To limit her ____, the market maker caps her position at 50 lots and lowers both quotes whenever she's long.",
       "confusables": [
@@ -540,7 +574,9 @@
       "short": "Ride each market's own trend",
       "definition": "Buying markets that have been rising and selling ones that have been falling, judged on each market's own past returns, and holding until the trend turns. It loses small amounts often and makes most of its money in a few big moves.",
       "examples": [
-        "Trend following had a rough, choppy year, then made it all back in the October sell-off."
+        "Trend following had a rough, choppy year, then made it all back in the October sell-off.",
+        "The client asked why her trend following fund lost money in a choppy year.",
+        "Risk likes trend following in the mix, because it often makes money in long sell-offs."
       ],
       "fill": "The fund goes long any futures market above its 200-day average and short any below it, a classic ____ system.",
       "confusables": [
@@ -569,7 +605,9 @@
       "short": "Betting stretched prices snap back",
       "definition": "Betting that a price or spread that has moved far from its usual level will come back towards it: buying after sharp falls and selling after sharp rises. It works in range-bound markets and gets hurt when a real trend starts.",
       "examples": [
-        "Short-term reversal still works in mid-caps: fade the 5% gap-downs with no news."
+        "Short-term reversal still works in mid-caps: fade the 5% gap-downs with no news.",
+        "The quant's mean reversion signal buys stocks that fell sharply on no news.",
+        "Risk warns that mean reversion bets lose big when a fall is the start of a trend."
       ],
       "fill": "Buying Infosys after a 5% fall in a day with no news, and selling a few days later as it recovers, is a ____ trade.",
       "confusables": [
@@ -598,7 +636,9 @@
       "short": "Long one stock, short a close cousin",
       "definition": "Trading two closely related stocks against each other: when the gap between them stretches unusually far, buying the cheap one and selling the dear one, then closing when the gap returns to normal. The market's moves mostly cancel out.",
       "examples": [
-        "The two cement majors have drifted apart with no news; the pairs trade says buy the laggard, sell the leader."
+        "The two cement majors have drifted apart with no news; the pairs trade says buy the laggard, sell the leader.",
+        "Risk watches pairs trading positions for a break in the link between the two stocks.",
+        "The client asked what pairs trading is: buy one stock and short a close cousin."
       ],
       "fill": "With no news, HDFC Bank fell well behind ICICI Bank, so she bought HDFC Bank futures and sold ICICI Bank futures to bet on the gap closing, a two-stock bet called ____.",
       "confusables": [
@@ -633,7 +673,9 @@
       "short": "Prices tied so their spread reverts",
       "definition": "When two prices that each wander freely are tied by a long-run relationship, so the spread between them keeps coming back to a stable level. It's a stronger basis for a pairs trade than correlation alone.",
       "examples": [
-        "Correlation is 0.9, but they're not cointegrated: the spread has trended for three years."
+        "Correlation is 0.9, but they're not cointegrated: the spread has trended for three years.",
+        "The quant tests for cointegration before adding any pair.",
+        "Risk asked whether the pair still shows cointegration after the merger news."
       ],
       "fill": "An Engle–Granger test on ten years of prices found the two banks' stocks share ____: each wanders, but their spread keeps coming back.",
       "confusables": [
@@ -665,7 +707,9 @@
       "short": "Time for half a gap to close",
       "definition": "How long a stretched spread or price usually takes to close half the gap back to its average. It tells you how long to expect to hold a mean-reversion trade, and when to give up on it.",
       "examples": [
-        "Half-life on this pair is about a week, so if it's still open in a month, something's changed."
+        "Half-life on this pair is about a week, so if it's still open in a month, something's changed.",
+        "Risk closes a pair if it stays open for three times its half-life.",
+        "The quant estimates the half-life from how fast the spread has reverted in the past."
       ],
       "fill": "The spread's ____ is about six days, so a trade still open after a month is probably a broken pair, not a slow one.",
       "confusables": [
@@ -687,7 +731,9 @@
       "short": "Unaffected by the market's direction",
       "definition": "Built so its value doesn't depend on which way the market moves, usually by holding equal amounts long and short with similar betas, or by hedging with index futures. Returns should come from the stock picks alone.",
       "examples": [
-        "We're market neutral, so a 5% Nifty drop barely shows; the stock picks decide our month."
+        "We're market neutral, so a 5% Nifty drop barely shows; the stock picks decide our month.",
+        "The client asked whether her market neutral fund can still lose: yes, if its stock picks are wrong.",
+        "Risk checks each day that the book stays market neutral after price moves."
       ],
       "fill": "Long ₹50 crore of stocks and short ₹50 crore of others with the same beta, the fund's book is ____, so a crash shouldn't matter much.",
       "confusables": [
@@ -709,7 +755,9 @@
       "short": "Size positions to keep risk steady",
       "definition": "Sizing positions so a strategy's expected volatility stays near a set level: smaller when markets are wild, bigger when they're calm.",
       "examples": [
-        "Vol is up, so the vol target has cut us to 60% of normal size."
+        "Vol is up, so the vol target has cut us to 60% of normal size.",
+        "The client asked why her fund cut its stock holdings in the crash: volatility targeting.",
+        "Risk prefers volatility targeting, so the fund's risk stays steady whether markets are calm or wild."
       ],
       "fill": "With Nifty volatility doubling, the system halved its position to keep risk at 10% a year: ____.",
       "confusables": [
@@ -748,7 +796,9 @@
       "short": "Bet size that grows wealth fastest",
       "definition": "A formula for the share of capital to stake that grows wealth fastest over time, given the edge and the odds. For an even-money bet it's the chance of winning minus the chance of losing. Traders usually stake a fraction of it, because a misjudged edge makes the full amount very risky.",
       "examples": [
-        "Full Kelly says 10%, but our edge estimate is shaky, so we run half Kelly."
+        "Full Kelly says 10%, but our edge estimate is shaky, so we run half Kelly.",
+        "Risk never lets traders bet the full Kelly criterion, because edge estimates are noisy.",
+        "The quant uses the Kelly criterion as an upper bound on position size."
       ],
       "fill": "With a 55% chance of winning an even-money bet, the ____ says to stake 10% of capital each time; most traders use half that.",
       "confusables": [
@@ -795,7 +845,9 @@
       "short": "Trade results, mergers, index changes",
       "definition": "Trading around specific corporate or market events, such as results, index changes, buybacks, mergers or policy decisions, where prices tend to move in patterns around the event.",
       "examples": [
-        "Index rebalance is Friday; the event-driven desk bought the adds weeks ago and sells into the close."
+        "Index rebalance is Friday; the event-driven desk bought the adds weeks ago and sells into the close.",
+        "Risk reviews the event-driven strategy's bets before every index rebalance.",
+        "The PM's event-driven strategy buys stocks likely to join the Nifty before they're added."
       ],
       "fill": "Trading index inclusions, buybacks and results for the price patterns around them is called ____.",
       "confusables": [
