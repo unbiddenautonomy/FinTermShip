@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { categoryOfTerm, isCore, termById, termName } from '../lib/content';
+import { categoryOfTerm, isCore, talkById, termById, termName } from '../lib/content';
 import { applyTest, settleFocus } from '../lib/choose';
 import type { LessonPlan } from '../lib/lesson';
 import { promptFor, retryQuestion, tidyOption, type Rng } from '../lib/questions';
 import { finishLesson, graduate, introduce, recordPractice, review } from '../lib/scheduler';
-import type { Progress, Question, ScoredQuestion, Term } from '../lib/types';
-import { Calculator, Check, Cross, Flame, Pairs, Quote, Scale, Sparkle, Target } from './icons';
+import { speak } from '../lib/speech';
+import type { Progress, Question, ScoredQuestion, TalkFormat, TalkItem, Term } from '../lib/types';
+import { Calculator, ChatIcon, Check, Cross, Flame, Pairs, Quote, Scale, Speaker, Sparkle, Target } from './icons';
 import { MatchPairs } from './MatchPairs';
 import { Bar, Button, ConfirmDialog, Pill, SpeakButton, TermDetails, type Tone } from './ui';
 
@@ -56,6 +57,15 @@ const LABELS: Record<Question['kind'], { text: string; tone: Tone; icon: ReactNo
   calc: { text: 'Work it out', tone: 'violet', icon: <Calculator className="h-3.5 w-3.5" /> },
   tf: { text: 'True or false?', tone: 'amber', icon: <Scale className="h-3.5 w-3.5" /> },
   match: { text: 'Match the pairs', tone: 'sky', icon: <Pairs className="h-3.5 w-3.5" /> },
+  talk: { text: 'Desk talk', tone: 'violet', icon: <ChatIcon className="h-3.5 w-3.5" /> },
+  listen: { text: 'Listen and pick', tone: 'sky', icon: <Speaker className="h-3.5 w-3.5" /> },
+};
+
+const TALK_LABELS: Record<TalkFormat, { text: string; tone: Tone; icon: ReactNode }> = {
+  decode: { text: 'Decode it', tone: 'violet', icon: <Quote className="h-3.5 w-3.5" /> },
+  say: { text: 'Say it like the desk', tone: 'brand', icon: <ChatIcon className="h-3.5 w-3.5" /> },
+  reply: { text: 'Respond in the room', tone: 'sky', icon: <ChatIcon className="h-3.5 w-3.5" /> },
+  misuse: { text: 'Spot the misuse', tone: 'amber', icon: <Target className="h-3.5 w-3.5" /> },
 };
 
 export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQuit }: Props) {
@@ -197,7 +207,8 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
   const scored = q.kind !== 'intro' && q.kind !== 'match' ? q : null;
   const answered = scored !== null && picked !== null;
   const correct = answered && picked === scored.answer;
-  const label = LABELS[q.kind];
+  const label = q.kind === 'talk' ? TALK_LABELS[q.format] : LABELS[q.kind];
+  const talk = q.kind === 'talk' ? talkById.get(q.itemId) : undefined;
 
   return (
     <div className="flex min-h-[100dvh] flex-col">
@@ -287,6 +298,20 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
           </>
         )}
 
+        {q.kind === 'talk' && talk && term && (
+          <>
+            <TalkPrompt item={talk} term={term} />
+            <Options q={q} labels={q.options} picked={picked} onPick={answer} />
+          </>
+        )}
+
+        {q.kind === 'listen' && term && (
+          <>
+            <ListenPrompt term={term} answered={answered} />
+            <Options q={q} labels={q.options} picked={picked} onPick={answer} />
+          </>
+        )}
+
         {q.kind === 'match' && <MatchPairs termIds={q.termIds} right={q.right} onDone={matchDone} />}
       </main>
 
@@ -318,11 +343,13 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
 const PRAISE = ['Correct', 'Nice', 'Spot on', 'Exactly', 'Well done'];
 
 function Feedback({ q, term, correct, retryQueued, onNext }: { q: ScoredQuestion; term: Term; correct: boolean; retryQueued: boolean; onNext: () => void }) {
+  const talk = q.kind === 'talk' ? talkById.get(q.itemId) : undefined;
   const worked = q.kind === 'calc' || q.kind === 'tf';
-  const explain = worked ? (q.why ?? term.definition) : term.definition;
+  const explain = talk ? talk.why : worked ? (q.why ?? term.definition) : term.definition;
   // Stable per question so the word doesn't change between renders.
   const praise = q.kind === 'calc' ? 'Worked it out' : PRAISE[(q.termId.length + q.answer) % PRAISE.length];
-  const headline = correct ? praise : worked ? `Answer: ${q.options[q.answer]}` : `Answer: ${term.term}`;
+  const misuse = q.kind === 'talk' && q.format === 'misuse';
+  const headline = correct ? praise : talk ? (misuse ? 'That one is fine' : 'Not quite') : worked ? `Answer: ${q.options[q.answer]}` : `Answer: ${term.term}`;
   return (
     <footer
       className={`pb-safe fixed inset-x-0 bottom-0 z-40 animate-sheet rounded-t-3xl px-4 pt-5 shadow-sheet ${correct ? 'bg-brand-soft' : 'bg-bad-soft'}`}
@@ -336,11 +363,22 @@ function Feedback({ q, term, correct, retryQueued, onNext }: { q: ScoredQuestion
           </span>
           <p className={`text-xl font-extrabold ${correct ? 'text-brand-ink' : 'text-bad-ink'}`}>{headline}</p>
         </div>
+        {talk && !correct && (
+          <p className="leading-relaxed text-ink">
+            <b>{misuse ? 'The misuse: ' : 'Best answer: '}</b>
+            {q.options[q.answer]}
+          </p>
+        )}
         <p className="max-h-[30vh] overflow-y-auto leading-relaxed text-ink-2">
-          {!worked && correct && <b className="text-ink">{term.term}: </b>}
+          {!worked && !talk && correct && <b className="text-ink">{term.term}: </b>}
           {explain}
         </p>
-        {!correct && !worked && term.examples[0] && <p className="text-sm italic leading-relaxed text-ink-2">“{term.examples[0]}”</p>}
+        {talk && (
+          <p className="text-sm text-ink-3">
+            Practises: <b className="text-ink-2">{term.term}</b>
+          </p>
+        )}
+        {!correct && !worked && !talk && term.examples[0] && <p className="text-sm italic leading-relaxed text-ink-2">“{term.examples[0]}”</p>}
         {retryQueued && <p className="text-xs font-bold text-bad-ink">You'll get another go at the end.</p>}
         <Button onClick={onNext} variant={correct ? 'primary' : 'danger'} className="w-full">
           Continue
@@ -368,6 +406,66 @@ function Intro({ term, voice }: { term: Term; voice: boolean }) {
       )}
       <p className="mb-5 mt-4 inline-block rounded-xl bg-sky-soft px-3 py-1.5 text-sm font-bold text-sky-ink">{tidyOption(term.short)}</p>
       <TermDetails term={term} />
+    </div>
+  );
+}
+
+/** What a talk item shows above its options. */
+function TalkPrompt({ item, term }: { item: TalkItem; term: Term }) {
+  if (item.format === 'misuse') {
+    return (
+      <p className="mb-8 text-xl font-semibold leading-relaxed text-ink">
+        One of these uses <b className="font-extrabold">{term.term}</b> wrongly. Which one?
+      </p>
+    );
+  }
+  const lead = item.format === 'decode' ? 'Heard on the desk' : item.format === 'say' ? 'In plain words' : `${item.who ?? 'Someone'} says`;
+  const ask = item.format === 'decode' ? 'What does it mean?' : item.format === 'say' ? 'How would a trader say it?' : "What's the strongest reply?";
+  const quoted = item.format !== 'say';
+  return (
+    <>
+      <p className="mb-2 text-xs font-bold text-ink-3">{lead}</p>
+      <p className="mb-4 rounded-3xl border border-line bg-surface p-5 text-xl font-semibold leading-relaxed text-ink shadow-card">
+        {quoted ? `“${item.prompt}”` : item.prompt}
+      </p>
+      <p className="mb-6 font-bold text-ink-2">{ask}</p>
+    </>
+  );
+}
+
+/** Listen and pick: the term is spoken when the question opens; its name shows once answered. */
+function ListenPrompt({ term, answered }: { term: Term; answered: boolean }) {
+  const [shown, setShown] = useState(false);
+  const words = term.speak ?? term.said ?? term.term;
+  useEffect(() => {
+    speak(words);
+  }, [words]);
+  return (
+    <div className="mb-8 flex items-center gap-4">
+      <button
+        type="button"
+        onClick={() => speak(words)}
+        className="flex h-16 w-16 shrink-0 items-center justify-center rounded-2xl bg-sky-soft text-sky-ink transition hover:brightness-95 active:scale-95"
+        aria-label="Play it again"
+      >
+        <Speaker className="h-8 w-8" />
+      </button>
+      <div>
+        {answered ? (
+          <p className="text-[28px] font-extrabold leading-tight tracking-tight text-ink">{term.term}</p>
+        ) : (
+          <>
+            <p className="text-lg font-semibold text-ink">Listen, then pick what it means.</p>
+            {shown ? (
+              <p className="text-sm text-ink-3">It sounds like: {term.said}</p>
+            ) : (
+              <button type="button" onClick={() => setShown(true)} className="text-sm font-bold text-sky-ink underline">
+                Can't hear it? Show the words
+              </button>
+            )}
+          </>
+        )}
+      </div>
     </div>
   );
 }

@@ -5,6 +5,7 @@ A Duolingo-style web app for learning and remembering trading and market terms, 
 What it has now:
 
 - 541 terms in 11 categories (plus 60 in phase 3), each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks. They include the Indian F&O screen (CE and PE, option writers, long and short build-up, max pain, IV rank, participant-wise OI, delivery percentage) and the numbers a PM asks about a strategy (hit rate, profit factor, expectancy, Calmar, IC, gross and net exposure, PnL attribution, markouts).
+- Lessons that go past definitions: besides picking meanings, filling gaps and working sums, learners decode a dense desk line, say a plain sentence the way a trader would, pick the strongest reply to a PM or risk manager, spot a term used wrongly, and hear terms said aloud (CE, bips, PCR) and pick what they mean. 72 talk items so far, each tied to the terms it needs, so a learner only sees one once they've met those terms.
 - 6 timed drills (mental maths, percentages and basis points, probability, expected value, Bayes, counting), with typed answers and questions generated fresh every round.
 - A market-making game: quote a bid and ask on the total of three dice while traders, some of whom know the next die, deal with you.
 - 7 desk cases (a short straddle into the Budget, working a big buy order, cash-futures arbitrage, and in phase 3 an iron condor through expiry week, hedging a portfolio before the Budget, a pairs trade that breaks, and taking a trend system from backtest to live), each a short story of linked decisions with the reasoning behind every option.
@@ -37,6 +38,10 @@ Terms live in `src/data/terms/*.json`, one file per category. `npm run check:ter
 ## Adding or editing drills
 
 Drill units live in `src/data/terms/skills.json` (units with `"kind": "drill"` and no terms). Each drill's question makers, round size, pass mark and time limit are in `src/lib/drills.ts`. `src/lib/drills.test.ts` checks hundreds of generated rounds: every answer is recomputed independently (sums, percentages, dice, coins, cards, Bayes) and the shown answer must be accepted when typed.
+
+## Adding or editing talk items
+
+Talk items live in `src/data/talk.json`. Each has a `format` (`decode`, `say`, `reply` or `misuse`), the `term` it practises, any `also` terms the learner must have met first, a `prompt` (not for `misuse`), a `who` for replies, four `options` with the right one first (for `misuse`, the sentence that uses the term wrongly), and a `why`. `npm run check:terms` checks all of this, and that the right option isn't much longer than the others, since length would give it away. `src/lib/talk.test.ts` checks that lessons never show an item before its terms are met.
 
 ## Adding or editing desk cases
 

@@ -1,9 +1,9 @@
-import { isPhase3Area, isPracticeUnit, isQuantArea, path, termById, termIdsOfUnit, unitById } from './content';
+import { isPhase3Area, isPracticeUnit, isQuantArea, path, talkTerms, termById, termIdsOfUnit, unitById } from './content';
 import { addDays } from './dates';
 import { drillPassed } from './drills';
 import type { LessonPlan } from './lesson';
 import { PHASE3, phase3Open, phase3UnitIds } from './phase3';
-import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, shuffle, termQuestion, tfQuestion, type Rng } from './questions';
+import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, shuffle, talkAbout, talkQuestion, termQuestion, tfQuestion, type Rng } from './questions';
 import type { Progress, Question, Term, TermState } from './types';
 
 /** Share of an area test that has to be right to open the area's advanced units. */
@@ -116,6 +116,9 @@ export function buildPractice(p: Progress, unitId: string, rng: Rng): LessonPlan
   if (picked.length >= 4) qs.splice(Math.ceil(qs.length / 2), 0, matchQuestion(picked.slice(0, 5), rng));
   const apply = picked.map((t) => calcQuestion(t, rng) ?? tfQuestion(t, rng)).filter((q): q is Question => !!q);
   qs.push(...apply.slice(0, 2));
+  // Desk talk on this unit's terms, when an item fits what the learner has met.
+  const talk = talkAbout(met, known, rng);
+  if (talk && talkTerms(talk).some((id) => met.includes(id))) qs.push(talkQuestion(talk, rng));
   return { kind: 'practice', newIds: [], reviewIds: [], questions: qs, unitId };
 }
 

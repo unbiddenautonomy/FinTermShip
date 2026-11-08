@@ -1,0 +1,1149 @@
+[
+  {
+    "id": "decode-dealers-short-gamma",
+    "format": "decode",
+    "term": "short-gamma",
+    "also": [
+      "delta-hedging"
+    ],
+    "prompt": "Dealers are short gamma into expiry, so every move gets chased.",
+    "options": [
+      "Option sellers must buy as the market rises and sell as it falls to stay hedged, so moves get bigger",
+      "Dealers have run out of money to buy options, so prices should stay calm until expiry",
+      "Dealers own a lot of options, so they will sell into rallies and buy into dips, which calms the market down",
+      "Traders are rushing to close positions because expiry has been moved to an earlier day"
+    ],
+    "why": "Short gamma means the hedge has to chase the price: buy higher, sell lower. When dealers as a group are short gamma, their hedging adds to the move."
+  },
+  {
+    "id": "decode-crush-tomorrow",
+    "format": "decode",
+    "term": "iv-crush",
+    "also": [
+      "implied-volatility"
+    ],
+    "prompt": "Results are after the bell. Expect the crush tomorrow even if the stock goes nowhere.",
+    "options": [
+      "Option prices should fall after the results as implied vol drops, even if the stock barely moves",
+      "The share price should fall sharply at tomorrow's open, whatever the results end up saying",
+      "Brokers will cut the margin on the stock after the results, so many traders will be forced to sell",
+      "Trading volume in the stock's options will dry up for the rest of the week after the results"
+    ],
+    "why": "Implied vol is bid up before an event and falls once the news is out. That fall, the IV crush, hits option prices even when the stock is flat."
+  },
+  {
+    "id": "decode-two-way-infy",
+    "format": "decode",
+    "term": "two-way-price",
+    "prompt": "Give me a two-way in 5 lakh Infy. I'm not telling you which side.",
+    "options": [
+      "Quote a buying and a selling price for 5 lakh Infosys shares without knowing the client's side",
+      "Buy 5 lakh Infosys shares in two equal halves, one in the morning and one in the afternoon",
+      "Show the 5 lakh Infosys order on both NSE and BSE at the same time to find the best price",
+      "Swap 5 lakh Infosys shares for the same value of another IT stock at today's official closing prices"
+    ],
+    "why": "A two-way price is a bid and an offer together. Clients ask without saying their side so the dealer can't skew the quote against them."
+  },
+  {
+    "id": "decode-hitting-every-bid",
+    "format": "decode",
+    "term": "hit-the-bid",
+    "prompt": "Somebody's hitting every bid in HDFC Bank. It's down 2% on no news.",
+    "options": [
+      "A seller keeps selling at the prices buyers are showing, pushing the stock down without any news",
+      "A buyer keeps paying the sellers' prices, pushing the stock up without any news",
+      "The exchange has cancelled every buy order in HDFC Bank because of a technical problem",
+      "A buyer keeps placing new buy orders below the market and patiently waiting for the price to come down"
+    ],
+    "why": "Hitting the bid means selling at the price buyers are showing. Doing it again and again is an aggressive seller at work."
+  },
+  {
+    "id": "decode-cut-priced-in",
+    "format": "decode",
+    "term": "priced-in",
+    "also": [
+      "basis-point",
+      "dovish"
+    ],
+    "prompt": "A 25 bp cut is fully priced in. The market needs a dovish tone to rally.",
+    "options": [
+      "Prices already assume the cut, so only a softer message than expected would lift the market",
+      "The RBI has already cut rates by 25 basis points, so the market is bound to fall back from here",
+      "The 25 basis point cut has been added to bond coupons, so bond prices are bound to fall",
+      "Traders have bought protection against a rate cut, so the market is safe from any surprise"
+    ],
+    "why": "Priced in means the expected news is already in the price. To move the market, the RBI has to surprise, here by sounding readier to cut again."
+  },
+  {
+    "id": "decode-flat-by-315",
+    "format": "decode",
+    "term": "flat",
+    "also": [
+      "square-off"
+    ],
+    "prompt": "Get me flat by 3:15. I don't want to carry anything into the US data.",
+    "options": [
+      "Close every open position before 3:15 so nothing is held overnight into the US data",
+      "Keep the positions open but stop trading until 3:15, when the US data comes out",
+      "Bring the book's profit and loss back to zero by 3:15 by adding new trades",
+      "Move every intraday position into delivery before 3:15 so that it can be held overnight"
+    ],
+    "why": "Flat means no position. The trader wants every position closed before the close, so an overnight surprise can't hurt."
+  },
+  {
+    "id": "decode-axed-tata-steel",
+    "format": "decode",
+    "term": "axe",
+    "also": [
+      "long-only-fund"
+    ],
+    "prompt": "We're axed to sell Tata Steel. Show it to the long-onlys first.",
+    "options": [
+      "We have Tata Steel shares we want to sell, so offer them to long-only funds first",
+      "We're cutting our research coverage of Tata Steel, so tell the long-only funds first",
+      "We're barred from trading Tata Steel this week, so pass any orders to the long-only desk",
+      "We want to buy Tata Steel before the long-only funds do, so keep the order quiet"
+    ],
+    "why": "Being axed means having a position you want to move. A sell axe is shown to the clients most likely to buy."
+  },
+  {
+    "id": "decode-colour-bank-nifty",
+    "format": "decode",
+    "term": "market-color",
+    "also": [
+      "bank-nifty"
+    ],
+    "prompt": "Any colour on the Bank Nifty selling? Feels like one big seller, not panic.",
+    "options": [
+      "Does anyone know who is selling Bank Nifty and why? It looks like one large seller, not broad panic",
+      "Can someone mark the Bank Nifty chart in red? It looks like panic selling across the market",
+      "Is the Bank Nifty selling over for the day? It feels like the panic has already passed",
+      "Should we add more Bank Nifty shorts now? It feels like one big seller is about to start a real panic"
+    ],
+    "why": "Colour is the story behind the flow: who's trading and why. Desks swap it all day to judge whether a move will last."
+  },
+  {
+    "id": "decode-not-catching-knife",
+    "format": "decode",
+    "term": "falling-knife",
+    "prompt": "Down 30% in three days. I'm not catching that knife until the selling stops.",
+    "options": [
+      "The stock is still collapsing, so buying now is too risky until the fall steadies",
+      "The stock is a bargain after a 30% fall, so it should be bought straight away",
+      "The trader is short the stock and wants to close the position now, before it bounces",
+      "The exchange will halt the stock soon, so it's best to buy before trading stops"
+    ],
+    "why": "Catching a falling knife means buying something still in free fall. The speaker wants to see the fall stop first."
+  },
+  {
+    "id": "decode-defence-crowded",
+    "format": "decode",
+    "term": "crowded-trade",
+    "also": [
+      "unwind"
+    ],
+    "prompt": "Everyone's long the same defence names. When it unwinds, the exit door is tiny.",
+    "options": [
+      "Too many funds hold the same positions, so if they all sell together, prices could fall hard",
+      "Defence stocks are too hard to buy, so few funds have managed to build positions in them",
+      "The government may block sales of defence stocks, so holders could be stuck with them",
+      "Everyone has already sold the defence stocks, so from here they can only go up"
+    ],
+    "why": "A crowded trade is one many investors share. When they all head for the exit at once, the selling feeds on itself."
+  },
+  {
+    "id": "decode-risk-off-open",
+    "format": "decode",
+    "term": "risk-off",
+    "also": [
+      "small-cap"
+    ],
+    "prompt": "Full risk-off this morning: small-caps getting dumped, money running into gold and bonds.",
+    "options": [
+      "Investors are selling risky holdings like small-caps and moving into safer ones like gold and bonds",
+      "Investors are buying small-caps this morning because gold and bonds look too expensive",
+      "The market opened late this morning because the exchange was running risk checks",
+      "Traders have switched off their risk systems for the morning, which is why prices are jumping around"
+    ],
+    "why": "Risk-off is a mood where investors cut risky holdings and look for safety."
+  },
+  {
+    "id": "decode-psu-long-build-up",
+    "format": "decode",
+    "term": "long-build-up",
+    "also": [
+      "open-interest"
+    ],
+    "prompt": "Long build-up in PSU banks, OI up 12% with price. The rally's got legs.",
+    "options": [
+      "Traders are opening new long positions in PSU banks, so fresh money is behind the rally",
+      "Traders who were short PSU banks are buying back, so the rally may fade soon",
+      "Long-term investors are selling their PSU bank shares into the rally",
+      "The exchange has raised the position limits on PSU bank futures by 12%"
+    ],
+    "why": "Price and open interest rising together point to new longs. A rally on short covering, with OI falling, tends to fade sooner."
+  },
+  {
+    "id": "decode-ce-writing-25000",
+    "format": "decode",
+    "term": "option-writer",
+    "also": [
+      "ce-option"
+    ],
+    "prompt": "Heavy CE writing at 25,000. That's where the bears are drawing the line.",
+    "options": [
+      "Many traders are selling 25,000 calls, betting the Nifty stays below that level",
+      "Many traders are buying 25,000 calls, betting the Nifty rallies above that level",
+      "The exchange has capped the Nifty at 25,000 until this week's expiry",
+      "Brokers are writing research notes with a Nifty target of 25,000"
+    ],
+    "why": "Writing calls means selling them. Sellers of 25,000 calls profit if the Nifty stays below 25,000, so traders read heavy writing there as resistance."
+  },
+  {
+    "id": "decode-work-10pct-vwap",
+    "format": "decode",
+    "term": "vwap",
+    "also": [
+      "participation-rate"
+    ],
+    "prompt": "Work it at 10% of volume and don't print worse than VWAP.",
+    "options": [
+      "Trade about a tenth of market volume and average no worse than the day's volume-weighted price",
+      "Fill 10% of the order now and leave the other 90% for the closing auction at whatever price it gets",
+      "Buy 10% more than the client asked for whenever the price drops below the day's average",
+      "Show 10% of the order on screen and hide the rest until the price beats the day's average"
+    ],
+    "why": "Trading at 10% of volume keeps the footprint small. VWAP is the day's volume-weighted average price, a common yardstick for a fair fill."
+  },
+  {
+    "id": "decode-is-ugly",
+    "format": "decode",
+    "term": "implementation-shortfall",
+    "also": [
+      "arrival-price"
+    ],
+    "prompt": "Arrival was 1,412, we averaged 1,419 and missed a fifth of the order. IS looks ugly.",
+    "options": [
+      "Measured from the arrival price, we paid more and left part unfilled, so trading cost a lot",
+      "We bought below the price when the order arrived, so the order was filled at a good price",
+      "The client cancelled a fifth of the order to save on trading costs, which made the fills worse",
+      "The broker's commission on the order was too high, so the average price ended up at 1,419"
+    ],
+    "why": "Implementation shortfall compares what you got with the price when you decided to trade, including the cost of the part you never filled."
+  },
+  {
+    "id": "decode-sharpe-3-overfit",
+    "format": "decode",
+    "term": "sharpe-ratio",
+    "also": [
+      "overfitting",
+      "backtest"
+    ],
+    "prompt": "Backtest Sharpe of 3 on 18 months of data? I'd bet it's overfit.",
+    "options": [
+      "On so short a test, a Sharpe that high usually means the rules were fitted to noise",
+      "Making money every month for 18 months proves the strategy has a real edge",
+      "The strategy made 3% a month for 18 months, which is too little to be worth running",
+      "The test used too many years of data, so the result is out of date and should be rerun"
+    ],
+    "why": "A Sharpe of 3 is rare even for the best funds. On a short sample it usually means the rules were fitted to that history."
+  },
+  {
+    "id": "decode-close-look-ahead",
+    "format": "decode",
+    "term": "look-ahead-bias",
+    "also": [
+      "backtest"
+    ],
+    "prompt": "Your signal uses today's close to trade at today's close. That's look-ahead.",
+    "options": [
+      "The test trades on information it couldn't have had at the moment it trades",
+      "The signal looks too far ahead, so it holds each trade for too long",
+      "The test trades too near the close, when trading costs are highest",
+      "The signal leaves out every stock that closed lower on the day"
+    ],
+    "why": "You only know the closing price after the close, so you can't trade at it on its own signal. Using it is look-ahead bias, and it flatters the backtest."
+  },
+  {
+    "id": "decode-cagr-fine-hole",
+    "format": "decode",
+    "term": "max-drawdown",
+    "also": [
+      "cagr"
+    ],
+    "prompt": "The CAGR's fine. It's the 40% hole in 2020 that'll lose you clients.",
+    "options": [
+      "The yearly return is fine, but a 40% fall from the 2020 peak would make investors quit",
+      "The fund lost 40% of its clients in 2020, even though its yearly return looks good",
+      "The fund's yearly return was cut by 40% after one very bad year in 2020",
+      "The fund had to repay 40% of its 2020 profits to clients who chose to leave"
+    ],
+    "why": "A deep drawdown tests investors' patience more than the average return does. Many sell near the bottom."
+  },
+  {
+    "id": "decode-mpc-held-hawkish",
+    "format": "decode",
+    "term": "hawkish",
+    "also": [
+      "mpc"
+    ],
+    "prompt": "The MPC held, but the minutes read hawkish. Bonds won't like it.",
+    "options": [
+      "Rates were held, but the committee sounded worried about inflation, so bond prices may fall",
+      "The committee cut rates and hinted at more cuts, so bond prices are likely to rise",
+      "Rates stayed the same and the committee promised cuts soon, so bonds should rally",
+      "The minutes came out late, so bond trading was stopped for the rest of the trading day"
+    ],
+    "why": "Hawkish means leaning towards higher rates or keeping them high. That pushes yields up and bond prices down."
+  },
+  {
+    "id": "decode-rbi-every-spike",
+    "format": "decode",
+    "term": "rbi-intervention",
+    "also": [
+      "usdinr"
+    ],
+    "prompt": "RBI's selling dollars on every spike, so USDINR won't run away today.",
+    "options": [
+      "The RBI keeps selling dollars whenever the dollar jumps, which limits how far the rupee can fall",
+      "The central bank keeps buying dollars whenever the rupee strengthens, to stop the rupee rising too far",
+      "The central bank has stopped all USDINR trading for the day after the dollar spiked",
+      "Banks have been told not to sell rupees for the rest of the day, so the rate is frozen"
+    ],
+    "why": "Selling dollars from reserves meets the demand for dollars and slows the rupee's fall."
+  },
+  {
+    "id": "decode-picked-off",
+    "format": "decode",
+    "term": "adverse-selection",
+    "also": [
+      "market-maker"
+    ],
+    "prompt": "Every time we get filled on that bid, the stock drops a rupee. We're being picked off.",
+    "options": [
+      "Our buy orders mostly fill just before the price falls, so better-informed traders are selling to us",
+      "Our buy orders are priced too low, so they hardly ever get filled before the price moves away from them",
+      "The exchange is filling our buy orders a rupee away from the price we asked for",
+      "Our buy orders only fill in the last minutes of the day, when prices tend to drop"
+    ],
+    "why": "Adverse selection is trading with someone who knows more. Fills that keep going against you are the sign."
+  },
+  {
+    "id": "decode-bids-vanish",
+    "format": "decode",
+    "term": "spoofing",
+    "also": [
+      "order-book"
+    ],
+    "prompt": "Huge bids keep appearing three ticks down and vanish whenever the price gets near.",
+    "options": [
+      "Someone may be placing orders they never mean to fill, to make the market look stronger than it is",
+      "A big buyer is patiently waiting to buy at a lower price and will get filled when the price gets there",
+      "The exchange is testing its systems with dummy orders that can't be traded",
+      "Market makers are raising their bids ahead of news, which is why the price keeps rising"
+    ],
+    "why": "Large orders pulled just before they can trade are the classic sign of spoofing, which is illegal."
+  },
+  {
+    "id": "decode-roll-expensive",
+    "format": "decode",
+    "term": "contango",
+    "also": [
+      "rollover"
+    ],
+    "prompt": "Roll's expensive this month. The curve's in steep contango.",
+    "options": [
+      "Next month's futures cost well above this month's, so rolling a long position costs more than usual",
+      "This month's futures cost well above next month's, so rolling a long position this month earns money",
+      "Rolling is cheap this month because the futures trade below the spot price",
+      "Futures have stopped trading for the month until every position has been rolled"
+    ],
+    "why": "In contango, later futures trade above nearer ones. A long who rolls sells the near month and buys the next, paying that gap."
+  },
+  {
+    "id": "decode-vix-11-straddles",
+    "format": "decode",
+    "term": "india-vix",
+    "also": [
+      "straddle"
+    ],
+    "prompt": "VIX at 11, straddles are cheap. I'd rather own options into the Budget.",
+    "options": [
+      "Expected volatility is low, so options are cheap, and buying them before the Budget looks good value",
+      "The market has fallen 11% this year, so now is a good time to sell options ahead of the Budget speech",
+      "Straddles are cheap because the Budget has been postponed, so there's nothing to trade",
+      "Volatility is high at 11, so it's better to sell straddles before the Budget speech"
+    ],
+    "why": "A low VIX means options are priced for small moves. If the Budget brings a big move, bought options gain."
+  },
+  {
+    "id": "say-pay-up",
+    "format": "say",
+    "term": "lift-the-offer",
+    "also": [
+      "hit-the-bid"
+    ],
+    "prompt": "We need to buy right now, and we'll pay the seller's price.",
+    "options": [
+      "Lift the offer.",
+      "Hit the bid.",
+      "Work it passively.",
+      "Join the bid."
+    ],
+    "why": "Lifting the offer means buying at the seller's price. Hitting the bid is the selling side, and working it passively means waiting for sellers to come to you."
+  },
+  {
+    "id": "say-slice-it",
+    "format": "say",
+    "term": "working-an-order",
+    "prompt": "Don't buy it all at once. Trade it in small pieces through the day so the price doesn't jump.",
+    "options": [
+      "Work it through the day.",
+      "Lift the whole offer now.",
+      "Go all in at the open.",
+      "Print it in one block."
+    ],
+    "why": "Working an order means slicing it over time to limit market impact."
+  },
+  {
+    "id": "say-sell-some",
+    "format": "say",
+    "term": "trim",
+    "also": [
+      "unwind",
+      "flat"
+    ],
+    "prompt": "Sell some of the position, but keep most of it.",
+    "options": [
+      "Let's trim it.",
+      "Let's unwind it.",
+      "Let's go flat.",
+      "Let's double up."
+    ],
+    "why": "Trimming cuts part of a position. Unwinding or going flat closes all of it."
+  },
+  {
+    "id": "say-all-filled",
+    "format": "say",
+    "term": "youre-done",
+    "also": [
+      "indicative-price",
+      "stopped-out"
+    ],
+    "prompt": "Your order has been fully filled at the price we agreed.",
+    "options": [
+      "You're done.",
+      "You're working.",
+      "That's indicative.",
+      "You're stopped out."
+    ],
+    "why": "\"You're done\" confirms the trade is complete. An indicative price can't be traded on yet."
+  },
+  {
+    "id": "say-just-a-guide",
+    "format": "say",
+    "term": "indicative-price",
+    "also": [
+      "firm-price",
+      "print"
+    ],
+    "prompt": "This price is only a guide. I can't trade on it yet.",
+    "options": [
+      "That's indicative, not firm.",
+      "That's a firm price, you're done.",
+      "That's a two-way.",
+      "That's the last print."
+    ],
+    "why": "An indicative price is a guide that can still change. A firm price can be dealt on straight away."
+  },
+  {
+    "id": "say-locking-gains",
+    "format": "say",
+    "term": "profit-booking",
+    "also": [
+      "capitulation",
+      "dead-cat-bounce",
+      "short-covering"
+    ],
+    "prompt": "The market dipped because traders sold to lock in their gains after the rally.",
+    "options": [
+      "Just profit-booking after the run-up.",
+      "That's capitulation after the run-up.",
+      "Looks like a dead-cat bounce to me.",
+      "It's short covering, nothing more."
+    ],
+    "why": "Profit-booking is selling to lock in gains, often after a strong run. Capitulation is panic selling at the end of a fall."
+  },
+  {
+    "id": "say-hit-my-limit",
+    "format": "say",
+    "term": "stopped-out",
+    "also": [
+      "short-squeeze"
+    ],
+    "prompt": "My trade hit the loss limit I'd set, so it was closed automatically.",
+    "options": [
+      "I got stopped out.",
+      "I got squeezed.",
+      "I booked profit.",
+      "I rolled it over to next month."
+    ],
+    "why": "Stopped out means the stop-loss closed the trade. Getting squeezed is a short forced out by a sharp rally."
+  },
+  {
+    "id": "say-keep-buying-higher",
+    "format": "say",
+    "term": "chase",
+    "also": [
+      "fade",
+      "trim"
+    ],
+    "prompt": "The price is running away from us. Should we keep buying at higher prices to finish the order?",
+    "options": [
+      "Do we chase it?",
+      "Do we fade it?",
+      "Do we trim it?",
+      "Do we hit it?"
+    ],
+    "why": "Chasing is buying higher as the price runs away. Fading is trading against the move."
+  },
+  {
+    "id": "say-sell-the-rally",
+    "format": "say",
+    "term": "fade",
+    "also": [
+      "chase",
+      "buy-the-dip"
+    ],
+    "prompt": "I think this rally has gone too far, so I want to sell into it.",
+    "options": [
+      "I'd fade this move.",
+      "I'd chase this move.",
+      "I'd buy the dip here.",
+      "I'd cover here."
+    ],
+    "why": "Fading a move is trading against it, here selling into a rally you think is overdone."
+  },
+  {
+    "id": "say-plenty-of-buyers",
+    "format": "say",
+    "term": "well-bid",
+    "also": [
+      "offered",
+      "thin-market"
+    ],
+    "prompt": "There are plenty of buyers in this stock at today's prices.",
+    "options": [
+      "It's well bid.",
+      "It's offered down.",
+      "It's thin.",
+      "It's crowded."
+    ],
+    "why": "Well bid means strong buying interest. Offered means sellers are the ones pressing."
+  },
+  {
+    "id": "say-quarter-point",
+    "format": "say",
+    "term": "basis-point",
+    "also": [
+      "percentage-point"
+    ],
+    "prompt": "Yields rose by a quarter of one percentage point.",
+    "options": [
+      "Yields are up 25 bips.",
+      "Yields are up 25%.",
+      "Yields are up 2.5 bips.",
+      "Yields are up 0.25 bips."
+    ],
+    "why": "A basis point, said \"bip\", is a hundredth of a percentage point, so a quarter point is 25 bips."
+  },
+  {
+    "id": "say-good-results-fall",
+    "format": "say",
+    "term": "sell-the-news",
+    "also": [
+      "falling-knife",
+      "long-and-wrong",
+      "dead-cat-bounce"
+    ],
+    "prompt": "The stock rose for weeks before the results, then fell on the day even though the results were good.",
+    "options": [
+      "Buy the rumour, sell the news.",
+      "Never try to catch a falling knife.",
+      "Long and wrong.",
+      "Just a dead-cat bounce."
+    ],
+    "why": "When good news is expected, buyers get in early and sell once it arrives, so the price can fall on good results."
+  },
+  {
+    "id": "say-bought-and-losing",
+    "format": "say",
+    "term": "long-and-wrong",
+    "also": [
+      "flat",
+      "axe"
+    ],
+    "prompt": "I bought, and the price has gone against me.",
+    "options": [
+      "I'm long and wrong.",
+      "I'm flat on it.",
+      "I'm axed to buy.",
+      "I'm covering my short."
+    ],
+    "why": "Long and wrong means holding a long position that is losing money."
+  },
+  {
+    "id": "say-happy-with-risk",
+    "format": "say",
+    "term": "risk-on",
+    "also": [
+      "risk-off",
+      "flight-to-safety",
+      "de-risking"
+    ],
+    "prompt": "Investors are happy to buy riskier assets today.",
+    "options": [
+      "It's a risk-on day.",
+      "It's a risk-off day.",
+      "It's a flight to safety.",
+      "Everyone's de-risking."
+    ],
+    "why": "Risk-on is a mood where investors reach for riskier assets. A flight to safety and de-risking are the opposite."
+  },
+  {
+    "id": "say-shorts-buying-back",
+    "format": "say",
+    "term": "short-covering",
+    "also": [
+      "long-build-up",
+      "profit-booking",
+      "capitulation"
+    ],
+    "prompt": "The jump came from traders who had bet on a fall rushing to buy back.",
+    "options": [
+      "Short covering, not fresh buying.",
+      "It's long build-up, real buying.",
+      "It's profit-booking by the longs.",
+      "It's capitulation by the bulls."
+    ],
+    "why": "Short covering is shorts buying back to close. It lifts the price without new buyers who want to own the stock."
+  },
+  {
+    "id": "say-close-before-shut",
+    "format": "say",
+    "term": "square-off",
+    "also": [
+      "carry-forward",
+      "rollover",
+      "delivery-trade"
+    ],
+    "prompt": "Close my intraday position before the market shuts.",
+    "options": [
+      "Square it off before the close.",
+      "Carry it forward to tomorrow's session.",
+      "Roll it over to next month.",
+      "Convert it to delivery today."
+    ],
+    "why": "Squaring off closes an intraday position. Carrying forward or converting to delivery keeps it open."
+  },
+  {
+    "id": "reply-whats-the-catch",
+    "format": "reply",
+    "term": "max-drawdown",
+    "also": [
+      "backtest"
+    ],
+    "who": "PM",
+    "prompt": "Your backtest made 22% a year. What's the catch?",
+    "options": [
+      "The max drawdown was 35% in 2020, and it took 14 months to get back to the peak.",
+      "There isn't one: it made money in nine years out of ten, so the risk is low.",
+      "It only trades large-cap stocks, so it can't really lose much in a bad year.",
+      "It beat the Nifty every single year, so the risk must be about the same as the index."
+    ],
+    "why": "A PM asks about the downside next. Giving the drawdown and the recovery time up front shows you know what could lose clients."
+  },
+  {
+    "id": "reply-survive-costs",
+    "format": "reply",
+    "term": "transaction-costs",
+    "also": [
+      "sharpe-ratio",
+      "basis-point"
+    ],
+    "who": "PM",
+    "prompt": "Does it survive costs?",
+    "options": [
+      "At 8 bps a side for costs and impact, the Sharpe drops from 1.6 to 1.1.",
+      "Costs are small for this strategy, so I left them out of the test.",
+      "We can negotiate lower brokerage with the broker later, so costs won't matter much.",
+      "It trades a lot, so the costs should average out over the year."
+    ],
+    "why": "Answer with numbers: the cost you assumed and what's left after it. Leaving costs out is a common reason backtests fail live."
+  },
+  {
+    "id": "reply-not-overfit",
+    "format": "reply",
+    "term": "out-of-sample",
+    "also": [
+      "overfitting",
+      "sharpe-ratio"
+    ],
+    "who": "Head of research",
+    "prompt": "How do I know this isn't overfit?",
+    "options": [
+      "I fixed the rules on 2012–19. On 2020–25, which they never saw, the Sharpe is 0.9 against 1.2.",
+      "I tested 200 versions of the rules, and this one came out clearly the best of them all.",
+      "It works on every stock I tried it on, using the same years I built the rules on.",
+      "Its Sharpe over the whole test period is 2.5, so there's plenty of room for error."
+    ],
+    "why": "Results on data the rules never saw are the best evidence. Picking the best of 200 versions is the problem, not the answer."
+  },
+  {
+    "id": "reply-var-jumped",
+    "format": "reply",
+    "term": "var",
+    "also": [
+      "straddle"
+    ],
+    "who": "Risk manager",
+    "prompt": "Your one-day 99% VaR went from 40 to 75 lakh. Why?",
+    "options": [
+      "We sold a Nifty straddle yesterday. It's most of the increase; I can send the breakdown.",
+      "VaR is just a model, and markets have been calm lately, so I wouldn't worry about it.",
+      "It's still under the 1 crore limit, so the increase doesn't really matter to us.",
+      "I'm not sure why it moved. Maybe something in the risk system's data feed changed overnight."
+    ],
+    "why": "Risk wants the source of the change and to see that you own it. Naming the new position and offering the breakdown does both."
+  },
+  {
+    "id": "reply-over-gross",
+    "format": "reply",
+    "term": "gross-exposure",
+    "also": [
+      "net-exposure"
+    ],
+    "who": "Risk manager",
+    "prompt": "You're at 265% gross against a 250% limit.",
+    "options": [
+      "Understood. I'll cut the weakest pairs to get under 250% by the close and send you the list.",
+      "Net is only 10%, so the gross limit shouldn't really apply to a hedged book like this.",
+      "I'll be back under the limit on my own once the market moves my way later this week.",
+      "Can we raise the limit to 275% just for this week, while the trades have time to work?"
+    ],
+    "why": "A limit breach needs a plan with a deadline. A small net doesn't excuse a gross breach: gross measures how much can go wrong at once."
+  },
+  {
+    "id": "reply-only-35pct",
+    "format": "reply",
+    "term": "hit-rate",
+    "also": [
+      "payoff-ratio",
+      "expectancy"
+    ],
+    "who": "PM",
+    "prompt": "It's only right 35% of the time. Why would I run that?",
+    "options": [
+      "The average win is 3.2 times the average loss, so expectancy is clearly positive after costs.",
+      "Because 35% is well above the average hit rate for strategies of this kind in the Indian market.",
+      "We can raise the hit rate by taking profits sooner, so the numbers will improve from here.",
+      "Most of the losing trades are small, so they don't really count against the strategy."
+    ],
+    "why": "Hit rate alone says little. The answer is the size of the wins against the losses, which together give expectancy."
+  },
+  {
+    "id": "reply-15pct-by-11",
+    "format": "reply",
+    "term": "market-impact",
+    "also": [
+      "participation-rate"
+    ],
+    "who": "Sales trader",
+    "prompt": "The client wants 15% of the day's volume done by 11 am.",
+    "options": [
+      "That fast, impact will be heavy. Spreading it to the close would be cheaper; shall I ask them?",
+      "No problem. The size of the order won't change the price we get, however fast we go.",
+      "Then let's put it all through in the first five minutes to get ahead of the market.",
+      "Fine. We'll hide it in an iceberg order, so it won't move the price however fast we go."
+    ],
+    "why": "Trading fast means a high participation rate and more impact. A good execution trader states the cost and offers a cheaper schedule."
+  },
+  {
+    "id": "reply-delta-off",
+    "format": "reply",
+    "term": "delta-hedging",
+    "also": [
+      "delta",
+      "gamma"
+    ],
+    "who": "Head trader",
+    "prompt": "The Nifty's moved 1.5% and our book's delta is way off.",
+    "options": [
+      "Let's re-hedge with futures to get delta back near zero, then keep an eye on gamma.",
+      "Let's leave it. Delta always comes back by itself if we wait for the market to settle.",
+      "Let's buy more options, so the delta gets bigger and we make more if it keeps going.",
+      "Let's close every option position right now and start the book again tomorrow."
+    ],
+    "why": "Delta drifts as the market moves when you hold gamma. Re-hedging with futures restores the hedge."
+  },
+  {
+    "id": "reply-why-sell-here",
+    "format": "reply",
+    "term": "iv-rank",
+    "also": [
+      "implied-volatility"
+    ],
+    "who": "PM",
+    "prompt": "Why sell options here? Premiums look tiny.",
+    "options": [
+      "They are tiny: IV rank is 12, near the year's low. I'd rather buy options than sell them here.",
+      "Selling options always works in the end, because most options expire worthless.",
+      "Tiny premiums mean the options are cheap, so there's no real risk in selling them.",
+      "Implied volatility doesn't matter much to option sellers; only the direction of the market really does."
+    ],
+    "why": "With IV near its yearly low, sellers collect little for the risk they carry. Agreeing and saying why is the strong answer."
+  },
+  {
+    "id": "reply-ten-stocks",
+    "format": "reply",
+    "term": "correlation",
+    "also": [
+      "diversification"
+    ],
+    "who": "Risk manager",
+    "prompt": "Your ten positions are all in different stocks. Is that diversified?",
+    "options": [
+      "Not really: they're all banks and NBFCs, correlated around 0.7, so they'd fall together.",
+      "Yes. Ten different stocks is always enough to spread the risk properly in a portfolio.",
+      "Yes. None of them is in the Nifty, so they won't move with the market when it falls.",
+      "It doesn't matter much, as long as each one is a good stock on its own merits."
+    ],
+    "why": "Diversification depends on how holdings move together, not on how many there are."
+  },
+  {
+    "id": "reply-ic-decay",
+    "format": "reply",
+    "term": "information-coefficient",
+    "who": "Head of research",
+    "prompt": "What's the IC, and how fast does it decay?",
+    "options": [
+      "Rank IC is 0.04 at one day, 0.02 at five and gone by ten, so we'd rebalance daily.",
+      "The IC is 4%, so the strategy should return about 4% a year after costs.",
+      "The IC doesn't decay. Once the signal fires, the edge lasts for as long as we hold the stock.",
+      "We haven't measured it yet, but the backtest returns look very good."
+    ],
+    "why": "The strong answer gives the number at several horizons and what it means for how often to trade."
+  },
+  {
+    "id": "reply-budget-options-pricey",
+    "format": "reply",
+    "term": "implied-volatility",
+    "also": [
+      "iv-crush"
+    ],
+    "who": "Client",
+    "prompt": "Why are Nifty options so expensive before the Budget?",
+    "options": [
+      "IV is high because traders expect a big move on the day; it usually drops after the speech.",
+      "The exchange raises option prices before big events to protect itself from any losses.",
+      "Brokers charge more commission on options in Budget week, and that pushes premiums up.",
+      "Interest rates always rise just before the Budget, and that makes every option a lot dearer."
+    ],
+    "why": "Option prices rise with expected volatility. Event days carry higher IV, which tends to fall once the news is out."
+  },
+  {
+    "id": "reply-fills-worse",
+    "format": "reply",
+    "term": "slippage",
+    "also": [
+      "backtest",
+      "transaction-costs"
+    ],
+    "who": "PM",
+    "prompt": "Our fills are 6 bps worse than the backtest assumed.",
+    "options": [
+      "Then the cost model's too light. I'll rerun the backtest with 6 bps more slippage.",
+      "That's just bad luck this month. It should even out over the rest of the year.",
+      "Then we should trade bigger, so the extra cost is spread over more shares.",
+      "The backtest is right. The market has been unusual, so the fills are the problem."
+    ],
+    "why": "Live slippage is real data. Feeding it back into the backtest is the honest response."
+  },
+  {
+    "id": "reply-four-bad-months",
+    "format": "reply",
+    "term": "regime-change",
+    "also": [
+      "max-drawdown",
+      "backtest"
+    ],
+    "who": "PM",
+    "prompt": "The strategy's lost money for four months. Is it broken?",
+    "options": [
+      "That's within its worst backtest stretch of six months, but I'm checking for a regime change.",
+      "It's definitely broken. We should switch it off today and stop the losses before they grow any bigger.",
+      "Let's double the size, so it makes the losses back faster once it starts to recover.",
+      "It can't be broken. The backtest was excellent, so we just need to wait it out patiently."
+    ],
+    "why": "Compare the loss with the strategy's own history, and check for a change in the market, before deciding."
+  },
+  {
+    "id": "reply-pcr-14",
+    "format": "reply",
+    "term": "put-call-ratio",
+    "also": [
+      "change-in-oi",
+      "option-writer"
+    ],
+    "who": "Client",
+    "prompt": "PCR is 1.4. Is that bullish or bearish?",
+    "options": [
+      "Depends: put writing means traders see support, put buying means hedging. I'll check the OI change.",
+      "It's always bullish. Any reading above 1 tells you the market is going to go up from here.",
+      "It's always bearish. More puts than calls means traders are expecting a crash soon.",
+      "It doesn't matter either way. The put-call ratio is just noise and tells you nothing."
+    ],
+    "why": "PCR on its own can be read both ways. Whether puts are being written or bought decides it."
+  },
+  {
+    "id": "reply-behind-benchmark",
+    "format": "reply",
+    "term": "tracking-error",
+    "also": [
+      "benchmark",
+      "underweight"
+    ],
+    "who": "Client",
+    "prompt": "Your fund is benchmarked to the Nifty, and you're 6% behind it this year.",
+    "options": [
+      "We run up to 6% tracking error, so this can happen; most of the gap is our bank underweight.",
+      "Benchmarks don't really matter to us. We focus on absolute returns, not on the index.",
+      "The Nifty just had a lucky year, so the comparison isn't really fair to our fund.",
+      "We'll buy more Nifty stocks before December, so we catch up with the index by year-end."
+    ],
+    "why": "Explain the gap against the risk you said you'd take and where it came from. Chasing the index to close the gap is the weak answer."
+  },
+  {
+    "id": "misuse-bp-halving",
+    "format": "misuse",
+    "term": "basis-point",
+    "options": [
+      "The stock fell 50 basis points, from ₹100 to ₹50.",
+      "The repo rate was cut by 25 basis points, from 5.50% to 5.25%.",
+      "Spreads widened by 10 bips after the downgrade.",
+      "A 1% move in a yield is 100 basis points."
+    ],
+    "why": "A fall from ₹100 to ₹50 is 50%, or 5,000 basis points. A basis point is a hundredth of a percentage point."
+  },
+  {
+    "id": "misuse-theta-long-straddle",
+    "format": "misuse",
+    "term": "theta",
+    "also": [
+      "straddle"
+    ],
+    "options": [
+      "Theta works for us: our long straddle gains a little every quiet day.",
+      "Theta is costing us ₹40,000 a day on these long options.",
+      "We're short options, so theta pays us while the market stays calm.",
+      "Theta speeds up for at-the-money options as expiry gets closer."
+    ],
+    "why": "Time decay works against option buyers. A long straddle loses value on every quiet day."
+  },
+  {
+    "id": "misuse-covering-down",
+    "format": "misuse",
+    "term": "short-covering",
+    "also": [
+      "open-interest"
+    ],
+    "options": [
+      "Short covering is pushing the stock down as traders bet on a fall.",
+      "The rally is mostly short covering: OI fell as the price rose.",
+      "Expect short covering if the results beat; lots of traders are short.",
+      "Once the short covering stopped, the stock drifted back down."
+    ],
+    "why": "Short covering is buying back a short, which pushes prices up, not down."
+  },
+  {
+    "id": "misuse-liquid-thin",
+    "format": "misuse",
+    "term": "liquidity",
+    "also": [
+      "spread",
+      "impact-cost"
+    ],
+    "options": [
+      "It's very liquid: a few hundred shares trade a day, with a wide spread.",
+      "Nifty futures have so much liquidity you can trade crores easily.",
+      "Liquidity dries up in the last minutes before a long weekend.",
+      "We avoid small-caps with poor liquidity; impact cost eats the edge."
+    ],
+    "why": "Low volume and a wide spread are signs of an illiquid stock."
+  },
+  {
+    "id": "misuse-hedge-more-same",
+    "format": "misuse",
+    "term": "hedge",
+    "options": [
+      "We hedged our long Nifty futures by buying more Nifty futures.",
+      "We hedged the portfolio by buying Nifty puts before the Budget.",
+      "The exporter hedges by selling the dollars it expects forward.",
+      "The hedge cost us 1% but saved us 6% in the fall."
+    ],
+    "why": "A hedge offsets risk. Buying more of the same position adds risk instead."
+  },
+  {
+    "id": "misuse-put-positive-delta",
+    "format": "misuse",
+    "term": "delta",
+    "options": [
+      "Our put has a delta of +0.4, so it gains when the stock rises.",
+      "An at-the-money call has a delta of about 0.5.",
+      "We sold futures to bring the book's delta back to zero.",
+      "A deep in-the-money call has a delta close to 1."
+    ],
+    "why": "A long put has a negative delta: it gains when the stock falls."
+  },
+  {
+    "id": "misuse-iv-backward",
+    "format": "misuse",
+    "term": "implied-volatility",
+    "also": [
+      "realised-volatility"
+    ],
+    "options": [
+      "Implied vol is how much the stock actually moved over the past month.",
+      "Implied vol jumped before the results, so options got pricier.",
+      "We sell options when implied vol is well above what we expect the stock to realise.",
+      "Implied vol usually falls once the event is out of the way."
+    ],
+    "why": "Implied vol is backed out of option prices and looks forward. How much the stock actually moved is realised volatility."
+  },
+  {
+    "id": "misuse-sharpe-leverage",
+    "format": "misuse",
+    "term": "sharpe-ratio",
+    "options": [
+      "Doubling the leverage doubled our Sharpe ratio.",
+      "Its Sharpe is 1.1 after costs, which is solid for long-only.",
+      "The Sharpe fell once we added a realistic slippage cost.",
+      "A backtest Sharpe of 3 usually means something is wrong."
+    ],
+    "why": "Leverage scales return and volatility by the same amount, so the Sharpe stays about the same."
+  },
+  {
+    "id": "misuse-oi-is-volume",
+    "format": "misuse",
+    "term": "open-interest",
+    "also": [
+      "volume"
+    ],
+    "options": [
+      "Open interest tells you how many contracts traded today.",
+      "Open interest at the 25,000 call has doubled this week.",
+      "Falling open interest with a rising price points to short covering.",
+      "Open interest drops sharply on expiry day as positions close."
+    ],
+    "why": "Contracts traded today is volume. Open interest counts contracts still open."
+  },
+  {
+    "id": "misuse-limit-any-price",
+    "format": "misuse",
+    "term": "limit-order",
+    "also": [
+      "market-order"
+    ],
+    "options": [
+      "I used a limit order so I'd be filled at once at any price.",
+      "Put in a limit order at ₹410 so we don't pay more than that.",
+      "My limit order to buy at ₹98 hasn't filled; the stock is at ₹101.",
+      "Limit orders rest in the order book until filled or cancelled."
+    ],
+    "why": "Filling at once at any price is what a market order does. A limit order sets the worst price you'll accept."
+  },
+  {
+    "id": "misuse-beta-return",
+    "format": "misuse",
+    "term": "beta",
+    "options": [
+      "A stock with a beta of 1.5 earns 1.5 times the market's return every year.",
+      "With a beta of 1.5, the stock tends to move about 1.5% when the Nifty moves 1%.",
+      "Low-beta stocks tend to fall less than the market in a sell-off.",
+      "We sold Nifty futures to cut the portfolio's beta before the results."
+    ],
+    "why": "Beta measures how much a stock tends to move with the market, not how much it earns."
+  },
+  {
+    "id": "misuse-dovish-hike",
+    "format": "misuse",
+    "term": "dovish",
+    "also": [
+      "hawkish"
+    ],
+    "options": [
+      "The governor sounded dovish, warning that rates may have to rise further.",
+      "A dovish policy statement lifted bond prices across the curve.",
+      "The market read the minutes as dovish and priced in another cut.",
+      "Two members sounded dovish and voted for a cut."
+    ],
+    "why": "Dovish means leaning towards lower rates. Warning of hikes is hawkish."
+  },
+  {
+    "id": "misuse-stop-exact",
+    "format": "misuse",
+    "term": "stop-loss",
+    "also": [
+      "gap-down"
+    ],
+    "options": [
+      "My stop-loss got me out at exactly ₹480, even though the stock opened at ₹450.",
+      "My stop-loss at ₹480 was triggered when the stock slid this afternoon.",
+      "Keep a stop-loss on every intraday trade, and never move it further away from the price.",
+      "The stock gapped down below my stop-loss, so I got a much worse fill."
+    ],
+    "why": "A stop-loss triggers an order once the price reaches it. After a gap down, the fill can be far worse than the stop price."
+  },
+  {
+    "id": "misuse-vwap-high-low",
+    "format": "misuse",
+    "term": "vwap",
+    "options": [
+      "VWAP is the average of the day's high and low prices.",
+      "We bought the whole order 2 bps better than VWAP.",
+      "VWAP gives more weight to prices where more shares traded.",
+      "The client benchmarks our fills against the day's VWAP."
+    ],
+    "why": "VWAP weights each trade's price by its volume. The midpoint of the high and low ignores volume altogether."
+  },
+  {
+    "id": "misuse-gross-zero",
+    "format": "misuse",
+    "term": "gross-exposure",
+    "also": [
+      "net-exposure"
+    ],
+    "options": [
+      "Our longs and shorts are equal, so our gross exposure is zero.",
+      "Long ₹60 crore and short ₹40 crore on ₹50 crore of capital is 200% gross.",
+      "Risk asked us to cut gross because the pairs are getting crowded.",
+      "Adding ₹10 crore to both longs and shorts raises gross but leaves net the same."
+    ],
+    "why": "Equal longs and shorts make net exposure zero. Gross adds them together, so it's as large as it gets."
+  },
+  {
+    "id": "misuse-roll-delivery",
+    "format": "misuse",
+    "term": "rollover",
+    "also": [
+      "rollover-cost"
+    ],
+    "options": [
+      "We rolled our futures by closing them and taking delivery of the shares.",
+      "We rolled the Nifty longs to next month two days before expiry.",
+      "Rollover is high this month, so most traders are keeping their positions open.",
+      "The roll cost us about half a percent in carry this month."
+    ],
+    "why": "Rolling closes the expiring contract and opens the same position in the next one. Taking delivery ends the position instead."
+  }
+]

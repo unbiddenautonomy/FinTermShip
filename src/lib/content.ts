@@ -13,7 +13,8 @@ import macro from '../data/terms/macro.json';
 import strategies from '../data/terms/strategies.json';
 import systematic from '../data/terms/systematic.json';
 import cases from '../data/cases.json';
-import type { Category, DeskCase, PracticeKind, Term, Unit } from './types';
+import talk from '../data/talk.json';
+import type { Category, DeskCase, PracticeKind, TalkItem, Term, Unit } from './types';
 
 export const categories: Category[] = ([basics, india, trading, options, instruments, quant, skills, desk, conditions, macro, micro, execution, strategies, systematic] as Category[]).sort((a, b) => a.order - b.order);
 
@@ -57,6 +58,17 @@ export function practiceKind(unitId: string): PracticeKind | null {
 /** Practice units sit on the track like term units but have no terms: drills, games and desk cases. */
 export function isPracticeUnit(unitId: string): boolean {
   return practiceKind(unitId) !== null;
+}
+
+/** Talk items (decode it, say it like the desk, respond in the room, spot the misuse), by id and by the term they practise. */
+export const talkItems = talk as TalkItem[];
+export const talkById = new Map(talkItems.map((i) => [i.id, i]));
+export const talkByTerm = new Map<string, TalkItem[]>();
+for (const i of talkItems) talkByTerm.set(i.term, [...(talkByTerm.get(i.term) ?? []), i]);
+
+/** Every term a talk item needs the learner to know. */
+export function talkTerms(i: TalkItem): string[] {
+  return [i.term, ...(i.also ?? [])];
 }
 
 /** Desk cases, by unit id. */
