@@ -104,6 +104,11 @@ body {
   padding-bottom: max(1rem, env(safe-area-inset-bottom));
 }
 
+/* Sits right on top of the tab bar: its 4.375rem of buttons plus its safe-area padding. */
+.above-tabs {
+  bottom: calc(4.375rem + max(1rem, env(safe-area-inset-bottom)));
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

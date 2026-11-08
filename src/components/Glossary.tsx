@@ -7,11 +7,11 @@ import { Pill, SpeakButton, StepDots, TermDetails } from './ui';
 
 type Filter = 'all' | 'met' | 'trouble';
 
-export function Glossary({ progress }: { progress: Progress }) {
+export function Glossary({ progress, initialQuery = '' }: { progress: Progress; initialQuery?: string }) {
   // Drill-only areas have no terms to look up, and phase 3 stays hidden until it's open.
   const open3 = phase3Open(progress);
   const categories = useMemo(() => allCategories.filter((c) => c.terms.length > 0 && (open3 || !isPhase3Area(c.id))), [open3]);
-  const [query, setQuery] = useState('');
+  const [query, setQuery] = useState(initialQuery);
   const [cat, setCat] = useState<string>('all');
   const [filter, setFilter] = useState<Filter>('all');
   const [open, setOpen] = useState<string | null>(null);
