@@ -7,7 +7,7 @@ const dir = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', '
 const cases = JSON.parse(readFileSync(join(dir, '..', 'cases.json'), 'utf8'));
 const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
 // The games the app can play (see src/lib/games.ts).
-const GAMES = ['market', 'payoff', 'greeks', 'kelly', 'guess', 'fermi', 'meeting'];
+const GAMES = ['market', 'payoff', 'greeks', 'kelly', 'guess', 'fermi', 'meeting', 'backtest', 'signal', 'pairs'];
 const errors = [];
 const allIds = new Map();
 const allTerms = new Map();
@@ -173,6 +173,50 @@ for (const c of meetings) {
 }
 for (const s of SETTINGS) if (meetings.filter((c) => c.setting === s).length < 3) errors.push(`meetings.json: setting "${s}" needs at least 3 clips so rounds vary`);
 console.log(`Meeting clips: ${meetings.length}, ${meetings.reduce((n, c) => n + (c.questions?.length ?? 0), 0)} questions`);
+
+// Backtest reports: six clean lines per strategy, and cases that each swap one line for a flawed one in a slot that fits the flaw.
+const SLOTS = ['universe', 'data', 'trading', 'costs', 'testing', 'result'];
+const FLAW_SLOTS = {
+  survivorship: ['universe'],
+  lookahead: ['universe', 'data', 'trading'],
+  costs: ['costs'],
+  overfit: ['testing'],
+  snooping: ['universe', 'testing'],
+  small: ['result'],
+  beta: ['result'],
+  baddata: ['data'],
+};
+const FLAW_TERMS = ['survivorship-bias', 'look-ahead-bias', 'transaction-costs', 'overfitting', 'data-snooping', 'small-sample', 'just-beta', 'garbage-in-garbage-out'];
+for (const id of FLAW_TERMS) if (!allIds.has(id)) errors.push(`backtests: flaw term "${id}" is not a known term id`);
+const backtests = JSON.parse(readFileSync(join(dir, '..', 'backtests.json'), 'utf8'));
+const strategyIds = new Set();
+for (const s of backtests) {
+  const at = `backtests.json > ${s.id ?? '(no id)'}`;
+  if (!s.id || !s.title || !s.about) errors.push(`${at}: needs id, title and about`);
+  if (strategyIds.has(s.id)) errors.push(`${at}: duplicate id`);
+  strategyIds.add(s.id);
+  for (const slot of SLOTS) if (!s.lines?.[slot]) errors.push(`${at}: missing the ${slot} line`);
+  if (Object.keys(s.lines ?? {}).some((k) => !SLOTS.includes(k))) errors.push(`${at}: lines may only be ${SLOTS.join(', ')}`);
+  if (!Array.isArray(s.cases) || s.cases.length < 2) errors.push(`${at}: needs at least 2 cases`);
+  const seen = new Set();
+  for (const c of s.cases ?? []) {
+    const ca = `${at} > ${c.flaw}`;
+    if (!FLAW_SLOTS[c.flaw]) errors.push(`${ca}: flaw must be one of ${Object.keys(FLAW_SLOTS).join(', ')}`);
+    else if (!FLAW_SLOTS[c.flaw].includes(c.slot)) errors.push(`${ca}: a ${c.flaw} flaw can't sit in the ${c.slot} line`);
+    if (seen.has(c.flaw)) errors.push(`${ca}: the same flaw twice in one strategy`);
+    seen.add(c.flaw);
+    if (!c.line || !c.why) errors.push(`${ca}: needs line and why`);
+    if (c.line === s.lines?.[c.slot]) errors.push(`${ca}: the flawed line is the same as the clean one`);
+    const st = c.stats ?? {};
+    if (!(st.sharpe > 0 && st.annual > 0 && st.drawdown > 0)) errors.push(`${ca}: needs sharpe, annual and drawdown above 0`);
+  }
+}
+for (const f of Object.keys(FLAW_SLOTS)) {
+  const n = backtests.filter((s) => (s.cases ?? []).some((c) => c.flaw === f)).length;
+  if (n < 3) errors.push(`backtests.json: flaw "${f}" needs cases in at least 3 strategies so rounds vary`);
+}
+if (backtests.length < 8) errors.push('backtests.json: needs at least 8 strategies, as a round uses 6 different ones');
+console.log(`Backtest reports: ${backtests.length} strategies, ${backtests.reduce((n, s) => n + (s.cases?.length ?? 0), 0)} cases`);
 
 // Career map: every role and round has its text, and points at units that exist.
 const careers = JSON.parse(readFileSync(join(dir, '..', 'careers.json'), 'utf8'));
