@@ -67,6 +67,13 @@
       "name": "Case: a short straddle into the Budget",
       "core": false,
       "kind": "case"
+    },
+    {
+      "id": "o13",
+      "name": "Expiry day",
+      "core": false,
+      "kind": "game",
+      "game": "expiry"
     }
   ],
   "terms": [

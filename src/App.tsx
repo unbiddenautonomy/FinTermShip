@@ -14,6 +14,10 @@ import { KellyGame } from './components/KellyGame';
 import { BacktestGame } from './components/BacktestGame';
 import { SignalGame } from './components/SignalGame';
 import { PairsGame } from './components/PairsGame';
+import { ExpiryGame } from './components/ExpiryGame';
+import { RiskGame } from './components/RiskGame';
+import { VwapGame } from './components/VwapGame';
+import { ReadBookGame } from './components/ReadBookGame';
 import { MarketGame } from './components/MarketGame';
 import { PayoffGame } from './components/PayoffGame';
 import { Results } from './components/Results';
@@ -45,6 +49,10 @@ const GAME_SCREENS: Record<GameId, typeof MarketGame> = {
   backtest: BacktestGame,
   signal: SignalGame,
   pairs: PairsGame,
+  expiry: ExpiryGame,
+  risk: RiskGame,
+  vwap: VwapGame,
+  readbook: ReadBookGame,
 };
 
 type Screen =

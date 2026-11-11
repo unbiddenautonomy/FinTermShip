@@ -52,6 +52,13 @@
       "core": false
     },
     {
+      "id": "s12",
+      "name": "Read the book",
+      "core": false,
+      "kind": "game",
+      "game": "readbook"
+    },
+    {
       "id": "s10",
       "name": "Make a market: big orders",
       "core": false,
