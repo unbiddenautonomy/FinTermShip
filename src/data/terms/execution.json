@@ -35,6 +35,13 @@
       "kind": "case"
     },
     {
+      "id": "x8",
+      "name": "Beat VWAP",
+      "core": false,
+      "kind": "game",
+      "game": "vwap"
+    },
+    {
       "id": "x7",
       "name": "Morning meeting",
       "core": false,
