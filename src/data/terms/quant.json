@@ -78,6 +78,13 @@
       "id": "q12",
       "name": "Risk meeting talk",
       "core": false
+    },
+    {
+      "id": "q15",
+      "name": "Risk desk",
+      "core": false,
+      "kind": "game",
+      "game": "risk"
     }
   ],
   "terms": [
