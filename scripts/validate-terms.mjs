@@ -7,7 +7,7 @@ const dir = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', '
 const cases = JSON.parse(readFileSync(join(dir, '..', 'cases.json'), 'utf8'));
 const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
 // The games the app can play (see src/lib/games.ts).
-const GAMES = ['market', 'payoff', 'greeks', 'kelly', 'guess', 'fermi', 'meeting', 'backtest', 'signal', 'pairs'];
+const GAMES = ['market', 'payoff', 'greeks', 'kelly', 'guess', 'fermi', 'meeting', 'backtest', 'signal', 'pairs', 'expiry', 'risk', 'vwap', 'readbook'];
 const errors = [];
 const allIds = new Map();
 const allTerms = new Map();

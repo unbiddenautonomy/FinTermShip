@@ -4,6 +4,7 @@
  * what the score counts, and how a learner's record reads.
  */
 import { BACKTEST, BACKTEST_POINTS } from './backtest';
+import { EXPIRY } from './expiry';
 import { unitById } from './content';
 import { FERMI } from './fermi';
 import { GREEKS, rupees } from './greeks';
@@ -14,6 +15,9 @@ import { MEETING, MEETING_QUESTIONS } from './meeting';
 import { BEST_TURNS_NEEDED, HEADLINE, LEVELS, levelChecks, type LevelNo } from './mmlevels';
 import { PAIR_CALLS, PAIRS } from './pairs';
 import { PAYOFF } from './payoff';
+import { ITEMS as READBOOK_ITEMS, READBOOK } from './readbook';
+import { RISK } from './risk';
+import { SLICES, VWAP } from './vwap';
 import { SIGNAL } from './signal';
 import type { DrillRecord, GameId } from './types';
 
@@ -42,6 +46,9 @@ const marketRecord = (rec: DrillRecord | undefined) => {
   if (rec) return `${rec.rounds} game${rec.rounds === 1 ? '' : 's'} played`;
   return 'Trading game';
 };
+
+/** The most points in a risk desk game: one per call and one per breach named. */
+const RISK_POINTS = RISK.requests + RISK.breaches;
 
 export const GAMES: Record<GameId, GameSpec> = {
   market: {
@@ -136,6 +143,46 @@ export const GAMES: Record<GameId, GameSpec> = {
     how: 'Each week, pick long the spread, flat or short the spread. Each call is checked against the rules from the position you hold.',
     score: { label: 'by the rules', short: 'Calls', max: PAIR_CALLS },
     record: outOf(PAIR_CALLS, 'Trading game'),
+  },
+  expiry: {
+    size: `${EXPIRY.days} expiry days`,
+    rule: `pass with ${Math.round(EXPIRY.passShare * 100)}% of your calls by the desk's playbook, every stop taken and wings bought before every event`,
+    about:
+      'Sell the at-the-money Nifty straddle at 9:15 on three expiry days: one that pins, one that trends, and one with an RBI policy. Check it six times a day and hold, hedge, buy wings or close. Time decay pays you; gamma is the risk.',
+    how: 'At each check, hold, hedge with futures, buy wings or close. Each call is judged against the playbook from the position you hold.',
+    score: { label: 'by the playbook', short: 'Calls', max: EXPIRY.days * EXPIRY.checks.length },
+    record: (rec) => {
+      if (rec?.passed) return rec.best !== undefined ? `Passed · best ${points(rec.best)} pts` : 'Passed';
+      if (rec) return `Best ${rec.bestRight} calls by the playbook`;
+      return 'Options game';
+    },
+  },
+  risk: {
+    size: `${RISK.requests} requests`,
+    rule: `pass with ${RISK_POINTS - RISK.dropAllowed} of ${RISK_POINTS} points and no breach approved`,
+    about:
+      'Be the risk manager for a long-short book that sits close to its limits. Eight trade requests come in: add to a winner, a new idea, more hedge, less hedge, a pair, a basket. Approve the ones inside every limit, reject the ones that break one, and name the limit: gross, net, single stock, VaR or margin.',
+    how: 'Work out what the trade does to the book, then approve or reject it. When you reject, pick the limit it breaks.',
+    score: { label: 'points', short: 'Points', max: RISK_POINTS },
+    record: outOf(RISK_POINTS, 'Risk game'),
+  },
+  vwap: {
+    size: `${SLICES} slices`,
+    rule: `pass by never taking more than ${VWAP.maxRate}% of a slice's volume, the last slice included, and ending within ${VWAP.slipBps} bps of VWAP`,
+    about:
+      'Buy 6 lakh shares for a client by the close, against the day\'s VWAP. Before each slice of the day, pick what share of the volume to take. Volume is U-shaped, the day runs above or below forecast, and one slice brings a surprise. Trade too fast and impact costs you; too slow and you never finish.',
+    how: 'Pick a participation rate for each of the first nine slices; the last one finishes the order. Then see your fills against the market. The debrief compares you with VWAP and the arrival price.',
+    score: { label: 'checks met', short: 'Checks', max: 2 },
+    record: outOf(2, 'Execution game'),
+  },
+  readbook: {
+    size: `${READBOOK_ITEMS} reads`,
+    rule: `pass with ${READBOOK.passRight} of ${READBOOK_ITEMS} right`,
+    about:
+      'Read a stock\'s screen like a market maker. Call the next tick from the size on the bid and the offer and the last few trades, judge whether your bid fills before the price runs away, and work out markouts to spot toxic flow.',
+    how: 'Look at the book or the numbers, pick an answer, and see why. Next-tick calls are scored on the odds, not on how the tick came out.',
+    score: { label: 'right', short: 'Right', max: READBOOK_ITEMS },
+    record: outOf(READBOOK_ITEMS, 'Order book game'),
   },
 };
 
