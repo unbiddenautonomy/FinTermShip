@@ -7,8 +7,10 @@
     <meta name="theme-color" content="#12402d" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-title" content="FinTermShip" />
-    <link rel="icon" type="image/png" href="./favicon.png" />
-    <link rel="apple-touch-icon" href="./apple-touch-icon.png" />
+    <link rel="icon" href="./favicon.ico?v=3" sizes="any" />
+    <link rel="icon" type="image/png" sizes="32x32" href="./favicon-32.png?v=3" />
+    <link rel="icon" type="image/png" sizes="64x64" href="./favicon.png?v=3" />
+    <link rel="apple-touch-icon" href="./apple-touch-icon.png?v=3" />
     <link rel="manifest" href="./manifest.webmanifest" />
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -17,7 +19,8 @@
     <script>
       try {
         var t = localStorage.getItem('fintermship-theme');
-        if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t;
+        if (t === 'light' || t === 'white' || t === 'dark') document.documentElement.dataset.theme = t;
+        if (localStorage.getItem('fintermship-texture') === 'off') document.documentElement.dataset.texture = 'off';
       } catch (e) {}
     </script>
   </head>
