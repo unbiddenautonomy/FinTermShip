@@ -78,9 +78,10 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
         .join(' · ') + (status.slowed ? '. New terms slow down while reviews are heavy.' : '');
 
   return (
-    <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5">
-      <header className="flex items-center justify-between">
-        <div className="flex items-center gap-2.5">
+    <div className="mx-auto flex max-w-xl flex-col gap-6 px-4 pb-32 pt-5 lg:grid lg:max-w-6xl lg:grid-flow-row-dense lg:grid-cols-[minmax(0,1fr)_23rem] lg:items-start lg:gap-x-10 lg:px-8 lg:pb-12 lg:pt-8">
+      <header className="flex items-center justify-between lg:col-span-2">
+        <h1 className="hidden text-2xl font-extrabold tracking-tight text-ink lg:block">Learn</h1>
+        <div className="flex items-center gap-2.5 lg:hidden">
           <Logo className="h-8 w-8" />
           <span className="text-xl font-extrabold tracking-tight text-ink">FinTermShip</span>
         </div>
@@ -101,13 +102,13 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
       </header>
 
       {showInstallHint && (
-        <div className="rounded-2xl border border-amber/40 bg-amber-soft px-4 py-3 text-sm leading-relaxed text-amber-ink">
+        <div className="rounded-2xl border border-amber/40 bg-amber-soft px-4 py-3 text-sm leading-relaxed text-amber-ink lg:col-span-2">
           On iPhone, tap Share, then <b>Add to Home Screen</b>. Safari can clear a website's saved progress after 7 days unused; the home screen app keeps it.
         </div>
       )}
 
       {!progress.settings.aboutAsked && (
-        <Card className="space-y-3">
+        <Card className="space-y-3 lg:col-span-2">
           <div>
             <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">About you</p>
             <p className="mt-1 text-sm leading-relaxed text-ink-2">Three optional questions, so the app can greet you and point you at the right interview practice. Change them any time in Settings.</p>
@@ -121,7 +122,9 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
         </Card>
       )}
 
-      <Card className="space-y-5">
+      {/* On a phone these flow around the path; on a laptop they sit in a column beside it. */}
+      <aside className="contents lg:sticky lg:top-8 lg:col-start-2 lg:flex lg:flex-col lg:gap-6">
+      <Card className="order-1 space-y-5 lg:order-none">
         <div className="flex items-center gap-5">
           <Ring value={todayStats.newTerms} max={goal} size={92} stroke={9} label={`${todayStats.newTerms} of ${goal} new terms today`}>
             <div className="text-center leading-none">
@@ -159,7 +162,6 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
         )}
       </Card>
 
-      <LearningPath progress={progress} today={today} onOpen={setSheet} gate={gate} />
 
       {sheet && practiceKind(sheet) && (
         <PracticeSheet
@@ -196,7 +198,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
         <button
           type="button"
           onClick={onOpenCareers}
-          className="flex w-full items-center gap-3 rounded-2xl border border-violet/30 bg-violet-soft px-4 py-3 text-left transition hover:border-violet/60 active:scale-[0.99]"
+          className="order-3 flex lg:order-none w-full items-center gap-3 rounded-2xl border border-violet/30 bg-violet-soft px-4 py-3 text-left transition hover:border-violet/60 active:scale-[0.99]"
         >
           <span className="num flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-surface text-violet-ink">
             {days !== null ? (
@@ -227,7 +229,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
       <button
         type="button"
         onClick={onOpenCareers}
-        className="flex w-full items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-left transition hover:border-brand/50 active:scale-[0.99]"
+        className="order-3 flex w-full items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-left transition hover:border-brand/50 active:scale-[0.99] lg:order-none"
       >
         <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-violet-soft text-violet-ink">
           <Briefcase className="h-5 w-5" />
@@ -239,7 +241,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
       </button>
 
       {backupDue && (
-        <div className="flex items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-sm text-ink-2">
+        <div className="order-3 flex items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-sm text-ink-2 lg:order-none">
           <span className="flex-1">Progress lives on this device only. Save a backup once a week to be safe.</span>
           <button className="shrink-0 font-extrabold text-brand-ink" onClick={onOpenSettings}>
             Back up
@@ -247,10 +249,15 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
         </div>
       )}
 
-      <p className="px-1 text-xs leading-relaxed text-ink-3">
+      <p className="order-3 px-1 text-xs leading-relaxed text-ink-3 lg:order-none">
         {`${mainCategories.filter((c) => c.terms.length > 0).length} of ${TOTAL_CATEGORIES} term categories are ready, plus ${Object.keys(DRILLS).length} timed drills, ${plural(countKind('game'), 'game')} and ${plural(countKind('case'), 'desk case')}. Phase 3 adds ${phase3Terms} strategy terms, ${plural(countKind('game', true), 'game')} and ${plural(countKind('case', true), 'desk case')}.`}{' '}
         A term counts as known once it reaches step 4 of 6 on the review ladder.
       </p>
+      </aside>
+
+      <div className="order-2 min-w-0 lg:order-none lg:col-start-1">
+        <LearningPath progress={progress} today={today} onOpen={setSheet} gate={gate} />
+      </div>
     </div>
   );
 }

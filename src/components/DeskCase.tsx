@@ -79,7 +79,7 @@ export function DeskCase({ unitId, seed, progress, today, onProgress, onFinish, 
 
   return (
     <div className="flex min-h-[100dvh] flex-col">
-      <header className="mx-auto flex w-full max-w-xl items-center gap-3 px-4 pb-2 pt-4">
+      <header className="mx-auto flex w-full max-w-xl lg:max-w-2xl items-center gap-3 px-4 pb-2 pt-4">
         <button
           type="button"
           onClick={() => setConfirmQuit(true)}
@@ -94,7 +94,7 @@ export function DeskCase({ unitId, seed, progress, today, onProgress, onFinish, 
         </span>
       </header>
 
-      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pb-6 pt-4">
+      <main className="mx-auto flex w-full max-w-xl lg:max-w-2xl flex-1 flex-col px-4 pb-6 pt-4">
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <Pill tone="violet" icon={<Briefcase className="h-3.5 w-3.5" />}>
             Desk case

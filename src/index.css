@@ -122,6 +122,12 @@ body {
 .above-tabs {
   bottom: calc(4.375rem + max(1rem, env(safe-area-inset-bottom)));
 }
+/* Laptops get a sidebar instead of the bottom tab bar. */
+@media (min-width: 1024px) {
+  .above-tabs {
+    bottom: 0;
+  }
+}
 
 @media (prefers-reduced-motion: reduce) {
   *,
