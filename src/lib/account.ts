@@ -21,6 +21,19 @@ export interface AdminUser {
   phase3: number;
   disabled: number;
   created: number;
+  /** Counts from the learner's synced progress; null until they first sync. */
+  activity: {
+    lastDay: string | null;
+    streak: number;
+    xp: number;
+    met: number;
+    known: number;
+    right: number;
+    wrong: number;
+    passed: number;
+    week: number;
+    synced: number | null;
+  } | null;
 }
 export interface Invite {
   code: string;

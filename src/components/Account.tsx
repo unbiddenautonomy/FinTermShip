@@ -14,6 +14,7 @@ import {
   type Me,
 } from '../lib/account';
 import { Button, Toggle } from './ui';
+import { dayKey, daysBetween } from '../lib/dates';
 import type { SyncStatus } from './useAccount';
 
 interface Props {
@@ -203,6 +204,7 @@ function ChangePassword({ onDone }: { onDone: () => void }) {
 }
 
 function AdminPanel() {
+  const today = dayKey();
   const [data, setData] = useState<{ users: AdminUser[]; invites: Invite[] } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [quant, setQuant] = useState(true);
@@ -279,6 +281,7 @@ function AdminPanel() {
                   {u.email}
                   {u.admin ? ' · admin' : ''}
                 </p>
+                <ActivityLine a={u.activity} today={today} />
                 {!u.admin && (
                   <div className="space-y-2">
                     <Switch label="Quant track" who={u.email} checked={!!u.quant} onChange={(v) => act(adminUpdate(u.id, { quant: v }))} />
@@ -291,6 +294,26 @@ function AdminPanel() {
           </ul>
         </div>
       )}
+    </div>
+  );
+}
+
+/** One learner at a glance: when they last practised, their streak, and how far they've got. */
+function ActivityLine({ a, today }: { a: AdminUser['activity']; today: string }) {
+  if (!a || !a.lastDay) return <p className="text-xs text-ink-3">No practice synced yet.</p>;
+  const ago = daysBetween(a.lastDay, today);
+  const when = ago <= 0 ? 'today' : ago === 1 ? 'yesterday' : `${ago} days ago`;
+  const streak = ago <= 1 ? a.streak : 0;
+  const acc = a.right + a.wrong ? `${Math.round((a.right / (a.right + a.wrong)) * 100)}% right` : null;
+  return (
+    <div className="space-y-1 text-xs text-ink-2">
+      <p>
+        <span className={`font-bold ${ago > 7 ? 'text-bad-ink' : 'text-ink'}`}>Last practised {when}</span>
+        {` · ${streak}-day streak · ${a.week} of the last 7 days`}
+      </p>
+      <p className="num text-ink-3">
+        {[`${a.met} terms met`, `${a.known} known`, acc, `${a.passed} practice units passed`, `${a.xp} XP`].filter(Boolean).join(' · ')}
+      </p>
     </div>
   );
 }

@@ -50,6 +50,60 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS progress (user_id INTEGER PRIMARY KEY, data TEXT NOT NULL, updated INTEGER NOT NULL)`,
 ];
 
+/** What the admin sees of a learner's progress: a handful of counts, never the progress itself. */
+export interface Activity {
+  /** Last day the learner practised, on their own calendar (YYYY-MM-DD). */
+  lastDay: string | null;
+  /** The streak as of lastDay; the app decides whether it has lapsed. */
+  streak: number;
+  xp: number;
+  met: number;
+  known: number;
+  right: number;
+  wrong: number;
+  /** Practice units (drills, games, cases) passed. */
+  passed: number;
+  /** Days with a lesson in the 7 days up to lastDay. */
+  week: number;
+  /** When this account's progress last reached the server (ms). */
+  synced: number | null;
+}
+
+export function activityOf(data: string | null, synced: number | null): Activity | null {
+  if (!data) return null;
+  let p: Record<string, unknown>;
+  try {
+    p = JSON.parse(data);
+  } catch {
+    return null;
+  }
+  const obj = (v: unknown) => (v && typeof v === 'object' ? (v as Record<string, Record<string, unknown>>) : {});
+  const num = (v: unknown) => (typeof v === 'number' && Number.isFinite(v) ? v : 0);
+  const terms = Object.values(obj(p.terms));
+  const lastDay = typeof p.lastActiveDay === 'string' ? p.lastActiveDay : null;
+  const days = obj(p.days);
+  let week = 0;
+  if (lastDay) {
+    const end = Date.parse(lastDay + 'T00:00:00Z');
+    for (const [d, s] of Object.entries(days)) {
+      const gap = (end - Date.parse(d + 'T00:00:00Z')) / 864e5;
+      if (gap >= 0 && gap < 7 && num(s.lessons) > 0) week++;
+    }
+  }
+  return {
+    lastDay,
+    streak: num(p.streak),
+    xp: num(p.xp),
+    met: terms.length,
+    known: terms.filter((t) => num(t.step) >= 4).length,
+    right: terms.reduce((n, t) => n + num(t.correct), 0),
+    wrong: terms.reduce((n, t) => n + num(t.wrong), 0),
+    passed: Object.values(obj(p.drills)).filter((d) => d.passed === true).length,
+    week,
+    synced,
+  };
+}
+
 interface UserRow {
   id: number;
   email: string;
@@ -292,9 +346,12 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     if (!user.admin) return fail(403, 'Only the admin can do that.');
 
     if (route === 'GET /api/admin/users') {
-      const { results } = await db.prepare('SELECT id, email, admin, quant, phase3, disabled, created FROM users ORDER BY created').all();
+      const { results } = await db
+        .prepare('SELECT u.id, u.email, u.admin, u.quant, u.phase3, u.disabled, u.created, p.data, p.updated FROM users u LEFT JOIN progress p ON p.user_id = u.id ORDER BY u.created')
+        .all<Record<string, unknown>>();
+      const users = results.map(({ data, updated, ...u }) => ({ ...u, activity: activityOf(typeof data === 'string' ? data : null, typeof updated === 'number' ? updated : null) }));
       const invites = await db.prepare('SELECT code, quant, phase3, created, expires FROM invites WHERE used_by IS NULL AND expires > ? ORDER BY created DESC').bind(now).all();
-      return json({ users: results, invites: invites.results });
+      return json({ users, invites: invites.results });
     }
 
     if (route === 'POST /api/admin/invites') {
