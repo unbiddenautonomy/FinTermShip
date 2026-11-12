@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { areaCoreTermIds, canTakeTest, focusActive, focusQueue, unitOpen } from '../lib/choose';
-import { categories, isPhase3Area, isQuantArea, practiceKind, unitById } from '../lib/content';
+import { categories, isPhase3Area, isQuantArea, practiceKind, termById, unitById } from '../lib/content';
+import { weakSpots, WEAK_MIN } from '../lib/weak';
 import { DRILLS } from '../lib/drills';
 import { gameSpec } from '../lib/games';
 import { addDays, daysBetween } from '../lib/dates';
@@ -21,6 +22,8 @@ interface Props {
   today: string;
   onStart: (ignoreNewCap: boolean) => void;
   onPractice: (unitId: string) => void;
+  /** A practice round on the most-missed terms. */
+  onWeak: () => void;
   onFocus: (unitId: string | null) => void;
   /** An area test, or the phase 3 readiness test (PHASE3). */
   onTest: (categoryId: string) => void;
@@ -42,7 +45,7 @@ type Row = PathRow & { i: number; met: number; known: number; total: number; ope
 
 const TOTAL_CATEGORIES = 17;
 
-export function Home({ progress, today, onStart, onPractice, onFocus, onTest, onDrill, onPhase3Key, onOpenSettings, onOpenCareers, initialSheet, showInstallHint, onProgress, signedIn }: Props) {
+export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, onTest, onDrill, onPhase3Key, onOpenSettings, onOpenCareers, initialSheet, showInstallHint, onProgress, signedIn }: Props) {
   const [sheet, setSheet] = useState<string | null>(initialSheet ?? null);
   const picked = focusActive(progress) && progress.focus ? unitById.get(progress.focus) : undefined;
   const status = todayStatus(progress, today);
@@ -63,6 +66,7 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
     : practisedToday
       ? `Keep it going${you}`
       : `Ready for today${you}?`;
+  const weak = weakSpots(progress);
   const role = targetRole(progress);
   const days = daysToInterview(progress, today);
   const mocks = mocksReady(progress);
@@ -192,6 +196,27 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
           onTest={onTest}
           gate={gate}
         />
+      )}
+
+      {weak.length >= WEAK_MIN && (
+        <Card className="order-1 space-y-3 lg:order-none">
+          <div>
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-bad-ink">Weak spots</p>
+            <p className="mt-1 text-sm leading-relaxed text-ink-2">
+              The {weak.length} terms you miss most often. A short round on them doesn't touch your review schedule, and right answers take them off this list.
+            </p>
+          </div>
+          <ul className="flex flex-wrap gap-1.5" aria-label="Weak terms">
+            {weak.map((id) => (
+              <li key={id} className="rounded-full bg-bad-soft px-2.5 py-1 text-xs font-bold text-bad-ink">
+                {termById.get(id)?.term}
+              </li>
+            ))}
+          </ul>
+          <Button variant="secondary" onClick={onWeak} className="w-full">
+            Practise weak spots
+          </Button>
+        </Card>
       )}
 
       {(role || days !== null) && (

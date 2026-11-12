@@ -39,6 +39,7 @@ import { seededRng } from './lib/questions';
 import { KIND_LABEL } from './lib/practice';
 import { loadProgress, requestPersistence, saveProgress } from './lib/storage';
 import { firstName } from './lib/profile';
+import { buildWeakSpots, weakSpots } from './lib/weak';
 import { currentUnit } from './lib/track';
 import type { GameId, Progress } from './lib/types';
 
@@ -135,6 +136,7 @@ export default function App() {
     if (d) drill(d);
     else run((seed) => buildLesson(progress, today, seededRng(seed), ignoreNewCap));
   };
+  const practiseWeak = () => run((seed) => buildWeakSpots(progress, seededRng(seed)));
   const practise = (unitId: string) => run((seed) => buildPractice(progress, unitId, seededRng(seed)));
   const takeTest = (categoryId: string) => run((seed) => (categoryId === PHASE3 ? buildPhase3Test(seededRng(seed)) : buildTest(categoryId, seededRng(seed))));
   const pick = (unitId: string | null) => update(withFocus(progress, unitId));
@@ -191,6 +193,7 @@ export default function App() {
         <Results
           summary={screen.summary}
           name={firstName(progress)}
+          weakLeft={weakSpots(progress).length}
           canContinue={s.due > 0 || s.newLeft > 0 || !!s.drill}
           nextLabel={nextDrill && nextDrill === last?.unitId ? 'Try again' : nextDrill ? `Next: a ${KIND_LABEL[practiceKind(nextDrill) ?? 'drill']}` : 'Next lesson'}
           onHome={() => setScreen({ name: 'home' })}
@@ -274,6 +277,7 @@ export default function App() {
             today={today}
             onStart={start}
             onPractice={practise}
+            onWeak={practiseWeak}
             onFocus={pick}
             onTest={takeTest}
             onDrill={drill}
