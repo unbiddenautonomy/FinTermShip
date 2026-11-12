@@ -1,0 +1,394 @@
+[
+  {
+    "id": "pct-change",
+    "kind": "output",
+    "title": "Daily returns",
+    "code": "import pandas as pd\ns = pd.Series([100, 110, 99])\nprint(s.pct_change().round(2).tolist())",
+    "ask": "What does this print?",
+    "options": [
+      "[nan, 0.1, -0.1]",
+      "[0.1, -0.1]",
+      "[nan, 0.1, -0.11]",
+      "[0.0, 0.1, -0.1]"
+    ],
+    "why": "pct_change divides each price by the one before: 110/100 − 1 = 0.1, 99/110 − 1 = −0.1. The first has nothing before it, so it is NaN, not 0."
+  },
+  {
+    "id": "shift",
+    "kind": "output",
+    "title": "Shifting a series",
+    "code": "import pandas as pd\ns = pd.Series([1, 2, 3, 4])\nprint(s.shift(1).tolist())",
+    "ask": "What does this print?",
+    "options": [
+      "[nan, 1.0, 2.0, 3.0]",
+      "[2.0, 3.0, 4.0, nan]",
+      "[1, 2, 3, 4]",
+      "[0.0, 1.0, 2.0, 3.0]"
+    ],
+    "why": "shift(1) moves values down a row, so each row sees yesterday's value. That's how you lag a signal so it only uses past data. The gap becomes NaN, and the integers turn into floats to hold it."
+  },
+  {
+    "id": "rolling",
+    "kind": "output",
+    "title": "A rolling mean",
+    "code": "import pandas as pd\ns = pd.Series([2, 4, 6, 8])\nprint(s.rolling(3).mean().tolist())",
+    "ask": "What does this print?",
+    "options": [
+      "[nan, nan, 4.0, 6.0]",
+      "[2.0, 3.0, 4.0, 6.0]",
+      "[4.0, 6.0]",
+      "[nan, 3.0, 5.0, 7.0]"
+    ],
+    "why": "A 3-row window needs three values, so the first two rows are NaN. Then (2+4+6)/3 = 4 and (4+6+8)/3 = 6."
+  },
+  {
+    "id": "log-returns",
+    "kind": "output",
+    "title": "Log returns",
+    "code": "import numpy as np\np = np.array([100.0, 120.0, 100.0])\nr = np.diff(np.log(p))\nprint(round(r.sum(), 4))",
+    "ask": "What does this print?",
+    "options": [
+      "0.0",
+      "0.0333",
+      "0.2",
+      "-0.0333"
+    ],
+    "why": "Log returns add up: log(120/100) + log(100/120) = log(100/100) = 0. Simple returns don't: +20% then −16.7% sums to +3.3% though the price ended where it started."
+  },
+  {
+    "id": "compound",
+    "kind": "output",
+    "title": "Compounding",
+    "code": "import pandas as pd\nr = pd.Series([0.10, -0.10])\nprint(round((1 + r).prod() - 1, 4))",
+    "ask": "What does this print?",
+    "options": [
+      "-0.01",
+      "0.0",
+      "0.01",
+      "-0.2"
+    ],
+    "why": "Up 10% then down 10%: 1.1 × 0.9 = 0.99, a 1% loss. Returns compound by multiplying, which is why a loss needs a bigger gain to recover."
+  },
+  {
+    "id": "ddof",
+    "kind": "output",
+    "title": "Sample or population",
+    "code": "import numpy as np\nimport pandas as pd\nx = pd.Series([1, 2, 3, 4])\nprint(round(x.std(), 3), round(np.std(x.values), 3))",
+    "ask": "What does this print?",
+    "options": [
+      "1.291 1.118",
+      "1.118 1.118",
+      "1.291 1.291",
+      "1.118 1.291"
+    ],
+    "why": "pandas' std divides by n − 1 (the sample standard deviation); NumPy's divides by n unless you pass ddof=1. Mixing them gives different vols from the same data."
+  },
+  {
+    "id": "annualise",
+    "kind": "output",
+    "title": "Annualising vol",
+    "code": "import numpy as np\ndaily = 0.01\nprint(round(daily * np.sqrt(252), 3))",
+    "ask": "What does this print?",
+    "options": [
+      "0.159",
+      "2.52",
+      "0.0159",
+      "0.252"
+    ],
+    "why": "Volatility scales with the square root of time: 1% × √252 ≈ 15.9%. Multiplying by 252 is the classic mistake."
+  },
+  {
+    "id": "drawdown",
+    "kind": "output",
+    "title": "Maximum drawdown",
+    "code": "import pandas as pd\neq = pd.Series([100, 120, 90, 110, 80])\ndd = eq / eq.cummax() - 1\nprint(round(dd.min(), 3))",
+    "ask": "What does this print?",
+    "options": [
+      "-0.333",
+      "-0.2",
+      "-0.25",
+      "-0.273"
+    ],
+    "why": "The running peak reaches 120. The worst point after it is 80: 80/120 − 1 = −33.3%. Drawdown is measured from the peak, not from the start."
+  },
+  {
+    "id": "groupby",
+    "kind": "output",
+    "title": "Grouping by sector",
+    "code": "import pandas as pd\ndf = pd.DataFrame({'sector': ['IT', 'IT', 'Bank'], 'ret': [0.02, 0.04, -0.01]})\nprint(df.groupby('sector')['ret'].mean().round(2).to_dict())",
+    "ask": "What does this print?",
+    "options": [
+      "{'Bank': -0.01, 'IT': 0.03}",
+      "{'IT': 0.03, 'Bank': -0.01}",
+      "{'Bank': -0.01, 'IT': 0.06}",
+      "{'IT': 0.017}"
+    ],
+    "why": "groupby averages each sector on its own: IT (0.02 + 0.04)/2 = 0.03. Groups come out sorted by key, so Bank comes first."
+  },
+  {
+    "id": "mask",
+    "kind": "output",
+    "title": "Boolean masks",
+    "code": "import pandas as pd\ns = pd.Series([3, -1, 2, -4])\nprint(s[s > 0].sum(), (s > 0).mean())",
+    "ask": "What does this print?",
+    "options": [
+      "5 0.5",
+      "5 2",
+      "0 0.5",
+      "-5 0.5"
+    ],
+    "why": "s[s > 0] keeps 3 and 2, which sum to 5. (s > 0) is True, False, True, False, and the mean of booleans is the share that's True: a hit rate of 0.5."
+  },
+  {
+    "id": "merge",
+    "kind": "output",
+    "title": "Merging tables",
+    "code": "import pandas as pd\na = pd.DataFrame({'id': [1, 2, 3]})\nb = pd.DataFrame({'id': [2, 3, 4], 'px': [10, 20, 30]})\nprint(len(a.merge(b, on='id')), len(a.merge(b, on='id', how='left')))",
+    "ask": "What does this print?",
+    "options": [
+      "2 3",
+      "3 3",
+      "2 4",
+      "4 3"
+    ],
+    "why": "An inner merge keeps ids in both tables (2 and 3). A left merge keeps every row of a, with NaN where b has no match. Silent row loss in merges is a common backtest bug."
+  },
+  {
+    "id": "rank",
+    "kind": "output",
+    "title": "Ranking",
+    "code": "import pandas as pd\ns = pd.Series([0.05, -0.02, 0.01])\nprint(s.rank().tolist())",
+    "ask": "What does this print?",
+    "options": [
+      "[3.0, 1.0, 2.0]",
+      "[1.0, 3.0, 2.0]",
+      "[0.05, -0.02, 0.01]",
+      "[2.0, 0.0, 1.0]"
+    ],
+    "why": "rank() gives 1 to the smallest value by default, so 0.05 is 3rd of 3. Cross-sectional signals are often ranked like this before building a long-short book."
+  },
+  {
+    "id": "corr",
+    "kind": "output",
+    "title": "Correlation",
+    "code": "import pandas as pd\nx = pd.Series([1, 2, 3, 4])\nprint(round(x.corr(-2 * x + 5), 2))",
+    "ask": "What does this print?",
+    "options": [
+      "-1.0",
+      "-2.0",
+      "1.0",
+      "0.0"
+    ],
+    "why": "y = −2x + 5 is a straight line sloping down, so the correlation is exactly −1. Correlation ignores scale and shift; it can't be −2."
+  },
+  {
+    "id": "weights",
+    "kind": "output",
+    "title": "Portfolio return",
+    "code": "import numpy as np\nw = np.array([0.5, 0.3, 0.2])\nr = np.array([0.02, -0.01, 0.05])\nprint(round(w @ r, 4))",
+    "ask": "What does this print?",
+    "options": [
+      "0.017",
+      "0.06",
+      "0.02",
+      "0.0057"
+    ],
+    "why": "@ is the dot product: 0.5×0.02 + 0.3×(−0.01) + 0.2×0.05 = 0.01 − 0.003 + 0.01 = 0.017, the portfolio's return."
+  },
+  {
+    "id": "floor-div",
+    "kind": "output",
+    "title": "Floor division",
+    "code": "print(7 // 2, -7 // 2)",
+    "ask": "What does this print?",
+    "options": [
+      "3 -4",
+      "3 -3",
+      "3.5 -3.5",
+      "4 -4"
+    ],
+    "why": "// rounds down toward minus infinity, not toward zero, so −7 // 2 is −4. It bites when bucketing negative numbers."
+  },
+  {
+    "id": "alias",
+    "kind": "output",
+    "title": "Two names, one list",
+    "code": "a = [1, 2]\nb = a\nb.append(3)\nprint(a)",
+    "ask": "What does this print?",
+    "options": [
+      "[1, 2, 3]",
+      "[1, 2]",
+      "[3]",
+      "[1, 2, 3, 3]"
+    ],
+    "why": "b = a doesn't copy: both names point to the same list. Use a.copy() when you want a separate one, or a DataFrame changed in one place changes everywhere."
+  },
+  {
+    "id": "ffill",
+    "kind": "output",
+    "title": "Filling gaps",
+    "code": "import pandas as pd\ns = pd.Series([100, None, None, 103])\nprint(s.ffill().tolist())",
+    "ask": "What does this print?",
+    "options": [
+      "[100.0, 100.0, 100.0, 103.0]",
+      "[100.0, 101.0, 102.0, 103.0]",
+      "[100.0, nan, nan, 103.0]",
+      "[100.0, 103.0, 103.0, 103.0]"
+    ],
+    "why": "ffill carries the last known value forward, which is safe for prices. bfill (the last option) would copy a future price backwards: look-ahead."
+  },
+  {
+    "id": "skipna",
+    "kind": "output",
+    "title": "Missing values",
+    "code": "import pandas as pd\ns = pd.Series([1, None, 3])\nprint(s.mean(), len(s), s.count())",
+    "ask": "What does this print?",
+    "options": [
+      "2.0 3 2",
+      "1.33 3 3",
+      "nan 3 2",
+      "2.0 2 2"
+    ],
+    "why": "mean skips NaN by default: (1 + 3)/2 = 2. len counts rows, count counts non-missing values. A gap in data quietly changes your averages."
+  },
+  {
+    "id": "sort-noassign",
+    "kind": "output",
+    "title": "Sorting",
+    "code": "import pandas as pd\ndf = pd.DataFrame({'d': [3, 1, 2], 'px': [30, 10, 20]})\ndf.sort_values('d')\nprint(df['px'].tolist())",
+    "ask": "What does this print?",
+    "options": [
+      "[30, 10, 20]",
+      "[10, 20, 30]",
+      "[30, 20, 10]",
+      "None"
+    ],
+    "why": "sort_values returns a new DataFrame; it doesn't change df. Without df = df.sort_values('d'), returns would be computed on unsorted dates."
+  },
+  {
+    "id": "look-ahead-signal",
+    "kind": "bug",
+    "title": "A trend signal",
+    "code": "df['ma'] = df['close'].rolling(20).mean()\ndf['signal'] = (df['close'] > df['ma']).astype(int)\ndf['pnl'] = df['signal'] * df['close'].pct_change()",
+    "ask": "What's wrong with this code?",
+    "options": [
+      "The signal uses today's close but earns today's return: shift it a day",
+      "rolling(20) leaves out today's close, so the average is a day stale",
+      "pct_change compounds wrongly here, so it should use log returns instead",
+      "astype(int) turns every short signal into a zero, so it never shorts"
+    ],
+    "why": "Today's signal is set at the close, so it can only earn tomorrow's return. Multiplying by today's return trades on information you didn't have: look-ahead. df['signal'].shift(1) fixes it."
+  },
+  {
+    "id": "survivorship",
+    "kind": "bug",
+    "title": "Building the universe",
+    "code": "universe = nifty50_members(date='today')\nprices = load_prices(universe, start='2010-01-01')\nresult = backtest(prices)",
+    "ask": "What's wrong with this code?",
+    "options": [
+      "It only tests today's index members, missing stocks that dropped out since 2010",
+      "start is passed as a string, so the prices load from the wrong year by default",
+      "Fifty stocks are too few to backtest, so the result can't be trusted at all",
+      "It loads prices when a backtest needs returns, so every number is off by one"
+    ],
+    "why": "Today's index members are the survivors. Stocks that fell out of the index since 2010, often after big losses, are missing, so the backtest looks better than reality. Use the members as of each date."
+  },
+  {
+    "id": "sharpe-252",
+    "kind": "bug",
+    "title": "Annualising Sharpe",
+    "code": "daily = strategy_returns\nsharpe = daily.mean() / daily.std() * 252",
+    "ask": "What's wrong with this code?",
+    "options": [
+      "It should multiply by the square root of 252, not 252",
+      "It should divide by 252",
+      "It should use the median instead of the mean",
+      "std should be replaced by variance"
+    ],
+    "why": "Mean returns scale with time, volatility with its square root, so the Sharpe ratio scales by √252 ≈ 15.9. Multiplying by 252 inflates it about 16 times."
+  },
+  {
+    "id": "full-sample-z",
+    "kind": "bug",
+    "title": "Normalising a signal",
+    "code": "z = (x - x.mean()) / x.std()\ndf['signal'] = z > 2",
+    "ask": "What's wrong with this code?",
+    "options": [
+      "The mean and std are taken over all data, future included",
+      "z > 2 misses the days where z is exactly two, so use >=",
+      "x.std() divides by n − 1, so the z-scores are too small",
+      "A z-score can't be a signal unless it is ranked first"
+    ],
+    "why": "Each day's z-score uses a mean and a standard deviation computed over all data, future included. Use a rolling or expanding window so each day only sees its past."
+  },
+  {
+    "id": "shuffled-split",
+    "kind": "bug",
+    "title": "Training a model",
+    "code": "from sklearn.model_selection import train_test_split\nX_tr, X_te, y_tr, y_te = train_test_split(X, y, test_size=0.3)\nmodel.fit(X_tr, y_tr)",
+    "ask": "What's wrong with this code?",
+    "options": [
+      "The split is random, so it trains on days after the ones it tests on",
+      "A test size of 0.3 is too big for time series, so it should be 0.2",
+      "The model is fit before scaling, so the features are on different scales",
+      "y_tr and y_te are in the wrong order, so the labels are swapped round"
+    ],
+    "why": "train_test_split shuffles by default. With time series, nearby days are related, so training on later and neighbouring days leaks information into the test. Split by date (or shuffle=False), and purge overlaps."
+  },
+  {
+    "id": "unadjusted-split",
+    "kind": "bug",
+    "title": "Returns from raw prices",
+    "code": "raw = load_close(symbol, adjusted=False)\nret = raw.pct_change()\nprint(ret.min())",
+    "ask": "What's wrong with this code?",
+    "options": [
+      "A 1:2 split shows as a −50% return; use split-adjusted prices",
+      "pct_change can't handle the first row, so min() returns NaN",
+      "min() finds the best day here; the worst day needs max()",
+      "Returns must be in percent before min() can compare them"
+    ],
+    "why": "Unadjusted prices drop on splits and bonus issues even though holders lose nothing. Returns from them show fake crashes. Use prices adjusted for corporate actions."
+  },
+  {
+    "id": "sum-returns",
+    "kind": "bug",
+    "title": "Total return",
+    "code": "total = daily_returns.sum()\nprint(f'Total return: {total:.1%}')",
+    "ask": "What's wrong with this code?",
+    "options": [
+      "Simple returns compound, so total is (1 + r).prod() − 1",
+      "It should take the mean of returns, not their sum, for a total",
+      "The f-string rounds to one decimal, so the total is off by 10%",
+      "The first day has no return, so the sum is short by a day"
+    ],
+    "why": "Summing simple returns ignores compounding; over long or volatile periods the gap is large. Multiply the growth factors, or sum log returns and convert back."
+  },
+  {
+    "id": "pit-earnings",
+    "kind": "bug",
+    "title": "Joining fundamentals",
+    "code": "df = prices.merge(earnings, left_on='date', right_on='quarter_end')\ndf['eps'] = df['eps'].ffill()",
+    "ask": "What's wrong with this code?",
+    "options": [
+      "EPS is joined on quarter end, weeks before results were out",
+      "ffill copies EPS backwards in time; it should be bfill",
+      "An inner merge drops days, so it needs how='outer' to work",
+      "EPS is in rupees per share but prices are in crores here"
+    ],
+    "why": "Results come out weeks after the quarter ends. Joining on quarter end lets the backtest use EPS before anyone knew it. Join on the announcement date: point-in-time data."
+  },
+  {
+    "id": "costs-ignored",
+    "kind": "bug",
+    "title": "Net returns",
+    "code": "trades = df['position'].diff().abs()\ndf['net'] = df['gross'] - 0.0005\nprint(df['net'].mean())",
+    "ask": "What's wrong with this code?",
+    "options": [
+      "It charges costs every day, not per trade: trades is never used",
+      "diff() should be pct_change(), or position changes are wrong",
+      "0.0005 is 5%, not 5 bps, so the cost is a hundred times too big",
+      "abs() makes sells count as buys, so costs are counted twice"
+    ],
+    "why": "Costs are paid when you trade. It should be df['gross'] - trades * 0.0005. As written, a fund that never trades pays costs and a busy one pays too little."
+  }
+]

@@ -7,7 +7,7 @@ const dir = join(dirname(fileURLToPath(import.meta.url)), '..', 'src', 'data', '
 const cases = JSON.parse(readFileSync(join(dir, '..', 'cases.json'), 'utf8'));
 const files = readdirSync(dir).filter((f) => f.endsWith('.json'));
 // The games the app can play (see src/lib/games.ts).
-const GAMES = ['market', 'payoff', 'greeks', 'kelly', 'guess', 'fermi', 'meeting', 'backtest', 'signal', 'pairs', 'expiry', 'risk', 'vwap', 'readbook'];
+const GAMES = ['market', 'payoff', 'greeks', 'kelly', 'guess', 'fermi', 'meeting', 'backtest', 'signal', 'pairs', 'expiry', 'risk', 'vwap', 'readbook', 'code'];
 const errors = [];
 const allIds = new Map();
 const allTerms = new Map();
@@ -142,6 +142,20 @@ for (const f of fermi) {
 }
 if (fermi.length < 16) errors.push(`fermi.json: needs at least 16 questions so rounds of 8 vary`);
 console.log(`Fermi questions: ${fermi.length} (${fermi.filter((f) => f.source).length} sourced facts)`);
+
+// Code reading: four different options with the right one first and not much the longest, code and a reason.
+const code = JSON.parse(readFileSync(join(dir, '..', 'code.json'), 'utf8'));
+const codeIds = new Set();
+for (const c of code) {
+  const at = `code.json > ${c.id ?? '(no id)'}`;
+  if (!c.id || !c.title || !c.code || !c.ask || !c.why) errors.push(`${at}: needs id, title, code, ask and why`);
+  if (codeIds.has(c.id)) errors.push(`${at}: duplicate id`);
+  codeIds.add(c.id);
+  if (!['output', 'bug'].includes(c.kind)) errors.push(`${at}: kind must be output or bug`);
+  if (!Array.isArray(c.options) || c.options.length !== 4 || new Set(c.options).size !== 4) errors.push(`${at}: needs 4 different options`);
+  else if (c.options[0].length > 1.25 * Math.max(...c.options.slice(1).map((o) => o.length))) errors.push(`${at}: the right option is much longer than the others`);
+}
+console.log(`Code snippets: ${code.length} (${code.filter((c) => c.kind === 'output').length} outputs, ${code.filter((c) => c.kind === 'bug').length} bugs)`);
 
 // Meeting clips: a few lines, two questions with the right option first and not the longest by far, and terms that exist outside phase 3.
 const SETTINGS = ['morning', 'research', 'pm', 'risk', 'fno', 'execution', 'broker', 'event'];
