@@ -92,6 +92,36 @@
       "core": false,
       "kind": "game",
       "game": "code"
+    },
+    {
+      "id": "q17",
+      "name": "Random walks and Brownian motion",
+      "core": false
+    },
+    {
+      "id": "q18",
+      "name": "Martingales and Itô",
+      "core": false
+    },
+    {
+      "id": "q19",
+      "name": "Monte Carlo and trees",
+      "core": false
+    },
+    {
+      "id": "q20",
+      "name": "Time series models",
+      "core": false
+    },
+    {
+      "id": "q21",
+      "name": "Volatility models",
+      "core": false
+    },
+    {
+      "id": "q22",
+      "name": "Statistics pitfalls and tools",
+      "core": false
     }
   ],
   "terms": [
@@ -4136,6 +4166,1267 @@
         "Cash a broker holds as margin"
       ],
       "difficulty": 1
+    },
+    {
+      "id": "random-walk",
+      "term": "random walk",
+      "unit": "q17",
+      "short": "A path of independent random steps",
+      "definition": "A path built by adding up independent random steps, each as likely to go up as down. Where it goes next has nothing to do with where it has been, so the best guess for tomorrow is today's level. It is the starting model for prices: if prices were a pure random walk, past moves could not predict future ones.",
+      "examples": [
+        "If Nifty is a random walk, yesterday's fall tells you nothing about today.",
+        "The quant said the spread isn't a random walk: it keeps coming back to zero.",
+        "Most signals fail because, after costs, the price looks like a random walk."
+      ],
+      "fill": "Each day the price moves up or down by a coin flip, with no memory of the past: a ____.",
+      "confusables": [
+        "brownian-motion",
+        "mean-reversion",
+        "martingale"
+      ],
+      "wrong": [
+        "A price that always returns to its average",
+        "A trend that keeps going in one direction",
+        "A chart pattern that repeats every week"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "In a random walk, a run of five up days makes a down day more likely next.",
+          "a": false,
+          "why": "Steps are independent, so the next step is still a coin flip. Expecting a reversal is the gambler's fallacy."
+        }
+      ]
+    },
+    {
+      "id": "brownian-motion",
+      "term": "Brownian motion",
+      "unit": "q17",
+      "short": "Random walk with tiny, continuous steps",
+      "definition": "The limit of a random walk as the steps get smaller and more frequent: a continuous path whose change over any stretch of time is normally distributed with mean zero and variance equal to the time elapsed, independent of what came before. It is the source of randomness in Black-Scholes and most pricing models.",
+      "examples": [
+        "Black-Scholes drives the stock with Brownian motion, so its moves are normal over any short interval.",
+        "Brownian motion is continuous, so the model can't produce the overnight gap we saw after results.",
+        "The lecture built Brownian motion by shrinking a coin-flip random walk."
+      ],
+      "fill": "Over a time t, the change in a ____ path is normal with mean zero and variance t.",
+      "confusables": [
+        "random-walk",
+        "geometric-brownian-motion",
+        "normal-distribution"
+      ],
+      "wrong": [
+        "A price model that never moves below its start",
+        "A process that is pulled back to its mean",
+        "A model where every step is the same size"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "Wiener process"
+      ],
+      "formula": "W(t) − W(s) ~ N(0, t − s), independent of the path before s"
+    },
+    {
+      "id": "geometric-brownian-motion",
+      "term": "geometric Brownian motion",
+      "unit": "q17",
+      "short": "Prices whose log moves like Brownian motion",
+      "definition": "A price model in which returns, not rupee changes, are random: each small step moves the price by a percentage made of a steady drift plus a Brownian shock. The price can never go below zero and its log is normal. Black-Scholes assumes the underlying follows it.",
+      "examples": [
+        "Under geometric Brownian motion a ₹100 stock and a ₹1,000 stock with the same volatility move the same percentage, not the same rupees.",
+        "GBM can't go negative, which is why it suits stock prices better than plain Brownian motion.",
+        "The Monte Carlo pricer simulates the underlying as geometric Brownian motion with 18% vol."
+      ],
+      "fill": "Black-Scholes assumes the stock follows ____, so its log price is normal and it never goes below zero.",
+      "confusables": [
+        "brownian-motion",
+        "lognormal-distribution",
+        "black-scholes"
+      ],
+      "wrong": [
+        "A model where prices move by fixed rupee steps",
+        "A model that adds jumps on results days",
+        "A model where volatility changes every day"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "GBM"
+      ],
+      "formula": "dS = μS dt + σS dW"
+    },
+    {
+      "id": "drift",
+      "term": "drift",
+      "unit": "q17",
+      "short": "The steady trend part of a random process",
+      "definition": "The expected rate of change per unit of time, the μ in a price model. Over short horizons it is tiny next to volatility, so even a stock with a strong expected return has daily moves that are almost all noise. Drift shows up only over long periods.",
+      "examples": [
+        "With 12% drift and 20% vol, a single day's move is almost pure noise.",
+        "Option prices don't depend on the stock's drift, only on its volatility and rates.",
+        "Over ten years the drift dominates; over ten minutes it's invisible."
+      ],
+      "fill": "In dS = μS dt + σS dW, the μ term is the ____.",
+      "confusables": [
+        "volatility",
+        "geometric-brownian-motion"
+      ],
+      "wrong": [
+        "How much the price swings each day",
+        "The gap between bid and ask",
+        "The fee for holding a futures position"
+      ],
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "A stock has 12% a year expected return and 20% a year volatility. Roughly how big are a day's drift and a day's volatility (252 trading days)?",
+          "options": [
+            "0.05% drift, 1.26% vol",
+            "0.48% drift, 1.26% vol",
+            "0.05% drift, 0.08% vol",
+            "1.2% drift, 2% vol"
+          ],
+          "answer": 0,
+          "why": "Drift scales with time: 12% ÷ 252 ≈ 0.05%. Volatility scales with the square root of time: 20% ÷ √252 ≈ 1.26%. The noise is about 25 times the drift."
+        }
+      ]
+    },
+    {
+      "id": "square-root-of-time",
+      "term": "square-root-of-time rule",
+      "unit": "q17",
+      "short": "Volatility grows with the square root of time",
+      "definition": "When returns are independent, variances add across days, so the typical move grows with the square root of the horizon: four times as long gives twice the move. It is how daily volatility is annualised and how one-day VaR is stretched to ten days. It breaks when returns trend or mean-revert.",
+      "examples": [
+        "A 1% daily vol stock has roughly a 5% move over 25 days, by the square-root-of-time rule.",
+        "We scaled the one-day VaR to ten days with √10, knowing it understates risk in a trending market.",
+        "Annual vol is daily vol times √252: that's the square-root-of-time rule."
+      ],
+      "fill": "Because variances add, a 1% daily move becomes about 2% over four days: the ____.",
+      "confusables": [
+        "rule-of-16",
+        "annualised-volatility",
+        "independent-increments"
+      ],
+      "wrong": [
+        "Moves grow in step with the number of days",
+        "Volatility halves each time the horizon doubles",
+        "Risk is the same over any horizon"
+      ],
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "Daily volatility is 1%. Roughly what is the volatility over 25 trading days?",
+          "options": [
+            "5%",
+            "25%",
+            "1%",
+            "2.5%"
+          ],
+          "answer": 0,
+          "why": "Multiply by the square root of the number of days: 1% × √25 = 5%."
+        }
+      ]
+    },
+    {
+      "id": "independent-increments",
+      "term": "independent increments",
+      "unit": "q17",
+      "short": "Moves in separate periods are unrelated",
+      "definition": "The property that what a process does over one stretch of time tells you nothing about what it does over another, non-overlapping stretch. Brownian motion has it. Real returns roughly do for direction, but not for size: big moves bunch together.",
+      "examples": [
+        "The model assumes independent increments, but real volatility clusters after a shock.",
+        "With independent increments, Monday's gain says nothing about Tuesday.",
+        "Because of independent increments, variances over separate weeks simply add."
+      ],
+      "fill": "Brownian motion has ____: the move from Monday to Tuesday says nothing about the move from Tuesday to Wednesday.",
+      "confusables": [
+        "autocorrelation",
+        "random-walk",
+        "volatility-clustering"
+      ],
+      "wrong": [
+        "Every move is exactly the same size",
+        "Each move is bigger than the last",
+        "Moves always alternate up and down"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "lognormal-distribution",
+      "term": "log-normal distribution",
+      "unit": "q17",
+      "short": "Its log is normal: positive and right-skewed",
+      "definition": "A value whose logarithm is normally distributed. If a price follows geometric Brownian motion, its future value is log-normal: it can't go below zero, has a long upside tail, and its median sits below its mean. A stock can fall at most 100% but can rise far more.",
+      "examples": [
+        "Under Black-Scholes the stock at expiry is log-normal, so deep upside outcomes are possible but it never goes negative.",
+        "The log-normal skew is why the average outcome sits above the most likely one.",
+        "We use log returns because prices are closer to log-normal than normal."
+      ],
+      "fill": "If log price is normal, the price itself has a ____, bounded at zero with a long right tail.",
+      "confusables": [
+        "normal-distribution",
+        "geometric-brownian-motion",
+        "skewness"
+      ],
+      "wrong": [
+        "A bell curve that can go below zero",
+        "A distribution where every outcome is equally likely",
+        "A distribution with a long left tail only"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "lognormal distribution"
+      ],
+      "tf": [
+        {
+          "s": "For a log-normal price, the median is below the mean.",
+          "a": true,
+          "why": "The long right tail pulls the mean up, so the typical (median) outcome is lower than the average."
+        }
+      ]
+    },
+    {
+      "id": "quadratic-variation",
+      "term": "quadratic variation",
+      "unit": "q17",
+      "short": "Sum of squared moves; equals σ²t for Brownian",
+      "definition": "Add up the squares of every small move along a path. For a smooth curve this goes to zero as the steps shrink, but for Brownian motion it settles at the elapsed time (σ² times time when the volatility is σ). It is why (dW)² = dt in Itô calculus, and why summed squared returns estimate variance.",
+      "examples": [
+        "Realised variance is an estimate of quadratic variation: sum the squared five-minute returns.",
+        "Because quadratic variation of Brownian motion isn't zero, Itô's lemma keeps a second-derivative term.",
+        "The variance swap pays off on quadratic variation: the sum of squared daily returns."
+      ],
+      "fill": "For Brownian motion the sum of squared tiny moves, its ____, equals the time elapsed.",
+      "confusables": [
+        "realised-volatility",
+        "variance",
+        "ito-lemma"
+      ],
+      "wrong": [
+        "The average of all price moves",
+        "The largest move in a period",
+        "The number of times the price crosses its mean"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "martingale",
+      "term": "martingale",
+      "unit": "q18",
+      "short": "A fair game: best forecast of next is now",
+      "definition": "A process whose expected next value, given everything known today, is its value today. It is the maths of a fair game. In no-arbitrage pricing, discounted prices are martingales under the risk-neutral measure, which is what makes an option's price the discounted expected payoff.",
+      "examples": [
+        "Under the risk-neutral measure, the discounted stock price is a martingale.",
+        "A fair coin game is a martingale: your expected wealth after the next toss is what you have now.",
+        "If returns had a predictable drift after costs, the price wouldn't be a martingale and there'd be money to make."
+      ],
+      "fill": "If the best forecast of tomorrow's value is today's value, the process is a ____.",
+      "confusables": [
+        "random-walk",
+        "risk-neutral-probability",
+        "gamblers-ruin"
+      ],
+      "wrong": [
+        "A process that always drifts upward",
+        "A betting system that guarantees a profit",
+        "A price pulled back to its long-run mean"
+      ],
+      "difficulty": 3,
+      "note": "Not the same as the 'martingale' betting system, where you double the stake after every loss. That system has a fair expected value too, but a long losing run wipes you out.",
+      "tf": [
+        {
+          "s": "Doubling your bet after every loss on a fair coin turns it into a money-making game.",
+          "a": false,
+          "why": "The game stays fair (a martingale): you win small amounts often but face rare, ruinous losing streaks."
+        }
+      ]
+    },
+    {
+      "id": "ito-lemma",
+      "term": "Itô's lemma",
+      "unit": "q18",
+      "short": "The chain rule for random processes",
+      "definition": "The rule for how a function of a random process moves. Unlike the ordinary chain rule it keeps a second-derivative term, ½·f″·σ² dt, because squared Brownian moves don't vanish. It is how Black-Scholes is derived and why log price grows at μ − σ²/2 rather than μ.",
+      "examples": [
+        "Apply Itô's lemma to log S and the drift drops by half the variance.",
+        "The gamma term in the Black-Scholes equation comes straight out of Itô's lemma.",
+        "The interviewer asked me to derive d(S²) with Itô's lemma."
+      ],
+      "fill": "Because (dW)² = dt, the ____ adds a ½ f″ σ² dt term that ordinary calculus doesn't have.",
+      "confusables": [
+        "quadratic-variation",
+        "black-scholes",
+        "stochastic-differential-equation"
+      ],
+      "wrong": [
+        "A formula for the price of an American option",
+        "A test for whether a series is stationary",
+        "A rule for sizing bets by edge"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "Ito's lemma",
+        "Ito lemma"
+      ],
+      "formula": "df = f′ dS + ½ f″ (dS)²,  with (dW)² = dt"
+    },
+    {
+      "id": "volatility-drag",
+      "term": "volatility drag",
+      "unit": "q18",
+      "short": "Volatility lowers compound growth",
+      "definition": "Compound growth is lower than the average return by roughly half the variance: growth ≈ average − σ²/2. Two strategies with the same average return grow at different rates if one swings more. It is Itô's lemma applied to log wealth, and a reason leverage and volatile assets disappoint over time.",
+      "examples": [
+        "Volatility drag is why a 3x leveraged ETF can lose money even when the index ends flat.",
+        "Same 10% average return, but 30% vol: volatility drag takes compound growth to about 5.5%.",
+        "Cutting volatility raised our compound return, through less volatility drag."
+      ],
+      "fill": "A fund that gains 50% and then loses 50% ends at 75: the ____ that swings put on compound growth.",
+      "confusables": [
+        "volatility",
+        "cagr",
+        "kelly-criterion"
+      ],
+      "wrong": [
+        "The fee a fund charges for volatile assets",
+        "The cost of buying options to hedge",
+        "The lag between a move and the vol index reacting"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "variance drain"
+      ],
+      "calcs": [
+        {
+          "q": "A strategy averages 10% a year with 30% volatility. Roughly what is its compound growth rate?",
+          "options": [
+            "5.5%",
+            "10%",
+            "7%",
+            "1%"
+          ],
+          "answer": 0,
+          "why": "Growth ≈ average − σ²/2 = 10% − (0.30² ÷ 2) = 10% − 4.5% = 5.5%."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Up 50% then down 50% leaves you where you started.",
+          "a": false,
+          "why": "1.5 × 0.5 = 0.75, so you're down 25%. Swings cost compound growth."
+        }
+      ]
+    },
+    {
+      "id": "stochastic-differential-equation",
+      "term": "stochastic differential equation",
+      "unit": "q18",
+      "short": "How a random path changes each instant",
+      "definition": "An equation for how a quantity changes over a tiny time step: a drift term times dt plus a random term times a Brownian shock dW. Geometric Brownian motion, the Ornstein-Uhlenbeck process and most interest-rate models are written as SDEs, and Monte Carlo simulates them step by step.",
+      "examples": [
+        "The SDE for the stock is dS = μS dt + σS dW.",
+        "We simulate the spread's SDE in small steps to price the barrier.",
+        "Change the volatility term in the SDE and you get a stochastic-vol model."
+      ],
+      "fill": "dx = a dt + b dW, a drift term plus a random kick, is a ____.",
+      "confusables": [
+        "geometric-brownian-motion",
+        "ito-lemma",
+        "ornstein-uhlenbeck"
+      ],
+      "wrong": [
+        "A regression of returns on a factor",
+        "An equation for the fair value of a future",
+        "A rule for rebalancing a portfolio"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "SDE"
+      ]
+    },
+    {
+      "id": "ornstein-uhlenbeck",
+      "term": "Ornstein-Uhlenbeck process",
+      "unit": "q18",
+      "short": "Random process pulled back to a mean",
+      "definition": "A mean-reverting SDE: dx = θ(μ − x) dt + σ dW. The further x sits from its mean μ, the harder it is pulled back, at speed θ, while random shocks push it around. It models pairs-trading spreads and short rates (the Vasicek model), and its half-life is ln 2 ÷ θ.",
+      "examples": [
+        "We fit an Ornstein-Uhlenbeck process to the spread and got a half-life of seven days.",
+        "Vasicek is just an Ornstein-Uhlenbeck process for the short rate.",
+        "If θ is near zero, the OU process barely mean-reverts and the pair isn't worth trading."
+      ],
+      "fill": "dx = θ(μ − x) dt + σ dW, a path pulled back towards μ, is the ____.",
+      "confusables": [
+        "mean-reversion",
+        "half-life",
+        "random-walk"
+      ],
+      "wrong": [
+        "A random walk with an upward drift",
+        "A model where volatility depends on past shocks",
+        "A tree for pricing American options"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "OU process"
+      ],
+      "calcs": [
+        {
+          "q": "A spread follows an OU process with θ = 0.1 per day. What is its half-life?",
+          "options": [
+            "About 7 days",
+            "About 10 days",
+            "About 1 day",
+            "About 0.7 days"
+          ],
+          "answer": 0,
+          "why": "Half-life = ln 2 ÷ θ = 0.693 ÷ 0.1 ≈ 6.9 days."
+        }
+      ]
+    },
+    {
+      "id": "change-of-measure",
+      "term": "change of measure",
+      "unit": "q18",
+      "short": "Reweighting probabilities to price things",
+      "definition": "Switching from real-world probabilities to risk-neutral ones by reweighting paths, so every asset's expected return becomes the risk-free rate while volatility stays the same. Girsanov's theorem says how to do it for Brownian motion. It is why option prices don't depend on the stock's expected return.",
+      "examples": [
+        "After a change of measure, the stock drifts at the risk-free rate in the pricer.",
+        "Girsanov lets you swap μ for r by a change of measure without touching σ.",
+        "The real-world view matters for the trade; the change of measure matters for the price."
+      ],
+      "fill": "Moving from real-world to risk-neutral probabilities, so the drift becomes r, is a ____.",
+      "confusables": [
+        "risk-neutral-probability",
+        "martingale",
+        "drift"
+      ],
+      "wrong": [
+        "Converting prices from rupees to dollars",
+        "Changing the time step in a simulation",
+        "Rescaling a chart from linear to log"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "Girsanov"
+      ]
+    },
+    {
+      "id": "gamblers-ruin",
+      "term": "gambler's ruin",
+      "unit": "q18",
+      "short": "A fair bettor with limited money goes bust",
+      "definition": "In a fair game against a much richer opponent, a player who keeps betting will almost surely lose everything eventually. If you bet ₹1 at a time on a fair coin and stop at ₹0 or a target, the chance of hitting the target is your stake divided by the target. It is why sizing and stop rules matter more than a 50-50 edge.",
+      "examples": [
+        "Gambler's ruin: start with ₹20, aim for ₹100 on fair ₹1 bets, and you get there only 20% of the time.",
+        "Without an edge, gambler's ruin says the trader with the smaller account goes bust first.",
+        "The risk manager cited gambler's ruin when he cut the bet size."
+      ],
+      "fill": "Betting ₹1 at a time on a fair coin, a player with ₹20 who stops at ₹0 or ₹100 reaches ₹100 only 20% of the time: ____.",
+      "confusables": [
+        "kelly-criterion",
+        "martingale",
+        "expectancy"
+      ],
+      "wrong": [
+        "Losing on a trade you were sure of",
+        "A casino refusing to pay a big winner",
+        "Doubling your bet after each loss"
+      ],
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "You bet ₹1 at a time on a fair coin, starting with ₹30, and stop at ₹0 or ₹120. What is the chance you reach ₹120?",
+          "options": [
+            "25%",
+            "50%",
+            "30%",
+            "75%"
+          ],
+          "answer": 0,
+          "why": "In a fair game the chance of reaching the target is start ÷ target = 30 ÷ 120 = 25%."
+        }
+      ]
+    },
+    {
+      "id": "monte-carlo-simulation",
+      "term": "Monte Carlo simulation",
+      "unit": "q19",
+      "short": "Simulate many random paths, then average",
+      "definition": "Generate thousands of random scenarios from a model, work out the result in each, and average. It prices options whose payoff depends on the path, estimates VaR for a complex book, and stress-tests a strategy. The error shrinks only with the square root of the number of paths.",
+      "examples": [
+        "We price the Asian option by Monte Carlo simulation: 100,000 paths of the average.",
+        "The VaR comes from a Monte Carlo simulation of the whole book under correlated shocks.",
+        "Run a Monte Carlo simulation of your trade sequence to see how deep the drawdowns can get."
+      ],
+      "fill": "To price an option on the monthly average, simulate 50,000 random price paths and average the discounted payoffs: a ____.",
+      "confusables": [
+        "binomial-tree",
+        "monte-carlo-error",
+        "backtest"
+      ],
+      "wrong": [
+        "Fitting a model to past prices",
+        "Pricing an option with a closed-form formula",
+        "A test of a strategy on old data"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "Monte Carlo"
+      ]
+    },
+    {
+      "id": "monte-carlo-error",
+      "term": "Monte Carlo error",
+      "unit": "q19",
+      "short": "Falls with the square root of path count",
+      "definition": "The random error in a Monte Carlo estimate: its standard error is the spread of the simulated payoffs divided by the square root of the number of paths. Halving the error takes four times the paths, which is why variance reduction tricks matter.",
+      "examples": [
+        "The Monte Carlo error is ₹0.40 at 10,000 paths, so we'd need 40,000 to get it to ₹0.20.",
+        "Quote the price with its Monte Carlo error, not just the average.",
+        "Two runs differ by ₹0.30: that's Monte Carlo error, not a bug."
+      ],
+      "fill": "The ____ of a simulated price shrinks only as 1 over the square root of the number of paths.",
+      "confusables": [
+        "monte-carlo-simulation",
+        "standard-deviation",
+        "antithetic-variates"
+      ],
+      "wrong": [
+        "The bias from using the wrong model",
+        "Rounding error in the computer",
+        "The gap between bid and ask on the option"
+      ],
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "A Monte Carlo price has a standard error of ₹0.20 with 10,000 paths. How many paths for an error of ₹0.10?",
+          "options": [
+            "40,000",
+            "20,000",
+            "100,000",
+            "14,000"
+          ],
+          "answer": 0,
+          "why": "Error falls with √N, so halving it needs four times the paths: 4 × 10,000 = 40,000."
+        }
+      ]
+    },
+    {
+      "id": "antithetic-variates",
+      "term": "antithetic variates",
+      "unit": "q19",
+      "short": "Pair each random path with its mirror",
+      "definition": "A variance-reduction trick: for every random draw z, also run the path with −z. The two errors partly cancel, so you get the same accuracy with fewer paths. It works best when the payoff moves steadily with the underlying.",
+      "examples": [
+        "With antithetic variates we halved the paths and kept the same error.",
+        "Each up path has a mirror down path: that's antithetic variates.",
+        "Antithetic variates help a lot for a forward, much less for a straddle."
+      ],
+      "fill": "Running every path again with the shocks flipped, so errors cancel, is the method of ____.",
+      "confusables": [
+        "control-variate",
+        "monte-carlo-error",
+        "random-seed"
+      ],
+      "wrong": [
+        "Using only the paths that finish in the money",
+        "Simulating two different stocks together",
+        "Shifting the strike to make the option at the money"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "control-variate",
+      "term": "control variate",
+      "unit": "q19",
+      "short": "Correct a simulation using a known answer",
+      "definition": "A variance-reduction trick: simulate, alongside your option, a closely related one whose price you know exactly, such as a European option priced by Black-Scholes. How far the simulation misses the known price tells you how to correct your estimate.",
+      "examples": [
+        "We use the geometric-average Asian, which has a formula, as a control variate for the arithmetic one.",
+        "The control variate cut the Monte Carlo error by a factor of ten.",
+        "The vanilla call priced by Black-Scholes makes a good control variate for the barrier."
+      ],
+      "fill": "Simulating a related option with a known price and using its miss to correct yours is a ____.",
+      "confusables": [
+        "antithetic-variates",
+        "monte-carlo-simulation",
+        "black-scholes"
+      ],
+      "wrong": [
+        "A hedge that removes delta",
+        "A benchmark index for a fund",
+        "A test that the model is calibrated"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "path-dependent-option",
+      "term": "path-dependent option",
+      "unit": "q19",
+      "short": "Payoff depends on the route, not just the end",
+      "definition": "An option whose payoff depends on how the price got there, not only where it finished: the average price (Asian), whether a level was touched (barrier), or the best price reached (lookback). These are usually priced by Monte Carlo, trees or PDE methods. In India they trade over the counter; listed NSE options are plain European.",
+      "examples": [
+        "A barrier option is path-dependent: touch ₹900 once and it's dead, wherever it ends.",
+        "Path-dependent options need Monte Carlo, not just the Black-Scholes formula.",
+        "The exporter's structured product was a path-dependent option on USDINR."
+      ],
+      "fill": "If two price paths end at the same level but pay differently, the contract is a ____.",
+      "confusables": [
+        "european-option",
+        "barrier-option",
+        "asian-option"
+      ],
+      "wrong": [
+        "An option that can be exercised any day",
+        "An option on a futures contract",
+        "An option with no expiry date"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "barrier-option",
+      "term": "barrier option",
+      "unit": "q19",
+      "short": "Switches on or off if a level is touched",
+      "definition": "An option that comes alive (knock-in) or dies (knock-out) if the underlying touches a set level before expiry. It is cheaper than the plain option because it pays in fewer cases. Hedging is hard near the barrier, where the value can jump from something to nothing.",
+      "examples": [
+        "The knock-out call dies if Nifty touches 21,000, so it costs much less than a vanilla call.",
+        "Dealers hedging barrier options can push the spot towards or away from the level.",
+        "Near the barrier, the delta of a barrier option swings wildly."
+      ],
+      "fill": "A call that dies the moment the price touches ₹900 is a knock-out ____.",
+      "confusables": [
+        "path-dependent-option",
+        "asian-option",
+        "call-option"
+      ],
+      "wrong": [
+        "An option that pays a fixed amount if it ends in the money",
+        "An option on the average price",
+        "An option whose strike resets each month"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "asian-option",
+      "term": "Asian option",
+      "unit": "q19",
+      "short": "Pays on the average price over a period",
+      "definition": "An option whose payoff uses the average price over a window rather than the price at expiry. Averaging lowers the effective volatility, so it is cheaper than a vanilla option, and it suits buyers who care about average cost, such as a refiner buying crude through the month.",
+      "examples": [
+        "The airline hedges with an Asian option, because it buys fuel every day of the month.",
+        "Averaging makes the Asian option cheaper than the vanilla call with the same strike.",
+        "Most commodity OTC options are Asian, settled on the monthly average."
+      ],
+      "fill": "A refiner that buys crude every day hedges with an ____, which pays on the month's average price.",
+      "confusables": [
+        "path-dependent-option",
+        "barrier-option",
+        "european-option"
+      ],
+      "wrong": [
+        "An option that trades only in Asian hours",
+        "An option that can be exercised on any business day",
+        "An option on an Asian stock index"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "early-exercise",
+      "term": "early exercise",
+      "unit": "q19",
+      "short": "Using an American option before expiry",
+      "definition": "Exercising an option before its expiry date, which only American options allow. Trees handle it by checking at every node whether exercising now beats holding on. For a call on a stock with no dividends it is never worth it; for deep in-the-money puts, or calls just before a dividend, it can be.",
+      "examples": [
+        "The binomial tree compares exercising now with holding at every node, to value early exercise.",
+        "Early exercise of a call only makes sense just before a big dividend.",
+        "Listed Indian options are European, so early exercise isn't allowed."
+      ],
+      "fill": "Exercising an American option before its expiry date is called ____.",
+      "confusables": [
+        "american-option",
+        "binomial-tree",
+        "european-option"
+      ],
+      "wrong": [
+        "Closing an option position by selling it",
+        "Rolling an option to the next month",
+        "Buying an option before results"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "random-seed",
+      "term": "random seed",
+      "unit": "q19",
+      "short": "The number that fixes a simulation's draws",
+      "definition": "The starting value for a pseudo-random number generator. The same seed gives exactly the same sequence, so results can be reproduced and compared. Changing the seed and rerunning checks that a result isn't just the luck of one set of draws.",
+      "examples": [
+        "Fix the random seed so the risk report gives the same number twice.",
+        "The backtest looked great on one random seed and average on the other nine.",
+        "Log the random seed with every simulation run."
+      ],
+      "fill": "To make a simulation give exactly the same numbers each time, fix the ____.",
+      "confusables": [
+        "monte-carlo-simulation",
+        "out-of-sample",
+        "overfitting"
+      ],
+      "wrong": [
+        "The first price in a time series",
+        "The strike the model starts from",
+        "The number of paths in a simulation"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "white-noise",
+      "term": "white noise",
+      "unit": "q20",
+      "short": "Uncorrelated random shocks with mean zero",
+      "definition": "A series of random values with mean zero, constant variance and no correlation between them: pure unpredictable noise. A good model's leftover errors should look like white noise; if they don't, there is still structure the model missed.",
+      "examples": [
+        "Check the residuals: if they aren't white noise, the model is missing something.",
+        "Daily returns look close to white noise; their squares don't.",
+        "Each shock in the AR model is white noise."
+      ],
+      "fill": "A model's errors should be ____: mean zero, steady variance, and no pattern from one to the next.",
+      "confusables": [
+        "random-walk",
+        "autocorrelation",
+        "residual"
+      ],
+      "wrong": [
+        "A slow trend hidden in the data",
+        "Prices that move only in round numbers",
+        "A spike in volume at the open"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "autoregressive-model",
+      "term": "autoregressive model",
+      "unit": "q20",
+      "short": "Today depends on yesterday plus noise",
+      "definition": "A model where the next value is a weighted sum of past values plus a shock. The simplest, AR(1), is x(t) = c + φ·x(t−1) + ε. With |φ| below 1 the series is stationary and mean-reverts; with φ = 1 it is a random walk.",
+      "examples": [
+        "We fitted an AR(1) to the spread and got φ = 0.9, so it mean-reverts slowly.",
+        "An autoregressive model with φ close to 1 is hard to tell from a random walk.",
+        "The basis follows an autoregressive model: big today, still big tomorrow, but shrinking."
+      ],
+      "fill": "x(t) = c + φ·x(t−1) + ε, today built from yesterday plus a shock, is an ____.",
+      "confusables": [
+        "moving-average-model",
+        "unit-root",
+        "mean-reversion"
+      ],
+      "wrong": [
+        "A model that averages the last few prices",
+        "A model where volatility depends on past shocks",
+        "A regression of one stock on another"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "AR model",
+        "AR(1)"
+      ],
+      "formula": "x(t) = c + φ·x(t−1) + ε(t)",
+      "calcs": [
+        {
+          "q": "A spread follows an AR(1) with φ = 0.9 per day. Roughly what is its half-life?",
+          "options": [
+            "About 6.6 days",
+            "About 9 days",
+            "About 1.1 days",
+            "About 0.9 days"
+          ],
+          "answer": 0,
+          "why": "Half-life = −ln 2 ÷ ln φ = 0.693 ÷ 0.105 ≈ 6.6 days."
+        }
+      ]
+    },
+    {
+      "id": "moving-average-model",
+      "term": "moving-average model",
+      "unit": "q20",
+      "short": "Today built from recent random shocks",
+      "definition": "A time-series model where today's value is a mix of today's shock and the last few shocks: x(t) = μ + ε(t) + θ·ε(t−1). A shock's effect lasts a set number of periods and then vanishes. Not the same thing as a moving average of prices on a chart.",
+      "examples": [
+        "Bid-ask bounce gives returns a negative MA(1) pattern.",
+        "In a moving-average model a shock matters for q periods and then it's gone.",
+        "Don't mix up the MA in ARIMA with the 50-day moving average on the chart."
+      ],
+      "fill": "x(t) = μ + ε(t) + θ·ε(t−1), where past shocks echo for a while, is a ____.",
+      "confusables": [
+        "autoregressive-model",
+        "arima",
+        "white-noise"
+      ],
+      "wrong": [
+        "The 50-day average of closing prices",
+        "A model where today depends on yesterday's level",
+        "A way to smooth a chart"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "MA model",
+        "MA(q)"
+      ]
+    },
+    {
+      "id": "arima",
+      "term": "ARIMA",
+      "unit": "q20",
+      "short": "Autoregressive model on differenced data",
+      "definition": "Autoregressive integrated moving average: difference the series until it is stationary (the I), then model it with autoregressive and moving-average terms. Prices usually need one difference, which turns them into returns. A sound baseline, but it rarely beats a random walk for prices.",
+      "examples": [
+        "The ARIMA(1,1,1) on Nifty forecasts no better than 'tomorrow equals today'.",
+        "ARIMA does fine on the inflation series, which is far more predictable than stocks.",
+        "The 1 in the middle of ARIMA(1,1,0) means we model returns, not prices."
+      ],
+      "fill": "Difference the series to make it stationary, then fit AR and MA terms: that's an ____ model.",
+      "confusables": [
+        "autoregressive-model",
+        "moving-average-model",
+        "garch"
+      ],
+      "wrong": [
+        "A model for volatility only",
+        "A machine-learning model for text",
+        "A factor model for stock returns"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "ARIMA model"
+      ]
+    },
+    {
+      "id": "unit-root",
+      "term": "unit root",
+      "unit": "q20",
+      "short": "Shocks never fade; the series wanders off",
+      "definition": "A series has a unit root when its autoregressive coefficient is 1: every shock is permanent, so it wanders with no level to return to, like a random walk. Prices usually have one, returns don't. Regressing two unit-root series on each other gives nonsense unless they are cointegrated.",
+      "examples": [
+        "Prices have a unit root, so we model returns.",
+        "The spread failed to reject a unit root, so it may never come back.",
+        "With a unit root, the series' variance grows without limit."
+      ],
+      "fill": "If φ = 1 in x(t) = φ·x(t−1) + ε, every shock is permanent: the series has a ____.",
+      "confusables": [
+        "stationarity",
+        "adf-test",
+        "random-walk"
+      ],
+      "wrong": [
+        "A level the price keeps bouncing off",
+        "One extreme value in the data",
+        "A series that repeats every year"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "adf-test",
+      "term": "ADF test",
+      "unit": "q20",
+      "short": "Tests whether a series has a unit root",
+      "definition": "The augmented Dickey-Fuller test. Its null hypothesis is that the series has a unit root, so it is not stationary. A small p-value rejects that and supports mean reversion. A large p-value means you can't tell, not that the series is proven to be a random walk.",
+      "examples": [
+        "The spread's ADF p-value is 0.01, so we reject a unit root.",
+        "Run the ADF test on the residuals of the hedge regression to test cointegration.",
+        "An ADF p-value of 0.3 means the pair is unproven, not proven broken."
+      ],
+      "fill": "To check whether a spread really mean-reverts, run the ____ and look for a small p-value.",
+      "confusables": [
+        "unit-root",
+        "stationarity",
+        "cointegration"
+      ],
+      "wrong": [
+        "A test for whether two stocks are correlated",
+        "A check that a backtest has no look-ahead",
+        "A test of whether returns are normal"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "augmented Dickey-Fuller test",
+        "Dickey-Fuller test"
+      ],
+      "tf": [
+        {
+          "s": "A high ADF p-value proves the series is a random walk.",
+          "a": false,
+          "why": "It only fails to reject the unit root. Short or noisy samples often can't tell either way."
+        }
+      ]
+    },
+    {
+      "id": "spurious-regression",
+      "term": "spurious regression",
+      "unit": "q20",
+      "short": "Unrelated trending series look related",
+      "definition": "Regressing one trending, non-stationary series on another often gives a high R-squared and a big t-statistic even when the two have nothing to do with each other. The fix is to regress returns or changes, or to test for cointegration first.",
+      "examples": [
+        "Gold and the Sensex both trended up for years; regress one on the other and you get a spurious regression.",
+        "An R-squared of 0.9 on price levels is a warning sign of spurious regression.",
+        "Work in returns to avoid spurious regression."
+      ],
+      "fill": "Two unrelated series that both trend up can show an R-squared of 0.9 when you regress one on the other: a ____.",
+      "confusables": [
+        "regression",
+        "cointegration",
+        "unit-root"
+      ],
+      "wrong": [
+        "A regression with too few data points",
+        "A regression run on the wrong dates",
+        "A regression that has been overfitted to noise"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "volatility-clustering",
+      "term": "volatility clustering",
+      "unit": "q21",
+      "short": "Big moves tend to follow big moves",
+      "definition": "Calm periods and wild periods bunch together: after a large move, more large moves are likely, in either direction. Returns barely predict each other, but squared returns do. It is the pattern that GARCH and EWMA volatility models are built to capture.",
+      "examples": [
+        "After the Budget shock, volatility clustering kept daily ranges wide for two weeks.",
+        "Volatility clustering is why yesterday's big move raises today's VaR.",
+        "Returns look random, but their sizes cluster."
+      ],
+      "fill": "Wild days bunch together and calm days bunch together: this is called ____.",
+      "confusables": [
+        "garch",
+        "regime-change",
+        "autocorrelation"
+      ],
+      "wrong": [
+        "Stocks in one sector moving together",
+        "Orders bunching at round-number prices",
+        "Option strikes with most open interest"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "garch",
+      "term": "GARCH",
+      "unit": "q21",
+      "short": "Volatility model fed by recent shocks",
+      "definition": "A model where today's variance depends on yesterday's squared shock and yesterday's variance: σ²(t) = ω + α·ε²(t−1) + β·σ²(t−1). When α + β is close to 1, volatility shocks fade slowly. The long-run variance it reverts to is ω ÷ (1 − α − β). It is used for VaR and vol forecasts.",
+      "examples": [
+        "GARCH says vol should drift back to 1% a day over the next month.",
+        "Our GARCH has α + β = 0.98, so this vol spike will linger.",
+        "The VaR switched from historical to GARCH volatility after the crash."
+      ],
+      "fill": "σ²(t) = ω + α·ε²(t−1) + β·σ²(t−1), a model where volatility feeds on recent shocks, is ____.",
+      "confusables": [
+        "ewma-volatility",
+        "volatility-clustering",
+        "realised-volatility"
+      ],
+      "wrong": [
+        "A model that assumes volatility never changes",
+        "A way to price options from the smile",
+        "A test for whether returns are normal"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "GARCH(1,1)"
+      ],
+      "formula": "σ²(t) = ω + α·ε²(t−1) + β·σ²(t−1)",
+      "calcs": [
+        {
+          "q": "A daily GARCH(1,1), in percent squared, has ω = 0.02, α = 0.08, β = 0.90. What daily volatility does it revert to?",
+          "options": [
+            "1%",
+            "0.14%",
+            "2%",
+            "10%"
+          ],
+          "answer": 0,
+          "why": "Long-run variance = ω ÷ (1 − α − β) = 0.02 ÷ 0.02 = 1, so daily vol = √1 = 1%."
+        }
+      ]
+    },
+    {
+      "id": "ewma-volatility",
+      "term": "EWMA volatility",
+      "unit": "q21",
+      "short": "Recent days weigh more in the vol estimate",
+      "definition": "An exponentially weighted moving average of squared returns: σ²(t) = λ·σ²(t−1) + (1 − λ)·r²(t−1). Recent days count most and old ones fade away, so it reacts faster than a plain average. RiskMetrics uses λ = 0.94 for daily data. It is GARCH without a long-run level to return to.",
+      "examples": [
+        "EWMA volatility jumped the day after the crash; the 60-day plain average barely moved.",
+        "With λ = 0.94, yesterday's squared return gets a 6% weight.",
+        "Risk switched to EWMA volatility so limits react to a new regime within days."
+      ],
+      "fill": "σ²(t) = 0.94·σ²(t−1) + 0.06·r²(t−1), where old days fade out, is ____.",
+      "confusables": [
+        "garch",
+        "realised-volatility",
+        "volatility-clustering"
+      ],
+      "wrong": [
+        "Volatility implied by option prices",
+        "The average of the last 20 closing prices",
+        "Volatility measured from high and low prices"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "exponentially weighted volatility"
+      ]
+    },
+    {
+      "id": "leverage-effect",
+      "term": "leverage effect",
+      "unit": "q21",
+      "short": "Volatility rises when prices fall",
+      "definition": "Volatility tends to rise after prices fall and ease after they rise. One explanation is that a falling share price raises a company's debt-to-equity ratio; another is fear. It is why equity index skew slopes down: puts are priced at higher implied volatility than calls.",
+      "examples": [
+        "The leverage effect: Nifty falls 2% and India VIX jumps 15%.",
+        "Because of the leverage effect, downside puts trade at higher implied vol.",
+        "A plain GARCH misses the leverage effect; a GJR-GARCH adds it."
+      ],
+      "fill": "Stocks fall, volatility jumps; stocks rise, volatility eases. This pattern is the ____.",
+      "confusables": [
+        "volatility-skew",
+        "india-vix",
+        "leverage"
+      ],
+      "wrong": [
+        "Borrowing to buy more shares",
+        "A company taking on more debt",
+        "Margin rising when positions grow"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "range-based-volatility",
+      "term": "range-based volatility",
+      "unit": "q21",
+      "short": "Volatility estimated from the day's high and low",
+      "definition": "Estimating volatility from each day's high, low, open and close instead of close-to-close returns alone. The Parkinson and Garman-Klass estimators use the intraday range, which carries more information, so they need fewer days for the same accuracy. They can be fooled by overnight gaps and bad ticks.",
+      "examples": [
+        "The Parkinson estimate, a range-based volatility, picks up an intraday swing that the close-to-close number misses.",
+        "With only ten days of data, range-based volatility is far less noisy.",
+        "One bad tick at the high wrecked the range-based volatility."
+      ],
+      "fill": "Using the day's high and low, as the Parkinson estimator does, gives ____.",
+      "confusables": [
+        "realised-volatility",
+        "ewma-volatility",
+        "implied-volatility"
+      ],
+      "wrong": [
+        "Volatility read from option prices",
+        "The average true range used for stops",
+        "Volatility of the index's breadth"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "Parkinson volatility"
+      ]
+    },
+    {
+      "id": "bootstrap",
+      "term": "bootstrap",
+      "unit": "q22",
+      "short": "Resample your data to see how a number varies",
+      "definition": "Draw many new samples from your own data, with replacement, recompute the statistic each time, and look at how much it moves. It gives a confidence interval for a Sharpe ratio or a mean without assuming normal returns. Plain resampling breaks the time order, so use a block bootstrap for time series.",
+      "examples": [
+        "The bootstrap puts the Sharpe somewhere between 0.4 and 1.6, so don't celebrate yet.",
+        "Bootstrap the trades to see how often the strategy loses money over a year.",
+        "We used the bootstrap because the returns are far from normal."
+      ],
+      "fill": "To get a confidence interval without assuming normality, resample your returns with replacement many times: the ____.",
+      "confusables": [
+        "block-bootstrap",
+        "monte-carlo-simulation",
+        "small-sample"
+      ],
+      "wrong": [
+        "Restarting a model after a crash",
+        "Adding more data from a different market",
+        "A loan used to fund a startup"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "block-bootstrap",
+      "term": "block bootstrap",
+      "unit": "q22",
+      "short": "Resample chunks to keep time patterns",
+      "definition": "A bootstrap that draws whole blocks of consecutive days instead of single days, so autocorrelation and volatility clustering inside each block survive. Use it for time series, where a plain bootstrap would shuffle away the patterns that make drawdowns long.",
+      "examples": [
+        "A plain bootstrap understated the drawdowns; the block bootstrap with 20-day blocks didn't.",
+        "Use the block bootstrap for daily returns, because vol clusters.",
+        "Block length matters: too short and the clustering is lost."
+      ],
+      "fill": "Resampling 20-day chunks of history rather than single days, so clustering survives, is a ____.",
+      "confusables": [
+        "bootstrap",
+        "walk-forward",
+        "volatility-clustering"
+      ],
+      "wrong": [
+        "Testing the strategy one year at a time",
+        "Removing a block of bad data",
+        "Splitting data into train and test sets"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "principal-component-analysis",
+      "term": "principal component analysis",
+      "unit": "q22",
+      "short": "Finds the few patterns behind many series",
+      "definition": "A method that turns many correlated series into a few uncorrelated components, ordered by how much of the movement each explains. For a yield curve the first three are level, slope and curvature. For stocks, the first is usually the market itself.",
+      "examples": [
+        "Principal component analysis on the G-sec curve: level explains 85%, slope 10%, curvature most of the rest.",
+        "The first PCA factor of the Nifty 50 is just the market.",
+        "We hedge the curve book with the first three PCA components."
+      ],
+      "fill": "Breaking 12 yield-curve tenors into level, slope and curvature is done with ____.",
+      "confusables": [
+        "factor",
+        "correlation",
+        "multicollinearity"
+      ],
+      "wrong": [
+        "Picking the stocks with the highest returns",
+        "Ranking stocks by market cap",
+        "Checking that each trade was profitable"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "PCA"
+      ]
+    },
+    {
+      "id": "multicollinearity",
+      "term": "multicollinearity",
+      "unit": "q22",
+      "short": "Correlated inputs confuse a regression",
+      "definition": "When two or more inputs in a regression are strongly correlated, the model can't tell which one is doing the work. Coefficients swing wildly and can flip sign with a little new data, even though the overall fit looks fine.",
+      "examples": [
+        "Value and quality scores were 0.8 correlated: classic multicollinearity, so the betas flip sign each quarter.",
+        "Multicollinearity is why the momentum coefficient looks insignificant even though momentum works.",
+        "Drop one of the two near-identical signals to fix the multicollinearity."
+      ],
+      "fill": "Two signals 90% correlated in the same regression make the coefficients unstable: ____.",
+      "confusables": [
+        "regression",
+        "correlation",
+        "factor-in-disguise"
+      ],
+      "wrong": [
+        "A regression with too many data points",
+        "Errors that grow over time",
+        "A regression on prices instead of returns"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "heteroskedasticity",
+      "term": "heteroskedasticity",
+      "unit": "q22",
+      "short": "Error size changes across the data",
+      "definition": "When the spread of a regression's errors isn't constant, for instance much bigger in volatile years. The coefficients can still be fine, but the usual standard errors and t-statistics are wrong, usually too optimistic. Robust standard errors fix that.",
+      "examples": [
+        "Returns are far noisier in 2008 and 2020, so the regression has heteroskedasticity.",
+        "Use robust errors: heteroskedasticity makes the plain t-stat too big.",
+        "The residual plot fans out to the right, a sign of heteroskedasticity."
+      ],
+      "fill": "Regression errors that are small in calm years and huge in crisis years show ____.",
+      "confusables": [
+        "newey-west-standard-errors",
+        "volatility-clustering",
+        "residual"
+      ],
+      "wrong": [
+        "Data from many different markets",
+        "Correlation between two predictors",
+        "A trend in the dependent variable"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "heteroscedasticity"
+      ]
+    },
+    {
+      "id": "newey-west-standard-errors",
+      "term": "Newey-West standard errors",
+      "unit": "q22",
+      "short": "Error bars allowing for overlap and clustering",
+      "definition": "Standard errors corrected for both autocorrelation and changing variance in a regression's errors. They matter when you use overlapping returns, such as monthly returns sampled daily, which otherwise make a t-statistic look several times stronger than it is.",
+      "examples": [
+        "With overlapping 20-day returns, the plain t-stat was 6; with Newey-West standard errors it's 2.1.",
+        "Always report Newey-West standard errors for a predictive regression on overlapping data.",
+        "The referee asked for Newey-West standard errors before believing the result."
+      ],
+      "fill": "With overlapping monthly returns sampled daily, use ____ or the t-statistic will be far too high.",
+      "confusables": [
+        "t-statistic",
+        "heteroskedasticity",
+        "autocorrelation"
+      ],
+      "wrong": [
+        "Errors from a model fitted out of sample",
+        "The error from rounding prices",
+        "Errors in the data feed"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "HAC standard errors"
+      ]
+    },
+    {
+      "id": "omitted-variable-bias",
+      "term": "omitted-variable bias",
+      "unit": "q22",
+      "short": "A missing driver gets credited elsewhere",
+      "definition": "When a regression leaves out something that drives the result and is correlated with an included input, that input takes the credit. A 'new' signal that is really just market beta or size is the classic case.",
+      "examples": [
+        "The signal's alpha vanished once we added the market factor: omitted-variable bias.",
+        "Without controlling for size, omitted-variable bias makes the liquidity factor look strong.",
+        "Ask what else could explain it before trusting a coefficient: omitted-variable bias."
+      ],
+      "fill": "A 'news sentiment' signal that is really just tracking the market, because beta was left out of the model, suffers from ____.",
+      "confusables": [
+        "factor-in-disguise",
+        "just-beta",
+        "multicollinearity"
+      ],
+      "wrong": [
+        "Bias from removing outliers",
+        "Bias from data that has been revised",
+        "Bias from testing many signals at once"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "regression-to-the-mean",
+      "term": "regression to the mean",
+      "unit": "q22",
+      "short": "Extreme results tend to drift back to average",
+      "definition": "When luck is part of a result, an extreme value is usually followed by one closer to average, without any cause. Last year's best fund, best trader or best quarter is likely to look more ordinary next time. It is not the same as prices mean-reverting.",
+      "examples": [
+        "Last year's top fund lagging this year is mostly regression to the mean.",
+        "A trader's best month is usually followed by a worse one: regression to the mean, not lost skill.",
+        "Don't hire on one great year; expect regression to the mean."
+      ],
+      "fill": "The best-performing fund of one year usually does closer to average the next, through ____.",
+      "confusables": [
+        "mean-reversion",
+        "survivorship-bias",
+        "small-sample"
+      ],
+      "wrong": [
+        "Prices falling back to a moving average",
+        "A company's earnings growing slower over time",
+        "Fitting a line to a scatter plot"
+      ],
+      "difficulty": 2
     }
   ]
 }

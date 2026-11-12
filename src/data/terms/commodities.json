@@ -1,0 +1,524 @@
+{
+  "id": "commodities",
+  "name": "Commodities and MCX",
+  "order": 11,
+  "units": [
+    {
+      "id": "g1",
+      "name": "MCX and commodity basics",
+      "core": true
+    },
+    {
+      "id": "g2",
+      "name": "Commodity curves and spreads",
+      "core": false
+    },
+    {
+      "id": "g3",
+      "name": "Trading commodities in India",
+      "core": false
+    }
+  ],
+  "terms": [
+    {
+      "id": "mcx",
+      "term": "MCX",
+      "unit": "g1",
+      "short": "India's main commodity derivatives exchange",
+      "definition": "The Multi Commodity Exchange of India, where most of the country's commodity futures and options trade: bullion, base metals, and energy such as crude oil and natural gas, plus a few farm products. It has been regulated by SEBI since the Forward Markets Commission merged into SEBI in 2015.",
+      "examples": [
+        "MCX crude kept trading after the stock market closed, so the oil shock showed up there first.",
+        "Gold on MCX tracks the global price converted into rupees, plus duty.",
+        "The client trades Nifty on NSE and silver on MCX from the same broker account."
+      ],
+      "fill": "Crude oil, gold and copper futures in India trade mainly on ____.",
+      "confusables": [
+        "ncdex",
+        "nse",
+        "bse"
+      ],
+      "wrong": [
+        "The exchange where Nifty futures trade",
+        "India's commodity market regulator",
+        "A clearing house for government bonds"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "Multi Commodity Exchange"
+      ]
+    },
+    {
+      "id": "ncdex",
+      "term": "NCDEX",
+      "unit": "g1",
+      "short": "India's farm commodity exchange",
+      "definition": "The National Commodity and Derivatives Exchange, focused on agricultural products such as guar, jeera, cotton seed oilcake and turmeric. SEBI has at times suspended trading in some sensitive farm contracts, such as wheat and chana, to cool food prices, so what is listed changes.",
+      "examples": [
+        "Guar seed futures trade on NCDEX, not MCX.",
+        "When food inflation spiked, some NCDEX farm contracts were suspended.",
+        "The agri-trader hedges his jeera stock on NCDEX."
+      ],
+      "fill": "Futures on guar seed and jeera trade on ____, India's farm-focused exchange.",
+      "confusables": [
+        "mcx",
+        "nse"
+      ],
+      "wrong": [
+        "India's main exchange for gold and crude",
+        "A government body that buys grain from farmers",
+        "An index of food prices"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "National Commodity and Derivatives Exchange"
+      ]
+    },
+    {
+      "id": "bullion",
+      "term": "bullion",
+      "unit": "g1",
+      "short": "Gold and silver traded in bulk",
+      "definition": "Gold and silver in bars or wholesale form, valued by weight and purity. On MCX they trade as futures and options in several sizes, priced per 10 grams for gold and per kilogram for silver. Bullion often rises when the rupee falls or global fear rises.",
+      "examples": [
+        "Bullion rallied as the rupee slipped and global yields fell.",
+        "MCX gold is quoted per 10 grams; silver per kilogram.",
+        "The jeweller hedges his bullion stock with MCX gold futures."
+      ],
+      "fill": "Gold and silver bars, valued by weight and purity, are called ____.",
+      "confusables": [
+        "base-metals",
+        "flight-to-safety"
+      ],
+      "wrong": [
+        "Copper, zinc and aluminium",
+        "Jewellery sold at retail",
+        "Coins issued by the RBI"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "base-metals",
+      "term": "base metals",
+      "unit": "g1",
+      "short": "Copper, zinc, aluminium, lead and nickel",
+      "definition": "Industrial metals such as copper, aluminium, zinc, lead and nickel, as opposed to precious metals. Their prices follow global demand, especially from China, and the London Metal Exchange benchmark. Copper in particular is read as a gauge of the world economy.",
+      "examples": [
+        "Base metals fell after weak Chinese factory data.",
+        "MCX copper follows the LME price, converted into rupees.",
+        "Metal stocks like Hindalco often move with base metals overnight."
+      ],
+      "fill": "Copper, aluminium and zinc are grouped as ____.",
+      "confusables": [
+        "bullion",
+        "cyclical-stocks"
+      ],
+      "wrong": [
+        "Gold and silver",
+        "Crude oil and natural gas",
+        "Metals used only in jewellery"
+      ],
+      "difficulty": 1,
+      "reads": {
+        "up": "Rising base metals usually signal stronger global industrial demand: good for metal producers like Hindalco and Vedanta, bad for buyers like auto and cable makers.",
+        "down": "Falling base metals often mean weaker global growth, especially in China; metal stocks tend to fall with them."
+      }
+    },
+    {
+      "id": "energy-futures",
+      "term": "energy futures",
+      "unit": "g1",
+      "short": "Crude oil and natural gas contracts",
+      "definition": "Futures on crude oil and natural gas. MCX contracts are priced off the US benchmarks (WTI crude and Henry Hub gas) converted into rupees, so they move with global news and trade into the Indian night. India imports most of its oil, so crude moves the rupee, inflation and many stocks.",
+      "examples": [
+        "Energy futures on MCX jumped overnight after the OPEC+ cut.",
+        "Crude is India's biggest import, so energy futures matter for the rupee too.",
+        "Natural gas futures can move 5% in a day on a US weather forecast."
+      ],
+      "fill": "Crude oil and natural gas contracts are known as ____.",
+      "confusables": [
+        "mcx",
+        "crack-spread",
+        "opec-plus"
+      ],
+      "wrong": [
+        "Shares of oil companies",
+        "Contracts on electricity bills",
+        "Bonds issued by power utilities"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "Rising crude hurts India's import bill and the rupee, and squeezes airlines, paints and tyre makers; upstream producers like ONGC gain.",
+        "down": "Falling crude helps the rupee, inflation and oil-consuming sectors such as airlines and paints; upstream producers lose."
+      }
+    },
+    {
+      "id": "evening-session",
+      "term": "evening session",
+      "unit": "g1",
+      "short": "MCX keeps trading late into the night",
+      "definition": "MCX trades from 9 am until late at night, about 11:30 pm, or 11:55 pm when the US is on winter time, so it overlaps with US and European markets. Most global commodity news therefore lands while MCX is open, long after Indian equities have closed.",
+      "examples": [
+        "The US jobs data came out during the evening session, and MCX gold jumped ₹600.",
+        "Equity desks go home at 3:30; the commodity desk works the evening session.",
+        "Margin calls can hit late, because positions move in the evening session."
+      ],
+      "fill": "Because MCX trades until about 11:30 pm, US data lands during its ____.",
+      "confusables": [
+        "mcx",
+        "gap-risk"
+      ],
+      "wrong": [
+        "The pre-open auction before 9:15 am",
+        "Special trading on Diwali evening",
+        "The last half-hour of the stock market"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "import-parity",
+      "term": "import parity",
+      "unit": "g1",
+      "short": "Global price × USDINR + duty + costs",
+      "definition": "The domestic price at which importing makes no profit or loss: the international price converted at USD/INR, plus import duty, freight and taxes. MCX gold and crude trade close to it; a wide gap means importers or arbitrageurs will step in.",
+      "examples": [
+        "MCX gold rose even though COMEX was flat, because the rupee weakened: import parity moved.",
+        "A duty cut lowers import parity, so domestic gold drops overnight.",
+        "The jeweller checks import parity before ordering more bars."
+      ],
+      "fill": "Global gold price × USD/INR + import duty + freight gives the ____ price of gold in India.",
+      "confusables": [
+        "usdinr",
+        "basis",
+        "law-of-one-price"
+      ],
+      "wrong": [
+        "The price set by the RBI for gold",
+        "The price at which gold trades in Dubai",
+        "The retail price of gold jewellery"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "landed cost"
+      ],
+      "calcs": [
+        {
+          "q": "Gold is $2,000 an ounce and USD/INR is 83. Ignoring duty, roughly what is that per 10 grams in rupees? (1 ounce ≈ 31.1 grams)",
+          "options": [
+            "About ₹53,400",
+            "About ₹16,600",
+            "About ₹5,340",
+            "About ₹1,66,000"
+          ],
+          "answer": 0,
+          "why": "Per gram: 2,000 × 83 ÷ 31.1 ≈ ₹5,338. For 10 grams that's about ₹53,400, before duty and taxes."
+        }
+      ]
+    },
+    {
+      "id": "convenience-yield",
+      "term": "convenience yield",
+      "unit": "g2",
+      "short": "The benefit of holding the physical good now",
+      "definition": "The value of having the actual commodity in hand, such as keeping a refinery running when supply is tight. It lowers futures prices relative to spot. When it is large, futures trade below spot (backwardation); when stocks are plentiful, it is small and futures trade above spot (contango).",
+      "examples": [
+        "Supplies are tight, so the convenience yield is high and crude is in backwardation.",
+        "Fair value of a commodity future is spot plus storage and interest, minus convenience yield.",
+        "Nobody needs extra copper right now: convenience yield is near zero."
+      ],
+      "fill": "Refiners will pay up to hold crude now when supply is tight; that benefit is the ____.",
+      "confusables": [
+        "cost-of-carry",
+        "backwardation",
+        "storage-cost"
+      ],
+      "wrong": [
+        "The interest earned on cash margin",
+        "The dividend paid by a commodity fund",
+        "The discount for buying in bulk"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "storage-cost",
+      "term": "storage cost",
+      "unit": "g2",
+      "short": "Warehousing and insurance for the physical good",
+      "definition": "The cost of keeping a physical commodity: warehouse rent, insurance, and for some goods spoilage. Along with interest, it is why commodity futures usually trade above spot when supply is ample. Gold is cheap to store; natural gas and grain are not.",
+      "examples": [
+        "Gold's storage cost is tiny, so its futures sit just above spot plus interest.",
+        "When tanks fill up, storage cost soars and the crude curve slopes steeply up.",
+        "Storage cost is why far-month grain futures trade at a premium."
+      ],
+      "fill": "Warehouse rent and insurance for holding a commodity are its ____.",
+      "confusables": [
+        "cost-of-carry",
+        "convenience-yield",
+        "contango"
+      ],
+      "wrong": [
+        "The brokerage paid on a futures trade",
+        "The tax on delivering a commodity",
+        "The margin blocked for a position"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "super-contango",
+      "term": "super contango",
+      "unit": "g2",
+      "short": "Futures far above spot because storage is full",
+      "definition": "An extreme contango where later futures trade far above spot because storage is nearly full and holding the physical good is very expensive. In April 2020 US crude storage filled up and the expiring WTI future settled below zero.",
+      "examples": [
+        "In super contango, traders hire tankers just to store oil and sell it forward.",
+        "The April 2020 negative crude price was super contango at its most extreme.",
+        "Roll yield is brutal in super contango: each roll loses money."
+      ],
+      "fill": "When storage is nearly full and far futures trade hugely above spot, the market is in ____.",
+      "confusables": [
+        "contango",
+        "storage-cost",
+        "roll-yield"
+      ],
+      "wrong": [
+        "Futures trading far below spot",
+        "A sudden spike in spot prices",
+        "Contracts expiring on the same day"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "crack-spread",
+      "term": "crack spread",
+      "unit": "g2",
+      "short": "Refined fuel prices minus crude: refiner margin",
+      "definition": "The difference between the price of refined products like petrol and diesel and the price of the crude oil they are made from. It is a proxy for refining margins, so traders watch it for refiners such as Reliance, BPCL and IOC.",
+      "examples": [
+        "The diesel crack spread widened, which is good news for the refiners' next results.",
+        "Crude is up but the crack spread is shrinking: refiners can't pass on the cost.",
+        "Gross refining margins track the regional crack spread."
+      ],
+      "fill": "Petrol and diesel prices minus the crude price, a gauge of refiner margins, is the ____.",
+      "confusables": [
+        "energy-futures",
+        "spread",
+        "ebitda-margin"
+      ],
+      "wrong": [
+        "The gap between Brent and WTI crude",
+        "The bid-ask spread on crude futures",
+        "The tax on petrol at the pump"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "A wider crack spread means refiners earn more per barrel: positive for Reliance, BPCL, IOC and HPCL margins.",
+        "down": "A narrower crack spread squeezes refining margins, often a sign of weak fuel demand."
+      }
+    },
+    {
+      "id": "gold-silver-ratio",
+      "term": "gold-silver ratio",
+      "unit": "g2",
+      "short": "How many ounces of silver buy one of gold",
+      "definition": "The gold price divided by the silver price. A high ratio means silver is cheap against gold, which often happens in fearful times; it tends to fall when industrial demand picks up. Traders use it to switch between the two metals or to trade the spread.",
+      "examples": [
+        "The gold-silver ratio is at 90, so the desk thinks silver is cheap against gold.",
+        "Silver outran gold in the recovery and the gold-silver ratio dropped to 70.",
+        "In a panic, gold holds up and the gold-silver ratio jumps."
+      ],
+      "fill": "Gold at $2,000 and silver at $25 gives a ____ of 80.",
+      "confusables": [
+        "bullion",
+        "pairs-trading"
+      ],
+      "wrong": [
+        "The share of gold in an ETF's assets",
+        "The purity of a gold bar",
+        "The import duty on gold over silver"
+      ],
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "Gold is $2,400 an ounce and silver is $30 an ounce. What is the gold-silver ratio?",
+          "options": [
+            "80",
+            "72",
+            "8",
+            "0.0125"
+          ],
+          "answer": 0,
+          "why": "2,400 ÷ 30 = 80: one ounce of gold buys 80 ounces of silver."
+        }
+      ]
+    },
+    {
+      "id": "inventory-report",
+      "term": "inventory report",
+      "unit": "g2",
+      "short": "Weekly stock data that moves commodity prices",
+      "definition": "Regular data on how much of a commodity sits in storage, such as the US Energy Information Administration's weekly crude stocks, released on Wednesday evenings India time. A bigger draw than expected is bullish, a surprise build bearish. LME warehouse stocks play the same role for metals.",
+      "examples": [
+        "The EIA inventory report showed a 5-million-barrel draw and MCX crude jumped ₹150.",
+        "Traders square off before the Wednesday inventory report.",
+        "LME copper stocks fell for a tenth day: the inventory report is bullish."
+      ],
+      "fill": "MCX crude often jumps around 8–9 pm on Wednesdays, when the US weekly ____ comes out.",
+      "confusables": [
+        "energy-futures",
+        "headline-risk"
+      ],
+      "wrong": [
+        "A company's list of unsold goods",
+        "The exchange's report on open interest",
+        "The RBI's weekly statistical supplement"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "A surprise build in stocks means supply is outrunning demand: bearish for the price.",
+        "down": "A bigger-than-expected draw means demand is eating into supply: bullish for the price."
+      }
+    },
+    {
+      "id": "opec-plus",
+      "term": "OPEC+",
+      "unit": "g2",
+      "short": "Oil producers that coordinate output",
+      "definition": "The OPEC countries plus allies such as Russia, which agree production targets to steer the oil price. Their meetings and surprise cuts or increases are among the biggest scheduled risks for crude, and so for India's import bill and the rupee.",
+      "examples": [
+        "OPEC+ announced a surprise cut and MCX crude gapped up 6% at the open.",
+        "The desk went flat into the OPEC+ meeting.",
+        "If OPEC+ adds supply, Indian oil marketing companies rally."
+      ],
+      "fill": "The group of oil producers, including Saudi Arabia and Russia, that sets output targets is ____.",
+      "confusables": [
+        "energy-futures",
+        "event-risk"
+      ],
+      "wrong": [
+        "The US agency that reports crude stocks",
+        "India's oil regulator",
+        "The exchange where Brent crude trades"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "devolvement",
+      "term": "devolvement",
+      "unit": "g3",
+      "short": "An MCX option turning into a futures position",
+      "definition": "On MCX, many options are options on futures: at expiry an in-the-money option doesn't pay cash but becomes a position in the underlying futures contract, which must be margined. Traders who forget this can wake up with an unexpected futures position.",
+      "examples": [
+        "His gold call was in the money at expiry, so it devolved into a long gold futures position.",
+        "Square off before expiry if you don't want devolvement and the futures margin that comes with it.",
+        "Devolvement means the option becomes a future; you then need futures margin."
+      ],
+      "fill": "On MCX, an in-the-money option on futures becomes a futures position at expiry: this is called ____.",
+      "confusables": [
+        "physical-settlement",
+        "cash-settlement",
+        "exercise-stt"
+      ],
+      "wrong": [
+        "Rolling a futures contract to the next month",
+        "The exchange closing your position for low margin",
+        "Delivery of gold bars to your demat account"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "mini-contract",
+      "term": "mini contract",
+      "unit": "g3",
+      "short": "A smaller lot of the same commodity",
+      "definition": "A scaled-down version of a commodity contract, such as gold mini or silver micro on MCX, so smaller traders and hedgers can match their exposure. It tracks the same price but needs much less margin. Liquidity can be thinner than in the main contract.",
+      "examples": [
+        "The jeweller hedges with gold mini because the big lot is a kilogram.",
+        "Silver micro is a mini contract for people who want a small position.",
+        "The mini contract's spread is wider than the main one's."
+      ],
+      "fill": "Gold mini and silver micro on MCX are examples of a ____.",
+      "confusables": [
+        "lot-size",
+        "notional"
+      ],
+      "wrong": [
+        "A contract that expires within a week",
+        "A contract on a commodity index",
+        "A contract with a discounted price"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "daily-price-range",
+      "term": "daily price range",
+      "unit": "g3",
+      "short": "The most a commodity future may move in a day",
+      "definition": "The band within which a commodity contract may trade in a session, set by the exchange as a percentage from the previous close. When the price reaches the limit, the band is widened in steps after a short pause, rather than trading halting for the day. Equities have a similar idea in circuit limits.",
+      "examples": [
+        "Crude hit its daily price range limit and paused before the band widened.",
+        "The daily price range on this agri contract is narrow, so big news takes days to price in.",
+        "Check the daily price range before placing a stop beyond it."
+      ],
+      "fill": "MCX sets a ____ for each contract: a band from yesterday's close that can widen in steps.",
+      "confusables": [
+        "circuit-limit",
+        "mwcb"
+      ],
+      "wrong": [
+        "The difference between the day's high and low",
+        "The spread between bid and ask",
+        "The maximum position a trader may hold"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "DPR"
+      ]
+    },
+    {
+      "id": "hedger",
+      "term": "hedger",
+      "unit": "g3",
+      "short": "Uses futures to protect a business, not to bet",
+      "definition": "A participant with real exposure to a commodity, such as a jeweller holding gold, a refiner buying crude or an exporter earning dollars, who takes the opposite futures position to protect margins. Hedgers accept giving up gains to avoid losses; speculators take the other side.",
+      "examples": [
+        "The jeweller is a hedger: he sells gold futures against the stock in his showroom.",
+        "Hedgers dominate the short side of the agri contracts at harvest.",
+        "A hedger cares about the business margin, not the futures P&L alone."
+      ],
+      "fill": "A copper wire maker who buys copper futures to lock in next month's input cost is a ____.",
+      "confusables": [
+        "hedge",
+        "operator",
+        "anticipatory-hedge"
+      ],
+      "wrong": [
+        "A trader who bets on short-term price moves",
+        "A broker who matches buyers and sellers",
+        "An investor who holds only cash"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "domestic-premium",
+      "term": "domestic premium",
+      "unit": "g3",
+      "short": "Indian price above or below import parity",
+      "definition": "How far the Indian price of a commodity, especially gold, sits above or below what it should cost to import. Dealers charge a premium when local demand is strong, such as at Diwali and in the wedding season, and offer a discount when demand is weak or duty is about to be cut.",
+      "examples": [
+        "Wedding demand pushed the domestic premium on gold to $10 an ounce.",
+        "Dealers offered a discount instead of a domestic premium after prices spiked.",
+        "A big domestic premium invites more imports."
+      ],
+      "fill": "Gold selling in India $8 an ounce above import parity during the wedding season carries a ____.",
+      "confusables": [
+        "import-parity",
+        "premium"
+      ],
+      "wrong": [
+        "Extra margin on Indian contracts",
+        "The fee for delivering gold to a vault",
+        "The tax collected on gold jewellery"
+      ],
+      "difficulty": 3
+    }
+  ]
+}

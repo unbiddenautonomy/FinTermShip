@@ -15,6 +15,8 @@ describe('rates, macro and the rupee', () => {
       ['m1', 1],
       ['m3', 1],
       ['m2', 2],
+      ['m4', 2],
+      ['m5', 2],
     ]);
   });
 
