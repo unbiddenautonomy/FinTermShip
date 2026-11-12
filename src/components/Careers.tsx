@@ -1,6 +1,8 @@
 import careerData from '../data/careers.json';
 import { unitOpen } from '../lib/choose';
 import { path, unitById } from '../lib/content';
+import { mockByRound, mockReady } from '../lib/mock';
+import { PROJECTS, projectDone, projectState } from '../lib/projects';
 import { unitDone } from '../lib/track';
 import type { CareerMap, Progress } from '../lib/types';
 import { Briefcase, Check, Lock } from './icons';
@@ -12,10 +14,12 @@ interface Props {
   progress: Progress;
   onBack: () => void;
   onOpenUnit: (unitId: string) => void;
+  onOpenProject: (projectId: string) => void;
+  onOpenMock: (round: string) => void;
 }
 
 /** A reading screen, off the track: where the quant units lead, and how firms hire. */
-export function Careers({ progress, onBack, onOpenUnit }: Props) {
+export function Careers({ progress, onBack, onOpenUnit, onOpenProject, onOpenMock }: Props) {
   return (
     <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5">
       <header className="flex items-center gap-3">
@@ -57,6 +61,41 @@ export function Careers({ progress, onBack, onOpenUnit }: Props) {
       </section>
 
       <section>
+        <SectionTitle aside={`${PROJECTS.filter((pr) => projectDone(progress, pr.id)).length} of ${PROJECTS.length} done`}>Project track</SectionTitle>
+        <p className="mb-3 px-1 text-sm leading-relaxed text-ink-2">
+          The app can make the words, the maths and the judgment automatic. The rest of the job is writing code on real data and defending the result. These six projects run in
+          Colab or Jupyter; each has a brief, a checklist and review questions here.
+        </p>
+        <ol className="space-y-2">
+          {PROJECTS.map((pr, i) => {
+            const s = projectState(progress, pr.id);
+            const done = projectDone(progress, pr.id);
+            return (
+              <li key={pr.id}>
+                <button
+                  type="button"
+                  onClick={() => onOpenProject(pr.id)}
+                  className="flex w-full items-center gap-3 rounded-2xl border border-line bg-surface p-4 text-left transition hover:border-brand/50"
+                >
+                  <span
+                    className={`num flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-extrabold ${done ? 'bg-brand text-white' : 'bg-violet-soft text-violet-ink'}`}
+                  >
+                    {done ? <Check className="h-4 w-4" /> : i + 1}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <span className="block font-extrabold text-ink">{pr.title}</span>
+                    <span className="block text-sm text-ink-3">
+                      {s.done.length} of {pr.steps.length} steps{s.reviewed ? ' · review passed' : ''}
+                    </span>
+                  </span>
+                </button>
+              </li>
+            );
+          })}
+        </ol>
+      </section>
+
+      <section>
         <SectionTitle aside={`${careers.rounds.length} rounds`}>How interviews usually run</SectionTitle>
         <ol className="space-y-3">
           {careers.rounds.map((round, i) => (
@@ -66,6 +105,7 @@ export function Careers({ progress, onBack, onOpenUnit }: Props) {
                 <h3 className="font-extrabold text-ink">{round.name}</h3>
                 <p className="text-sm leading-relaxed text-ink-2">{round.what}</p>
                 {round.practise.length > 0 && <UnitLinks ids={round.practise} progress={progress} onOpenUnit={onOpenUnit} />}
+                {mockByRound.has(round.name) && <MockButton round={round.name} progress={progress} onOpenMock={onOpenMock} />}
               </div>
             </li>
           ))}
@@ -74,6 +114,25 @@ export function Careers({ progress, onBack, onOpenUnit }: Props) {
 
       <p className="px-1 text-xs leading-relaxed text-ink-3">{careers.note}</p>
     </div>
+  );
+}
+
+function MockButton({ round, progress, onOpenMock }: { round: string; progress: Progress; onOpenMock: (round: string) => void }) {
+  const spec = mockByRound.get(round)!;
+  const best = progress.mocks?.[round];
+  const ready = !!best && mockReady(best.best, best.total);
+  return (
+    <button
+      type="button"
+      onClick={() => onOpenMock(round)}
+      className={`flex w-full items-center gap-2 rounded-xl border px-3 py-2 text-left text-sm font-bold transition hover:border-violet/50 ${
+        ready ? 'border-brand/40 bg-brand-soft text-brand-ink' : 'border-line bg-sunken text-ink'
+      }`}
+    >
+      {ready && <Check className="h-4 w-4 shrink-0" />}
+      <span className="flex-1">Timed mock round</span>
+      <span className="num text-xs font-semibold text-ink-3">{best ? `best ${best.best} of ${best.total}` : `${spec.count} in ${spec.minutes} min`}</span>
+    </button>
   );
 }
 

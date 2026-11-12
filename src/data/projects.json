@@ -1,0 +1,441 @@
+[
+  {
+    "id": "p1",
+    "title": "Returns and volatility from NSE data",
+    "summary": "Load ten years of daily prices for a few Nifty stocks and the index, and turn them into the numbers every analysis starts from: returns, rolling volatility, drawdowns and correlations.",
+    "data": [
+      "NSE's daily bhavcopy archive, or a library such as yfinance with .NS tickers",
+      "Prices adjusted for splits, bonuses and dividends"
+    ],
+    "steps": [
+      "Load daily closes for Nifty 50 and five large stocks, and check for gaps, zeros and duplicate dates",
+      "Adjust for splits and bonuses, and confirm no day shows a fake −50% move",
+      "Compute simple and log daily returns, and check that log returns add up to the total",
+      "Compute 20-day and 60-day rolling volatility, annualised with √252, and plot them",
+      "Compute the drawdown series and the maximum drawdown for each stock and the index",
+      "Compute the correlation matrix of daily returns, then again only on the 20 worst Nifty days",
+      "Write three findings in plain sentences, each with the number behind it"
+    ],
+    "deliverable": "A notebook with the charts, and the three findings at the top.",
+    "stretch": [
+      "Compare realised vol with India VIX over the same dates",
+      "Check whether volatility clusters: is a big day more likely after a big day?"
+    ],
+    "terms": [
+      "annualised-volatility",
+      "max-drawdown",
+      "correlation",
+      "adjusted-prices",
+      "fat-tails"
+    ],
+    "review": [
+      {
+        "q": "A stock's daily returns have a standard deviation of 1.5%. What is its annualised volatility?",
+        "options": [
+          "About 24%",
+          "About 378%",
+          "About 1.5%",
+          "About 9%"
+        ],
+        "why": "1.5% × √252 ≈ 1.5% × 15.9 ≈ 23.8%."
+      },
+      {
+        "q": "One day shows a −50% return in an otherwise calm stock. What is the first thing to check?",
+        "options": [
+          "A 1:2 split or bonus the prices aren't adjusted for",
+          "Whether the stock was in the news that week or month",
+          "Whether the 20-day volatility window is too short",
+          "Whether to drop the stock from the study altogether"
+        ],
+        "why": "Unadjusted corporate actions are the usual cause of fake crashes. Fix the data before reading anything into it."
+      },
+      {
+        "q": "Correlations between your stocks are much higher on the 20 worst Nifty days. What does that mean for a portfolio?",
+        "options": [
+          "Diversification works least when it's needed most",
+          "The stocks are bad hedges in calm markets",
+          "Volatility is lower on bad days",
+          "The correlation estimate is wrong and should be ignored"
+        ],
+        "why": "Correlations rise in sell-offs, so a portfolio that looks diversified on average can fall together in a crash."
+      },
+      {
+        "q": "Why use log returns when adding up returns over time?",
+        "options": [
+          "Log returns add up across days; simple returns compound",
+          "Log returns are always smaller, so they're safer",
+          "Simple returns can't be negative",
+          "Log returns remove the need to adjust prices"
+        ],
+        "why": "The sum of daily log returns is the log of the total growth, so they aggregate cleanly over time."
+      }
+    ]
+  },
+  {
+    "id": "p2",
+    "title": "A momentum backtest with costs",
+    "summary": "Test a 12-month momentum strategy on Nifty 100 stocks, rebalanced monthly, with honest costs and a clean out-of-sample period. This is the classic first research project.",
+    "data": [
+      "Monthly adjusted prices for the Nifty 100, with the members as of each date",
+      "Brokerage, STT and an impact estimate for costs"
+    ],
+    "steps": [
+      "Write the hypothesis and the rules before touching the data, and set aside the last three years as out of sample",
+      "Build the universe as of each month-end, so stocks that later dropped out are included",
+      "Rank stocks on 12-month return skipping the last month, and form a top-decile portfolio",
+      "Lag the signal so each month's portfolio uses only data known at the previous month-end",
+      "Charge costs on every trade: brokerage, STT both ways and about 10 bps of impact",
+      "Report CAGR, Sharpe, maximum drawdown, turnover and hit rate, gross and net of costs",
+      "Run the untouched out-of-sample period once, and compare it with the in-sample results",
+      "Regress the returns on the Nifty to split out beta and alpha"
+    ],
+    "deliverable": "A notebook and a one-page summary: the rules, the gross and net results, and whether it survives costs out of sample.",
+    "stretch": [
+      "Test sensitivity: 6, 9 and 12-month lookbacks, and quintiles instead of deciles",
+      "Add a crash filter and see whether it helps out of sample, not just in sample"
+    ],
+    "terms": [
+      "momentum-factor",
+      "backtest",
+      "survivorship-bias",
+      "look-ahead-bias",
+      "transaction-costs",
+      "out-of-sample",
+      "turnover"
+    ],
+    "review": [
+      {
+        "q": "Your backtest uses today's Nifty 100 members back to 2012. What does that do to the results?",
+        "options": [
+          "It flatters them: stocks that crashed out of the index are missing",
+          "It hurts them, because newer index members are left out entirely",
+          "Nothing changes, as long as all the prices are split-adjusted",
+          "It only changes volatility and drawdowns, not the average return"
+        ],
+        "why": "That's survivorship bias: the stocks that crashed out of the index are exactly the ones a momentum book might have held."
+      },
+      {
+        "q": "Gross Sharpe is 1.2 and net Sharpe is 0.3. What does that point to?",
+        "options": [
+          "High turnover: costs eat most of the edge",
+          "The out-of-sample period is far too short",
+          "The signal must have look-ahead bias in it",
+          "The strategy needs more leverage to work"
+        ],
+        "why": "A big gap between gross and net is a cost problem. Look at turnover and whether slower rebalancing keeps the edge."
+      },
+      {
+        "q": "Why skip the most recent month when measuring 12-month momentum?",
+        "options": [
+          "Last-month returns tend to reverse, which fights the signal",
+          "The latest month's prices aren't published until later",
+          "It makes the backtest run faster on large universes",
+          "Exchange rules require a one-month lag on any signal"
+        ],
+        "why": "One-month returns show short-term reversal, so the standard momentum signal is 12-month return minus the last month."
+      },
+      {
+        "q": "You tried 40 variants in sample and picked the best. How should you read its Sharpe?",
+        "options": [
+          "As an overestimate: the best of many tries is partly luck",
+          "As the expected live Sharpe",
+          "As an underestimate, because costs were included",
+          "As meaningless, since backtests can't be trusted"
+        ],
+        "why": "Selecting the best of many trials inflates performance. Expect less, and judge it on the untouched out-of-sample period."
+      }
+    ]
+  },
+  {
+    "id": "p3",
+    "title": "A pairs trade that might break",
+    "summary": "Find two related stocks, test whether their spread mean-reverts, and trade it with entry, exit and stop rules. Then see what happens when the relationship breaks.",
+    "data": [
+      "Daily adjusted prices for candidate pairs in one sector, such as two private banks or two cement makers",
+      "Single-stock futures margins and lot sizes for the costs and shorting"
+    ],
+    "steps": [
+      "Pick five candidate pairs on economic grounds, before looking at any charts",
+      "Estimate the hedge ratio with a regression on a formation period only",
+      "Test the spread for cointegration (Engle-Granger or ADF) and estimate its half-life",
+      "Set rules: enter at a z-score of ±2, exit near 0, stop at ±4, using rolling statistics",
+      "Backtest on the next period with costs, and record every trade",
+      "Find a period where the pair broke, and explain what changed in the business",
+      "Report hit rate, average win and loss, holding period and worst trade"
+    ],
+    "deliverable": "A notebook with the test results, the trade list and a paragraph on the break.",
+    "stretch": [
+      "Re-estimate the hedge ratio every quarter and compare",
+      "Run the same rules on 20 pairs and see how many survive"
+    ],
+    "terms": [
+      "pairs-trading",
+      "cointegration",
+      "half-life",
+      "z-score",
+      "stop-loss",
+      "regime-change"
+    ],
+    "review": [
+      {
+        "q": "Two stocks are highly correlated but not cointegrated. What does that mean for a pairs trade?",
+        "options": [
+          "The spread can drift away for good, so reversion isn't assured",
+          "The trade is safer than one on a cointegrated pair would be",
+          "The hedge ratio between the two must be exactly one",
+          "They will always move together, so the spread never moves"
+        ],
+        "why": "Correlation is about daily moves; cointegration is about the spread returning to a mean. Only the second supports a pairs trade."
+      },
+      {
+        "q": "The spread's half-life is 60 trading days. What does that tell you?",
+        "options": [
+          "Trades take months to revert, so costs and break risk add up",
+          "The spread usually reverts within a few trading days",
+          "The pair is not cointegrated, so the test was wrong",
+          "You should enter at a z-score of 1 rather than 2"
+        ],
+        "why": "A long half-life means slow convergence, so capital is tied up and costs and the risk of a break build up."
+      },
+      {
+        "q": "Why set a stop at a z-score of 4?",
+        "options": [
+          "A spread that keeps widening may mean the pair has broken",
+          "To lock in profits on the trades that are winning",
+          "Because the exchange requires a stop on all pairs",
+          "To cut brokerage on trades that stay open a while"
+        ],
+        "why": "Mean reversion strategies lose most when the relationship stops holding. A stop caps the damage from a break."
+      },
+      {
+        "q": "You estimated the hedge ratio and z-score on the full sample. What's wrong?",
+        "options": [
+          "It uses future data, so the backtest has look-ahead",
+          "Nothing: more data always gives better estimates",
+          "It makes the half-life come out far too short",
+          "The z-score should use the median, not the mean"
+        ],
+        "why": "Statistics must come from data available at the time: a formation period, then rolling estimates."
+      }
+    ]
+  },
+  {
+    "id": "p4",
+    "title": "A Black-Scholes pricer checked against the market",
+    "summary": "Write a Black-Scholes pricer with Greeks, solve for implied volatility, and check it against the live Nifty option chain. Then plot the smile the model can't explain.",
+    "data": [
+      "The Nifty option chain from the NSE website, saved at one time of day",
+      "Nifty spot or futures at the same time, and a risk-free rate such as the T-bill yield"
+    ],
+    "steps": [
+      "Code the call and put prices, and check put-call parity holds to a few paise",
+      "Code delta, gamma, vega and theta, and check each against a small bump of the input",
+      "Write an implied-volatility solver (Newton or bisection) and test it on prices you generated",
+      "Download one expiry's chain and back out implied vol at every strike with enough volume",
+      "Plot implied vol against strike: the smile, or skew",
+      "Compare the at-the-money straddle price with the implied move it gives",
+      "Note where the model and the market disagree, and why traders accept it"
+    ],
+    "deliverable": "A notebook with the pricer, tests and the smile chart.",
+    "stretch": [
+      "Use the Nifty future instead of spot to avoid guessing the dividend yield",
+      "Repeat across three expiries and plot the term structure"
+    ],
+    "terms": [
+      "black-scholes",
+      "implied-volatility",
+      "volatility-skew",
+      "put-call-parity",
+      "delta",
+      "gamma",
+      "vega"
+    ],
+    "review": [
+      {
+        "q": "Your call price and put price break put-call parity by ₹40. What is most likely wrong?",
+        "options": [
+          "A bug in the pricer, or mismatched rate or time inputs",
+          "The market is offering free money on this expiry",
+          "Black-Scholes doesn't apply to puts, only calls",
+          "The option chain was delayed when you saved it"
+        ],
+        "why": "Parity follows from no-arbitrage alone. A big break in your own model's prices means a coding or input error."
+      },
+      {
+        "q": "Out-of-the-money puts show higher implied vol than out-of-the-money calls. What is this called?",
+        "options": [
+          "Skew: traders pay up for downside protection",
+          "Term structure: far expiries cost more",
+          "Vol crush: implied vol falls after events",
+          "Gamma risk: delta moves fast near expiry"
+        ],
+        "why": "In equity indices, demand for crash protection lifts the implied vol of low strikes: the skew."
+      },
+      {
+        "q": "How do you check that your vega is coded right?",
+        "options": [
+          "Bump vol by 1 point, reprice, and compare with vega",
+          "Check that vega always comes out as a positive number",
+          "Compare it with delta at the same strike and expiry",
+          "Make sure vega stays below 1 for every strike shown"
+        ],
+        "why": "A finite-difference bump is the standard check for any Greek."
+      },
+      {
+        "q": "Why might you price off the Nifty future rather than spot?",
+        "options": [
+          "The future already prices in carry and dividends, so fewer guesses",
+          "Spot isn't published during market hours, only at the close",
+          "Futures have no expiry, so time to expiry drops out",
+          "Black-Scholes only works with futures, never with spot"
+        ],
+        "why": "Using the forward (Black's model) avoids estimating dividends and the exact carry."
+      }
+    ]
+  },
+  {
+    "id": "p5",
+    "title": "An execution simulator",
+    "summary": "Simulate working a large buy order against an intraday volume curve. Compare VWAP-style, front-loaded and fixed-rate schedules on cost and risk.",
+    "data": [
+      "Average intraday volume by 15 or 30-minute bucket for a liquid stock",
+      "A simple impact model, such as cost in bps proportional to the square root of participation"
+    ],
+    "steps": [
+      "Build the stock's average volume profile across the day from historical data",
+      "Simulate price paths with realistic intraday volatility",
+      "Code three schedules: follow the volume profile, front-load, and a fixed participation rate",
+      "Add temporary impact per slice and permanent impact that lifts later prices",
+      "Measure each schedule against VWAP and against the arrival price",
+      "Run a thousand days and compare the average cost and the spread of outcomes",
+      "Explain the trade-off between impact and timing risk you see"
+    ],
+    "deliverable": "A notebook with the simulator and a chart of average cost against risk for each schedule.",
+    "stretch": [
+      "Add a participation cap and see which schedules fail to finish",
+      "Fit the impact coefficient to real fills if you can get them"
+    ],
+    "terms": [
+      "vwap",
+      "implementation-shortfall",
+      "market-impact",
+      "participation-rate",
+      "volume-profile",
+      "almgren-chriss",
+      "timing-risk"
+    ],
+    "review": [
+      {
+        "q": "Front-loading beats VWAP on average in your simulator. Why might that be?",
+        "options": [
+          "Your own buying lifts later prices, which raises the VWAP benchmark",
+          "Front-loading always has lower impact than any other schedule",
+          "The volume profile is wrong, so VWAP is mismeasured",
+          "VWAP ignores the opening auction, where front-loaders buy"
+        ],
+        "why": "When your own buying moves the price, early fills look cheap against a VWAP your later trades pushed up. Check against arrival too."
+      },
+      {
+        "q": "Trading faster cuts timing risk but costs what?",
+        "options": [
+          "More market impact per share",
+          "More timing risk",
+          "Lower participation",
+          "Nothing; faster is always better"
+        ],
+        "why": "That's the core trade-off Almgren-Chriss formalises: impact against the risk of prices moving while you wait."
+      },
+      {
+        "q": "Why measure against the arrival price as well as VWAP?",
+        "options": [
+          "VWAP can hide the cost of the market moving while you traded",
+          "The arrival price is always lower than VWAP on a buy",
+          "VWAP is not a benchmark used by Indian brokers",
+          "Arrival price already includes brokerage and STT"
+        ],
+        "why": "Implementation shortfall against arrival captures the full cost of the decision to trade, including drift during execution."
+      },
+      {
+        "q": "Your fixed 10% rate fails to finish on light days. What would fix it best?",
+        "options": [
+          "Size each slice to what's left over the volume left today",
+          "Trade 25% of the volume all day, every day, to be safe",
+          "Buy everything at the open, when volume is heaviest",
+          "Only trade the order on days with heavy volume"
+        ],
+        "why": "A pace that adapts to remaining shares and expected volume finishes without breaching a cap."
+      }
+    ]
+  },
+  {
+    "id": "p6",
+    "title": "A two-page research note",
+    "summary": "Write up one of the projects as a desk memo a PM can read in five minutes: the claim, the evidence, the risks and what you'd do next.",
+    "data": [
+      "Your notebook from one of the other projects"
+    ],
+    "steps": [
+      "Open with the result in two sentences: what you found and how sure you are",
+      "State the hypothesis and why it should work, in plain words",
+      "Show one chart and one table, no more, each with a sentence saying what to see",
+      "Give gross and net numbers, the out-of-sample result and the worst period",
+      "List what could make it fail: costs, capacity, crowding, a regime change",
+      "Say what you'd test next and what result would make you drop the idea",
+      "Ask someone to read it cold, and fix anything they had to ask about"
+    ],
+    "deliverable": "Two pages, as a PDF or a doc, written so someone who missed the meeting gets it.",
+    "stretch": [
+      "Present it in two minutes out loud, then take questions",
+      "Write the one-paragraph version for an email"
+    ],
+    "terms": [
+      "out-of-sample",
+      "risk-adjusted-return",
+      "strategy-capacity",
+      "alpha-decay",
+      "sanity-check"
+    ],
+    "review": [
+      {
+        "q": "What should the first two sentences of a research note do?",
+        "options": [
+          "Give the result and how confident you are",
+          "Describe the data sources",
+          "Thank the people who helped",
+          "Explain the history of the strategy"
+        ],
+        "why": "Busy readers decide from the opening whether to read on, so the answer comes first."
+      },
+      {
+        "q": "Your in-sample Sharpe is 1.8 and out-of-sample 0.6. What goes in the note?",
+        "options": [
+          "Both, with the out-of-sample one as the honest guide",
+          "Only the in-sample number, since it uses more data",
+          "Only the out-of-sample number; drop the in-sample one",
+          "The average of the two, 1.2, as a fair middle ground"
+        ],
+        "why": "Hiding the drop costs you credibility. The out-of-sample figure is the better guide to live performance."
+      },
+      {
+        "q": "Which belongs in the risks section?",
+        "options": [
+          "Capacity: how much it can run before costs eat the edge",
+          "The Python and library versions used for the backtest",
+          "How long the backtest took to run on your laptop",
+          "Ideas for a completely different strategy to try"
+        ],
+        "why": "PMs want to know what can go wrong and how big it can get. Capacity and costs are first on that list."
+      },
+      {
+        "q": "Why say in advance what result would make you drop the idea?",
+        "options": [
+          "It stops you moving the goalposts after the data",
+          "It's required by SEBI for every research note",
+          "It makes the note shorter and easier to read",
+          "It helps the strategy pass its review first time"
+        ],
+        "why": "Committing to a kill criterion in advance is a guard against data snooping and wishful thinking."
+      }
+    ]
+  }
+]
