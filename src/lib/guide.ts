@@ -290,17 +290,24 @@ export const HELP: HelpTopic[] = [
     text: 'I answer from what is in this app: its terms, units, desk cases, career map and settings. I don\'t use an AI model, so I can\'t discuss open questions, but I can find a term, open the right unit, offer a test, or tell you how the app works. Try "what is theta", "teach me option strategies", "I already know options" or "where do I start".',
   },
   {
+    id: 'account',
+    strong: true,
+    match: /\b(sign ?in|log ?in|login|sign ?up|signup|my account|an account|invite|invite code|log ?out|sign ?out|logout)\b/,
+    text: 'Accounts are invite-only. In Settings, under Account, sign in with your email and password, or pick "Have an invite? Create your account" and enter the code you were sent. Signed in, your progress follows you to every device, and any quant or phase 3 access on your account opens those parts without anything else to enter.',
+    action: 'settings',
+  },
+  {
     id: 'backup',
     strong: true,
     match: /\b(back ?up|restore|new phone|other device|another device|transfer|sync|move my progress|lose my progress|lost my progress|save my progress)\b/,
-    text: 'Progress is saved in this browser on this device after every answer. It does not move to other devices on its own, and clearing browser data erases it. To keep it safe or move it, use Save backup in Settings, then Load backup on the other device.',
+    text: 'Progress is saved in this browser on this device after every answer. Sign in under Account in Settings and it syncs to every device you sign in on. Without an account, use Save backup in Settings, then Load backup on the other device; clearing browser data erases progress that is neither synced nor backed up.',
     action: 'settings',
   },
   {
     id: 'reset',
     strong: true,
     match: /\b(reset|start over|erase|delete my progress|clear my progress|wipe)\b/,
-    text: 'Reset progress is at the bottom of Settings, under Start over. It erases all progress on this device and keeps your settings. Save a backup first if you might want it back.',
+    text: 'Reset progress is at the bottom of Settings, under Start over. It erases all progress (on every device, if you are signed in) and keeps your settings. Save a backup first if you might want it back.',
     action: 'settings',
   },
   {
