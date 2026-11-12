@@ -269,7 +269,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
                 ) : (
                   <span key={i}>
                     <span
-                      className={`${/^[,.;:!?)]/.test(part) ? 'ml-1' : 'mx-1'} inline-block min-w-[5rem] rounded-lg border-b-[3px] px-2 text-center font-extrabold ${answered ? 'border-brand bg-brand-soft text-brand-ink' : 'border-ink-3 bg-sunken'}`}
+                      className={`${/^[,.;:!?)]/.test(part) ? 'ml-1' : 'mx-1'} inline-block min-w-[5rem] rounded-lg border-b-[3px] px-2 text-center font-extrabold ${answered ? 'border-good bg-good-soft text-good-ink' : 'border-ink-3 bg-sunken'}`}
                     >
                       {answered ? (q.context?.blank ?? term.term) : ' '}
                     </span>
@@ -357,16 +357,16 @@ function Feedback({ q, term, correct, retryQueued, onNext }: { q: ScoredQuestion
   const headline = correct ? praise : talk ? (misuse ? 'That one is fine' : 'Not quite') : worked ? `Answer: ${q.options[q.answer]}` : `Answer: ${term.term}`;
   return (
     <footer
-      className={`pb-safe fixed inset-x-0 bottom-0 z-40 animate-sheet rounded-t-3xl px-4 pt-5 shadow-sheet ${correct ? 'bg-brand-soft' : 'bg-bad-soft'}`}
+      className={`pb-safe fixed inset-x-0 bottom-0 z-40 animate-sheet rounded-t-3xl px-4 pt-5 shadow-sheet ${correct ? 'bg-good-soft' : 'bg-bad-soft'}`}
       role="status"
       aria-live="polite"
     >
       <div className="mx-auto max-w-xl space-y-3">
         <div className="flex items-center gap-3">
-          <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white ${correct ? 'bg-brand' : 'bg-bad'}`}>
+          <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white ${correct ? 'bg-good' : 'bg-bad'}`}>
             {correct ? <Check className="h-5 w-5" /> : <Cross className="h-5 w-5" />}
           </span>
-          <p className={`text-xl font-extrabold ${correct ? 'text-brand-ink' : 'text-bad-ink'}`}>{headline}</p>
+          <p className={`text-xl font-extrabold ${correct ? 'text-good-ink' : 'text-bad-ink'}`}>{headline}</p>
         </div>
         {talk && !correct && (
           <p className="leading-relaxed text-ink">
@@ -497,8 +497,8 @@ function Options({
         let style = 'border-line bg-surface text-ink shadow-press-line hover:bg-sunken/60 active:translate-y-[1px] active:shadow-none';
         let badge = 'border-line text-ink-3';
         if (done && i === q.answer) {
-          style = 'border-brand bg-brand-soft text-brand-ink';
-          badge = 'border-brand bg-brand text-white';
+          style = 'border-good bg-good-soft text-good-ink';
+          badge = 'border-good bg-good text-white';
         } else if (done && i === picked) {
           style = 'animate-shake border-bad bg-bad-soft text-bad-ink';
           badge = 'border-bad bg-bad text-white';

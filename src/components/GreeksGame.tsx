@@ -157,11 +157,11 @@ function Split({ item }: { item: GreeksItem }) {
           <div className="flex items-baseline justify-between gap-2 text-sm">
             <span className="font-extrabold text-ink">{r.name}</span>
             <span className="num text-xs text-ink-3">{r.how}</span>
-            <span className={`num font-extrabold ${r.value >= 0 ? 'text-brand-ink' : 'text-bad-ink'}`}>{rupees(r.value)}</span>
+            <span className={`num font-extrabold ${r.value >= 0 ? 'text-good-ink' : 'text-bad-ink'}`}>{rupees(r.value)}</span>
           </div>
           <div className="relative mt-1 h-2 rounded-full bg-surface">
             <div
-              className={`absolute top-0 h-2 rounded-full ${r.value >= 0 ? 'bg-brand' : 'bg-bad'}`}
+              className={`absolute top-0 h-2 rounded-full ${r.value >= 0 ? 'bg-good' : 'bg-bad'}`}
               style={{ width: `${(Math.abs(r.value) / top) * 50}%`, left: r.value >= 0 ? '50%' : `${50 - (Math.abs(r.value) / top) * 50}%` }}
             />
             <div className="absolute left-1/2 top-[-2px] h-3 w-px bg-ink-3" />

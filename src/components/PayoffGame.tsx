@@ -162,7 +162,7 @@ export function PayoffGame({ unitId, seed, progress, today, onProgress, onFinish
           <span className="flex items-center gap-1.5">
             <span className="inline-block h-0 w-5 border-t-[3px] border-brand" /> Yours
           </span>
-          <span className={`font-extrabold ${matches ? 'text-brand-ink' : ''}`}>{matches ? 'Lines match' : 'Not matching yet'}</span>
+          <span className={`font-extrabold ${matches ? 'text-good-ink' : ''}`}>{matches ? 'Lines match' : 'Not matching yet'}</span>
         </div>
       </section>
 
@@ -244,7 +244,7 @@ function Row({ label, sub, atm, children }: { label: string; sub: string; atm?: 
 }
 
 function Qty({ value, label, disabled, held, onChange }: { value: number; label: string; disabled?: boolean; held?: boolean; onChange: (d: number) => void }) {
-  const tone = value > 0 ? 'text-brand-ink' : value < 0 ? 'text-bad-ink' : 'text-ink-3';
+  const tone = value > 0 ? 'text-good-ink' : value < 0 ? 'text-bad-ink' : 'text-ink-3';
   const locked = disabled || held;
   return (
     <span className={`flex w-[7.5rem] items-center justify-between rounded-xl border p-1 ${held ? 'border-sky bg-sky-soft' : 'border-line bg-surface'} ${disabled ? 'opacity-40' : ''}`}>

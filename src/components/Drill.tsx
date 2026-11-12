@@ -187,13 +187,13 @@ export function Drill({ unitId, seed, progress, today, onProgress, onFinish, onQ
         <div
           key={`a${shake}`}
           className={`mt-6 flex min-h-[64px] items-center rounded-2xl border-2 px-4 ${shake ? 'animate-shake' : ''} ${
-            state === 'right' ? 'border-brand bg-brand-soft' : state === 'wrong' ? 'border-bad bg-bad-soft' : 'border-line bg-surface'
+            state === 'right' ? 'border-good bg-good-soft' : state === 'wrong' ? 'border-bad bg-bad-soft' : 'border-line bg-surface'
           }`}
         >
           <output aria-label="Your answer" aria-live="polite" className="num flex-1 font-mono text-[28px] font-semibold text-ink">
             {input.replace(/-/g, '−') || <span className="font-sans text-base font-semibold text-ink-3">{ANSWER_HINT[q.kind]}</span>}
           </output>
-          {state === 'right' && <Check className="h-7 w-7 text-brand" />}
+          {state === 'right' && <Check className="h-7 w-7 text-good" />}
           {state === 'wrong' && <Cross className="h-7 w-7 text-bad" />}
         </div>
         {hint && (

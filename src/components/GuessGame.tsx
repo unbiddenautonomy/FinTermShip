@@ -117,7 +117,7 @@ export function GuessGame({ unitId, seed, progress, today, onProgress, onFinish,
               disabled={locked}
               onClick={() => lock(i)}
               className={`rounded-2xl border-2 bg-surface p-3 text-left transition ${
-                locked ? (i === item.answer ? 'border-brand' : i === guess ? 'border-bad' : 'border-line opacity-60') : 'border-line shadow-press-line active:translate-y-[1px] active:shadow-none'
+                locked ? (i === item.answer ? 'border-good' : i === guess ? 'border-bad' : 'border-line opacity-60') : 'border-line shadow-press-line active:translate-y-[1px] active:shadow-none'
               }`}
             >
               <span className="text-sm font-extrabold text-ink">Series {i === 0 ? 'A' : 'B'}</span>
@@ -247,7 +247,7 @@ function Bars({ returns, scale, grid = false }: { returns: number[]; scale: numb
           </g>
         ))}
       {returns.map((r, i) => (
-        <rect key={i} x={left + i * bw + 0.5} width={Math.max(bw - 1, 1)} y={r >= 0 ? y(r) : mid} height={Math.max(Math.abs(y(r) - mid), 0.5)} className={r >= 0 ? 'fill-brand' : 'fill-bad'} />
+        <rect key={i} x={left + i * bw + 0.5} width={Math.max(bw - 1, 1)} y={r >= 0 ? y(r) : mid} height={Math.max(Math.abs(y(r) - mid), 0.5)} className={r >= 0 ? 'fill-good' : 'fill-bad'} />
       ))}
     </svg>
   );

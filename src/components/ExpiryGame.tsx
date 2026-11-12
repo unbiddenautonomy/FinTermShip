@@ -205,7 +205,7 @@ export function ExpiryGame({ unitId, seed, progress, today, onProgress, onFinish
         <div className="mt-1 flex items-baseline gap-2">
           <span className="text-sm font-bold text-ink-3">Nifty</span>
           <span className="num text-3xl font-extrabold text-ink">{nifty(spot)}</span>
-          <span className={`num text-sm font-bold ${move >= 0 ? 'text-brand-ink' : 'text-bad-ink'}`}>{pts(Math.round(move))}</span>
+          <span className={`num text-sm font-bold ${move >= 0 ? 'text-good-ink' : 'text-bad-ink'}`}>{pts(Math.round(move))}</span>
         </div>
         <SpotChart day={day} upTo={shownStep} wings={book.wings} />
         <dl className="mt-2 grid grid-cols-2 gap-x-4 gap-y-1 text-sm">
@@ -234,7 +234,7 @@ export function ExpiryGame({ unitId, seed, progress, today, onProgress, onFinish
             </>
           )}
           <dt className="font-bold text-ink-2">P&L</dt>
-          <dd className={`num text-right text-base font-extrabold ${mark.pnl >= 0 ? 'text-brand-ink' : 'text-bad-ink'}`}>{pts(mark.pnl)}</dd>
+          <dd className={`num text-right text-base font-extrabold ${mark.pnl >= 0 ? 'text-good-ink' : 'text-bad-ink'}`}>{pts(mark.pnl)}</dd>
         </dl>
         {day.event && minute < day.event.minute && <p className="mt-2 rounded-xl bg-amber-soft px-3 py-2 text-sm font-bold text-amber-ink">{day.event.name} today.</p>}
         {step === 1 && !last && <p className="mt-2 text-sm text-ink-3">Biggest open interest: the {nifty(day.strike)} calls and puts.</p>}
