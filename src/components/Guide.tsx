@@ -76,7 +76,7 @@ export function Guide({ progress, today, log, onLog, onOpenUnit, onFocus, onTest
   return (
     <div className="mx-auto flex max-w-xl lg:max-w-3xl flex-col px-4 pb-44 lg:pb-28 pt-5">
       <div className="mb-4">
-        <h1 className="text-2xl font-extrabold tracking-tight text-ink">Guide</h1>
+        <h1 className="text-2xl font-display font-semibold tracking-tight text-ink">Guide</h1>
         <p className="mt-1 text-sm text-ink-3">Answers from this app's own lessons, cases and settings. No AI model, so ask about terms, topics or the app.</p>
       </div>
 
