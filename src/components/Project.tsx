@@ -34,7 +34,7 @@ export function ProjectScreen({ projectId, progress, onProgress, onBack }: Props
           <Briefcase className="h-4 w-4" />
           Project {project.id.slice(1)} of 6
         </p>
-        <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-ink">{project.title}</h1>
+        <h1 className="mt-1 text-2xl font-display font-semibold tracking-tight text-ink">{project.title}</h1>
         <p className="mt-2 leading-relaxed text-ink-2">{project.summary}</p>
         {projectDone(progress, projectId) && <p className="mt-2 inline-block rounded-full bg-brand-soft px-3 py-1 text-sm font-extrabold text-brand-ink">Done</p>}
       </div>

@@ -84,10 +84,10 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-6 px-4 pb-32 pt-5 lg:grid lg:max-w-6xl lg:grid-flow-row-dense lg:grid-cols-[minmax(0,1fr)_23rem] lg:items-start lg:gap-x-10 lg:px-8 lg:pb-12 lg:pt-8">
       <header className="flex items-center justify-between lg:col-span-2">
-        <h1 className="hidden text-2xl font-extrabold tracking-tight text-ink lg:block">Learn</h1>
+        <h1 className="hidden text-2xl font-display font-semibold tracking-tight text-ink lg:block">Learn</h1>
         <div className="flex items-center gap-2.5 lg:hidden">
           <Logo className="h-8 w-8" />
-          <span className="text-xl font-extrabold tracking-tight text-ink">FinTermShip</span>
+          <span className="font-display text-[22px] font-semibold tracking-tight text-ink">FinTermShip</span>
         </div>
         <div className="flex items-center gap-2">
           <span
@@ -98,7 +98,7 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
             <Flame className="h-4 w-4" />
             {streak}
           </span>
-          <span className="num inline-flex items-center gap-1 rounded-full bg-sky-soft px-3 py-1.5 text-sm font-extrabold text-sky-ink" aria-label={`${progress.xp} XP`}>
+          <span className="num inline-flex items-center gap-1 rounded-full bg-violet-soft px-3 py-1.5 text-sm font-extrabold text-violet-ink" aria-label={`${progress.xp} XP`}>
             <Bolt className="h-4 w-4" />
             {progress.xp}
           </span>

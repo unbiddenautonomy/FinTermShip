@@ -46,7 +46,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
     <div className="mx-auto max-w-xl px-4 pb-32 pt-5 lg:grid lg:max-w-6xl lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-x-8 lg:px-8 lg:pb-12 lg:pt-8">
       <div className="min-w-0">
       <div className="mb-4 flex items-baseline justify-between">
-        <h1 className="text-2xl font-extrabold tracking-tight text-ink">Glossary</h1>
+        <h1 className="text-2xl font-display font-semibold tracking-tight text-ink">Glossary</h1>
         <span className="num text-sm font-semibold text-ink-3">{categories.reduce((n, c) => n + c.terms.length, 0)} terms</span>
       </div>
 
