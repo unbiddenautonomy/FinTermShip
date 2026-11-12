@@ -27,7 +27,8 @@ import { Results } from './components/Results';
 import { Settings } from './components/Settings';
 import { useAccount } from './components/useAccount';
 import { useGameKeys, useSlashKey } from './components/useKeys';
-import { BookIcon, ChatIcon, GearIcon, Logo, PathIcon } from './components/icons';
+import { BookIcon, ChartIcon, ChatIcon, GearIcon, Logo, PathIcon } from './components/icons';
+import { ProgressScreen } from './components/ProgressScreen';
 import { buildPractice, buildTest, withFocus } from './lib/choose';
 import { snoozeDrill } from './lib/drills';
 import { practiceKind } from './lib/content';
@@ -43,7 +44,7 @@ import { buildWeakSpots, weakSpots } from './lib/weak';
 import { currentUnit } from './lib/track';
 import type { GameId, Progress } from './lib/types';
 
-type Tab = 'home' | 'guide' | 'glossary' | 'settings';
+type Tab = 'home' | 'progress' | 'guide' | 'glossary' | 'settings';
 
 const GAME_SCREENS: Record<GameId, typeof MarketGame> = {
   market: MarketGame,
@@ -211,6 +212,12 @@ export default function App() {
         />
       );
     }
+    case 'progress':
+      return (
+        <WithTabs tab="progress" onTab={(name) => setScreen({ name })}>
+          <ProgressScreen progress={progress} today={today} onWeak={practiseWeak} />
+        </WithTabs>
+      );
     case 'glossary':
       return (
         <WithTabs tab="glossary" onTab={(name) => setScreen({ name })}>
@@ -300,6 +307,7 @@ function Kbd({ children }: { children: ReactNode }) {
 
 const TABS: { id: Tab; label: string; icon: typeof PathIcon }[] = [
   { id: 'home', label: 'Learn', icon: PathIcon },
+  { id: 'progress', label: 'Progress', icon: ChartIcon },
   { id: 'guide', label: 'Guide', icon: ChatIcon },
   { id: 'glossary', label: 'Glossary', icon: BookIcon },
   { id: 'settings', label: 'Settings', icon: GearIcon },
@@ -340,7 +348,7 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
       </aside>
       <div className="lg:pl-60">{children}</div>
       <nav className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/90 pt-2 backdrop-blur-md lg:hidden" aria-label="Main">
-        <div className="mx-auto grid max-w-xl grid-cols-4">
+        <div className="mx-auto grid max-w-xl grid-cols-5">
           {TABS.map(({ id, label, icon: Icon }) => {
             const active = id === tab;
             return (
