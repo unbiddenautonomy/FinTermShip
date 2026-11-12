@@ -135,6 +135,7 @@ export function DeskCase({ unitId, seed, progress, today, onProgress, onFinish, 
                   key={i}
                   type="button"
                   disabled={answered}
+                  data-key="choice"
                   onClick={() => setPicks((p) => [...p.slice(0, index), i])}
                   className={`flex w-full items-start gap-3 rounded-2xl border-2 px-4 py-3 text-left transition active:scale-[0.99] ${tone}`}
                 >

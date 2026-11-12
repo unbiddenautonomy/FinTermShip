@@ -239,6 +239,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
                 type="button"
                 role="radio"
                 aria-checked={picked === i}
+                data-key="choice"
                 onClick={() => setPicked(i)}
                 className={`w-full rounded-2xl border-2 px-4 py-3 text-left font-semibold transition ${q.code && /print/.test(q.prompt) ? 'font-mono text-[15px]' : ''} ${picked === i ? 'border-violet bg-violet-soft text-ink' : 'border-line bg-surface text-ink hover:border-violet/50'}`}
               >

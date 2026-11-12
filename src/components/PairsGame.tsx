@@ -206,6 +206,7 @@ export function PairsGame({ unitId, seed, progress, today, onProgress, onFinish,
                   type="button"
                   role="radio"
                   aria-checked={on}
+                  data-key="choice"
                   onClick={() => setPick(p)}
                   className={`rounded-2xl border-2 px-4 py-3 text-left text-[15px] font-bold transition ${on ? 'border-amber bg-amber-soft text-amber-ink' : 'border-line bg-surface text-ink-2'}`}
                 >

@@ -192,6 +192,7 @@ export function KellyGame({ unitId, seed, progress, today, onProgress, onFinish,
                   type="button"
                   role="radio"
                   aria-checked={on}
+                  data-key="choice"
                   onClick={() => setFraction(f)}
                   className={`num min-w-[3.5rem] rounded-xl border-2 px-3 py-2 text-sm font-extrabold transition ${on ? 'border-amber bg-amber-soft text-amber-ink' : 'border-line bg-surface text-ink-2'}`}
                 >
