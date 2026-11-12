@@ -32,6 +32,7 @@ export function Button({
       type={type}
       onClick={onClick}
       disabled={disabled}
+      data-variant={variant}
       className={`inline-flex items-center justify-center gap-2 rounded-2xl px-5 py-3.5 text-[15px] font-extrabold tracking-wide transition disabled:cursor-not-allowed ${styles} ${className}`}
     >
       {children}

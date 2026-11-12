@@ -119,9 +119,15 @@ export function Choices({ labels, picked, answer, onPick, mono = false }: { labe
             key={i}
             type="button"
             disabled={done}
+            data-key="choice"
             onClick={() => onPick(i)}
-            className={`rounded-2xl border-2 px-4 py-3.5 text-left text-[15px] font-bold leading-snug transition ${style}`}
+            className={`flex items-center gap-3 rounded-2xl border-2 px-4 py-3.5 text-left text-[15px] font-bold leading-snug transition ${style}`}
           >
+            {labels.length <= 9 && (
+              <span className="hidden h-7 w-7 shrink-0 items-center justify-center rounded-lg border-2 border-current text-xs font-extrabold opacity-50 lg:flex" aria-hidden="true">
+                {i + 1}
+              </span>
+            )}
             <span className={mono ? 'num font-mono text-[17px] font-semibold' : ''}>{opt}</span>
           </button>
         );
@@ -138,6 +144,7 @@ export function Verdict({ good, title, children, next, onNext }: { good: boolean
       {children}
       <button
         type="button"
+        data-key="next"
         onClick={onNext}
         className={`w-full rounded-2xl px-5 py-3.5 text-[15px] font-extrabold tracking-wide text-white transition active:translate-y-[2px] active:shadow-none bg-brand shadow-press`}
       >
