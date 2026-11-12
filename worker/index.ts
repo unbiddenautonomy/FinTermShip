@@ -30,6 +30,8 @@ export interface Env {
   ASSETS?: { fetch(request: Request): Promise<Response> };
   DB?: D1Database;
   ADMIN_EMAIL?: string;
+  /** The same, set in wrangler.jsonc; ADMIN_EMAIL wins when both are set. */
+  OWNER_EMAIL?: string;
 }
 
 // ---------- Settings ----------
@@ -122,6 +124,8 @@ function looksLikeProgress(x: unknown): x is Progress {
   return !!x && typeof x === 'object' && (x as Progress).version === 1 && typeof (x as Progress).terms === 'object' && typeof (x as Progress).settings === 'object';
 }
 
+const adminEmail = (env: Env) => env.ADMIN_EMAIL || env.OWNER_EMAIL || '';
+
 // ---------- The API ----------
 const schemaReady = new WeakMap<D1Database, Promise<unknown>>();
 function ensureSchema(db: D1Database): Promise<unknown> {
@@ -141,7 +145,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   const route = `${request.method} ${url.pathname}`;
   const db = env.DB;
   // A setup check anyone can open: says what is configured, never the values.
-  if (route === 'GET /api/status') return json({ database: !!db, adminEmail: !!env.ADMIN_EMAIL });
+  if (route === 'GET /api/status') return json({ database: !!db, adminEmail: !!adminEmail(env) });
   if (!db) return fail(503, 'Sign-in is not set up on this server yet.');
   // Writes must come from this site: a second guard beside the SameSite cookie.
   if (request.method !== 'GET') {
@@ -187,7 +191,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     const code = typeof b.invite === 'string' ? b.invite.trim().toUpperCase() : '';
     if (!validEmail(email)) return fail(400, 'Enter a valid email address.');
     if (password.length < 8 || password.length > 200) return fail(400, 'Use a password of at least 8 characters.');
-    const isAdmin = !!env.ADMIN_EMAIL && email === cleanEmail(env.ADMIN_EMAIL);
+    const isAdmin = !!adminEmail(env) && email === cleanEmail(adminEmail(env));
     let grant = { quant: 0, phase3: 0 };
     if (!isAdmin) {
       const invite = await db.prepare('SELECT * FROM invites WHERE code = ?').bind(code).first<{ quant: number; phase3: number; expires: number; used_by: number | null }>();
@@ -196,7 +200,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
         if (!code && !(await db.prepare('SELECT id FROM users WHERE admin = 1').first()))
           return fail(
             403,
-            env.ADMIN_EMAIL
+            adminEmail(env)
               ? 'This email is not the admin email set on the server. Check the ADMIN_EMAIL secret for a typo.'
               : 'The server has no admin email yet. Add ADMIN_EMAIL as a Secret under the Worker’s Settings, Variables and secrets (not the Build settings).',
           );
