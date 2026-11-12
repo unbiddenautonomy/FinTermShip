@@ -4,12 +4,11 @@
  * the drills (typed answers), worked sums on the cards and the code snippets.
  */
 import { categories } from './content';
-import { CODE_ITEMS } from './code';
 import { checkAnswer, DRILLS, type DrillQuestion } from './drills';
 import { shuffle, type Rng } from './questions';
 import type { Progress } from './types';
 
-export type MockSource = { drill: string } | { calcs: string[] } | { code: true };
+export type MockSource = { drill: string } | { calcs: string[] };
 
 export interface MockSpec {
   /** The interview round on the career map this mocks. */
@@ -35,7 +34,6 @@ export const MOCKS: MockSpec[] = [
   },
   { round: 'Markets and options', count: 10, minutes: 10, sources: [{ calcs: ['options', 'instruments', 'trading'] }], about: 'Worked sums on options, futures, carry and margins.' },
   { round: 'Statistics and research', count: 10, minutes: 10, sources: [{ calcs: ['quant'] }], about: 'Worked sums on returns, risk, Sharpe, drawdowns and backtests.' },
-  { round: 'Coding', count: 8, minutes: 8, sources: [{ code: true }], about: 'Read pandas and NumPy, and spot backtest bugs.' },
 ];
 export const mockByRound = new Map(MOCKS.map((m) => [m.round, m]));
 
@@ -50,7 +48,6 @@ function choice(prompt: string, options: string[], why: string, rng: Rng, code?:
 
 function pool(source: MockSource, rng: Rng): MockQuestion[] {
   if ('drill' in source) return DRILLS[source.drill].make(rng).map((d) => ({ kind: 'typed', prompt: d.prompt, drill: d }));
-  if ('code' in source) return shuffle(CODE_ITEMS, rng).map((c) => choice(c.ask, c.options, c.why, rng, c.code));
   const calcs = categories.filter((c) => source.calcs.includes(c.id)).flatMap((c) => c.terms.flatMap((t) => t.calcs ?? []));
   return shuffle(calcs, rng).map((c) => choice(c.q, c.options, c.why, rng));
 }

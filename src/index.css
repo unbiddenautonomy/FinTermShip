@@ -10,8 +10,8 @@
   --sunken: 238 235 226;
   --line: 224 219 206;
   --ink: 20 34 28;
-  --ink-2: 70 84 76;
-  --ink-3: 128 136 126;
+  --ink-2: 58 70 63;
+  --ink-3: 114 122 112;
   --brand: 24 78 57;
   --brand-strong: 12 50 36;
   --brand-soft: 230 238 232;
@@ -38,15 +38,15 @@
 
 /* Dark mode follows the device, unless a page sets data-theme on <html>. */
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
+  :root:not([data-theme='light']):not([data-theme='white']) {
     color-scheme: dark;
     --bg: 11 20 16;
     --surface: 18 31 25;
     --sunken: 24 40 33;
     --line: 40 58 49;
     --ink: 238 234 224;
-    --ink-2: 196 198 186;
-    --ink-3: 130 142 132;
+    --ink-2: 208 210 199;
+    --ink-3: 140 152 142;
     --brand: 40 112 82;
     --brand-strong: 22 70 50;
     --brand-soft: 24 50 39;
@@ -78,8 +78,8 @@
   --sunken: 24 40 33;
   --line: 40 58 49;
   --ink: 238 234 224;
-  --ink-2: 196 198 186;
-  --ink-3: 130 142 132;
+  --ink-2: 208 210 199;
+  --ink-3: 140 152 142;
   --brand: 40 112 82;
   --brand-strong: 22 70 50;
   --brand-soft: 24 50 39;
@@ -103,10 +103,23 @@
   --violet-ink: 232 182 140;
 }
 
+/* White: a bright, plain white look with the same green, copper, right and wrong. */
+:root[data-theme='white'] {
+  color-scheme: light;
+  --bg: 255 255 255;
+  --surface: 255 255 255;
+  --sunken: 245 246 245;
+  --line: 229 229 229;
+  --ink: 45 48 46;
+  --ink-2: 82 88 85;
+  --ink-3: 135 140 137;
+  --brand-soft: 232 242 236;
+}
+
 body {
   @apply bg-bg text-ink antialiased;
-  /* A faint paper grain, like the card stock of the logo, so the ivory ground isn't flat. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .2 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* Manrope's regular weight reads thin on screens; 500 is a touch firmer without looking bold. */
+  font-weight: 500;
   font-family: Manrope, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 
@@ -136,4 +149,35 @@ body {
     animation-duration: 1ms !important;
     transition-duration: 1ms !important;
   }
+}
+
+/*
+ * Texture, on unless turned off in Settings (data-texture="off" on <html>).
+ * Like the logo: green gets the fine grain of the card stock, copper and gold
+ * get the brushed streaks of the foil. Grey noise is blended with soft-light,
+ * so it shades each colour without changing it.
+ */
+:root:not([data-texture='off']) body {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .2 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+:root:not([data-texture='off']) :is(.bg-brand, .bg-brand-strong, .bg-brand-soft) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 .45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  background-blend-mode: soft-light;
+}
+:root:not([data-texture='off']) :is(.bg-violet, .bg-amber, .bg-violet-soft, .bg-amber-soft) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008 1.1' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 .45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+  background-size: 240px 240px;
+  background-blend-mode: soft-light;
+}
+/* On dark copper the same streaks read as wood grain, so they are fainter there. */
+:root[data-theme='dark']:not([data-texture='off']) :is(.bg-violet, .bg-amber, .bg-violet-soft, .bg-amber-soft) {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008 1.1' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 .18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme]):not([data-texture='off']) :is(.bg-violet, .bg-amber, .bg-violet-soft, .bg-amber-soft) {
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008 1.1' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 .18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+  }
+}
+:root[data-theme='white']:not([data-texture='off']) body {
+  background-image: none;
 }

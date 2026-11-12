@@ -24,7 +24,6 @@ import type { GameId, Progress } from './lib/types';
 const LOADERS = {
   Careers: () => import('./components/Careers').then((m) => ({ default: m.Careers })),
   MockRound: () => import('./components/MockRound').then((m) => ({ default: m.MockRound })),
-  ProjectScreen: () => import('./components/Project').then((m) => ({ default: m.ProjectScreen })),
   DeskCase: () => import('./components/DeskCase').then((m) => ({ default: m.DeskCase })),
   Drill: () => import('./components/Drill').then((m) => ({ default: m.Drill })),
   Glossary: () => import('./components/Glossary').then((m) => ({ default: m.Glossary })),
@@ -42,7 +41,6 @@ const LOADERS = {
   RiskGame: () => import('./components/RiskGame').then((m) => ({ default: m.RiskGame })),
   VwapGame: () => import('./components/VwapGame').then((m) => ({ default: m.VwapGame })),
   ReadBookGame: () => import('./components/ReadBookGame').then((m) => ({ default: m.ReadBookGame })),
-  CodeGame: () => import('./components/CodeGame').then((m) => ({ default: m.CodeGame })),
   MarketGame: () => import('./components/MarketGame').then((m) => ({ default: m.MarketGame })),
   PayoffGame: () => import('./components/PayoffGame').then((m) => ({ default: m.PayoffGame })),
   Results: () => import('./components/Results').then((m) => ({ default: m.Results })),
@@ -51,7 +49,6 @@ const LOADERS = {
 };
 const Careers = lazy(LOADERS.Careers);
 const MockRound = lazy(LOADERS.MockRound);
-const ProjectScreen = lazy(LOADERS.ProjectScreen);
 const DeskCase = lazy(LOADERS.DeskCase);
 const Drill = lazy(LOADERS.Drill);
 const Glossary = lazy(LOADERS.Glossary);
@@ -69,7 +66,6 @@ const ExpiryGame = lazy(LOADERS.ExpiryGame);
 const RiskGame = lazy(LOADERS.RiskGame);
 const VwapGame = lazy(LOADERS.VwapGame);
 const ReadBookGame = lazy(LOADERS.ReadBookGame);
-const CodeGame = lazy(LOADERS.CodeGame);
 const MarketGame = lazy(LOADERS.MarketGame);
 const PayoffGame = lazy(LOADERS.PayoffGame);
 const Results = lazy(LOADERS.Results);
@@ -101,13 +97,11 @@ const GAME_SCREENS: Record<GameId, typeof MarketGame> = {
   risk: RiskGame,
   vwap: VwapGame,
   readbook: ReadBookGame,
-  code: CodeGame,
 };
 
 type Screen =
   | { name: Tab; sheet?: string; q?: string }
   | { name: 'careers' }
-  | { name: 'project'; projectId: string }
   | { name: 'mock'; round: string }
   | { name: 'lesson'; plan: LessonPlan; seed: number }
   | { name: 'drill' | 'game' | 'case'; unitId: string; seed: number }
@@ -169,7 +163,7 @@ export default function App() {
 
   // Keyboard: 1 to 9 answer and Enter goes on, in games, cases and mocks; "/" searches the glossary.
   useGameKeys(['game', 'case', 'mock', 'results'].includes(screen.name));
-  const tabScreen = (TABS as { id: string }[]).some((t) => t.id === screen.name) || screen.name === 'careers' || screen.name === 'project';
+  const tabScreen = (TABS as { id: string }[]).some((t) => t.id === screen.name) || screen.name === 'careers';
   const toSearch = useCallback(() => {
     if (!tabScreen) return;
     setScreen((s) => (s.name === 'glossary' ? s : { name: 'glossary' }));
@@ -335,19 +329,12 @@ export default function App() {
             progress={progress}
             onBack={() => setScreen({ name: 'home' })}
             onOpenUnit={setOverlay}
-            onOpenProject={(projectId) => setScreen({ name: 'project', projectId })}
             onOpenMock={(round) => setScreen({ name: 'mock', round })}
           />
         </WithTabs>
       );
     case 'mock':
       return <MockRound key={screen.round} round={screen.round} progress={progress} today={today} onProgress={update} onBack={() => setScreen({ name: 'careers' })} />;
-    case 'project':
-      return (
-        <WithTabs tab="home" onTab={(name) => setScreen({ name })}>
-          <ProjectScreen projectId={screen.projectId} progress={progress} onProgress={update} onBack={() => setScreen({ name: 'careers' })} />
-        </WithTabs>
-      );
     default:
       return (
         <WithTabs tab="home" onTab={(name) => setScreen({ name })}>

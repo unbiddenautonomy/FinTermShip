@@ -87,13 +87,6 @@
       "game": "risk"
     },
     {
-      "id": "q16",
-      "name": "Code reading",
-      "core": false,
-      "kind": "game",
-      "game": "code"
-    },
-    {
       "id": "q17",
       "name": "Random walks and Brownian motion",
       "core": false
