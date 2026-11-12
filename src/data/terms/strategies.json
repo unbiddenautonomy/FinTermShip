@@ -35,6 +35,26 @@
       "name": "Case: hedging a portfolio before the Budget",
       "core": false,
       "kind": "case"
+    },
+    {
+      "id": "y7",
+      "name": "Skew, tail and vol programmes",
+      "core": false
+    },
+    {
+      "id": "y8",
+      "name": "Event and index trades",
+      "core": false
+    },
+    {
+      "id": "y9",
+      "name": "Intraday and swing styles",
+      "core": false
+    },
+    {
+      "id": "y10",
+      "name": "Rates and macro trades",
+      "core": false
     }
   ],
   "terms": [
@@ -1217,6 +1237,717 @@
         }
       ],
       "difficulty": 3
+    },
+    {
+      "id": "skew-trade",
+      "term": "skew trade",
+      "unit": "y7",
+      "short": "Betting on the gap between put and call vols",
+      "definition": "A trade on the shape of the smile rather than the level of volatility: for example selling rich downside puts and buying cheaper upside calls, delta-hedged, when puts look too expensive against calls.",
+      "examples": [
+        "Put skew is at a one-year high, so we're running a skew trade: sell the 25-delta puts, buy the 25-delta calls, delta-hedged.",
+        "The PM asked whether the loss was vol or skew. Level was flat; the skew trade lost because puts got even richer.",
+        "Risk flags that a short-put skew trade loses fast in a crash, exactly when skew steepens."
+      ],
+      "fill": "Downside puts looked far too rich against calls, so the desk sold puts, bought calls and hedged the delta: a ____.",
+      "confusables": [
+        "risk-reversal",
+        "volatility-skew",
+        "volatility-arbitrage"
+      ],
+      "wrong": [
+        "Buying both puts and calls before an event",
+        "Selling the front month and buying the back month",
+        "Hedging delta with futures every hour"
+      ],
+      "tf": [
+        {
+          "s": "A skew trade can lose money even when the overall level of implied volatility doesn't move.",
+          "a": true,
+          "why": "It is a bet on the difference between put and call vols, so a steeper skew hurts a short-skew position even with ATM vol unchanged."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "term-structure-trade",
+      "term": "term-structure trade",
+      "unit": "y7",
+      "short": "Betting on near vs far implied vol",
+      "definition": "A trade on the gap between implied volatility in near and far expiries, usually with calendar spreads: selling expensive near-month vol and buying cheaper far-month vol, or the reverse.",
+      "examples": [
+        "Weekly vol is 4 points over monthly into the event, so we sell weeklies and buy monthlies: a term-structure trade.",
+        "After the event the curve flattened and the term-structure trade made back most of the premium.",
+        "She's long term structure in Bank Nifty: long the far month, short the near, betting the curve steepens back."
+      ],
+      "fill": "With near-month IV well above the far month before results, he sold the near expiry and bought the far: a ____.",
+      "confusables": [
+        "calendar-spread",
+        "vol-term-structure",
+        "futures-calendar-spread"
+      ],
+      "wrong": [
+        "A trade on put vol against call vol",
+        "Buying a bond and selling a longer bond",
+        "Selling options only on expiry day"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "tail-hedge",
+      "term": "tail hedge",
+      "unit": "y7",
+      "short": "Cheap protection against a crash",
+      "definition": "Protection that pays off only in a rare, large fall, such as far out-of-the-money index puts or put spreads. It costs a little every month and is meant to pay many times its cost in a crash.",
+      "examples": [
+        "We spend about 30 bps a year on a tail hedge: 10% out-of-the-money Nifty puts, rolled every month.",
+        "The tail hedge bled for two years and paid for both of them in one week in March.",
+        "The CIO wants a tail hedge before the election, but not one that costs more than a quarter of expected returns."
+      ],
+      "fill": "The fund buys far out-of-the-money index puts every month that only pay off in a crash: its ____.",
+      "confusables": [
+        "protective-put",
+        "tail-risk",
+        "black-swan"
+      ],
+      "wrong": [
+        "Selling far out-of-the-money puts for income",
+        "A stop-loss placed just below support",
+        "Hedging only the last hour of a trading day"
+      ],
+      "calcs": [
+        {
+          "q": "A ₹500 crore fund buys Nifty puts costing 0.3% of the fund each quarter. What does the tail hedge cost a year?",
+          "options": [
+            "₹6 crore",
+            "₹1.5 crore",
+            "₹3 crore",
+            "₹15 crore"
+          ],
+          "answer": 0,
+          "why": "0.3% a quarter is 1.2% a year: 1.2% of ₹500 crore = ₹6 crore."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "variance-swap",
+      "term": "variance swap",
+      "unit": "y7",
+      "short": "A swap paying realised vs agreed variance",
+      "definition": "An over-the-counter contract that pays the difference between the variance an index actually realises and a strike agreed at the start. It gives pure exposure to volatility, with no delta to hedge.",
+      "examples": [
+        "The bank quoted a one-year variance swap on Nifty struck at 16 vol.",
+        "Short variance swaps earned steady carry until the crash, when realised vol went to 60.",
+        "We use variance swaps for vol exposure so we don't have to delta-hedge options every day."
+      ],
+      "fill": "Instead of buying options and hedging delta every day, the fund took clean exposure to realised volatility with a ____.",
+      "confusables": [
+        "variance-risk-premium",
+        "long-volatility",
+        "realised-volatility"
+      ],
+      "wrong": [
+        "A swap of fixed for floating interest",
+        "A futures contract on India VIX",
+        "A trade that swaps puts for calls"
+      ],
+      "tf": [
+        {
+          "s": "A long variance swap needs daily delta hedging.",
+          "a": false,
+          "why": "It pays on realised variance directly, which is why funds use it instead of a delta-hedged options book."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "short-vol-programme",
+      "term": "short-vol programme",
+      "unit": "y7",
+      "short": "Selling options as a steady, sized strategy",
+      "definition": "Selling options systematically, usually delta-hedged and sized to a risk budget, to collect the gap between implied and realised volatility. It earns small amounts most of the time and loses heavily in shocks, so sizing and tail hedges decide whether it survives.",
+      "examples": [
+        "Our short-vol programme sells weekly Nifty strangles, hedges delta twice a day and caps vega at ₹20 lakh.",
+        "The short-vol programme made money 46 weeks out of 52, and gave back five months in the flash crash.",
+        "Risk wants every short-vol programme paired with a tail hedge."
+      ],
+      "fill": "The desk sells delta-hedged strangles every week, sized to a vega limit, to earn the volatility premium: a ____.",
+      "confusables": [
+        "short-volatility",
+        "variance-risk-premium",
+        "sell-premium"
+      ],
+      "wrong": [
+        "A plan to buy options before every event",
+        "Short-selling stocks with high volatility",
+        "A programme that shorts India VIX futures only"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "jade-lizard",
+      "term": "jade lizard",
+      "unit": "y7",
+      "short": "Short put plus short call spread, no upside risk",
+      "definition": "Selling a put and a call spread at the same time, collecting more premium in total than the call spread is wide. That leaves no loss if the market rallies; the risk is all on the downside, like a short put.",
+      "examples": [
+        "Premiums were rich, so she put on a jade lizard: short the 24,500 put, short the 25,500–25,700 call spread.",
+        "The jade lizard took in 260 against a 200-wide call spread, so a rally can't lose money.",
+        "Risk treats a jade lizard like a short put, since that's where all the loss is."
+      ],
+      "fill": "She sold a put and a call spread, taking in more premium than the call spread's width so a rally couldn't hurt: a ____.",
+      "confusables": [
+        "iron-condor",
+        "risk-reversal",
+        "collar"
+      ],
+      "wrong": [
+        "Buying a put and selling a call spread",
+        "A long straddle with a short wing",
+        "Two calendar spreads at different strikes"
+      ],
+      "calcs": [
+        {
+          "q": "A jade lizard: sell a put for 150, sell a 25,500 call for 140 and buy the 25,700 call for 30. How much can it lose if Nifty ends at 26,000?",
+          "options": [
+            "Nothing: it makes 60",
+            "200",
+            "40",
+            "260"
+          ],
+          "answer": 0,
+          "why": "Premium taken: 150 + 140 − 30 = 260. Above 25,700 the call spread loses its full width, 200, so you keep 260 − 200 = 60."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "short-put-ladder",
+      "term": "short put ladder",
+      "unit": "y7",
+      "short": "Short a put, buy two lower puts",
+      "definition": "Selling one put and buying two lower-strike puts, often for close to zero cost. It loses a little if the market drifts down to the lower strikes and makes money if the market falls hard, so it is a cheap bet on a crash.",
+      "examples": [
+        "Instead of buying puts outright, he did a short put ladder: sold the 24,000, bought the 23,500 and 23,000 for almost nothing.",
+        "The short put ladder's worst case is a slow grind to 23,500; it pays in a crash.",
+        "The desk likes short put ladders before events where a big fall is possible but not the base case."
+      ],
+      "fill": "He sold the 24,000 put and bought the 23,500 and 23,000 puts for close to zero, losing only if Nifty drifted to the lower strikes: a ____.",
+      "confusables": [
+        "backspread",
+        "ratio-spread",
+        "bear-put-spread"
+      ],
+      "wrong": [
+        "Buying one put and selling two lower puts",
+        "Selling puts at every strike down the chain",
+        "Rolling a short put down each week"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "index-rebalancing-trade",
+      "term": "index rebalancing trade",
+      "unit": "y8",
+      "short": "Trading ahead of index funds' forced flows",
+      "definition": "Positioning ahead of the buying and selling that index funds and ETFs must do when an index changes its weights or members, usually at the close on the effective date. Traders buy expected inclusions and weight increases, and sell what index funds must sell.",
+      "examples": [
+        "Passive funds have to buy ₹2,000 crore of the stock at the close on rebalance day, so the index rebalancing trade is crowded.",
+        "We sized the index rebalancing trade at 20% of expected passive flow, because the close can't absorb more.",
+        "The index rebalancing trade reversed the day after the change, as it often does."
+      ],
+      "fill": "Knowing passive funds must buy the new members at the close on the effective date, the desk bought them a week before: an ____.",
+      "confusables": [
+        "rebalance",
+        "index-inclusion",
+        "event-driven"
+      ],
+      "wrong": [
+        "Rebalancing your own portfolio once a quarter",
+        "Selling an index future to hedge a stock book",
+        "Buying all fifty stocks in an index at once"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "index-inclusion",
+      "term": "index inclusion",
+      "unit": "y8",
+      "short": "A stock joining an index, and the buying after",
+      "definition": "When a stock is added to an index such as the Nifty 50 or an MSCI index. Every fund that tracks the index must buy it, so the price often rises between the announcement and the effective date, and may fall back after.",
+      "examples": [
+        "MSCI inclusion could bring about $300 million of passive buying into the stock.",
+        "The stock ran 12% from the index inclusion announcement to the effective date, then gave back half.",
+        "Analysts track free float and size to predict the next index inclusion."
+      ],
+      "fill": "The stock was named a new Nifty 50 member, so tracker funds had to buy it: an ____.",
+      "confusables": [
+        "index-rebalancing-trade",
+        "free-float",
+        "nifty-50"
+      ],
+      "wrong": [
+        "A stock leaving an index after falling",
+        "Listing a company's shares on the exchange",
+        "A fund adding a stock it already owns"
+      ],
+      "calcs": [
+        {
+          "q": "Passive funds tracking an index hold ₹40,000 crore. A newly included stock gets a 0.5% weight. How much must they buy?",
+          "options": [
+            "₹200 crore",
+            "₹2,000 crore",
+            "₹20 crore",
+            "₹400 crore"
+          ],
+          "answer": 0,
+          "why": "0.5% of ₹40,000 crore = ₹200 crore, usually bought at the close on the effective date."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "pead",
+      "term": "post-earnings drift",
+      "aliases": [
+        "PEAD"
+      ],
+      "unit": "y8",
+      "short": "Prices keep moving the way results surprised",
+      "definition": "The tendency of a stock to keep drifting for weeks in the direction of an earnings surprise, rather than adjusting all at once. Known as PEAD, it is one of the oldest documented anomalies, and quants trade it by buying big positive surprises and selling big negative ones.",
+      "examples": [
+        "The PEAD signal buys the top decile of earnings surprises and holds them for 60 days.",
+        "The beat was huge but the stock only rose 3% on the day; post-earnings drift says there's more to come.",
+        "Post-earnings drift is weaker in large caps now that more funds trade it."
+      ],
+      "fill": "After a big earnings beat, the stock kept rising for weeks instead of jumping once: ____.",
+      "confusables": [
+        "earnings-beat",
+        "momentum-factor",
+        "event-driven"
+      ],
+      "wrong": [
+        "The price fall just before results come out",
+        "A drop in implied volatility after results",
+        "Brokers revising targets after results"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "results-straddle",
+      "term": "results straddle",
+      "unit": "y8",
+      "short": "A straddle bought or sold into earnings",
+      "definition": "A straddle put on just before a company's results, to trade the size of the move rather than its direction. Buyers win if the stock moves more than the straddle's price implies; sellers win from the IV crush if it moves less.",
+      "examples": [
+        "The results straddle prices a 6% move; it's moved more than 6% on only two of the last eight results.",
+        "We sold the results straddle and bought wings, since IV crush after the call usually beats the move.",
+        "Buying the results straddle only pays if the surprise is bigger than the market expects."
+      ],
+      "fill": "The day before earnings, she sold the at-the-money call and put to bet the move would be smaller than priced: a ____.",
+      "confusables": [
+        "straddle",
+        "implied-move",
+        "iv-crush"
+      ],
+      "wrong": [
+        "Buying the stock and a put before results",
+        "A calendar spread across two results dates",
+        "Selling futures before the results call"
+      ],
+      "calcs": [
+        {
+          "q": "A ₹1,500 stock has a results straddle priced at ₹90. What move does it imply?",
+          "options": [
+            "About 6%",
+            "About 3%",
+            "About 9%",
+            "About 12%"
+          ],
+          "answer": 0,
+          "why": "The straddle's price is roughly the expected move: 90 ÷ 1,500 = 6%."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "buyback-arbitrage",
+      "term": "buyback arbitrage",
+      "unit": "y8",
+      "short": "Buying shares to tender into a buyback",
+      "definition": "Buying a stock below the buyback price to tender it in a tender-offer buyback. The profit depends on the acceptance ratio, the share of tendered shares the company actually takes, since the rest must be sold back in the market. Since October 2024 the whole buyback payout is taxed as dividend income in India, which has cut into the trade.",
+      "examples": [
+        "The buyback is at ₹1,800 against ₹1,650 in the market, but buyback arbitrage only works if the acceptance ratio is decent.",
+        "Small shareholders get a reserved quota, so buyback arbitrage is popular with retail.",
+        "Our buyback arbitrage made ₹40 a share after the unaccepted shares fell back to ₹1,620."
+      ],
+      "fill": "The company offered ₹1,800 a share in a tender buyback while the stock traded at ₹1,650, so traders bought to tender: ____.",
+      "confusables": [
+        "buyback",
+        "merger-arbitrage",
+        "limits-to-arbitrage"
+      ],
+      "wrong": [
+        "The company buying its own shares in the open market",
+        "Short-selling a stock after a buyback ends",
+        "Buying shares in an IPO to sell on listing"
+      ],
+      "calcs": [
+        {
+          "q": "Buy 100 shares at ₹1,650 to tender at ₹1,800. The acceptance ratio is 40%; the rest are sold at ₹1,620. Profit?",
+          "options": [
+            "₹4,200",
+            "₹15,000",
+            "₹6,000",
+            "₹1,800"
+          ],
+          "answer": 0,
+          "why": "40 shares gain ₹150 each = ₹6,000; 60 shares lose ₹30 each = −₹1,800. Net ₹4,200."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "block-deal-trade",
+      "term": "block-deal trade",
+      "unit": "y8",
+      "short": "Trading the discount when a big holder sells",
+      "definition": "Trading around a large sale by a promoter or private equity holder, usually placed at a discount to the market price through a block deal. Traders buy in the block at the discount and sell later, or short ahead if they expect more supply.",
+      "examples": [
+        "The PE fund is selling 4% through a block deal at a 5% discount; the block-deal trade is to get an allocation and sell over a week.",
+        "Desks short ahead of a block-deal trade when a lock-in expiry is coming up.",
+        "The block-deal trade worked: the stock was back above the deal price two days later."
+      ],
+      "fill": "A private equity holder sold 5% at a 6% discount; she bought in the deal and sold over the next week: a ____.",
+      "confusables": [
+        "block-deal",
+        "bulk-deal",
+        "ofs"
+      ],
+      "wrong": [
+        "Buying a block of options at once",
+        "Selling shares when a stock hits its upper circuit",
+        "A promoter pledging shares for a loan"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "index-arbitrage",
+      "term": "index arbitrage",
+      "unit": "y8",
+      "short": "Trading futures against the index basket",
+      "definition": "Buying or selling the stocks in an index against the index future when the future is too far from fair value, and unwinding at expiry when the future settles to the index. On expiry it means trading the basket at the close to match the settlement price.",
+      "examples": [
+        "The future is 40 points rich against fair value, so index arbitrage sells futures and buys the basket.",
+        "Index arbitrage desks unwind into the close on expiry, which is why the last half-hour is so busy.",
+        "Index arbitrage keeps Nifty futures within a few points of fair value most of the time."
+      ],
+      "fill": "The Nifty future traded 40 points above fair value, so the desk sold it and bought the fifty stocks, unwinding at expiry: ____.",
+      "confusables": [
+        "cash-and-carry-arbitrage",
+        "futures-fair-value",
+        "etf-arbitrage"
+      ],
+      "wrong": [
+        "Buying the index on one exchange and selling on another",
+        "Trading Nifty options against Bank Nifty options",
+        "Holding the index for the long term"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "dividend-basis-trade",
+      "term": "dividend basis trade",
+      "unit": "y8",
+      "short": "Trading the futures basis around dividends",
+      "definition": "A trade on how futures price an upcoming dividend. A stock future should sit below the cash price plus carry by the expected dividend; if the market misjudges the dividend, traders take cash against futures and profit when the dividend is announced or paid.",
+      "examples": [
+        "The futures price a ₹20 dividend, but we expect ₹35, so the dividend basis trade is to buy futures and sell cash.",
+        "A surprise special dividend blew up everyone short the dividend basis trade.",
+        "The dividend basis trade is small per share, so the desk runs it across many stocks at once."
+      ],
+      "fill": "Futures priced a ₹20 dividend while the desk expected ₹35, so it bought futures against cash: a ____.",
+      "confusables": [
+        "basis",
+        "cost-of-carry",
+        "futures-fair-value"
+      ],
+      "wrong": [
+        "Buying high-dividend stocks for income",
+        "Selling a stock the day before it goes ex-dividend",
+        "Rolling futures to the next month for the yield"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "opening-range-breakout",
+      "term": "opening range breakout",
+      "aliases": [
+        "ORB"
+      ],
+      "unit": "y9",
+      "short": "Trading a break of the first minutes' range",
+      "definition": "An intraday style that marks the high and low of the first 15 or 30 minutes and trades in the direction the price breaks out of that range, with a stop on the other side.",
+      "examples": [
+        "Nifty's first 15 minutes ran 24,880 to 24,960; the opening range breakout buys above 24,960 with a stop at 24,880.",
+        "Opening range breakouts fail a lot on quiet days, so he only trades them after a gap.",
+        "The backtest says the opening range breakout makes money on trend days and gives it back on range days."
+      ],
+      "fill": "He marked the high and low of the first 15 minutes and bought when the price broke above the high: an ____.",
+      "confusables": [
+        "breakout",
+        "nine-twenty-straddle",
+        "trend-following"
+      ],
+      "wrong": [
+        "Buying in the pre-open session",
+        "Trading the gap between yesterday's close and today's open",
+        "Selling options at 9:20 every morning"
+      ],
+      "calcs": [
+        {
+          "q": "The opening range is 24,880 to 24,960. You buy the breakout at 24,965 with a stop at the range low, and target twice the risk. Target?",
+          "options": [
+            "25,135",
+            "25,045",
+            "25,050",
+            "25,130"
+          ],
+          "answer": 0,
+          "why": "Risk is 24,965 − 24,880 = 85 points; twice that is 170, so the target is 24,965 + 170 = 25,135."
+        }
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "vwap-reversion",
+      "term": "VWAP reversion",
+      "unit": "y9",
+      "short": "Fading moves away from the day's VWAP",
+      "definition": "An intraday mean-reversion style that sells when the price stretches well above the day's VWAP and buys when it stretches well below, expecting it to drift back. It works on range days and loses on trend days.",
+      "examples": [
+        "The stock is 1.5% above VWAP with no news, so the VWAP reversion setup is to short it back toward VWAP.",
+        "VWAP reversion got run over today; it was a trend day and price never came back.",
+        "Institutional desks benchmark to VWAP, which is one reason VWAP reversion works at all."
+      ],
+      "fill": "On a quiet day, she sold whenever the price got 1% above the day's average traded price, betting it would come back: ____.",
+      "confusables": [
+        "vwap",
+        "mean-reversion",
+        "range-bound"
+      ],
+      "wrong": [
+        "Buying stocks that trade above their VWAP",
+        "An execution algo that tracks VWAP",
+        "Resetting VWAP at noon each day"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "swing-trading",
+      "term": "swing trading",
+      "unit": "y9",
+      "short": "Holding trades for days to a few weeks",
+      "definition": "Trading moves that last from a couple of days to a few weeks, between intraday and investing. Swing traders hold overnight, so they carry gap risk, and use daily charts for entries and stops.",
+      "examples": [
+        "He's a swing trader: buys pullbacks in strong stocks and holds three to ten days.",
+        "Swing trading means overnight gaps; size so a 5% gap against you doesn't hurt.",
+        "Most of her swing trading is in cash, not futures, so she doesn't pay rollover."
+      ],
+      "fill": "He buys pullbacks in trending stocks and usually holds them for three days to two weeks: ____.",
+      "confusables": [
+        "positional",
+        "intraday",
+        "btst"
+      ],
+      "wrong": [
+        "Trading only in the first hour",
+        "Holding stocks for many years",
+        "Switching between long and short every minute"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "expiry-day-option-selling",
+      "term": "expiry-day option selling",
+      "unit": "y9",
+      "short": "Selling options on their last day for fast decay",
+      "definition": "Selling options on the day they expire, when time decay is fastest and premiums shrink to nothing by the close. It wins small most days and can lose big when the index moves sharply, which is why gamma risk on expiry day draws so much regulatory attention in India.",
+      "examples": [
+        "Expiry-day option selling looks like free money until a 300-point move takes out a month of premium.",
+        "SEBI's expiry-day margin was aimed partly at expiry-day option selling.",
+        "She does expiry-day option selling with defined risk: short straddle, long wings."
+      ],
+      "fill": "Every weekly expiry he sold at-the-money options in the morning to collect the fastest decay of the month: ____.",
+      "confusables": [
+        "sell-premium",
+        "gamma-blast",
+        "zero-day-option"
+      ],
+      "wrong": [
+        "Buying options on expiry day for a gamma blast",
+        "Selling futures before they expire",
+        "Rolling options to the next expiry"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "gap-fill",
+      "term": "gap fill",
+      "unit": "y9",
+      "short": "Price returning to close an opening gap",
+      "definition": "When a stock or index that opened with a gap trades back to the previous close. Gap-fill traders fade gaps that have no strong news behind them; gaps on big news often don't fill.",
+      "examples": [
+        "Nifty gapped up 120 points on global cues; the gap fill trade shorts for a move back to yesterday's close.",
+        "That gap won't fill: it's on results, not on SGX noise.",
+        "Three of the last four gap-downs saw a gap fill by lunch."
+      ],
+      "fill": "Nifty opened 120 points higher on no real news and was back at yesterday's close by noon: a ____.",
+      "confusables": [
+        "gap-up",
+        "gap-down",
+        "mean-reversion"
+      ],
+      "wrong": [
+        "The pre-open price matching the close",
+        "Filling a limit order at the gap price",
+        "A gap between bid and ask"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "steepener",
+      "term": "steepener",
+      "unit": "y10",
+      "short": "Betting long yields rise vs short yields",
+      "definition": "A trade that profits when the yield curve gets steeper: the gap between long-term and short-term yields widens. It is usually done by buying short bonds and selling long bonds, with sizes matched by PV01 so that a parallel move does nothing.",
+      "examples": [
+        "If the RBI cuts and the fiscal deficit stays wide, a 2s10s steepener should work.",
+        "We put on the steepener PV01-neutral: long ₹100 crore of the 2-year against short the matching risk in the 10-year.",
+        "The steepener lost as long yields fell faster than short ones."
+      ],
+      "fill": "Expecting rate cuts but a wider deficit, the trader bought 2-year bonds and sold 10-year bonds, matched by PV01: a ____.",
+      "confusables": [
+        "flattener",
+        "yield-curve",
+        "pv01"
+      ],
+      "wrong": [
+        "Buying bonds of every maturity",
+        "A trade that profits when the curve flattens",
+        "Raising the repo rate in steps"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "flattener",
+      "term": "flattener",
+      "unit": "y10",
+      "short": "Betting the yield curve flattens",
+      "definition": "A trade that profits when the gap between long-term and short-term yields narrows, usually by selling short bonds and buying long bonds in PV01-matched sizes. It often works when the central bank is hiking.",
+      "examples": [
+        "With the RBI hiking, the 2s10s flattener has made 30 basis points.",
+        "He put on a flattener: short the 3-year, long the 10-year, PV01-neutral.",
+        "Flatteners worked all year as short yields rose with the policy rate."
+      ],
+      "fill": "With the RBI hiking, she sold 2-year bonds and bought 10-year bonds in matched risk, betting the gap would narrow: a ____.",
+      "confusables": [
+        "steepener",
+        "yield-curve",
+        "modified-duration"
+      ],
+      "wrong": [
+        "Selling bonds of every maturity",
+        "A bond that pays the same coupon every year",
+        "Cutting the CRR to add liquidity"
+      ],
+      "calcs": [
+        {
+          "q": "The 2-year yields 6.6% and the 10-year 7.1%. A month later they're 6.9% and 7.2%. How much did the 2s10s spread move, and did a flattener win?",
+          "options": [
+            "Narrowed 20 bps; yes",
+            "Widened 20 bps; no",
+            "Narrowed 30 bps; yes",
+            "Narrowed 10 bps; no"
+          ],
+          "answer": 0,
+          "why": "The spread went from 50 bps to 30 bps, narrowing 20 bps, which is what a flattener needs."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "roll-down",
+      "term": "roll-down",
+      "unit": "y10",
+      "short": "Gain as a bond ages down the yield curve",
+      "definition": "The return a bond earns as it gets closer to maturity and is valued at the lower yield of a shorter bond, on an upward-sloping curve with no change in rates. Rates desks add carry and roll-down to judge what a position earns if nothing happens.",
+      "examples": [
+        "The 5-year sits on the steepest part of the curve, so it has the best roll-down.",
+        "Carry plus roll-down on the position is about 40 basis points a year if the curve doesn't move.",
+        "Roll-down disappears when the curve is flat."
+      ],
+      "fill": "With the curve unchanged, the 5-year bond became a 4-year bond priced at a lower yield, and gained in price: its ____.",
+      "confusables": [
+        "roll-yield",
+        "carry-trade",
+        "yield-curve"
+      ],
+      "wrong": [
+        "Rolling a futures contract to the next month",
+        "A fall in coupon after a rate cut",
+        "Selling bonds as they get close to maturity"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "gsec-relative-value",
+      "term": "G-sec relative value",
+      "unit": "y10",
+      "short": "Trading one government bond against another",
+      "definition": "Buying a government bond that looks cheap against the curve and selling a similar one that looks rich, in matched risk, betting the gap closes. Typical trades are a bond against its neighbours, a new issue against an older one, or a G-sec against an SDL.",
+      "examples": [
+        "The 2033 looks 6 basis points cheap to the fitted curve, so the G-sec relative value trade buys it against the 2032 and 2034.",
+        "SDL spreads over G-secs are wide this auction; that's a relative value trade.",
+        "G-sec relative value books run small risk and need repo to fund the long side."
+      ],
+      "fill": "The 2033 bond looked 6 bps cheap to its neighbours, so the desk bought it and sold the 2032 and 2034 in matched risk: a ____ trade.",
+      "confusables": [
+        "g-sec",
+        "sdl",
+        "statistical-arbitrage"
+      ],
+      "wrong": [
+        "Comparing a stock's PE with its sector",
+        "Buying any government bond yielding over 7%",
+        "The RBI buying bonds in an OMO"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "global-macro",
+      "term": "global macro",
+      "unit": "y10",
+      "short": "Trading views on economies across markets",
+      "definition": "A style that takes positions across currencies, rates, equity indices and commodities based on views about growth, inflation, central banks and politics. Macro funds size by risk and move between markets as the story changes.",
+      "examples": [
+        "The global macro fund is short the yen and long Indian bonds on the rate-cut story.",
+        "A global macro PM wants to know the RBI's reaction function, not one company's earnings.",
+        "Global macro had a great year as rates moved more than they had in a decade."
+      ],
+      "fill": "The fund trades currencies, bond futures and equity indices around the world on views about inflation and central banks: ____.",
+      "confusables": [
+        "carry-trade",
+        "event-driven",
+        "trend-following"
+      ],
+      "wrong": [
+        "Investing only in large companies worldwide",
+        "Buying an index fund that covers every country",
+        "A strategy that trades macro data releases intraday only"
+      ],
+      "difficulty": 2
     }
   ]
 }
