@@ -7,7 +7,7 @@
       "where": "Prop trading firms, market makers, hedge funds and bank trading desks",
       "what": "Runs trading strategies or quotes prices, deciding how much to trade and how much risk to hold, often within seconds. Many firms hire graduates straight from campus and teach the markets on the job.",
       "skills": ["Quick, accurate mental maths", "Probability and expected value", "Options and the Greeks", "Calm decisions under pressure"],
-      "practise": ["k1", "k2", "k3", "k4", "s6", "s8", "s11", "o2", "o10", "o8", "o9", "k7", "o11", "o12", "d6", "x7"]
+      "practise": ["k1", "k2", "k3", "k4", "s6", "s8", "s11", "o2", "o10", "o8", "o9", "k7", "o11", "o12", "q17", "q18", "q19", "d6", "x7"]
     },
     {
       "id": "quant-researcher",
@@ -15,7 +15,7 @@
       "where": "Hedge funds, prop trading firms and quant fund managers",
       "what": "Looks for patterns in market data that predict prices, tests them hard and turns the ones that survive into strategies. It needs strong statistics and coding, and many hires have a master's or a PhD.",
       "skills": ["Statistics and regression", "Backtesting without fooling yourself", "Python and handling data", "Probability"],
-      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5", "q9", "q13", "q10", "q14", "q16", "x7"]
+      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5", "q9", "q13", "q10", "q14", "q16", "q20", "q21", "q22", "x7"]
     },
     {
       "id": "quant-developer",
@@ -39,7 +39,7 @@
       "where": "Banks, brokers, clearing corporations, exchanges and funds",
       "what": "Measures how much a desk or fund could lose and sets the limits, margins and stress tests that stop one bad day from sinking the firm.",
       "skills": ["VaR and stress tests", "Margins and position limits", "Options and the Greeks", "Explaining risk to traders"],
-      "practise": ["q2", "q7", "t4", "o10", "o4", "s7", "q11", "q12", "x7"]
+      "practise": ["q2", "q7", "t4", "o10", "o4", "s7", "q11", "q12", "q21", "x7"]
     },
     {
       "id": "rates-fx-trader",
@@ -47,7 +47,7 @@
       "where": "Bank treasuries, primary dealers and foreign banks",
       "what": "Trades government bonds, T-bills, interest rate swaps and the rupee, reacting to RBI policy, inflation data and money flowing in and out of India.",
       "skills": ["Bond maths: yield, duration and PV01", "RBI policy and liquidity", "Currency markets", "Reading economic data"],
-      "practise": ["m1", "m2", "m3", "f4"]
+      "practise": ["m1", "m2", "m3", "f4", "m4", "m5"]
     }
   ],
   "rounds": [
@@ -64,7 +64,7 @@
     {
       "name": "Probability and puzzles",
       "what": "Dice, cards, coins and brainteasers, worked out loud. Interviewers want to hear how you reason, so talk through each step and check your answer. Some also ask for a rough estimate of a size or a count.",
-      "practise": ["k3", "k4", "k5", "k6", "k7"]
+      "practise": ["k3", "k4", "k5", "k6", "k7", "q18"]
     },
     {
       "name": "Market-making game",
@@ -79,7 +79,7 @@
     {
       "name": "Statistics and research",
       "what": "Mostly for research roles: regression, overfitting, what can go wrong in a backtest, and a deep dive into a project of yours.",
-      "practise": ["q1", "q8", "q3", "q5", "q6", "q9", "q13", "q10", "q14"]
+      "practise": ["q1", "q8", "q3", "q5", "q6", "q9", "q13", "q10", "q14", "q20", "q22"]
     },
     {
       "name": "Coding",

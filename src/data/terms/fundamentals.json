@@ -1,0 +1,1059 @@
+{
+  "id": "fundamentals",
+  "name": "Company fundamentals",
+  "order": 13,
+  "units": [
+    {
+      "id": "n1",
+      "name": "Reading results",
+      "core": true
+    },
+    {
+      "id": "n2",
+      "name": "Cash flow and the balance sheet",
+      "core": false
+    },
+    {
+      "id": "n3",
+      "name": "Returns, quality and valuation",
+      "core": false
+    },
+    {
+      "id": "n4",
+      "name": "Sector KPIs",
+      "core": false
+    }
+  ],
+  "terms": [
+    {
+      "id": "revenue-growth",
+      "term": "revenue growth",
+      "unit": "n1",
+      "short": "How fast sales are rising",
+      "definition": "The percentage change in a company's sales against an earlier period, usually the same quarter last year. It is the first number traders check in results, because profits can't grow for long without it. Growth from price rises and from volumes mean different things.",
+      "examples": [
+        "Revenue growth of 18% beat the street's 12%, and the stock opened 5% higher.",
+        "Revenue growth slowed to 4%, and margins can't carry the story forever.",
+        "Half the revenue growth came from price hikes, not more volume."
+      ],
+      "fill": "Sales up 15% on the same quarter last year is the company's ____.",
+      "confusables": [
+        "yoy-growth",
+        "earnings",
+        "same-store-sales-growth"
+      ],
+      "wrong": [
+        "Profit as a share of sales",
+        "Cash left after capex",
+        "Profit growth after tax"
+      ],
+      "difficulty": 1,
+      "reads": {
+        "up": "Faster revenue growth, especially above estimates, usually lifts the stock and can lead analysts to raise targets; check that it comes from volume, not one-offs.",
+        "down": "Slowing revenue growth worries the market even if profit beats, because it says future earnings will grow slower; high-multiple stocks fall hardest."
+      }
+    },
+    {
+      "id": "ebitda-margin",
+      "term": "EBITDA margin",
+      "unit": "n1",
+      "short": "Operating profit as a share of sales",
+      "definition": "EBITDA divided by revenue: how many paise of operating profit, before interest, tax, depreciation and amortisation, a company keeps from each rupee of sales. It shows pricing power and cost control, and is compared across quarters and with peers in the same industry.",
+      "examples": [
+        "EBITDA margin expanded 200 bps as raw material costs fell.",
+        "Revenue beat, but the EBITDA margin missed by 150 bps, so the stock fell.",
+        "Cement makers' EBITDA margins swing with fuel prices."
+      ],
+      "fill": "EBITDA of ₹200 crore on sales of ₹1,000 crore is a 20% ____.",
+      "confusables": [
+        "ebitda",
+        "operating-leverage",
+        "pat"
+      ],
+      "wrong": [
+        "Net profit divided by equity",
+        "Sales growth over a year",
+        "The share of profit paid as dividend"
+      ],
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "Sales are ₹2,500 crore and EBITDA is ₹450 crore. What is the EBITDA margin?",
+          "options": [
+            "18%",
+            "5.6%",
+            "45%",
+            "1.8%"
+          ],
+          "answer": 0,
+          "why": "450 ÷ 2,500 = 0.18 = 18%."
+        }
+      ],
+      "reads": {
+        "up": "Margin expansion means the company is pricing well or cutting costs; it often drives earnings upgrades and a re-rating.",
+        "down": "Margin contraction signals cost pressure or weaker pricing power; the market usually punishes it, even with good sales."
+      }
+    },
+    {
+      "id": "pat",
+      "term": "PAT",
+      "unit": "n1",
+      "short": "Profit after tax: the bottom line",
+      "definition": "Profit after tax: what's left for shareholders after all costs, interest, depreciation and tax. Indian results headlines usually lead with it. Divide by shares outstanding to get EPS. It can be moved by one-offs, so check what drove it.",
+      "examples": [
+        "PAT rose 25%, but a tax write-back did most of the work.",
+        "Street estimate for PAT was ₹1,200 crore; it came in at ₹1,310 crore.",
+        "Strong PAT growth with weak revenue usually means something one-off."
+      ],
+      "fill": "Profit left for shareholders after all costs and tax is the ____.",
+      "confusables": [
+        "eps",
+        "earnings",
+        "ebitda-margin"
+      ],
+      "wrong": [
+        "Sales before any costs",
+        "Profit before interest and tax",
+        "Cash from operations"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "profit after tax",
+        "net profit"
+      ],
+      "reads": {
+        "up": "PAT beating estimates usually lifts the stock, but check the quality: tax gains or other income don't count as much as operating profit.",
+        "down": "A PAT miss usually drags the stock, unless it comes from a one-off charge the market looks through."
+      }
+    },
+    {
+      "id": "yoy-growth",
+      "term": "year-on-year growth",
+      "unit": "n1",
+      "short": "Compared with the same period last year",
+      "definition": "Growth measured against the same quarter or month a year earlier. It removes seasonal swings, such as festive-season sales, which is why Indian results are mostly judged on it. A weak base last year can flatter the number.",
+      "examples": [
+        "Year-on-year growth of 40% looks great, but last year's quarter was hit by a strike.",
+        "Auto sales are compared year-on-year because October and November carry the festive season.",
+        "On a low base, year-on-year growth is easy."
+      ],
+      "fill": "Comparing this October's sales with last October's to avoid seasonal effects is measuring ____.",
+      "confusables": [
+        "qoq-growth",
+        "revenue-growth",
+        "cagr"
+      ],
+      "wrong": [
+        "Comparing with the previous quarter",
+        "The average growth over five years",
+        "Comparing with the industry average"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "YoY growth",
+        "YoY"
+      ]
+    },
+    {
+      "id": "qoq-growth",
+      "term": "quarter-on-quarter growth",
+      "unit": "n1",
+      "short": "Compared with the previous quarter",
+      "definition": "Growth measured against the quarter just before. It shows the latest direction faster than year-on-year, but seasonal businesses can swing a lot between quarters, so read it alongside year-on-year growth.",
+      "examples": [
+        "Quarter-on-quarter growth turned positive, the first sign of recovery.",
+        "IT services firms are judged on quarter-on-quarter dollar revenue growth.",
+        "Don't panic on a quarter-on-quarter drop for a retailer: Q4 always follows the festive quarter."
+      ],
+      "fill": "Comparing July–September sales with April–June sales is measuring ____.",
+      "confusables": [
+        "yoy-growth",
+        "revenue-growth"
+      ],
+      "wrong": [
+        "Comparing with the same quarter last year",
+        "Growth over the full financial year",
+        "Growth in share price over a quarter"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "QoQ growth",
+        "QoQ",
+        "sequential growth"
+      ]
+    },
+    {
+      "id": "operating-leverage",
+      "term": "operating leverage",
+      "unit": "n1",
+      "short": "Fixed costs make profit swing more than sales",
+      "definition": "When a big share of costs is fixed, a rise in sales lifts profit by much more in percentage terms, and a fall hurts it by more. Airlines, cement, hotels and software products have high operating leverage, so their earnings and share prices are sensitive to volumes.",
+      "examples": [
+        "With high operating leverage, a 10% sales rise lifted EBITDA 25%.",
+        "Hotels have huge operating leverage: occupancy up 5 points, profits up a third.",
+        "Operating leverage works both ways; in a slowdown, profits collapse."
+      ],
+      "fill": "A cement maker with mostly fixed costs sees profit jump 30% on a 10% rise in sales: that's ____.",
+      "confusables": [
+        "leverage",
+        "ebitda-margin",
+        "cyclical-stocks"
+      ],
+      "wrong": [
+        "Borrowing to fund expansion",
+        "Using futures to boost returns",
+        "Paying staff with shares"
+      ],
+      "difficulty": 3,
+      "reads": {
+        "up": "When volumes rise for a high-operating-leverage company, margins expand fast and earnings upgrades follow; traders often buy early in the upcycle.",
+        "down": "When volumes fall, fixed costs crush margins; these stocks fall hardest at the start of a slowdown."
+      }
+    },
+    {
+      "id": "other-income",
+      "term": "other income",
+      "unit": "n1",
+      "short": "Profit from outside the core business",
+      "definition": "Income that doesn't come from the main business: interest on cash, dividends, gains on investments or one-off sales. It can make profit look better than the business really is, so analysts strip it out to judge operating performance.",
+      "examples": [
+        "PAT beat, but other income doubled; the core business missed.",
+        "Cash-rich IT firms earn a lot of other income from treasury.",
+        "Strip out other income and the profit growth is only 5%."
+      ],
+      "fill": "Interest earned on a company's cash pile is booked as ____.",
+      "confusables": [
+        "exceptional-items",
+        "pat",
+        "earnings-quality"
+      ],
+      "wrong": [
+        "Revenue from the main product",
+        "Money raised from issuing shares",
+        "Tax refunds from earlier years"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "A jump in other income flatters profit but says little about the business; the market discounts beats that rely on it.",
+        "down": "Lower other income can make profit look weak even when operations are fine; read through to EBITDA."
+      }
+    },
+    {
+      "id": "exceptional-items",
+      "term": "exceptional items",
+      "unit": "n1",
+      "short": "One-off gains or losses outside normal business",
+      "definition": "Unusual, non-recurring items such as a gain on selling a division, a big write-off, or a settlement. Companies report them separately so investors can see underlying profit. The market usually looks through them, unless they keep recurring.",
+      "examples": [
+        "PAT fell because of a ₹300 crore exceptional item, an impairment; operations were fine.",
+        "Adjusted for exceptional items, profit grew 12%.",
+        "Exceptional items every quarter aren't exceptional any more."
+      ],
+      "fill": "A one-time ₹500 crore gain from selling a subsidiary is reported as an ____.",
+      "confusables": [
+        "other-income",
+        "pat",
+        "earnings-quality"
+      ],
+      "wrong": [
+        "A gain from the main business",
+        "A dividend from a subsidiary",
+        "A rise in operating margin"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "exceptional item",
+        "one-offs"
+      ]
+    },
+    {
+      "id": "operating-cash-flow",
+      "term": "operating cash flow",
+      "unit": "n2",
+      "short": "Cash the business generates from operations",
+      "definition": "The cash a company actually brings in from its business in a period, after paying suppliers, staff and taxes and after changes in working capital. Profit can be flattered by accounting; cash is harder to fake. Profit that never turns into operating cash flow is a warning sign.",
+      "examples": [
+        "Profit rose 20%, but operating cash flow fell: receivables are piling up.",
+        "Operating cash flow covers capex comfortably, so they don't need to borrow.",
+        "The forensic analyst compares operating cash flow with EBITDA every year."
+      ],
+      "fill": "The cash a company brings in from running its business, after working capital changes, is its ____.",
+      "confusables": [
+        "free-cash-flow",
+        "pat",
+        "cash-conversion"
+      ],
+      "wrong": [
+        "Cash raised by issuing shares",
+        "Cash spent on new factories",
+        "Cash on the balance sheet"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "cash flow from operations",
+        "CFO"
+      ],
+      "reads": {
+        "up": "Rising operating cash flow backs up the profit story and funds growth without new debt; quality investors reward it.",
+        "down": "Falling operating cash flow while profit rises is a red flag: earnings may be stuck in receivables or inventory."
+      }
+    },
+    {
+      "id": "free-cash-flow",
+      "term": "free cash flow",
+      "unit": "n2",
+      "short": "Operating cash flow minus capex",
+      "definition": "Cash left after the business has paid for the investment it needs: operating cash flow minus capital expenditure. It can pay dividends, buy back shares or repay debt. Valuation models discount it, and steady free cash flow supports a higher multiple.",
+      "examples": [
+        "Free cash flow turned positive as the capex cycle ended.",
+        "They pay dividends out of free cash flow, not borrowing.",
+        "A company with negative free cash flow every year keeps needing new money."
+      ],
+      "fill": "Operating cash flow of ₹800 crore minus ₹300 crore of capex leaves ₹500 crore of ____.",
+      "confusables": [
+        "operating-cash-flow",
+        "capex",
+        "dividend"
+      ],
+      "wrong": [
+        "Profit after tax",
+        "Cash in the bank",
+        "Revenue minus costs"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "FCF"
+      ],
+      "calcs": [
+        {
+          "q": "Operating cash flow is ₹1,200 crore and capex is ₹450 crore. What is free cash flow?",
+          "options": [
+            "₹750 crore",
+            "₹1,650 crore",
+            "₹450 crore",
+            "₹2.7 crore"
+          ],
+          "answer": 0,
+          "why": "Free cash flow = operating cash flow − capex = 1,200 − 450 = ₹750 crore."
+        }
+      ],
+      "reads": {
+        "up": "Rising free cash flow means room for dividends, buybacks or paying down debt: usually a re-rating trigger.",
+        "down": "Falling or negative free cash flow means growth is being funded by debt or new shares; watch dilution and leverage."
+      }
+    },
+    {
+      "id": "capex",
+      "term": "capex",
+      "unit": "n2",
+      "short": "Money spent on long-term assets",
+      "definition": "Capital expenditure: spending on factories, machines, networks or other long-lived assets. Heavy capex now can mean growth later, but it uses cash and adds depreciation. Traders watch capex announcements for sectors such as cement, steel, power and the companies that supply them.",
+      "examples": [
+        "The steelmaker announced ₹20,000 crore of capex, and capital goods stocks rallied.",
+        "Capex is peaking, so free cash flow should jump from next year.",
+        "Telecom capex for 5G weighed on cash flow for two years."
+      ],
+      "fill": "Spending ₹5,000 crore on a new plant is ____.",
+      "confusables": [
+        "free-cash-flow",
+        "operating-cash-flow"
+      ],
+      "wrong": [
+        "Spending on salaries and rent",
+        "Buying back the company's shares",
+        "Paying interest on debt"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "capital expenditure"
+      ],
+      "reads": {
+        "up": "A capex ramp-up signals expansion: good news for capital goods makers and suppliers; for the spender, the market asks whether returns will cover it.",
+        "down": "Falling capex can lift free cash flow in the short term, but a long freeze may mean weak demand or growth ahead."
+      }
+    },
+    {
+      "id": "working-capital",
+      "term": "working capital",
+      "unit": "n2",
+      "short": "Cash tied up in stock and dues from customers",
+      "definition": "Current assets minus current liabilities: money stuck in inventory and receivables, less what the company owes suppliers. Growing businesses need more of it, which uses cash. A sudden jump can mean customers are paying late or stock isn't selling.",
+      "examples": [
+        "Working capital rose by ₹400 crore, eating most of the year's profit.",
+        "FMCG companies run negative working capital: suppliers fund them.",
+        "Infrastructure firms often have heavy working capital tied up in government dues."
+      ],
+      "fill": "Inventory plus receivables, minus what's owed to suppliers, is the company's ____.",
+      "confusables": [
+        "receivable-days",
+        "inventory-days",
+        "operating-cash-flow"
+      ],
+      "wrong": [
+        "Its long-term borrowings",
+        "Its fixed assets",
+        "Cash raised in the IPO"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "Working capital growing faster than sales is a warning: cash is stuck in unpaid bills or unsold stock.",
+        "down": "Shrinking working capital frees up cash; a falling cash cycle often lifts operating cash flow."
+      }
+    },
+    {
+      "id": "receivable-days",
+      "term": "receivable days",
+      "unit": "n2",
+      "short": "How long customers take to pay",
+      "definition": "The average number of days a company waits to be paid: receivables ÷ sales × 365. Rising receivable days can mean customers are struggling or the company is pushing sales with easy credit. It is a common early sign of trouble in forensic accounting.",
+      "examples": [
+        "Receivable days jumped from 60 to 95: are they booking sales they can't collect?",
+        "Government contractors have long receivable days.",
+        "Falling receivable days helped cash flow beat profit."
+      ],
+      "fill": "Receivables of ₹250 crore on yearly sales of ₹1,000 crore mean about 91 ____.",
+      "confusables": [
+        "inventory-days",
+        "working-capital",
+        "earnings-quality"
+      ],
+      "wrong": [
+        "Days of stock in the warehouse",
+        "Days to pay suppliers",
+        "Days until the next dividend"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "debtor days",
+        "DSO"
+      ],
+      "calcs": [
+        {
+          "q": "A company has receivables of ₹300 crore and annual sales of ₹1,825 crore. What are its receivable days?",
+          "options": [
+            "60 days",
+            "30 days",
+            "6 days",
+            "120 days"
+          ],
+          "answer": 0,
+          "why": "300 ÷ 1,825 × 365 = 60 days."
+        }
+      ],
+      "reads": {
+        "up": "Rising receivable days suggests customers pay slower or sales are being stretched: a classic red flag for earnings quality.",
+        "down": "Falling receivable days means faster collection and better cash flow."
+      }
+    },
+    {
+      "id": "inventory-days",
+      "term": "inventory days",
+      "unit": "n2",
+      "short": "How long stock sits before it's sold",
+      "definition": "The average days goods sit as inventory: inventory ÷ cost of goods sold × 365. A rise can mean demand is slowing or the company is stocking up ahead of price rises. In retail and autos, a build-up of dealer inventory often comes before discounts and weaker margins.",
+      "examples": [
+        "Inventory days rose to 120; demand isn't keeping up with production.",
+        "Auto dealers are sitting on 50 inventory days, so expect festive discounts.",
+        "Lower inventory days freed up ₹200 crore of cash."
+      ],
+      "fill": "Stock of ₹200 crore against yearly cost of goods of ₹1,200 crore is about 61 ____.",
+      "confusables": [
+        "receivable-days",
+        "working-capital"
+      ],
+      "wrong": [
+        "Days customers take to pay",
+        "Days of cash in the bank",
+        "Days to build a new factory"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "Rising inventory days can mean demand is slowing: markdowns and margin pressure often follow.",
+        "down": "Falling inventory days usually means strong demand and healthy sell-through."
+      }
+    },
+    {
+      "id": "debt-to-equity",
+      "term": "debt-to-equity",
+      "unit": "n2",
+      "short": "Borrowing compared with shareholders' money",
+      "definition": "Total debt divided by shareholders' equity. It shows how much of the company is funded by lenders. High ratios amplify returns in good times and risk in bad times; lenders and the market penalise companies whose debt rises faster than earnings.",
+      "examples": [
+        "Debt-to-equity is 2.5x, too high for a cyclical in a slowdown.",
+        "The rights issue cut debt-to-equity from 1.8 to 0.9.",
+        "Banks are judged on capital ratios, not debt-to-equity."
+      ],
+      "fill": "Debt of ₹3,000 crore against equity of ₹2,000 crore is a 1.5x ____.",
+      "confusables": [
+        "interest-coverage",
+        "leverage",
+        "covenant"
+      ],
+      "wrong": [
+        "Profit divided by sales",
+        "Share price divided by book value",
+        "Cash divided by short-term debt"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "D/E ratio",
+        "gearing"
+      ],
+      "reads": {
+        "up": "Rising debt-to-equity raises default risk and interest costs; stocks of heavily indebted firms fall hard when rates rise or growth slows.",
+        "down": "Falling debt-to-equity (deleveraging) lowers risk and often leads to a re-rating."
+      }
+    },
+    {
+      "id": "interest-coverage",
+      "term": "interest coverage",
+      "unit": "n2",
+      "short": "How many times profit covers interest",
+      "definition": "Operating profit (EBIT) divided by interest expense. Below about 1.5x a company has little room for a bad quarter; above 5x interest is no worry. Lenders and rating agencies watch it closely.",
+      "examples": [
+        "Interest coverage fell to 1.2x; one bad quarter and they can't pay.",
+        "With 8x interest coverage, the debt isn't the issue.",
+        "Rising rates cut interest coverage for floating-rate borrowers."
+      ],
+      "fill": "EBIT of ₹600 crore against interest of ₹150 crore gives 4x ____.",
+      "confusables": [
+        "debt-to-equity",
+        "credit-risk"
+      ],
+      "wrong": [
+        "Dividends as a share of profit",
+        "Cash as a share of debt",
+        "Interest rate on the company's loans"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "interest cover"
+      ],
+      "calcs": [
+        {
+          "q": "EBIT is ₹480 crore and interest expense is ₹160 crore. What is interest coverage?",
+          "options": [
+            "3x",
+            "0.33x",
+            "4.8x",
+            "1.6x"
+          ],
+          "answer": 0,
+          "why": "480 ÷ 160 = 3: operating profit covers interest three times."
+        }
+      ],
+      "reads": {
+        "up": "Better interest coverage means debt is easier to service: less credit risk, and sometimes a rating upgrade.",
+        "down": "Falling interest coverage is an early sign of financial stress; credit spreads and the share price often react."
+      }
+    },
+    {
+      "id": "roe",
+      "term": "ROE",
+      "unit": "n3",
+      "short": "Profit as a percentage of shareholders' equity",
+      "definition": "Return on equity: net profit divided by shareholders' equity. It shows how well the company earns on owners' money. High, steady ROE often supports a high price-to-book ratio. Debt can boost ROE, so read it with leverage.",
+      "examples": [
+        "A 25% ROE for a decade is why the market pays 10x book for it.",
+        "ROE fell to 9% as the new plant sat idle.",
+        "Banks are often valued on ROE against price-to-book."
+      ],
+      "fill": "Net profit of ₹300 crore on equity of ₹1,500 crore is a 20% ____.",
+      "confusables": [
+        "roce",
+        "pb-ratio",
+        "book-value"
+      ],
+      "wrong": [
+        "Profit as a share of sales",
+        "Dividend divided by price",
+        "Growth in net profit over a year"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "return on equity"
+      ],
+      "calcs": [
+        {
+          "q": "Net profit is ₹450 crore and shareholders' equity is ₹3,000 crore. What is ROE?",
+          "options": [
+            "15%",
+            "6.7%",
+            "45%",
+            "1.5%"
+          ],
+          "answer": 0,
+          "why": "450 ÷ 3,000 = 0.15 = 15%."
+        }
+      ],
+      "reads": {
+        "up": "Rising ROE usually means better profitability and supports a higher valuation; check it isn't only from more debt.",
+        "down": "Falling ROE suggests weaker returns on new money, and the stock often de-rates."
+      }
+    },
+    {
+      "id": "roce",
+      "term": "ROCE",
+      "unit": "n3",
+      "short": "Operating return on all capital, debt and equity",
+      "definition": "Return on capital employed: EBIT divided by capital employed (equity plus debt). Unlike ROE it isn't flattered by borrowing, so it is the better measure for comparing capital-heavy companies. A ROCE below the cost of capital destroys value as the company grows.",
+      "examples": [
+        "ROCE of 30% means every new plant creates real value.",
+        "Debt pushed ROE up, but ROCE is stuck at 8%.",
+        "Investors in cement compare ROCE across companies, not ROE."
+      ],
+      "fill": "EBIT divided by equity plus debt is ____.",
+      "confusables": [
+        "roe",
+        "asset-turnover"
+      ],
+      "wrong": [
+        "Profit as a share of sales",
+        "Dividends divided by equity",
+        "Share price divided by EPS"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "return on capital employed"
+      ],
+      "reads": {
+        "up": "Rising ROCE shows the business earns more on every rupee invested, a strong reason for a premium valuation.",
+        "down": "Falling ROCE means new investment is earning less; if it drops below the cost of capital, growth destroys value."
+      }
+    },
+    {
+      "id": "asset-turnover",
+      "term": "asset turnover",
+      "unit": "n3",
+      "short": "Sales generated per rupee of assets",
+      "definition": "Revenue divided by total assets. Retailers and FMCG firms turn assets over fast; utilities and telecom slowly. With margin and leverage it is one of the three parts of ROE in the DuPont breakdown.",
+      "examples": [
+        "The retailer's asset turnover is 3x, so even a 5% margin gives a good ROE.",
+        "Asset turnover fell because the new plant isn't running at capacity yet.",
+        "DuPont: ROE equals margin times asset turnover times leverage."
+      ],
+      "fill": "Sales of ₹4,000 crore on assets of ₹2,000 crore give an ____ of 2x.",
+      "confusables": [
+        "roce",
+        "roe"
+      ],
+      "wrong": [
+        "Inventory divided by sales",
+        "Profit divided by assets",
+        "The share of assets that are fixed"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "Higher asset turnover means assets are working harder: better ROE without needing better margins.",
+        "down": "Falling asset turnover often means idle capacity or slowing sales."
+      }
+    },
+    {
+      "id": "cash-conversion",
+      "term": "cash conversion",
+      "unit": "n3",
+      "short": "How much profit turns into cash",
+      "definition": "Operating cash flow divided by EBITDA (or by net profit). A company converting 80% or more of EBITDA into cash is turning its profits into real money. Low or falling cash conversion suggests profits are stuck in working capital or aren't what they seem.",
+      "examples": [
+        "Cash conversion of 95% says the profits are real.",
+        "Cash conversion fell to 40% as receivables ballooned.",
+        "The analyst prefers the company with lower growth but better cash conversion."
+      ],
+      "fill": "Operating cash flow divided by EBITDA measures ____.",
+      "confusables": [
+        "operating-cash-flow",
+        "earnings-quality",
+        "working-capital"
+      ],
+      "wrong": [
+        "How fast inventory sells",
+        "How much profit is paid as dividends",
+        "How quickly debt is repaid"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "Rising cash conversion shows profits turning into real cash: a sign of quality the market rewards.",
+        "down": "Weak cash conversion is a warning: profits may be stuck in working capital or flattered by accounting."
+      }
+    },
+    {
+      "id": "earnings-quality",
+      "term": "earnings quality",
+      "unit": "n3",
+      "short": "How real and repeatable profit is",
+      "definition": "How much reported profit comes from the core business in cash, repeatedly, rather than from one-offs, aggressive accounting or unpaid bills. High-quality earnings deserve a higher multiple. Warning signs include profit far above cash flow, rising receivable days and frequent 'exceptional' items.",
+      "examples": [
+        "Earnings quality is poor: profit is up but cash flow is negative for the third year.",
+        "The market pays up for earnings quality, which is why the FMCG stocks trade at 50x.",
+        "Frequent changes in accounting policy are a red flag for earnings quality."
+      ],
+      "fill": "Profit that is backed by cash and doesn't rely on one-offs shows high ____.",
+      "confusables": [
+        "cash-conversion",
+        "exceptional-items",
+        "other-income"
+      ],
+      "wrong": [
+        "How much earnings grew this year",
+        "How close results came to estimates",
+        "Profit before tax and interest"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "dilution",
+      "term": "dilution",
+      "unit": "n3",
+      "short": "New shares cutting each holder's slice",
+      "definition": "When a company issues new shares, through a QIP, rights issue, stock options or a merger, each existing share owns a smaller part of the company, and EPS falls unless profit rises enough. Heavy, repeated dilution is a cost to shareholders even if the money raised is used well.",
+      "examples": [
+        "The QIP means 8% dilution, so EPS estimates were cut.",
+        "Employee stock options cause steady dilution at tech companies.",
+        "The merger is 15% dilution for our shareholders."
+      ],
+      "fill": "Issuing 10% more shares, so each existing share owns less of the company, is ____.",
+      "confusables": [
+        "qip",
+        "rights-issue",
+        "eps"
+      ],
+      "wrong": [
+        "A fall in the share price after results",
+        "Splitting each share into two",
+        "A company buying back its shares"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "More dilution lowers EPS and often pressures the stock, unless the cash raised clearly earns more than it costs.",
+        "down": "Little or no dilution, or buybacks that shrink the share count, lift EPS for existing holders."
+      }
+    },
+    {
+      "id": "peg-ratio",
+      "term": "PEG ratio",
+      "unit": "n3",
+      "short": "P/E divided by expected earnings growth",
+      "definition": "The price-to-earnings ratio divided by the expected annual earnings growth rate in percent. A P/E of 40 with 40% growth gives a PEG of 1; the same P/E with 10% growth gives 4. It is a rough way to compare expensive-looking growth stocks.",
+      "examples": [
+        "At a PEG ratio of 0.8 the stock isn't as expensive as its 40x P/E suggests.",
+        "A PEG ratio above 3 means you're paying a lot for the growth.",
+        "Growth forecasts are uncertain, so the PEG ratio is only a rough guide."
+      ],
+      "fill": "A P/E of 30 with expected earnings growth of 20% a year gives a ____ of 1.5.",
+      "confusables": [
+        "pe-ratio",
+        "valuation",
+        "multiple"
+      ],
+      "wrong": [
+        "Price divided by book value",
+        "Earnings growth over the last five years",
+        "Dividend divided by earnings"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "PEG"
+      ],
+      "calcs": [
+        {
+          "q": "A stock trades at 45 times earnings, and earnings are expected to grow 15% a year. What is its PEG ratio?",
+          "options": [
+            "3",
+            "0.33",
+            "30",
+            "60"
+          ],
+          "answer": 0,
+          "why": "PEG = P/E ÷ growth = 45 ÷ 15 = 3."
+        }
+      ]
+    },
+    {
+      "id": "ev-to-ebitda",
+      "term": "EV/EBITDA",
+      "unit": "n3",
+      "short": "Enterprise value over operating profit",
+      "definition": "Enterprise value (market cap plus net debt) divided by EBITDA. Because it counts debt and ignores the capital structure, it compares companies with different borrowing better than P/E does, and is common in capital-heavy sectors like telecom, cement and metals.",
+      "examples": [
+        "The cement deal valued the plant at 12x EV/EBITDA.",
+        "On EV/EBITDA, the debt-heavy telecom company isn't as cheap as its P/E suggests.",
+        "Metal stocks trade at 5x EV/EBITDA at the top of the cycle."
+      ],
+      "fill": "Market cap plus net debt, divided by operating profit, is the ____ multiple.",
+      "confusables": [
+        "enterprise-value",
+        "pe-ratio",
+        "ebitda"
+      ],
+      "wrong": [
+        "Price divided by earnings per share",
+        "Price divided by book value",
+        "Dividend divided by price"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "EV to EBITDA",
+        "EV/EBITDA multiple"
+      ],
+      "calcs": [
+        {
+          "q": "Market cap is ₹8,000 crore, net debt ₹2,000 crore and EBITDA ₹1,250 crore. What is EV/EBITDA?",
+          "options": [
+            "8x",
+            "6.4x",
+            "1.6x",
+            "10x"
+          ],
+          "answer": 0,
+          "why": "EV = 8,000 + 2,000 = ₹10,000 crore; 10,000 ÷ 1,250 = 8x."
+        }
+      ]
+    },
+    {
+      "id": "net-interest-margin",
+      "term": "net interest margin",
+      "unit": "n4",
+      "short": "A bank's lending rate minus its funding cost",
+      "definition": "Net interest income (interest earned minus interest paid) as a percentage of interest-earning assets. It is a bank's core profitability measure. It usually widens early in a rate-hiking cycle when loans reprice faster than deposits, and narrows when rates fall.",
+      "examples": [
+        "Net interest margin fell 15 bps as deposit costs caught up.",
+        "Banks with more floating-rate loans saw a quick rise in net interest margin when the RBI hiked.",
+        "A 4% net interest margin is high for a large private bank."
+      ],
+      "fill": "Interest earned minus interest paid, as a share of earning assets, is a bank's ____.",
+      "confusables": [
+        "casa-ratio",
+        "ebitda-margin",
+        "repo-rate"
+      ],
+      "wrong": [
+        "The interest rate on fixed deposits",
+        "Profit after tax divided by equity",
+        "The share of loans that have gone bad"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "NIM"
+      ],
+      "reads": {
+        "up": "Rising NIMs mean higher core profits for banks: bank stocks usually react well.",
+        "down": "Compressing NIMs squeeze bank earnings; the market often de-rates lenders when NIM guidance is cut."
+      }
+    },
+    {
+      "id": "gross-npa",
+      "term": "gross NPA",
+      "unit": "n4",
+      "short": "Bad loans as a share of all loans",
+      "definition": "Non-performing assets: loans where interest or principal is overdue for more than 90 days, as a percentage of total loans, before provisions. Net NPA subtracts provisions. Rising NPAs mean more provisions and lower profits ahead.",
+      "examples": [
+        "Gross NPA rose to 4.2% from 3.6%, mostly from unsecured retail loans.",
+        "The PSU bank rally of the last few years came as gross NPA fell steadily.",
+        "Watch slippages: they tell you where gross NPA is heading."
+      ],
+      "fill": "Loans overdue by more than 90 days, as a share of all loans, give a bank's ____ ratio.",
+      "confusables": [
+        "net-interest-margin",
+        "credit-risk",
+        "default"
+      ],
+      "wrong": [
+        "A bank's profit as a share of its loans",
+        "Deposits as a share of loans",
+        "Loans given to priority sectors"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "GNPA",
+        "gross non-performing assets"
+      ],
+      "reads": {
+        "up": "Rising gross NPAs mean more provisions and weaker profits; bank stocks usually sell off on asset-quality worries.",
+        "down": "Falling NPAs mean cleaner books and lower provisions ahead: a common trigger for re-rating."
+      }
+    },
+    {
+      "id": "casa-ratio",
+      "term": "CASA ratio",
+      "unit": "n4",
+      "short": "Share of deposits in low-cost accounts",
+      "definition": "The share of a bank's deposits in current and savings accounts, which pay little or no interest, against higher-cost fixed deposits. A high CASA ratio means cheaper funding and better margins. When rates rise, savers move to fixed deposits and the ratio usually falls.",
+      "examples": [
+        "The CASA ratio slipped from 45% to 40% as customers moved to FDs.",
+        "A high CASA ratio is why the big private bank can lend cheaper.",
+        "Falling CASA ratio is pushing up deposit costs across the sector."
+      ],
+      "fill": "Current and savings deposits as a share of all deposits is the bank's ____.",
+      "confusables": [
+        "net-interest-margin",
+        "gross-npa"
+      ],
+      "wrong": [
+        "The share of loans in cash",
+        "Capital as a share of risk assets",
+        "Cash reserves held with the RBI"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "CASA"
+      ],
+      "reads": {
+        "up": "A rising CASA ratio lowers funding costs and supports margins: positive for the bank.",
+        "down": "A falling CASA ratio raises funding costs and squeezes NIM."
+      }
+    },
+    {
+      "id": "arpu",
+      "term": "ARPU",
+      "unit": "n4",
+      "short": "Average revenue per user",
+      "definition": "Average revenue per user per month, the key number for telecom, and also used by internet and media companies. Tariff hikes and customers moving to costlier plans lift it. Analysts model telecom earnings mostly from subscribers × ARPU.",
+      "examples": [
+        "ARPU rose to ₹200 after the tariff hike, and the stock hit a record.",
+        "Subscriber growth is slowing, so ARPU has to do the work.",
+        "Every ₹10 of ARPU adds thousands of crores to telecom EBITDA."
+      ],
+      "fill": "Total monthly revenue divided by the number of subscribers is the telecom firm's ____.",
+      "confusables": [
+        "same-store-sales-growth",
+        "revenue-growth"
+      ],
+      "wrong": [
+        "The cost of adding a new customer",
+        "The share of customers who leave each month",
+        "Revenue from enterprise clients"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "average revenue per user"
+      ],
+      "reads": {
+        "up": "Rising ARPU, usually from tariff hikes, drops almost straight to EBITDA for telecoms: very positive for the stocks.",
+        "down": "Falling ARPU means price competition or customers trading down; earnings estimates get cut."
+      }
+    },
+    {
+      "id": "same-store-sales-growth",
+      "term": "same-store sales growth",
+      "unit": "n4",
+      "short": "Sales growth from stores open over a year",
+      "definition": "Growth in sales at stores that were open in both periods, leaving out new openings. It shows whether existing stores are really selling more. Retail, quick-service restaurant and jewellery stocks react strongly to it.",
+      "examples": [
+        "Same-store sales growth of 2% while total sales grew 20%: growth is only from new stores.",
+        "The QSR chain's same-store sales growth turned negative, and the stock fell 8%.",
+        "Investors watch same-store sales growth to see if demand is real."
+      ],
+      "fill": "Sales growth at outlets open for more than a year, excluding new stores, is ____.",
+      "confusables": [
+        "revenue-growth",
+        "arpu"
+      ],
+      "wrong": [
+        "Total sales growth including new stores",
+        "Growth in the number of stores",
+        "Online sales as a share of total"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "SSSG",
+        "like-for-like growth"
+      ],
+      "reads": {
+        "up": "Strong same-store sales growth shows healthy underlying demand and pricing: retail stocks usually rerate on it.",
+        "down": "Weak or negative SSSG means existing stores are struggling, even if new openings lift total sales."
+      }
+    },
+    {
+      "id": "order-backlog",
+      "term": "order backlog",
+      "unit": "n4",
+      "short": "Orders won but not yet delivered",
+      "definition": "The value of contracts a company has won but not yet executed, important for capital goods, defence, infrastructure and engineering firms. A backlog several times annual revenue gives visibility of future sales. Order inflow, the new orders won in a period, shows where it is heading.",
+      "examples": [
+        "The order backlog is ₹4 lakh crore, about four years of revenue.",
+        "Defence stocks rallied on record order inflow, swelling the order backlog.",
+        "A big backlog is only good if they can execute it on time and on margin."
+      ],
+      "fill": "Contracts won but not yet carried out, giving years of revenue visibility, form the ____.",
+      "confusables": [
+        "revenue-growth",
+        "guidance"
+      ],
+      "wrong": [
+        "The queue of buy orders at the exchange",
+        "Unpaid bills from customers",
+        "Unsold stock in the warehouse"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "order book (company)",
+        "order inflow"
+      ],
+      "reads": {
+        "up": "A growing backlog and strong order inflow mean visible future revenue: capital goods and defence stocks often rally on it.",
+        "down": "A shrinking backlog warns of slower revenue ahead; the stocks often fall before the sales do."
+      }
+    },
+    {
+      "id": "attrition-rate",
+      "term": "attrition rate",
+      "unit": "n4",
+      "short": "Share of staff who leave in a year",
+      "definition": "The percentage of employees who leave over a year, closely watched for IT services firms, where people are the main cost. High attrition raises hiring and wage costs and squeezes margins; falling attrition usually helps margins.",
+      "examples": [
+        "Attrition rate hit 25% during the hiring boom, and margins took a hit.",
+        "Falling attrition rate gives the IT firm room to expand margins.",
+        "Investors ask about attrition rate on every IT earnings call."
+      ],
+      "fill": "An IT firm losing 18 of every 100 employees over a year has an 18% ____.",
+      "confusables": [
+        "ebitda-margin"
+      ],
+      "wrong": [
+        "Growth in the number of clients",
+        "The share of revenue from the US",
+        "Revenue per employee"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "attrition"
+      ],
+      "reads": {
+        "up": "Rising attrition pushes up wage and hiring costs; IT margins and stocks usually suffer.",
+        "down": "Falling attrition eases cost pressure and supports IT margins."
+      }
+    },
+    {
+      "id": "total-contract-value",
+      "term": "total contract value",
+      "unit": "n4",
+      "short": "Value of new IT deals won",
+      "definition": "The total value of new deals an IT services firm signs in a quarter, over their whole life. It is the leading indicator for future revenue growth, so a strong TCV can lift a stock even when the current quarter is weak.",
+      "examples": [
+        "Total contract value of $2 billion this quarter points to faster growth next year.",
+        "Revenue missed, but record total contract value sent the stock up.",
+        "Large deals with long ramp-ups take time to turn TCV into revenue."
+      ],
+      "fill": "An IT firm signing $1.5 billion of new multi-year deals in a quarter reports that as its ____.",
+      "confusables": [
+        "order-backlog",
+        "revenue-growth",
+        "guidance"
+      ],
+      "wrong": [
+        "Revenue booked this quarter",
+        "Market value of the company",
+        "Value of shares bought back"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "TCV",
+        "deal wins"
+      ],
+      "reads": {
+        "up": "Strong TCV signals revenue growth ahead; IT stocks often rally on large deal wins even with a soft quarter.",
+        "down": "Weak TCV warns of slower growth in coming quarters; analysts cut estimates."
+      }
+    }
+  ]
+}

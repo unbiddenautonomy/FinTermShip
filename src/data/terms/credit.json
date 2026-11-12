@@ -1,0 +1,607 @@
+{
+  "id": "credit",
+  "name": "Credit and corporate bonds",
+  "order": 12,
+  "units": [
+    {
+      "id": "r1",
+      "name": "Credit basics",
+      "core": true
+    },
+    {
+      "id": "r2",
+      "name": "Credit markets in India",
+      "core": false
+    },
+    {
+      "id": "r3",
+      "name": "Spreads, defaults and credit trades",
+      "core": false
+    }
+  ],
+  "terms": [
+    {
+      "id": "credit-risk",
+      "term": "credit risk",
+      "unit": "r1",
+      "short": "The risk a borrower doesn't pay you back",
+      "definition": "The chance that a borrower or counterparty fails to pay interest or principal on time, and how much you would lose if it does. Lenders and bond investors are paid a higher yield for taking it. It differs from interest-rate risk, which hits even a government bond.",
+      "examples": [
+        "The bond yields 9% because you are taking real credit risk on the issuer.",
+        "A G-sec has interest-rate risk but almost no credit risk.",
+        "After the default, every fund cut its credit risk to the bone."
+      ],
+      "fill": "The chance that a company fails to repay its bonds is called ____.",
+      "confusables": [
+        "interest-rate-risk",
+        "default",
+        "liquidity-risk"
+      ],
+      "wrong": [
+        "The risk that rates rise and bond prices fall",
+        "The risk that you can't sell a bond quickly",
+        "The risk that the rupee weakens"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "interest-rate-risk",
+      "term": "interest-rate risk",
+      "unit": "r1",
+      "short": "Bond prices fall when rates rise",
+      "definition": "The risk that a bond loses value because market interest rates go up. Longer bonds lose more, as their duration measures. Even the safest government bond carries it, which is why it is kept separate from credit risk.",
+      "examples": [
+        "Ten-year G-secs carry no credit risk but plenty of interest-rate risk.",
+        "The fund cut duration to reduce interest-rate risk before the RBI meeting.",
+        "Short-term papers have little interest-rate risk."
+      ],
+      "fill": "A 10-year government bond falling 4% after rates jump 0.6% shows its ____.",
+      "confusables": [
+        "credit-risk",
+        "modified-duration"
+      ],
+      "wrong": [
+        "The chance the government defaults",
+        "The risk of not finding a buyer",
+        "The risk of the coupon being cut"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "default",
+      "term": "default",
+      "unit": "r1",
+      "short": "A borrower missing a payment it owes",
+      "definition": "Failing to pay interest or principal when due, or breaking other key terms of a loan or bond. In India a single day's delay on a rated bond counts, and ratings drop to D. Investors then recover only part of what they are owed, often after years.",
+      "examples": [
+        "The company defaulted on a ₹50 crore coupon, and its bonds crashed to 30 paise on the rupee.",
+        "After the default, the rating went straight to D.",
+        "Even a one-day delay counts as a default."
+      ],
+      "fill": "A company that misses an interest payment on its bonds is in ____.",
+      "confusables": [
+        "credit-risk",
+        "recovery-rate",
+        "downgrade"
+      ],
+      "wrong": [
+        "A fall in the company's share price",
+        "A rating cut from AAA to AA",
+        "A bond reaching its maturity date"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "credit-rating",
+      "term": "credit rating",
+      "unit": "r1",
+      "short": "An agency's grade of how likely you'll be repaid",
+      "definition": "An opinion from a rating agency on how likely an issuer is to pay its debts in full and on time, from AAA (highest safety) down to D (default). In India CRISIL, ICRA, CARE and India Ratings are the main agencies. Ratings lag the market: prices often fall before a downgrade.",
+      "examples": [
+        "The NCD carries a AA credit rating from CRISIL.",
+        "The bond sold off weeks before the credit rating was cut.",
+        "Mutual funds have limits on how much low credit rating paper they can hold."
+      ],
+      "fill": "AAA, AA and BBB are grades of a bond's ____.",
+      "confusables": [
+        "rating-agency",
+        "investment-grade",
+        "stock-rating"
+      ],
+      "wrong": [
+        "A broker's buy or sell call on a share",
+        "The bond's coupon rate",
+        "How often a bond trades"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "rating-agency",
+      "term": "rating agency",
+      "unit": "r1",
+      "short": "Firm that grades issuers' creditworthiness",
+      "definition": "A company that rates borrowers and their debt. In India the main ones are CRISIL, ICRA, CARE Ratings and India Ratings, all registered with SEBI. Issuers pay for ratings, which is a known conflict of interest and one reason ratings can be slow to fall.",
+      "examples": [
+        "Two rating agencies cut the company within a week.",
+        "IL&FS was AAA until weeks before it defaulted, which hurt every rating agency's credibility.",
+        "The issuer asked a second rating agency for a rating before the bond sale."
+      ],
+      "fill": "CRISIL, ICRA and CARE are each a ____.",
+      "confusables": [
+        "credit-rating",
+        "research-analyst"
+      ],
+      "wrong": [
+        "A stock exchange",
+        "A bank regulator",
+        "A bond fund manager"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "investment-grade",
+      "term": "investment grade",
+      "unit": "r1",
+      "short": "Rated BBB− or better: low default risk",
+      "definition": "Debt rated BBB− or higher, where default is considered unlikely. Below that it is sub-investment grade, or high yield. Many funds and insurers may only hold investment grade, so a fall below the line can force selling.",
+      "examples": [
+        "The cut to BB took the bond below investment grade, and insurers had to sell.",
+        "Most Indian corporate bonds issued are AA or AAA, well inside investment grade.",
+        "Fallen angels are companies that drop out of investment grade."
+      ],
+      "fill": "Bonds rated BBB− and above are called ____.",
+      "confusables": [
+        "high-yield-bond",
+        "credit-rating"
+      ],
+      "wrong": [
+        "Bonds issued only by the government",
+        "Bonds that pay a floating coupon",
+        "Bonds with less than a year to maturity"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "spread-over-gsec",
+      "term": "spread over G-sec",
+      "unit": "r1",
+      "short": "Corporate yield minus the G-sec yield",
+      "definition": "The extra yield a corporate bond pays over a government bond of the same maturity, in basis points. It is the market's price for credit and liquidity risk. A widening spread means investors see more risk or are pulling back; tightening means confidence.",
+      "examples": [
+        "The AAA PSU bond trades at a 60 bps spread over G-sec.",
+        "Spreads over G-sec widened 150 bps in a week after the default.",
+        "With yields flat, a tighter spread over G-sec meant the corporate bond rallied."
+      ],
+      "fill": "A corporate bond at 8.1% against a 7.2% government bond of the same maturity has a 90 bps ____.",
+      "confusables": [
+        "credit-spread",
+        "yield-to-maturity",
+        "g-sec"
+      ],
+      "wrong": [
+        "The gap between the bond's coupon and its yield",
+        "The bid-ask spread on a corporate bond",
+        "The difference between the repo rate and the G-sec yield"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "credit spread over G-sec",
+        "corporate bond spread"
+      ],
+      "calcs": [
+        {
+          "q": "A 5-year AA bond yields 8.45% and the 5-year G-sec yields 7.10%. What is the spread?",
+          "options": [
+            "135 bps",
+            "13.5 bps",
+            "1.35 bps",
+            "0.135 bps"
+          ],
+          "answer": 0,
+          "why": "8.45% − 7.10% = 1.35 percentage points = 135 basis points."
+        }
+      ],
+      "reads": {
+        "up": "Widening spreads mean investors want more pay for credit risk: a sign of stress, often seen before or during sell-offs.",
+        "down": "Tightening spreads mean credit is in demand and risk appetite is healthy."
+      }
+    },
+    {
+      "id": "probability-of-default",
+      "term": "probability of default",
+      "unit": "r1",
+      "short": "Chance a borrower defaults within a period",
+      "definition": "The likelihood that an issuer defaults over a set horizon, usually a year. Agencies publish historical default rates by rating; markets imply it from spreads. With the recovery rate, it gives the expected loss.",
+      "examples": [
+        "Historically, AAA issuers in India have a probability of default close to zero within a year.",
+        "The spread implies a 3% probability of default a year at 40% recovery.",
+        "Banks set capital using each borrower's probability of default."
+      ],
+      "fill": "The chance that an issuer misses payments within the next year is its one-year ____.",
+      "confusables": [
+        "expected-loss",
+        "recovery-rate",
+        "credit-rating"
+      ],
+      "wrong": [
+        "The chance its shares fall 10%",
+        "The chance a bond is called early",
+        "The share of bonds that are traded each day"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "PD"
+      ]
+    },
+    {
+      "id": "recovery-rate",
+      "term": "recovery rate",
+      "unit": "r1",
+      "short": "Share of the debt you get back after default",
+      "definition": "The fraction of what is owed that creditors eventually get back after a default, through restructuring or insolvency. Secured lenders recover more than unsecured bondholders. Loss given default is one minus the recovery rate.",
+      "examples": [
+        "Under the insolvency process, recovery rates for unsecured creditors have often been low.",
+        "Assume a 40% recovery rate, so you lose 60 paise per rupee on default.",
+        "The secured NCD has a higher recovery rate than the unsecured one."
+      ],
+      "fill": "If bondholders get back ₹35 of every ₹100 after a default, the ____ is 35%.",
+      "confusables": [
+        "loss-given-default",
+        "default",
+        "expected-loss"
+      ],
+      "wrong": [
+        "The share of the coupon still paid",
+        "The yield on the bond after default",
+        "The fall in the bond's price on the default day"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "loss-given-default",
+      "term": "loss given default",
+      "unit": "r1",
+      "short": "Share of the debt lost if default happens",
+      "definition": "The fraction of an exposure lost if the borrower defaults: one minus the recovery rate. A secured loan with good collateral might have an LGD of 25%; an unsecured bond could be 60% or more.",
+      "examples": [
+        "With 40% recovery, the loss given default is 60%.",
+        "Collateral cuts the loss given default, not the chance of default.",
+        "Banks estimate loss given default for every loan book."
+      ],
+      "fill": "One minus the recovery rate is the ____.",
+      "confusables": [
+        "recovery-rate",
+        "expected-loss",
+        "probability-of-default"
+      ],
+      "wrong": [
+        "The chance of a default",
+        "The fall in a stock price after default",
+        "The fee for restructuring a loan"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "LGD"
+      ]
+    },
+    {
+      "id": "ncd",
+      "term": "NCD",
+      "unit": "r2",
+      "short": "A corporate bond that can't become shares",
+      "definition": "A non-convertible debenture: a bond issued by a company that pays fixed interest and can't be turned into equity. It is the most common corporate bond in India. Some are sold to the public and listed on exchanges, often offering higher yields from lower-rated issuers.",
+      "examples": [
+        "The NBFC raised ₹500 crore through a public NCD issue at 9.5%.",
+        "Listed NCDs trade on NSE and BSE but can be thinly traded.",
+        "A secured NCD is backed by assets; an unsecured one isn't."
+      ],
+      "fill": "A company bond in India that pays fixed interest and can't convert into shares is an ____.",
+      "confusables": [
+        "bond",
+        "commercial-paper",
+        "spread-over-gsec"
+      ],
+      "wrong": [
+        "A share with a fixed dividend",
+        "A bank fixed deposit",
+        "A government savings bond"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "non-convertible debenture"
+      ]
+    },
+    {
+      "id": "commercial-paper",
+      "term": "commercial paper",
+      "unit": "r2",
+      "short": "Short-term company IOU, up to a year",
+      "definition": "An unsecured short-term borrowing by a company, typically for up to a year, sold at a discount and repaid at face value. It funds working capital cheaply for strong borrowers. When credit markets freeze, rolling it over gets hard, which can trigger a crisis.",
+      "examples": [
+        "The NBFC couldn't roll over its commercial paper after the default, and the panic spread.",
+        "Liquid funds hold a lot of 90-day commercial paper.",
+        "Top-rated firms issue commercial paper at rates close to T-bills."
+      ],
+      "fill": "A company borrowing for 90 days by issuing a discounted short-term note is using ____.",
+      "confusables": [
+        "certificate-of-deposit",
+        "t-bill",
+        "ncd"
+      ],
+      "wrong": [
+        "A bank overdraft",
+        "A long-term bond with a fixed coupon",
+        "Shares sold to institutions"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "CP"
+      ]
+    },
+    {
+      "id": "credit-risk-fund",
+      "term": "credit risk fund",
+      "unit": "r2",
+      "short": "Debt fund that lends to lower-rated firms",
+      "definition": "A debt mutual fund that must put most of its money in bonds rated below the top grades, to earn a higher yield. It can do well in calm times but suffers when defaults hit, and can face heavy redemptions. In 2020 several Indian debt funds holding lower-rated paper were wound up after redemptions froze.",
+      "examples": [
+        "The credit risk fund yielded 2% more than a liquid fund, until a default hit its NAV.",
+        "Investors pulled money from every credit risk fund after the defaults.",
+        "A credit risk fund trades safety for yield."
+      ],
+      "fill": "A debt fund that mostly holds AA and lower-rated bonds for extra yield is a ____.",
+      "confusables": [
+        "mutual-fund",
+        "credit-risk",
+        "segregated-portfolio"
+      ],
+      "wrong": [
+        "A fund that invests in shares of banks",
+        "A fund that holds only government bonds",
+        "A fund that hedges currency risk"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "segregated-portfolio",
+      "term": "segregated portfolio",
+      "unit": "r2",
+      "short": "Ring-fencing a defaulted bond inside a fund",
+      "definition": "When a bond in a debt fund is downgraded to default, SEBI rules let the fund split it into a separate portfolio, also called side-pocketing. Existing investors get units in it and are paid if anything is recovered, while the main fund carries on without the bad paper.",
+      "examples": [
+        "The fund created a segregated portfolio for the defaulted bonds, so new investors weren't hit by them.",
+        "If there's any recovery, segregated portfolio holders get paid.",
+        "Side-pocketing protects investors who stay from a run by those who leave."
+      ],
+      "fill": "A debt fund moving a defaulted bond into a separate pot for existing unitholders creates a ____.",
+      "confusables": [
+        "credit-risk-fund",
+        "default",
+        "nav"
+      ],
+      "wrong": [
+        "A fund that only buys short-term papers",
+        "A separate account for a large investor",
+        "A fund that hedges with futures"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "side pocket",
+        "side-pocketing"
+      ]
+    },
+    {
+      "id": "rating-watch",
+      "term": "rating watch",
+      "unit": "r2",
+      "short": "Warning that a rating may soon change",
+      "definition": "A notice from a rating agency that a rating is under review and may be changed, usually because of an event such as a merger, a big loss or a missed payment elsewhere. A 'watch with negative implications' often moves bond prices before any downgrade.",
+      "examples": [
+        "The agency put the company on rating watch with negative implications after the fraud report.",
+        "The bond fell 2% on the rating watch alone.",
+        "Rating watch, then downgrade: the usual order."
+      ],
+      "fill": "When an agency flags that a rating is under review and may be cut, the issuer is on ____.",
+      "confusables": [
+        "credit-rating",
+        "downgrade"
+      ],
+      "wrong": [
+        "A list of bonds banned from trading",
+        "A rating given for the first time",
+        "A ban on issuing new bonds"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "covenant",
+      "term": "covenant",
+      "unit": "r2",
+      "short": "A condition in a loan the borrower must keep",
+      "definition": "A condition in a bond or loan, such as keeping debt below three times EBITDA or not selling key assets. Breaking it can let lenders demand early repayment or renegotiate. Covenants protect lenders, so looser covenants mean more risk for the same yield.",
+      "examples": [
+        "The company breached its debt covenant and lenders demanded faster repayment.",
+        "Cov-lite loans give lenders less protection.",
+        "The NCD has a covenant that net debt stays below 3x EBITDA."
+      ],
+      "fill": "A bond term saying the issuer must keep debt below three times EBITDA is a ____.",
+      "confusables": [
+        "default",
+        "debt-to-equity"
+      ],
+      "wrong": [
+        "The bond's coupon payment",
+        "The maturity date of a bond",
+        "A guarantee from the government"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "credit-default-swap",
+      "term": "credit default swap",
+      "unit": "r3",
+      "short": "Insurance against a borrower defaulting",
+      "definition": "A contract where the buyer pays a yearly premium, the CDS spread, and the seller pays out if a named borrower defaults. It lets investors hedge or bet on credit risk without owning the bond. The spread is a live market price of default risk. In India the CDS market is small.",
+      "examples": [
+        "The bank's CDS spread doubled overnight: the market smells trouble.",
+        "Buy a credit default swap to hedge the bond without selling it.",
+        "Sovereign CDS spreads jump when a country looks shaky."
+      ],
+      "fill": "Paying a yearly premium to be compensated if a company defaults is buying a ____.",
+      "confusables": [
+        "spread-over-gsec",
+        "probability-of-default",
+        "option"
+      ],
+      "wrong": [
+        "A swap of fixed for floating interest",
+        "A loan backed by shares",
+        "An agreement to buy a bond later"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "CDS"
+      ]
+    },
+    {
+      "id": "expected-loss",
+      "term": "expected loss",
+      "unit": "r3",
+      "short": "PD × LGD × exposure",
+      "definition": "The average loss you expect from credit risk: probability of default times loss given default times the amount at risk. It is a cost of doing business that should be covered by the yield or the interest charged. Unexpected losses, above this, are what capital is for.",
+      "examples": [
+        "Expected loss on the loan book is 1.2%, so pricing has to clear that before costs.",
+        "Expected loss is PD times LGD times exposure.",
+        "Provisions should cover expected loss; capital covers the rest."
+      ],
+      "fill": "PD × LGD × exposure gives the ____.",
+      "confusables": [
+        "probability-of-default",
+        "loss-given-default",
+        "expected-shortfall"
+      ],
+      "wrong": [
+        "The worst loss in a year",
+        "The total bonds in default",
+        "The yield on a risky bond"
+      ],
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "A ₹10 crore loan has a 2% one-year probability of default and a 60% loss given default. What is the expected loss?",
+          "options": [
+            "₹12 lakh",
+            "₹20 lakh",
+            "₹6 crore",
+            "₹1.2 lakh"
+          ],
+          "answer": 0,
+          "why": "₹10 crore × 2% × 60% = ₹0.12 crore = ₹12 lakh."
+        }
+      ]
+    },
+    {
+      "id": "high-yield-bond",
+      "term": "high-yield bond",
+      "unit": "r3",
+      "short": "Below investment grade, higher interest",
+      "definition": "A bond rated below investment grade, BB+ or lower, that pays a high yield to make up for a real chance of default. Prices move more with the company's fortunes and with the economy than with interest rates. Also called junk bonds.",
+      "examples": [
+        "High-yield bonds sold off with equities as recession fears grew.",
+        "The 12% high-yield bond is really a bet on the company surviving.",
+        "High-yield spreads are a good gauge of risk appetite."
+      ],
+      "fill": "A BB-rated bond paying 12% because default is a real risk is a ____.",
+      "confusables": [
+        "investment-grade",
+        "distressed-debt",
+        "credit-risk"
+      ],
+      "wrong": [
+        "A government bond with a long maturity",
+        "A bond with a coupon that rises over time",
+        "A bond that pays tax-free interest"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "junk bond"
+      ]
+    },
+    {
+      "id": "distressed-debt",
+      "term": "distressed debt",
+      "unit": "r3",
+      "short": "Bonds of firms near or in default",
+      "definition": "Debt of companies that are in default or likely to be, trading at deep discounts, often below 50 paise on the rupee. Specialist investors buy it betting on a recovery or a restructuring that pays more than the price. In India the insolvency code shapes how it plays out.",
+      "examples": [
+        "The bonds trade at 30: distressed debt territory.",
+        "A distressed-debt fund bought the loans hoping the restructuring pays 50.",
+        "Once a bond is distressed debt, recovery value matters more than the coupon."
+      ],
+      "fill": "Bonds of a near-bankrupt company trading at 35 paise on the rupee are ____.",
+      "confusables": [
+        "high-yield-bond",
+        "recovery-rate",
+        "default"
+      ],
+      "wrong": [
+        "Bonds that pay no coupon",
+        "Bonds bought back by the issuer",
+        "Bonds held to maturity by banks"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "jump-to-default",
+      "term": "jump to default",
+      "unit": "r3",
+      "short": "A bond price collapsing overnight on default",
+      "definition": "The sudden drop in a bond's price when default hits, as it gaps from near face value to the recovery value. Spreads can look calm right up to it. It is why credit returns are skewed: many small gains, then a rare large loss.",
+      "examples": [
+        "The bond was at 98 on Friday and 25 on Monday: a jump to default.",
+        "Spread duration doesn't capture jump-to-default risk.",
+        "Credit funds collect small carry and occasionally suffer a jump to default."
+      ],
+      "fill": "A bond falling from 97 to 30 overnight when the issuer misses a payment is a ____.",
+      "confusables": [
+        "gap-risk",
+        "tail-risk",
+        "default"
+      ],
+      "wrong": [
+        "A slow widening of credit spreads",
+        "A rating moving up a notch",
+        "A bond being called early"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "spread-widening",
+      "term": "spread widening",
+      "unit": "r3",
+      "short": "Credit spreads moving out: risk priced higher",
+      "definition": "Credit spreads over government bonds rising, so risky bonds fall in price relative to safe ones. It happens when default fears rise or when investors pull money out of credit. Broad spread widening is an early warning that often comes with equity sell-offs.",
+      "examples": [
+        "After the default, spread widening hit even AAA NBFC paper.",
+        "Spread widening in high yield often comes before an equity correction.",
+        "The fund lost money on spread widening even though G-sec yields fell."
+      ],
+      "fill": "Corporate bond yields rising faster than G-sec yields is ____.",
+      "confusables": [
+        "spread-over-gsec",
+        "risk-off",
+        "flight-to-safety"
+      ],
+      "wrong": [
+        "The yield curve getting steeper",
+        "A bond's coupon being raised",
+        "The gap between bid and ask growing"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "When spreads widen, credit is under stress: risk-off, often bad for banks, NBFCs and leveraged companies.",
+        "down": "When spreads tighten, credit is in demand and lenders are confident: supportive for risk assets."
+      }
+    }
+  ]
+}
