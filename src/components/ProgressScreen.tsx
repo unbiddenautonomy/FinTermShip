@@ -77,7 +77,7 @@ export function ProgressScreen({ progress, today, onWeak }: { progress: Progress
             )}
             {mocks.length > 0 && (
               <div>
-                <p className="mb-1 text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">Mock rounds</p>
+                <p className="mb-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Mock rounds</p>
                 <ul className="space-y-1 text-sm">
                   {mocks.map(([round, m]) => (
                     <li key={round} className="flex justify-between gap-3">
@@ -92,7 +92,7 @@ export function ProgressScreen({ progress, today, onWeak }: { progress: Progress
             )}
             {tests.length > 0 && (
               <div>
-                <p className="mb-1 text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">Area tests, latest</p>
+                <p className="mb-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Area tests, latest</p>
                 <ul className="space-y-1 text-sm">
                   {tests.map(([id, a]) => (
                     <li key={id} className="flex justify-between gap-3">

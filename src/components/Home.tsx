@@ -128,14 +128,14 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
       <aside className="contents lg:sticky lg:top-8 lg:col-start-2 lg:flex lg:flex-col lg:gap-6">
       <Card className="order-1 space-y-5 lg:order-none">
         <div className="flex items-center gap-5">
-          <Ring value={todayStats.newTerms} max={goal} size={92} stroke={9} label={`${todayStats.newTerms} of ${goal} new terms today`}>
+          <Ring value={todayStats.newTerms} max={goal} size={92} stroke={9} tone="violet" label={`${todayStats.newTerms} of ${goal} new terms today`}>
             <div className="text-center leading-none">
               <p className="num text-2xl font-extrabold text-ink">{todayStats.newTerms}</p>
               <p className="mt-1 text-[11px] font-bold text-ink-3">of {goal} new</p>
             </div>
           </Ring>
           <div className="min-w-0">
-            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">Today</p>
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Today</p>
             <p className="mt-1 text-xl font-extrabold text-ink">{headline}</p>
             {subline && <p className="mt-1 text-sm leading-snug text-ink-2">{subline}</p>}
             {status.drill ? (
@@ -458,7 +458,7 @@ function PathStop({
             <KindIcon className="h-5 w-5" />
           </span>
         ) : (
-          <Ring value={r.met} max={r.total} size={48} stroke={5} tone={current ? 'brand' : 'sky'}>
+          <Ring value={r.met} max={r.total} size={48} stroke={5} tone={current ? 'brand' : 'violet'}>
             <span className={`num text-sm font-extrabold ${current ? 'text-brand-ink' : r.met ? 'text-ink-2' : 'text-ink-3'}`}>{r.i + 1}</span>
           </Ring>
         )}
@@ -559,7 +559,7 @@ function Sheet({ kicker, title, sub, onClose, children, actions }: { kicker: str
       >
         <div className="flex items-start gap-3 px-5 pb-3 pt-5">
           <div className="min-w-0 flex-1">
-            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">{kicker}</p>
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">{kicker}</p>
             <h2 id="unit-title" className="mt-1 text-xl font-extrabold text-ink">
               {title}
             </h2>
