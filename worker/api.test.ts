@@ -110,6 +110,12 @@ describe('worker: accounts', () => {
     expect(res2.status).toBe(415);
   });
 
+  it('reports what is set up without revealing it', async () => {
+    const r = await new Client().call('GET', '/api/status');
+    expect(r.data).toEqual({ database: true, adminEmail: true });
+    expect(JSON.stringify(r.data)).not.toContain('example');
+  });
+
   it('says sign-in is not set up when there is no database', async () => {
     const res = await worker.fetch(new Request(ORIGIN + '/api/me'), {});
     expect(res.status).toBe(503);

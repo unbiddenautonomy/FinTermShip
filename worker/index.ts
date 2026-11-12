@@ -140,6 +140,8 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   const url = new URL(request.url);
   const route = `${request.method} ${url.pathname}`;
   const db = env.DB;
+  // A setup check anyone can open: says what is configured, never the values.
+  if (route === 'GET /api/status') return json({ database: !!db, adminEmail: !!env.ADMIN_EMAIL });
   if (!db) return fail(503, 'Sign-in is not set up on this server yet.');
   // Writes must come from this site: a second guard beside the SameSite cookie.
   if (request.method !== 'GET') {
