@@ -155,6 +155,20 @@ for (const c of code) {
   if (!Array.isArray(c.options) || c.options.length !== 4 || new Set(c.options).size !== 4) errors.push(`${at}: needs 4 different options`);
   else if (c.options[0].length > 1.25 * Math.max(...c.options.slice(1).map((o) => o.length))) errors.push(`${at}: the right option is much longer than the others`);
 }
+// Projects: a brief, at least five steps, known terms, and four review questions with the right option first.
+const projects = JSON.parse(readFileSync(join(dir, '..', 'projects.json'), 'utf8'));
+for (const pr of projects) {
+  const at = `projects.json > ${pr.id ?? '(no id)'}`;
+  if (!pr.id || !pr.title || !pr.summary || !pr.deliverable) errors.push(`${at}: needs id, title, summary and deliverable`);
+  if (!Array.isArray(pr.steps) || pr.steps.length < 5) errors.push(`${at}: needs at least 5 steps`);
+  for (const t of pr.terms || []) if (!allIds.has(t)) errors.push(`${at}: term "${t}" is not a known term id`);
+  if (!Array.isArray(pr.review) || pr.review.length !== 4) errors.push(`${at}: needs 4 review questions`);
+  for (const [i, r] of (pr.review || []).entries()) {
+    if (!r.q || !r.why || !Array.isArray(r.options) || r.options.length !== 4 || new Set(r.options).size !== 4) errors.push(`${at} review ${i + 1}: needs q, why and 4 different options`);
+    else if (r.options[0].length > 1.25 * Math.max(...r.options.slice(1).map((o) => o.length))) errors.push(`${at} review ${i + 1}: the right option is much longer than the others`);
+  }
+}
+console.log(`Projects: ${projects.length}, ${projects.reduce((n, p) => n + p.steps.length, 0)} steps`);
 console.log(`Code snippets: ${code.length} (${code.filter((c) => c.kind === 'output').length} outputs, ${code.filter((c) => c.kind === 'bug').length} bugs)`);
 
 // Meeting clips: a few lines, two questions with the right option first and not the longest by far, and terms that exist outside phase 3.

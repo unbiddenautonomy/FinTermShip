@@ -140,6 +140,10 @@ export interface Progress {
   drills?: Record<string, DrillRecord>;
   /** The password was entered for phase 3. With the readiness test passed, phase 3 opens. */
   phase3Key?: boolean;
+  /** The project track: steps ticked and whether the review was passed, by project id. */
+  projects?: Record<string, { done: number[]; reviewed: boolean }>;
+  /** Best timed mock interview round, by interview round name. */
+  mocks?: Record<string, { best: number; total: number; date: string; tries: number }>;
 }
 
 export interface DrillRecord {
