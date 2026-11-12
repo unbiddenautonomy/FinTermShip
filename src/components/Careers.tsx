@@ -21,7 +21,7 @@ interface Props {
 /** A reading screen, off the track: where the quant units lead, and how firms hire. */
 export function Careers({ progress, onBack, onOpenUnit, onOpenProject, onOpenMock }: Props) {
   return (
-    <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5">
+    <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5 lg:max-w-5xl lg:px-8 lg:pb-12 lg:pt-8">
       <header className="flex items-center gap-3">
         <button type="button" onClick={onBack} className="rounded-xl px-2 py-1.5 text-sm font-extrabold text-brand-ink transition hover:bg-sunken">
           ← Back
@@ -39,7 +39,7 @@ export function Careers({ progress, onBack, onOpenUnit, onOpenProject, onOpenMoc
 
       <section>
         <SectionTitle aside={`${careers.roles.length} roles`}>The jobs</SectionTitle>
-        <div className="space-y-3">
+        <div className="space-y-3 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
           {[...careers.roles].sort((a, b) => Number(b.id === progress.settings.target) - Number(a.id === progress.settings.target)).map((r) => (
             <Card key={r.id} className="space-y-3">
               <div>
@@ -67,7 +67,7 @@ export function Careers({ progress, onBack, onOpenUnit, onOpenProject, onOpenMoc
           The app can make the words, the maths and the judgment automatic. The rest of the job is writing code on real data and defending the result. These six projects run in
           Colab or Jupyter; each has a brief, a checklist and review questions here.
         </p>
-        <ol className="space-y-2">
+        <ol className="space-y-2 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
           {PROJECTS.map((pr, i) => {
             const s = projectState(progress, pr.id);
             const done = projectDone(progress, pr.id);
@@ -98,7 +98,7 @@ export function Careers({ progress, onBack, onOpenUnit, onOpenProject, onOpenMoc
 
       <section>
         <SectionTitle aside={`${careers.rounds.length} rounds`}>How interviews usually run</SectionTitle>
-        <ol className="space-y-3">
+        <ol className="space-y-3 lg:grid lg:grid-cols-2 lg:gap-4 lg:space-y-0">
           {careers.rounds.map((round, i) => (
             <li key={round.name} className="flex gap-3 rounded-2xl border border-line bg-surface p-4">
               <span className="num flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-violet-soft text-sm font-extrabold text-violet-ink">{i + 1}</span>
