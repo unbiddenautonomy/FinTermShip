@@ -12,8 +12,11 @@
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/api/*"]
   },
-  // Keep variables set in the dashboard when deploying (ADMIN_EMAIL should be a Secret, which is always kept).
-  "keep_vars": true,
+  // The admin account: signs up without an invite and makes invites for everyone else.
+  // Kept here because the repository is private. A runtime secret named ADMIN_EMAIL, if one is set, takes its place.
+  "vars": {
+    "OWNER_EMAIL": "workiket@gmail.com"
+  },
   // Accounts and progress sync (see the README). Tables are created on first use.
   "d1_databases": [
     {
