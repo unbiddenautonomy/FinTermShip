@@ -83,11 +83,31 @@ The quant switch and phase 3 ask for the same password. Only its hash is in the 
 node scripts/hash-password.mjs "new password"
 ```
 
-Paste the printed hash into `PASSWORD_HASH`. With no server, this only keeps the password out of plain sight: anyone who reads the code closely can get past it.
+Paste the printed hash into `PASSWORD_HASH`. This only keeps the password out of plain sight: anyone who reads the code closely can get past it. Access granted on an account (below) is the real lock, and stands in for the password.
+
+## Accounts and sync
+
+Sign-in is invite-only and runs in the same Worker, in `worker/index.ts`, with a D1 database:
+
+- The admin account (the email in the `ADMIN_EMAIL` secret) signs up without an invite. In Settings, the admin makes invite codes (each works once, for 14 days, and carries quant and phase 3 access), and can change any account's access or switch it off.
+- Everyone else signs up in Settings with an invite code. Passwords are stored as salted PBKDF2 hashes; sign-in sets an HttpOnly session cookie for 30 days; eight wrong passwords lock an account for 15 minutes.
+- Progress is still saved in the browser first. A signed-in device also sends it to the server, which merges it with what other devices sent (`src/lib/sync.ts`: the further-along copy of each term, score and test wins). Resetting or restoring a backup starts over on every device.
+- Tables are created on first use, so there are no migrations. Without a database, `/api/` answers 503 and the app works as before, on one device.
+
+To set it up once, in the Cloudflare dashboard:
+
+1. **Storage & databases → D1 → Create database**, named `fintermship`. Copy its database ID into `wrangler.jsonc`:
+   ```jsonc
+   "d1_databases": [{ "binding": "DB", "database_name": "fintermship", "database_id": "<the ID>" }]
+   ```
+2. **Workers & Pages → fintermship → Settings → Variables and secrets → Add**: type **Secret**, name `ADMIN_EMAIL`, value your email. Secrets stay put across deploys.
+3. After the next deploy, open Settings, pick **Have an invite? Create your account**, and sign up with that email and no code.
+
+Run it locally with a throwaway database: `npx wrangler dev` with a copy of `wrangler.jsonc` that has any `database_id` and a `vars` entry for `ADMIN_EMAIL`. `worker/api.test.ts` runs the API against SQLite in the tests.
 
 ## Deploy to Cloudflare
 
-The app is a static site served by a Cloudflare Worker named `fintermship`. `wrangler.jsonc` tells Cloudflare to run `npm run build` and serve `dist/` as static files, sending unknown paths to `index.html`.
+The app is served by a Cloudflare Worker named `fintermship`. `wrangler.jsonc` tells Cloudflare to run `npm run build` and serve `dist/` as static files, sending unknown paths to `index.html`; only `/api/` reaches the Worker's code.
 
 1. In the Cloudflare dashboard, go to **Workers & Pages**, then **Create**, then **Import a repository**, and pick this repository.
 2. Keep the defaults: Cloudflare reads `wrangler.jsonc`, so the build and deploy commands can stay as suggested (`npm run build`, `npx wrangler deploy`).
