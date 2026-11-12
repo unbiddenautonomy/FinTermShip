@@ -22,6 +22,8 @@ export interface LessonPlan {
   unitId?: string;
   /** The area a test is for. */
   categoryId?: string;
+  /** A practice round on the learner's most-missed terms. */
+  weak?: boolean;
 }
 
 /** Next terms to teach: a picked unit (and what it builds on) first, then the track up to the next drill. */
