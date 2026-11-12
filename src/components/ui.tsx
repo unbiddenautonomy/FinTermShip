@@ -3,7 +3,7 @@ import { canSpeak, speakTerm } from '../lib/speech';
 import type { Term } from '../lib/types';
 import { Speaker } from './icons';
 
-export type Tone = 'brand' | 'sky' | 'amber' | 'violet' | 'bad' | 'ink';
+export type Tone = 'brand' | 'good' | 'sky' | 'amber' | 'violet' | 'bad' | 'ink';
 
 export function Button({
   children,
@@ -25,7 +25,7 @@ export function Button({
       'bg-brand text-white shadow-press hover:brightness-105 active:translate-y-[2px] active:shadow-none disabled:bg-line disabled:text-ink-3 disabled:shadow-none',
     secondary: 'bg-surface text-ink border border-line shadow-press-line hover:bg-sunken active:translate-y-[1px] active:shadow-none',
     ghost: 'text-ink-2 hover:bg-sunken',
-    danger: 'bg-bad text-white shadow-press-bad active:translate-y-[2px] active:shadow-none',
+    danger: 'bg-bad-strong text-white shadow-press-bad active:translate-y-[2px] active:shadow-none',
   }[variant];
   return (
     <button
@@ -41,6 +41,7 @@ export function Button({
 
 const barFill: Record<Tone, string> = {
   brand: 'bg-brand',
+  good: 'bg-good',
   sky: 'bg-sky',
   amber: 'bg-amber',
   violet: 'bg-violet',
@@ -66,6 +67,7 @@ export function Bar({ value, max, className = 'h-2', tone = 'brand', label }: { 
 
 const ringStroke: Record<Tone, string> = {
   brand: 'stroke-brand',
+  good: 'stroke-good',
   sky: 'stroke-sky',
   amber: 'stroke-amber',
   violet: 'stroke-violet',
@@ -118,6 +120,7 @@ export function Ring({
 
 const pillTone: Record<Tone, string> = {
   brand: 'bg-brand-soft text-brand-ink',
+  good: 'bg-good-soft text-good-ink',
   sky: 'bg-sky-soft text-sky-ink',
   amber: 'bg-amber-soft text-amber-ink',
   violet: 'bg-violet-soft text-violet-ink',

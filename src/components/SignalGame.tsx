@@ -255,8 +255,8 @@ function Heatmap({
             <span className="num self-center text-xs font-bold text-ink-3">{LOOKBACKS[i]}d</span>
             {row.map((v, j) => {
               const on = selected?.row === i && selected?.col === j;
-              const tint = v >= 0 ? `rgb(var(--brand) / ${Math.min(0.85, (v / 1.8) * 0.85).toFixed(2)})` : `rgb(var(--bad) / ${Math.min(0.6, (-v / 1.2) * 0.6).toFixed(2)})`;
-              const ring = on ? 'ring-[3px] ring-ink' : good?.(i, j) ? 'ring-2 ring-brand-ink' : '';
+              const tint = v >= 0 ? `rgb(var(--good) / ${Math.min(0.85, (v / 1.8) * 0.85).toFixed(2)})` : `rgb(var(--bad) / ${Math.min(0.6, (-v / 1.2) * 0.6).toFixed(2)})`;
+              const ring = on ? 'ring-[3px] ring-ink' : good?.(i, j) ? 'ring-2 ring-good-ink' : '';
               return (
                 <button
                   key={j}

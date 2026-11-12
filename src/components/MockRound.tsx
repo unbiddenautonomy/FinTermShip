@@ -137,7 +137,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
     const ready = mockReady(right, questions.length);
     return (
       <div className="mx-auto max-w-xl space-y-5 px-4 pb-32 pt-5">
-        <div className={`rounded-2xl p-5 ${ready ? 'bg-brand-soft' : 'bg-amber-soft'}`} role="status">
+        <div className={`rounded-2xl p-5 ${ready ? 'bg-good-soft' : 'bg-amber-soft'}`} role="status">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">{round} · mock</p>
           <p className="num mt-1 text-3xl font-extrabold text-ink">
             {right} of {questions.length}
@@ -278,7 +278,7 @@ function ReviewRow({ n, q, a }: { n: number; q: MockQuestion; a: MockAnswer }) {
   return (
     <li className="rounded-2xl border border-line bg-surface p-4">
       <p className="flex gap-2 font-bold text-ink">
-        <span className={`mt-0.5 shrink-0 ${good ? 'text-brand' : 'text-bad'}`}>{good ? <Check className="h-5 w-5" /> : <Cross className="h-5 w-5" />}</span>
+        <span className={`mt-0.5 shrink-0 ${good ? 'text-good' : 'text-bad'}`}>{good ? <Check className="h-5 w-5" /> : <Cross className="h-5 w-5" />}</span>
         <span>
           <span className="num text-ink-3">{n}. </span>
           {q.prompt}

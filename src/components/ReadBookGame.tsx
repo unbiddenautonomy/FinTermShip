@@ -145,8 +145,8 @@ function BookView({ item, revealed }: { item: BookItem; revealed: boolean }) {
             ))}
             {b.bids.map((l) => (
               <tr key={`b${l.price}`}>
-                <td className="relative py-0.5 text-left font-bold text-brand-ink">
-                  <span className="absolute inset-y-0.5 left-0 rounded bg-brand-soft" style={{ width: `${(100 * l.size) / top}%` }} aria-hidden="true" />
+                <td className="relative py-0.5 text-left font-bold text-good-ink">
+                  <span className="absolute inset-y-0.5 left-0 rounded bg-good-soft" style={{ width: `${(100 * l.size) / top}%` }} aria-hidden="true" />
                   <span className="relative">{qty(l.size)}</span>
                 </td>
                 <td className="py-0.5 text-right text-ink-2">{price(l.price)}</td>
@@ -158,7 +158,7 @@ function BookView({ item, revealed }: { item: BookItem; revealed: boolean }) {
           <p className="text-xs font-bold text-ink-3">Last trades, newest first</p>
           <ul className="num mt-1 space-y-0.5 text-sm">
             {b.tape.map((p, i) => (
-              <li key={i} className={p.side === 'buy' ? 'text-brand-ink' : 'text-bad-ink'}>
+              <li key={i} className={p.side === 'buy' ? 'text-good-ink' : 'text-bad-ink'}>
                 {p.side === 'buy' ? 'Buy' : 'Sell'} {qty(p.size)} at {price(p.price)}
               </li>
             ))}

@@ -123,7 +123,7 @@ export function BacktestGame({ unitId, seed, progress, today, onProgress, onFini
       <ol className="grid gap-2" aria-label="The write-up">
         {c.lines.map((l, i) => {
           let style = 'border-line bg-surface shadow-press-line hover:bg-sunken/60 active:translate-y-[1px] active:shadow-none';
-          if (a && i === c.answer) style = 'border-brand bg-brand-soft';
+          if (a && i === c.answer) style = 'border-good bg-good-soft';
           else if (a && i === a.line) style = 'animate-shake border-bad bg-bad-soft';
           else if (a) style = 'border-line bg-surface opacity-60';
           return (
