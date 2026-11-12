@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { cleanName, comma, daysToInterview, firstName, mocksReady, ROLES, targetRole } from './profile';
+import { cleanName, comma, firstName, mocksReady, ROLES, targetRole } from './profile';
 import { newProgress } from './scheduler';
 import type { Progress } from './types';
 
@@ -12,14 +12,6 @@ describe('profile', () => {
     expect(comma(newProgress())).toBe('');
     expect(cleanName('  a   b  ')).toBe('a b');
     expect(cleanName('x'.repeat(50))).toHaveLength(30);
-  });
-
-  it('counts the days to an interview and forgets one that has passed', () => {
-    expect(daysToInterview(withSettings({ interviewDate: '2026-11-20' }), '2026-11-12')).toBe(8);
-    expect(daysToInterview(withSettings({ interviewDate: '2026-11-12' }), '2026-11-12')).toBe(0);
-    expect(daysToInterview(withSettings({ interviewDate: '2026-11-01' }), '2026-11-12')).toBeNull();
-    expect(daysToInterview(withSettings({ interviewDate: 'soon' }), '2026-11-12')).toBeNull();
-    expect(daysToInterview(newProgress(), '2026-11-12')).toBeNull();
   });
 
   it('finds the target role and counts ready mock rounds', () => {

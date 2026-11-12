@@ -33,7 +33,7 @@ export function Careers({ progress, onBack, onOpenUnit, onOpenProject, onOpenMoc
           <Briefcase className="h-4 w-4" />
           Career map
         </p>
-        <h1 className="mt-1 text-2xl font-display font-semibold tracking-tight text-ink">Quant and trading careers</h1>
+        <h1 className="mt-1 text-2xl font-display font-semibold tracking-tight text-ink">Markets and quant careers</h1>
         <p className="mt-2 leading-relaxed text-ink-2">{careers.intro}</p>
       </div>
 

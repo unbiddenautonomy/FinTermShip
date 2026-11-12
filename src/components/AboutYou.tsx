@@ -6,17 +6,16 @@ import { Button } from './ui';
 const field = 'mt-1 w-full rounded-xl border border-line bg-sunken px-3 py-2.5 text-ink outline-none focus:border-sky';
 
 /**
- * Name, target role and interview date. Shown once on the home screen
+ * Name and target role. Shown once on the home screen
  * (with a skip), and always editable in Settings.
  */
-export function AboutYou({ progress, today, onSave, onSkip, saveLabel = 'Save' }: { progress: Progress; today: string; onSave: (p: Progress) => void; onSkip?: () => void; saveLabel?: string }) {
+export function AboutYou({ progress, onSave, onSkip, saveLabel = 'Save' }: { progress: Progress; onSave: (p: Progress) => void; onSkip?: () => void; saveLabel?: string }) {
   const s = progress.settings;
   const [name, setName] = useState(s.name ?? '');
   const [target, setTarget] = useState(s.target ?? '');
-  const [date, setDate] = useState(s.interviewDate ?? '');
   const [saved, setSaved] = useState(false);
   const save = () => {
-    const settings = { ...s, aboutAsked: true, name: cleanName(name) || undefined, target: target || undefined, interviewDate: date || undefined };
+    const settings = { ...s, aboutAsked: true, name: cleanName(name) || undefined, target: target || undefined, interviewDate: undefined };
     onSave({ ...progress, settings });
     setSaved(true);
   };
@@ -43,10 +42,6 @@ export function AboutYou({ progress, today, onSave, onSkip, saveLabel = 'Save' }
             </option>
           ))}
         </select>
-      </label>
-      <label className="block text-sm font-bold text-ink">
-        Interview date, if you have one
-        <input type="date" value={date} min={today} onChange={(e) => setDate(e.target.value)} className={field} />
       </label>
       <div className={`grid gap-3 ${onSkip ? 'grid-cols-2' : 'grid-cols-1'}`}>
         {onSkip && (
