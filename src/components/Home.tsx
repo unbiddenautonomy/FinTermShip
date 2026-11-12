@@ -9,7 +9,7 @@ import { todayStatus } from '../lib/lesson';
 import { PHASE3, phase3Open, reachableTermIds } from '../lib/phase3';
 import { KIND_LABEL, passRule, practiceAbout, recordLine, roundSize } from '../lib/practice';
 import { currentStreak, dayStats, isKnown } from '../lib/scheduler';
-import { comma, daysToInterview, mocksReady, targetRole } from '../lib/profile';
+import { comma, mocksReady, targetRole } from '../lib/profile';
 import { currentUnit, isDrill, track, unitDone, type PathRow } from '../lib/track';
 import type { Progress } from '../lib/types';
 import { Bolt, Briefcase, Calculator, Check, Cross, Dice, Flame, Lock, Logo } from './icons';
@@ -68,7 +68,6 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
       : `Ready for today${you}?`;
   const weak = weakSpots(progress);
   const role = targetRole(progress);
-  const days = daysToInterview(progress, today);
   const mocks = mocksReady(progress);
   const subline = !hasWork
     ? status.newAvailable === 0
@@ -115,11 +114,10 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
         <Card className="space-y-3 lg:col-span-2">
           <div>
             <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">About you</p>
-            <p className="mt-1 text-sm leading-relaxed text-ink-2">Three optional questions, so the app can greet you and point you at the right interview practice. Change them any time in Settings.</p>
+            <p className="mt-1 text-sm leading-relaxed text-ink-2">Two optional questions, so the app can greet you and point you at the right interview practice. Change them any time in Settings.</p>
           </div>
           <AboutYou
             progress={progress}
-            today={today}
             onSave={onProgress}
             onSkip={() => onProgress({ ...progress, settings: { ...progress.settings, aboutAsked: true } })}
           />
@@ -167,34 +165,21 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
       </Card>
 
 
-      {sheet && practiceKind(sheet) && (
-        <PracticeSheet
+      {sheet && (
+        <UnitSheets
           unitId={sheet}
           progress={progress}
           today={today}
           onClose={() => setSheet(null)}
-          onStart={() => {
-            setSheet(null);
-            onDrill(sheet);
-          }}
-          gate={gate}
-        />
-      )}
-      {sheet && !practiceKind(sheet) && (
-        <UnitSheet
-          unitId={sheet}
-          progress={progress}
-          today={today}
-          onClose={() => setSheet(null)}
-          onPractice={() => onPractice(sheet)}
+          onPractice={onPractice}
+          onDrill={onDrill}
           onFocus={(id) => {
             onFocus(id);
-            setSheet(null);
             // Bring the Today card into view: it now says where new terms come from.
             window.scrollTo({ top: 0, behavior: 'smooth' });
           }}
           onTest={onTest}
-          gate={gate}
+          onPhase3Key={onPhase3Key}
         />
       )}
 
@@ -219,29 +204,18 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
         </Card>
       )}
 
-      {(role || days !== null) && (
+      {role && (
         <button
           type="button"
           onClick={onOpenCareers}
           className="order-3 flex lg:order-none w-full items-center gap-3 rounded-2xl border border-violet/30 bg-violet-soft px-4 py-3 text-left transition hover:border-violet/60 active:scale-[0.99]"
         >
           <span className="num flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-surface text-violet-ink">
-            {days !== null ? (
-              <>
-                <span className="text-lg font-extrabold leading-none">{days}</span>
-                <span className="mt-0.5 text-[10px] font-bold leading-none">{days === 1 ? 'day' : 'days'}</span>
-              </>
-            ) : (
-              <Briefcase className="h-5 w-5" />
-            )}
+            <Briefcase className="h-5 w-5" />
           </span>
           <span className="min-w-0 flex-1">
             <span className="block font-bold text-ink">
-              {days === null
-                ? `Preparing for ${role!.title.toLowerCase()} roles`
-                : days === 0
-                  ? `Interview day${you}. Good luck!`
-                  : `${days} ${days === 1 ? 'day' : 'days'} to your ${role ? `${role.title.toLowerCase()} ` : ''}interview`}
+              {`Preparing for ${role.title.toLowerCase()} roles`}
             </span>
             <span className="block text-sm text-ink-2">
               Timed mock rounds interview-ready: {mocks.ready} of {mocks.total}.{' '}
@@ -507,6 +481,62 @@ function PathStop({
         </span>
       </button>
     </li>
+  );
+}
+
+/**
+ * The sheet for one unit: a practice sheet for drills, games and cases, or the
+ * term unit sheet. Shared by Learn, the career map and the guide, so opening a
+ * unit from those screens keeps the learner where they were.
+ */
+export function UnitSheets({
+  unitId,
+  progress,
+  today,
+  onClose,
+  onPractice,
+  onDrill,
+  onFocus,
+  onTest,
+  onPhase3Key,
+}: {
+  unitId: string;
+  progress: Progress;
+  today: string;
+  onClose: () => void;
+  onPractice: (unitId: string) => void;
+  onDrill: (unitId: string) => void;
+  onFocus: (unitId: string | null) => void;
+  onTest: (categoryId: string) => void;
+  onPhase3Key: () => void;
+}) {
+  const gate = <Phase3Gate progress={progress} today={today} onKey={onPhase3Key} onTest={() => onTest(PHASE3)} />;
+  return practiceKind(unitId) ? (
+    <PracticeSheet
+      unitId={unitId}
+      progress={progress}
+      today={today}
+      onClose={onClose}
+      onStart={() => {
+        onClose();
+        onDrill(unitId);
+      }}
+      gate={gate}
+    />
+  ) : (
+    <UnitSheet
+      unitId={unitId}
+      progress={progress}
+      today={today}
+      onClose={onClose}
+      onPractice={() => onPractice(unitId)}
+      onFocus={(id) => {
+        onFocus(id);
+        onClose();
+      }}
+      onTest={onTest}
+      gate={gate}
+    />
   );
 }
 
