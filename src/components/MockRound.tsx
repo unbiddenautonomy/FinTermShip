@@ -98,7 +98,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
 
   if (phase === 'intro') {
     return (
-      <div className="mx-auto max-w-xl space-y-5 px-4 pb-32 pt-5">
+      <div className="mx-auto max-w-xl lg:max-w-2xl space-y-5 px-4 pb-32 pt-5">
         <button type="button" onClick={onBack} className="rounded-xl px-2 py-1.5 text-sm font-extrabold text-brand-ink transition hover:bg-sunken">
           ← Back
         </button>
@@ -136,7 +136,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
     const right = questions.filter((qq, i) => isRight(qq, answers[i])).length;
     const ready = mockReady(right, questions.length);
     return (
-      <div className="mx-auto max-w-xl space-y-5 px-4 pb-32 pt-5">
+      <div className="mx-auto max-w-xl lg:max-w-2xl space-y-5 px-4 pb-32 pt-5">
         <div className={`rounded-2xl p-5 ${ready ? 'bg-good-soft' : 'bg-amber-soft'}`} role="status">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">{round} · mock</p>
           <p className="num mt-1 text-3xl font-extrabold text-ink">
@@ -171,7 +171,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
   const low = left < 60_000;
   return (
     <div className="flex min-h-[100dvh] flex-col">
-      <header className="mx-auto flex w-full max-w-xl items-center gap-3 px-4 pb-2 pt-4">
+      <header className="mx-auto flex w-full max-w-xl lg:max-w-2xl items-center gap-3 px-4 pb-2 pt-4">
         <button type="button" onClick={() => setConfirmQuit(true)} className="rounded-xl p-2 text-ink-3 transition hover:bg-sunken hover:text-ink-2" aria-label="Leave mock round">
           <Cross className="h-6 w-6" />
         </button>
@@ -181,7 +181,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
         </span>
       </header>
 
-      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pb-6 pt-4">
+      <main className="mx-auto flex w-full max-w-xl lg:max-w-2xl flex-1 flex-col px-4 pb-6 pt-4">
         <div className="mb-4 flex flex-wrap items-center gap-2">
           <Pill tone="violet" icon={<Briefcase className="h-3.5 w-3.5" />}>
             {round}

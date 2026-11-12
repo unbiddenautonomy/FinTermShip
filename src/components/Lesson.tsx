@@ -214,7 +214,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
 
   return (
     <div className="flex min-h-[100dvh] flex-col">
-      <header className="mx-auto flex w-full max-w-xl items-center gap-3 px-4 pb-2 pt-4">
+      <header className="mx-auto flex w-full max-w-xl lg:max-w-2xl items-center gap-3 px-4 pb-2 pt-4">
         <button
           type="button"
           onClick={() => setConfirmQuit(true)}
@@ -233,7 +233,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
         </span>
       </header>
 
-      <main key={index} className="mx-auto flex w-full max-w-xl flex-1 animate-pop flex-col px-4 pb-56 pt-4">
+      <main key={index} className="mx-auto flex w-full max-w-xl lg:max-w-2xl flex-1 animate-pop flex-col px-4 pb-56 pt-4">
         <div className="mb-5 flex flex-wrap items-center gap-2">
           <Pill tone={label.tone} icon={label.icon}>
             {label.text}
@@ -319,7 +319,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
 
       {q.kind === 'intro' && (
         <footer className="pb-safe fixed inset-x-0 bottom-0 border-t border-line bg-surface/95 px-4 pt-4 backdrop-blur">
-          <div className="mx-auto max-w-xl">
+          <div className="mx-auto max-w-xl lg:max-w-2xl">
             <Button onClick={next} className="w-full">
               Got it
             </Button>
@@ -361,7 +361,7 @@ function Feedback({ q, term, correct, retryQueued, onNext }: { q: ScoredQuestion
       role="status"
       aria-live="polite"
     >
-      <div className="mx-auto max-w-xl space-y-3">
+      <div className="mx-auto max-w-xl lg:max-w-2xl space-y-3">
         <div className="flex items-center gap-3">
           <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white ${correct ? 'bg-good' : 'bg-bad'}`}>
             {correct ? <Check className="h-5 w-5" /> : <Cross className="h-5 w-5" />}

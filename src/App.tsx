@@ -26,7 +26,7 @@ import { PayoffGame } from './components/PayoffGame';
 import { Results } from './components/Results';
 import { Settings } from './components/Settings';
 import { useAccount } from './components/useAccount';
-import { BookIcon, ChatIcon, GearIcon, PathIcon } from './components/icons';
+import { BookIcon, ChatIcon, GearIcon, Logo, PathIcon } from './components/icons';
 import { buildPractice, buildTest, withFocus } from './lib/choose';
 import { snoozeDrill } from './lib/drills';
 import { practiceKind } from './lib/content';
@@ -289,8 +289,33 @@ const TABS: { id: Tab; label: string; icon: typeof PathIcon }[] = [
 function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void; children: ReactNode }) {
   return (
     <>
-      {children}
-      <nav className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/90 pt-2 backdrop-blur-md" aria-label="Main">
+      {/* Laptops: a sidebar on the left, and the page sits beside it. */}
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-line bg-surface/80 px-4 py-6 backdrop-blur-md lg:flex">
+        <div className="mb-8 flex items-center gap-2.5 px-2">
+          <Logo className="h-9 w-9" />
+          <span className="text-xl font-extrabold tracking-tight text-ink">FinTermShip</span>
+        </div>
+        <nav className="space-y-1" aria-label="Main">
+          {TABS.map(({ id, label, icon: Icon }) => {
+            const active = id === tab;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => onTab(id)}
+                aria-current={active ? 'page' : undefined}
+                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left font-extrabold transition ${active ? 'bg-brand-soft text-brand-ink' : 'text-ink-2 hover:bg-sunken hover:text-ink'}`}
+              >
+                <Icon className="h-5 w-5" />
+                {label}
+              </button>
+            );
+          })}
+        </nav>
+        <p className="mt-auto px-2 text-xs leading-relaxed text-ink-3">Indian markets, trading and quant terms, a few minutes a day.</p>
+      </aside>
+      <div className="lg:pl-60">{children}</div>
+      <nav className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/90 pt-2 backdrop-blur-md lg:hidden" aria-label="Main">
         <div className="mx-auto grid max-w-xl grid-cols-4">
           {TABS.map(({ id, label, icon: Icon }) => {
             const active = id === tab;
