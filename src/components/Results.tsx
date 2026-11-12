@@ -17,9 +17,11 @@ interface Props {
   onSnooze?: () => void;
   /** The learner's first name, added to a good result's title. */
   name?: string;
+  /** Weak spots still on the list, shown after a weak-spots round. */
+  weakLeft?: number;
 }
 
-export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHome, onNext, onSnooze, name }: Props) {
+export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHome, onNext, onSnooze, name, weakLeft = 0 }: Props) {
   const pct = summary.firstTryTotal ? Math.round((summary.firstTryCorrect / summary.firstTryTotal) * 100) : 100;
   const test = summary.test;
   const drill = summary.drill;
@@ -65,7 +67,11 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
           : `You need 80% to open ${area}. You can try again tomorrow.`
         : summary.kind === 'review'
           ? 'Reviews cleared.'
-          : summary.kind === 'practice'
+          : summary.weak
+            ? weakLeft
+              ? `${weakLeft} weak ${weakLeft === 1 ? 'spot' : 'spots'} left. Right answers take terms off the list.`
+              : 'No weak spots left. Nice work.'
+            : summary.kind === 'practice'
             ? 'Practice only, so your review schedule is unchanged.'
             : `${summary.newIds.length} new term${summary.newIds.length === 1 ? '' : 's'} learned.`;
   const good = round ? round.passed : drill ? drill.passed : pct >= 80;

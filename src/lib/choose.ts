@@ -109,6 +109,12 @@ export function buildPractice(p: Progress, unitId: string, rng: Rng): LessonPlan
   const weakest = shuffle(met, rng)
     .sort((a, b) => p.terms[a].step - p.terms[b].step || p.terms[b].lapses - p.terms[a].lapses)
     .slice(0, PRACTICE_TERMS);
+  return { ...buildPracticeOn(p, weakest, rng), unitId };
+}
+
+/** A practice round on the given met terms: mixed question types, a matching round, a worked sum or two, and desk talk. */
+export function buildPracticeOn(p: Progress, weakest: string[], rng: Rng): LessonPlan {
+  const met = weakest;
   const known = new Set(Object.keys(p.terms));
   const picked = shuffle(termsOf(weakest), rng);
   const ask = [(t: Term) => termQuestion(t, rng, false, known), (t: Term) => fillQuestion(t, rng, false, known), (t: Term) => meaningQuestion(t, rng)];
@@ -119,7 +125,7 @@ export function buildPractice(p: Progress, unitId: string, rng: Rng): LessonPlan
   // Desk talk on this unit's terms, when an item fits what the learner has met.
   const talk = talkAbout(met, known, rng);
   if (talk && talkTerms(talk).some((id) => met.includes(id))) qs.push(talkQuestion(talk, rng));
-  return { kind: 'practice', newIds: [], reviewIds: [], questions: qs, unitId };
+  return { kind: 'practice', newIds: [], reviewIds: [], questions: qs };
 }
 
 /** The test can be taken when the area is still locked and not already tried today. */
