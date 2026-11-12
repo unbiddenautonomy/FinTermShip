@@ -25,6 +25,7 @@ import { MarketGame } from './components/MarketGame';
 import { PayoffGame } from './components/PayoffGame';
 import { Results } from './components/Results';
 import { Settings } from './components/Settings';
+import { useAccount } from './components/useAccount';
 import { BookIcon, ChatIcon, GearIcon, PathIcon } from './components/icons';
 import { buildPractice, buildTest, withFocus } from './lib/choose';
 import { snoozeDrill } from './lib/drills';
@@ -98,6 +99,8 @@ export default function App() {
     // Save after every change, one write at a time.
     saveChain.current = saveChain.current.then(() => saveProgress(p));
   }, []);
+
+  const { account, setAccount, sync, syncNow, signedOut } = useAccount(progress, update);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -217,7 +220,17 @@ export default function App() {
     case 'settings':
       return (
         <WithTabs tab="settings" onTab={(name) => setScreen({ name })}>
-          <Settings progress={progress} today={today} persisted={persisted} onChange={update} />
+          <Settings
+            progress={progress}
+            today={today}
+            persisted={persisted}
+            onChange={update}
+            account={account}
+            sync={sync}
+            onSignedIn={(me) => setAccount({ kind: 'in', me })}
+            onSignedOut={signedOut}
+            onSyncNow={syncNow}
+          />
         </WithTabs>
       );
     case 'careers':

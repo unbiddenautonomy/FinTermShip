@@ -1,21 +1,29 @@
 import { useRef, useState, type ReactNode } from 'react';
+import type { AccountState, Me } from '../lib/account';
 import { exportProgress, readBackupFile } from '../lib/storage';
 import { newProgress } from '../lib/scheduler';
 import { canSpeak, speak } from '../lib/speech';
 import type { Progress } from '../lib/types';
+import { AccountPanel } from './Account';
 import { PasswordDialog } from './PasswordDialog';
 import { Button, ConfirmDialog, Toggle } from './ui';
+import type { SyncStatus } from './useAccount';
 
 interface Props {
   progress: Progress;
   today: string;
   persisted: boolean;
   onChange: (p: Progress) => void;
+  account: AccountState;
+  sync: SyncStatus;
+  onSignedIn: (me: Me) => void;
+  onSignedOut: () => void;
+  onSyncNow: () => void;
 }
 
 const NEW_OPTIONS = [5, 10, 15, 20, 30, 40];
 
-export function Settings({ progress, today, persisted, onChange }: Props) {
+export function Settings({ progress, today, persisted, onChange, account, sync, onSignedIn, onSignedOut, onSyncNow }: Props) {
   const fileRef = useRef<HTMLInputElement>(null);
   const [message, setMessage] = useState<string | null>(null);
   const [pending, setPending] = useState<Progress | null>(null);
@@ -24,10 +32,16 @@ export function Settings({ progress, today, persisted, onChange }: Props) {
   const [askPassword, setAskPassword] = useState(false);
   const s = progress.settings;
   const minutes = s.newPerDay;
+  const signedIn = account.kind === 'in';
+  const quantGranted = signedIn && account.me.quant;
 
   return (
     <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5">
       <h1 className="text-2xl font-extrabold tracking-tight text-ink">Settings</h1>
+
+      <Group title="Account">
+        <AccountPanel account={account} sync={sync} onSignedIn={onSignedIn} onSignedOut={onSignedOut} onSyncNow={onSyncNow} />
+      </Group>
 
       <Group title="Daily goal">
         <Row>
@@ -61,12 +75,18 @@ export function Settings({ progress, today, persisted, onChange }: Props) {
           <div className="min-w-0 flex-1">
             <p className="font-bold text-ink">Go straight to quant</p>
             <p className="text-sm text-ink-3">
-              Opens maths and probability, quant and risk, options, and microstructure, and puts them first on your path. Needs the password.
+              Opens maths and probability, quant and risk, options, and microstructure, and puts them first on your path. {quantGranted ? 'Your account has access.' : 'Needs the password, or an account with quant access.'}
             </p>
           </div>
           <Toggle
             checked={!!s.quantFirst}
-            onChange={(v) => (v ? setAskPassword(true) : onChange({ ...progress, settings: { ...s, quantFirst: false } }))}
+            onChange={(v) =>
+              v
+                ? quantGranted
+                  ? onChange({ ...progress, settings: { ...s, quantFirst: true } })
+                  : setAskPassword(true)
+                : onChange({ ...progress, settings: { ...s, quantFirst: false } })
+            }
             label="Go straight to quant"
           />
         </Row>
@@ -92,7 +112,10 @@ export function Settings({ progress, today, persisted, onChange }: Props) {
       <Group title="Your progress">
         <Row>
           <p className="text-sm leading-relaxed text-ink-2">
-            Progress is saved in this browser on this device after every answer. It does not move to your other devices on its own, and clearing browser data erases it.
+            Progress is saved in this browser on this device after every answer.{' '}
+            {signedIn
+              ? 'Your account also keeps a copy, so it follows you to every device you sign in on.'
+              : 'Without an account it does not move to your other devices on its own, and clearing browser data erases it.'}
             {persisted ? ' This browser has agreed to keep it permanently.' : ''}
             <span className="mt-2 block text-ink-3">Last backup: {progress.lastBackup ?? 'never'}</span>
           </p>
@@ -189,7 +212,7 @@ export function Settings({ progress, today, persisted, onChange }: Props) {
         <Row>
           <div className="min-w-0 flex-1">
             <p className="font-bold text-ink">Reset progress</p>
-            <p className="text-sm text-ink-3">Erases all progress on this device. Settings are kept.</p>
+            <p className="text-sm text-ink-3">{signedIn ? 'Erases all progress, on this device and your account. Settings are kept.' : 'Erases all progress on this device. Settings are kept.'}</p>
           </div>
           <Button variant="danger" className="!px-4 !py-2.5 text-sm" onClick={() => setConfirmReset(true)}>
             Reset
@@ -211,10 +234,10 @@ export function Settings({ progress, today, persisted, onChange }: Props) {
       {pending && (
         <ConfirmDialog
           title="Replace your progress?"
-          body="The progress on this device will be replaced by the backup."
+          body={signedIn ? 'Your progress, here and on your account, will be replaced by the backup.' : 'The progress on this device will be replaced by the backup.'}
           confirmLabel="Replace"
           onConfirm={() => {
-            onChange(pending);
+            onChange({ ...pending, epoch: Date.now() });
             setPending(null);
             setPasted('');
             setMessage('Backup loaded.');
@@ -225,11 +248,11 @@ export function Settings({ progress, today, persisted, onChange }: Props) {
       {confirmReset && (
         <ConfirmDialog
           title="Erase all progress?"
-          body="This erases everything on this device and cannot be undone."
+          body={signedIn ? 'This erases everything, on every device you sign in on, and cannot be undone.' : 'This erases everything on this device and cannot be undone.'}
           confirmLabel="Erase"
           danger
           onConfirm={() => {
-            onChange({ ...newProgress(), settings: s });
+            onChange({ ...newProgress(), settings: s, epoch: Date.now() });
             setConfirmReset(false);
             setMessage('Progress erased.');
           }}
