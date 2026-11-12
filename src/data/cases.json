@@ -457,5 +457,185 @@
         "terms": ["trend-following", "max-drawdown", "volatility-targeting"]
       }
     ]
+  },
+  "y11": {
+    "setup": "An index provider has announced that a mid-cap stock joins a major index at the close on the effective date, three weeks away. You run an event book. The stock trades about ₹150 crore a day. Your rule: never be more than 20% of a day's volume when you trade.",
+    "facts": [
+      "Stock price: ₹800",
+      "Average daily volume: ₹150 crore",
+      "Passive funds tracking the index: ₹60,000 crore",
+      "Expected weight in the index: 0.5%",
+      "Effective date: the close, in three weeks"
+    ],
+    "steps": [
+      {
+        "ask": "How much must passive funds buy, and how does that compare with daily volume?",
+        "options": [
+          {
+            "text": "₹300 crore, about two days of volume",
+            "best": true,
+            "why": "0.5% of ₹60,000 crore is ₹300 crore. At ₹150 crore a day that's two full days of trading, squeezed into one close."
+          },
+          { "text": "₹30 crore, a fifth of a day", "why": "That's 0.05%, not 0.5%. The real demand is ten times bigger." },
+          { "text": "₹3,000 crore, twenty days of volume", "why": "That's 5% of the passive money. The weight is 0.5%." },
+          {
+            "text": "Nothing, since index funds can choose not to buy",
+            "why": "Index funds must hold the index to track it, so they buy, mostly at the close on the effective date."
+          }
+        ],
+        "terms": ["index-inclusion", "index-rebalancing-trade"]
+      },
+      {
+        "text": "You want to buy ahead of the passive demand and sell into it at the close on the effective date.",
+        "ask": "How much can you buy in the three weeks before, within your rule?",
+        "options": [
+          {
+            "text": "Up to about ₹30 crore a day, spread over the days",
+            "best": true,
+            "why": "20% of ₹150 crore is ₹30 crore a day. Building over two or three weeks gives a sizeable position without moving the price much."
+          },
+          {
+            "text": "₹300 crore today, before others react",
+            "why": "That's two days of volume in one day, ten times your participation limit, and you'd push the price up yourself."
+          },
+          { "text": "₹150 crore in the first hour", "why": "That's the whole day's volume in an hour. The impact would eat most of the edge." },
+          { "text": "Nothing until the effective date", "why": "The point is to own it before passive funds buy. On the day, you'd be competing with them." }
+        ],
+        "terms": ["participation-rate", "market-impact", "index-rebalancing-trade"]
+      },
+      {
+        "text": "Two weeks in, the stock is up 9% and every broker's note calls it the trade of the month. Short-sellers say the inclusion is fully priced in.",
+        "ask": "What does that tell you?",
+        "options": [
+          {
+            "text": "The trade is crowded: much of the passive demand is already in the price, so trim and keep the rest small",
+            "best": true,
+            "why": "When everyone front-runs the same flow, they own the stock passive funds need, and their selling on the day can match the buying."
+          },
+          { "text": "It will rise another 9% by the effective date", "why": "Past rises in a crowded trade don't predict more; the easy part has gone to the early buyers." },
+          { "text": "Add more, since the passive buying is certain", "why": "The buying is certain, but so is the selling by every trader who bought ahead of it." },
+          { "text": "Short it now, as it can only fall", "why": "Passive funds still have ₹300 crore to buy at the close. Shorting into that is dangerous." }
+        ],
+        "terms": ["crowded-trade", "priced-in"]
+      },
+      {
+        "text": "Effective date. You still hold ₹40 crore of stock. The closing auction is expected to be very large.",
+        "ask": "When do you sell?",
+        "options": [
+          {
+            "text": "Into the close, alongside the passive buying",
+            "best": true,
+            "why": "That's where the liquidity is: passive funds buy at the close, so selling into it gets the best price for size."
+          },
+          { "text": "First thing in the morning", "why": "The big buyers arrive at the close. Selling early means selling to other traders, often at lower prices." },
+          { "text": "A week after the effective date", "why": "Inclusion stocks often give back some of their gain once the forced buying is done." },
+          { "text": "Never: hold it as a long-term position", "why": "This was an event trade on a flow. Once the flow is gone, so is the reason to own it." }
+        ],
+        "terms": ["closing-auction", "index-inclusion"]
+      },
+      {
+        "text": "The day after, the stock falls 4% with no news.",
+        "ask": "Why?",
+        "options": [
+          {
+            "text": "The forced buying is over, and the traders who bought ahead of it are still selling",
+            "best": true,
+            "why": "With passive demand gone, the price drifts back toward where it would trade without the flow. This reversal is common after inclusions."
+          },
+          { "text": "The index provider changed its mind", "why": "Nothing changed in the index; the stock is in it now." },
+          { "text": "Passive funds sold it again", "why": "They hold it as long as it is in the index; they don't sell the next day." },
+          { "text": "The company missed earnings", "why": "The case says there was no news. The fall is the flow unwinding." }
+        ],
+        "terms": ["index-rebalancing-trade", "mean-reversion"]
+      }
+    ]
+  },
+  "z11": {
+    "setup": "You run a market-making algo in a liquid stock with a ₹0.05 tick. You quote both sides and want to finish the day near flat. Your risk limit is 20,000 shares either way.",
+    "facts": ["Tick size: ₹0.05", "Your limit: 20,000 shares long or short", "Best bid ₹500.00, best ask ₹500.05", "You're flat at the start"],
+    "steps": [
+      {
+        "text": "The book shows 30,000 shares on the bid at ₹500.00 and 6,000 on the ask at ₹500.05.",
+        "ask": "Where is short-term fair value?",
+        "options": [
+          {
+            "text": "About ₹500.042, near the ask, because the bid is so much heavier",
+            "best": true,
+            "why": "Microprice = (500.00 × 6,000 + 500.05 × 30,000) ÷ 36,000 ≈ 500.042. The thin offer is likelier to be cleared, so value leans up."
+          },
+          { "text": "₹500.025, the mid", "why": "The plain mid ignores the size on each side. With five times more on the bid, the next tick is likelier up." },
+          {
+            "text": "About ₹500.008, near the bid, where most of the size is",
+            "why": "Backwards: heavy size on the bid supports the price, and the thin offer is the one that gets taken."
+          },
+          { "text": "₹500.05, the ask", "why": "The ask is where you can buy now. Fair value sits between the quotes." }
+        ],
+        "terms": ["microprice", "order-book-imbalance", "mid-price"]
+      },
+      {
+        "ask": "What does that mean for your quotes?",
+        "options": [
+          {
+            "text": "Be careful selling at ₹500.05: an uptick is likely, so that sale would be picked off",
+            "best": true,
+            "why": "If the offer is cleared, the price moves up and anyone who sold at ₹500.05 is immediately losing. That's adverse selection."
+          },
+          {
+            "text": "Join the bid at ₹500.00 behind 30,000 shares to buy cheaply",
+            "why": "You'd be at the back of a long queue, and likely only fill if the bid gets hit hard, which is when you'd want not to."
+          },
+          { "text": "Nothing: market makers quote the mid regardless", "why": "Good market makers centre on their best estimate of value and adjust to the book." },
+          { "text": "Sell aggressively to get ahead of the move", "why": "Selling into a likely uptick is the opposite of what the book says." }
+        ],
+        "terms": ["adverse-selection", "queue-position"]
+      },
+      {
+        "text": "An hour later, buyers hit you repeatedly and you're long 18,000 shares, close to your limit.",
+        "ask": "What do you do?",
+        "options": [
+          {
+            "text": "Skew both quotes down a tick so you sell more and buy less",
+            "best": true,
+            "why": "Quote skewing gets you out of inventory while still earning some spread, rather than paying it all away."
+          },
+          { "text": "Keep quoting the same: inventory evens out", "why": "Flow that keeps hitting you often knows something. Doing nothing risks a breach." },
+          { "text": "Pull your bid and stop trading for the day", "why": "You'd stop adding, but you'd still be long 18,000 with no plan to get out." },
+          {
+            "text": "Sell all 18,000 at market at once",
+            "why": "Crossing the spread with that size pays away more than you need. Skewing first is cheaper; sell aggressively only if you breach."
+          }
+        ],
+        "terms": ["quote-skewing", "inventory-risk", "cross-the-spread"]
+      },
+      {
+        "text": "End of day. You quoted ₹0.05 wide all day, so you earned ₹0.025 a share against the mid on each fill. Your one-second markouts averaged −₹0.015 a share.",
+        "ask": "What was your spread capture, and what does it tell you?",
+        "options": [
+          {
+            "text": "₹0.01 a share: 40% of the half-spread; the rest went to traders who knew where the price was going",
+            "best": true,
+            "why": "₹0.025 earned minus ₹0.015 lost to the move after = ₹0.01. Spread capture is what you keep after adverse selection."
+          },
+          { "text": "₹0.05 a share, the full spread", "why": "You earn half the spread on each fill against the mid, and markouts take part of that back." },
+          { "text": "₹0.04 a share", "why": "Markouts are subtracted, not added: 0.025 − 0.015 = 0.01." },
+          { "text": "Nothing, since markouts were negative", "why": "Negative markouts reduce what you keep but don't wipe it out here." }
+        ],
+        "terms": ["spread-capture", "markout"]
+      },
+      {
+        "ask": "Which change would most likely raise spread capture tomorrow?",
+        "options": [
+          {
+            "text": "Widen or step back when the book is heavily imbalanced against your quote",
+            "best": true,
+            "why": "Most of the loss came from being picked off before predictable moves. Avoiding those fills keeps more of the spread."
+          },
+          { "text": "Quote tighter all day to trade more", "why": "More fills at the same markout means more volume at a thinner edge, and possibly less capture per share." },
+          { "text": "Raise the inventory limit to 50,000 shares", "why": "That adds risk; it doesn't stop informed traders picking you off." },
+          { "text": "Only quote in the last hour", "why": "It cuts your time in the market without dealing with what caused the losses." }
+        ],
+        "terms": ["order-book-imbalance", "toxic-flow", "spread-capture"]
+      }
+    ]
   }
 }

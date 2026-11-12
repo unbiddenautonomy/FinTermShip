@@ -55,6 +55,12 @@
       "id": "y10",
       "name": "Rates and macro trades",
       "core": false
+    },
+    {
+      "id": "y11",
+      "name": "Case: an index inclusion trade",
+      "core": false,
+      "kind": "case"
     }
   ],
   "terms": [

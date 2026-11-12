@@ -115,7 +115,7 @@ describe('learning phase 3', () => {
   it('keeps a strategy pick moving through phase 3, case by case, until it ends', () => {
     let p = opened();
     const seen: string[] = [];
-    for (let guard = 0; guard < 20 && p.focus; guard++) {
+    for (let guard = 0; guard < 60 && p.focus; guard++) {
       const unit = p.focus;
       seen.push(unit);
       p = isPracticeUnit(unit) ? recordRound(p, unit, 9, true, today) : meet(p, termIdsOfUnit(unit));
