@@ -222,7 +222,7 @@ function AdminPanel() {
 
   return (
     <div className="space-y-4 px-4 py-4">
-      <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">Admin: invites and access</p>
+      <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Admin: invites and access</p>
       <div className="space-y-3 rounded-xl bg-sunken p-3">
         <p className="text-sm font-bold text-ink">New invite</p>
         <Check label="Quant track" checked={quant} onChange={setQuant} />

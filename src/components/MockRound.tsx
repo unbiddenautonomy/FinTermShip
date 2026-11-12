@@ -138,7 +138,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
     return (
       <div className="mx-auto max-w-xl lg:max-w-2xl space-y-5 px-4 pb-32 pt-5">
         <div className={`rounded-2xl p-5 ${ready ? 'bg-good-soft' : 'bg-amber-soft'}`} role="status">
-          <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">{round} · mock</p>
+          <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">{round} · mock</p>
           <p className="num mt-1 text-3xl font-extrabold text-ink">
             {right} of {questions.length}
           </p>
