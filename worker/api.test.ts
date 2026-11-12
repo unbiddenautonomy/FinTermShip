@@ -52,7 +52,13 @@ describe('worker: accounts', () => {
 
   it('lets the admin email sign up without an invite, and nobody else', async () => {
     const stranger = new Client();
-    expect((await stranger.call('POST', '/api/signup', { email: 'x@y.com', password: 'longenough' })).status).toBe(403);
+    const r0 = await stranger.call('POST', '/api/signup', { email: 'x@y.com', password: 'longenough' });
+    expect(r0.status).toBe(403);
+    expect(r0.data.error).toMatch(/not the admin email/);
+    const unset = env;
+    env = { DB: fakeD1() };
+    expect((await stranger.call('POST', '/api/signup', { email: 'x@y.com', password: 'longenough' })).data.error).toMatch(/no admin email/);
+    env = unset;
     const admin = new Client();
     const r = await admin.call('POST', '/api/signup', { email: ' owner@example.com ', password: 'longenough' });
     expect(r.status).toBe(200);

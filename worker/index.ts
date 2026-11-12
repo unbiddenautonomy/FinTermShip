@@ -189,7 +189,17 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     let grant = { quant: 0, phase3: 0 };
     if (!isAdmin) {
       const invite = await db.prepare('SELECT * FROM invites WHERE code = ?').bind(code).first<{ quant: number; phase3: number; expires: number; used_by: number | null }>();
-      if (!code || !invite || invite.used_by !== null || invite.expires < now) return fail(403, 'That invite code is not valid. Ask for a new one.');
+      if (!code || !invite || invite.used_by !== null || invite.expires < now) {
+        // Until the admin has signed up, say why, so a setup slip is easy to spot.
+        if (!code && !(await db.prepare('SELECT id FROM users WHERE admin = 1').first()))
+          return fail(
+            403,
+            env.ADMIN_EMAIL
+              ? 'This email is not the admin email set on the server. Check the ADMIN_EMAIL secret for a typo.'
+              : 'The server has no admin email yet. Add ADMIN_EMAIL as a Secret under the Worker’s Settings, Variables and secrets (not the Build settings).',
+          );
+        return fail(403, 'That invite code is not valid. Ask for a new one.');
+      }
       grant = { quant: invite.quant, phase3: invite.phase3 };
     }
     if (await db.prepare('SELECT id FROM users WHERE email = ?').bind(email).first()) return fail(409, 'That email already has an account. Sign in instead.');
