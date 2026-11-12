@@ -5,4 +5,18 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: './',
   plugins: [react()],
+  build: {
+    rollupOptions: {
+      output: {
+        // Split what changes at different speeds, so a new release only
+        // re-downloads the part that changed: React, the term content, and the app.
+        manualChunks(id) {
+          if (id.includes('node_modules/react')) return 'react';
+          if (id.includes('/src/data/')) return 'content';
+        },
+      },
+    },
+    // The term content is one large chunk on purpose; it is cached for a year.
+    chunkSizeWarningLimit: 1200,
+  },
 })
