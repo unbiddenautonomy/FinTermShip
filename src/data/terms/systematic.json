@@ -59,6 +59,12 @@
       "id": "z10",
       "name": "Data and machine learning",
       "core": false
+    },
+    {
+      "id": "z11",
+      "name": "Case: quoting into a heavy bid",
+      "core": false,
+      "kind": "case"
     }
   ],
   "terms": [
