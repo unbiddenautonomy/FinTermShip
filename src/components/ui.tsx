@@ -198,6 +198,18 @@ export function TermDetails({ term, showExamples = 2 }: { term: Term; showExampl
     <div className="space-y-4">
       <p className="text-[17px] leading-relaxed text-ink">{term.definition}</p>
       {term.formula && <p className="rounded-xl bg-sunken px-3 py-2 font-mono text-[13px] text-ink-2">{term.formula}</p>}
+      {term.reads && (
+        <dl className="grid gap-2 text-[15px] leading-relaxed">
+          <div className="rounded-2xl bg-good-soft px-4 py-3">
+            <dt className="text-xs font-extrabold uppercase tracking-[0.12em] text-good-ink">When it rises</dt>
+            <dd className="mt-0.5 text-ink-2">{term.reads.up}</dd>
+          </div>
+          <div className="rounded-2xl bg-bad-soft px-4 py-3">
+            <dt className="text-xs font-extrabold uppercase tracking-[0.12em] text-bad-ink">When it falls</dt>
+            <dd className="mt-0.5 text-ink-2">{term.reads.down}</dd>
+          </div>
+        </dl>
+      )}
       {term.examples.slice(0, showExamples).map((ex) => (
         <figure key={ex} className="rounded-2xl border-l-4 border-brand bg-brand-soft/60 px-4 py-3">
           <p className="text-[15px] leading-relaxed text-ink-2">“{ex}”</p>

@@ -22,6 +22,8 @@ export interface Term {
   calcs?: Calc[];
   /** True or false statements that test a common misreading. */
   tf?: TrueFalse[];
+  /** For a number that moves, such as a company KPI: what a rise and a fall usually mean for traders. */
+  reads?: { up: string; down: string };
 }
 
 export interface Calc {

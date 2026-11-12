@@ -1,7 +1,7 @@
 {
   "id": "execution",
   "name": "Execution and transaction costs",
-  "order": 12,
+  "order": 15,
   "units": [
     {
       "id": "x1",
