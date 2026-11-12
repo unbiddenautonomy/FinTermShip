@@ -107,7 +107,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
             <Briefcase className="h-4 w-4" />
             Timed mock round
           </p>
-          <h1 className="mt-1 text-2xl font-extrabold tracking-tight text-ink">{round}</h1>
+          <h1 className="mt-1 text-2xl font-display font-semibold tracking-tight text-ink">{round}</h1>
           <p className="mt-2 leading-relaxed text-ink-2">{spec.about}</p>
         </div>
         <Card className="space-y-2">
