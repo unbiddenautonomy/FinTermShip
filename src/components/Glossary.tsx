@@ -93,7 +93,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
       {groups.map(({ cat: c, terms }) =>
         terms.length ? (
           <section key={c.id} className="mt-4">
-            <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">{c.name}</h2>
+            <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">{c.name}</h2>
             <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
               {terms.map((t) => {
                 const s = progress.terms[t.id];

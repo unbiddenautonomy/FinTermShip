@@ -322,7 +322,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
 function Group({ title, children }: { title: string; children: ReactNode }) {
   return (
     <section>
-      <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">{title}</h2>
+      <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">{title}</h2>
       <div className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-card">{children}</div>
     </section>
   );
