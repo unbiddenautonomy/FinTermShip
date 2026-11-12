@@ -4,6 +4,7 @@ import { exportProgress, readBackupFile } from '../lib/storage';
 import { newProgress } from '../lib/scheduler';
 import { canSpeak, speak } from '../lib/speech';
 import type { Progress } from '../lib/types';
+import { AboutYou } from './AboutYou';
 import { AccountPanel } from './Account';
 import { PasswordDialog } from './PasswordDialog';
 import { Button, ConfirmDialog, Toggle } from './ui';
@@ -41,6 +42,12 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
 
       <Group title="Account">
         <AccountPanel account={account} sync={sync} onSignedIn={onSignedIn} onSignedOut={onSignedOut} onSyncNow={onSyncNow} />
+      </Group>
+
+      <Group title="About you">
+        <div className="px-4 py-4">
+          <AboutYou progress={progress} today={today} onSave={onChange} />
+        </div>
       </Group>
 
       <Group title="Daily goal">

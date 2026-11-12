@@ -37,6 +37,7 @@ import { buildLesson, drillUp, todayStatus, type LessonPlan } from './lib/lesson
 import { seededRng } from './lib/questions';
 import { KIND_LABEL } from './lib/practice';
 import { loadProgress, requestPersistence, saveProgress } from './lib/storage';
+import { firstName } from './lib/profile';
 import { currentUnit } from './lib/track';
 import type { GameId, Progress } from './lib/types';
 
@@ -178,6 +179,7 @@ export default function App() {
       return (
         <Results
           summary={screen.summary}
+          name={firstName(progress)}
           canContinue={s.due > 0 || s.newLeft > 0 || !!s.drill}
           nextLabel={nextDrill && nextDrill === last?.unitId ? 'Try again' : nextDrill ? `Next: a ${KIND_LABEL[practiceKind(nextDrill) ?? 'drill']}` : 'Next lesson'}
           onHome={() => setScreen({ name: 'home' })}
@@ -269,6 +271,8 @@ export default function App() {
             onOpenCareers={() => setScreen({ name: 'careers' })}
             initialSheet={screen.name === 'home' ? screen.sheet : undefined}
             showInstallHint={isIosBrowser()}
+            onProgress={update}
+            signedIn={account.kind === 'in'}
           />
         </WithTabs>
       );

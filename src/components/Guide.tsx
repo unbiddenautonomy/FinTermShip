@@ -5,6 +5,7 @@ import { drillPassed } from '../lib/drills';
 import { answer, careers, replyFor, STARTERS, type HelpAction, type Intent, type Reply, type Target } from '../lib/guide';
 import { todayStatus } from '../lib/lesson';
 import { KIND_LABEL } from '../lib/practice';
+import { firstName } from '../lib/profile';
 import { currentUnit } from '../lib/track';
 import type { Progress } from '../lib/types';
 import { ChatIcon, Lock } from './icons';
@@ -81,7 +82,9 @@ export function Guide({ progress, today, log, onLog, onOpenUnit, onFocus, onTest
 
       <div ref={list} className="space-y-4" aria-live="polite">
         <Bubble>
-          <p>Ask me what a term means, what to learn next, or how the app works. I'll point you to the right unit.</p>
+          <p>
+            {firstName(progress) ? `Hi ${firstName(progress)}. ` : ''}Ask me what a term means, what to learn next, or how the app works. I'll point you to the right unit.
+          </p>
           {log.length === 0 && (
             <div className="mt-3 flex flex-wrap gap-2">
               {STARTERS.map((s) => (

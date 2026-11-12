@@ -15,9 +15,11 @@ interface Props {
   onNext: () => void;
   /** Offered after a failed drill, game or case that holds up the path. */
   onSnooze?: () => void;
+  /** The learner's first name, added to a good result's title. */
+  name?: string;
 }
 
-export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHome, onNext, onSnooze }: Props) {
+export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHome, onNext, onSnooze, name }: Props) {
   const pct = summary.firstTryTotal ? Math.round((summary.firstTryCorrect / summary.firstTryTotal) * 100) : 100;
   const test = summary.test;
   const drill = summary.drill;
@@ -78,7 +80,10 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
             <p className="mt-1.5 text-xs font-bold text-ink-3">{round ? scoreLabel.label : test ? 'score' : drill ? 'right' : 'first try'}</p>
           </div>
         </Ring>
-        <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-ink">{title}</h1>
+        <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-ink">
+          {title}
+          {name && good ? `, ${name}` : ''}
+        </h1>
         {practiceId && <p className="mt-1 text-sm font-bold text-ink-3">{unitById.get(practiceId)?.name}</p>}
         <p className="mt-1 text-ink-2">{subline}</p>
       </div>
