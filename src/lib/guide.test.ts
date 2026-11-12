@@ -121,6 +121,9 @@ describe('routes, careers and help', () => {
       return r.kind === 'help' ? r.topic.id : r.kind;
     };
     expect(topic('how do I back up my progress')).toBe('backup');
+    expect(topic('how do I sign in')).toBe('account');
+    expect(topic('I have an invite code')).toBe('account');
+    expect(topic('how do I sync to my laptop')).toBe('backup');
     expect(topic('how do I change my daily goal')).toBe('goal');
     expect(topic('this is too much')).toBe('goal');
     expect(topic('too many new terms')).toBe('goal');
