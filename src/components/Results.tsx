@@ -72,7 +72,7 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
   const practiceId = drill?.unitId ?? round?.unitId;
   const scoreLabel = round?.score ?? (round?.kind === 'game' ? { label: 'checks met', short: 'Checks' } : { label: 'best calls', short: 'Calls' });
   return (
-    <div className="mx-auto flex min-h-[100dvh] max-w-xl animate-pop flex-col px-4 pb-8 pt-12">
+    <div className="mx-auto flex min-h-[100dvh] max-w-xl lg:max-w-2xl animate-pop flex-col px-4 pb-8 pt-12">
       <div className="flex flex-col items-center text-center">
         <Ring value={pct} max={100} size={148} stroke={12} tone={good ? 'good' : 'amber'} label={round ? `${summary.firstTryCorrect} of ${summary.firstTryTotal}` : test || drill ? `${pct}% right` : `${pct}% right first time`}>
           <div className="leading-none">

@@ -1,7 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { categories as allCategories, isCore, isPhase3Area } from '../lib/content';
 import { phase3Open } from '../lib/phase3';
-import type { Progress } from '../lib/types';
+import type { Progress, Term } from '../lib/types';
 import { ChevronDown, Search } from './icons';
 import { Pill, SpeakButton, StepDots, TermDetails } from './ui';
 
@@ -39,10 +39,12 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
         })),
     [categories, q, cat, filter, progress.terms],
   );
+  const openTerm = open ? categories.flatMap((c) => c.terms).find((t) => t.id === open) : undefined;
   const shown = groups.reduce((n, g) => n + g.terms.length, 0);
 
   return (
-    <div className="mx-auto max-w-xl px-4 pb-32 pt-5">
+    <div className="mx-auto max-w-xl px-4 pb-32 pt-5 lg:grid lg:max-w-6xl lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-x-8 lg:px-8 lg:pb-12 lg:pt-8">
+      <div className="min-w-0">
       <div className="mb-4 flex items-baseline justify-between">
         <h1 className="text-2xl font-extrabold tracking-tight text-ink">Glossary</h1>
         <span className="num text-sm font-semibold text-ink-3">{categories.reduce((n, c) => n + c.terms.length, 0)} terms</span>
@@ -60,7 +62,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
             className="w-full bg-transparent text-base text-ink outline-none placeholder:text-ink-3"
           />
         </label>
-        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none]">
+        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0">
           <Chip active={cat === 'all'} onClick={() => setCat('all')}>
             All areas
           </Chip>
@@ -99,7 +101,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
                   <li key={t.id}>
                     <button
                       onClick={() => setOpen(expanded ? null : t.id)}
-                      className="flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-sunken/60"
+                      className={`flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-sunken/60 ${expanded ? 'lg:bg-brand-soft' : ''}`}
                       aria-expanded={expanded}
                     >
                       <span className="min-w-0 flex-1">
@@ -116,38 +118,12 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
                       </span>
                       <span className="flex shrink-0 items-center gap-2">
                         {s ? <StepDots step={s.step} /> : <span className="text-xs font-semibold text-ink-3">not met</span>}
-                        <ChevronDown className={`h-4 w-4 text-ink-3 transition ${expanded ? 'rotate-180' : ''}`} />
+                        <ChevronDown className={`h-4 w-4 text-ink-3 transition lg:hidden ${expanded ? 'rotate-180' : ''}`} />
                       </span>
                     </button>
                     {expanded && (
-                      <div className="space-y-4 bg-sunken/40 px-4 pb-5 pt-3">
-                        {(t.said || t.aliases?.length || progress.settings.voice) && (
-                          <div className="flex items-center gap-3 text-sm text-ink-3">
-                            <SpeakButton term={t} enabled={progress.settings.voice} size="sm" />
-                            <span>
-                              {t.said ? `Say it: ${t.said}` : ''}
-                              {t.aliases?.length ? `${t.said ? ' · ' : ''}Also: ${t.aliases.join(', ')}` : ''}
-                            </span>
-                          </div>
-                        )}
-                        <TermDetails term={t} showExamples={3} />
-                        {s && (
-                          <div className="flex flex-wrap items-center gap-2 text-xs text-ink-3">
-                            <Pill tone={s.step >= 4 ? 'brand' : 'sky'}>Step {s.step} of 6</Pill>
-                            {s.trouble && <Pill tone="bad">Trouble term</Pill>}
-                            <span>
-                              Next review {s.due} · {s.correct} right, {s.wrong} wrong
-                            </span>
-                          </div>
-                        )}
-                        {t.source && (
-                          <p className="text-xs text-ink-3">
-                            Checked {t.asOf}:{' '}
-                            <a className="font-bold text-sky-ink underline" href={t.source} target="_blank" rel="noreferrer">
-                              source
-                            </a>
-                          </p>
-                        )}
+                      <div className="bg-sunken/40 px-4 pb-5 pt-3 lg:hidden">
+                        <TermBody term={t} progress={progress} />
                       </div>
                     )}
                   </li>
@@ -157,6 +133,18 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
           </section>
         ) : null,
       )}
+      </div>
+
+      <aside className="sticky top-8 hidden max-h-[calc(100dvh-4rem)] overflow-y-auto rounded-2xl border border-line bg-surface p-6 shadow-card lg:block" aria-label="Term details">
+        {openTerm ? (
+          <>
+            <h2 className="mb-4 text-2xl font-extrabold tracking-tight text-ink">{openTerm.term}</h2>
+            <TermBody term={openTerm} progress={progress} />
+          </>
+        ) : (
+          <p className="py-16 text-center text-ink-3">Pick a term on the left to see what it means, how it is used, and how well you know it.</p>
+        )}
+      </aside>
     </div>
   );
 }
@@ -171,5 +159,41 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
     >
       {children}
     </button>
+  );
+}
+
+/** What a term card shows when opened: inline on a phone, in the side pane on a laptop. */
+function TermBody({ term: t, progress }: { term: Term; progress: Progress }) {
+  const s = progress.terms[t.id];
+  return (
+    <div className="space-y-4">
+      {(t.said || t.aliases?.length || progress.settings.voice) && (
+        <div className="flex items-center gap-3 text-sm text-ink-3">
+          <SpeakButton term={t} enabled={progress.settings.voice} size="sm" />
+          <span>
+            {t.said ? `Say it: ${t.said}` : ''}
+            {t.aliases?.length ? `${t.said ? ' · ' : ''}Also: ${t.aliases.join(', ')}` : ''}
+          </span>
+        </div>
+      )}
+      <TermDetails term={t} showExamples={3} />
+      {s && (
+        <div className="flex flex-wrap items-center gap-2 text-xs text-ink-3">
+          <Pill tone={s.step >= 4 ? 'brand' : 'sky'}>Step {s.step} of 6</Pill>
+          {s.trouble && <Pill tone="bad">Trouble term</Pill>}
+          <span>
+            Next review {s.due} · {s.correct} right, {s.wrong} wrong
+          </span>
+        </div>
+      )}
+      {t.source && (
+        <p className="text-xs text-ink-3">
+          Checked {t.asOf}:{' '}
+          <a className="font-bold text-sky-ink underline" href={t.source} target="_blank" rel="noreferrer">
+            source
+          </a>
+        </p>
+      )}
+    </div>
   );
 }

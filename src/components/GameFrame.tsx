@@ -52,7 +52,7 @@ export function GameFrame({
   const rulesOpen = !started || showRules;
   return (
     <div className="flex min-h-[100dvh] flex-col">
-      <header className="mx-auto flex w-full max-w-xl items-center gap-3 px-4 pb-2 pt-4">
+      <header className="mx-auto flex w-full max-w-xl lg:max-w-2xl items-center gap-3 px-4 pb-2 pt-4">
         <button
           type="button"
           onClick={() => setConfirmQuit(true)}
@@ -65,7 +65,7 @@ export function GameFrame({
         <span className="num w-24 shrink-0 text-right text-sm font-extrabold text-ink-2">{counter}</span>
       </header>
 
-      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col px-4 pb-6 pt-4">
+      <main className="mx-auto flex w-full max-w-xl lg:max-w-2xl flex-1 flex-col px-4 pb-6 pt-4">
         <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
           <Pill tone={tone} icon={icon}>
             {unit?.name ?? 'Game'}

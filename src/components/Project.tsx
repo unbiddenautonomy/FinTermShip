@@ -22,7 +22,7 @@ export function ProjectScreen({ projectId, progress, onProgress, onBack }: Props
   const [seed, setSeed] = useState(() => Date.now() % 2_147_483_647);
 
   return (
-    <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5">
+    <div className="mx-auto max-w-xl lg:max-w-3xl space-y-6 px-4 pb-32 lg:pb-12 pt-5">
       <header className="flex items-center gap-3">
         <button type="button" onClick={onBack} className="rounded-xl px-2 py-1.5 text-sm font-extrabold text-brand-ink transition hover:bg-sunken">
           ← Career map

@@ -37,7 +37,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
   const quantGranted = signedIn && account.me.quant;
 
   return (
-    <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5">
+    <div className="mx-auto max-w-xl lg:max-w-2xl space-y-6 px-4 pb-32 lg:pb-12 pt-5">
       <h1 className="text-2xl font-extrabold tracking-tight text-ink">Settings</h1>
 
       <Group title="Account">
