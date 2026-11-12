@@ -1,6 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import type { GuideEntry } from './components/Guide';
-import { Home } from './components/Home';
+import { Home, UnitSheets } from './components/Home';
 import type { LessonSummary } from './components/Lesson';
 import { useAccount } from './components/useAccount';
 import { useGameKeys, useSlashKey } from './components/useKeys';
@@ -128,6 +128,11 @@ export default function App() {
   const [today, setToday] = useState(dayKey());
   // The guide's conversation lasts while the app is open, across tabs.
   const [guideLog, setGuideLog] = useState<GuideEntry[]>([]);
+  // A unit sheet opened over the career map or the guide, and where to come back to after a lesson started from one.
+  const [overlay, setOverlay] = useState<string | null>(null);
+  const [origin, setOrigin] = useState<Screen | null>(null);
+  const originY = useRef(0);
+  const restoreY = useRef<number | null>(null);
   const saveChain = useRef<Promise<void>>(Promise.resolve());
 
   useEffect(() => {
@@ -147,7 +152,12 @@ export default function App() {
   const { account, setAccount, sync, syncNow, signedOut } = useAccount(progress, update);
 
   useEffect(() => {
+    const y = restoreY.current;
+    restoreY.current = null;
     window.scrollTo(0, 0);
+    // Coming back to the career map or the guide: return to the same spot, once it has drawn.
+    if (y) requestAnimationFrame(() => window.scrollTo(0, y));
+    setOverlay(null);
   }, [screen.name]);
 
   // Once Home is showing, fetch the other screens while the learner reads it.
@@ -182,6 +192,13 @@ export default function App() {
     const seed = Date.now() % 2_147_483_647;
     const plan = make(seed);
     if (plan) setScreen({ name: 'lesson', plan, seed });
+    else setOrigin(null);
+  };
+  // Leaving a lesson, drill, game or results goes back to where it was started from.
+  const back = () => {
+    if (origin) restoreY.current = originY.current;
+    setScreen(origin ?? { name: 'home' });
+    setOrigin(null);
   };
   // Drills, games and desk cases each have their own screen.
   const drill = (unitId: string) => setScreen({ name: practiceKind(unitId) ?? 'drill', unitId, seed: Date.now() % 2_147_483_647 });
@@ -208,7 +225,7 @@ export default function App() {
           rng={seededRng(screen.seed + 1)}
           onProgress={update}
           onFinish={(summary) => setScreen({ name: 'results', summary })}
-          onQuit={() => setScreen({ name: 'home' })}
+          onQuit={back}
         />
       );
     case 'drill':
@@ -221,7 +238,7 @@ export default function App() {
           today={today}
           onProgress={update}
           onFinish={(summary) => setScreen({ name: 'results', summary })}
-          onQuit={() => setScreen({ name: 'home' })}
+          onQuit={back}
         />
       );
     case 'game':
@@ -236,7 +253,7 @@ export default function App() {
           today={today}
           onProgress={update}
           onFinish={(summary) => setScreen({ name: 'results', summary })}
-          onQuit={() => setScreen({ name: 'home' })}
+          onQuit={back}
         />
       );
     }
@@ -252,7 +269,7 @@ export default function App() {
           weakLeft={weakSpots(progress).length}
           canContinue={s.due > 0 || s.newLeft > 0 || !!s.drill}
           nextLabel={nextDrill && nextDrill === last?.unitId ? 'Try again' : nextDrill ? `Next: a ${KIND_LABEL[practiceKind(nextDrill) ?? 'drill']}` : 'Next lesson'}
-          onHome={() => setScreen({ name: 'home' })}
+          onHome={back}
           onNext={() => start(false)}
           onSnooze={
             stuck
@@ -260,7 +277,7 @@ export default function App() {
                   let p = snoozeDrill(progress, last.unitId, today);
                   if (p.focus === last.unitId) p = withFocus(p, null);
                   update(p);
-                  setScreen({ name: 'home' });
+                  back();
                 }
               : undefined
           }
@@ -287,7 +304,7 @@ export default function App() {
             today={today}
             log={guideLog}
             onLog={setGuideLog}
-            onOpenUnit={(unitId) => setScreen({ name: 'home', sheet: unitId })}
+            onOpenUnit={setOverlay}
             onFocus={pick}
             onTest={takeTest}
             onStart={() => start(false)}
@@ -317,7 +334,7 @@ export default function App() {
           <Careers
             progress={progress}
             onBack={() => setScreen({ name: 'home' })}
-            onOpenUnit={(unitId) => setScreen({ name: 'home', sheet: unitId })}
+            onOpenUnit={setOverlay}
             onOpenProject={(projectId) => setScreen({ name: 'project', projectId })}
             onOpenMock={(round) => setScreen({ name: 'mock', round })}
           />
@@ -355,7 +372,31 @@ export default function App() {
       );
   }
   })();
-  return <Suspense fallback={<Spinner />}>{body}</Suspense>;
+  const overlayFrom = screen.name === 'careers' || screen.name === 'guide' ? screen : null;
+  // Starting something from the sheet remembers this screen, so finishing or quitting comes back here.
+  const fromOverlay = (f: () => void) => () => {
+    setOrigin(overlayFrom);
+    originY.current = window.scrollY;
+    f();
+  };
+  return (
+    <Suspense fallback={<Spinner />}>
+      {body}
+      {overlay && overlayFrom && (
+        <UnitSheets
+          unitId={overlay}
+          progress={progress}
+          today={today}
+          onClose={() => setOverlay(null)}
+          onPractice={(id) => fromOverlay(() => practise(id))()}
+          onDrill={(id) => fromOverlay(() => drill(id))()}
+          onFocus={pick}
+          onTest={(id) => fromOverlay(() => takeTest(id))()}
+          onPhase3Key={() => update(withPhase3Key(progress))}
+        />
+      )}
+    </Suspense>
+  );
 }
 
 function Kbd({ children }: { children: ReactNode }) {

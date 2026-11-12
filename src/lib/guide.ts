@@ -311,6 +311,13 @@ export const HELP: HelpTopic[] = [
     action: 'settings',
   },
   {
+    id: 'theme',
+    strong: true,
+    match: /\b(dark mode|light mode|dark theme|light theme|night mode|theme|too bright|too dark|change (the )?colou?rs?)\b/,
+    text: 'Pick Auto, Light or Dark in Settings, under Appearance. Auto follows your device. The choice is saved on each device separately.',
+    action: 'settings',
+  },
+  {
     id: 'goal',
     strong: true,
     match: /\b(daily goal|new terms (per|a|each) day|how many (new )?terms|too (many|much)( new)? (terms|words|cards|questions|reviews|lessons)|(its|it is|this is|thats|that is) too (many|much|fast|slow)|too (fast|slow)|slow (it )?down|speed (it )?up|minutes a day|time a day)\b/,
