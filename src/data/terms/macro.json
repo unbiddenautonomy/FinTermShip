@@ -17,6 +17,16 @@
       "id": "m2",
       "name": "Liquidity and government borrowing",
       "core": false
+    },
+    {
+      "id": "m4",
+      "name": "Money markets and benchmarks",
+      "core": false
+    },
+    {
+      "id": "m5",
+      "name": "Curve trades and global cues",
+      "core": false
     }
   ],
   "terms": [
@@ -1037,6 +1047,429 @@
         "A grant from the centre to a state"
       ],
       "difficulty": 2
+    },
+    {
+      "id": "wacr",
+      "term": "WACR",
+      "unit": "m4",
+      "short": "Average overnight interbank call rate",
+      "definition": "The weighted average call rate: the average rate at which banks lend to each other overnight in the uncollateralised call money market, weighted by volume. It is the RBI's operating target, so the RBI uses its liquidity tools to keep it close to the repo rate.",
+      "examples": [
+        "WACR has drifted above the repo rate, so liquidity is tight.",
+        "The RBI's job is to keep WACR near the policy repo rate.",
+        "WACR fell towards the SDF rate as surplus liquidity piled up."
+      ],
+      "fill": "The RBI targets the ____, the volume-weighted overnight rate banks charge each other.",
+      "confusables": [
+        "call-rate",
+        "repo-rate",
+        "mibor"
+      ],
+      "wrong": [
+        "The rate the RBI pays on reverse repo",
+        "The 10-year government bond yield",
+        "The average rate on bank fixed deposits"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "weighted average call rate"
+      ],
+      "reads": {
+        "up": "WACR rising above repo signals tight liquidity; short-term rates and bank funding costs climb.",
+        "down": "WACR slipping below repo signals surplus liquidity, often a sign the RBI is easing in practice."
+      }
+    },
+    {
+      "id": "mibor",
+      "term": "MIBOR",
+      "unit": "m4",
+      "short": "India's overnight interbank benchmark rate",
+      "definition": "The Mumbai Interbank Outright Rate, published daily by FBIL from call money trades in the first hour of the session. Overnight MIBOR is the floating leg of most Indian interest rate swaps, so it links the money market to the swap market.",
+      "examples": [
+        "The swap pays fixed against overnight MIBOR.",
+        "MIBOR jumped when advance tax payments drained liquidity.",
+        "Corporate loans are sometimes priced as MIBOR plus a spread."
+      ],
+      "fill": "The floating leg of most Indian interest-rate swaps is the overnight ____.",
+      "confusables": [
+        "wacr",
+        "overnight-indexed-swap",
+        "call-rate"
+      ],
+      "wrong": [
+        "The RBI's policy repo rate",
+        "The yield on a 91-day T-bill",
+        "The rate at which the RBI lends against bonds overnight"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "Mumbai Interbank Outright Rate"
+      ]
+    },
+    {
+      "id": "treps",
+      "term": "TREPS",
+      "unit": "m4",
+      "short": "Tri-party repo: collateralised overnight lending",
+      "definition": "Tri-party repo dealing and settlement, run by CCIL: overnight lending against government securities, with CCIL as the central counterparty. It is the biggest overnight money market in India, used by banks, mutual funds and others to park or borrow cash.",
+      "examples": [
+        "Liquid funds park spare cash in TREPS overnight.",
+        "TREPS rates spiked at quarter-end as banks hoarded cash.",
+        "Because it is collateralised, TREPS usually trades a little below the call rate."
+      ],
+      "fill": "Mutual funds lend cash overnight against G-secs through CCIL in ____.",
+      "confusables": [
+        "repo-rate",
+        "call-rate",
+        "clearing-corporation"
+      ],
+      "wrong": [
+        "A bond issued by three banks together",
+        "A deposit scheme run by the RBI",
+        "A swap of fixed for floating rates"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "tri-party repo"
+      ]
+    },
+    {
+      "id": "overnight-indexed-swap",
+      "term": "overnight indexed swap",
+      "unit": "m4",
+      "short": "Swap fixed against compounded overnight rate",
+      "definition": "A swap where one side pays a fixed rate and the other pays the overnight rate (MIBOR in India), compounded over the period. OIS rates show where the market expects the RBI's policy rate to go, and they are the main tool banks and funds use to bet on or hedge rate moves.",
+      "examples": [
+        "The one-year OIS fell 15 bps after the dovish policy, pricing in a cut.",
+        "Pay fixed in OIS to hedge against the RBI hiking.",
+        "Foreign banks trade the OIS heavily ahead of the policy meeting."
+      ],
+      "fill": "The market's view of future RBI rates shows up most clearly in the one-year ____.",
+      "confusables": [
+        "mibor",
+        "swap-spread",
+        "repo-rate"
+      ],
+      "wrong": [
+        "A bond whose coupon resets every night",
+        "An overnight loan from the RBI",
+        "A swap of rupees for dollars"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "OIS"
+      ],
+      "reads": {
+        "up": "Rising OIS rates mean the market expects higher policy rates: bond yields and bank stocks often move with it.",
+        "down": "Falling OIS rates price in cuts; rate-sensitive sectors like banks, NBFCs and real estate tend to rally."
+      }
+    },
+    {
+      "id": "certificate-of-deposit",
+      "term": "certificate of deposit",
+      "unit": "m4",
+      "short": "A bank's tradeable short-term deposit",
+      "definition": "A short-term money market instrument issued by a bank, sold at a discount and repaid at face value, usually for up to a year. Banks issue more when deposits lag loan growth, so rising CD rates and volumes are a sign of a funding squeeze.",
+      "examples": [
+        "Banks raised ₹50,000 crore through certificates of deposit as deposit growth lagged loans.",
+        "Three-month CD rates are 50 bps above the repo rate: funding is tight.",
+        "Liquid funds hold bank CDs alongside T-bills."
+      ],
+      "fill": "A bank borrowing for six months by selling a discounted, tradeable deposit issues a ____.",
+      "confusables": [
+        "commercial-paper",
+        "t-bill"
+      ],
+      "wrong": [
+        "A fixed deposit held by a retail customer",
+        "A bond issued by the RBI",
+        "A loan from the RBI's discount window"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "CD"
+      ],
+      "reads": {
+        "up": "Rising CD rates and issuance signal banks struggling to fund loans with deposits: pressure on bank margins.",
+        "down": "Falling CD rates mean easy liquidity and comfortable funding for banks."
+      }
+    },
+    {
+      "id": "laf-corridor",
+      "term": "LAF corridor",
+      "unit": "m4",
+      "short": "The band between the RBI's SDF and MSF rates",
+      "definition": "The liquidity adjustment facility corridor: the range between the standing deposit facility rate (the floor, where banks park surplus cash) and the marginal standing facility rate (the ceiling, where they borrow in an emergency), with the repo rate in the middle. Overnight rates should stay inside it.",
+      "examples": [
+        "Call rates hit the top of the LAF corridor at MSF during the tax outflow.",
+        "With surplus liquidity, WACR sank to the bottom of the LAF corridor.",
+        "The RBI keeps the LAF corridor narrow so overnight rates track repo."
+      ],
+      "fill": "Overnight rates are meant to stay between the SDF rate and the MSF rate, a band called the ____.",
+      "confusables": [
+        "sdf",
+        "msf",
+        "repo-rate"
+      ],
+      "wrong": [
+        "The range in which the rupee may move",
+        "The band for daily price limits on bonds",
+        "The gap between lending and deposit rates at banks"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "policy corridor",
+        "liquidity corridor"
+      ]
+    },
+    {
+      "id": "cash-management-bill",
+      "term": "cash management bill",
+      "unit": "m4",
+      "short": "Very short government borrowing for cash gaps",
+      "definition": "A short-term government security, for less than 91 days, issued to cover temporary mismatches between spending and tax receipts. It works like a T-bill but with a shorter, irregular tenor.",
+      "examples": [
+        "The government issued a cash management bill before the advance tax inflow.",
+        "Cash management bills drained liquidity for a few weeks.",
+        "A 35-day cash management bill priced close to the T-bill curve."
+      ],
+      "fill": "A government security of under 91 days to cover a short gap before tax receipts arrive is a ____.",
+      "confusables": [
+        "t-bill",
+        "g-sec"
+      ],
+      "wrong": [
+        "A bill the RBI issues to absorb dollars",
+        "A short-term loan to state governments",
+        "A company's short-term note"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "CMB"
+      ]
+    },
+    {
+      "id": "two-s-ten-s",
+      "term": "2s10s spread",
+      "unit": "m5",
+      "short": "10-year yield minus 2-year yield",
+      "definition": "The difference between the 10-year and 2-year government bond yields, the standard measure of how steep the yield curve is. It widens (steepens) when markets expect growth or inflation later, and narrows or turns negative (inverts) when they expect rate cuts and slowdown.",
+      "examples": [
+        "The 2s10s spread steepened 20 bps after the inflation surprise.",
+        "A negative 2s10s spread in the US has often come before a recession.",
+        "We put on a 2s10s steepener into the budget."
+      ],
+      "fill": "The 10-year yield at 7.0% and the 2-year at 6.6% gives a 40 bps ____.",
+      "confusables": [
+        "steepener",
+        "flattener",
+        "yield-curve"
+      ],
+      "wrong": [
+        "The gap between the repo rate and the 10-year yield",
+        "The spread between corporate and government bonds",
+        "The difference between two dates in a swap"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "2s10s",
+        "twos-tens"
+      ],
+      "reads": {
+        "up": "A steeper 2s10s often means stronger growth or inflation expected ahead; it helps banks, which borrow short and lend long.",
+        "down": "A flatter or inverted 2s10s signals expected rate cuts or a slowdown; it often worries equity markets."
+      }
+    },
+    {
+      "id": "curve-butterfly",
+      "term": "curve butterfly",
+      "unit": "m5",
+      "short": "Bet on the middle of the curve vs the ends",
+      "definition": "A three-leg yield-curve trade: buy (or sell) a middle maturity, like the 5-year, against the opposite position in a short and a long maturity, like the 2- and 10-year, sized so it doesn't care about parallel moves or the slope. It is a bet on curvature: whether the belly cheapens or richens.",
+      "examples": [
+        "The 2-5-10 curve butterfly says the 5-year is cheap.",
+        "Sizing the curve butterfly by PV01 makes it neutral to parallel shifts.",
+        "Heavy supply in the 5-year sector made the curve butterfly pay off."
+      ],
+      "fill": "Buying the 5-year and selling the 2- and 10-year, neutral to level and slope, is a ____.",
+      "confusables": [
+        "steepener",
+        "flattener",
+        "butterfly-spread"
+      ],
+      "wrong": [
+        "An option strategy with three strikes",
+        "A bet that all yields rise together",
+        "Switching from one bond to a newer issue"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "butterfly trade"
+      ]
+    },
+    {
+      "id": "swap-spread",
+      "term": "swap spread",
+      "unit": "m5",
+      "short": "Swap rate minus government bond yield",
+      "definition": "The difference between an interest rate swap rate (in India, the OIS) and the government bond yield of the same maturity. It moves with bank liquidity, bond supply and foreign flows. Traders bet on it widening or narrowing without taking a view on rates.",
+      "examples": [
+        "The five-year swap spread turned negative as banks bought bonds hand over fist.",
+        "Heavy government borrowing pushed bond yields above OIS, moving the swap spread.",
+        "Foreign banks trade the swap spread rather than outright duration."
+      ],
+      "fill": "The 5-year OIS at 6.5% against a 5-year G-sec at 6.8% gives a −30 bps ____.",
+      "confusables": [
+        "overnight-indexed-swap",
+        "spread-over-gsec",
+        "basis"
+      ],
+      "wrong": [
+        "The gap between two corporate bond yields",
+        "The bid-ask spread on a swap",
+        "The difference between the repo and reverse repo rates"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "term-premium",
+      "term": "term premium",
+      "unit": "m5",
+      "short": "Extra yield for lending long, not rolling short",
+      "definition": "The extra yield investors want for holding a long bond instead of rolling over short ones, beyond what they expect short rates to average. It rises with uncertainty about inflation and with heavy government borrowing, and pushes long yields up even if rate expectations don't change.",
+      "examples": [
+        "Long yields rose on the borrowing announcement even though rate expectations didn't move: the term premium went up.",
+        "A rising term premium in US Treasuries spills over into Indian bonds.",
+        "The term premium explains why the curve stays steep with cuts priced in."
+      ],
+      "fill": "The extra yield for holding a 10-year bond over rolling 3-month bills, beyond expected rates, is the ____.",
+      "confusables": [
+        "yield-curve",
+        "two-s-ten-s"
+      ],
+      "wrong": [
+        "The premium paid on a new bond issue",
+        "The fee for extending a loan",
+        "The coupon on an inflation-linked bond"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "fully-accessible-route",
+      "term": "Fully Accessible Route",
+      "unit": "m5",
+      "short": "G-secs foreigners can buy without limits",
+      "definition": "A route set up by the RBI in 2020 that lets non-residents buy specified government bonds with no investment limits. Bonds eligible under it are the ones global bond indices include, so FAR bonds see most foreign buying.",
+      "examples": [
+        "Only FAR bonds made it into the global index.",
+        "Foreign funds bought ₹10,000 crore of Fully Accessible Route bonds in a week.",
+        "New 10-year issues are often designated under the Fully Accessible Route."
+      ],
+      "fill": "Specified G-secs that non-residents can buy without any limit fall under the ____.",
+      "confusables": [
+        "bond-index-inclusion",
+        "fpi",
+        "g-sec"
+      ],
+      "wrong": [
+        "The route for retail investors to buy G-secs",
+        "A channel for banks to borrow from the RBI",
+        "The trading platform for corporate bonds"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "FAR",
+        "FAR bonds"
+      ]
+    },
+    {
+      "id": "bond-index-inclusion",
+      "term": "bond index inclusion",
+      "unit": "m5",
+      "short": "Indian bonds joining global benchmark indices",
+      "definition": "Global bond index providers adding Indian government bonds to their benchmarks, so funds that track them must buy. JP Morgan began adding Indian FAR bonds to its emerging-market index from June 2024, phased in over ten months. It brings steady foreign demand and supports the rupee.",
+      "examples": [
+        "Bond index inclusion brought billions of dollars of passive buying into G-secs.",
+        "Yields fell as funds front-ran bond index inclusion.",
+        "Bond index inclusion makes Indian yields more sensitive to global flows."
+      ],
+      "fill": "Global funds having to buy Indian government bonds because they joined a benchmark is called ____.",
+      "confusables": [
+        "fully-accessible-route",
+        "index-inclusion",
+        "fpi"
+      ],
+      "wrong": [
+        "A stock joining the Nifty 50",
+        "The RBI buying bonds in the market",
+        "A company listing its bonds on an exchange"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "More index weight brings passive foreign buying: lower G-sec yields and support for the rupee.",
+        "down": "Outflows or a delay in inclusion remove that steady demand, so yields can rise and the rupee weaken."
+      }
+    },
+    {
+      "id": "gift-nifty",
+      "term": "GIFT Nifty",
+      "unit": "m5",
+      "short": "Nifty futures traded at GIFT City almost all day",
+      "definition": "Nifty 50 futures traded in dollars on NSE International Exchange at GIFT City, Gandhinagar, for nearly 21 hours a day. They replaced SGX Nifty in 2023. Because they trade before the Indian open, traders use them as the early read on where Nifty will open.",
+      "examples": [
+        "GIFT Nifty is down 150 points, so expect a gap-down open.",
+        "US markets fell overnight and GIFT Nifty followed.",
+        "Check GIFT Nifty at 8 am before planning the day."
+      ],
+      "fill": "Traders check ____ before 9 am because it trades Nifty futures almost round the clock.",
+      "confusables": [
+        "nifty-50",
+        "gap-down",
+        "india-vix"
+      ],
+      "wrong": [
+        "The pre-open auction on NSE",
+        "A Nifty ETF listed in Singapore",
+        "An index of stocks in Gujarat"
+      ],
+      "difficulty": 1,
+      "note": "GIFT Nifty replaced SGX Nifty, which traded in Singapore, in July 2023.",
+      "reads": {
+        "up": "GIFT Nifty trading well above Nifty's last close points to a gap-up open.",
+        "down": "GIFT Nifty trading well below the close points to a gap-down open."
+      }
+    },
+    {
+      "id": "us-10-year-yield",
+      "term": "US 10-year yield",
+      "unit": "m5",
+      "short": "The world's benchmark long-term rate",
+      "definition": "The yield on 10-year US Treasury bonds, the reference rate for global markets. When it rises, money tends to flow out of emerging markets like India, the dollar strengthens, and high-valuation stocks suffer. Indian bond yields and the rupee often move with it.",
+      "examples": [
+        "The US 10-year yield jumped 20 bps and FPIs sold Indian equities.",
+        "A falling US 10-year yield helped the rupee recover.",
+        "IT stocks with US revenue care about the US 10-year yield through the dollar."
+      ],
+      "fill": "The yield on 10-year Treasuries, the ____, moves FPI flows into Indian markets.",
+      "confusables": [
+        "fpi",
+        "dollar-index",
+        "risk-off"
+      ],
+      "wrong": [
+        "India's 10-year government bond yield",
+        "The Federal Reserve's policy rate",
+        "The yield on a US corporate bond index"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "US 10Y",
+        "10-year Treasury yield"
+      ],
+      "reads": {
+        "up": "A rising US 10-year usually means a stronger dollar and FPI outflows from India: pressure on the rupee and growth stocks.",
+        "down": "A falling US 10-year eases pressure on emerging markets, often bringing FPI inflows and a firmer rupee."
+      }
     }
   ]
 }

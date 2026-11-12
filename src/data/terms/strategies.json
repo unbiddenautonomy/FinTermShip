@@ -1,7 +1,7 @@
 {
   "id": "strategies",
   "name": "Options and futures strategies",
-  "order": 13,
+  "order": 16,
   "phase": 3,
   "units": [
     {

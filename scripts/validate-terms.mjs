@@ -33,6 +33,7 @@ for (const file of files) {
     if (t.short.length > 48) errors.push(`${where}: short gloss too long (${t.short.length} chars)`);
     if (![1, 2, 3].includes(t.difficulty)) errors.push(`${where}: difficulty must be 1, 2 or 3`);
     if (t.asOf && !t.source) errors.push(`${where}: asOf without a source`);
+    if (t.reads !== undefined && (typeof t.reads?.up !== 'string' || typeof t.reads?.down !== 'string' || !t.reads.up || !t.reads.down)) errors.push(`${where}: reads needs up and down`);
     for (const [i, c] of (t.calcs || []).entries()) {
       const at = `${where} calc ${i + 1}`;
       if (!c.q || !c.why) errors.push(`${at}: needs q and why`);
