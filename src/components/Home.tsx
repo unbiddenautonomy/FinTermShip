@@ -8,9 +8,11 @@ import { todayStatus } from '../lib/lesson';
 import { PHASE3, phase3Open, reachableTermIds } from '../lib/phase3';
 import { KIND_LABEL, passRule, practiceAbout, recordLine, roundSize } from '../lib/practice';
 import { currentStreak, dayStats, isKnown } from '../lib/scheduler';
+import { comma, daysToInterview, mocksReady, targetRole } from '../lib/profile';
 import { currentUnit, isDrill, track, unitDone, type PathRow } from '../lib/track';
 import type { Progress } from '../lib/types';
 import { Bolt, Briefcase, Calculator, Check, Cross, Dice, Flame, Lock, Logo } from './icons';
+import { AboutYou } from './AboutYou';
 import { Phase3Gate } from './Phase3Gate';
 import { Bar, Button, Card, Pill, Ring, SectionTitle, StepDots } from './ui';
 
@@ -30,13 +32,17 @@ interface Props {
   /** A unit sheet to open straight away, e.g. when coming from the career map. */
   initialSheet?: string;
   showInstallHint: boolean;
+  /** Saves a change made on this screen, such as the About you card. */
+  onProgress: (p: Progress) => void;
+  /** Signed in, so progress is kept on the account and the backup nudge isn't needed. */
+  signedIn: boolean;
 }
 
 type Row = PathRow & { i: number; met: number; known: number; total: number; open: boolean; drill: boolean; done: boolean };
 
 const TOTAL_CATEGORIES = 17;
 
-export function Home({ progress, today, onStart, onPractice, onFocus, onTest, onDrill, onPhase3Key, onOpenSettings, onOpenCareers, initialSheet, showInstallHint }: Props) {
+export function Home({ progress, today, onStart, onPractice, onFocus, onTest, onDrill, onPhase3Key, onOpenSettings, onOpenCareers, initialSheet, showInstallHint, onProgress, signedIn }: Props) {
   const [sheet, setSheet] = useState<string | null>(initialSheet ?? null);
   const picked = focusActive(progress) && progress.focus ? unitById.get(progress.focus) : undefined;
   const status = todayStatus(progress, today);
@@ -45,17 +51,21 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
   const goal = progress.settings.newPerDay;
   const hasWork = status.due > 0 || status.newLeft > 0 || !!status.drill;
   const metCount = Object.keys(progress.terms).length;
-  const backupDue = metCount >= 20 && (!progress.lastBackup || daysBetween(progress.lastBackup, today) >= 7);
+  const backupDue = !signedIn && metCount >= 20 && (!progress.lastBackup || daysBetween(progress.lastBackup, today) >= 7);
   const practisedToday = todayStats.lessons > 0;
   const gate = <Phase3Gate progress={progress} today={today} onKey={onPhase3Key} onTest={() => onTest(PHASE3)} />;
 
+  const you = comma(progress);
   const headline = !hasWork
     ? status.newAvailable === 0
-      ? 'Every term met'
-      : 'Daily goal done'
+      ? `Every term met${you}`
+      : `Daily goal done${you}`
     : practisedToday
-      ? 'Keep it going'
-      : 'Ready for today?';
+      ? `Keep it going${you}`
+      : `Ready for today${you}?`;
+  const role = targetRole(progress);
+  const days = daysToInterview(progress, today);
+  const mocks = mocksReady(progress);
   const subline = !hasWork
     ? status.newAvailable === 0
       ? 'Reviews will come back on schedule.'
@@ -94,6 +104,21 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
         <div className="rounded-2xl border border-amber/40 bg-amber-soft px-4 py-3 text-sm leading-relaxed text-amber-ink">
           On iPhone, tap Share, then <b>Add to Home Screen</b>. Safari can clear a website's saved progress after 7 days unused; the home screen app keeps it.
         </div>
+      )}
+
+      {!progress.settings.aboutAsked && (
+        <Card className="space-y-3">
+          <div>
+            <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">About you</p>
+            <p className="mt-1 text-sm leading-relaxed text-ink-2">Three optional questions, so the app can greet you and point you at the right interview practice. Change them any time in Settings.</p>
+          </div>
+          <AboutYou
+            progress={progress}
+            today={today}
+            onSave={onProgress}
+            onSkip={() => onProgress({ ...progress, settings: { ...progress.settings, aboutAsked: true } })}
+          />
+        </Card>
       )}
 
       <Card className="space-y-5">
@@ -165,6 +190,38 @@ export function Home({ progress, today, onStart, onPractice, onFocus, onTest, on
           onTest={onTest}
           gate={gate}
         />
+      )}
+
+      {(role || days !== null) && (
+        <button
+          type="button"
+          onClick={onOpenCareers}
+          className="flex w-full items-center gap-3 rounded-2xl border border-violet/30 bg-violet-soft px-4 py-3 text-left transition hover:border-violet/60 active:scale-[0.99]"
+        >
+          <span className="num flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-surface text-violet-ink">
+            {days !== null ? (
+              <>
+                <span className="text-lg font-extrabold leading-none">{days}</span>
+                <span className="mt-0.5 text-[10px] font-bold leading-none">{days === 1 ? 'day' : 'days'}</span>
+              </>
+            ) : (
+              <Briefcase className="h-5 w-5" />
+            )}
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-bold text-ink">
+              {days === null
+                ? `Preparing for ${role!.title.toLowerCase()} roles`
+                : days === 0
+                  ? `Interview day${you}. Good luck!`
+                  : `${days} ${days === 1 ? 'day' : 'days'} to your ${role ? `${role.title.toLowerCase()} ` : ''}interview`}
+            </span>
+            <span className="block text-sm text-ink-2">
+              Timed mock rounds interview-ready: {mocks.ready} of {mocks.total}.{' '}
+              {mocks.ready < mocks.total ? 'Try one on the career map.' : 'All of them, nicely done.'}
+            </span>
+          </span>
+        </button>
       )}
 
       <button

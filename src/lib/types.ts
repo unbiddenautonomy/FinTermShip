@@ -112,6 +112,14 @@ export interface Settings {
   voice: boolean;
   /** Quant areas open and first on the path. Turned on with the password. */
   quantFirst?: boolean;
+  /** What to call the learner, used lightly in greetings. */
+  name?: string;
+  /** The career map role the learner is preparing for. */
+  target?: string;
+  /** The day of an upcoming interview (YYYY-MM-DD), for the countdown on the home screen. */
+  interviewDate?: string;
+  /** The "About you" card was answered or skipped, so it stops showing on the home screen. */
+  aboutAsked?: boolean;
 }
 
 export interface DayStats {

@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ANSWER_HINT, checkAnswer, clock } from '../lib/drills';
 import { isRight, mockByRound, mockReady, MOCK_READY, newMock, recordMock, type MockAnswer, type MockQuestion } from '../lib/mock';
+import { comma } from '../lib/profile';
 import { seededRng } from '../lib/questions';
 import type { Progress } from '../lib/types';
 import { Briefcase, Check, Cross } from './icons';
@@ -142,7 +143,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
             {right} of {questions.length}
           </p>
           <p className="mt-1 font-bold text-ink-2">
-            {ready ? 'Interview-ready on this round.' : `Not yet: ${Math.ceil(MOCK_READY * questions.length)} right counts as ready.`}
+            {ready ? `Interview-ready on this round${comma(progress)}.` : `Not yet: ${Math.ceil(MOCK_READY * questions.length)} right counts as ready.`}
             {left <= 0 ? ' The clock ran out.' : ''}
           </p>
         </div>
