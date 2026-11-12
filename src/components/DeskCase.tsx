@@ -126,7 +126,7 @@ export function DeskCase({ unitId, seed, progress, today, onProgress, onFinish, 
               const tone = !answered
                 ? 'border-line bg-surface hover:border-brand/50'
                 : isBest
-                  ? 'border-brand bg-brand-soft'
+                  ? 'border-good bg-good-soft'
                   : isPick
                     ? 'border-bad bg-bad-soft'
                     : 'border-line bg-surface opacity-60';
@@ -139,7 +139,7 @@ export function DeskCase({ unitId, seed, progress, today, onProgress, onFinish, 
                   className={`flex w-full items-start gap-3 rounded-2xl border-2 px-4 py-3 text-left transition active:scale-[0.99] ${tone}`}
                 >
                   <span className="flex-1 font-semibold text-ink">{o.text}</span>
-                  {answered && isBest && <Check className="mt-0.5 h-5 w-5 shrink-0 text-brand" />}
+                  {answered && isBest && <Check className="mt-0.5 h-5 w-5 shrink-0 text-good" />}
                   {answered && isPick && !isBest && <Cross className="mt-0.5 h-5 w-5 shrink-0 text-bad" />}
                 </button>
               );
@@ -148,8 +148,8 @@ export function DeskCase({ unitId, seed, progress, today, onProgress, onFinish, 
 
           {answered && (
             <div className="mt-4 space-y-3" role="status">
-              <div className={`rounded-2xl p-4 ${step.options[picked].best ? 'bg-brand-soft' : 'bg-bad-soft'}`}>
-                <p className={`font-extrabold ${step.options[picked].best ? 'text-brand-ink' : 'text-bad-ink'}`}>{step.options[picked].best ? 'Good call' : 'Not the best call'}</p>
+              <div className={`rounded-2xl p-4 ${step.options[picked].best ? 'bg-good-soft' : 'bg-bad-soft'}`}>
+                <p className={`font-extrabold ${step.options[picked].best ? 'text-good-ink' : 'text-bad-ink'}`}>{step.options[picked].best ? 'Good call' : 'Not the best call'}</p>
                 <p className="mt-1 leading-relaxed text-ink-2">{step.options[picked].why}</p>
                 {!step.options[picked].best && <p className="mt-2 leading-relaxed text-ink-2">{step.options[best].why}</p>}
               </div>

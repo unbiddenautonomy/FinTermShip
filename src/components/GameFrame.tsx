@@ -111,7 +111,7 @@ export function Choices({ labels, picked, answer, onPick, mono = false }: { labe
     <div className="grid gap-3">
       {labels.map((opt, i) => {
         let style = 'border-line bg-surface text-ink shadow-press-line hover:bg-sunken/60 active:translate-y-[1px] active:shadow-none';
-        if (done && i === answer) style = 'border-brand bg-brand-soft text-brand-ink';
+        if (done && i === answer) style = 'border-good bg-good-soft text-good-ink';
         else if (done && i === picked) style = 'animate-shake border-bad bg-bad-soft text-bad-ink';
         else if (done) style = 'border-line bg-surface text-ink-3 opacity-60';
         return (
@@ -133,13 +133,13 @@ export function Choices({ labels, picked, answer, onPick, mono = false }: { labe
 /** The verdict panel after a move: green for right, red for wrong, with a Continue button. */
 export function Verdict({ good, title, children, next, onNext }: { good: boolean; title: string; children?: ReactNode; next: string; onNext: () => void }) {
   return (
-    <section aria-live="polite" className={`mt-4 animate-pop space-y-3 rounded-2xl p-4 ${good ? 'bg-brand-soft' : 'bg-bad-soft'}`}>
-      <p className={`text-lg font-extrabold ${good ? 'text-brand-ink' : 'text-bad-ink'}`}>{title}</p>
+    <section aria-live="polite" className={`mt-4 animate-pop space-y-3 rounded-2xl p-4 ${good ? 'bg-good-soft' : 'bg-bad-soft'}`}>
+      <p className={`text-lg font-extrabold ${good ? 'text-good-ink' : 'text-bad-ink'}`}>{title}</p>
       {children}
       <button
         type="button"
         onClick={onNext}
-        className={`w-full rounded-2xl px-5 py-3.5 text-[15px] font-extrabold tracking-wide text-white transition active:translate-y-[2px] active:shadow-none ${good ? 'bg-brand shadow-press' : 'bg-bad shadow-press-bad'}`}
+        className={`w-full rounded-2xl px-5 py-3.5 text-[15px] font-extrabold tracking-wide text-white transition active:translate-y-[2px] active:shadow-none bg-brand shadow-press`}
       >
         {next}
       </button>

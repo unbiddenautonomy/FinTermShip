@@ -154,7 +154,7 @@ export function KellyGame({ unitId, seed, progress, today, onProgress, onFinish,
           <Spark values={bank} />
         </div>
         {last && (
-          <p className={`mt-2 text-sm font-bold ${last.win ? 'text-brand-ink' : last.stake ? 'text-bad-ink' : 'text-ink-3'}`} aria-live="polite">
+          <p className={`mt-2 text-sm font-bold ${last.win ? 'text-good-ink' : last.stake ? 'text-bad-ink' : 'text-ink-3'}`} aria-live="polite">
             {last.stake === 0 ? `You sat out. The coin ${last.win ? 'won' : 'lost'}.` : last.win ? `Won: ${rupees(last.change)}` : `Lost: ${rupees(last.change)}`}
           </p>
         )}
