@@ -150,7 +150,6 @@ const SYNONYMS: Record<string, string[]> = {
   'unit:s10': ['big orders', 'order size game', 'inventory game'],
   'unit:s11': ['rival game', 'rival market maker', 'competing market maker'],
   'unit:o9': ['payoff builder', 'payoff game', 'build a payoff', 'payoff puzzles'],
-  'unit:q16': ['code reading', 'code game', 'python game', 'pandas', 'spot the bug', 'coding practice'],
   'unit:q15': ['risk desk', 'risk game', 'limits game', 'approve or reject'],
   'unit:x8': ['beat vwap', 'vwap game', 'execution game', 'work an order'],
   'unit:s12': ['read the book', 'order book game', 'next tick', 'markout game', 'queue game'],
@@ -314,7 +313,7 @@ export const HELP: HelpTopic[] = [
     id: 'theme',
     strong: true,
     match: /\b(dark mode|light mode|dark theme|light theme|night mode|theme|too bright|too dark|change (the )?colou?rs?)\b/,
-    text: 'Pick Auto, Light or Dark in Settings, under Appearance. Auto follows your device. The choice is saved on each device separately.',
+    text: 'Pick Auto, Light, White or Dark in Settings, under Appearance. Auto follows your device. The texture switch is there too. Both are saved on each device separately.',
     action: 'settings',
   },
   {

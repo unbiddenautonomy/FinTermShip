@@ -3,7 +3,7 @@ import type { AccountState, Me } from '../lib/account';
 import { exportProgress, readBackupFile } from '../lib/storage';
 import { newProgress } from '../lib/scheduler';
 import { canSpeak, speak } from '../lib/speech';
-import { getTheme, setTheme, THEMES, type Theme } from '../lib/theme';
+import { getTexture, getTheme, setTexture, setTheme, THEMES, type Theme } from '../lib/theme';
 import type { Progress } from '../lib/types';
 import { AboutYou } from './AboutYou';
 import { AccountPanel } from './Account';
@@ -33,6 +33,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
   const [pasted, setPasted] = useState('');
   const [askPassword, setAskPassword] = useState(false);
   const [theme, pickTheme] = useState<Theme>(getTheme);
+  const [texture, pickTexture] = useState(getTexture);
   const s = progress.settings;
   const minutes = s.newPerDay;
   const signedIn = account.kind === 'in';
@@ -58,8 +59,8 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
             <p className="font-bold text-ink" id="theme-label">
               Theme
             </p>
-            <p className="mb-3 text-sm text-ink-3">Auto follows your device's light or dark setting. Saved on this device.</p>
-            <div className="grid grid-cols-3 gap-1 rounded-xl bg-sunken p-1" role="radiogroup" aria-labelledby="theme-label">
+            <p className="mb-3 text-sm text-ink-3">Auto switches between Light and Dark with your device. White is plain and bright. Saved on this device.</p>
+            <div className="grid grid-cols-4 gap-1 rounded-xl bg-sunken p-1" role="radiogroup" aria-labelledby="theme-label">
               {THEMES.map((t) => (
                 <button
                   key={t.id}
@@ -77,6 +78,20 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
               ))}
             </div>
           </div>
+        </Row>
+        <Row>
+          <div className="min-w-0 flex-1">
+            <p className="font-bold text-ink">Texture</p>
+            <p className="text-sm text-ink-3">A fine grain on the green and brushed metal on the copper, like the logo.</p>
+          </div>
+          <Toggle
+            checked={texture}
+            onChange={(v) => {
+              setTexture(v);
+              pickTexture(v);
+            }}
+            label="Texture"
+          />
         </Row>
       </Group>
 
