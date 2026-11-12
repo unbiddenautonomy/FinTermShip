@@ -161,7 +161,7 @@ export function Card({ children, className = '' }: { children: ReactNode; classN
 export function SectionTitle({ children, aside }: { children: ReactNode; aside?: ReactNode }) {
   return (
     <div className="mb-3 flex items-baseline justify-between gap-3 px-1">
-      <h2 className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">{children}</h2>
+      <h2 className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">{children}</h2>
       {aside && <span className="text-xs font-semibold text-ink-3">{aside}</span>}
     </div>
   );

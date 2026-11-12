@@ -153,29 +153,45 @@ body {
 
 /*
  * Texture, on unless turned off in Settings (data-texture="off" on <html>).
- * Like the logo: green gets the fine grain of the card stock, copper and gold
- * get the brushed streaks of the foil. Grey noise is blended with soft-light,
- * so it shades each colour without changing it.
+ * The tiles are cut from the logo artwork itself: the brushed copper foil and
+ * the green card stock, with the lighting removed and the edges blended so they
+ * repeat without seams. They are grey, and soft-light blending lets them shade
+ * each colour without changing it. Shown at one image pixel per CSS pixel.
  */
 :root:not([data-texture='off']) body {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .2 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-image: url('/textures/grain.png');
+  background-size: 120px;
+  background-blend-mode: soft-light;
 }
 :root:not([data-texture='off']) :is(.bg-brand, .bg-brand-strong, .bg-brand-soft) {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='p'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' seed='7' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 .45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23p)'/%3E%3C/svg%3E");
+  background-image: url('/textures/green.png');
+  background-size: 120px;
   background-blend-mode: soft-light;
 }
-:root:not([data-texture='off']) :is(.bg-violet, .bg-amber, .bg-violet-soft, .bg-amber-soft) {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008 1.1' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 .45'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
-  background-size: 240px 240px;
+:root:not([data-texture='off']) :is(.bg-violet-soft, .bg-amber-soft) {
+  background-image: url('/textures/copper.png');
+  background-size: 140px;
   background-blend-mode: soft-light;
 }
-/* On dark copper the same streaks read as wood grain, so they are fainter there. */
-:root[data-theme='dark']:not([data-texture='off']) :is(.bg-violet, .bg-amber, .bg-violet-soft, .bg-amber-soft) {
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008 1.1' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 .18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+/* Solid copper and gold read as foil: the brushed tile over a soft sheen. */
+:root:not([data-texture='off']) :is(.bg-violet, .bg-amber) {
+  background-image: url('/textures/copper.png'), linear-gradient(120deg, rgb(255 255 255 / 0.22), rgb(255 255 255 / 0) 45%, rgb(0 0 0 / 0.14));
+  background-size: 140px, 100% 100%;
+  background-blend-mode: soft-light, normal;
+}
+/* Dark surfaces exaggerate the grain, so dark mode uses fainter tiles. */
+:root[data-theme='dark']:not([data-texture='off']) :is(.bg-violet-soft, .bg-amber-soft) {
+  background-image: url('/textures/copper-dark.png');
+}
+:root[data-theme='dark']:not([data-texture='off']) :is(.bg-brand, .bg-brand-strong, .bg-brand-soft) {
+  background-image: url('/textures/green-dark.png');
 }
 @media (prefers-color-scheme: dark) {
-  :root:not([data-theme]):not([data-texture='off']) :is(.bg-violet, .bg-amber, .bg-violet-soft, .bg-amber-soft) {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='b'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.008 1.1' numOctaves='2' seed='4' stitchTiles='stitch'/%3E%3CfeColorMatrix values='.33 .33 .33 0 0 .33 .33 .33 0 0 .33 .33 .33 0 0 0 0 0 0 .18'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23b)'/%3E%3C/svg%3E");
+  :root:not([data-theme]):not([data-texture='off']) :is(.bg-violet-soft, .bg-amber-soft) {
+    background-image: url('/textures/copper-dark.png');
+  }
+  :root:not([data-theme]):not([data-texture='off']) :is(.bg-brand, .bg-brand-strong, .bg-brand-soft) {
+    background-image: url('/textures/green-dark.png');
   }
 }
 :root[data-theme='white']:not([data-texture='off']) body {

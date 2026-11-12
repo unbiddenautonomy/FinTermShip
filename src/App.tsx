@@ -402,7 +402,7 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
   return (
     <>
       {/* Laptops: a sidebar on the left, and the page sits beside it. */}
-      <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-line bg-surface/80 px-4 py-6 backdrop-blur-md lg:flex">
+      <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-violet/25 bg-surface/80 px-4 py-6 backdrop-blur-md lg:flex">
         <div className="mb-8 flex items-center gap-2.5 px-2">
           <Logo className="h-9 w-9" />
           <span className="font-display text-[22px] font-semibold tracking-tight text-ink">FinTermShip</span>
@@ -416,7 +416,7 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
                 type="button"
                 onClick={() => onTab(id)}
                 aria-current={active ? 'page' : undefined}
-                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left font-extrabold transition ${active ? 'bg-brand-soft text-brand-ink' : 'text-ink-2 hover:bg-sunken hover:text-ink'}`}
+                className={`flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-left font-extrabold transition ${active ? 'bg-violet-soft text-violet-ink' : 'text-ink-2 hover:bg-sunken hover:text-ink'}`}
               >
                 <Icon className="h-5 w-5" />
                 {label}
@@ -444,9 +444,9 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
                 type="button"
                 onClick={() => onTab(id)}
                 aria-current={active ? 'page' : undefined}
-                className={`flex flex-col items-center gap-1 py-1 text-[11px] font-extrabold tracking-wide transition ${active ? 'text-brand-ink' : 'text-ink-3 hover:text-ink-2'}`}
+                className={`flex flex-col items-center gap-1 py-1 text-[11px] font-extrabold tracking-wide transition ${active ? 'text-violet-ink' : 'text-ink-3 hover:text-ink-2'}`}
               >
-                <span className={`flex h-8 w-14 items-center justify-center rounded-full transition ${active ? 'bg-brand-soft' : ''}`}>
+                <span className={`flex h-8 w-14 items-center justify-center rounded-full transition ${active ? 'bg-violet-soft' : ''}`}>
                   <Icon className="h-5 w-5" />
                 </span>
                 {label}
