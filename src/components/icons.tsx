@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
 
 type IconProps = { className?: string };
 
@@ -10,13 +10,26 @@ function Svg({ className = 'h-5 w-5', children, fill = 'none' }: IconProps & { c
   );
 }
 
-export const Logo = ({ className = 'h-8 w-8' }: IconProps) => (
-  <svg viewBox="0 0 512 512" className={className} aria-hidden="true">
-    <rect width="512" height="512" rx="128" fill="rgb(var(--brand))" />
-    <path d="M112 352l96-104 72 64 120-152" fill="none" stroke="#fff" strokeWidth="44" strokeLinecap="round" strokeLinejoin="round" />
-    <circle cx="400" cy="160" r="30" fill="#fff" />
-  </svg>
-);
+/** The app icon: a lilac tile with a horned rupee sign (matches public/icon.svg). */
+export function Logo({ className = 'h-8 w-8' }: IconProps) {
+  const id = useId().replace(/:/g, '');
+  return (
+    <svg viewBox="0 0 512 512" className={className} aria-hidden="true">
+      <defs>
+        <linearGradient id={`${id}g`} x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stopColor="#c7b8f5" />
+          <stop offset="1" stopColor="#8f74db" />
+        </linearGradient>
+      </defs>
+      <rect width="512" height="512" rx="112" fill={`url(#${id}g)`} />
+      <g fill="none" stroke="#fff" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M176 150 C134 128 118 92 126 52 C146 92 172 110 214 116" strokeWidth="30" />
+        <path d="M336 150 C378 128 394 92 386 52 C366 92 340 110 298 116" strokeWidth="30" />
+        <path d="M168 196 H346 M168 262 H346 M196 196 H232 C312 196 312 326 232 326 H184 L330 448" strokeWidth="40" />
+      </g>
+    </svg>
+  );
+}
 
 export const Flame = (p: IconProps) => (
   <Svg {...p} fill="currentColor">

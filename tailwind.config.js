@@ -18,6 +18,7 @@ export default {
         line: token('line'),
         ink: { DEFAULT: token('ink'), 2: token('ink-2'), 3: token('ink-3') },
         brand: { DEFAULT: token('brand'), strong: token('brand-strong'), soft: token('brand-soft'), ink: token('brand-ink') },
+        good: { DEFAULT: token('good'), strong: token('good-strong'), soft: token('good-soft'), ink: token('good-ink') },
         bad: { DEFAULT: token('bad'), strong: token('bad-strong'), soft: token('bad-soft'), ink: token('bad-ink') },
         sky: { DEFAULT: token('sky'), soft: token('sky-soft'), ink: token('sky-ink') },
         amber: { DEFAULT: token('amber'), soft: token('amber-soft'), ink: token('amber-ink') },
@@ -25,9 +26,9 @@ export default {
       },
       boxShadow: {
         press: '0 3px 0 0 rgb(var(--brand-strong))',
-        'press-bad': '0 3px 0 0 rgb(var(--bad-strong))',
+        'press-bad': '0 3px 0 0 rgb(var(--bad-ink))',
         'press-line': '0 2px 0 0 rgb(var(--line))',
-        card: '0 1px 2px 0 rgb(16 24 40 / 0.04), 0 1px 3px 0 rgb(16 24 40 / 0.06)',
+        card: '0 1px 2px 0 rgb(46 30 90 / 0.04), 0 1px 3px 0 rgb(46 30 90 / 0.06)',
         sheet: '0 -8px 24px -12px rgb(16 24 40 / 0.18)',
       },
       keyframes: {

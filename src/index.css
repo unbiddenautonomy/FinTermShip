@@ -5,21 +5,25 @@
 /* Colour tokens as RGB triplets so Tailwind can add opacity. */
 :root {
   color-scheme: light;
-  --bg: 246 247 249;
+  --bg: 248 247 252;
   --surface: 255 255 255;
-  --sunken: 240 242 245;
-  --line: 226 229 235;
-  --ink: 16 24 40;
-  --ink-2: 71 84 103;
-  --ink-3: 132 142 160;
-  --brand: 18 183 106;
-  --brand-strong: 3 135 76;
-  --brand-soft: 231 250 240;
-  --brand-ink: 2 122 72;
-  --bad: 240 68 56;
-  --bad-strong: 180 35 24;
-  --bad-soft: 254 240 238;
-  --bad-ink: 180 35 24;
+  --sunken: 242 240 248;
+  --line: 229 226 238;
+  --ink: 30 26 46;
+  --ink-2: 82 76 104;
+  --ink-3: 140 134 160;
+  --brand: 124 95 207;
+  --brand-strong: 96 70 176;
+  --brand-soft: 243 239 252;
+  --brand-ink: 98 70 184;
+  --good: 84 172 128;
+  --good-strong: 58 136 98;
+  --good-soft: 236 247 241;
+  --good-ink: 40 118 80;
+  --bad: 226 118 118;
+  --bad-strong: 190 82 82;
+  --bad-soft: 252 240 239;
+  --bad-ink: 160 58 58;
   --sky: 46 144 250;
   --sky-soft: 235 245 255;
   --sky-ink: 23 92 211;
@@ -36,21 +40,25 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --bg: 11 15 25;
-    --surface: 21 26 37;
-    --sunken: 29 35 48;
-    --line: 45 52 66;
-    --ink: 243 244 246;
-    --ink-2: 200 204 212;
-    --ink-3: 130 137 150;
-    --brand: 23 178 106;
-    --brand-strong: 6 118 71;
-    --brand-soft: 6 46 31;
-    --brand-ink: 117 224 167;
-    --bad: 240 68 56;
-    --bad-strong: 145 32 24;
-    --bad-soft: 56 18 18;
-    --bad-ink: 253 162 155;
+    --bg: 16 14 24;
+    --surface: 26 23 38;
+    --sunken: 34 31 49;
+    --line: 52 48 70;
+    --ink: 240 238 247;
+    --ink-2: 200 196 214;
+    --ink-3: 136 131 156;
+    --brand: 124 99 214;
+    --brand-strong: 88 66 170;
+    --brand-soft: 40 31 72;
+    --brand-ink: 201 188 252;
+    --good: 98 184 142;
+    --good-strong: 52 120 88;
+    --good-soft: 22 46 36;
+    --good-ink: 146 214 178;
+    --bad: 230 126 126;
+    --bad-strong: 170 72 72;
+    --bad-soft: 58 26 28;
+    --bad-ink: 245 170 170;
     --sky: 83 177 253;
     --sky-soft: 16 40 80;
     --sky-ink: 132 202 255;
@@ -65,21 +73,25 @@
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: 11 15 25;
-  --surface: 21 26 37;
-  --sunken: 29 35 48;
-  --line: 45 52 66;
-  --ink: 243 244 246;
-  --ink-2: 200 204 212;
-  --ink-3: 130 137 150;
-  --brand: 23 178 106;
-  --brand-strong: 6 118 71;
-  --brand-soft: 6 46 31;
-  --brand-ink: 117 224 167;
-  --bad: 240 68 56;
-  --bad-strong: 145 32 24;
-  --bad-soft: 56 18 18;
-  --bad-ink: 253 162 155;
+  --bg: 16 14 24;
+  --surface: 26 23 38;
+  --sunken: 34 31 49;
+  --line: 52 48 70;
+  --ink: 240 238 247;
+  --ink-2: 200 196 214;
+  --ink-3: 136 131 156;
+  --brand: 124 99 214;
+  --brand-strong: 88 66 170;
+  --brand-soft: 40 31 72;
+  --brand-ink: 201 188 252;
+  --good: 98 184 142;
+  --good-strong: 52 120 88;
+  --good-soft: 22 46 36;
+  --good-ink: 146 214 178;
+  --bad: 230 126 126;
+  --bad-strong: 170 72 72;
+  --bad-soft: 58 26 28;
+  --bad-ink: 245 170 170;
   --sky: 83 177 253;
   --sky-soft: 16 40 80;
   --sky-ink: 132 202 255;
@@ -93,6 +105,8 @@
 
 body {
   @apply bg-bg text-ink antialiased;
+  /* A faint paper grain, so the lilac-white ground isn't flat. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .7 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   font-family: Manrope, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 

@@ -175,7 +175,7 @@ export function PairsGame({ unitId, seed, progress, today, onProgress, onFinish,
       </section>
 
       {last && (
-        <p className={`mt-3 rounded-xl px-3 py-2 text-sm font-bold ${last.ok ? 'bg-brand-soft text-brand-ink' : 'bg-bad-soft text-bad-ink'}`} aria-live="polite">
+        <p className={`mt-3 rounded-xl px-3 py-2 text-sm font-bold ${last.ok ? 'bg-good-soft text-good-ink' : 'bg-bad-soft text-bad-ink'}`} aria-live="polite">
           Week {last.week + 1}: {last.ok ? 'by the rules.' : 'not the rules.'} {last.reason} That week: {rupees(last.pnl)}.
         </p>
       )}
