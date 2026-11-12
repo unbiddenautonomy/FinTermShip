@@ -55,6 +55,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
           <Search className="h-5 w-5 shrink-0 text-ink-3" />
           <input
             type="search"
+            id="glossary-search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Search terms, aliases or meanings"

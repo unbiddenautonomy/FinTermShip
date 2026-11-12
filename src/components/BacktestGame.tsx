@@ -128,7 +128,7 @@ export function BacktestGame({ unitId, seed, progress, today, onProgress, onFini
           else if (a) style = 'border-line bg-surface opacity-60';
           return (
             <li key={l.slot}>
-              <button type="button" disabled={!!a} onClick={() => pickLine(i)} className={`w-full rounded-2xl border-2 px-4 py-2.5 text-left transition ${style}`}>
+              <button type="button" disabled={!!a} data-key="choice" onClick={() => pickLine(i)} className={`w-full rounded-2xl border-2 px-4 py-2.5 text-left transition ${style}`}>
                 <span className="block text-[11px] font-extrabold uppercase tracking-wider text-ink-3">{SLOTS[l.slot]}</span>
                 <span className="block text-[15px] font-bold leading-snug text-ink">{l.text}</span>
               </button>

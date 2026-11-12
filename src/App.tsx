@@ -26,6 +26,7 @@ import { PayoffGame } from './components/PayoffGame';
 import { Results } from './components/Results';
 import { Settings } from './components/Settings';
 import { useAccount } from './components/useAccount';
+import { useGameKeys, useSlashKey } from './components/useKeys';
 import { BookIcon, ChatIcon, GearIcon, Logo, PathIcon } from './components/icons';
 import { buildPractice, buildTest, withFocus } from './lib/choose';
 import { snoozeDrill } from './lib/drills';
@@ -106,6 +107,16 @@ export default function App() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [screen.name]);
+
+  // Keyboard: 1 to 9 answer and Enter goes on, in games, cases and mocks; "/" searches the glossary.
+  useGameKeys(['game', 'case', 'mock', 'results'].includes(screen.name));
+  const tabScreen = (TABS as { id: string }[]).some((t) => t.id === screen.name) || screen.name === 'careers' || screen.name === 'project';
+  const toSearch = useCallback(() => {
+    if (!tabScreen) return;
+    setScreen((s) => (s.name === 'glossary' ? s : { name: 'glossary' }));
+    requestAnimationFrame(() => document.getElementById('glossary-search')?.focus());
+  }, [tabScreen]);
+  useSlashKey(toSearch);
 
   if (!progress) {
     return <div className="flex min-h-[100dvh] items-center justify-center text-ink-3">Loading…</div>;
@@ -279,6 +290,10 @@ export default function App() {
   }
 }
 
+function Kbd({ children }: { children: ReactNode }) {
+  return <kbd className="rounded border border-line bg-sunken px-1 py-0.5 font-sans text-[10px] font-bold text-ink-2">{children}</kbd>;
+}
+
 const TABS: { id: Tab; label: string; icon: typeof PathIcon }[] = [
   { id: 'home', label: 'Learn', icon: PathIcon },
   { id: 'guide', label: 'Guide', icon: ChatIcon },
@@ -312,7 +327,12 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
             );
           })}
         </nav>
-        <p className="mt-auto px-2 text-xs leading-relaxed text-ink-3">Indian markets, trading and quant terms, a few minutes a day.</p>
+        <div className="mt-auto space-y-3 px-2 text-xs leading-relaxed text-ink-3">
+          <p>
+            Keys: <Kbd>1</Kbd>–<Kbd>4</Kbd> answer, <Kbd>Enter</Kbd> go on, <Kbd>/</Kbd> search.
+          </p>
+          <p>Indian markets, trading and quant terms, a few minutes a day.</p>
+        </div>
       </aside>
       <div className="lg:pl-60">{children}</div>
       <nav className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/90 pt-2 backdrop-blur-md lg:hidden" aria-label="Main">
