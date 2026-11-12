@@ -40,9 +40,10 @@ export function Careers({ progress, onBack, onOpenUnit, onOpenProject, onOpenMoc
       <section>
         <SectionTitle aside={`${careers.roles.length} roles`}>The jobs</SectionTitle>
         <div className="space-y-3">
-          {careers.roles.map((r) => (
+          {[...careers.roles].sort((a, b) => Number(b.id === progress.settings.target) - Number(a.id === progress.settings.target)).map((r) => (
             <Card key={r.id} className="space-y-3">
               <div>
+                {r.id === progress.settings.target && <p className="mb-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Your target</p>}
                 <h3 className="text-lg font-extrabold text-ink">{r.title}</h3>
                 <p className="text-sm font-semibold text-ink-3">{r.where}</p>
               </div>
