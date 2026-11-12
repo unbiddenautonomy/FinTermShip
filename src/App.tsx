@@ -1,34 +1,10 @@
-import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { Careers } from './components/Careers';
-import { MockRound } from './components/MockRound';
-import { ProjectScreen } from './components/Project';
-import { DeskCase } from './components/DeskCase';
-import { Drill } from './components/Drill';
-import { Glossary } from './components/Glossary';
-import { Guide, type GuideEntry } from './components/Guide';
+import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import type { GuideEntry } from './components/Guide';
 import { Home } from './components/Home';
-import { Lesson, type LessonSummary } from './components/Lesson';
-import { FermiGame } from './components/FermiGame';
-import { MeetingGame } from './components/MeetingGame';
-import { GreeksGame } from './components/GreeksGame';
-import { GuessGame } from './components/GuessGame';
-import { KellyGame } from './components/KellyGame';
-import { BacktestGame } from './components/BacktestGame';
-import { SignalGame } from './components/SignalGame';
-import { PairsGame } from './components/PairsGame';
-import { ExpiryGame } from './components/ExpiryGame';
-import { RiskGame } from './components/RiskGame';
-import { VwapGame } from './components/VwapGame';
-import { ReadBookGame } from './components/ReadBookGame';
-import { CodeGame } from './components/CodeGame';
-import { MarketGame } from './components/MarketGame';
-import { PayoffGame } from './components/PayoffGame';
-import { Results } from './components/Results';
-import { Settings } from './components/Settings';
+import type { LessonSummary } from './components/Lesson';
 import { useAccount } from './components/useAccount';
 import { useGameKeys, useSlashKey } from './components/useKeys';
 import { BookIcon, ChartIcon, ChatIcon, GearIcon, Logo, PathIcon } from './components/icons';
-import { ProgressScreen } from './components/ProgressScreen';
 import { buildPractice, buildTest, withFocus } from './lib/choose';
 import { snoozeDrill } from './lib/drills';
 import { practiceKind } from './lib/content';
@@ -43,6 +19,70 @@ import { firstName } from './lib/profile';
 import { buildWeakSpots, weakSpots } from './lib/weak';
 import { currentUnit } from './lib/track';
 import type { GameId, Progress } from './lib/types';
+
+// Everything but Home loads on demand, then quietly in the background once Home is up.
+const LOADERS = {
+  Careers: () => import('./components/Careers').then((m) => ({ default: m.Careers })),
+  MockRound: () => import('./components/MockRound').then((m) => ({ default: m.MockRound })),
+  ProjectScreen: () => import('./components/Project').then((m) => ({ default: m.ProjectScreen })),
+  DeskCase: () => import('./components/DeskCase').then((m) => ({ default: m.DeskCase })),
+  Drill: () => import('./components/Drill').then((m) => ({ default: m.Drill })),
+  Glossary: () => import('./components/Glossary').then((m) => ({ default: m.Glossary })),
+  Guide: () => import('./components/Guide').then((m) => ({ default: m.Guide })),
+  Lesson: () => import('./components/Lesson').then((m) => ({ default: m.Lesson })),
+  FermiGame: () => import('./components/FermiGame').then((m) => ({ default: m.FermiGame })),
+  MeetingGame: () => import('./components/MeetingGame').then((m) => ({ default: m.MeetingGame })),
+  GreeksGame: () => import('./components/GreeksGame').then((m) => ({ default: m.GreeksGame })),
+  GuessGame: () => import('./components/GuessGame').then((m) => ({ default: m.GuessGame })),
+  KellyGame: () => import('./components/KellyGame').then((m) => ({ default: m.KellyGame })),
+  BacktestGame: () => import('./components/BacktestGame').then((m) => ({ default: m.BacktestGame })),
+  SignalGame: () => import('./components/SignalGame').then((m) => ({ default: m.SignalGame })),
+  PairsGame: () => import('./components/PairsGame').then((m) => ({ default: m.PairsGame })),
+  ExpiryGame: () => import('./components/ExpiryGame').then((m) => ({ default: m.ExpiryGame })),
+  RiskGame: () => import('./components/RiskGame').then((m) => ({ default: m.RiskGame })),
+  VwapGame: () => import('./components/VwapGame').then((m) => ({ default: m.VwapGame })),
+  ReadBookGame: () => import('./components/ReadBookGame').then((m) => ({ default: m.ReadBookGame })),
+  CodeGame: () => import('./components/CodeGame').then((m) => ({ default: m.CodeGame })),
+  MarketGame: () => import('./components/MarketGame').then((m) => ({ default: m.MarketGame })),
+  PayoffGame: () => import('./components/PayoffGame').then((m) => ({ default: m.PayoffGame })),
+  Results: () => import('./components/Results').then((m) => ({ default: m.Results })),
+  Settings: () => import('./components/Settings').then((m) => ({ default: m.Settings })),
+  ProgressScreen: () => import('./components/ProgressScreen').then((m) => ({ default: m.ProgressScreen })),
+};
+const Careers = lazy(LOADERS.Careers);
+const MockRound = lazy(LOADERS.MockRound);
+const ProjectScreen = lazy(LOADERS.ProjectScreen);
+const DeskCase = lazy(LOADERS.DeskCase);
+const Drill = lazy(LOADERS.Drill);
+const Glossary = lazy(LOADERS.Glossary);
+const Guide = lazy(LOADERS.Guide);
+const Lesson = lazy(LOADERS.Lesson);
+const FermiGame = lazy(LOADERS.FermiGame);
+const MeetingGame = lazy(LOADERS.MeetingGame);
+const GreeksGame = lazy(LOADERS.GreeksGame);
+const GuessGame = lazy(LOADERS.GuessGame);
+const KellyGame = lazy(LOADERS.KellyGame);
+const BacktestGame = lazy(LOADERS.BacktestGame);
+const SignalGame = lazy(LOADERS.SignalGame);
+const PairsGame = lazy(LOADERS.PairsGame);
+const ExpiryGame = lazy(LOADERS.ExpiryGame);
+const RiskGame = lazy(LOADERS.RiskGame);
+const VwapGame = lazy(LOADERS.VwapGame);
+const ReadBookGame = lazy(LOADERS.ReadBookGame);
+const CodeGame = lazy(LOADERS.CodeGame);
+const MarketGame = lazy(LOADERS.MarketGame);
+const PayoffGame = lazy(LOADERS.PayoffGame);
+const Results = lazy(LOADERS.Results);
+const Settings = lazy(LOADERS.Settings);
+const ProgressScreen = lazy(LOADERS.ProgressScreen);
+
+function prefetchScreens() {
+  for (const load of Object.values(LOADERS)) void load().catch(() => undefined);
+}
+
+function Spinner() {
+  return <div className="flex min-h-[60dvh] items-center justify-center text-sm font-bold text-ink-3">Loading…</div>;
+}
 
 type Tab = 'home' | 'progress' | 'guide' | 'glossary' | 'settings';
 
@@ -110,13 +150,27 @@ export default function App() {
     window.scrollTo(0, 0);
   }, [screen.name]);
 
+  // Once Home is showing, fetch the other screens while the learner reads it.
+  useEffect(() => {
+    if (!progress) return;
+    if (window.requestIdleCallback) window.requestIdleCallback(prefetchScreens, { timeout: 2000 });
+    else window.setTimeout(prefetchScreens, 1200);
+  }, [progress]);
+
   // Keyboard: 1 to 9 answer and Enter goes on, in games, cases and mocks; "/" searches the glossary.
   useGameKeys(['game', 'case', 'mock', 'results'].includes(screen.name));
   const tabScreen = (TABS as { id: string }[]).some((t) => t.id === screen.name) || screen.name === 'careers' || screen.name === 'project';
   const toSearch = useCallback(() => {
     if (!tabScreen) return;
     setScreen((s) => (s.name === 'glossary' ? s : { name: 'glossary' }));
-    requestAnimationFrame(() => document.getElementById('glossary-search')?.focus());
+    // The glossary may still be loading: try for about a second.
+    let tries = 60;
+    const focus = () => {
+      const el = document.getElementById('glossary-search');
+      if (el) el.focus();
+      else if (tries-- > 0) requestAnimationFrame(focus);
+    };
+    requestAnimationFrame(focus);
   }, [tabScreen]);
   useSlashKey(toSearch);
 
@@ -142,6 +196,7 @@ export default function App() {
   const takeTest = (categoryId: string) => run((seed) => (categoryId === PHASE3 ? buildPhase3Test(seededRng(seed)) : buildTest(categoryId, seededRng(seed))));
   const pick = (unitId: string | null) => update(withFocus(progress, unitId));
 
+  const body = (() => {
   switch (screen.name) {
     case 'lesson':
       return (
@@ -299,6 +354,8 @@ export default function App() {
         </WithTabs>
       );
   }
+  })();
+  return <Suspense fallback={<Spinner />}>{body}</Suspense>;
 }
 
 function Kbd({ children }: { children: ReactNode }) {
@@ -346,7 +403,9 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
           <p>Indian markets, trading and quant terms, a few minutes a day.</p>
         </div>
       </aside>
-      <div className="lg:pl-60">{children}</div>
+      <div className="lg:pl-60">
+        <Suspense fallback={<Spinner />}>{children}</Suspense>
+      </div>
       <nav className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/90 pt-2 backdrop-blur-md lg:hidden" aria-label="Main">
         <div className="mx-auto grid max-w-xl grid-cols-5">
           {TABS.map(({ id, label, icon: Icon }) => {
