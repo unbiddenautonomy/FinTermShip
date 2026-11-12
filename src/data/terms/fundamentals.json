@@ -22,6 +22,16 @@
       "id": "n4",
       "name": "Sector KPIs",
       "core": false
+    },
+    {
+      "id": "n5",
+      "name": "Results day: what to open",
+      "core": false
+    },
+    {
+      "id": "n6",
+      "name": "Annual report and red flags",
+      "core": false
     }
   ],
   "terms": [
@@ -1054,6 +1064,405 @@
         "up": "Strong TCV signals revenue growth ahead; IT stocks often rally on large deal wins even with a soft quarter.",
         "down": "Weak TCV warns of slower growth in coming quarters; analysts cut estimates."
       }
+    },
+    {
+      "id": "consolidated-results",
+      "term": "consolidated results",
+      "unit": "n5",
+      "short": "Group numbers including subsidiaries",
+      "definition": "Results that add up the parent company and all its subsidiaries, as one group. Indian companies also file standalone results for the parent alone. Traders read consolidated numbers for most groups, because a strong parent can hide a loss-making subsidiary, and the reverse.",
+      "examples": [
+        "Standalone profit rose 20%, but consolidated results fell because the overseas arm lost money.",
+        "Always check whether the street's estimate is on consolidated or standalone numbers.",
+        "The holding company looks cheap on standalone, but consolidated results show the debt."
+      ],
+      "fill": "Numbers that add the parent and all its subsidiaries together are the ____.",
+      "confusables": [
+        "earnings",
+        "pat",
+        "segment-reporting"
+      ],
+      "wrong": [
+        "Results of the parent company alone",
+        "Results for the full year only",
+        "Results restated after an audit"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "consolidated numbers",
+        "standalone vs consolidated"
+      ]
+    },
+    {
+      "id": "investor-presentation",
+      "term": "investor presentation",
+      "unit": "n5",
+      "short": "Slides a company releases with results",
+      "definition": "A slide deck filed on the exchange with or just after results. It gives the KPIs the filing leaves out: volumes, segment splits, order book, store counts, client numbers. Read it before the earnings call, because the call's questions usually start from it.",
+      "examples": [
+        "The investor presentation showed volumes up 12%, which the press release didn't mention.",
+        "Compare this quarter's investor presentation with last year's; a dropped KPI slide is a hint.",
+        "The bank's investor presentation has the slippage and restructured book numbers."
+      ],
+      "fill": "The slide deck a company files with its results, full of KPIs, is the ____.",
+      "confusables": [
+        "earnings-call",
+        "consolidated-results",
+        "annual-report"
+      ],
+      "wrong": [
+        "The auditor's report on the accounts",
+        "A broker's research note on the stock",
+        "The notice for the AGM"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "investor deck",
+        "earnings presentation",
+        "IP"
+      ]
+    },
+    {
+      "id": "management-commentary",
+      "term": "management commentary",
+      "unit": "n5",
+      "short": "What the bosses say about the outlook",
+      "definition": "What the CEO and CFO say about demand, margins, costs and plans, in the press release and on the earnings call. Markets often move more on the tone of the commentary than on the quarter's numbers, because it is about the next quarters, not the last one.",
+      "examples": [
+        "Results missed, but management commentary on demand was upbeat and the stock rose.",
+        "Management commentary turned cautious on rural demand for the first time in a year.",
+        "Track the commentary across calls; promises that keep slipping are a warning."
+      ],
+      "fill": "The CEO saying 'demand is picking up in the second half' on the call is ____.",
+      "confusables": [
+        "guidance",
+        "earnings-call",
+        "mdna"
+      ],
+      "wrong": [
+        "The auditor's opinion on the accounts",
+        "A broker's change in rating",
+        "The board's dividend decision"
+      ],
+      "difficulty": 1,
+      "reads": {
+        "up": "A more confident tone, with clear numbers behind it, can lift the stock even on a weak quarter and leads analysts to raise estimates.",
+        "down": "A more cautious tone, or vaguer answers than last time, often hits the stock harder than a miss, because it points to downgrades ahead."
+      }
+    },
+    {
+      "id": "segment-reporting",
+      "term": "segment results",
+      "unit": "n5",
+      "short": "Revenue and profit by business line",
+      "definition": "The breakdown of revenue, profit and capital employed by each business or region, which listed companies must give with results. It shows which part is growing, which is losing money, and where the group's profit really comes from.",
+      "examples": [
+        "Segment results showed retail growing 30% while the legacy business shrank.",
+        "Two-thirds of profit came from one segment, so the stock trades on that business.",
+        "The new segment is still losing money; watch whether its losses narrow."
+      ],
+      "fill": "A table of revenue and profit for each business line of a company shows its ____.",
+      "confusables": [
+        "consolidated-results",
+        "investor-presentation",
+        "revenue-growth"
+      ],
+      "wrong": [
+        "Profit by quarter for the last five years",
+        "Shareholding by investor type",
+        "Costs by type of expense"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "segment reporting",
+        "segmental results"
+      ],
+      "reads": {
+        "up": "A rising share of profit from the fast-growing or high-margin segment usually earns the whole group a higher multiple.",
+        "down": "A shrinking or loss-making segment drags the group; the market cheers if the company sells or shuts it, and worries if it keeps funding it."
+      }
+    },
+    {
+      "id": "shareholding-pattern",
+      "term": "shareholding pattern",
+      "unit": "n5",
+      "short": "Who owns the shares, filed quarterly",
+      "definition": "The quarterly filing that shows what share of a company is held by promoters, FIIs, mutual funds and other domestic institutions, and retail. It comes out within 21 days of the quarter end. Changes from quarter to quarter show who is buying and who is selling.",
+      "examples": [
+        "The shareholding pattern showed mutual funds raised their stake from 6% to 9%.",
+        "Promoters cut their holding again; check the shareholding pattern for pledges too.",
+        "FII holding fell for four quarters in a row while retail holding rose."
+      ],
+      "fill": "The quarterly filing that splits ownership between promoters, FIIs, DIIs and retail is the ____.",
+      "confusables": [
+        "promoter",
+        "promoter-pledge",
+        "free-float"
+      ],
+      "wrong": [
+        "The list of the board's directors",
+        "The register of bondholders",
+        "The list of the top clients"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "Rising promoter or institutional holding signals confidence from people who know the stock well and is usually read as positive.",
+        "down": "Falling promoter holding, or steady FII and mutual fund selling, is read as insiders and big money stepping back; check why."
+      }
+    },
+    {
+      "id": "earnings-surprise",
+      "term": "earnings surprise",
+      "unit": "n5",
+      "short": "How far results land from the estimate",
+      "definition": "The gap between reported numbers and the consensus estimate, usually as a percentage. The stock reacts to the surprise, not to the growth: 20% growth is bad news if the street expected 30%. Big surprises are often followed by further drift in the same direction.",
+      "examples": [
+        "Profit grew 40%, but the street expected 50%, so the earnings surprise was negative.",
+        "The earnings surprise was +12%, the biggest in the sector this season.",
+        "After a big positive earnings surprise, the stock kept drifting up for weeks."
+      ],
+      "fill": "Profit 10% above the consensus estimate is a positive ____.",
+      "confusables": [
+        "earnings-beat",
+        "consensus",
+        "earnings-miss"
+      ],
+      "wrong": [
+        "The change in the share price on results day",
+        "Growth against the same quarter last year",
+        "A one-off gain in the profit and loss"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "A positive surprise, especially on revenue and margins, usually lifts the stock and leads to estimate upgrades over the next weeks.",
+        "down": "A negative surprise usually sends the stock down even if growth looks fine, and the selling can last as analysts cut estimates."
+      }
+    },
+    {
+      "id": "order-inflow",
+      "term": "order inflow",
+      "unit": "n5",
+      "short": "New orders won in the quarter",
+      "definition": "The value of new contracts a company won in the period, used for capital goods, defence, infrastructure and IT services companies. Revenue tells you about the past; order inflow tells you about revenue in the coming years. Compare it with revenue: inflow above revenue grows the order book.",
+      "examples": [
+        "Order inflow of ₹20,000 crore was twice the quarter's revenue, so the backlog grew.",
+        "Weak order inflow worried the market more than the earnings beat.",
+        "Defence stocks rallied on record order inflow from the ministry."
+      ],
+      "fill": "The value of new contracts a company signed this quarter is its ____.",
+      "confusables": [
+        "order-backlog",
+        "total-contract-value",
+        "revenue-growth"
+      ],
+      "wrong": [
+        "Orders still to be executed",
+        "Revenue billed in the quarter",
+        "Cash collected from customers"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "order intake",
+        "new orders"
+      ],
+      "reads": {
+        "up": "Strong order inflow, especially above revenue, points to faster revenue growth ahead and usually supports a higher multiple.",
+        "down": "Slowing inflow means the order book will shrink and growth will slow in a year or two; the stock often falls before the revenue does."
+      }
+    },
+    {
+      "id": "annual-report",
+      "term": "annual report",
+      "unit": "n6",
+      "short": "The full yearly report with audited accounts",
+      "definition": "The yearly document every listed company publishes: audited financial statements, notes to accounts, the auditor's report, management discussion, governance, related party dealings and pay. The quarterly filings are short; the annual report is where the detail and the problems are.",
+      "examples": [
+        "The annual report showed a large loan to a promoter company that the quarterly results never mentioned.",
+        "Read the annual report before the AGM; questions get better answers there.",
+        "Analysts compare five years of annual reports to see how the story has changed."
+      ],
+      "fill": "The yearly document with audited accounts, the auditor's report and management discussion is the ____.",
+      "confusables": [
+        "mdna",
+        "notes-to-accounts",
+        "investor-presentation"
+      ],
+      "wrong": [
+        "A quarter's results filing",
+        "A broker's initiation report",
+        "The company's offer document for an IPO"
+      ],
+      "difficulty": 1
+    },
+    {
+      "id": "mdna",
+      "term": "MD&A",
+      "unit": "n6",
+      "short": "Management's own review of the year",
+      "definition": "Management Discussion and Analysis: the section of the annual report where the company explains its industry, its performance, risks and outlook in words. It is where management sets expectations and where you can check whether last year's promises were kept.",
+      "examples": [
+        "Last year's MD&A promised 15% growth; actual growth was 6%.",
+        "The MD&A flagged rising competition for the first time.",
+        "Read the MD&A for the risks section; it often warns before the numbers do."
+      ],
+      "fill": "The annual report section where management explains performance, risks and outlook is the ____.",
+      "confusables": [
+        "management-commentary",
+        "annual-report",
+        "guidance"
+      ],
+      "wrong": [
+        "The auditor's opinion on the accounts",
+        "The board's remuneration table",
+        "The cash flow statement"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "management discussion and analysis",
+        "MDA"
+      ]
+    },
+    {
+      "id": "notes-to-accounts",
+      "term": "notes to accounts",
+      "unit": "n6",
+      "short": "The fine print under the financials",
+      "definition": "The pages after the financial statements that explain the numbers: accounting policies, debt terms, loans given, tax disputes, one-offs and guarantees. Most red flags in Indian companies have been in the notes long before they hit the headline numbers.",
+      "examples": [
+        "The notes to accounts showed the company changed its depreciation policy to lift profit.",
+        "A large loan to an unnamed party sat in the notes to accounts.",
+        "Read the notes to accounts on borrowings: the covenants are there."
+      ],
+      "fill": "The pages after the financial statements explaining policies, debt terms and disputes are the ____.",
+      "confusables": [
+        "annual-report",
+        "contingent-liabilities",
+        "earnings-quality"
+      ],
+      "wrong": [
+        "The chairman's letter to shareholders",
+        "The investor presentation",
+        "The list of subsidiaries"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "notes to financial statements",
+        "notes"
+      ]
+    },
+    {
+      "id": "related-party-transactions",
+      "term": "related party transactions",
+      "unit": "n6",
+      "short": "Deals with promoters' own entities",
+      "definition": "Business the company does with entities linked to its promoters, directors or group firms: buying, selling, renting, lending or paying royalties. They are allowed with approvals, but they are the easiest way to move money out of a listed company, so investors watch their size and trend.",
+      "examples": [
+        "Related party transactions were 30% of sales, all with promoter-owned distributors.",
+        "Shareholders voted down the royalty increase to the parent, a related party transaction.",
+        "The company lent ₹500 crore to a group firm, flagged under related party transactions."
+      ],
+      "fill": "Sales to a distributor owned by the promoter's family are ____.",
+      "confusables": [
+        "promoter",
+        "notes-to-accounts",
+        "insider-trading"
+      ],
+      "wrong": [
+        "Trades by insiders in the company's shares",
+        "Deals between two unrelated listed firms",
+        "Payments to the company's auditors"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "RPT",
+        "RPTs",
+        "related party deals"
+      ],
+      "reads": {
+        "up": "Rising related party dealings, especially loans or payments to promoter firms, are a governance red flag and usually cut the multiple the market pays.",
+        "down": "Falling related party dealings, or a merger that folds them in, is read as cleaner governance and can lead to a re-rating."
+      }
+    },
+    {
+      "id": "contingent-liabilities",
+      "term": "contingent liabilities",
+      "unit": "n6",
+      "short": "Possible costs not on the balance sheet",
+      "definition": "Obligations that may become real depending on an event: tax disputes, legal claims, guarantees given for other companies' loans. They sit in the notes, not in the balance sheet. A large figure compared with net worth means one bad ruling could wipe out years of profit.",
+      "examples": [
+        "Contingent liabilities from tax disputes were 60% of net worth.",
+        "The company had guaranteed a group firm's loan, so it showed up in contingent liabilities.",
+        "The stock fell when a court ruling turned a contingent liability into a real one."
+      ],
+      "fill": "A pending tax demand the company is fighting in court is one of its ____.",
+      "confusables": [
+        "notes-to-accounts",
+        "debt-to-equity",
+        "exceptional-items"
+      ],
+      "wrong": [
+        "Loans already on the balance sheet",
+        "Profits not yet booked",
+        "Unpaid dividends to shareholders"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "Growing contingent liabilities, especially guarantees for group firms, raise the risk of a sudden hit to net worth; the market discounts the stock for it.",
+        "down": "Falling contingent liabilities, as disputes are settled or guarantees released, remove an overhang and can lift the stock."
+      }
+    },
+    {
+      "id": "qualified-audit-opinion",
+      "term": "qualified audit opinion",
+      "unit": "n6",
+      "short": "The auditor won't fully sign off",
+      "definition": "An auditor's report that says the accounts are fair except for specific matters it could not verify or disagrees with. It is more serious than an 'emphasis of matter', which only draws attention to something. A qualification on cash, receivables or related parties is a major warning.",
+      "examples": [
+        "The auditor gave a qualified audit opinion on ₹800 crore of receivables it couldn't verify.",
+        "The stock fell 15% after the qualified audit opinion was filed.",
+        "Read the auditor's report first; a qualified audit opinion changes everything else."
+      ],
+      "fill": "An auditor saying the accounts are fair 'except for' a matter it couldn't verify is a ____.",
+      "confusables": [
+        "auditor-resignation",
+        "notes-to-accounts",
+        "earnings-quality"
+      ],
+      "wrong": [
+        "A clean report with no comments",
+        "The board's approval of the results",
+        "A rating agency's downgrade"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "qualified opinion",
+        "audit qualification",
+        "auditor qualification"
+      ]
+    },
+    {
+      "id": "auditor-resignation",
+      "term": "auditor resignation",
+      "unit": "n6",
+      "short": "Auditors quitting mid-term: a red flag",
+      "definition": "When the statutory auditor resigns before finishing its term. Companies must file the reason with the exchange. Reasons like 'information not provided' have come before many Indian accounting scandals, so the market treats a mid-term exit as a serious warning.",
+      "examples": [
+        "The auditor resigned citing lack of information, and the stock hit the lower circuit.",
+        "Two auditor resignations in three years: most funds won't touch the stock.",
+        "Check the resignation letter filed with the exchange, not just the company's statement."
+      ],
+      "fill": "The statutory auditor quitting mid-term citing 'information not provided' is an ____.",
+      "confusables": [
+        "qualified-audit-opinion",
+        "related-party-transactions",
+        "rating-watch"
+      ],
+      "wrong": [
+        "A director leaving the board",
+        "A change of the company's registrar",
+        "The CFO retiring on schedule"
+      ],
+      "difficulty": 2
     }
   ]
 }
