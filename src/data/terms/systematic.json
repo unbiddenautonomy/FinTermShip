@@ -44,6 +44,21 @@
       "name": "Case: a trend system from backtest to live",
       "core": false,
       "kind": "case"
+    },
+    {
+      "id": "z8",
+      "name": "Market-making signals",
+      "core": false
+    },
+    {
+      "id": "z9",
+      "name": "Portfolio construction",
+      "core": false
+    },
+    {
+      "id": "z10",
+      "name": "Data and machine learning",
+      "core": false
     }
   ],
   "terms": [
@@ -861,6 +876,397 @@
         "Many small hedged bets at once"
       ],
       "difficulty": 2
+    },
+    {
+      "id": "quote-skewing",
+      "term": "quote skewing",
+      "unit": "z8",
+      "short": "Shifting your quotes to shed inventory",
+      "definition": "A market maker moving both bid and ask in the direction that reduces the position: lower quotes when long so buyers come and sellers stay away, higher quotes when short. It controls inventory without leaving the market.",
+      "examples": [
+        "We're long 40 lots, so the algo is skewing quotes half a tick lower until we're flat.",
+        "Quote skewing costs a little edge on each trade but stops inventory from running away.",
+        "Without quote skewing, the model kept buying into a falling market."
+      ],
+      "fill": "Long 40 lots, the market maker lowered both bid and ask a tick so it would sell more and buy less: ____.",
+      "confusables": [
+        "inventory-risk",
+        "market-maker",
+        "improve-the-bid"
+      ],
+      "wrong": [
+        "Widening the spread before news",
+        "Quoting only one side of the market",
+        "Showing a smaller size than you will trade"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "spread-capture",
+      "term": "spread capture",
+      "unit": "z8",
+      "short": "The share of the spread a market maker keeps",
+      "definition": "How much of the quoted bid-ask spread a market maker actually earns per trade after the price moves. Quoting a ₹0.10 spread and keeping ₹0.03 on average means a 30% spread capture; the rest is lost to adverse selection.",
+      "examples": [
+        "Quoted spread is two ticks but spread capture is only half a tick; informed flow is eating the rest.",
+        "Spread capture fell after the new HFT entered the stock.",
+        "We measure spread capture with one-second markouts on every fill."
+      ],
+      "fill": "The desk quoted a two-tick spread but kept only half a tick per trade after prices moved: its ____.",
+      "confusables": [
+        "spread",
+        "markout",
+        "adverse-selection"
+      ],
+      "wrong": [
+        "The spread between two futures months",
+        "Taking the spread by crossing it",
+        "The widest spread the exchange allows"
+      ],
+      "calcs": [
+        {
+          "q": "A market maker quotes ₹0.10 wide, so earns ₹0.05 a share against the mid when filled. One-second markouts average −₹0.03. Spread capture per share?",
+          "options": [
+            "₹0.02",
+            "₹0.08",
+            "₹0.05",
+            "₹0.03"
+          ],
+          "answer": 0,
+          "why": "Half-spread earned (₹0.05) minus the move against you (₹0.03) leaves ₹0.02 per share."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "queue-position",
+      "term": "queue position",
+      "unit": "z8",
+      "short": "Where your order sits in line at a price",
+      "definition": "Your place among the resting orders at one price level. Under price-time priority the orders ahead of you fill first, so a good queue position decides whether a passive order fills before the price moves.",
+      "examples": [
+        "We were 40,000 shares back in the queue; the offer got cleared before we filled.",
+        "HFTs cancel and requote fast to protect queue position.",
+        "Amending your order size can send you to the back of the queue, so check before you touch it."
+      ],
+      "fill": "Her bid was first at its price, so it filled before the 30,000 shares behind it: the value of good ____.",
+      "confusables": [
+        "price-time-priority",
+        "fill-rate",
+        "passive-order"
+      ],
+      "wrong": [
+        "Your rank in the IPO allotment",
+        "The number of orders you place a second",
+        "Where a stock ranks in the index"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "order-book-imbalance",
+      "term": "order-book imbalance",
+      "aliases": [
+        "OBI"
+      ],
+      "unit": "z8",
+      "short": "More size on one side of the book",
+      "definition": "How much more size is resting on the bid than on the offer, or the other way round, often measured at the best price as (bid − ask) ÷ (bid + ask). A strong imbalance predicts the direction of the next tick, and short-term signals use it.",
+      "examples": [
+        "Order-book imbalance is +0.6: three times as much on the bid, so the next tick probably goes up.",
+        "The HFT's short-term model is mostly order-book imbalance and trade flow.",
+        "Imbalance flips fast when someone pulls a big order, so treat it as a seconds signal."
+      ],
+      "fill": "There was 9,000 on the bid against 3,000 on the offer, so the model expected an uptick: ____.",
+      "confusables": [
+        "market-depth",
+        "microprice",
+        "short-squeeze"
+      ],
+      "wrong": [
+        "A gap between buy and sell volume over a day",
+        "An index with more gainers than losers",
+        "A position that is longer than it is short"
+      ],
+      "calcs": [
+        {
+          "q": "9,000 shares bid and 3,000 offered at the top. Order-book imbalance, (bid − ask) ÷ (bid + ask)?",
+          "options": [
+            "+0.5",
+            "+3",
+            "+0.75",
+            "−0.5"
+          ],
+          "answer": 0,
+          "why": "(9,000 − 3,000) ÷ 12,000 = 0.5, a strong lean to the bid."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "microprice",
+      "term": "microprice",
+      "unit": "z8",
+      "short": "The mid weighted by size at the top",
+      "definition": "A better short-term fair value than the plain mid: the bid and ask weighted by the size on the opposite side, (bid × ask size + ask × bid size) ÷ (bid size + ask size). It sits closer to the side with less size, the side likelier to be traded through.",
+      "examples": [
+        "Mid is ₹100.025 but the microprice is ₹100.04: the bid is heavy.",
+        "Our quotes centre on the microprice, not the mid.",
+        "The microprice moved before the mid did, which is the point of it."
+      ],
+      "fill": "With much more size on the bid, the desk priced off the mid weighted toward the offer: the ____.",
+      "confusables": [
+        "mid-price",
+        "order-book-imbalance",
+        "fair-value"
+      ],
+      "wrong": [
+        "The smallest price step allowed",
+        "A price quoted for very small orders",
+        "The average price of the last few trades"
+      ],
+      "calcs": [
+        {
+          "q": "Bid ₹100.00 for 9,000; ask ₹100.05 for 3,000. Microprice?",
+          "options": [
+            "₹100.0375",
+            "₹100.0125",
+            "₹100.025",
+            "₹100.05"
+          ],
+          "answer": 0,
+          "why": "(100.00 × 3,000 + 100.05 × 9,000) ÷ 12,000 = 100.0375, nearer the ask."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "risk-parity",
+      "term": "risk parity",
+      "unit": "z9",
+      "short": "Weights so each asset adds equal risk",
+      "definition": "Building a portfolio so each asset class contributes the same risk, not the same money. Low-volatility assets such as bonds get bigger weights, often with leverage, and high-volatility assets such as equities get smaller ones.",
+      "examples": [
+        "A 60/40 book gets about 90% of its risk from equities; risk parity evens that out.",
+        "Risk parity funds sold bonds and equities together when both fell in 2022.",
+        "Our risk parity sleeve levers bonds about 2 times."
+      ],
+      "fill": "Bonds were a third as volatile as equities, so the fund held about three times as much in bonds, to balance the risk: ____.",
+      "confusables": [
+        "volatility-targeting",
+        "diversification",
+        "risk-budget"
+      ],
+      "wrong": [
+        "Holding the same amount of money in each asset",
+        "Matching a benchmark's sector weights",
+        "Hedging every position one for one"
+      ],
+      "calcs": [
+        {
+          "q": "Equities have 15% vol and bonds 5%. With two assets and no correlation, what bond weight gives equal risk in a fully invested book?",
+          "options": [
+            "75%",
+            "50%",
+            "25%",
+            "66%"
+          ],
+          "answer": 0,
+          "why": "Weights proportional to 1/vol: 1/15 and 1/5, or 1 : 3. Bonds get 3 ÷ 4 = 75%, equities 25%."
+        }
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "long-short-equity",
+      "term": "long-short equity",
+      "unit": "z9",
+      "short": "A stock book that is long some and short others",
+      "definition": "A strategy that buys stocks expected to do well and shorts stocks expected to do badly, often with a modest net long. Returns come from the spread between the longs and the shorts more than from the market.",
+      "examples": [
+        "Our long-short equity book runs 150% gross and 20% net.",
+        "The long-short equity fund lost on both sides when the junk rally hit.",
+        "In India, long-short equity mostly shorts through single-stock futures."
+      ],
+      "fill": "The fund was long 80% in quality names and short 60% in weak ones, earning mostly from the gap: ____.",
+      "confusables": [
+        "market-neutral",
+        "pairs-trading",
+        "gross-exposure"
+      ],
+      "wrong": [
+        "Holding stocks for the long term and selling short-term",
+        "Buying calls and puts on the same stock",
+        "An index fund with a cash buffer"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "cross-asset-carry",
+      "term": "cross-asset carry",
+      "unit": "z9",
+      "short": "Owning what pays the most to hold, everywhere",
+      "definition": "A systematic strategy that goes long the assets with the highest carry (the return from holding if prices don't move) and short the lowest, across currencies, bonds, commodities and equity indices. It earns steadily and can lose sharply when markets panic.",
+      "examples": [
+        "The cross-asset carry book is long high-yield currencies, steep bond curves and backwardated commodities.",
+        "Cross-asset carry had a bad week as everything with high yield sold off together.",
+        "We blend cross-asset carry with trend because they tend to lose at different times."
+      ],
+      "fill": "The model buys whatever pays most to hold, in currencies, bonds and commodities, and shorts what pays least: ____.",
+      "confusables": [
+        "carry-trade",
+        "roll-yield",
+        "trend-following"
+      ],
+      "wrong": [
+        "Holding positions overnight to the next day",
+        "Paying a broker to carry a position forward",
+        "Rolling stock futures every month"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "seasonality",
+      "term": "seasonality",
+      "unit": "z9",
+      "short": "Patterns that repeat by calendar time",
+      "definition": "Return or volume patterns that repeat at the same time of the day, month or year, such as month-end flows, expiry-week behaviour, Diwali muhurat trading or the turn of the year. Quants test them carefully, because many calendar patterns are data-mined.",
+      "examples": [
+        "The month-end seasonality is pension and SIP flows; it shows up in the last three days.",
+        "Volume seasonality matters for execution: the last half hour is one of the busiest of the day.",
+        "With only 20 years of Januaries, that seasonality is 20 data points; don't trust it."
+      ],
+      "fill": "Stocks tended to rise in the last three days of the month, as SIP and pension flows came in: a ____ effect.",
+      "confusables": [
+        "data-snooping",
+        "volume-profile",
+        "small-sample"
+      ],
+      "wrong": [
+        "A stock that only trades in some seasons",
+        "A factor that changes with the business cycle",
+        "Volatility that rises before holidays only"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "mean-variance-optimisation",
+      "term": "mean-variance optimisation",
+      "unit": "z9",
+      "short": "Choosing weights for the best return per risk",
+      "definition": "Markowitz's method of picking portfolio weights that give the highest expected return for a level of risk, using expected returns, volatilities and correlations. It is very sensitive to the return estimates, so practitioners shrink inputs and add constraints.",
+      "examples": [
+        "Unconstrained mean-variance optimisation put 70% in one stock; we capped names at 5%.",
+        "Small changes to expected returns flipped the mean-variance optimisation completely.",
+        "Most desks use mean-variance optimisation with shrunk covariances and turnover limits."
+      ],
+      "fill": "Feeding expected returns, vols and correlations into Markowitz's model to find the best weights is ____.",
+      "confusables": [
+        "risk-parity",
+        "diversification",
+        "overfitting"
+      ],
+      "wrong": [
+        "Averaging the returns of all stocks equally",
+        "Holding the stocks with the lowest variance only",
+        "Rebalancing a portfolio once a year"
+      ],
+      "difficulty": 3
+    },
+    {
+      "id": "alternative-data",
+      "term": "alternative data",
+      "unit": "z10",
+      "short": "Data beyond prices and filings",
+      "definition": "Data that isn't from market feeds or company reports, such as card spending, web traffic, app downloads, satellite images, GST e-way bills or job postings. Funds use it to see sales or activity before results; it is expensive, messy and its edge fades as more buy it.",
+      "examples": [
+        "App download data called the food-delivery beat a month early.",
+        "Before buying alternative data, check its history is point-in-time and long enough to backtest.",
+        "Compliance has to sign off any alternative data that might contain personal information."
+      ],
+      "fill": "The fund bought card-spending and web-traffic numbers to forecast sales before results: ____.",
+      "confusables": [
+        "point-in-time-data",
+        "factor",
+        "data-snooping"
+      ],
+      "wrong": [
+        "Using a second data vendor for prices",
+        "Data from an alternative exchange",
+        "Estimates from sell-side analysts"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "feature-engineering",
+      "term": "feature engineering",
+      "unit": "z10",
+      "short": "Turning raw data into model inputs",
+      "definition": "Building the inputs a model learns from out of raw data: ratios, changes, ranks, lags and z-scores. In finance most of the edge is in the features, and the main danger is leaking future information into them.",
+      "examples": [
+        "Most of the gain came from feature engineering: ranking each signal within its sector.",
+        "A feature built from adjusted prices leaked a split from the future; fix the feature engineering.",
+        "Ten good features beat five hundred raw ones fed to a bigger model."
+      ],
+      "fill": "Before training the model, she turned raw prices and volumes into ranks, z-scores and lagged changes: ____.",
+      "confusables": [
+        "data-leakage",
+        "winsorising",
+        "overfitting"
+      ],
+      "wrong": [
+        "Building the trading system's hardware",
+        "Choosing which machine-learning model to use",
+        "Writing the code that sends orders"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "ml-signal",
+      "term": "ML signal",
+      "unit": "z10",
+      "short": "A forecast made by a machine-learning model",
+      "definition": "A trading signal produced by a machine-learning model, such as gradient-boosted trees or a neural network, trained to forecast returns from many features. In markets the data is noisy and keeps changing, so ML signals overfit easily and must be tested strictly out of sample.",
+      "examples": [
+        "The ML signal had a 3.0 Sharpe in sample and 0.4 live; it was fitting noise.",
+        "Our ML signal combines 60 features with gradient-boosted trees and retrains monthly.",
+        "Before trusting an ML signal, ask what it's learned: if it can't be explained, size it small."
+      ],
+      "fill": "A gradient-boosted tree model trained on 60 features forecasts next-week returns: an ____.",
+      "confusables": [
+        "overfitting",
+        "information-coefficient",
+        "alpha-decay"
+      ],
+      "wrong": [
+        "A signal sent by a broker's market-making desk",
+        "A rule written by hand, such as a moving-average cross",
+        "An alert from the exchange's surveillance system"
+      ],
+      "difficulty": 2
+    },
+    {
+      "id": "purged-cross-validation",
+      "term": "purged cross-validation",
+      "unit": "z10",
+      "short": "Testing that removes overlap between folds",
+      "definition": "Cross-validation for time series that drops (purges) training data whose labels overlap the test period, and often a gap after it (an embargo). Without it, overlapping returns leak information and models look better than they are.",
+      "examples": [
+        "Our labels are 20-day returns, so purged cross-validation drops 20 days either side of each test fold.",
+        "Plain k-fold showed an IC of 0.08; purged cross-validation cut it to 0.02.",
+        "Purged cross-validation is now standard on the team for any model with overlapping labels."
+      ],
+      "fill": "Because labels were 20-day returns, he removed the training days whose labels overlapped each test fold: ____.",
+      "confusables": [
+        "walk-forward",
+        "out-of-sample",
+        "data-leakage"
+      ],
+      "wrong": [
+        "Cleaning bad prices from the data",
+        "Removing outliers before training",
+        "Splitting data at random into train and test"
+      ],
+      "difficulty": 3
     }
   ]
 }
