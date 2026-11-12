@@ -85,6 +85,13 @@
       "core": false,
       "kind": "game",
       "game": "risk"
+    },
+    {
+      "id": "q16",
+      "name": "Code reading",
+      "core": false,
+      "kind": "game",
+      "game": "code"
     }
   ],
   "terms": [
