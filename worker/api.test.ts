@@ -90,6 +90,31 @@ describe('worker: accounts', () => {
     expect((await friend.call('GET', '/api/me')).status).toBe(401);
   });
 
+  it('shows the admin a summary of each learner, not their progress', async () => {
+    const admin = new Client();
+    await admin.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
+    const { data } = await admin.call('POST', '/api/admin/invites', { quant: false, phase3: false });
+    const friend = new Client();
+    await friend.call('POST', '/api/signup', { email: 'friend@example.com', password: 'friendpass', invite: data.code });
+    const t = (step: number, correct: number, wrong: number) => ({ step, due: '2026-11-20', seen: 3, correct, wrong, lapses: 0, trouble: false, introduced: '2026-11-01' });
+    const p: Progress = {
+      ...newProgress(),
+      xp: 120,
+      streak: 3,
+      lastActiveDay: '2026-11-12',
+      terms: { a: t(5, 4, 0), b: t(2, 1, 3) },
+      days: { '2026-11-12': { xp: 20, newTerms: 2, reviews: 1, lessons: 1 }, '2026-11-11': { xp: 20, newTerms: 2, reviews: 1, lessons: 2 }, '2026-10-01': { xp: 5, newTerms: 1, reviews: 0, lessons: 1 } },
+      drills: { d1: { rounds: 2, passed: true, bestRight: 8, last: '2026-11-12' }, d2: { rounds: 1, passed: false, bestRight: 3, last: '2026-11-12' } },
+    };
+    await friend.call('PUT', '/api/progress', { progress: p });
+    const users = (await admin.call('GET', '/api/admin/users')).data.users;
+    const f = users.find((u: { email: string }) => u.email === 'friend@example.com');
+    expect(f.activity).toMatchObject({ lastDay: '2026-11-12', streak: 3, xp: 120, met: 2, known: 1, right: 5, wrong: 3, passed: 1, week: 2 });
+    expect(typeof f.activity.synced).toBe('number');
+    expect(f.data).toBeUndefined();
+    expect(users.find((u: { email: string }) => u.email === 'owner@example.com').activity).toBeNull();
+  });
+
   it('signs in, rejects a wrong password, locks after repeated tries, and signs out', async () => {
     await new Client().call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
     const c = new Client();
