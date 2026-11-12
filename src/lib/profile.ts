@@ -1,10 +1,8 @@
 /**
- * Small personal touches: the learner's name, the role they are preparing
- * for, and how long until their interview. All optional, kept in settings,
- * so they sync with the account.
+ * Small personal touches: the learner's name and the role they are preparing
+ * for. Both optional, kept in settings, so they sync with the account.
  */
 import careerData from '../data/careers.json';
-import { daysBetween } from './dates';
 import { MOCKS, mockReady } from './mock';
 import type { CareerMap, Progress } from './types';
 
@@ -21,14 +19,6 @@ export function firstName(p: Progress): string {
 export const comma = (p: Progress) => (firstName(p) ? `, ${firstName(p)}` : '');
 
 export const targetRole = (p: Progress) => careers.roles.find((r) => r.id === p.settings.target);
-
-/** Days until the interview: 0 on the day, null when none is set or it has passed. */
-export function daysToInterview(p: Progress, today: string): number | null {
-  const d = p.settings.interviewDate;
-  if (!d || !/^\d{4}-\d{2}-\d{2}$/.test(d)) return null;
-  const n = daysBetween(today, d);
-  return n >= 0 ? n : null;
-}
 
 /** Timed mock rounds counted as interview-ready, out of all of them. */
 export function mocksReady(p: Progress): { ready: number; total: number } {

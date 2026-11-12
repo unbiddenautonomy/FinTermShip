@@ -47,4 +47,12 @@ describe('career map', () => {
     // The rounds walk through what this app trains, from the online test to the market-making game.
     expect(careers.rounds.find((r) => r.name === 'Market-making game')?.practise).toEqual(['s6', 's8', 's9', 's10', 's11']);
   });
+
+  it('sends learners to every unit of the newer areas', () => {
+    const linked = new Set([...careers.roles, ...careers.rounds].flatMap((r) => r.practise));
+    for (const id of ['fundamentals', 'credit', 'commodities']) {
+      const area = categories.find((c) => c.id === id)!;
+      for (const u of area.units) expect(linked.has(u.id), u.id).toBe(true);
+    }
+  });
 });

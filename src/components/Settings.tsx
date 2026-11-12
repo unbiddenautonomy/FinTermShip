@@ -3,6 +3,7 @@ import type { AccountState, Me } from '../lib/account';
 import { exportProgress, readBackupFile } from '../lib/storage';
 import { newProgress } from '../lib/scheduler';
 import { canSpeak, speak } from '../lib/speech';
+import { getTheme, setTheme, THEMES, type Theme } from '../lib/theme';
 import type { Progress } from '../lib/types';
 import { AboutYou } from './AboutYou';
 import { AccountPanel } from './Account';
@@ -31,6 +32,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
   const [confirmReset, setConfirmReset] = useState(false);
   const [pasted, setPasted] = useState('');
   const [askPassword, setAskPassword] = useState(false);
+  const [theme, pickTheme] = useState<Theme>(getTheme);
   const s = progress.settings;
   const minutes = s.newPerDay;
   const signedIn = account.kind === 'in';
@@ -46,8 +48,36 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
 
       <Group title="About you">
         <div className="px-4 py-4">
-          <AboutYou progress={progress} today={today} onSave={onChange} />
+          <AboutYou progress={progress} onSave={onChange} />
         </div>
+      </Group>
+
+      <Group title="Appearance">
+        <Row>
+          <div className="w-full">
+            <p className="font-bold text-ink" id="theme-label">
+              Theme
+            </p>
+            <p className="mb-3 text-sm text-ink-3">Auto follows your device's light or dark setting. Saved on this device.</p>
+            <div className="grid grid-cols-3 gap-1 rounded-xl bg-sunken p-1" role="radiogroup" aria-labelledby="theme-label">
+              {THEMES.map((t) => (
+                <button
+                  key={t.id}
+                  type="button"
+                  role="radio"
+                  aria-checked={theme === t.id}
+                  onClick={() => {
+                    setTheme(t.id);
+                    pickTheme(t.id);
+                  }}
+                  className={`rounded-lg py-2 text-sm font-extrabold transition ${theme === t.id ? 'bg-surface text-brand-ink shadow-card' : 'text-ink-3 hover:text-ink-2'}`}
+                >
+                  {t.label}
+                </button>
+              ))}
+            </div>
+          </div>
+        </Row>
       </Group>
 
       <Group title="Daily goal">

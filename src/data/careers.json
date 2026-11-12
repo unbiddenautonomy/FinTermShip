@@ -1,5 +1,5 @@
 {
-  "intro": "Where the quant track can lead: the main trading and quant jobs, and the rounds most firms put candidates through. Each one lists the units in this app that prepare you for it.",
+  "intro": "Where the app can lead: the main trading, quant, research and credit jobs, and the rounds most firms put candidates through. Each one lists the units in this app that prepare you for it.",
   "roles": [
     {
       "id": "quant-trader",
@@ -7,7 +7,7 @@
       "where": "Prop trading firms, market makers, hedge funds and bank trading desks",
       "what": "Runs trading strategies or quotes prices, deciding how much to trade and how much risk to hold, often within seconds. Many firms hire graduates straight from campus and teach the markets on the job.",
       "skills": ["Quick, accurate mental maths", "Probability and expected value", "Options and the Greeks", "Calm decisions under pressure"],
-      "practise": ["k1", "k2", "k3", "k4", "s6", "s8", "s11", "o2", "o10", "o8", "o9", "k7", "o11", "o12", "q17", "q18", "q19", "d6", "x7"]
+      "practise": ["k1", "k2", "k3", "k4", "s6", "s8", "s11", "o2", "o10", "o8", "o9", "k7", "o11", "o12", "q17", "q18", "q19", "d6", "x7", "o13", "y2", "y7", "z1", "z8", "s12"]
     },
     {
       "id": "quant-researcher",
@@ -15,7 +15,7 @@
       "where": "Hedge funds, prop trading firms and quant fund managers",
       "what": "Looks for patterns in market data that predict prices, tests them hard and turns the ones that survive into strategies. It needs strong statistics and coding, and many hires have a master's or a PhD.",
       "skills": ["Statistics and regression", "Backtesting without fooling yourself", "Python and handling data", "Probability"],
-      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5", "q9", "q13", "q10", "q14", "q16", "q20", "q21", "q22", "x7"]
+      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5", "q9", "q13", "q10", "q14", "q16", "q20", "q21", "q22", "x7", "z3", "z5", "z9", "z10"]
     },
     {
       "id": "quant-developer",
@@ -31,7 +31,7 @@
       "where": "Mutual funds, insurers, foreign funds and brokers' algo desks",
       "what": "Buys and sells large orders for a fund without moving the price too much, choosing the algo, the venue and the timing, then measuring what it cost.",
       "skills": ["Order books and liquidity", "Execution algos", "Measuring trading costs", "Working with brokers and fund managers"],
-      "practise": ["s2", "x1", "x2", "x3", "x4", "x5", "x6", "x7"]
+      "practise": ["s2", "x1", "x2", "x3", "x4", "x5", "x6", "x7", "s12", "x8"]
     },
     {
       "id": "risk-manager",
@@ -39,7 +39,7 @@
       "where": "Banks, brokers, clearing corporations, exchanges and funds",
       "what": "Measures how much a desk or fund could lose and sets the limits, margins and stress tests that stop one bad day from sinking the firm.",
       "skills": ["VaR and stress tests", "Margins and position limits", "Options and the Greeks", "Explaining risk to traders"],
-      "practise": ["q2", "q7", "t4", "o10", "o4", "s7", "q11", "q12", "q21", "x7"]
+      "practise": ["q2", "q7", "t4", "o10", "o4", "s7", "q11", "q12", "q21", "x7", "q15", "r1", "r3"]
     },
     {
       "id": "rates-fx-trader",
@@ -47,7 +47,31 @@
       "where": "Bank treasuries, primary dealers and foreign banks",
       "what": "Trades government bonds, T-bills, interest rate swaps and the rupee, reacting to RBI policy, inflation data and money flowing in and out of India.",
       "skills": ["Bond maths: yield, duration and PV01", "RBI policy and liquidity", "Currency markets", "Reading economic data"],
-      "practise": ["m1", "m2", "m3", "f4", "m4", "m5"]
+      "practise": ["m1", "m2", "m3", "f4", "m4", "m5", "y10"]
+    },
+    {
+      "id": "equity-research-analyst",
+      "title": "Equity research analyst",
+      "where": "Brokers, mutual funds, PMS and insurers' equity teams",
+      "what": "Covers a set of companies: builds earnings models, reads every results filing, annual report and earnings call, and turns it into ratings, target prices and stock pitches for fund managers.",
+      "skills": ["Reading results and annual reports", "Valuation", "Spotting accounting red flags", "Writing and pitching a view"],
+      "practise": ["b4", "n1", "n2", "n3", "n4", "n5", "n6", "d3", "i5", "i3"]
+    },
+    {
+      "id": "credit-analyst",
+      "title": "Credit analyst",
+      "where": "Rating agencies, banks, debt mutual funds and NBFCs",
+      "what": "Judges whether a borrower will pay back: reads the cash flows, debt and covenants, rates the risk, and watches for early signs of stress in bonds, loans and commercial paper.",
+      "skills": ["Cash flow and the balance sheet", "Credit ratings and spreads", "Bond maths", "Reading the notes to accounts"],
+      "practise": ["r1", "r2", "r3", "n2", "n3", "n6", "f4", "m4"]
+    },
+    {
+      "id": "commodities-trader",
+      "title": "Commodities trader",
+      "where": "Brokers' commodity desks, bullion dealers, prop firms and corporate treasuries",
+      "what": "Trades and hedges gold, silver, crude, natural gas and base metals on MCX and against global prices, minding the rupee, the curve, delivery rules and import duties.",
+      "skills": ["MCX contracts and margins", "Futures curves and spreads", "Hedging with futures", "Global cues and the rupee"],
+      "practise": ["g1", "g2", "g3", "f2", "y5", "m3", "m5"]
     }
   ],
   "rounds": [
@@ -85,6 +109,11 @@
       "name": "Coding",
       "what": "For research and developer roles: data structures, algorithms and handling data in Python or C++. The code reading game trains reading pandas and spotting backtest bugs; writing code still needs practice outside the app.",
       "practise": ["q16"]
+    },
+    {
+      "name": "Stock pitch and markets",
+      "what": "Common for research, fund and trading desk roles: pitch a stock and defend it, walk through a company's latest results, and give your view on what the market is doing and why.",
+      "practise": ["n1", "n3", "n5", "n6", "b4", "c5", "i3"]
     },
     {
       "name": "Fit and motivation",
