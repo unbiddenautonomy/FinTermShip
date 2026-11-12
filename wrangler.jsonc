@@ -12,6 +12,14 @@
     "not_found_handling": "single-page-application",
     "run_worker_first": ["/api/*"]
   },
+  // Accounts and progress sync (see the README). Tables are created on first use.
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "fintermship",
+      "database_id": "cbfac63f-79b0-4fcf-83ca-90541458b658"
+    }
+  ],
   // Pull request builds run `wrangler preview`, which needs this block. Empty means previews use the settings above.
   "previews": {}
 }
