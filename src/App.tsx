@@ -1,5 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { Careers } from './components/Careers';
+import { MockRound } from './components/MockRound';
+import { ProjectScreen } from './components/Project';
 import { DeskCase } from './components/DeskCase';
 import { Drill } from './components/Drill';
 import { Glossary } from './components/Glossary';
@@ -60,6 +62,8 @@ const GAME_SCREENS: Record<GameId, typeof MarketGame> = {
 type Screen =
   | { name: Tab; sheet?: string; q?: string }
   | { name: 'careers' }
+  | { name: 'project'; projectId: string }
+  | { name: 'mock'; round: string }
   | { name: 'lesson'; plan: LessonPlan; seed: number }
   | { name: 'drill' | 'game' | 'case'; unitId: string; seed: number }
   | { name: 'results'; summary: LessonSummary };
@@ -219,7 +223,21 @@ export default function App() {
     case 'careers':
       return (
         <WithTabs tab="home" onTab={(name) => setScreen({ name })}>
-          <Careers progress={progress} onBack={() => setScreen({ name: 'home' })} onOpenUnit={(unitId) => setScreen({ name: 'home', sheet: unitId })} />
+          <Careers
+            progress={progress}
+            onBack={() => setScreen({ name: 'home' })}
+            onOpenUnit={(unitId) => setScreen({ name: 'home', sheet: unitId })}
+            onOpenProject={(projectId) => setScreen({ name: 'project', projectId })}
+            onOpenMock={(round) => setScreen({ name: 'mock', round })}
+          />
+        </WithTabs>
+      );
+    case 'mock':
+      return <MockRound key={screen.round} round={screen.round} progress={progress} today={today} onProgress={update} onBack={() => setScreen({ name: 'careers' })} />;
+    case 'project':
+      return (
+        <WithTabs tab="home" onTab={(name) => setScreen({ name })}>
+          <ProjectScreen projectId={screen.projectId} progress={progress} onProgress={update} onBack={() => setScreen({ name: 'careers' })} />
         </WithTabs>
       );
     default:
