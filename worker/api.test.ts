@@ -58,6 +58,8 @@ describe('worker: accounts', () => {
     const unset = env;
     env = { DB: fakeD1() };
     expect((await stranger.call('POST', '/api/signup', { email: 'x@y.com', password: 'longenough' })).data.error).toMatch(/no admin email/);
+    env = { DB: fakeD1(), OWNER_EMAIL: 'x@y.com' };
+    expect((await stranger.call('POST', '/api/signup', { email: 'x@y.com', password: 'longenough' })).data.user.admin).toBe(true);
     env = unset;
     const admin = new Client();
     const r = await admin.call('POST', '/api/signup', { email: ' owner@example.com ', password: 'longenough' });
