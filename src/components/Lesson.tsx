@@ -249,7 +249,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
         {q.kind === 'meaning' && term && (
           <>
             <div className="mb-8 flex items-center gap-3">
-              <h1 className="text-[32px] font-extrabold leading-tight tracking-tight text-ink">{term.term}</h1>
+              <h1 className="text-[32px] font-display font-semibold leading-tight tracking-tight text-ink">{term.term}</h1>
               <SpeakButton term={term} enabled={voice} />
             </div>
             <Options q={q} labels={q.options} picked={picked} onPick={answer} />
@@ -402,7 +402,7 @@ function Intro({ term, voice }: { term: Term; voice: boolean }) {
     <div>
       <p className="mb-1 text-xs font-bold text-ink-3">{cat?.name}</p>
       <div className="mb-1 flex items-center gap-3">
-        <h1 className="text-[32px] font-extrabold leading-tight tracking-tight text-ink">{term.term}</h1>
+        <h1 className="text-[32px] font-display font-semibold leading-tight tracking-tight text-ink">{term.term}</h1>
         <SpeakButton term={term} enabled={voice} />
       </div>
       {(term.said || term.aliases?.length) && (

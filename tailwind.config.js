@@ -7,6 +7,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
+        display: ['Fraunces', 'Georgia', 'serif'],
         sans: ['Manrope', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },
@@ -28,7 +29,7 @@ export default {
         press: '0 3px 0 0 rgb(var(--brand-strong))',
         'press-bad': '0 3px 0 0 rgb(var(--bad-ink))',
         'press-line': '0 2px 0 0 rgb(var(--line))',
-        card: '0 1px 2px 0 rgb(46 30 90 / 0.04), 0 1px 3px 0 rgb(46 30 90 / 0.06)',
+        card: '0 1px 2px 0 rgb(20 40 30 / 0.04), 0 1px 3px 0 rgb(20 40 30 / 0.06)',
         sheet: '0 -8px 24px -12px rgb(16 24 40 / 0.18)',
       },
       keyframes: {

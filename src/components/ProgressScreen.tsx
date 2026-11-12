@@ -27,7 +27,7 @@ export function ProgressScreen({ progress, today, onWeak }: { progress: Progress
 
   return (
     <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5 lg:max-w-5xl lg:px-8 lg:pb-12 lg:pt-8">
-      <h1 className="text-2xl font-extrabold tracking-tight text-ink">Progress</h1>
+      <h1 className="text-2xl font-display font-semibold tracking-tight text-ink">Progress</h1>
 
       <div className="grid grid-cols-3 gap-3 lg:grid-cols-6">
         <Tile label="Terms met" value={t.met} />

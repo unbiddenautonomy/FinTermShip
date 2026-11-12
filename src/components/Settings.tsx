@@ -38,7 +38,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
 
   return (
     <div className="mx-auto max-w-xl lg:max-w-2xl space-y-6 px-4 pb-32 lg:pb-12 pt-5">
-      <h1 className="text-2xl font-extrabold tracking-tight text-ink">Settings</h1>
+      <h1 className="text-2xl font-display font-semibold tracking-tight text-ink">Settings</h1>
 
       <Group title="Account">
         <AccountPanel account={account} sync={sync} onSignedIn={onSignedIn} onSignedOut={onSignedOut} onSyncNow={onSyncNow} />

@@ -5,17 +5,17 @@
 /* Colour tokens as RGB triplets so Tailwind can add opacity. */
 :root {
   color-scheme: light;
-  --bg: 248 247 252;
-  --surface: 255 255 255;
-  --sunken: 242 240 248;
-  --line: 229 226 238;
-  --ink: 30 26 46;
-  --ink-2: 82 76 104;
-  --ink-3: 140 134 160;
-  --brand: 124 95 207;
-  --brand-strong: 96 70 176;
-  --brand-soft: 243 239 252;
-  --brand-ink: 98 70 184;
+  --bg: 246 244 238;
+  --surface: 255 254 250;
+  --sunken: 238 235 226;
+  --line: 224 219 206;
+  --ink: 20 34 28;
+  --ink-2: 70 84 76;
+  --ink-3: 128 136 126;
+  --brand: 24 78 57;
+  --brand-strong: 12 50 36;
+  --brand-soft: 230 238 232;
+  --brand-ink: 22 80 58;
   --good: 84 172 128;
   --good-strong: 58 136 98;
   --good-soft: 236 247 241;
@@ -24,15 +24,15 @@
   --bad-strong: 190 82 82;
   --bad-soft: 252 240 239;
   --bad-ink: 160 58 58;
-  --sky: 46 144 250;
-  --sky-soft: 235 245 255;
-  --sky-ink: 23 92 211;
-  --amber: 247 144 9;
-  --amber-soft: 255 247 230;
-  --amber-ink: 181 71 8;
-  --violet: 122 90 248;
-  --violet-soft: 243 241 255;
-  --violet-ink: 89 37 220;
+  --sky: 76 112 140;
+  --sky-soft: 233 239 243;
+  --sky-ink: 46 82 112;
+  --amber: 196 140 62;
+  --amber-soft: 249 240 224;
+  --amber-ink: 140 90 28;
+  --violet: 180 116 70;
+  --violet-soft: 247 236 225;
+  --violet-ink: 142 82 40;
   -webkit-tap-highlight-color: transparent;
 }
 
@@ -40,17 +40,17 @@
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme='light']) {
     color-scheme: dark;
-    --bg: 16 14 24;
-    --surface: 26 23 38;
-    --sunken: 34 31 49;
-    --line: 52 48 70;
-    --ink: 240 238 247;
-    --ink-2: 200 196 214;
-    --ink-3: 136 131 156;
-    --brand: 124 99 214;
-    --brand-strong: 88 66 170;
-    --brand-soft: 40 31 72;
-    --brand-ink: 201 188 252;
+    --bg: 11 20 16;
+    --surface: 18 31 25;
+    --sunken: 24 40 33;
+    --line: 40 58 49;
+    --ink: 238 234 224;
+    --ink-2: 196 198 186;
+    --ink-3: 130 142 132;
+    --brand: 40 112 82;
+    --brand-strong: 22 70 50;
+    --brand-soft: 24 50 39;
+    --brand-ink: 222 172 126;
     --good: 98 184 142;
     --good-strong: 52 120 88;
     --good-soft: 22 46 36;
@@ -59,31 +59,31 @@
     --bad-strong: 170 72 72;
     --bad-soft: 58 26 28;
     --bad-ink: 245 170 170;
-    --sky: 83 177 253;
-    --sky-soft: 16 40 80;
-    --sky-ink: 132 202 255;
-    --amber: 253 176 34;
-    --amber-soft: 66 32 8;
-    --amber-ink: 254 200 75;
-    --violet: 155 138 251;
-    --violet-soft: 36 22 84;
-    --violet-ink: 189 180 254;
+    --sky: 120 160 190;
+    --sky-soft: 26 42 46;
+    --sky-ink: 160 196 222;
+    --amber: 218 168 92;
+    --amber-soft: 52 38 18;
+    --amber-ink: 236 196 130;
+    --violet: 206 146 100;
+    --violet-soft: 52 34 22;
+    --violet-ink: 232 182 140;
   }
 }
 
 :root[data-theme='dark'] {
   color-scheme: dark;
-  --bg: 16 14 24;
-  --surface: 26 23 38;
-  --sunken: 34 31 49;
-  --line: 52 48 70;
-  --ink: 240 238 247;
-  --ink-2: 200 196 214;
-  --ink-3: 136 131 156;
-  --brand: 124 99 214;
-  --brand-strong: 88 66 170;
-  --brand-soft: 40 31 72;
-  --brand-ink: 201 188 252;
+  --bg: 11 20 16;
+  --surface: 18 31 25;
+  --sunken: 24 40 33;
+  --line: 40 58 49;
+  --ink: 238 234 224;
+  --ink-2: 196 198 186;
+  --ink-3: 130 142 132;
+  --brand: 40 112 82;
+  --brand-strong: 22 70 50;
+  --brand-soft: 24 50 39;
+  --brand-ink: 222 172 126;
   --good: 98 184 142;
   --good-strong: 52 120 88;
   --good-soft: 22 46 36;
@@ -92,21 +92,21 @@
   --bad-strong: 170 72 72;
   --bad-soft: 58 26 28;
   --bad-ink: 245 170 170;
-  --sky: 83 177 253;
-  --sky-soft: 16 40 80;
-  --sky-ink: 132 202 255;
-  --amber: 253 176 34;
-  --amber-soft: 66 32 8;
-  --amber-ink: 254 200 75;
-  --violet: 155 138 251;
-  --violet-soft: 36 22 84;
-  --violet-ink: 189 180 254;
+  --sky: 120 160 190;
+  --sky-soft: 26 42 46;
+  --sky-ink: 160 196 222;
+  --amber: 218 168 92;
+  --amber-soft: 52 38 18;
+  --amber-ink: 236 196 130;
+  --violet: 206 146 100;
+  --violet-soft: 52 34 22;
+  --violet-ink: 232 182 140;
 }
 
 body {
   @apply bg-bg text-ink antialiased;
-  /* A faint paper grain, so the lilac-white ground isn't flat. */
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .5 0 0 0 0 .45 0 0 0 0 .7 0 0 0 .05 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  /* A faint paper grain, like the card stock of the logo, so the ivory ground isn't flat. */
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .35 0 0 0 0 .3 0 0 0 0 .2 0 0 0 .06 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
   font-family: Manrope, system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
 }
 

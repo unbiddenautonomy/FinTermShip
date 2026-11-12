@@ -86,7 +86,7 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
             <p className="mt-1.5 text-xs font-bold text-ink-3">{round ? scoreLabel.label : test ? 'score' : drill ? 'right' : 'first try'}</p>
           </div>
         </Ring>
-        <h1 className="mt-6 text-3xl font-extrabold tracking-tight text-ink">
+        <h1 className="mt-6 text-3xl font-display font-semibold tracking-tight text-ink">
           {title}
           {name && good ? `, ${name}` : ''}
         </h1>
