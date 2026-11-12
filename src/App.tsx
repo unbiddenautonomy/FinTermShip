@@ -18,6 +18,7 @@ import { ExpiryGame } from './components/ExpiryGame';
 import { RiskGame } from './components/RiskGame';
 import { VwapGame } from './components/VwapGame';
 import { ReadBookGame } from './components/ReadBookGame';
+import { CodeGame } from './components/CodeGame';
 import { MarketGame } from './components/MarketGame';
 import { PayoffGame } from './components/PayoffGame';
 import { Results } from './components/Results';
@@ -53,6 +54,7 @@ const GAME_SCREENS: Record<GameId, typeof MarketGame> = {
   risk: RiskGame,
   vwap: VwapGame,
   readbook: ReadBookGame,
+  code: CodeGame,
 };
 
 type Screen =

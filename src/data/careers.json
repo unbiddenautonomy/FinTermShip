@@ -15,7 +15,7 @@
       "where": "Hedge funds, prop trading firms and quant fund managers",
       "what": "Looks for patterns in market data that predict prices, tests them hard and turns the ones that survive into strategies. It needs strong statistics and coding, and many hires have a master's or a PhD.",
       "skills": ["Statistics and regression", "Backtesting without fooling yourself", "Python and handling data", "Probability"],
-      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5", "q9", "q13", "q10", "q14", "x7"]
+      "practise": ["q1", "q8", "q3", "q4", "q5", "q6", "q7", "k5", "q9", "q13", "q10", "q14", "q16", "x7"]
     },
     {
       "id": "quant-developer",
@@ -83,8 +83,8 @@
     },
     {
       "name": "Coding",
-      "what": "For research and developer roles: data structures, algorithms and handling data in Python or C++. This app doesn't teach coding, so practise it separately.",
-      "practise": []
+      "what": "For research and developer roles: data structures, algorithms and handling data in Python or C++. The code reading game trains reading pandas and spotting backtest bugs; writing code still needs practice outside the app.",
+      "practise": ["q16"]
     },
     {
       "name": "Fit and motivation",
