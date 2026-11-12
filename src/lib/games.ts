@@ -16,7 +16,6 @@ import { BEST_TURNS_NEEDED, HEADLINE, LEVELS, levelChecks, type LevelNo } from '
 import { PAIR_CALLS, PAIRS } from './pairs';
 import { PAYOFF } from './payoff';
 import { ITEMS as READBOOK_ITEMS, READBOOK } from './readbook';
-import { CODE, CODE_COUNT } from './code';
 import { RISK } from './risk';
 import { SLICES, VWAP } from './vwap';
 import { SIGNAL } from './signal';
@@ -176,15 +175,7 @@ export const GAMES: Record<GameId, GameSpec> = {
     score: { label: 'checks met', short: 'Checks', max: 2 },
     record: outOf(2, 'Execution game'),
   },
-  code: {
-    size: `${CODE_COUNT} snippets`,
-    rule: `pass with ${CODE.passRight} of ${CODE_COUNT} right`,
-    about:
-      'Read short Python, pandas and NumPy snippets like a quant analyst: say what each prints, and find the bug that makes a backtest lie, from look-ahead to survivorship to annualising by 252.',
-    how: 'Read the code, pick what it prints or what is wrong with it, and see why. No need to run anything.',
-    score: { label: 'right', short: 'Right', max: CODE_COUNT },
-    record: outOf(CODE_COUNT, 'Coding game'),
-  },
+
   readbook: {
     size: `${READBOOK_ITEMS} reads`,
     rule: `pass with ${READBOOK.passRight} of ${READBOOK_ITEMS} right`,

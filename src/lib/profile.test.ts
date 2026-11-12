@@ -18,7 +18,7 @@ describe('profile', () => {
     expect(ROLES.length).toBeGreaterThan(3);
     expect(targetRole(withSettings({ target: 'quant-researcher' }))?.title).toBe('Quant researcher');
     expect(targetRole(withSettings({ target: 'nope' }))).toBeUndefined();
-    const p = { ...newProgress(), mocks: { Coding: { best: 8, total: 8, date: '2026-11-10', tries: 1 }, 'Mental maths': { best: 5, total: 15, date: '2026-11-10', tries: 1 } } };
-    expect(mocksReady(p)).toEqual({ ready: 1, total: 6 });
+    const p = { ...newProgress(), mocks: { 'Online test': { best: 12, total: 12, date: '2026-11-10', tries: 1 }, 'Mental maths': { best: 5, total: 15, date: '2026-11-10', tries: 1 } } };
+    expect(mocksReady(p)).toEqual({ ready: 1, total: 5 });
   });
 });

@@ -2,7 +2,6 @@ import careerData from '../data/careers.json';
 import { unitOpen } from '../lib/choose';
 import { path, unitById } from '../lib/content';
 import { mockByRound, mockReady } from '../lib/mock';
-import { PROJECTS, projectDone, projectState } from '../lib/projects';
 import { unitDone } from '../lib/track';
 import type { CareerMap, Progress } from '../lib/types';
 import { Briefcase, Check, Lock } from './icons';
@@ -14,12 +13,11 @@ interface Props {
   progress: Progress;
   onBack: () => void;
   onOpenUnit: (unitId: string) => void;
-  onOpenProject: (projectId: string) => void;
   onOpenMock: (round: string) => void;
 }
 
 /** A reading screen, off the track: where the quant units lead, and how firms hire. */
-export function Careers({ progress, onBack, onOpenUnit, onOpenProject, onOpenMock }: Props) {
+export function Careers({ progress, onBack, onOpenUnit, onOpenMock }: Props) {
   return (
     <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5 lg:max-w-5xl lg:px-8 lg:pb-12 lg:pt-8">
       <header className="flex items-center gap-3">
@@ -59,41 +57,6 @@ export function Careers({ progress, onBack, onOpenUnit, onOpenProject, onOpenMoc
             </Card>
           ))}
         </div>
-      </section>
-
-      <section>
-        <SectionTitle aside={`${PROJECTS.filter((pr) => projectDone(progress, pr.id)).length} of ${PROJECTS.length} done`}>Project track</SectionTitle>
-        <p className="mb-3 px-1 text-sm leading-relaxed text-ink-2">
-          The app can make the words, the maths and the judgment automatic. The rest of the job is writing code on real data and defending the result. These six projects run in
-          Colab or Jupyter; each has a brief, a checklist and review questions here.
-        </p>
-        <ol className="space-y-2 lg:grid lg:grid-cols-2 lg:gap-3 lg:space-y-0">
-          {PROJECTS.map((pr, i) => {
-            const s = projectState(progress, pr.id);
-            const done = projectDone(progress, pr.id);
-            return (
-              <li key={pr.id}>
-                <button
-                  type="button"
-                  onClick={() => onOpenProject(pr.id)}
-                  className="flex w-full items-center gap-3 rounded-2xl border border-line bg-surface p-4 text-left transition hover:border-brand/50"
-                >
-                  <span
-                    className={`num flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-extrabold ${done ? 'bg-brand text-white' : 'bg-violet-soft text-violet-ink'}`}
-                  >
-                    {done ? <Check className="h-4 w-4" /> : i + 1}
-                  </span>
-                  <span className="min-w-0 flex-1">
-                    <span className="block font-extrabold text-ink">{pr.title}</span>
-                    <span className="block text-sm text-ink-3">
-                      {s.done.length} of {pr.steps.length} steps{s.reviewed ? ' · review passed' : ''}
-                    </span>
-                  </span>
-                </button>
-              </li>
-            );
-          })}
-        </ol>
       </section>
 
       <section>
