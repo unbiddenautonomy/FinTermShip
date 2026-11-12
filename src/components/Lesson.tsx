@@ -18,6 +18,8 @@ export interface LessonSummary {
   newIds: string[];
   missedIds: string[];
   kind: LessonPlan['kind'] | 'drill' | 'game' | 'case';
+  /** A weak-spots round. */
+  weak?: boolean;
   /** Set after an area test. */
   test?: { categoryId: string; right: number; total: number; passed: boolean; credited: number };
   /** Set after a timed drill. */
@@ -119,6 +121,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
       newIds: plan.newIds,
       missedIds: missed,
       kind: plan.kind,
+      weak: plan.weak,
       test,
     });
   }, [plan, today, stats, missed, isTest, onProgress, onFinish]);
