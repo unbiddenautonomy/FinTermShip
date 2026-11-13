@@ -1,4 +1,4 @@
-# FinTermShip
+# fintermship
 
 A Duolingo-style web app for learning and remembering trading and market terms, tailored to the Indian market.
 
