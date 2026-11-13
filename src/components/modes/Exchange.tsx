@@ -76,8 +76,8 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
               <dd className="num font-mono font-semibold text-ink">{quotes.length}</dd>
               <dt className="text-ink-3">Blue chips</dt>
               <dd className="num font-mono font-semibold text-ink">{blue}</dd>
-              <dt className="text-ink-3">Falling (Due)</dt>
-              <dd className="num font-mono font-semibold text-amber-ink">{k.due}</dd>
+              <dt className="text-ink-3">Falling</dt>
+              <dd className="num font-mono font-semibold text-amber-ink">{quotes.filter((q) => q.falling).length}</dd>
             </dl>
           </div>
           <Spark values={series} />
@@ -89,7 +89,7 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
         <div className="flex flex-col gap-3">
           <Action
             title="Defend the fallers"
-            detail={fallers.length ? `${Math.min(DEFEND_MAX, fallers.length)} of ${area ? fallers.length : k.due} falling${area ? ' in this sector' : ''}` : 'Nothing falling right now'}
+            detail={fallers.length ? `${Math.min(DEFEND_MAX, fallers.length)} of ${fallers.length} falling${area ? ' in this sector' : ''}` : 'Nothing falling right now'}
             disabled={!fallers.length}
             onClick={() => defend(fallers)}
             primary
