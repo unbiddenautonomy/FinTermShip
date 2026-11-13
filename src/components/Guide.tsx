@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { areaOpen, canTakeTest, unitOpen } from '../lib/choose';
-import { caseById, categories, categoryOfUnit, hasCard, isPracticeUnit, practiceKind, termById, termIdsOfUnit, unitById } from '../lib/content';
+import { caseSummary, categories, categoryOfUnit, hasCard, isPracticeUnit, practiceKind, termById, termIdsOfUnit, unitById } from '../lib/content';
 import { drillPassed } from '../lib/drills';
 import { answer, careers, replyFor, STARTERS, type HelpAction, type Intent, type Reply, type Target } from '../lib/guide';
 import { todayStatus } from '../lib/lesson';
@@ -192,7 +192,7 @@ function unitSummary(p: Progress, unitId: string): string {
   const kind = practiceKind(unitId);
   if (kind) {
     const passed = drillPassed(p, unitId);
-    const size = kind === 'case' ? `${caseById.get(unitId)?.steps.length ?? 0} decisions, ` : '';
+    const size = kind === 'case' ? `${caseSummary.get(unitId)?.steps ?? 0} decisions, ` : '';
     return `A ${KIND_LABEL[kind]}, ${size}${passed ? 'passed' : 'not passed yet'}`;
   }
   const ids = termIdsOfUnit(unitId);

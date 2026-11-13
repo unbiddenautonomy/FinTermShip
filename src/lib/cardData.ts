@@ -1,6 +1,7 @@
 /**
- * Every term card, built from the full syllabus files. The Worker serves cards
- * from this, and the tests and `npm run dev` load it whole. The app's
+ * Every term card and pack (src/lib/packs.ts), built from the full syllabus
+ * files. The Worker serves them from this, and the tests and `npm run dev`
+ * load it whole. The app's
  * production build never includes it: the browser gets cards from the server,
  * a learner's worth at a time (scripts/check-bundle.mjs fails the build if any
  * of it slips in).
@@ -24,6 +25,10 @@ import credit from '../data/terms/credit.json';
 import fundamentals from '../data/terms/fundamentals.json';
 import claims from '../data/modes/claims.json';
 import talk from '../data/talk.json';
+import cases from '../data/cases.json';
+import meetings from '../data/meetings.json';
+import fermi from '../data/fermi.json';
+import backtests from '../data/backtests.json';
 import { CARD_FIELDS, type Card, type Category, type TalkItem, type WrittenClaim } from './types';
 
 /** The syllabus with every term in full. */
@@ -50,4 +55,14 @@ export function buildCards(): Map<string, Card> {
     if (card) (card.talk ??= []).push(i);
   }
   return cards;
+}
+
+/** Every pack, by id: each desk case as 'case:<unit id>', and the meeting, Fermi and backtest games' content. */
+export function buildPacks(): Map<string, unknown> {
+  const packs = new Map<string, unknown>();
+  for (const [id, c] of Object.entries(cases)) packs.set(`case:${id}`, c);
+  packs.set('meeting', meetings);
+  packs.set('fermi', fermi);
+  packs.set('backtest', backtests);
+  return packs;
 }
