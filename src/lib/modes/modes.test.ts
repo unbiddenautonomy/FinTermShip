@@ -8,7 +8,7 @@ import { mergeProgress } from '../sync';
 import type { Progress } from '../types';
 import { buildDeck, claimsFor, writtenClaims } from './claims';
 import { quote, snapshotIndex, tickers, watchlist } from './exchange';
-import { kpis, recordAnswer, strength, type ModeId } from './knowledge';
+import { kpis, landingMode, recordAnswer, strength, type ModeId } from './knowledge';
 import { interchanges, transferPuzzle } from './transfer';
 
 const today = '2026-11-13';
@@ -67,6 +67,15 @@ describe('one answer, one memory, whatever the mode', () => {
     const q = recordAnswer(p, { termId: 'bid', correct: false, ms: 1000, evidence: 'weak', mode: 'callit' }, today);
     expect(q.terms.bid.step).toBe(2);
     expect(q.terms.bid.due).toBe(addDays(today, 1));
+  });
+});
+
+describe('landing', () => {
+  it('opens in Path unless the learner picked another mode', () => {
+    expect(landingMode(newProgress())).toBe('path');
+    const p = newProgress();
+    expect(landingMode({ ...p, settings: { ...p.settings, landing: 'exchange' } })).toBe('exchange');
+    expect(landingMode({ ...p, settings: { ...p.settings, landing: 'nowhere' as ModeId } })).toBe('path');
   });
 });
 

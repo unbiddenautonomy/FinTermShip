@@ -12,6 +12,12 @@ import type { Progress, Question, TermState } from '../types';
 export type ModeId = 'path' | 'lines' | 'callit' | 'exchange';
 export const MODES: ModeId[] = ['path', 'lines', 'callit', 'exchange'];
 
+/** Where the app opens: the learner's choice in Settings, or Path. */
+export function landingMode(p: Progress): ModeId {
+  const m = p.settings.landing;
+  return m && MODES.includes(m) ? m : 'path';
+}
+
 /**
  * How much a right answer proves.
  * weak: can be guessed half the time (a true/false claim).
