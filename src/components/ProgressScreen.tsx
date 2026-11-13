@@ -126,7 +126,7 @@ export function ProgressScreen({ progress, today, onWeak }: { progress: Progress
                 <div className="flex items-baseline justify-between gap-3 text-sm">
                   <span className="truncate font-bold text-ink">{a.name}</span>
                   <span className="num shrink-0 text-ink-3">
-                    {a.known} of {a.total} known · {pct(accuracy(a.right, a.wrong))} right
+                    {a.known} of {a.total} known{a.right + a.wrong ? ` · ${pct(accuracy(a.right, a.wrong))} right` : ''}
                   </span>
                 </div>
                 <div className="mt-1.5 flex h-2.5 gap-[2px] overflow-hidden rounded-full bg-sunken" role="img" aria-label={`${a.name}: ${a.known} known and ${a.met - a.known} more met, of ${a.total} terms`}>
@@ -170,13 +170,13 @@ function Sources({ progress }: { progress: Progress }) {
               </p>
               <p className="num mt-1 text-xl font-extrabold text-ink">{s.answers}</p>
               <p className="num text-xs text-ink-3">
-                {pct(accuracy(s.right, s.answers - s.right))} right{s.sessions ? ` · ${s.sessions} session${s.sessions === 1 ? '' : 's'}` : ''}
+                {s.answers ? `${pct(accuracy(s.right, s.answers - s.right))} right` : 'Not tried yet'}{s.sessions ? ` · ${s.sessions} session${s.sessions === 1 ? '' : 's'}` : ''}
               </p>
             </li>
           ))}
         </ul>
         <p className="text-xs leading-relaxed text-ink-3">
-          Every mode adds to the same terms, so Known, Due, Strength and Coverage count all of these together. A true or false call in Call It is practice: it can't move a term on its own, but a wrong call brings the term back for a proper review the next day.
+          Every mode adds to the same terms. A Call It answer can't move a term on its own, but a wrong one brings it back for review the next day.
         </p>
       </Card>
     </section>

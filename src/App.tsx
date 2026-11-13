@@ -476,6 +476,11 @@ export default function App() {
       return (
         <WithTabs tab="home" onTab={onTab}>
           <div className="mx-auto max-w-xl px-4 pt-5 lg:max-w-6xl lg:px-8 lg:pt-8">
+            {/* Phones have no sidebar, so the name sits at the top of the start screen. */}
+            <div className="mb-4 flex items-center gap-2.5 lg:hidden">
+              <Logo className="h-8 w-8" />
+              <span className="font-wordmark text-[23px] font-light tracking-[0.04em] text-ink">fintermship</span>
+            </div>
             <ModeBar progress={progress} today={today} mode="path" onMode={goMode} />
           </div>
           <Home

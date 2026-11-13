@@ -46,8 +46,11 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
   const quantGranted = signedIn && account.me.quant;
 
   return (
-    <div className="mx-auto max-w-xl lg:max-w-2xl space-y-6 px-4 pb-32 lg:pb-12 pt-5">
+    <div className="mx-auto max-w-xl space-y-6 px-4 pb-32 pt-5 lg:max-w-5xl lg:px-8 lg:pb-12 lg:pt-8">
       <h1 className="text-2xl font-display font-semibold tracking-tight text-ink">Settings</h1>
+
+      {/* One column on a phone; two balanced columns on a laptop. */}
+      <div className="lg:columns-2 lg:gap-8 [&>section]:pb-6 lg:[&>section]:break-inside-avoid">
 
       <Group title="Account">
         <AccountPanel account={account} sync={sync} onSignedIn={onSignedIn} onSignedOut={onSignedOut} onSyncNow={onSyncNow} />
@@ -302,6 +305,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
           </Button>
         </Row>
       </Group>
+      </div>
 
       {askPassword && (
         <PasswordDialog
