@@ -1,19 +1,18 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { areaCoreTermIds, canTakeTest, focusActive, focusQueue, unitOpen } from '../lib/choose';
-import { categories, hasCard, isPhase3Area, isQuantArea, practiceKind, termById, unitById } from '../lib/content';
+import { hasCard, isPhase3Area, isQuantArea, practiceKind, termById, unitById } from '../lib/content';
 import { weakSpots, WEAK_MIN } from '../lib/weak';
-import { DRILLS } from '../lib/drills';
 import { gameSpec } from '../lib/games';
 import { addDays, daysBetween } from '../lib/dates';
 import { todayStatus } from '../lib/lesson';
 import { PHASE3, phase3Open, reachableTermIds } from '../lib/phase3';
 import { KIND_LABEL, passRule, practiceAbout, recordLine, roundSize } from '../lib/practice';
-import { currentStreak, dayStats, isKnown } from '../lib/scheduler';
+import { dayStats, isKnown } from '../lib/scheduler';
 import { comma, mocksReady, targetRole } from '../lib/profile';
 import { currentUnit, isDrill, track, unitDone, type PathRow } from '../lib/track';
 import type { Progress } from '../lib/types';
-import { Bolt, Briefcase, Calculator, Check, Cross, Dice, Flame, Lock, Logo } from './icons';
+import { Briefcase, Calculator, Check, Cross, Dice, Flame, Lock } from './icons';
 import { AboutYou } from './AboutYou';
 import { Phase3Gate } from './Phase3Gate';
 import { Bar, Button, Card, Pill, Ring, SectionTitle, StepDots } from './ui';
@@ -44,13 +43,10 @@ interface Props {
 
 type Row = PathRow & { i: number; met: number; known: number; total: number; open: boolean; drill: boolean; done: boolean };
 
-const TOTAL_CATEGORIES = 17;
-
 export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, onTest, onDrill, onPhase3Key, onOpenSettings, onOpenCareers, initialSheet, showInstallHint, onProgress, signedIn }: Props) {
   const [sheet, setSheet] = useState<string | null>(initialSheet ?? null);
   const picked = focusActive(progress) && progress.focus ? unitById.get(progress.focus) : undefined;
   const status = todayStatus(progress, today);
-  const streak = currentStreak(progress, today);
   const todayStats = dayStats(progress, today);
   const goal = progress.settings.newPerDay;
   const hasWork = status.due > 0 || status.newLeft > 0 || !!status.drill;
@@ -83,27 +79,6 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
 
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-6 px-4 pb-32 pt-5 lg:grid lg:max-w-6xl lg:grid-flow-row-dense lg:grid-cols-[minmax(0,1fr)_23rem] lg:items-start lg:gap-x-10 lg:px-8 lg:pb-12 lg:pt-8">
-      <header className="flex items-center justify-between lg:col-span-2">
-        <h1 className="hidden text-2xl font-display font-semibold tracking-tight text-ink lg:block">Learn</h1>
-        <div className="flex items-center gap-2.5 lg:hidden">
-          <Logo className="h-8 w-8" />
-          <span className="font-wordmark text-[23px] font-light tracking-[0.04em] text-ink">fintermship</span>
-        </div>
-        <div className="flex items-center gap-2">
-          <span
-            className={`num inline-flex items-center gap-1 rounded-full px-3 py-1.5 text-sm font-extrabold ${practisedToday ? 'bg-amber-soft text-amber-ink' : 'bg-sunken text-ink-3'}`}
-            title="Days in a row"
-            aria-label={`${streak} day streak`}
-          >
-            <Flame className="h-4 w-4" />
-            {streak}
-          </span>
-          <span className="num inline-flex items-center gap-1 rounded-full bg-violet-soft px-3 py-1.5 text-sm font-extrabold text-violet-ink" aria-label={`${progress.xp} XP`}>
-            <Bolt className="h-4 w-4" />
-            {progress.xp}
-          </span>
-        </div>
-      </header>
 
       {showInstallHint && (
         <div className="rounded-2xl border border-amber/40 bg-amber-soft px-4 py-3 text-sm leading-relaxed text-amber-ink lg:col-span-2">
@@ -115,9 +90,10 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
         <Card className="space-y-3 lg:col-span-2">
           <div>
             <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">About you</p>
-            <p className="mt-1 text-sm leading-relaxed text-ink-2">Two optional questions, so the app can greet you and point you at the right interview practice. Change them any time in Settings.</p>
+            <p className="mt-1 text-sm leading-relaxed text-ink-2">Two optional questions, so the app can greet you and point you at the right interview practice.</p>
           </div>
           <AboutYou
+            inline
             progress={progress}
             onSave={onProgress}
             onSkip={() => onProgress({ ...progress, settings: { ...progress.settings, aboutAsked: true } })}
@@ -249,10 +225,6 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
         </div>
       )}
 
-      <p className="order-3 px-1 text-xs leading-relaxed text-ink-3 lg:order-none">
-        {`${mainCategories.filter((c) => c.terms.length > 0).length} of ${TOTAL_CATEGORIES} term categories are ready, plus ${Object.keys(DRILLS).length} timed drills, ${plural(countKind('game'), 'game')} and ${plural(countKind('case'), 'desk case')}. Phase 3 adds ${phase3Terms} strategy terms, ${plural(countKind('game', true), 'game')} and ${plural(countKind('case', true), 'desk case')}.`}{' '}
-        A term counts as known once it reaches step 4 of 6 on the review ladder.
-      </p>
       </aside>
 
       <div className="order-2 min-w-0 lg:order-none lg:col-start-1">
@@ -398,16 +370,6 @@ function LearningPath({ progress, today, onOpen, gate }: { progress: Progress; t
       </Button>
     </div>
   );
-}
-
-const plural = (n: number, noun: string) => `${n} ${noun}${n === 1 ? '' : 's'}`;
-
-const mainCategories = categories.filter((c) => !isPhase3Area(c.id));
-const phase3Terms = categories.filter((c) => isPhase3Area(c.id)).reduce((n, c) => n + c.terms.length, 0);
-
-/** Games or cases outside phase 3, or (with `phase3`) inside it. */
-function countKind(kind: 'game' | 'case', phase3 = false): number {
-  return categories.filter((c) => isPhase3Area(c.id) === phase3).reduce((n, c) => n + c.units.filter((u) => u.kind === kind).length, 0);
 }
 
 /** The Today card's line for a practice unit that's up next. */

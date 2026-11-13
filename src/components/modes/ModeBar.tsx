@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { kpis, type ModeId } from '../../lib/modes/knowledge';
 import { currentStreak } from '../../lib/scheduler';
 import type { Progress } from '../../lib/types';
-import { CallIcon, Flame, LinesIcon, PathIcon, TickerIcon } from '../icons';
+import { Bolt, CallIcon, Flame, LinesIcon, PathIcon, TickerIcon } from '../icons';
 import { useModeAccess } from './modeAccess';
 
 export const MODE_INFO: Record<ModeId, { label: string; blurb: string; icon: typeof PathIcon }> = {
@@ -61,9 +61,15 @@ export function ModeBar({ progress, today, mode, onMode }: { progress: Progress;
         <Kpi label="Due" value={`${k.due}`} tone={k.due > 0 ? 'text-amber-ink' : undefined} />
         <Kpi label="Strength" value={k.strength.toFixed(1)} />
         <Kpi label="Coverage" value={`${Math.round(k.coverage * 100)}%`} />
-        <span className={`num inline-flex items-center gap-1 self-center rounded-full px-2.5 py-1 text-sm font-extrabold ${streak ? 'bg-amber-soft text-amber-ink' : 'bg-sunken text-ink-3'}`} aria-label={`${streak} day streak`}>
-          <Flame className="h-3.5 w-3.5" />
-          {streak}
+        <span className="flex flex-col items-end gap-1 self-center sm:flex-row sm:items-center">
+          <span className={`num inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-extrabold sm:py-1 ${streak ? 'bg-amber-soft text-amber-ink' : 'bg-sunken text-ink-3'}`} aria-label={`${streak} day streak`} title="Days in a row">
+            <Flame className="h-3.5 w-3.5" />
+            {streak}
+          </span>
+          <span className="num inline-flex items-center gap-1 rounded-full bg-violet-soft px-2.5 py-0.5 text-sm font-extrabold text-violet-ink sm:py-1" aria-label={`${progress.xp} XP`} title="XP">
+            <Bolt className="h-3.5 w-3.5" />
+            {progress.xp}
+          </span>
         </span>
       </button>
       {help && (
