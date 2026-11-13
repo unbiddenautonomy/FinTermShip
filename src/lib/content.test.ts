@@ -14,6 +14,7 @@ describe('rates, macro and the rupee', () => {
     expect(units).toEqual([
       ['m1', 1],
       ['m3', 1],
+      ['m6', 2],
       ['m2', 2],
       ['m4', 2],
       ['m5', 2],

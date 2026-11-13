@@ -105,8 +105,8 @@ function simulate(days: number, accuracy: number, seed: number, skipped: number[
   return out;
 }
 
-describe('nine weeks of daily use', () => {
-  const days = simulate(63, 0.85, 7);
+describe('ten weeks of daily use', () => {
+  const days = simulate(70, 0.85, 7);
 
   it('keeps each day to a steady size', () => {
     for (const d of days) {

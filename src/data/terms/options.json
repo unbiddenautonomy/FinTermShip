@@ -1201,6 +1201,34 @@
       "difficulty": 2
     },
     {
+      "id": "volatility-surface",
+      "term": "volatility surface",
+      "unit": "o3",
+      "short": "Implied vol across every strike and expiry",
+      "definition": "Implied volatility plotted across both strike and expiry at once. Across strikes it shows the skew or smile; across expiries, the term structure. Option desks mark and risk-manage their books off the whole surface, and a move in one part (say short-dated downside puts) isn't the same as a move in the level.",
+      "examples": [
+        "The surface shifted up after the selloff, but the short-dated downside rose most.",
+        "Our pricer reads vols off the volatility surface, not one number per stock.",
+        "Fitting a smooth volatility surface stops arbitrage between strikes and expiries."
+      ],
+      "fill": "Implied vol mapped across all strikes and all expiries together is the ____.",
+      "confusables": [
+        "volatility-skew",
+        "vol-term-structure",
+        "volatility-smile"
+      ],
+      "wrong": [
+        "A chart of realised volatility over the past year",
+        "The range of prices the stock traded in",
+        "A chart of open interest across strikes"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "vol surface",
+        "IV surface"
+      ]
+    },
+    {
       "id": "vanna",
       "term": "vanna",
       "unit": "o4",

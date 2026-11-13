@@ -1510,6 +1510,33 @@
       "difficulty": 1
     },
     {
+      "id": "corporate-action",
+      "term": "corporate action",
+      "unit": "i5",
+      "short": "A company event that changes its shares",
+      "definition": "Any event a company decides that changes its shares or pays its holders: dividends, bonus issues, splits, rights issues, buybacks, mergers and demergers. The exchange adjusts prices on the ex-date, and F&O contracts are adjusted so traders aren't helped or hurt by it. Backtests need prices adjusted for them.",
+      "examples": [
+        "The 1:1 bonus is a corporate action, so the price halves on the ex-date.",
+        "Our backtest broke on a stock split because the prices weren't adjusted for corporate actions.",
+        "The exchange adjusted the futures lot size after the corporate action."
+      ],
+      "fill": "A bonus issue, a split or a dividend is a ____.",
+      "confusables": [
+        "bonus-issue",
+        "stock-split",
+        "adjusted-prices"
+      ],
+      "wrong": [
+        "A trade by the company's promoters",
+        "A change in the company's credit rating",
+        "An order placed by a large institution"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "corporate actions"
+      ]
+    },
+    {
       "id": "stcg",
       "term": "STCG",
       "aliases": [
@@ -1872,6 +1899,93 @@
           "s": "CAGR is the right measure for a SIP with many monthly instalments.",
           "a": false,
           "why": "CAGR assumes one lump sum. A SIP's dated cash flows need XIRR."
+        }
+      ]
+    },
+    {
+      "id": "brokerage",
+      "term": "brokerage",
+      "unit": "i6",
+      "short": "The broker's fee for each trade",
+      "definition": "The fee a stockbroker charges for executing a trade. Discount brokers usually charge a flat fee per order, often ₹20 or less, and some charge nothing on delivery buys. Full-service brokers charge a percentage of the trade value and add research and advice. It is one line on the contract note, next to STT, exchange charges, stamp duty and GST.",
+      "examples": [
+        "Brokerage was only ₹40 for the round trip, but STT and other charges added ₹300 more.",
+        "Full-service brokerage at 0.3% of value adds up fast for an active trader.",
+        "GST is charged on brokerage, not on the trade value."
+      ],
+      "fill": "The fee your stockbroker charges you for placing a trade is ____.",
+      "confusables": [
+        "stt",
+        "contract-note",
+        "explicit-costs"
+      ],
+      "wrong": [
+        "The tax collected on each trade",
+        "The interest charged on margin funding",
+        "The fee the exchange charges for listing"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "brokerage fee",
+        "broking fee"
+      ]
+    },
+    {
+      "id": "discount-broker",
+      "term": "discount broker",
+      "unit": "i6",
+      "short": "Low-cost online broker, no advice",
+      "definition": "A broker that charges low flat fees per order and offers an app and platform but no personal advice or research. Discount brokers now hold most of India's active retail clients. The trade-off is that you make every call yourself.",
+      "examples": [
+        "Switching to a discount broker cut her brokerage from 0.3% to ₹20 an order.",
+        "Most new F&O traders open accounts with a discount broker.",
+        "A discount broker won't call you with a stock tip; a full-service one might."
+      ],
+      "fill": "A broker charging a flat ₹20 an order with no research or advice is a ____.",
+      "confusables": [
+        "stockbroker",
+        "brokerage",
+        "dp"
+      ],
+      "wrong": [
+        "A broker who trades with the firm's own money",
+        "A broker that only deals in mutual funds",
+        "A dealer who gives clients a discount on IPOs"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "discount brokerage"
+      ]
+    },
+    {
+      "id": "stamp-duty",
+      "term": "stamp duty",
+      "unit": "i6",
+      "short": "Tax on the buyer's side of each trade",
+      "definition": "A tax on transferring securities, charged only on the buyer's side of each trade at a single national rate and collected by the exchange or depository for the states. The rate is small but differs by segment: highest on delivery buys, lower on intraday, futures and options.",
+      "examples": [
+        "The contract note showed stamp duty only on the buy leg.",
+        "Stamp duty on delivery buys is higher than on intraday trades.",
+        "Since 2020 stamp duty on trades is one rate across India, not set state by state."
+      ],
+      "fill": "The small tax charged only on the buy side of every trade, collected for the states, is ____.",
+      "confusables": [
+        "stt",
+        "brokerage",
+        "contract-note"
+      ],
+      "wrong": [
+        "Tax on capital gains when you sell",
+        "GST charged on brokerage",
+        "A fee the exchange charges every member"
+      ],
+      "difficulty": 2,
+      "note": "Rates are set by law and can change, so check the current rate before quoting a number.",
+      "tf": [
+        {
+          "s": "Stamp duty on a share trade is charged to both the buyer and the seller.",
+          "a": false,
+          "why": "Only the buyer pays stamp duty. STT, by contrast, can apply to both sides depending on the segment."
         }
       ]
     }
