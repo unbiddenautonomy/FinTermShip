@@ -405,7 +405,7 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
       <aside className="fixed inset-y-0 left-0 z-30 hidden w-60 flex-col border-r border-violet/25 bg-surface/80 px-4 py-6 backdrop-blur-md lg:flex">
         <div className="mb-8 flex items-center gap-2.5 px-2">
           <Logo className="h-9 w-9" />
-          <span className="font-display text-[22px] font-semibold tracking-tight text-ink">FinTermShip</span>
+          <span className="font-wordmark text-[23px] font-light tracking-[0.04em] text-ink">fintermship</span>
         </div>
         <nav className="space-y-1" aria-label="Main">
           {TABS.map(({ id, label, icon: Icon }) => {
