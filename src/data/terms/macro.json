@@ -14,6 +14,11 @@
       "core": true
     },
     {
+      "id": "m6",
+      "name": "Data and events that move markets",
+      "core": false
+    },
+    {
       "id": "m2",
       "name": "Liquidity and government borrowing",
       "core": false
@@ -1469,6 +1474,210 @@
       "reads": {
         "up": "A rising US 10-year usually means a stronger dollar and FPI outflows from India: pressure on the rupee and growth stocks.",
         "down": "A falling US 10-year eases pressure on emerging markets, often bringing FPI inflows and a firmer rupee."
+      }
+    },
+    {
+      "id": "gdp-growth",
+      "term": "GDP growth",
+      "unit": "m6",
+      "short": "How fast the economy's output is growing",
+      "definition": "The change in gross domestic product, the value of everything produced in the economy, usually quoted year on year for a quarter. India's official estimates come out about two months after each quarter ends. Real growth strips out inflation; nominal growth doesn't, and nominal growth is what company revenues and tax collections track.",
+      "examples": [
+        "GDP growth came in at 7.8%, ahead of the 7.2% consensus, and banks led the rally.",
+        "Real GDP growth was strong, but with low inflation nominal growth was weak, and so were revenues.",
+        "Watch the GDP growth revision too: last quarter's number was cut."
+      ],
+      "fill": "The year-on-year rise in the value of everything the economy produced is ____.",
+      "confusables": [
+        "cpi-inflation",
+        "pmi",
+        "fiscal-deficit"
+      ],
+      "wrong": [
+        "The rise in prices paid by consumers",
+        "The growth of the stock market's value",
+        "The growth of the government's tax collections"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "GDP",
+        "gross domestic product",
+        "growth print"
+      ],
+      "reads": {
+        "up": "Faster growth than expected usually lifts cyclical stocks and banks; bond yields can rise if it makes rate cuts less likely.",
+        "down": "Slower growth than expected weighs on cyclicals and can raise hopes of rate cuts, which helps bonds."
+      }
+    },
+    {
+      "id": "fiscal-deficit",
+      "term": "fiscal deficit",
+      "unit": "m6",
+      "short": "Government spending minus its income, borrowed",
+      "definition": "How much more the government spends than it earns from taxes and other income in a year, which it must borrow. It is quoted as a share of GDP and set as a target in each Union Budget. A bigger deficit means more government bonds to sell, which can push yields up.",
+      "examples": [
+        "The Budget kept to its fiscal deficit target, and bond yields fell 8 basis points.",
+        "A wider fiscal deficit means a bigger borrowing calendar for G-secs.",
+        "Rating agencies watch the fiscal deficit and the debt it adds up to."
+      ],
+      "fill": "The gap between what the government spends and its income, which it fills by borrowing, is the ____.",
+      "confusables": [
+        "current-account-deficit",
+        "union-budget",
+        "g-sec"
+      ],
+      "wrong": [
+        "The gap between the country's imports and exports",
+        "The fall in the rupee against the dollar",
+        "The shortfall in banks' cash reserves"
+      ],
+      "difficulty": 2,
+      "reads": {
+        "up": "A wider fiscal deficit than planned means more bond supply and usually higher yields; rating agencies may grow cautious.",
+        "down": "A narrower deficit, or a credible path down, usually pulls bond yields lower and is read well by foreign investors."
+      },
+      "tf": [
+        {
+          "s": "The fiscal deficit and the current account deficit are two names for the same gap.",
+          "a": false,
+          "why": "The fiscal deficit is the government's budget gap. The current account deficit is the country's gap in trade and income with the rest of the world."
+        }
+      ]
+    },
+    {
+      "id": "union-budget",
+      "term": "Union Budget",
+      "unit": "m6",
+      "short": "The government's yearly tax and spending plan",
+      "definition": "The central government's annual statement of spending, taxes and borrowing, presented by the Finance Minister in Parliament, usually on 1 February. In an election year an interim Budget comes in February and the full one after the new government forms, as in July 2024. For markets it sets the fiscal deficit target and borrowing, and it can change STT, capital gains tax and duties on whole sectors, so it is one of the year's biggest event days.",
+      "examples": [
+        "The Union Budget raised STT on F&O, and broker stocks fell.",
+        "Option IVs climb into the Union Budget and crush the day after.",
+        "Infrastructure stocks rallied on the higher capex in the Union Budget."
+      ],
+      "fill": "The yearly statement, usually presented on 1 February, that sets taxes, spending and the borrowing plan is the ____.",
+      "confusables": [
+        "fiscal-deficit",
+        "mpc",
+        "event-risk"
+      ],
+      "wrong": [
+        "The RBI's statement on interest rates",
+        "SEBI's yearly review of market rules",
+        "The government's report on the past year's economy"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "Budget",
+        "Budget day"
+      ]
+    },
+    {
+      "id": "core-inflation",
+      "term": "core inflation",
+      "unit": "m6",
+      "short": "Inflation without food and fuel",
+      "definition": "Consumer price inflation with food and fuel stripped out, because those swing with the monsoon and global oil prices. India's statistics office publishes headline CPI, and analysts work out core from it. The RBI watches core to judge how sticky price pressure is underneath.",
+      "examples": [
+        "Headline CPI fell on cheaper vegetables, but core inflation stayed at 4%.",
+        "Sticky core inflation makes the RBI wary of cutting rates quickly.",
+        "Core inflation tells you about demand; food prices mostly tell you about the monsoon."
+      ],
+      "fill": "CPI inflation with food and fuel taken out is ____.",
+      "confusables": [
+        "cpi-inflation",
+        "inflation-target",
+        "inflation"
+      ],
+      "wrong": [
+        "Inflation in wholesale prices",
+        "Inflation in food prices only",
+        "The RBI's target for inflation"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "core CPI"
+      ],
+      "tf": [
+        {
+          "s": "A fall in vegetable prices lowers core inflation.",
+          "a": false,
+          "why": "Core leaves food and fuel out, so vegetables move headline CPI, not core."
+        }
+      ]
+    },
+    {
+      "id": "pmi",
+      "term": "PMI",
+      "unit": "m6",
+      "short": "Business survey: above 50 means expanding",
+      "definition": "Purchasing Managers' Index: a monthly survey of purchasing managers on orders, output, jobs and prices, compared with the month before. A reading above 50 means activity is expanding, below 50 contracting. India has separate manufacturing and services PMIs, out in the first days of each month, well before official data.",
+      "examples": [
+        "Manufacturing PMI fell to 51 from 56: still growing, but much more slowly.",
+        "The services PMI's price index rose, a hint inflation may pick up.",
+        "PMIs come out early in the month, so traders use them ahead of the official numbers."
+      ],
+      "fill": "A monthly survey of purchasing managers where 50 separates growth from contraction is the ____.",
+      "confusables": [
+        "gdp-growth",
+        "core-inflation",
+        "india-vix"
+      ],
+      "wrong": [
+        "The index of prices paid by consumers",
+        "An index of the 50 largest listed companies",
+        "The RBI's survey of household inflation expectations"
+      ],
+      "difficulty": 2,
+      "said": "P M I",
+      "speak": "P M I",
+      "aliases": [
+        "purchasing managers' index",
+        "manufacturing PMI",
+        "services PMI"
+      ],
+      "tf": [
+        {
+          "s": "A PMI falling from 56 to 52 means activity shrank that month.",
+          "a": false,
+          "why": "Anything above 50 is still expansion. The fall means growth slowed, not that activity shrank."
+        }
+      ]
+    },
+    {
+      "id": "fomc",
+      "term": "FOMC",
+      "unit": "m6",
+      "short": "The US Fed's rate-setting committee",
+      "definition": "The Federal Open Market Committee: the US Federal Reserve body that sets the federal funds rate, meeting eight times a year. Its decisions and the chair's press conference move US yields and the dollar, which drive foreign flows into India, the rupee and the Nifty.",
+      "examples": [
+        "A hawkish FOMC lifted the dollar, and the rupee hit a new low the next morning.",
+        "FPIs held back ahead of the FOMC decision.",
+        "The FOMC's dot plot showed fewer cuts than the market had priced in."
+      ],
+      "fill": "The US committee that meets eight times a year to set the federal funds rate is the ____.",
+      "confusables": [
+        "mpc",
+        "us-10-year-yield",
+        "dollar-index"
+      ],
+      "wrong": [
+        "India's monetary policy committee",
+        "The body that sets crude oil output",
+        "The US body that regulates stock exchanges"
+      ],
+      "difficulty": 2,
+      "said": "F O M C",
+      "speak": "F O M C",
+      "aliases": [
+        "Fed",
+        "Federal Reserve",
+        "Fed meeting",
+        "Fed rate decision"
+      ],
+      "reads": {
+        "up": "A Fed that is more hawkish than expected (higher rates for longer) usually strengthens the dollar, lifts US yields and pulls foreign money out of India.",
+        "down": "A Fed that is more dovish than expected usually weakens the dollar and brings foreign flows back to Indian stocks and bonds."
       }
     }
   ]

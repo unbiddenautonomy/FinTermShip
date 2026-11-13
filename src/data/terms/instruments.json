@@ -563,6 +563,41 @@
       "difficulty": 3
     },
     {
+      "id": "forward-contract",
+      "term": "forward contract",
+      "unit": "f2",
+      "short": "A private deal to trade later at a fixed price",
+      "definition": "An agreement between two parties to buy or sell something on a future date at a price fixed today. Unlike a futures contract it is private and tailor-made, with no exchange, no daily mark-to-market and no clearing house, so each side takes the risk that the other doesn't pay. Indian importers and exporters hedge the rupee with bank forwards.",
+      "examples": [
+        "The importer booked a three-month forward contract with its bank to lock in the dollar rate.",
+        "A forward contract can be for any amount and date; futures come in fixed lots and expiries.",
+        "There's no daily margin on the forward contract, but the bank checks our credit line."
+      ],
+      "fill": "A tailor-made deal with a bank to buy dollars in 90 days at a rate fixed today is a ____.",
+      "confusables": [
+        "futures-contract",
+        "forward-premium",
+        "currency-futures"
+      ],
+      "wrong": [
+        "A standard contract traded on an exchange with daily settlement",
+        "The right, but not the duty, to buy at a set price",
+        "A loan secured against shares"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "forward",
+        "forwards"
+      ],
+      "tf": [
+        {
+          "s": "A forward contract is settled through the exchange's clearing corporation every day.",
+          "a": false,
+          "why": "That's a futures contract. A forward is private between two parties and usually settles once, on its date."
+        }
+      ]
+    },
+    {
       "id": "bond",
       "term": "bond",
       "unit": "f4",
@@ -903,6 +938,165 @@
         }
       ],
       "difficulty": 2
+    },
+    {
+      "id": "zero-coupon-bond",
+      "term": "zero-coupon bond",
+      "unit": "f4",
+      "short": "Pays no coupons, sold below face value",
+      "definition": "A bond that pays no interest along the way. It is bought at a discount and repaid at face value on maturity; the gap is the return. Treasury bills are zero-coupon. Because all the cash comes at the end, its duration equals its maturity, so its price is more sensitive to rates than a coupon bond of the same maturity.",
+      "examples": [
+        "The 364-day T-bill is a zero-coupon bond: buy at ₹93.50, get ₹100 back.",
+        "A ten-year zero-coupon bond swings far more with rates than a ten-year coupon bond.",
+        "Strips turn each coupon of a G-sec into its own zero-coupon bond."
+      ],
+      "fill": "A bond bought at ₹93 that pays nothing until it repays ₹100 at maturity is a ____.",
+      "confusables": [
+        "bond",
+        "t-bill",
+        "coupon"
+      ],
+      "wrong": [
+        "A bond that pays a floating coupon",
+        "A bond with no fixed maturity date",
+        "A bond the issuer can repay early"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "zero-coupon",
+        "zero"
+      ],
+      "formula": "Price = Face value ÷ (1 + y)ᵗ",
+      "calcs": [
+        {
+          "q": "A one-year zero-coupon bond repays ₹100. If its yield is 7%, what is its price?",
+          "options": [
+            "About ₹93.46",
+            "₹93.00",
+            "₹107.00",
+            "About ₹92.00"
+          ],
+          "answer": 0,
+          "why": "100 ÷ 1.07 ≈ ₹93.46. Note it's not 100 − 7: the discount earns 7% on the price paid."
+        }
+      ]
+    },
+    {
+      "id": "macaulay-duration",
+      "term": "Macaulay duration",
+      "unit": "f4",
+      "short": "Weighted average time to a bond's cash flows",
+      "definition": "The average time until a bond's cash flows arrive, each weighted by its share of the bond's present value, in years. A zero-coupon bond's Macaulay duration is its maturity; coupons pull it shorter. Divide it by (1 + yield) to get modified duration, the price sensitivity to rates.",
+      "examples": [
+        "The ten-year G-sec has a Macaulay duration of about seven years, because of its coupons.",
+        "For a zero-coupon bond, Macaulay duration equals maturity.",
+        "Divide Macaulay duration by 1 plus the yield to get the modified duration."
+      ],
+      "fill": "The present-value-weighted average time until a bond's cash flows arrive is its ____.",
+      "confusables": [
+        "modified-duration",
+        "pv01",
+        "convexity"
+      ],
+      "wrong": [
+        "The time left until the bond matures",
+        "The percentage price change for a 1% rate move",
+        "The rupee change for a one basis point move"
+      ],
+      "difficulty": 3,
+      "formula": "Modified duration = Macaulay duration ÷ (1 + y)",
+      "calcs": [
+        {
+          "q": "A bond has a Macaulay duration of 5 years and an annual yield of 8%. What is its modified duration?",
+          "options": [
+            "About 4.63",
+            "5.40",
+            "5.00",
+            "About 4.20"
+          ],
+          "answer": 0,
+          "why": "5 ÷ 1.08 ≈ 4.63, so a 1% rise in yield cuts the price by about 4.6%."
+        }
+      ]
+    },
+    {
+      "id": "clean-and-dirty-price",
+      "term": "clean and dirty price",
+      "unit": "f4",
+      "short": "Bond price without and with accrued interest",
+      "definition": "A bond's clean price leaves out the interest that has built up since the last coupon; the dirty price (also called the full or invoice price) includes it. Indian G-secs are quoted clean, but the buyer pays the dirty price on settlement, because the seller has earned the interest so far.",
+      "examples": [
+        "The G-sec is quoted at ₹101.20 clean, but we'll pay ₹102.85 dirty with accrued interest.",
+        "Quoting clean stops the price jumping every coupon date.",
+        "The dirty price drops on the coupon date; the clean price doesn't."
+      ],
+      "fill": "Quoted price plus the interest built up since the last coupon gives the ____.",
+      "confusables": [
+        "accrued-interest",
+        "coupon",
+        "yield-to-maturity"
+      ],
+      "wrong": [
+        "The price after a bond's credit rating is cut",
+        "Bid and offer prices from two dealers",
+        "The price before and after the issuer's results"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "clean price",
+        "dirty price",
+        "full price",
+        "invoice price"
+      ],
+      "formula": "Dirty price = Clean price + Accrued interest",
+      "calcs": [
+        {
+          "q": "A bond's clean price is ₹100.00 and accrued interest is ₹1.50. What does the buyer pay?",
+          "options": [
+            "₹101.50",
+            "₹100.00",
+            "₹98.50",
+            "₹1.50"
+          ],
+          "answer": 0,
+          "why": "Dirty price = clean + accrued = 100.00 + 1.50 = ₹101.50."
+        }
+      ]
+    },
+    {
+      "id": "interest-rate-swap",
+      "term": "interest rate swap",
+      "unit": "f4",
+      "short": "Swap fixed-rate payments for floating ones",
+      "definition": "An agreement to exchange interest payments on a notional amount: one side pays a fixed rate, the other a floating rate, and only the difference changes hands. No principal is exchanged. Banks and companies use swaps to turn floating-rate loans into fixed or the other way round. In India the main one is the overnight indexed swap on MIBOR.",
+      "examples": [
+        "The company paid fixed on a five-year interest rate swap to lock in its loan cost.",
+        "The bank received fixed in the swap, betting rates would fall.",
+        "Swap rates moved before bonds did after the RBI policy."
+      ],
+      "fill": "Paying 6.5% fixed and receiving a floating rate on ₹100 crore notional is an ____.",
+      "confusables": [
+        "overnight-indexed-swap",
+        "swap-spread",
+        "credit-default-swap"
+      ],
+      "wrong": [
+        "A loan swapped from one bank to another",
+        "Exchanging one bond for another of the same issuer",
+        "Insurance against a borrower defaulting"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "IRS",
+        "swap"
+      ],
+      "tf": [
+        {
+          "s": "In an interest rate swap the two sides exchange the full notional at the start and the end.",
+          "a": false,
+          "why": "Only the interest payments are exchanged, usually netted. The notional just sizes them; it never changes hands."
+        }
+      ]
     }
   ]
 }
