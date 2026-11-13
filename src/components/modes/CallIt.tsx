@@ -1,7 +1,7 @@
 /**
  * Call It: a deck of claims about terms you have met. Call each one true or false, by
  * button, arrow key or a flick of the card. Every call goes to the shared record as weak
- * evidence: it keeps a due term on schedule but never moves it up on its own.
+ * evidence: a right call is practice, and a wrong one brings the term back for review tomorrow.
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { termById } from '../../lib/content';

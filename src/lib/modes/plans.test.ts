@@ -3,7 +3,7 @@ import { addDays } from '../dates';
 import { seededRng } from '../questions';
 import { graduate, introduce, newProgress, newLeftToday } from '../scheduler';
 import type { Progress } from '../types';
-import { buildDefend, buildListing, buildRally, buildRide, lineById, nextStop } from './plans';
+import { buildDefend, buildListing, buildRally, buildRevisit, buildRide, canRideFrom, frontier, lineById } from './plans';
 
 const today = '2026-11-13';
 
@@ -65,11 +65,27 @@ describe('mode lesson plans', () => {
     expect(ride === null || ride.plan.questions.some((q) => q.kind === 'match') || true).toBe(true);
   });
 
-  it('picks up a line at its first due station, else its first unmet one', () => {
-    expect(nextStop(newProgress(), 'basics', today)).toBe(0);
+  it('goes on from the first unmet station, whatever is due further back', () => {
+    expect(frontier(newProgress(), 'basics')).toBe(0);
     const line = lineById.get('basics')!;
     const first = line.stops.slice(0, 3).map((s) => ('term' in s ? s.term : ''));
     const p = met(first, 3, addDays(today, 3));
-    expect(nextStop(p, 'basics', today)).toBe(3);
+    expect(frontier(p, 'basics')).toBe(3);
+    // A due station behind the frontier doesn't move it: due stations get their own revisit.
+    const due = met(first, 3, today);
+    expect(frontier(due, 'basics')).toBe(3);
+    expect(buildRevisit(due, 'basics', today, seededRng(2))?.reviewIds).toEqual(first);
+  });
+
+  it('never lets a ride skip ahead of the frontier on a line', () => {
+    const line = lineById.get('basics')!;
+    const first = line.stops.slice(0, 3).map((s) => ('term' in s ? s.term : ''));
+    const p = met(first, 3, addDays(today, 3));
+    expect(canRideFrom(p, 'basics', 1)).toBe(true); // met: a revisit
+    expect(canRideFrom(p, 'basics', 3)).toBe(true); // the frontier
+    expect(canRideFrom(p, 'basics', 10)).toBe(false); // past it
+    expect(buildRide(p, 'basics', 10, today, seededRng(4))).toBeNull();
+    const ride = buildRide(p, 'basics', 3, today, seededRng(4))!;
+    expect(ride.plan.newIds[0]).toBe((line.stops[3] as { term: string }).term);
   });
 });
