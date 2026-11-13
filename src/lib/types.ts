@@ -122,6 +122,8 @@ export interface Settings {
   interviewDate?: string;
   /** The "About you" card was answered or skipped, so it stops showing on the home screen. */
   aboutAsked?: boolean;
+  /** The mode the app opens in. Path when unset. */
+  landing?: import('./modes/knowledge').ModeId;
 }
 
 export interface DayStats {
