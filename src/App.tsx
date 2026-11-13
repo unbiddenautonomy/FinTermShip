@@ -15,7 +15,8 @@ import { buildPhase3Test, PHASE3, withPhase3Key } from './lib/phase3';
 import { dayKey } from './lib/dates';
 import { buildLesson, drillUp, todayStatus, type LessonPlan } from './lib/lesson';
 import { seededRng } from './lib/questions';
-import { ensureCards, planTermIds } from './lib/cards';
+import { ensureCards, ensurePacks, planTermIds } from './lib/cards';
+import { hasPack, packOf } from './lib/packs';
 import { hasCard } from './lib/content';
 import { KIND_LABEL } from './lib/practice';
 import { loadProgress, requestPersistence, saveProgress } from './lib/storage';
@@ -182,7 +183,8 @@ export default function App() {
   }, [account.kind, canOpen, mode, shownMode]);
 
   // Fetching cards for a lesson about to start, and anything that stopped one.
-  const [fetching, setFetching] = useState(false);
+  // What is being fetched from the server before a screen opens, as the line to show.
+  const [fetching, setFetching] = useState<string | null>(null);
   const [notice, setNotice] = useState<string | null>(null);
 
   useEffect(() => {
@@ -233,9 +235,9 @@ export default function App() {
     if (!plan) return null;
     const need = planTermIds(plan).filter((id) => !hasCard(id));
     if (!need.length) return { plan, seed };
-    setFetching(true);
+    setFetching('Getting your terms…');
     const failed = await ensureCards(need, test);
-    setFetching(false);
+    setFetching(null);
     if (failed) {
       setNotice(failed);
       return null;
@@ -261,12 +263,35 @@ export default function App() {
     setScreen(origin ?? { name: 'home' });
     setOrigin(null);
   };
-  // Drills, games and desk cases each have their own screen.
-  const drill = (unitId: string) => setScreen({ name: practiceKind(unitId) ?? 'drill', unitId, seed: Date.now() % 2_147_483_647 });
+  /**
+   * Drills, games and desk cases each have their own screen. A desk case, and a
+   * game whose content comes from the server, is fetched first if this device
+   * doesn't have it. Resolves to whether the screen opened.
+   */
+  const drill = async (unitId: string): Promise<boolean> => {
+    const pack = packOf(unitId);
+    if (pack && !hasPack(pack)) {
+      if (fetching) return false;
+      setFetching(pack.startsWith('case:') ? 'Getting the case…' : 'Getting the game ready…');
+      const failed = await ensurePacks([pack]);
+      setFetching(null);
+      if (failed) {
+        setNotice(failed);
+        return false;
+      }
+    }
+    setScreen({ name: practiceKind(unitId) ?? 'drill', unitId, seed: Date.now() % 2_147_483_647 });
+    return true;
+  };
+  // Opened from somewhere to come back to: forget that place if it didn't open.
+  const drillFrom = (unitId: string) =>
+    void drill(unitId).then((opened) => {
+      if (!opened) setOrigin(null);
+    });
   // One track: when the learner is on a drill, game or case, the next step is that unit.
   const start = (ignoreNewCap: boolean) => {
     const d = drillUp(progress, today);
-    if (d) drill(d);
+    if (d) void drill(d);
     else void run((seed) => buildLesson(progress, today, seededRng(seed), ignoreNewCap));
   };
   const practiseWeak = () => void run((seed) => buildWeakSpots(progress, seededRng(seed)));
@@ -294,7 +319,7 @@ export default function App() {
   const depot = (unitId: string) => {
     setOrigin(screen);
     originY.current = window.scrollY;
-    drill(unitId);
+    drillFrom(unitId);
   };
 
   const body = (() => {
@@ -461,7 +486,7 @@ export default function App() {
             onWeak={practiseWeak}
             onFocus={pick}
             onTest={takeTest}
-            onDrill={drill}
+            onDrill={(id) => void drill(id)}
             onPhase3Key={() => update(withPhase3Key(progress))}
             onOpenSettings={() => setScreen({ name: 'settings' })}
             onOpenCareers={() => setScreen({ name: 'careers' })}
@@ -492,7 +517,7 @@ export default function App() {
           today={today}
           onClose={() => setOverlay(null)}
           onPractice={(id) => fromOverlay(() => practise(id))()}
-          onDrill={(id) => fromOverlay(() => drill(id))()}
+          onDrill={(id) => fromOverlay(() => drillFrom(id))()}
           onFocus={pick}
           onTest={(id) => fromOverlay(() => takeTest(id))()}
           onPhase3Key={() => update(withPhase3Key(progress))}

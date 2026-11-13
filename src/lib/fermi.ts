@@ -2,7 +2,6 @@
  * Fermi estimates: estimate a size or count in a minute, scored on how many
  * powers of ten you are off. A guess within a factor of 3 either way is a hit.
  */
-import fermi from '../data/fermi.json';
 import { shuffle, type Rng } from './questions';
 
 export const FERMI = {
@@ -23,7 +22,8 @@ export interface FermiItem {
   asOf?: string;
 }
 
-export const fermiItems = fermi as FermiItem[];
+/** The questions. They come from the server when the learner opens the game (src/lib/packs.ts). */
+export const fermiItems: FermiItem[] = [];
 
 export function newFermiRound(rng: Rng): FermiItem[] {
   return shuffle(fermiItems, rng).slice(0, FERMI.items);

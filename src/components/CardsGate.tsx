@@ -22,13 +22,13 @@ export function CardsGate({ status, onRetry }: { status: CardsStatus; onRetry: (
   return box('Your terms didn’t load', 'Something went wrong fetching them. Your progress is safe.', { label: 'Try again', onClick: onRetry });
 }
 
-/** A short line at the bottom of the screen: fetching a lesson's cards, or why a lesson didn't start. */
-export function CardsToast({ fetching, notice, onClose }: { fetching: boolean; notice: string | null; onClose: () => void }) {
+/** A short line at the bottom of the screen: what is being fetched (a lesson's cards, a case), or why something didn't start. */
+export function CardsToast({ fetching, notice, onClose }: { fetching: string | null; notice: string | null; onClose: () => void }) {
   if (!fetching && !notice) return null;
   return (
     <div className="pointer-events-none fixed inset-x-0 bottom-20 z-50 flex justify-center px-4" role="status" aria-live="polite">
       <div className="pointer-events-auto flex max-w-md items-start gap-3 rounded-2xl bg-ink px-4 py-3 text-sm font-semibold text-surface shadow-sheet">
-        <span className="flex-1">{fetching ? 'Getting your terms…' : notice}</span>
+        <span className="flex-1">{fetching ?? notice}</span>
         {!fetching && (
           <button type="button" className="font-extrabold underline" onClick={onClose}>
             OK

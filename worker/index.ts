@@ -65,6 +65,8 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS card_seed (user_id INTEGER PRIMARY KEY, at INTEGER NOT NULL)`,
   // Settings for the whole site, set by the admin: 'modes_off' is a JSON list of mode ids switched off for everyone.
   `CREATE TABLE IF NOT EXISTS site (key TEXT PRIMARY KEY, value TEXT NOT NULL)`,
+  // The cases and game content (packs) each account has been given.
+  `CREATE TABLE IF NOT EXISTS packs (user_id INTEGER NOT NULL, pack TEXT NOT NULL, issued INTEGER NOT NULL, PRIMARY KEY (user_id, pack))`,
   // Wrong tries at the unlock password, per account.
   `CREATE TABLE IF NOT EXISTS unlock_tries (user_id INTEGER PRIMARY KEY, fails INTEGER NOT NULL, locked_until INTEGER NOT NULL)`,
 ];
@@ -382,7 +384,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
 
   if (route === 'POST /api/cards') {
     const b = await body();
-    return json(await askCards(db, user, b.ids, b.test, now));
+    return json(await askCards(db, user, b.ids, b.test, now, b.packs));
   }
 
   // The password for the quant switch and phase 3: right once, and the account keeps both.

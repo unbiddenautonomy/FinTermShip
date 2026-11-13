@@ -8,11 +8,15 @@
  * - an area test's core terms, for up to TESTS_PER_DAY area tests in any 24 hours;
  * - phase 3 terms only once the account has phase 3 (the password, or the admin).
  *
- * The admin gets any card. Someone signed in can still save what they've been
+ * Packs work the same way: a desk case, or one game's content (meeting clips,
+ * Fermi questions, backtest reports), given when the learner opens it, up to
+ * PACKS_PER_DAY new ones in any 24 hours, phase 3 cases only with phase 3.
+ *
+ * The admin gets any card or pack. Someone signed in can still save what they've been
  * given, but never the syllabus in one go: that takes weeks at the daily cap,
  * and the admin sees each account's activity.
  */
-import { buildCards, fullCategories } from '../src/lib/cardData';
+import { buildCards, buildPacks, fullCategories } from '../src/lib/cardData';
 import { PHASE3_PREREQS } from '../src/lib/phase3prereqs';
 import type { Card, Progress } from '../src/lib/types';
 
@@ -20,6 +24,8 @@ import type { Card, Progress } from '../src/lib/types';
 export const NEW_PER_DAY = 60;
 /** Area tests (each gives that area's core terms) an account can start in any 24 hours. */
 export const TESTS_PER_DAY = 3;
+/** New packs (cases and game content) an account can be given in any 24 hours. */
+export const PACKS_PER_DAY = 6;
 /** Accounts made before this get the cards for the terms in their synced progress, once. */
 export const SEED_BEFORE = Date.UTC(2026, 10, 15);
 
@@ -43,15 +49,20 @@ function fingerprint(text: string): string {
  */
 const built = (() => {
   const cards = buildCards();
+  const packs = buildPacks();
+  // Term ids and pack ids ('case:<unit>') that need phase 3.
   const phase3 = new Set<string>();
   const core = new Map<string, Set<string>>();
   for (const c of fullCategories) {
     const coreUnits = new Set(c.units.filter((u) => u.core).map((u) => u.id));
     core.set(c.id, new Set(c.terms.filter((t) => coreUnits.has(t.unit)).map((t) => t.id)));
-    if (c.phase === 3) for (const t of c.terms) phase3.add(t.id);
+    if (c.phase === 3) {
+      for (const t of c.terms) phase3.add(t.id);
+      for (const u of c.units) phase3.add(`case:${u.id}`);
+    }
   }
   core.set('phase3', new Set(PHASE3_PREREQS));
-  return { cards, phase3, core, version: fingerprint(JSON.stringify([...cards])) };
+  return { cards, packs, phase3, core, version: fingerprint(JSON.stringify([...cards, ...packs])) };
 })();
 
 export function content() {
@@ -122,24 +133,65 @@ export interface CardsReply {
   version: string;
   at: number;
   cards: Record<string, Card>;
+  packs: Record<string, unknown>;
   refused?: string[];
   reason?: string;
 }
 
-/** Every card this account has been given; with `have` (the version on the device) and `since`, only those given since. */
+/** Every card and pack this account has been given; with `have` (the version on the device) and `since`, only those given since. */
 export async function givenCards(db: CardsDb, user: CardsUser, now: number, have: string | null, since: number): Promise<CardsReply> {
   await seedOnce(db, user, now);
-  const { cards, version: v } = content();
-  const fresh = have !== v;
-  const { results } = fresh
-    ? await db.prepare('SELECT term_id FROM cards WHERE user_id = ?').bind(user.id).all<{ term_id: string }>()
-    : await db.prepare('SELECT term_id FROM cards WHERE user_id = ? AND issued >= ?').bind(user.id, since).all<{ term_id: string }>();
+  const { cards, packs, version: v } = content();
+  const from = have === v ? since : 0;
+  const [{ results }, { results: packRows }] = await Promise.all([
+    db.prepare('SELECT term_id FROM cards WHERE user_id = ? AND issued >= ?').bind(user.id, from).all<{ term_id: string }>(),
+    db.prepare('SELECT pack FROM packs WHERE user_id = ? AND issued >= ?').bind(user.id, from).all<{ pack: string }>(),
+  ]);
   const out: Record<string, Card> = {};
   for (const { term_id } of results) {
     const c = cards.get(term_id);
     if (c) out[term_id] = c;
   }
-  return { version: v, at: now, cards: out };
+  const outPacks: Record<string, unknown> = {};
+  for (const { pack } of packRows) if (packs.has(pack)) outPacks[pack] = packs.get(pack);
+  return { version: v, at: now, cards: out, packs: outPacks };
+}
+
+/** Give these packs, under the rules at the top of this file. Packs already given come back whatever the allowance. */
+export async function askPacks(db: CardsDb, user: CardsUser, ids: unknown, now: number): Promise<{ packs: Record<string, unknown>; refused: string[]; reason?: string }> {
+  const { packs, phase3 } = content();
+  const wanted = [...new Set(Array.isArray(ids) ? ids.filter((x): x is string => typeof x === 'string' && packs.has(x)) : [])].slice(0, 40);
+  const out: Record<string, unknown> = {};
+  const refused: string[] = [];
+  let reason: string | undefined;
+  if (!wanted.length) return { packs: out, refused };
+  const { results } = await db
+    .prepare(`SELECT pack FROM packs WHERE user_id = ? AND pack IN (${wanted.map(() => '?').join(', ')})`)
+    .bind(user.id, ...wanted)
+    .all<{ pack: string }>();
+  const given = new Set(results.map((r) => r.pack));
+  const fresh: string[] = [];
+  for (const id of wanted) {
+    if (given.has(id)) continue;
+    if (phase3.has(id) && !user.phase3 && !user.admin) {
+      refused.push(id);
+      reason = 'Phase 3 cases open once phase 3 is unlocked on your account.';
+    } else fresh.push(id);
+  }
+  let allowed = fresh;
+  if (!user.admin && fresh.length) {
+    const recent = await db.prepare('SELECT COUNT(*) AS n FROM packs WHERE user_id = ? AND issued > ?').bind(user.id, now - DAY).first<{ n: number }>();
+    const room = Math.max(0, PACKS_PER_DAY - (recent?.n ?? 0));
+    allowed = fresh.slice(0, room);
+    if (fresh.length > room) {
+      refused.push(...fresh.slice(room));
+      reason = `That's the most new cases and games for one day (${PACKS_PER_DAY}). More open tomorrow.`;
+    }
+  }
+  if (allowed.length)
+    await db.batch(allowed.map((id) => db.prepare('INSERT OR IGNORE INTO packs (user_id, pack, issued) VALUES (?, ?, ?)').bind(user.id, id, now)));
+  for (const id of [...given, ...allowed]) out[id] = packs.get(id);
+  return { packs: out, refused, reason };
 }
 
 /**
@@ -147,8 +199,9 @@ export async function givenCards(db: CardsDb, user: CardsUser, now: number, have
  * Cards already given come back whatever the allowance. `test` is the area
  * (or 'phase3') whose test the terms are for.
  */
-export async function askCards(db: CardsDb, user: CardsUser, ids: unknown, test: unknown, now: number): Promise<CardsReply> {
+export async function askCards(db: CardsDb, user: CardsUser, ids: unknown, test: unknown, now: number, packIds?: unknown): Promise<CardsReply> {
   await seedOnce(db, user, now);
+  const asked = await askPacks(db, user, packIds, now);
   const { cards, phase3, core, version } = content();
   const wanted = [...new Set(Array.isArray(ids) ? ids.filter((x): x is string => typeof x === 'string' && cards.has(x)) : [])].slice(0, 400);
   const testArea = typeof test === 'string' && core.has(test) ? test : null;
@@ -207,5 +260,7 @@ export async function askCards(db: CardsDb, user: CardsUser, ids: unknown, test:
 
   const out: Record<string, Card> = {};
   for (const id of [...given, ...fresh]) out[id] = cards.get(id)!;
-  return { version, at: now, cards: out, ...(refused.length ? { refused, reason } : {}) };
+  refused.push(...asked.refused);
+  reason ??= asked.reason;
+  return { version, at: now, cards: out, packs: asked.packs, ...(refused.length ? { refused, reason } : {}) };
 }
