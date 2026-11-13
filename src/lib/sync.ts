@@ -9,7 +9,7 @@
  * order-free for everything except settings, focus and the streak, so two
  * devices that sync in any order end up with the same progress.
  */
-import type { ModeId, ModeRecord, ModeRecords } from './modes/knowledge';
+import type { Marks, ModeId, ModeRecord, ModeRecords } from './modes/knowledge';
 import type { DayStats, DrillRecord, Progress, TermState } from './types';
 
 function byKey<T>(a: Record<string, T> | undefined, b: Record<string, T> | undefined, pick: (x: T, y: T) => T): Record<string, T> {
@@ -98,9 +98,23 @@ function mergeModes(a: ModeRecords, b: ModeRecords): ModeRecords {
     const indexHigh = max(x.indexHigh, y.indexHigh);
     if (indexHigh !== undefined) r.indexHigh = indexHigh;
     if (x.history || y.history) r.history = byKey(x.history, y.history, Math.max);
+    if (x.closes || y.closes) r.closes = byKey(x.closes, y.closes, Math.max);
+    const top = max(x.top, y.top);
+    if (top !== undefined) r.top = top;
+    const marks = laterMarks(x.marks, y.marks);
+    if (marks) r.marks = marks;
+    const prevMarks = laterMarks(x.prevMarks, y.prevMarks);
+    if (prevMarks) r.prevMarks = prevMarks;
     out[id] = r;
   }
   return out;
+}
+
+/** The later of two price snapshots; on the same day, a fixed pick so the merge is order-free. */
+function laterMarks(x: Marks | undefined, y: Marks | undefined): Marks | undefined {
+  if (!x || !y) return x ?? y;
+  if (x.day !== y.day) return x.day > y.day ? x : y;
+  return stable(x) >= stable(y) ? x : y;
 }
 
 /** Same progress, ignoring key order: used to skip needless saves and uploads. */

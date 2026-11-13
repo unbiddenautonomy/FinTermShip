@@ -6,7 +6,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import { termById } from '../../lib/content';
 import { addDays } from '../../lib/dates';
-import { snapshotIndex, watchlist } from '../../lib/modes/exchange';
+import { baseline, INDEX_FULL, marketIndex, snapshotCurrent, snapshotIndex, watchlist } from '../../lib/modes/exchange';
 import { areaKpis, kpis, modeRecord, type ModeId } from '../../lib/modes/knowledge';
 import { buildDefend, buildListing, buildRally } from '../../lib/modes/plans';
 import { areas, termStatus } from '../../lib/modes/status';
@@ -35,10 +35,11 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
   const rec = modeRecord(progress, 'exchange');
   const k = kpis(progress, today);
 
-  // Close today's index once the screen opens (and again if it moves while open).
+  const index = marketIndex(progress, today);
+  // Save today's reading once the screen opens, and again if prices move while it is open.
   useEffect(() => {
-    if (rec.history?.[today] !== k.strength) onProgress(snapshotIndex(progress, today));
-  }, [k.strength, today]); // eslint-disable-line react-hooks/exhaustive-deps
+    if (!snapshotCurrent(progress, today)) onProgress(snapshotIndex(progress, today));
+  }, [progress, today]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const quotes = useMemo(() => watchlist(progress, today), [progress, today]);
   const shown = area ? quotes.filter((q) => q.sector === area) : quotes;
@@ -46,14 +47,16 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
   const due = new Set(dueTermIds(progress, today));
   const fallers = shown.filter((q) => q.falling).map((q) => q.termId);
   const blue = quotes.filter((q) => q.blueChip).length;
-  const history = rec.history ?? {};
+  const closes = rec.closes ?? {};
   const days = Array.from({ length: 30 }, (_, i) => addDays(today, i - 29));
-  const series = days.map((d) => history[d] ?? null);
-  const prev = Object.keys(history)
+  const series = days.map((d) => closes[d] ?? null);
+  const prev = Object.keys(closes)
     .filter((d) => d < today)
     .sort()
     .pop();
-  const change = prev !== undefined ? k.strength - history[prev] : 0;
+  const change = prev !== undefined ? index - closes[prev] : 0;
+  const since = baseline(progress, today)?.day;
+  const fresh = quotes.filter((q) => q.fresh).length;
 
   const defend = (ids: string[]) => onRun((rng) => buildDefend(progress, ids.slice(0, DEFEND_MAX), today, rng));
 
@@ -63,17 +66,19 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
         <div className="rounded-3xl border border-line bg-surface p-5 shadow-card">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-ink-3">FTS index · your Strength</p>
-              <p className="num font-mono text-4xl font-semibold text-ink">{k.strength.toFixed(1)}</p>
+              <p className="text-[10px] font-extrabold uppercase tracking-[0.14em] text-ink-3">FTS {INDEX_FULL} · your index</p>
+              <p className="num font-mono text-4xl font-semibold text-ink">{index.toFixed(1)}</p>
               <p className={`num font-mono text-sm ${change > 0 ? 'text-good-ink' : change < 0 ? 'text-bad-ink' : 'text-ink-3'}`}>
-                {change === 0 ? 'unchanged' : `${change > 0 ? '▲' : '▼'} ${Math.abs(change).toFixed(1)}`} since last close
+                {prev === undefined ? 'first close today' : `${change === 0 ? 'unchanged' : `${change > 0 ? '▲' : '▼'} ${Math.abs(change).toFixed(1)}`} since ${dayLabel(prev, today)}`}
               </p>
             </div>
             <dl className="grid shrink-0 grid-cols-2 gap-x-3 gap-y-1 whitespace-nowrap text-right text-xs">
               <dt className="text-ink-3">All-time high</dt>
-              <dd className="num font-mono font-semibold text-ink">{(rec.indexHigh ?? k.strength).toFixed(1)}</dd>
+              <dd className="num font-mono font-semibold text-ink">{(rec.top ?? index).toFixed(1)}</dd>
               <dt className="text-ink-3">Listed</dt>
               <dd className="num font-mono font-semibold text-ink">{quotes.length}</dd>
+              <dt className="text-ink-3">Avg price</dt>
+              <dd className="num font-mono font-semibold text-ink">{k.strength.toFixed(1)}</dd>
               <dt className="text-ink-3">Blue chips</dt>
               <dd className="num font-mono font-semibold text-ink">{blue}</dd>
               <dt className="text-ink-3">Falling</dt>
@@ -82,7 +87,7 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
           </div>
           <Spark values={series} />
           <p className="mt-2 text-xs leading-relaxed text-ink-3">
-            Blue chips are your Known terms. A falling stock is a term due for review: answer it in any mode and it recovers.
+            The index is what your terms are worth together: {INDEX_FULL} is every open term held at full price. Learning lists new terms and lifts it; a review left overdue lets that term slip until you answer it, in any mode.
           </p>
         </div>
 
@@ -109,9 +114,9 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
       <section>
         <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Sectors</h2>
         <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1">
-          <Chip active={!area} onClick={() => onArea(null)} label="All" value={k.strength.toFixed(0)} />
+          <Chip active={!area} onClick={() => onArea(null)} label="All" value={index.toFixed(0)} />
           {sectors.map((s) => (
-            <Chip key={s.id} active={area === s.id} colour={areas[s.id]?.colour} onClick={() => onArea(area === s.id ? null : s.id)} label={areas[s.id]?.code ?? s.id} value={String(s.strength)} title={s.name} />
+            <Chip key={s.id} active={area === s.id} colour={areas[s.id]?.colour} onClick={() => onArea(area === s.id ? null : s.id)} label={areas[s.id]?.code ?? s.id} value={marketIndex(progress, today, s.id).toFixed(0)} title={`${s.name}: ${s.met} of ${s.terms} listed, average price ${s.strength}`} />
           ))}
         </div>
       </section>
@@ -119,7 +124,7 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
       <section>
         <div className="mb-2 flex items-baseline justify-between px-1">
           <h2 className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Watchlist</h2>
-          <span className="text-xs text-ink-3">Fallers first, then the weakest</span>
+          <span className="text-xs text-ink-3">{since ? `Change since ${dayLabel(since, today)}${fresh ? ` · ${fresh} new` : ''}` : 'Changes show from your next visit'}</span>
         </div>
         {shown.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-line px-5 py-8 text-center text-sm text-ink-2">
@@ -139,8 +144,8 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
                     <span className="truncate font-mono text-sm font-semibold text-ink">{q.ticker}</span>
                     <span className="truncate text-sm text-ink-2">{termById.get(q.termId)?.term}</span>
                     <span className="num font-mono text-sm font-semibold text-ink">{q.price}</span>
-                    <span className={`num text-right font-mono text-xs ${q.change < 0 ? 'text-bad-ink' : q.change > 0 ? 'text-good-ink' : 'text-ink-3'}`}>
-                      {q.change === 0 ? '·' : `${q.change > 0 ? '+' : '−'}${Math.abs(q.change)}`}
+                    <span className={`num text-right font-mono text-xs ${q.fresh ? 'text-sky-ink' : q.change < 0 ? 'text-bad-ink' : q.change > 0 ? 'text-good-ink' : 'text-ink-3'}`}>
+                      {q.fresh ? 'NEW' : q.change === 0 ? '·' : `${q.change > 0 ? '+' : '−'}${Math.abs(q.change)}`}
                     </span>
                   </button>
                 </li>
@@ -224,4 +229,11 @@ function Spark({ values }: { values: (number | null)[] }) {
       <path d={d} fill="none" strokeWidth="2" vectorEffect="non-scaling-stroke" className={up ? 'stroke-good' : 'stroke-bad'} />
     </svg>
   );
+}
+
+/** "yesterday", or a short date for an older visit. */
+function dayLabel(day: string, today: string): string {
+  if (day === addDays(today, -1)) return 'yesterday';
+  const [y, m, d] = day.split('-').map(Number);
+  return new Date(y, m - 1, d).toLocaleDateString('en-IN', { day: 'numeric', month: 'short' });
 }

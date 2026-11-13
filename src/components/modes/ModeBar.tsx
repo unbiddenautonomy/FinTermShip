@@ -15,7 +15,7 @@ export const MODE_INFO: Record<ModeId, { label: string; blurb: string; icon: typ
 const KPI_HELP: { key: string; text: string }[] = [
   { key: 'Known', text: 'Terms answered well over several days, of every term open to you. Only questions where you produce or use the term can make one Known.' },
   { key: 'Due', text: 'Terms ready for a review today. Any mode can clear them: a Path review, a ride past the station, defending the stock, or a call.' },
-  { key: 'Strength', text: 'How firmly you hold the terms you have met, 0 to 100. It fades when a review is overdue. The Exchange index is this number.' },
+  { key: 'Strength', text: 'How firmly you hold the terms you have met, 0 to 100. It fades when a review is overdue, never below 5. On the Exchange it is the price of a term.' },
   { key: 'Coverage', text: 'Share of open terms you have met at least once, in any mode.' },
 ];
 
