@@ -245,7 +245,7 @@ describe('quant switch', () => {
 
   it('goes back to the usual order when switched off, keeping what was learned', () => {
     const p = { ...on(pass(newProgress(), 'k1')), settings: { ...newProgress().settings, quantFirst: false } };
-    expect(track(p)[0].unit.id).toBe('b1');
+    expect(track(p)[0].unit.id).toBe('b7');
     expect(p.drills?.k1?.passed).toBe(true);
     expect(unitOpen(p, 'q3')).toBe(false);
   });

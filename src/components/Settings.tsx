@@ -5,6 +5,8 @@ import { newProgress } from '../lib/scheduler';
 import { canSpeak, speak } from '../lib/speech';
 import { getTexture, getTheme, setTexture, setTheme, THEMES, type Theme } from '../lib/theme';
 import type { Progress } from '../lib/types';
+import { landingMode, MODES } from '../lib/modes/knowledge';
+import { MODE_INFO } from './modes/ModeBar';
 import { AboutYou } from './AboutYou';
 import { AccountPanel } from './Account';
 import { PasswordDialog } from './PasswordDialog';
@@ -92,6 +94,31 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
             }}
             label="Texture"
           />
+        </Row>
+      </Group>
+
+      <Group title="Start screen">
+        <Row>
+          <div className="w-full">
+            <p className="font-bold text-ink" id="landing-label">
+              Open the app in
+            </p>
+            <p className="mb-3 text-sm text-ink-3">{MODE_INFO[landingMode(progress)].blurb} Every mode shares the same progress, so you can switch at any time.</p>
+            <div className="grid grid-cols-4 gap-1 rounded-xl bg-sunken p-1" role="radiogroup" aria-labelledby="landing-label">
+              {MODES.map((m) => (
+                <button
+                  key={m}
+                  type="button"
+                  role="radio"
+                  aria-checked={landingMode(progress) === m}
+                  onClick={() => onChange({ ...progress, settings: { ...s, landing: m } })}
+                  className={`rounded-lg py-2 text-sm font-extrabold transition ${landingMode(progress) === m ? 'bg-surface text-brand-ink shadow-card' : 'text-ink-3 hover:text-ink-2'}`}
+                >
+                  {MODE_INFO[m].label}
+                </button>
+              ))}
+            </div>
+          </div>
         </Row>
       </Group>
 
