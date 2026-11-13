@@ -128,6 +128,16 @@ describe('Call It claims', () => {
     expect(new Set(writtenClaims.map((c) => c.id)).size).toBe(writtenClaims.length);
   });
 
+  it('keeps every area between 35% and 65% true, counting hand-written claims and true/false items together', () => {
+    for (const c of categories) {
+      const truths = [...c.terms.flatMap((t) => (t.tf ?? []).map((f) => f.a)), ...writtenClaims.filter((w) => c.terms.some((t) => t.id === w.term)).map((w) => w.a)];
+      if (truths.length < 10) continue;
+      const share = truths.filter(Boolean).length / truths.length;
+      expect(share, c.id).toBeGreaterThanOrEqual(0.35);
+      expect(share, c.id).toBeLessThanOrEqual(0.65);
+    }
+  });
+
   it('a deck only uses met terms and is split evenly between true and false', () => {
     const ids = allTerms.slice(0, 40).map((t) => t.id);
     const p = learner(ids, 3, today);
