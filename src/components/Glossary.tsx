@@ -42,49 +42,60 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
   const openTerm = open ? categories.flatMap((c) => c.terms).find((t) => t.id === open) : undefined;
   const shown = groups.reduce((n, g) => n + g.terms.length, 0);
 
+
   return (
-    <div className="mx-auto max-w-xl px-4 pb-32 pt-5 lg:grid lg:max-w-6xl lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:items-start lg:gap-x-8 lg:px-8 lg:pb-12 lg:pt-8">
+    <div className="mx-auto max-w-xl px-4 pb-32 pt-5 lg:grid lg:max-w-[100rem] lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-start lg:gap-x-8 lg:px-8 lg:pb-12 lg:pt-8 2xl:grid-cols-[minmax(0,1fr)_26rem]">
       <div className="min-w-0">
       <div className="mb-4 flex items-baseline justify-between">
         <h1 className="text-2xl font-display font-semibold tracking-tight text-ink">Glossary</h1>
         <span className="num text-sm font-semibold text-ink-3">{categories.reduce((n, c) => n + c.terms.length, 0)} terms</span>
       </div>
 
-      <div className="sticky top-0 z-20 -mx-4 space-y-3 bg-bg/95 px-4 pb-3 pt-1 backdrop-blur">
-        <label className="flex items-center gap-2 rounded-2xl border border-line bg-surface px-4 py-3 focus-within:border-sky">
-          <Search className="h-5 w-5 shrink-0 text-ink-3" />
-          <input
-            type="search"
-            id="glossary-search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search terms, aliases or meanings"
-            aria-label="Search terms"
-            className="w-full bg-transparent text-base text-ink outline-none placeholder:text-ink-3"
-          />
-        </label>
-        <div className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-1 [scrollbar-width:none] lg:mx-0 lg:flex-wrap lg:overflow-visible lg:px-0">
-          <Chip active={cat === 'all'} onClick={() => setCat('all')}>
-            All areas
-          </Chip>
-          {categories.map((c) => (
-            <Chip key={c.id} active={cat === c.id} onClick={() => setCat(c.id)}>
-              {c.name}
-            </Chip>
-          ))}
+      {/* Only this compact bar stays put; the term list scrolls with the whole page. The area chips scroll sideways on one row. */}
+      <div className="sticky top-0 z-20 -mx-4 space-y-2 bg-bg/95 px-4 pb-2 pt-1 backdrop-blur lg:mx-0 lg:px-0">
+        <div className="flex flex-col gap-2 lg:flex-row lg:items-center">
+          <label className="flex min-w-0 flex-1 items-center gap-2 rounded-2xl border border-line bg-surface px-4 py-2.5 focus-within:border-sky">
+            <Search className="h-5 w-5 shrink-0 text-ink-3" />
+            <input
+              type="search"
+              id="glossary-search"
+              value={query}
+              onChange={(e) => setQuery(e.target.value)}
+              placeholder="Search terms, aliases or meanings"
+              aria-label="Search terms"
+              className="w-full bg-transparent text-base text-ink outline-none placeholder:text-ink-3"
+            />
+          </label>
+          <div className="flex shrink-0 gap-1 rounded-xl bg-sunken p-1 text-sm font-bold lg:w-72">
+            {(['all', 'met', 'trouble'] as Filter[]).map((f) => (
+              <button
+                key={f}
+                type="button"
+                onClick={() => setFilter(f)}
+                className={`flex-1 rounded-lg py-1 transition ${filter === f ? 'bg-surface text-ink shadow-card' : 'text-ink-3'}`}
+                aria-pressed={filter === f}
+              >
+                {f === 'all' ? 'All' : f === 'met' ? 'Met' : 'Needs work'}
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="flex gap-1 rounded-xl bg-sunken p-1 text-sm font-bold">
-          {(['all', 'met', 'trouble'] as Filter[]).map((f) => (
-            <button
-              key={f}
-              type="button"
-              onClick={() => setFilter(f)}
-              className={`flex-1 rounded-lg py-1.5 transition ${filter === f ? 'bg-surface text-ink shadow-card' : 'text-ink-3'}`}
-              aria-pressed={filter === f}
-            >
-              {f === 'all' ? 'All' : f === 'met' ? 'Met' : 'Needs work'}
-            </button>
-          ))}
+        <div className="relative -mx-4 lg:mx-0">
+          <div
+            className="flex gap-1.5 overflow-x-auto px-4 pb-1 [scrollbar-width:none] lg:px-0 lg:pr-10 lg:[scrollbar-width:thin]"
+            role="group"
+            aria-label="Areas"
+          >
+            <Chip active={cat === 'all'} onClick={() => setCat('all')}>
+              All areas
+            </Chip>
+            {categories.map((c) => (
+              <Chip key={c.id} active={cat === c.id} onClick={() => setCat(c.id)}>
+                {c.name}
+              </Chip>
+            ))}
+          </div>
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-bg to-transparent" aria-hidden />
         </div>
       </div>
 
@@ -94,15 +105,15 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
         terms.length ? (
           <section key={c.id} className="mt-4">
             <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">{c.name}</h2>
-            <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+            <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-card lg:grid lg:grid-cols-[repeat(auto-fill,minmax(19rem,1fr))] lg:gap-2 lg:divide-y-0 lg:overflow-visible lg:rounded-none lg:border-0 lg:bg-transparent lg:shadow-none">
               {terms.map((t) => {
                 const s = progress.terms[t.id];
                 const expanded = open === t.id;
                 return (
-                  <li key={t.id}>
+                  <li key={t.id} className="lg:overflow-hidden lg:rounded-xl lg:border lg:border-line lg:bg-surface lg:shadow-card">
                     <button
                       onClick={() => setOpen(expanded ? null : t.id)}
-                      className={`flex w-full items-center gap-3 px-4 py-3 text-left transition hover:bg-sunken/60 ${expanded ? 'lg:bg-brand-soft' : ''}`}
+                      className={`flex w-full items-center gap-3 px-4 py-3 text-left lg:h-full lg:py-2.5 transition hover:bg-sunken/60 ${expanded ? 'lg:bg-brand-soft' : ''}`}
                       aria-expanded={expanded}
                     >
                       <span className="min-w-0 flex-1">
@@ -143,7 +154,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
             <TermBody term={openTerm} progress={progress} />
           </>
         ) : (
-          <p className="py-16 text-center text-ink-3">Pick a term on the left to see what it means, how it is used, and how well you know it.</p>
+          <p className="py-16 text-center text-ink-3">Pick a term to see what it means, how it is used, and how well you know it.</p>
         )}
       </aside>
     </div>
@@ -156,7 +167,7 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
       type="button"
       onClick={onClick}
       aria-pressed={active}
-      className={`shrink-0 whitespace-nowrap rounded-full border px-3.5 py-1.5 text-sm font-bold transition ${active ? 'border-ink bg-ink text-bg' : 'border-line bg-surface text-ink-2 hover:bg-sunken'}`}
+      className={`shrink-0 whitespace-nowrap rounded-full border px-3 py-1 text-[13px] font-bold transition ${active ? 'border-ink bg-ink text-bg' : 'border-line bg-surface text-ink-2 hover:bg-sunken'}`}
     >
       {children}
     </button>
