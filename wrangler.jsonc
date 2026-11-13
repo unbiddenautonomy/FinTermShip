@@ -1,7 +1,7 @@
 {
   "name": "fintermship",
   "compatibility_date": "2026-11-01",
-  // The Worker answers /api/ (accounts and sync); everything else is the app's files.
+  // The Worker answers every request: /api/ is accounts and sync, and the app's files go only to a signed-in session.
   "main": "worker/index.ts",
   "build": {
     "command": "npm run build"
@@ -10,7 +10,7 @@
     "directory": "./dist",
     "binding": "ASSETS",
     "not_found_handling": "single-page-application",
-    "run_worker_first": ["/api/*"]
+    "run_worker_first": true
   },
   // The admin account: signs up without an invite and makes invites for everyone else.
   // Kept here because the repository is private. A runtime secret named ADMIN_EMAIL, if one is set, takes its place.

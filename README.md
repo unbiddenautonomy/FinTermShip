@@ -90,9 +90,10 @@ Paste the printed hash into `PASSWORD_HASH`. This only keeps the password out of
 Sign-in is invite-only and runs in the same Worker, in `worker/index.ts`, with a D1 database:
 
 - The admin account (the email in `OWNER_EMAIL` in `wrangler.jsonc`, or in an `ADMIN_EMAIL` runtime secret, which wins) signs up without an invite. In Settings, the admin makes invite codes (each works once, for 14 days, and carries quant and phase 3 access), and can change any account's access or switch it off.
-- Everyone else signs up in Settings with an invite code. Passwords are stored as salted PBKDF2 hashes; sign-in sets an HttpOnly session cookie for 30 days; eight wrong passwords lock an account for 15 minutes.
+- The app itself is behind sign-in. The Worker runs first for every request (`run_worker_first: true`) and sends the app's files (its scripts, styles and images) only to a signed-in session; anyone else gets a small sign-in page (`worker/signin.ts`) and a 401 for every file, apart from the icons and the web manifest. Built files are cached as `private`, so only that person's browser keeps them.
+- Everyone else signs up on that page with an invite code. Passwords are stored as salted PBKDF2 hashes; sign-in sets an HttpOnly session cookie for the whole site for 30 days; eight wrong passwords lock an account for 15 minutes.
 - Progress is still saved in the browser first. A signed-in device also sends it to the server, which merges it with what other devices sent (`src/lib/sync.ts`: the further-along copy of each term, score and test wins). Resetting or restoring a backup starts over on every device.
-- Tables are created on first use, so there are no migrations. Without a database, `/api/` answers 503 and the app works as before, on one device.
+- Tables are created on first use, so there are no migrations. Without a database, `/api/` answers 503 and the app's files stay shut. `npm run dev` runs the app without the Worker, so it needs no sign-in.
 
 To set it up once, in the Cloudflare dashboard:
 
