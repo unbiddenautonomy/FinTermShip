@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         display: ['Fraunces', 'Georgia', 'serif'],
+        wordmark: ['Outfit', 'Manrope', 'system-ui', 'sans-serif'],
         sans: ['Manrope', 'system-ui', '-apple-system', 'Segoe UI', 'Roboto', 'sans-serif'],
         mono: ['"JetBrains Mono"', 'ui-monospace', 'SFMono-Regular', 'Menlo', 'monospace'],
       },

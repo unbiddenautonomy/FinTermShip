@@ -86,7 +86,7 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
         <h1 className="hidden text-2xl font-display font-semibold tracking-tight text-ink lg:block">Learn</h1>
         <div className="flex items-center gap-2.5 lg:hidden">
           <Logo className="h-8 w-8" />
-          <span className="font-display text-[22px] font-semibold tracking-tight text-ink">FinTermShip</span>
+          <span className="font-wordmark text-[23px] font-light tracking-[0.04em] text-ink">fintermship</span>
         </div>
         <div className="flex items-center gap-2">
           <span
