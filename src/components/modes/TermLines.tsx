@@ -11,12 +11,13 @@ import { KIND_LABEL } from '../../lib/practice';
 import type { LessonPlan } from '../../lib/lesson';
 import { areaKpis, type ModeId } from '../../lib/modes/knowledge';
 import { buildRevisit, buildRide, canRideFrom, dueStops, frontier, lines, lineById, REVISIT_MAX, RIDE_STOPS, type Line } from '../../lib/modes/plans';
-import { areaOf, areas, termStatus, type TermStatus } from '../../lib/modes/status';
+import { areaOf, areas, termStatus, unitStatus } from '../../lib/modes/status';
 import { interchangesAt } from '../../lib/modes/transfer';
 import type { Rng } from '../../lib/questions';
 import type { PracticeKind, Progress } from '../../lib/types';
 import { ArrowLeft, Lock } from '../icons';
 import { Button } from '../ui';
+import { NetworkMap } from './NetworkMap';
 import { DotKey, ModeFrame, TermDot, TermSheet } from './shared';
 
 interface Props {
@@ -31,16 +32,6 @@ interface Props {
 
 const colourOf = (lineId: string) => areas[lineId]?.colour ?? 'rgb(var(--brand))';
 
-/** A unit as one station on the network map: its weakest state wins, so due work shows. */
-function unitStatus(p: Progress, unitId: string, termIds: string[], today: string): TermStatus {
-  if (!unitOpen(p, unitId)) return 'locked';
-  const st = termIds.map((id) => termStatus(p, id, today));
-  if (st.includes('due')) return 'due';
-  if (st.length && st.every((s) => s === 'known')) return 'known';
-  if (st.some((s) => s !== 'unmet')) return 'met';
-  return 'unmet';
-}
-
 export function TermLines({ progress, today, area, onArea, onMode, onRun, onDepot }: Props) {
   const line = area ? lineById.get(area) : undefined;
   return line ? (
@@ -54,6 +45,7 @@ function Network({ progress, today, onLine, onMode }: { progress: Progress; toda
   const stats = new Map(areaKpis(progress, today).map((a) => [a.id, a]));
   return (
     <ModeFrame progress={progress} today={today} mode="lines" onMode={onMode} title="Term Lines">
+      <NetworkMap progress={progress} today={today} onLine={onLine} />
       <DotKey />
       <ul className="space-y-2">
         {lines.map((l) => {

@@ -39,3 +39,14 @@ export function areaOf(termId: string): (Area & { id: string; name: string }) | 
   if (!c) return undefined;
   return { id: c.id, name: c.name, ...(areas[c.id] ?? { colour: '#888888', code: c.id.slice(0, 3).toUpperCase() }) };
 }
+
+/** A unit as one station: its weakest state wins, so due work shows. */
+export function unitStatus(p: Progress, unitId: string, termIds: string[], today: string): TermStatus {
+  if (!unitOpen(p, unitId)) return 'locked';
+  const st = termIds.map((id) => termStatus(p, id, today));
+  if (st.includes('due')) return 'due';
+  if (st.length && st.every((s) => s === 'known')) return 'known';
+  if (st.some((s) => s !== 'unmet')) return 'met';
+  return 'unmet';
+}
+
