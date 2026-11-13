@@ -9,6 +9,7 @@
  * order-free for everything except settings, focus and the streak, so two
  * devices that sync in any order end up with the same progress.
  */
+import type { ModeId, ModeRecord, ModeRecords } from './modes/knowledge';
 import type { DayStats, DrillRecord, Progress, TermState } from './types';
 
 function byKey<T>(a: Record<string, T> | undefined, b: Record<string, T> | undefined, pick: (x: T, y: T) => T): Record<string, T> {
@@ -75,6 +76,30 @@ export function mergeProgress(a: Progress, b: Progress): Progress {
       const best = x.best / x.total >= y.best / y.total ? x : y;
       return { ...best, tries: Math.max(x.tries, y.tries) };
     });
+  if (a.modes || b.modes) out.modes = mergeModes(a.modes ?? {}, b.modes ?? {});
+  return out;
+}
+
+/** Per-mode records from two devices: counts and records take the larger, and the index history keeps every day (the higher reading if both have one), so the merge is order-free. */
+function mergeModes(a: ModeRecords, b: ModeRecords): ModeRecords {
+  const out: ModeRecords = {};
+  for (const id of new Set([...Object.keys(a), ...Object.keys(b)]) as Set<ModeId>) {
+    const x = a[id];
+    const y = b[id];
+    if (!x || !y) {
+      out[id] = (x ?? y)!;
+      continue;
+    }
+    const r: ModeRecord = { sessions: Math.max(x.sessions, y.sessions), answers: Math.max(x.answers, y.answers), right: Math.max(x.right, y.right) };
+    const last = later(x.last ?? null, y.last ?? null);
+    if (last) r.last = last;
+    const bestRun = max(x.bestRun, y.bestRun);
+    if (bestRun !== undefined) r.bestRun = bestRun;
+    const indexHigh = max(x.indexHigh, y.indexHigh);
+    if (indexHigh !== undefined) r.indexHigh = indexHigh;
+    if (x.history || y.history) r.history = byKey(x.history, y.history, Math.max);
+    out[id] = r;
+  }
   return out;
 }
 

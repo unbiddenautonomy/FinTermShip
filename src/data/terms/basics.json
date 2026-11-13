@@ -4,6 +4,11 @@
   "order": 1,
   "units": [
     {
+      "id": "b7",
+      "name": "Building blocks",
+      "core": true
+    },
+    {
       "id": "b1",
       "name": "Prices and quotes",
       "core": true
@@ -224,7 +229,9 @@
       ],
       "fill": "₹1,00,000 is one ____.",
       "confusables": [
-        "crore"
+        "crore",
+        "market-cap",
+        "notional"
       ],
       "wrong": [
         "One million (10,00,000)",
@@ -259,7 +266,9 @@
       ],
       "fill": "₹100 ____ equals one billion rupees.",
       "confusables": [
-        "lakh"
+        "lakh",
+        "market-cap",
+        "notional"
       ],
       "wrong": [
         "One hundred thousand (1,00,000)",
@@ -1597,6 +1606,455 @@
         "A group of stocks in one sector"
       ],
       "difficulty": 1
+    },
+    {
+      "id": "share",
+      "term": "share",
+      "aliases": [
+        "equity share",
+        "stock"
+      ],
+      "unit": "b7",
+      "short": "One unit of ownership in a company",
+      "definition": "One unit of ownership in a company. Holding shares gives you a slice of its profits (through dividends and a rising price) and usually a vote at shareholder meetings. In India, \"share\", \"stock\" and \"equity\" are used almost interchangeably.",
+      "examples": [
+        "He bought 50 shares of Infosys at ₹1,500 each.",
+        "The promoters own 55% of the company's shares.",
+        "Each share carries one vote at the AGM."
+      ],
+      "fill": "If a company has 10 crore of these in issue and you own 1 crore, you own 10% of it: each one is a ____.",
+      "confusables": [
+        "bond",
+        "face-value",
+        "market-cap"
+      ],
+      "wrong": [
+        "A loan you make to a company in return for fixed interest",
+        "A contract to buy something at a set price on a future date",
+        "A fund that pools money from many investors"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "Owning a company's shares makes you one of its lenders.",
+          "a": false,
+          "why": "Shareholders are owners. Lenders hold the company's bonds or loans and are paid before owners if it fails."
+        }
+      ]
+    },
+    {
+      "id": "stock-exchange",
+      "term": "stock exchange",
+      "aliases": [
+        "exchange"
+      ],
+      "unit": "b7",
+      "short": "Regulated marketplace where shares trade",
+      "definition": "A regulated marketplace that matches buy and sell orders for shares and other securities and publishes the prices. India's two main ones are NSE and BSE.",
+      "examples": [
+        "Reliance is listed on both of India's big stock exchanges.",
+        "The company chose NSE as its main stock exchange for the IPO.",
+        "A stock exchange halts trading if an index falls past the circuit breaker level."
+      ],
+      "fill": "NSE and BSE are each a ____: the place where buy and sell orders for listed shares meet.",
+      "confusables": [
+        "nse",
+        "stockbroker",
+        "clearing-corporation"
+      ],
+      "wrong": [
+        "The firm that holds your shares in electronic form",
+        "The broker who places orders for you",
+        "The regulator that writes market rules"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "You place orders directly with the stock exchange, without a broker.",
+          "a": false,
+          "why": "Only exchange members can send orders. Retail investors reach the exchange through a registered stockbroker."
+        }
+      ]
+    },
+    {
+      "id": "stock-index",
+      "term": "stock index",
+      "aliases": [
+        "index",
+        "market index"
+      ],
+      "unit": "b7",
+      "short": "One number tracking a basket of stocks",
+      "definition": "A single number that tracks the combined price of a chosen basket of stocks, so you can see how that part of the market is doing. Nifty 50 and Sensex are the best known in India; most are weighted by free-float market cap.",
+      "examples": [
+        "The index closed 1.2% higher, led by banks.",
+        "Our fund's benchmark is a broad stock index of 500 companies.",
+        "Bank Nifty is a sector stock index of the most traded banks."
+      ],
+      "fill": "Nifty 50 is a ____: one number that moves with 50 large companies' share prices.",
+      "confusables": [
+        "nifty-50",
+        "benchmark",
+        "portfolio"
+      ],
+      "wrong": [
+        "The average price of every share listed in India",
+        "A fund you can buy that holds the top 50 stocks",
+        "The total value of all shares on an exchange"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "You can buy a stock index directly, just as you buy a share.",
+          "a": false,
+          "why": "An index is only a number. To own it you buy something that tracks it, such as an index fund, an ETF or index futures."
+        }
+      ]
+    },
+    {
+      "id": "order",
+      "term": "order",
+      "unit": "b7",
+      "short": "Instruction to buy or sell",
+      "definition": "An instruction you give your broker to buy or sell a set quantity of something, with conditions such as the price you'll accept and how long the order stays live. An order becomes a trade only when it is filled.",
+      "examples": [
+        "I've put in an order for 200 shares at ₹1,450.",
+        "The order is still open; nobody is selling at our price yet.",
+        "Cancel the order if it isn't filled by 2 pm."
+      ],
+      "fill": "You send your broker an ____ to buy 100 shares; until it fills, nothing has traded.",
+      "confusables": [
+        "fill",
+        "market-order",
+        "limit-order"
+      ],
+      "wrong": [
+        "A completed purchase or sale",
+        "The price at which a stock last traded",
+        "The list of all bids and offers in a stock"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "Placing an order guarantees you will get the shares.",
+          "a": false,
+          "why": "An order is only an instruction. It trades only if someone takes the other side at an acceptable price."
+        }
+      ]
+    },
+    {
+      "id": "interest-rate",
+      "term": "interest rate",
+      "unit": "b7",
+      "short": "Yearly cost of borrowing, as a percent",
+      "definition": "The price of money: what a borrower pays a lender each year, as a percentage of the amount borrowed. Higher rates make loans dearer and safe savings more attractive, which tends to weigh on share prices.",
+      "examples": [
+        "The FD pays an interest rate of 7% a year.",
+        "Home loans got dearer when interest rates went up.",
+        "Falling interest rates usually help rate-sensitive stocks like banks and real estate."
+      ],
+      "fill": "On a ₹1,00,000 loan, an ____ of 9% means paying ₹9,000 a year in interest.",
+      "confusables": [
+        "repo-rate",
+        "yield-to-maturity",
+        "return"
+      ],
+      "wrong": [
+        "The share of a loan repaid each year",
+        "The rise in prices over a year",
+        "The profit a company makes per share"
+      ],
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "You borrow ₹2,00,000 at 10% a year simple interest. What is the interest for one year?",
+          "options": [
+            "₹20,000",
+            "₹2,000",
+            "₹10,000",
+            "₹2,20,000"
+          ],
+          "answer": 0,
+          "why": "10% of 2,00,000 = 20,000."
+        }
+      ],
+      "tf": [
+        {
+          "s": "When interest rates rise, existing bond prices usually fall.",
+          "a": true,
+          "why": "New bonds pay more, so older ones with lower coupons are worth less."
+        }
+      ]
+    },
+    {
+      "id": "compounding",
+      "term": "compounding",
+      "aliases": [
+        "compound interest"
+      ],
+      "unit": "b7",
+      "short": "Earning returns on earlier returns",
+      "definition": "Earning returns not just on what you put in but on the returns already earned, so growth speeds up over time. ₹100 growing 10% a year becomes ₹110, then ₹121, not ₹120.",
+      "examples": [
+        "Thanks to compounding, ₹1 lakh at 12% a year roughly doubles in six years.",
+        "Start the SIP early: compounding does most of the work in the later years.",
+        "Fees compound too, so 1% a year costs far more than 1% over twenty years."
+      ],
+      "fill": "₹100 at 10% a year becomes ₹121 after two years, not ₹120, because of ____.",
+      "confusables": [
+        "cagr",
+        "return",
+        "time-value-of-money"
+      ],
+      "wrong": [
+        "Earning the same fixed amount every year",
+        "Adding new money to an investment each month",
+        "Spreading money across many investments"
+      ],
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "₹10,000 grows at 10% a year, compounded yearly. What is it worth after 2 years?",
+          "options": [
+            "₹12,100",
+            "₹12,000",
+            "₹11,000",
+            "₹12,200"
+          ],
+          "answer": 0,
+          "why": "10,000 × 1.1 × 1.1 = 12,100."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Under compounding, a 10% yearly return turns ₹100 into exactly ₹130 after three years.",
+          "a": false,
+          "why": "It's 100 × 1.1³ = ₹133.10. ₹130 would be simple interest."
+        }
+      ]
+    },
+    {
+      "id": "time-value-of-money",
+      "term": "time value of money",
+      "aliases": [
+        "TVM"
+      ],
+      "unit": "b7",
+      "short": "A rupee today beats a rupee later",
+      "definition": "The idea that money now is worth more than the same amount later, because money now can be invested to earn a return and later money carries the risk of not arriving and of inflation. Every valuation rests on it.",
+      "examples": [
+        "Would you take ₹1 lakh now or ₹1 lakh in five years? The time value of money says now.",
+        "Bond pricing is just the time value of money applied to each coupon.",
+        "A higher interest rate makes the time value of money bigger: waiting costs more."
+      ],
+      "fill": "Taking ₹1,000 today over ₹1,000 next year is the ____ at work: today's money can earn interest meanwhile.",
+      "confusables": [
+        "present-value",
+        "compounding",
+        "interest-rate"
+      ],
+      "wrong": [
+        "The rise in prices that shrinks what money buys",
+        "The extra return for taking risk",
+        "The fee a bank charges to hold your money"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "Even with no inflation, ₹1,000 today is worth more than ₹1,000 in a year if interest rates are positive.",
+          "a": true,
+          "why": "Today's ₹1,000 can be invested and become more than ₹1,000 in a year."
+        }
+      ]
+    },
+    {
+      "id": "present-value",
+      "term": "present value",
+      "aliases": [
+        "PV",
+        "discounting"
+      ],
+      "unit": "b7",
+      "short": "Today's worth of a future amount",
+      "definition": "What a future amount is worth today, found by discounting it at an interest rate: future amount ÷ (1 + rate)^years. The higher the rate or the longer the wait, the lower the present value.",
+      "examples": [
+        "At 10%, ₹1.1 lakh due in a year has a present value of ₹1 lakh.",
+        "A DCF adds up the present value of every future cash flow.",
+        "When rates rise, the present value of far-off profits drops most, which hits growth stocks."
+      ],
+      "fill": "₹1,10,000 received in one year, discounted at 10%, has a ____ of ₹1,00,000.",
+      "confusables": [
+        "time-value-of-money",
+        "fair-value",
+        "face-value"
+      ],
+      "wrong": [
+        "The price an asset trades at right now",
+        "The amount printed on a bond or share",
+        "What an investment will be worth in the future"
+      ],
+      "formula": "future amount ÷ (1 + rate)^years",
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "What is the present value of ₹1,21,000 due in 2 years at 10% a year?",
+          "options": [
+            "₹1,00,000",
+            "₹1,10,000",
+            "₹96,800",
+            "₹1,21,000"
+          ],
+          "answer": 0,
+          "why": "1,21,000 ÷ 1.1² = 1,21,000 ÷ 1.21 = 1,00,000."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Raising the discount rate raises the present value of a future payment.",
+          "a": false,
+          "why": "You divide by (1 + rate)^years, so a higher rate gives a smaller present value."
+        }
+      ]
+    },
+    {
+      "id": "inflation",
+      "term": "inflation",
+      "unit": "b7",
+      "short": "Rise in the general level of prices",
+      "definition": "The rise in the general level of prices over time, which shrinks what each rupee buys. Your real return is roughly your return minus inflation. India's main measure is CPI inflation, which RBI targets.",
+      "examples": [
+        "With inflation at 5%, an FD paying 7% earns about 2% in real terms.",
+        "Food prices drove inflation higher last month.",
+        "High inflation makes RBI less likely to cut rates."
+      ],
+      "fill": "If prices rise 6% this year, ____ has cut what ₹100 buys by about 6%.",
+      "confusables": [
+        "cpi-inflation",
+        "interest-rate",
+        "return"
+      ],
+      "wrong": [
+        "A rise in the stock market over a year",
+        "A rise in interest rates",
+        "A fall in the value of the rupee against the dollar"
+      ],
+      "difficulty": 1,
+      "calcs": [
+        {
+          "q": "Your FD pays 7% and inflation is 5%. Roughly what is your real return?",
+          "options": [
+            "2%",
+            "12%",
+            "7%",
+            "5%"
+          ],
+          "answer": 0,
+          "why": "Real return ≈ 7% − 5% = 2%."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A 6% return with 7% inflation leaves you able to buy less than before.",
+          "a": true,
+          "why": "Prices rose faster than your money, so the real return is about −1%."
+        }
+      ]
+    },
+    {
+      "id": "arbitrage",
+      "term": "arbitrage",
+      "unit": "b7",
+      "short": "Riskless profit from a price mismatch",
+      "definition": "Buying something in one place and selling the same thing, or its exact equivalent, in another at the same time to lock in a profit from a price gap. True arbitrage carries no market risk; gaps close fast because many traders hunt them.",
+      "examples": [
+        "The stock was ₹2 cheaper on BSE than NSE for a second, and the algos ran arbitrage on it.",
+        "Arbitrage funds buy shares and sell futures to capture the gap.",
+        "Once costs are counted, most arbitrage gaps are only a few paise."
+      ],
+      "fill": "Buying a share at ₹500 on one exchange while selling it at ₹502 on another is ____.",
+      "confusables": [
+        "exchange-arbitrage",
+        "cash-and-carry-arbitrage",
+        "hedge"
+      ],
+      "wrong": [
+        "Betting that a price will rise",
+        "Holding two stocks that tend to move together",
+        "Spreading money across asset classes to cut risk"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "A trade that profits only if prices move your way is arbitrage.",
+          "a": false,
+          "why": "Arbitrage locks in the gap with both legs at once, so it doesn't depend on which way prices move."
+        }
+      ]
+    },
+    {
+      "id": "etf",
+      "term": "ETF",
+      "aliases": [
+        "exchange-traded fund"
+      ],
+      "unit": "b7",
+      "short": "Fund that trades on the exchange like a share",
+      "definition": "A fund, usually tracking an index, whose units are listed and traded on the exchange through the day like a share. You need a demat account to hold it, and its market price can drift slightly from its NAV.",
+      "examples": [
+        "She buys a Nifty 50 ETF through her broker every month.",
+        "The gold ETF trades at a small premium to its NAV today.",
+        "ETFs usually charge less than actively managed funds."
+      ],
+      "fill": "A fund that tracks Nifty 50 and that you buy on NSE through your broker, like a share, is an ____.",
+      "confusables": [
+        "index-fund",
+        "mutual-fund",
+        "nav"
+      ],
+      "wrong": [
+        "A fund you buy and sell only with the AMC, once a day at NAV",
+        "A basket of stocks you pick yourself",
+        "A futures contract on an index"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "You buy and sell ETF units on the exchange during market hours.",
+          "a": true,
+          "why": "That's what makes it exchange-traded. Index mutual funds deal once a day at NAV."
+        }
+      ]
+    },
+    {
+      "id": "index-fund",
+      "term": "index fund",
+      "unit": "b7",
+      "short": "Mutual fund that copies an index",
+      "definition": "A mutual fund that holds the same stocks as an index in the same weights, aiming to match its return rather than beat it. You buy and redeem units with the fund house at the day's NAV; no demat account is needed.",
+      "examples": [
+        "An index fund on the Sensex has a very low expense ratio.",
+        "Her SIP goes into a Nifty 50 index fund.",
+        "An index fund's tracking error shows how closely it copied the index."
+      ],
+      "fill": "A mutual fund that simply holds the Nifty 50 stocks in their index weights, bought at the day's NAV, is an ____.",
+      "confusables": [
+        "etf",
+        "mutual-fund",
+        "tracking-error"
+      ],
+      "wrong": [
+        "A fund whose manager picks stocks to beat the index",
+        "A fund traded on the exchange through the day",
+        "A futures contract on the Nifty"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "An index fund aims to beat its index.",
+          "a": false,
+          "why": "It aims to match the index. Beating it is the job of an active fund."
+        }
+      ]
     }
   ]
 }

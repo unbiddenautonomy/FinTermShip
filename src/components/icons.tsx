@@ -169,3 +169,37 @@ export const ChartIcon = (p: IconProps) => (
     <path d="M22 20H2" />
   </Svg>
 );
+
+/** Term Lines: two metro lines meeting at an interchange. */
+export const LinesIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M3 7h7l4 10h7" />
+    <path d="M3 17h7l4-10h7" />
+    <circle cx="12" cy="12" r="2" />
+  </Svg>
+);
+
+/** Call It: a card with a tick and a cross. */
+export const CallIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="5" y="3" width="14" height="18" rx="3" />
+    <path d="m8.5 9 1.5 1.5L13 7.5" />
+    <path d="m11 14 4 4M15 14l-4 4" />
+  </Svg>
+);
+
+/** Recall Exchange: a candle chart. */
+export const TickerIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M6 4v16M12 3v18M18 6v12" />
+    <rect x="4" y="8" width="4" height="7" rx="1" />
+    <rect x="10" y="6" width="4" height="5" rx="1" />
+    <rect x="16" y="10" width="4" height="5" rx="1" />
+  </Svg>
+);
+
+export const ArrowLeft = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M19 12H5M11 18l-6-6 6-6" />
+  </Svg>
+);

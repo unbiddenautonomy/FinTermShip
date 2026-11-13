@@ -147,7 +147,7 @@ describe('phase 3 stays hidden until it opens', () => {
   const phase3Terms = categories.filter((c) => c.phase === 3).flatMap((c) => c.terms);
 
   it('names a strategy but holds back its details while locked', () => {
-    for (const q of ['what is pairs trading', 'kelly', 'butterfly', 'what is inav', 'teach me arbitrage']) {
+    for (const q of ['what is pairs trading', 'kelly', 'butterfly', 'what is inav', 'teach me systematic strategies']) {
       const r = ask(q);
       expect(r.kind, q).toBe('locked3');
       const text = JSON.stringify(r);
@@ -158,7 +158,8 @@ describe('phase 3 stays hidden until it opens', () => {
 
   it('answers in full once phase 3 is open', () => {
     expect(ask('what is pairs trading', open)).toEqual({ kind: 'term', termId: 'pairs-trading', intent: 'define' });
-    expect(ask('teach me arbitrage', open)).toMatchObject({ kind: 'unit', unitId: 'z1' });
+    // "Arbitrage" is both a basics term and the phase 3 unit, so the guide offers both.
+    expect(JSON.stringify(ask('teach me arbitrage', open))).toContain('"id":"z1"');
   });
 
   it('keeps every strategy term findable by its own name', () => {
