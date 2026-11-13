@@ -27,6 +27,11 @@
       "id": "i5",
       "name": "Listings and corporate actions",
       "core": false
+    },
+    {
+      "id": "i6",
+      "name": "Tax, accounts and products",
+      "core": false
     }
   ],
   "terms": [
@@ -1503,6 +1508,372 @@
         "Traders buying back shares they shorted"
       ],
       "difficulty": 1
+    },
+    {
+      "id": "stcg",
+      "term": "STCG",
+      "aliases": [
+        "short-term capital gains"
+      ],
+      "said": "S T C G",
+      "unit": "i6",
+      "short": "Tax on equity gains held a year or less",
+      "definition": "Short-term capital gains: profit on listed shares or equity funds sold within 12 months of buying. Taxed at 20% for sales from 23 July 2024 (15% before that).",
+      "examples": [
+        "Selling within the year turned the profit into STCG at 20%.",
+        "He waited two more weeks to avoid STCG.",
+        "STCG from F&O doesn't exist: F&O profits are business income."
+      ],
+      "fill": "Profit on shares sold eight months after buying is taxed as ____.",
+      "confusables": [
+        "ltcg",
+        "stt",
+        "realised-pnl"
+      ],
+      "wrong": [
+        "Tax on profit from shares held more than 12 months",
+        "Tax charged on every share trade, profit or not",
+        "Tax on dividends received"
+      ],
+      "asOf": "2026-11",
+      "source": "https://cleartax.in/s/taxation-on-income-earned-from-selling-shares",
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "You make ₹50,000 profit on shares held 6 months. At 20%, what is the STCG tax?",
+          "options": [
+            "₹10,000",
+            "₹6,250",
+            "₹5,000",
+            "₹0"
+          ],
+          "answer": 0,
+          "why": "Held under 12 months, so STCG at 20%: 0.2 × 50,000 = 10,000."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Shares sold 11 months after buying count as short-term.",
+          "a": true,
+          "why": "Listed shares held 12 months or less are short-term."
+        }
+      ]
+    },
+    {
+      "id": "ltcg",
+      "term": "LTCG",
+      "aliases": [
+        "long-term capital gains"
+      ],
+      "said": "L T C G",
+      "unit": "i6",
+      "short": "Tax on equity gains held over a year",
+      "definition": "Long-term capital gains: profit on listed shares or equity funds held more than 12 months. The first ₹1.25 lakh of such gains each year is tax-free; the rest is taxed at 12.5% for sales from 23 July 2024.",
+      "examples": [
+        "She books ₹1.25 lakh of LTCG each March to use the yearly exemption.",
+        "Holding past one year turned the gain into LTCG at 12.5%.",
+        "The budget raised LTCG on equity from 10% to 12.5%."
+      ],
+      "fill": "Profit on shares held for two years, above the yearly ₹1.25 lakh exemption, is taxed as ____ at 12.5%.",
+      "confusables": [
+        "stcg",
+        "total-return",
+        "cagr"
+      ],
+      "wrong": [
+        "Tax on profit from shares held 12 months or less",
+        "Tax on every rupee of share profit, with no exemption",
+        "Tax charged at the time you buy shares"
+      ],
+      "asOf": "2026-11",
+      "source": "https://cleartax.in/s/taxation-on-income-earned-from-selling-shares",
+      "difficulty": 2,
+      "calcs": [
+        {
+          "q": "You book ₹3,25,000 of long-term equity gains in a year. With a ₹1.25 lakh exemption and 12.5% tax, what do you pay?",
+          "options": [
+            "₹25,000",
+            "₹40,625",
+            "₹65,000",
+            "₹15,625"
+          ],
+          "answer": 0,
+          "why": "Taxable = 3,25,000 − 1,25,000 = 2,00,000; 12.5% of that is 25,000."
+        }
+      ],
+      "tf": [
+        {
+          "s": "All long-term equity gains are taxed from the first rupee.",
+          "a": false,
+          "why": "The first ₹1.25 lakh a year is exempt; only the excess is taxed at 12.5%."
+        }
+      ]
+    },
+    {
+      "id": "ex-date",
+      "term": "ex-date",
+      "aliases": [
+        "ex-dividend date"
+      ],
+      "unit": "i6",
+      "short": "First day a buyer misses the dividend",
+      "definition": "The first trading day on which a buyer of the share no longer gets the declared dividend, bonus or split. Under T+1 it is the same day as the record date, and the price usually drops by roughly the dividend that morning.",
+      "examples": [
+        "The stock opened ₹12 lower because it went ex-date on its ₹12 dividend.",
+        "Buy before the ex-date if you want the dividend.",
+        "Under T+1, ex-date and record date fall on the same day."
+      ],
+      "fill": "Buy the share on its ____ and you don't get the dividend; buy the day before and you do.",
+      "confusables": [
+        "record-date",
+        "dividend",
+        "bonus-issue"
+      ],
+      "wrong": [
+        "The day the dividend is paid into your bank",
+        "The day the board announces the dividend",
+        "The last day you can sell and still get the dividend"
+      ],
+      "difficulty": 2,
+      "tf": [
+        {
+          "s": "Buying a share on its ex-date still gets you the dividend.",
+          "a": false,
+          "why": "Ex-date is the first day buyers miss out. You must buy before it."
+        }
+      ]
+    },
+    {
+      "id": "kyc",
+      "term": "KYC",
+      "aliases": [
+        "know your customer"
+      ],
+      "said": "K Y C",
+      "unit": "i6",
+      "short": "Identity checks before you can invest",
+      "definition": "Know Your Customer: the identity and address checks (PAN, Aadhaar, address proof, a photo) that a broker, bank or fund house must complete before you can invest. Done once through a KYC registration agency, it is reused across firms.",
+      "examples": [
+        "Her demat account opened in a day because her KYC was already registered.",
+        "The fund froze new SIPs until his KYC was updated.",
+        "Brokers can't take orders from you until KYC is done."
+      ],
+      "fill": "Before a broker can open your account, it must complete ____ checks on your PAN and address.",
+      "confusables": [
+        "demat-account",
+        "trading-account",
+        "stockbroker"
+      ],
+      "wrong": [
+        "The broker's check that you have enough margin",
+        "The exchange's check that an order is within price bands",
+        "A tax form filed each year"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "You must redo full KYC with every new broker or fund house.",
+          "a": false,
+          "why": "KYC is registered once with a KYC registration agency and other firms can fetch it."
+        }
+      ]
+    },
+    {
+      "id": "isin",
+      "term": "ISIN",
+      "said": "I S I N",
+      "unit": "i6",
+      "short": "12-character ID code for a security",
+      "definition": "International Securities Identification Number: a 12-character code that identifies one security worldwide. Indian ones start \"IN\". Unlike a ticker, it doesn't change between exchanges.",
+      "examples": [
+        "Check the ISIN, not the name; two bonds of the same company look alike.",
+        "Reliance has one ISIN even though it trades on NSE and BSE.",
+        "The depository tracks your holdings by ISIN."
+      ],
+      "fill": "A 12-character code starting \"IN\" that identifies the security itself, whatever exchange it trades on, is its ____.",
+      "confusables": [
+        "depository",
+        "demat-account",
+        "contract-note"
+      ],
+      "wrong": [
+        "The short symbol a stock trades under on NSE",
+        "Your demat account number",
+        "The code for a broker on the exchange"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "A share listed on both NSE and BSE has one ISIN.",
+          "a": true,
+          "why": "The ISIN identifies the security, not the exchange."
+        }
+      ]
+    },
+    {
+      "id": "asba",
+      "term": "ASBA",
+      "said": "AS-ba",
+      "unit": "i6",
+      "short": "IPO money blocked, not debited, until allotment",
+      "definition": "Application Supported by Blocked Amount: the way you apply for an IPO in India. Your bank blocks the money in your account (often through a UPI mandate) and debits it only for the shares you are actually allotted.",
+      "examples": [
+        "The ₹15,000 for the IPO is blocked under ASBA but still earns interest.",
+        "No allotment, so the ASBA block was released.",
+        "He approved the UPI mandate for ASBA on his phone."
+      ],
+      "fill": "When you apply for an IPO, the bank blocks your money instead of debiting it; this system is called ____.",
+      "confusables": [
+        "ipo",
+        "gmp",
+        "listing-gains"
+      ],
+      "wrong": [
+        "The price at which IPO shares list",
+        "Shares set aside for big investors in an IPO",
+        "A loan to buy IPO shares"
+      ],
+      "difficulty": 2,
+      "tf": [
+        {
+          "s": "Under ASBA, the full application money leaves your account the day you apply.",
+          "a": false,
+          "why": "It is only blocked; the bank debits it on allotment and releases the rest."
+        }
+      ]
+    },
+    {
+      "id": "anchor-investor",
+      "term": "anchor investor",
+      "unit": "i6",
+      "short": "Big institution allotted a day before the IPO",
+      "definition": "A large institutional investor allotted IPO shares one working day before the issue opens to the public. Their buying signals demand, and their shares come with a lock-in so they can't sell on listing day.",
+      "examples": [
+        "The IPO raised ₹1,800 crore from anchor investors the day before it opened.",
+        "Watch the stock when the anchor investor lock-in ends.",
+        "Big mutual funds and FPIs showed up as anchor investors."
+      ],
+      "fill": "The institutions allotted IPO shares a day before the public offer opens, under a lock-in, are each called an ____.",
+      "confusables": [
+        "ipo",
+        "qip",
+        "fpi"
+      ],
+      "wrong": [
+        "A promoter who keeps most of the shares",
+        "A retail investor who applies for the maximum lot",
+        "The bank that manages the IPO"
+      ],
+      "difficulty": 2,
+      "tf": [
+        {
+          "s": "Anchor investors can sell their IPO shares on listing day.",
+          "a": false,
+          "why": "Anchor shares are locked in for a period after allotment."
+        }
+      ]
+    },
+    {
+      "id": "reit",
+      "term": "REIT",
+      "aliases": [
+        "real estate investment trust"
+      ],
+      "said": "reet",
+      "unit": "i6",
+      "short": "Listed trust owning rent-paying property",
+      "definition": "Real Estate Investment Trust: a listed trust that owns income-producing property, such as offices and malls, and must pay out most of its income to unitholders. Its units trade on the exchange like shares.",
+      "examples": [
+        "The office REIT yields about 7% from rent.",
+        "REIT units dropped when office occupancy fell.",
+        "A REIT lets you own a slice of offices without buying a building."
+      ],
+      "fill": "A listed trust that owns office parks and pays out most of the rent to unitholders is a ____.",
+      "confusables": [
+        "invit",
+        "mutual-fund",
+        "dividend-yield"
+      ],
+      "wrong": [
+        "A trust that owns roads and power lines",
+        "A home loan company",
+        "A fund that buys shares of real estate developers"
+      ],
+      "difficulty": 2,
+      "tf": [
+        {
+          "s": "A REIT must pass most of its income to unitholders.",
+          "a": true,
+          "why": "That payout rule is what makes REITs an income product."
+        }
+      ]
+    },
+    {
+      "id": "invit",
+      "term": "InvIT",
+      "aliases": [
+        "infrastructure investment trust"
+      ],
+      "said": "in-vit",
+      "unit": "i6",
+      "short": "Listed trust owning infrastructure",
+      "definition": "Infrastructure Investment Trust: a listed trust that owns income-earning infrastructure such as toll roads, power transmission lines or gas pipelines, and pays out most of its cash flow to unitholders.",
+      "examples": [
+        "The InvIT owns twelve toll roads and pays out quarterly.",
+        "Power-grid InvITs are popular for their steady payouts.",
+        "InvIT units fall when bond yields rise, much like bonds."
+      ],
+      "fill": "A listed trust that owns toll roads and pays out most of its cash to unitholders is an ____.",
+      "confusables": [
+        "reit",
+        "bond",
+        "dividend-yield"
+      ],
+      "wrong": [
+        "A trust that owns offices and malls",
+        "A fund that lends to infrastructure firms",
+        "A government bond for infrastructure"
+      ],
+      "difficulty": 2,
+      "tf": [
+        {
+          "s": "An InvIT owns offices and malls.",
+          "a": false,
+          "why": "That's a REIT. An InvIT owns infrastructure like roads, power lines and pipelines."
+        }
+      ]
+    },
+    {
+      "id": "xirr",
+      "term": "XIRR",
+      "said": "X I R R",
+      "unit": "i6",
+      "short": "Yearly return with uneven cash flows",
+      "definition": "The annualised return on investments made and withdrawn on different dates, such as SIP instalments. It weights each cash flow by how long it was invested, so it is the fair way to measure SIP returns. CAGR fits only a single lump sum.",
+      "examples": [
+        "Your SIP's XIRR is 14%, even though the fund's 5-year CAGR is 16%.",
+        "Use XIRR, not absolute return, to compare SIPs.",
+        "The app shows XIRR because you invested on 36 different dates."
+      ],
+      "fill": "For a SIP with 36 monthly instalments, the right yearly return figure is the ____, not CAGR.",
+      "confusables": [
+        "cagr",
+        "sip",
+        "return"
+      ],
+      "wrong": [
+        "The return on a single lump sum held for several years",
+        "The total percentage gain, ignoring time",
+        "A fund's return compared with its benchmark"
+      ],
+      "difficulty": 2,
+      "tf": [
+        {
+          "s": "CAGR is the right measure for a SIP with many monthly instalments.",
+          "a": false,
+          "why": "CAGR assumes one lump sum. A SIP's dated cash flows need XIRR."
+        }
+      ]
     }
   ]
 }

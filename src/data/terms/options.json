@@ -74,6 +74,11 @@
       "core": false,
       "kind": "game",
       "game": "expiry"
+    },
+    {
+      "id": "o14",
+      "name": "Exercise and assignment",
+      "core": false
     }
   ],
   "terms": [
@@ -3213,6 +3218,102 @@
         "A trade placed by an algo"
       ],
       "difficulty": 1
+    },
+    {
+      "id": "exercise",
+      "term": "exercise",
+      "unit": "o14",
+      "short": "Using the right an option gives",
+      "definition": "When the option buyer uses their right: to buy the underlying at the strike (call) or sell it (put). On NSE, options in the money at expiry are exercised automatically. Index options settle in cash, and stock options settle by physical delivery.",
+      "examples": [
+        "The 22,000 call expired in the money, so it was exercised and paid out the difference in cash.",
+        "Exercise of stock options means taking delivery of the shares, so keep the money ready.",
+        "Indian options can be exercised only at expiry: they are European."
+      ],
+      "fill": "At expiry, NSE will automatically ____ every in-the-money option on the buyer's behalf.",
+      "confusables": [
+        "assignment",
+        "physical-settlement",
+        "european-option"
+      ],
+      "wrong": [
+        "The seller being made to fulfil the contract",
+        "Closing an option by selling it before expiry",
+        "Paying the premium to buy an option"
+      ],
+      "difficulty": 2,
+      "tf": [
+        {
+          "s": "On NSE, an option that ends in the money is exercised automatically at expiry.",
+          "a": true,
+          "why": "Exchange rules exercise all in-the-money options at expiry, so the buyer doesn't have to ask."
+        }
+      ]
+    },
+    {
+      "id": "assignment",
+      "term": "assignment",
+      "unit": "o14",
+      "short": "Seller called on to fulfil an option",
+      "definition": "What happens to an option seller when a buyer exercises: the seller must deliver what the contract promised. That means paying the cash difference, or for stock options buying or selling the shares at the strike.",
+      "examples": [
+        "Short calls that end in the money get assignment, so you'll deliver shares at the strike.",
+        "We closed the short puts before expiry to avoid assignment.",
+        "Assignment on a physically settled stock option needs the full shares or cash ready."
+      ],
+      "fill": "When the buyer exercises, the option writer gets ____ and must fulfil the contract.",
+      "confusables": [
+        "exercise",
+        "option-writer",
+        "pin-risk"
+      ],
+      "wrong": [
+        "The buyer using the right the option gives",
+        "The exchange giving a trader a lot size",
+        "Rolling an option to the next expiry"
+      ],
+      "difficulty": 2,
+      "tf": [
+        {
+          "s": "Assignment happens to the option buyer.",
+          "a": false,
+          "why": "Buyers exercise; sellers (writers) get assigned."
+        }
+      ]
+    },
+    {
+      "id": "option-buyer",
+      "term": "option buyer",
+      "aliases": [
+        "option holder"
+      ],
+      "unit": "o14",
+      "short": "Pays premium for the right",
+      "definition": "The side of an option trade that pays the premium and gets the right, but not the obligation, to buy or sell the underlying. Their loss is capped at the premium, so they need only the premium up front, not margin.",
+      "examples": [
+        "As the option buyer, the most we can lose is the ₹8,000 premium.",
+        "Most retail traders are option buyers chasing cheap out-of-the-money calls.",
+        "An option buyer is fighting theta every day."
+      ],
+      "fill": "The ____ pays the premium and can lose no more than that premium.",
+      "confusables": [
+        "option-writer",
+        "option-premium",
+        "call-option"
+      ],
+      "wrong": [
+        "The side that receives premium and must fulfil the contract",
+        "The exchange that guarantees the trade",
+        "The broker who lends margin"
+      ],
+      "difficulty": 1,
+      "tf": [
+        {
+          "s": "An option buyer must post margin like a futures trader.",
+          "a": false,
+          "why": "The buyer pays the premium in full and owes nothing more, so no margin is needed."
+        }
+      ]
     }
   ]
 }

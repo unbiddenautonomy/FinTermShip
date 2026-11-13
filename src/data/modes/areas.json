@@ -1,0 +1,19 @@
+{
+  "basics": { "colour": "#E5A50A", "code": "BAS" },
+  "india": { "colour": "#E4572E", "code": "IND" },
+  "trading": { "colour": "#2E86AB", "code": "ORD" },
+  "options": { "colour": "#C3176F", "code": "OPT" },
+  "instruments": { "colour": "#7A5C3E", "code": "FUT" },
+  "quant": { "colour": "#6B3FA0", "code": "QNT" },
+  "skills": { "colour": "#4D5361", "code": "MTH" },
+  "desk": { "colour": "#1D5AA6", "code": "DSK" },
+  "conditions": { "colour": "#D1495B", "code": "MKT" },
+  "macro": { "colour": "#00798C", "code": "MAC" },
+  "micro": { "colour": "#3B8B3B", "code": "MIC" },
+  "execution": { "colour": "#0E6E55", "code": "EXE" },
+  "commodities": { "colour": "#B5651D", "code": "CMD" },
+  "credit": { "colour": "#8E2C48", "code": "CRD" },
+  "fundamentals": { "colour": "#5C7C2E", "code": "FUN" },
+  "strategies": { "colour": "#A23B72", "code": "STR" },
+  "systematic": { "colour": "#33658A", "code": "SYS" }
+}
