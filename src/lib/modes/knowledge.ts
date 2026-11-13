@@ -1,6 +1,6 @@
 /**
- * The knowledge layer every mode shares. Path, Term Lines, Call It and Recall Exchange
- * all read the same per-term record (Progress.terms) and write to it only through
+ * The knowledge layer every mode shares. Path, Term Lines, Call It, Recall Exchange, Headline
+ * Desk and Finnections all read the same per-term record (Progress.terms) and write to it only through
  * recordAnswer, so what you know is the same whichever mode you open.
  */
 import { categories, isCore, isPhase3Area } from '../content';
@@ -9,13 +9,13 @@ import { phase3Open } from '../phase3';
 import { dueTermIds, intervalFor, isDueOn, isKnown, KNOWN_STEP, MAX_STEP, recordPractice, review, reviewsLeftToday } from '../scheduler';
 import type { Progress, Question, TermState } from '../types';
 
-import { MODES, type ModeId } from './ids';
+import { MODES, SWITCHER, type ModeId } from './ids';
 export { MODES, type ModeId };
 
-/** Where the app opens: the learner's choice in Settings, or Path. A mode the admin switched off for everyone falls back to Path. */
+/** Where the app opens: the learner's choice in Settings (one of the switcher's four), or Path. A mode the admin switched off for everyone falls back to Path. */
 export function landingMode(p: Progress, off: readonly string[] = []): ModeId {
   const m = p.settings.landing;
-  return m && MODES.includes(m) && !off.includes(m) ? m : 'path';
+  return m && SWITCHER.includes(m) && !off.includes(m) ? m : 'path';
 }
 
 /**
@@ -58,6 +58,10 @@ export interface ModeRecord {
   /** Recall Exchange: every price at the latest visit, and at the latest visit on an earlier day, for each stock's change. */
   marks?: Marks;
   prevMarks?: Marks;
+  /** Headline Desk and Finnections: the level rounds are played at, good rounds in a row towards the next, and the day each item was last played. */
+  level?: number;
+  good?: number;
+  seen?: Record<string, string>;
 }
 
 export interface Marks {
@@ -130,6 +134,9 @@ export function finishModeSession(p: Progress, mode: ModeId, today: string, extr
   return withMode(p, mode, (r) => {
     const out: ModeRecord = { ...r, sessions: r.sessions + 1, last: today };
     if (extra.bestRun !== undefined) out.bestRun = Math.max(r.bestRun ?? 0, extra.bestRun);
+    if (extra.level !== undefined) out.level = extra.level;
+    if (extra.good !== undefined) out.good = extra.good;
+    if (extra.seen !== undefined) out.seen = extra.seen;
     return out;
   });
 }

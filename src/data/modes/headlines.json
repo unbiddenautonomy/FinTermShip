@@ -1,0 +1,2119 @@
+[
+  {
+    "id": "h-rbi-hike",
+    "level": 1,
+    "head": "RBI raises the repo rate by 25 bps",
+    "dek": "The monetary policy committee votes 5–1 to tighten.",
+    "items": [
+      {
+        "label": "Price of a bond you already own",
+        "move": "down",
+        "term": "bond"
+      },
+      {
+        "label": "EMI on a floating-rate home loan",
+        "move": "up",
+        "term": "repo-rate"
+      }
+    ],
+    "why": "New bonds now pay more, so an old bond with a fixed coupon only sells at a lower price. Floating-rate loans are repriced off the higher policy rate, so EMIs go up."
+  },
+  {
+    "id": "h-rbi-cut",
+    "level": 1,
+    "head": "RBI cuts the repo rate by 25 bps",
+    "dek": "The committee says inflation is under control.",
+    "items": [
+      {
+        "label": "Price of a bond you already own",
+        "move": "up",
+        "term": "bond"
+      },
+      {
+        "label": "Interest on a new bank fixed deposit",
+        "move": "down",
+        "term": "interest-rate"
+      }
+    ],
+    "why": "When rates fall, an existing bond's fixed coupon looks better than what new bonds pay, so its price rises. Banks pay less on new deposits because their own funding cost has fallen."
+  },
+  {
+    "id": "h-bonus",
+    "level": 1,
+    "head": "Company announces a 1:1 bonus issue",
+    "dek": "Every shareholder gets one free share for each share held.",
+    "items": [
+      {
+        "label": "Number of shares you hold",
+        "move": "up",
+        "term": "bonus-issue"
+      },
+      {
+        "label": "Share price on the ex-date",
+        "move": "down",
+        "term": "ex-date"
+      }
+    ],
+    "why": "A bonus issue doubles the share count but adds no value, so the price roughly halves on the ex-date. What you own is worth the same."
+  },
+  {
+    "id": "h-split",
+    "level": 1,
+    "head": "Company splits its ₹10 shares into five ₹2 shares",
+    "dek": "The record date is next Friday.",
+    "items": [
+      {
+        "label": "Face value per share",
+        "move": "down",
+        "term": "face-value"
+      },
+      {
+        "label": "Number of shares you hold",
+        "move": "up",
+        "term": "stock-split"
+      }
+    ],
+    "why": "A 1:5 split cuts the face value from ₹10 to ₹2 and gives you five shares for each one. The price per share falls by the same factor, so your holding's value doesn't change."
+  },
+  {
+    "id": "h-dividend",
+    "level": 1,
+    "head": "Company declares a ₹20 dividend; the stock goes ex-dividend today",
+    "dek": "Payment reaches shareholders' accounts within 30 days.",
+    "items": [
+      {
+        "label": "Share price at today's open",
+        "move": "down",
+        "term": "ex-date"
+      },
+      {
+        "label": "Cash in shareholders' bank accounts on payment day",
+        "move": "up",
+        "term": "dividend"
+      }
+    ],
+    "why": "From the ex-date, a buyer no longer gets the dividend, so the price drops by about the dividend. The cash moves from the company to the shareholder."
+  },
+  {
+    "id": "h-inflation-hot",
+    "level": 1,
+    "head": "CPI inflation comes in at 6.2%, well above forecasts",
+    "dek": "Food prices drive most of the jump.",
+    "items": [
+      {
+        "label": "Real return on a 7% fixed deposit",
+        "move": "down",
+        "term": "real-return"
+      },
+      {
+        "label": "Odds of an RBI rate hike",
+        "move": "up",
+        "term": "inflation"
+      }
+    ],
+    "why": "Real return is roughly the interest rate minus inflation, so higher inflation eats it. Inflation above the RBI's target makes a hike more likely."
+  },
+  {
+    "id": "h-fpi-exit",
+    "level": 1,
+    "head": "Foreign investors pull ₹30,000 crore out of Indian stocks this month",
+    "dek": "Selling is heaviest in banks and IT.",
+    "items": [
+      {
+        "label": "Nifty 50",
+        "move": "down",
+        "term": "fpi"
+      },
+      {
+        "label": "The rupee against the dollar",
+        "move": "down",
+        "term": "usdinr"
+      }
+    ],
+    "why": "Heavy selling pushes prices down. Foreign investors then convert their rupees back to dollars, which adds to dollar demand and weakens the rupee."
+  },
+  {
+    "id": "h-margin-up",
+    "level": 1,
+    "head": "Broker raises intraday margin from 20% to 50%",
+    "dek": "The change follows new exchange rules on leverage.",
+    "items": [
+      {
+        "label": "Leverage a trader can use",
+        "move": "down",
+        "term": "leverage"
+      },
+      {
+        "label": "Cash needed for the same position",
+        "move": "up",
+        "term": "margin"
+      }
+    ],
+    "why": "Margin is the cash you must put up. At 20%, ₹1 controls ₹5 of stock; at 50%, only ₹2. More margin means less leverage."
+  },
+  {
+    "id": "h-beat",
+    "level": 1,
+    "head": "Company's quarterly profit beats consensus by 15%",
+    "dek": "Management also raises its full-year outlook.",
+    "items": [
+      {
+        "label": "Share price",
+        "move": "up",
+        "term": "earnings-beat"
+      },
+      {
+        "label": "Analysts' target prices",
+        "move": "up",
+        "term": "target-price"
+      }
+    ],
+    "why": "Profit above what the market expected usually lifts the price. Analysts raise their earnings estimates, and so their target prices."
+  },
+  {
+    "id": "h-miss",
+    "level": 1,
+    "head": "Company misses estimates and cuts its guidance",
+    "dek": "Demand slowed in its biggest market.",
+    "items": [
+      {
+        "label": "Share price",
+        "move": "down",
+        "term": "earnings-miss"
+      },
+      {
+        "label": "Consensus EPS for next year",
+        "move": "down",
+        "term": "consensus"
+      }
+    ],
+    "why": "A miss plus lower guidance means future profits will be smaller than expected. Analysts cut their forecasts, which lowers the consensus."
+  },
+  {
+    "id": "h-crude-falls",
+    "level": 1,
+    "head": "Crude oil falls 15% in a month",
+    "dek": "Supply rises faster than demand.",
+    "items": [
+      {
+        "label": "India's oil import bill",
+        "move": "down",
+        "term": "current-account-deficit"
+      },
+      {
+        "label": "Inflation in India",
+        "move": "down",
+        "term": "inflation"
+      }
+    ],
+    "why": "India imports most of its oil, so cheaper crude shrinks the import bill and the current account deficit. Fuel and transport feed into most prices, so inflation eases."
+  },
+  {
+    "id": "h-rupee-low",
+    "level": 1,
+    "head": "Rupee slides to a record low against the dollar",
+    "dek": "Importers rush to buy dollars.",
+    "items": [
+      {
+        "label": "Rupee revenue of an IT exporter billing in dollars",
+        "move": "up",
+        "term": "rupee-depreciation"
+      },
+      {
+        "label": "Cost in rupees of imported crude",
+        "move": "up",
+        "term": "usdinr"
+      }
+    ],
+    "why": "Each dollar now buys more rupees. That helps anyone paid in dollars and hurts anyone who pays in dollars."
+  },
+  {
+    "id": "h-vix-jump",
+    "level": 1,
+    "head": "India VIX jumps 30% in a day",
+    "dek": "Traders rush to buy protection.",
+    "items": [
+      {
+        "label": "Premium on an at-the-money Nifty option",
+        "move": "up",
+        "term": "option-premium"
+      },
+      {
+        "label": "Nifty 50, usually",
+        "move": "down",
+        "term": "india-vix"
+      }
+    ],
+    "why": "India VIX is read from the implied volatility in Nifty options, so a jump means option premiums are dearer. It usually spikes when the market is falling, which is why it's called the fear gauge."
+  },
+  {
+    "id": "h-broad-rally",
+    "level": 1,
+    "head": "Nifty rises 2% with almost every stock up",
+    "dek": "Buying is broad, from large caps to small caps.",
+    "items": [
+      {
+        "label": "Advance-decline ratio",
+        "move": "up",
+        "term": "advance-decline-ratio"
+      },
+      {
+        "label": "Value of a long Nifty futures position",
+        "move": "up",
+        "term": "long"
+      }
+    ],
+    "why": "Many more stocks rising than falling pushes the advance-decline ratio up. A long position gains when the price rises."
+  },
+  {
+    "id": "h-nifty-falls",
+    "level": 1,
+    "head": "Nifty falls 3% in a day",
+    "dek": "The biggest one-day fall this year.",
+    "items": [
+      {
+        "label": "P&L on a short Nifty futures position",
+        "move": "up",
+        "term": "short"
+      },
+      {
+        "label": "Value of a Nifty call option you bought",
+        "move": "down",
+        "term": "call-option"
+      }
+    ],
+    "why": "A short position gains when the price falls. A call gives the right to buy, so it is worth less when the index drops."
+  },
+  {
+    "id": "h-nifty-rallies",
+    "level": 1,
+    "head": "Nifty rallies 400 points",
+    "dek": "Banks lead the move.",
+    "items": [
+      {
+        "label": "Value of a Nifty put you bought",
+        "move": "down",
+        "term": "put-option"
+      },
+      {
+        "label": "Value of a Nifty call you bought",
+        "move": "up",
+        "term": "call-option"
+      }
+    ],
+    "why": "A call is a bet on the price going up and a put on it going down. A rally helps the call and hurts the put."
+  },
+  {
+    "id": "h-index-joiner",
+    "level": 1,
+    "head": "A stock's daily trading volume triples after it joins the Nifty 50",
+    "dek": "Index funds and ETFs now have to hold it.",
+    "items": [
+      {
+        "label": "Its bid-ask spread",
+        "move": "down",
+        "term": "spread"
+      },
+      {
+        "label": "Its liquidity",
+        "move": "up",
+        "term": "liquidity"
+      }
+    ],
+    "why": "With many more buyers and sellers, it is easier to trade without moving the price. More liquidity usually means a tighter spread."
+  },
+  {
+    "id": "h-quiet-expiry",
+    "level": 1,
+    "head": "Two days to expiry and the market goes nowhere",
+    "dek": "Nifty ends both days almost unchanged.",
+    "items": [
+      {
+        "label": "Time value of an out-of-the-money option",
+        "move": "down",
+        "term": "time-value"
+      },
+      {
+        "label": "Value of an option you bought",
+        "move": "down",
+        "term": "theta"
+      }
+    ],
+    "why": "An option's time value melts as expiry nears, fastest in the last days. That decay is theta, and it hurts whoever bought the option."
+  },
+  {
+    "id": "h-rates-carry",
+    "level": 1,
+    "head": "Short-term interest rates rise by 1%",
+    "dek": "Money markets tighten after the policy meeting.",
+    "items": [
+      {
+        "label": "Cost of carry",
+        "move": "up",
+        "term": "cost-of-carry"
+      },
+      {
+        "label": "Fair value of a Nifty future above spot",
+        "move": "up",
+        "term": "futures-fair-value"
+      }
+    ],
+    "why": "Fair value is spot plus the cost of financing the position until expiry. Higher rates make carrying it dearer, so the future's fair value rises above spot."
+  },
+  {
+    "id": "h-downgrade",
+    "level": 1,
+    "head": "Rating agency downgrades a company's bonds from AA to A",
+    "dek": "It cites rising debt and weaker cash flows.",
+    "items": [
+      {
+        "label": "Price of its bonds",
+        "move": "down",
+        "term": "credit-rating"
+      },
+      {
+        "label": "Its spread over G-secs",
+        "move": "up",
+        "term": "spread-over-gsec"
+      }
+    ],
+    "why": "Lower credit quality means investors want more yield to hold the bonds. Yield up means price down, and the extra yield over a G-sec, the spread, widens."
+  },
+  {
+    "id": "h-upgrade",
+    "level": 1,
+    "head": "Rating agency upgrades a company to AAA",
+    "dek": "Debt has fallen for three years in a row.",
+    "items": [
+      {
+        "label": "Its cost of borrowing",
+        "move": "down",
+        "term": "credit-rating"
+      },
+      {
+        "label": "Its spread over G-secs",
+        "move": "down",
+        "term": "spread-over-gsec"
+      }
+    ],
+    "why": "A higher rating means lower credit risk, so lenders accept a lower rate and a narrower spread over government bonds."
+  },
+  {
+    "id": "h-debt-up",
+    "level": 1,
+    "head": "Company borrows heavily to buy a rival; equity stays flat",
+    "dek": "Net debt triples in one quarter.",
+    "items": [
+      {
+        "label": "Debt-to-equity ratio",
+        "move": "up",
+        "term": "debt-to-equity"
+      },
+      {
+        "label": "Interest coverage",
+        "move": "down",
+        "term": "interest-coverage"
+      }
+    ],
+    "why": "More debt over the same equity raises debt-to-equity. More interest to pay out of similar operating profit means fewer times the interest is covered."
+  },
+  {
+    "id": "h-qip",
+    "level": 1,
+    "head": "Company raises fresh equity through a QIP",
+    "dek": "Institutions buy new shares at a small discount.",
+    "items": [
+      {
+        "label": "Number of shares outstanding",
+        "move": "up",
+        "term": "qip"
+      },
+      {
+        "label": "EPS, if profit stays the same",
+        "move": "down",
+        "term": "dilution"
+      }
+    ],
+    "why": "A QIP issues new shares. The same profit split over more shares means lower earnings per share: dilution."
+  },
+  {
+    "id": "h-buyback",
+    "level": 1,
+    "head": "Company buys back 5% of its shares",
+    "dek": "It uses cash it had no other use for.",
+    "items": [
+      {
+        "label": "Number of shares outstanding",
+        "move": "down",
+        "term": "buyback"
+      },
+      {
+        "label": "EPS, if profit stays the same",
+        "move": "up",
+        "term": "eps"
+      }
+    ],
+    "why": "Shares bought back are cancelled. The same profit over fewer shares lifts earnings per share."
+  },
+  {
+    "id": "h-flight-safety",
+    "level": 1,
+    "head": "Stocks tumble as investors pile into gold and government bonds",
+    "dek": "A global scare sends money to safety.",
+    "items": [
+      {
+        "label": "Gold price",
+        "move": "up",
+        "term": "flight-to-safety"
+      },
+      {
+        "label": "Yield on government bonds",
+        "move": "down",
+        "term": "risk-off"
+      }
+    ],
+    "why": "In a risk-off move, money leaves risky assets for safe ones. Buying government bonds pushes their prices up and their yields down."
+  },
+  {
+    "id": "h-expiry-day",
+    "level": 1,
+    "head": "This month's Nifty futures expire today",
+    "dek": "Most traders have already rolled to next month.",
+    "items": [
+      {
+        "label": "Gap between the expiring future and spot",
+        "move": "down",
+        "term": "convergence"
+      },
+      {
+        "label": "Open interest in the expiring contract",
+        "move": "down",
+        "term": "rollover"
+      }
+    ],
+    "why": "At expiry, a future must equal spot, so the gap closes. Traders roll or close their positions before then, so open interest in the old contract drains away."
+  },
+  {
+    "id": "h-fo-ban",
+    "level": 1,
+    "head": "Stock enters the F&O ban after its open interest crosses 95% of MWPL",
+    "dek": "Exchanges announce the list before the open.",
+    "items": [
+      {
+        "label": "Fresh F&O positions allowed in the stock",
+        "move": "down",
+        "term": "fo-ban"
+      },
+      {
+        "label": "Open interest in the coming days, as traders can only reduce",
+        "move": "down",
+        "term": "mwpl"
+      }
+    ],
+    "why": "In the ban period, no new positions may be opened, only existing ones cut. Open interest has to fall back below the limit before the ban lifts."
+  },
+  {
+    "id": "h-margin-expansion",
+    "level": 1,
+    "head": "Company's EBITDA margin rises from 18% to 22% on flat revenue",
+    "dek": "Raw material costs fell sharply.",
+    "items": [
+      {
+        "label": "EBITDA in rupees",
+        "move": "up",
+        "term": "ebitda-margin"
+      },
+      {
+        "label": "Costs as a share of revenue",
+        "move": "down",
+        "term": "ebitda"
+      }
+    ],
+    "why": "Same revenue at a higher margin means more EBITDA. A margin goes up only when costs take a smaller share of each rupee of sales."
+  },
+  {
+    "id": "h-npa-rise",
+    "level": 1,
+    "head": "A bank's gross NPAs rise from 2% to 4% of loans",
+    "dek": "Small-business loans go bad after a slowdown.",
+    "items": [
+      {
+        "label": "Provisions the bank must set aside",
+        "move": "up",
+        "term": "gross-npa"
+      },
+      {
+        "label": "Bank's profit",
+        "move": "down",
+        "term": "gross-npa"
+      }
+    ],
+    "why": "Banks must provide for loans that stop paying. Higher provisions are an expense, so profit falls."
+  },
+  {
+    "id": "h-thin-selloff",
+    "level": 1,
+    "head": "A big seller hits a thinly traded small cap",
+    "dek": "Only a few buyers sit on the order book.",
+    "items": [
+      {
+        "label": "Impact cost of selling",
+        "move": "up",
+        "term": "impact-cost"
+      },
+      {
+        "label": "Slippage on a market sell order",
+        "move": "up",
+        "term": "slippage"
+      }
+    ],
+    "why": "With little depth, a large order eats through several price levels. The average price you get moves further from the quote you saw."
+  },
+  {
+    "id": "h-gift-nifty",
+    "level": 1,
+    "head": "GIFT Nifty trades 1% lower before India opens",
+    "dek": "US markets fell sharply overnight.",
+    "items": [
+      {
+        "label": "Nifty at the open, likely",
+        "move": "down",
+        "term": "gift-nifty"
+      },
+      {
+        "label": "Chance of a gap-down open",
+        "move": "up",
+        "term": "gap-down"
+      }
+    ],
+    "why": "GIFT Nifty trades while Indian markets are shut, so it shows where the Nifty is likely to open. A 1% fall points to a gap-down."
+  },
+  {
+    "id": "h-rupee-record",
+    "level": 2,
+    "head": "Rupee slides to a record low against the dollar",
+    "dek": "Foreign investors pull money out as US yields rise.",
+    "items": [
+      {
+        "label": "Rupee earnings of an IT exporter",
+        "move": "up",
+        "term": "rupee-depreciation"
+      },
+      {
+        "label": "Margins of an oil company that can't raise pump prices",
+        "move": "down",
+        "term": "usdinr"
+      },
+      {
+        "label": "Imported inflation",
+        "move": "up",
+        "term": "inflation"
+      }
+    ],
+    "why": "Exporters paid in dollars get more rupees per dollar. Crude is priced in dollars, so the same barrel costs more rupees, and a company that can't pass it on absorbs the cost. Anything imported gets dearer in rupees."
+  },
+  {
+    "id": "h-fed-hike",
+    "level": 2,
+    "head": "US Federal Reserve raises rates by surprise",
+    "dek": "The FOMC says inflation is proving sticky.",
+    "items": [
+      {
+        "label": "US 10-year Treasury yield",
+        "move": "up",
+        "term": "us-10-year-yield"
+      },
+      {
+        "label": "Dollar index",
+        "move": "up",
+        "term": "dollar-index"
+      },
+      {
+        "label": "Rupee against the dollar",
+        "move": "down",
+        "term": "usdinr"
+      }
+    ],
+    "why": "Higher US rates lift US yields and make dollar assets more attractive, so the dollar strengthens against most currencies, the rupee included."
+  },
+  {
+    "id": "h-crr-cut",
+    "level": 2,
+    "head": "RBI cuts the cash reserve ratio by 50 bps",
+    "dek": "It frees about ₹1 lakh crore for banks.",
+    "items": [
+      {
+        "label": "System liquidity",
+        "move": "up",
+        "term": "crr"
+      },
+      {
+        "label": "Money banks have to lend",
+        "move": "up",
+        "term": "system-liquidity"
+      },
+      {
+        "label": "Overnight call money rate",
+        "move": "down",
+        "term": "call-rate"
+      }
+    ],
+    "why": "Banks must park less cash with the RBI, so more money is free in the banking system. When money is plentiful, the overnight rate banks charge each other falls."
+  },
+  {
+    "id": "h-rbi-sells-dollars",
+    "level": 2,
+    "head": "RBI sells $5 billion to steady the rupee",
+    "dek": "Dealers say the central bank was active all day.",
+    "items": [
+      {
+        "label": "Forex reserves",
+        "move": "down",
+        "term": "forex-reserves"
+      },
+      {
+        "label": "Rupee liquidity in the banking system",
+        "move": "down",
+        "term": "rbi-intervention"
+      },
+      {
+        "label": "The rupee, for now",
+        "move": "up",
+        "term": "rbi-intervention"
+      }
+    ],
+    "why": "The RBI sells dollars from its reserves and takes rupees in return. That supports the rupee but drains rupees from the banking system."
+  },
+  {
+    "id": "h-big-deficit",
+    "level": 2,
+    "head": "Budget sets a fiscal deficit well above what markets expected",
+    "dek": "The government plans record borrowing next year.",
+    "items": [
+      {
+        "label": "Government borrowing",
+        "move": "up",
+        "term": "fiscal-deficit"
+      },
+      {
+        "label": "G-sec yields",
+        "move": "up",
+        "term": "g-sec"
+      },
+      {
+        "label": "Price of G-secs you already hold",
+        "move": "down",
+        "term": "bond"
+      }
+    ],
+    "why": "A bigger deficit is financed by selling more bonds. More supply needs a higher yield to attract buyers, and higher yields mean lower prices for existing bonds."
+  },
+  {
+    "id": "h-index-inclusion",
+    "level": 2,
+    "head": "India's government bonds join a major global bond index",
+    "dek": "Inclusion is phased in over ten months.",
+    "items": [
+      {
+        "label": "Foreign demand for G-secs",
+        "move": "up",
+        "term": "bond-index-inclusion"
+      },
+      {
+        "label": "G-sec yields",
+        "move": "down",
+        "term": "g-sec"
+      },
+      {
+        "label": "Rupee",
+        "move": "up",
+        "term": "fpi"
+      }
+    ],
+    "why": "Funds that track the index must buy Indian bonds. More demand lifts prices and lowers yields, and the dollars coming in support the rupee."
+  },
+  {
+    "id": "h-crude-spike",
+    "level": 2,
+    "head": "Crude jumps 12% overnight after a surprise supply cut",
+    "dek": "India VIX spikes as Nifty opens lower.",
+    "items": [
+      {
+        "label": "India's current account deficit",
+        "move": "up",
+        "term": "current-account-deficit"
+      },
+      {
+        "label": "Rupee",
+        "move": "down",
+        "term": "usdinr"
+      },
+      {
+        "label": "Price of an at-the-money Nifty option",
+        "move": "up",
+        "term": "implied-volatility"
+      }
+    ],
+    "why": "A bigger oil bill widens the current account deficit and needs more dollars, which weakens the rupee. A VIX spike means implied volatility is up, so options cost more."
+  },
+  {
+    "id": "h-operating-leverage",
+    "level": 2,
+    "head": "Revenue grows 10% while fixed costs stay flat",
+    "dek": "The company's factories are now running near full capacity.",
+    "items": [
+      {
+        "label": "EBITDA growth compared with revenue growth",
+        "move": "up",
+        "term": "operating-leverage"
+      },
+      {
+        "label": "EBITDA margin",
+        "move": "up",
+        "term": "ebitda-margin"
+      },
+      {
+        "label": "Fixed costs as a share of revenue",
+        "move": "down",
+        "term": "operating-leverage"
+      }
+    ],
+    "why": "Extra revenue drops straight to profit once fixed costs are covered, so profit grows faster than sales. That is operating leverage, and it widens the margin."
+  },
+  {
+    "id": "h-crash-day",
+    "level": 2,
+    "head": "Nifty falls 4% in a day; India VIX surges",
+    "dek": "Selling hits every sector.",
+    "items": [
+      {
+        "label": "P&L of a short straddle",
+        "move": "down",
+        "term": "short-gamma"
+      },
+      {
+        "label": "Value of a protective put",
+        "move": "up",
+        "term": "protective-put"
+      },
+      {
+        "label": "Margin needed to hold short options",
+        "move": "up",
+        "term": "span-margin"
+      }
+    ],
+    "why": "A short straddle is short gamma and short vega, so a big move plus higher volatility hurts it. A protective put gains as the market falls. Exchanges raise margins when volatility jumps."
+  },
+  {
+    "id": "h-iv-crush",
+    "level": 2,
+    "head": "Results are out and implied volatility collapses",
+    "dek": "The stock barely moves.",
+    "items": [
+      {
+        "label": "Value of a call bought before results",
+        "move": "down",
+        "term": "iv-crush"
+      },
+      {
+        "label": "P&L of a straddle sold before results",
+        "move": "up",
+        "term": "vega"
+      },
+      {
+        "label": "ATM implied volatility",
+        "move": "down",
+        "term": "atm-iv"
+      }
+    ],
+    "why": "Before results, options price in a big move. Once the news is out, implied volatility drops: IV crush. Option buyers lose on vega, and sellers gain."
+  },
+  {
+    "id": "h-short-covering",
+    "level": 2,
+    "head": "Nifty futures rise 1.5% while open interest falls 8%",
+    "dek": "The move comes in the last hour.",
+    "items": [
+      {
+        "label": "Short positions still open",
+        "move": "down",
+        "term": "short-covering"
+      },
+      {
+        "label": "Nifty futures price",
+        "move": "up",
+        "term": "short-covering"
+      }
+    ],
+    "why": "Price up with open interest down means positions are being closed, and the buyers are shorts buying back. That is short covering, not fresh buying."
+  },
+  {
+    "id": "h-short-buildup",
+    "level": 2,
+    "head": "A stock falls 3% while its futures open interest rises 12%",
+    "dek": "Volumes are double the usual.",
+    "items": [
+      {
+        "label": "Fresh short positions",
+        "move": "up",
+        "term": "short-build-up"
+      },
+      {
+        "label": "Futures price",
+        "move": "down",
+        "term": "short-build-up"
+      }
+    ],
+    "why": "Price down with open interest up means new positions are being opened, and the sellers are the aggressive side: a short build-up."
+  },
+  {
+    "id": "h-long-unwind",
+    "level": 2,
+    "head": "A stock falls 2% while its futures open interest drops 10%",
+    "dek": "Traders exit ahead of the weekend.",
+    "items": [
+      {
+        "label": "Long positions held",
+        "move": "down",
+        "term": "long-unwinding"
+      },
+      {
+        "label": "Futures price",
+        "move": "down",
+        "term": "long-unwinding"
+      }
+    ],
+    "why": "Price down with open interest down means existing positions are being closed by sellers, which are longs getting out: long unwinding."
+  },
+  {
+    "id": "h-long-buildup",
+    "level": 2,
+    "head": "A stock rises 3% while its futures open interest jumps 15%",
+    "dek": "Buying continues into the close.",
+    "items": [
+      {
+        "label": "Fresh long positions",
+        "move": "up",
+        "term": "long-build-up"
+      },
+      {
+        "label": "Futures price",
+        "move": "up",
+        "term": "long-build-up"
+      }
+    ],
+    "why": "Price up with open interest up means new positions are being opened with buyers in charge: a long build-up."
+  },
+  {
+    "id": "h-curve-up",
+    "level": 2,
+    "head": "Bond yields rise 50 bps across the curve",
+    "dek": "Traders price in more rate hikes.",
+    "items": [
+      {
+        "label": "Price of a 10-year zero-coupon bond",
+        "move": "down",
+        "term": "zero-coupon-bond"
+      },
+      {
+        "label": "Coupon on newly issued bonds",
+        "move": "up",
+        "term": "coupon"
+      },
+      {
+        "label": "Yield to maturity of bonds already issued",
+        "move": "up",
+        "term": "yield-to-maturity"
+      }
+    ],
+    "why": "Yields and prices move in opposite directions, and a long zero-coupon bond is hit hardest because all its cash comes at the end. New bonds are issued with coupons near the new, higher yields."
+  },
+  {
+    "id": "h-asm",
+    "level": 2,
+    "head": "Exchanges move a hot small cap into the ASM framework",
+    "dek": "The stock has risen 300% in three months.",
+    "items": [
+      {
+        "label": "Margin needed to trade it",
+        "move": "up",
+        "term": "asm"
+      },
+      {
+        "label": "Speculative trading in it",
+        "move": "down",
+        "term": "asm"
+      }
+    ],
+    "why": "ASM, additional surveillance measures, raise margins and can restrict trading in stocks with unusual moves, to cool speculation."
+  },
+  {
+    "id": "h-calm-rally",
+    "level": 2,
+    "head": "Nifty climbs steadily all week while India VIX falls",
+    "dek": "Traders call it a quiet melt-up.",
+    "items": [
+      {
+        "label": "Premium of at-the-money options",
+        "move": "down",
+        "term": "implied-volatility"
+      },
+      {
+        "label": "Value of a long Nifty future",
+        "move": "up",
+        "term": "futures-contract"
+      },
+      {
+        "label": "Value of a Nifty put you bought",
+        "move": "down",
+        "term": "put-option"
+      }
+    ],
+    "why": "Falling VIX means lower implied volatility, which cheapens options. A rising market helps a long future and hurts a long put."
+  },
+  {
+    "id": "h-contract-size",
+    "level": 2,
+    "head": "SEBI raises the minimum value of an index F&O contract",
+    "dek": "It says retail traders are losing too much.",
+    "items": [
+      {
+        "label": "Lot size in units",
+        "move": "up",
+        "term": "lot-size"
+      },
+      {
+        "label": "Capital needed per lot",
+        "move": "up",
+        "term": "minimum-contract-size"
+      },
+      {
+        "label": "Number of small traders in index F&O",
+        "move": "down",
+        "term": "minimum-contract-size"
+      }
+    ],
+    "why": "A bigger minimum contract value means more units per lot, so each trade needs more money. That shuts out traders with small accounts."
+  },
+  {
+    "id": "h-coupon-miss",
+    "level": 2,
+    "head": "A company misses a coupon payment on its bonds",
+    "dek": "It blames a cash crunch at a subsidiary.",
+    "items": [
+      {
+        "label": "Price of its bonds",
+        "move": "down",
+        "term": "default"
+      },
+      {
+        "label": "Its credit rating",
+        "move": "down",
+        "term": "rating-agency"
+      },
+      {
+        "label": "NAV of a credit risk fund that holds the bonds",
+        "move": "down",
+        "term": "credit-risk-fund"
+      }
+    ],
+    "why": "A missed payment is a default. Rating agencies cut the rating, the bonds fall towards what holders expect to recover, and funds holding them mark them down."
+  },
+  {
+    "id": "h-receivables",
+    "level": 2,
+    "head": "Company's receivable days jump from 60 to 120",
+    "dek": "Customers are taking twice as long to pay.",
+    "items": [
+      {
+        "label": "Operating cash flow",
+        "move": "down",
+        "term": "receivable-days"
+      },
+      {
+        "label": "Working capital tied up",
+        "move": "up",
+        "term": "working-capital"
+      },
+      {
+        "label": "Cash conversion",
+        "move": "down",
+        "term": "cash-conversion"
+      }
+    ],
+    "why": "Sales are booked as profit, but the cash hasn't come in. Money stuck in receivables raises working capital and lowers the share of profit that turns into cash."
+  },
+  {
+    "id": "h-capex-cut",
+    "level": 2,
+    "head": "Company halves its capex plan for the year",
+    "dek": "Management wants to cut debt first.",
+    "items": [
+      {
+        "label": "Free cash flow this year",
+        "move": "up",
+        "term": "free-cash-flow"
+      },
+      {
+        "label": "New plant and equipment added this year",
+        "move": "down",
+        "term": "capex"
+      },
+      {
+        "label": "Need to borrow",
+        "move": "down",
+        "term": "capex"
+      }
+    ],
+    "why": "Free cash flow is operating cash flow minus capex, so spending less on assets leaves more cash. Less spending also means less to fund with debt."
+  },
+  {
+    "id": "h-casa-up",
+    "level": 2,
+    "head": "A bank's CASA ratio rises from 38% to 45%",
+    "dek": "Its new savings account wins customers.",
+    "items": [
+      {
+        "label": "Bank's cost of funds",
+        "move": "down",
+        "term": "casa-ratio"
+      },
+      {
+        "label": "Net interest margin",
+        "move": "up",
+        "term": "net-interest-margin"
+      }
+    ],
+    "why": "Current and savings accounts pay little interest, so a higher share of them makes the bank's money cheaper. Paying less for deposits while earning the same on loans widens the margin."
+  },
+  {
+    "id": "h-mm-widen",
+    "level": 2,
+    "head": "Market makers pull back ahead of a big announcement",
+    "dek": "Quotes thin out across the order book.",
+    "items": [
+      {
+        "label": "Bid-ask spread",
+        "move": "up",
+        "term": "market-maker"
+      },
+      {
+        "label": "Market depth at the best price",
+        "move": "down",
+        "term": "market-depth"
+      },
+      {
+        "label": "Cost of a market order",
+        "move": "up",
+        "term": "implicit-costs"
+      }
+    ],
+    "why": "Market makers widen quotes and show smaller size when risk is high. A market order then pays a wider spread and moves the price more."
+  },
+  {
+    "id": "h-fast-execution",
+    "level": 2,
+    "head": "A fund buys a large position in 10 minutes instead of over the day",
+    "dek": "The PM wanted it done before a news release.",
+    "items": [
+      {
+        "label": "Market impact",
+        "move": "up",
+        "term": "market-impact"
+      },
+      {
+        "label": "Timing risk",
+        "move": "down",
+        "term": "timing-risk"
+      },
+      {
+        "label": "Implementation shortfall from impact",
+        "move": "up",
+        "term": "implementation-shortfall"
+      }
+    ],
+    "why": "Trading fast pushes the price more, so impact cost rises. But the fund is exposed to price drift for less time, so timing risk falls. That is the core trade-off of execution."
+  },
+  {
+    "id": "h-pov-up",
+    "level": 2,
+    "head": "Trader raises an algo's participation rate from 5% to 20%",
+    "dek": "The order is now a quarter done by lunch.",
+    "items": [
+      {
+        "label": "Time to finish the order",
+        "move": "down",
+        "term": "participation-rate"
+      },
+      {
+        "label": "Market impact",
+        "move": "up",
+        "term": "market-impact"
+      },
+      {
+        "label": "Timing risk",
+        "move": "down",
+        "term": "pov-algo"
+      }
+    ],
+    "why": "Taking a bigger share of each minute's volume finishes sooner, which cuts timing risk, but pushes the price more."
+  },
+  {
+    "id": "h-contango-widens",
+    "level": 2,
+    "head": "Crude storage fills up and far-month futures pull away from near-month",
+    "dek": "Tankers are being hired just to hold oil.",
+    "items": [
+      {
+        "label": "Contango between near and far futures",
+        "move": "up",
+        "term": "contango"
+      },
+      {
+        "label": "Roll yield for someone who keeps rolling a long position",
+        "move": "down",
+        "term": "roll-yield"
+      },
+      {
+        "label": "Storage cost",
+        "move": "up",
+        "term": "storage-cost"
+      }
+    ],
+    "why": "When storage is scarce, it costs more to hold oil for later, so far futures trade further above near ones. A long holder who rolls keeps selling the cheap contract and buying the dear one, which costs money."
+  },
+  {
+    "id": "h-backwardation",
+    "level": 2,
+    "head": "A supply shock leaves physical crude scarce",
+    "dek": "Refiners pay up for barrels delivered now.",
+    "items": [
+      {
+        "label": "Convenience yield of holding crude",
+        "move": "up",
+        "term": "convenience-yield"
+      },
+      {
+        "label": "Near futures compared with far futures",
+        "move": "up",
+        "term": "backwardation"
+      },
+      {
+        "label": "Roll yield for a long holder",
+        "move": "up",
+        "term": "roll-yield"
+      }
+    ],
+    "why": "When oil is needed now, having it on hand is worth more (convenience yield), so near contracts trade above far ones: backwardation. A long holder who rolls sells high and buys low."
+  },
+  {
+    "id": "h-correlation-up",
+    "level": 2,
+    "head": "In a crisis, stocks start moving together",
+    "dek": "Correlations across sectors jump.",
+    "items": [
+      {
+        "label": "Benefit of diversification",
+        "move": "down",
+        "term": "diversification"
+      },
+      {
+        "label": "Portfolio volatility",
+        "move": "up",
+        "term": "correlation"
+      },
+      {
+        "label": "Value at risk",
+        "move": "up",
+        "term": "var"
+      }
+    ],
+    "why": "Diversification works because holdings don't all fall together. When correlations rise, losses add up instead of offsetting, so volatility and VaR rise."
+  },
+  {
+    "id": "h-opec-cut",
+    "level": 2,
+    "head": "OPEC+ announces a deep cut in oil output",
+    "dek": "The cut is larger than anyone expected.",
+    "items": [
+      {
+        "label": "Crude futures",
+        "move": "up",
+        "term": "opec-plus"
+      },
+      {
+        "label": "Margins of airlines",
+        "move": "down",
+        "term": "energy-futures"
+      },
+      {
+        "label": "Inflation in India",
+        "move": "up",
+        "term": "inflation"
+      }
+    ],
+    "why": "Less supply pushes oil up. Fuel is an airline's biggest cost, and oil feeds into transport and many goods, so inflation rises."
+  },
+  {
+    "id": "h-earnings-season",
+    "level": 2,
+    "head": "Earnings season ends with most companies beating estimates",
+    "dek": "Nifty ends the month almost unchanged.",
+    "items": [
+      {
+        "label": "Nifty earnings estimates",
+        "move": "up",
+        "term": "consensus"
+      },
+      {
+        "label": "Nifty P/E at the same index level",
+        "move": "down",
+        "term": "pe-ratio"
+      },
+      {
+        "label": "Analyst upgrades",
+        "move": "up",
+        "term": "upgrade"
+      }
+    ],
+    "why": "Higher earnings with an unchanged price means a lower price-to-earnings ratio. Analysts raise estimates and ratings after strong results."
+  },
+  {
+    "id": "h-us-yield",
+    "level": 2,
+    "head": "US 10-year Treasury yield jumps 40 bps in a week",
+    "dek": "Markets fear more Fed hikes.",
+    "items": [
+      {
+        "label": "Appeal of Indian bonds to foreign investors",
+        "move": "down",
+        "term": "us-10-year-yield"
+      },
+      {
+        "label": "Foreign money flowing into India",
+        "move": "down",
+        "term": "fpi"
+      },
+      {
+        "label": "Rupee",
+        "move": "down",
+        "term": "usdinr"
+      }
+    ],
+    "why": "When safe US bonds pay more, the extra yield on Indian bonds looks less worth the risk. Foreign money flows out, which weakens the rupee."
+  },
+  {
+    "id": "h-inventory",
+    "level": 2,
+    "head": "Company cuts inventory days from 90 to 45",
+    "dek": "A new ordering system means less stock on the shelves.",
+    "items": [
+      {
+        "label": "Operating cash flow",
+        "move": "up",
+        "term": "operating-cash-flow"
+      },
+      {
+        "label": "Working capital tied up",
+        "move": "down",
+        "term": "inventory-days"
+      },
+      {
+        "label": "Need for short-term borrowing",
+        "move": "down",
+        "term": "working-capital"
+      }
+    ],
+    "why": "Holding half as much stock releases cash that was sitting on shelves. Less working capital means less to fund with short-term loans."
+  },
+  {
+    "id": "h-crude-shock",
+    "level": 3,
+    "head": "Crude jumps 12% overnight; India VIX spikes",
+    "dek": "Brent tops $95. Nifty opens 1.6% lower.",
+    "items": [
+      {
+        "label": "India's current account deficit",
+        "move": "up",
+        "term": "current-account-deficit"
+      },
+      {
+        "label": "Rupee",
+        "move": "down",
+        "term": "rupee-depreciation"
+      },
+      {
+        "label": "Price of an at-the-money Nifty option",
+        "move": "up",
+        "term": "india-vix"
+      },
+      {
+        "label": "Margins of an oil company that can't raise pump prices",
+        "move": "down",
+        "term": "usdinr"
+      }
+    ],
+    "why": "A bigger oil bill widens the current account deficit and needs more dollars, which weakens the rupee. Higher VIX means dearer options, at the money most of all. The oil company pays more rupees per barrel twice over: higher crude and a weaker rupee."
+  },
+  {
+    "id": "h-bear-flattener",
+    "level": 3,
+    "head": "RBI hikes 50 bps; the 2-year yield rises more than the 10-year",
+    "dek": "Markets think the hike will slow growth.",
+    "items": [
+      {
+        "label": "2s10s spread",
+        "move": "down",
+        "term": "two-s-ten-s"
+      },
+      {
+        "label": "Steepness of the yield curve",
+        "move": "down",
+        "term": "yield-curve"
+      },
+      {
+        "label": "Price of a long-duration bond",
+        "move": "down",
+        "term": "modified-duration"
+      },
+      {
+        "label": "Appeal of rupee carry trades",
+        "move": "up",
+        "term": "carry-trade"
+      }
+    ],
+    "why": "If short yields rise more than long ones, the gap between them shrinks and the curve flattens. Long bonds still fall because yields rose. Higher Indian rates make borrowing cheaply abroad to hold rupees more attractive."
+  },
+  {
+    "id": "h-weak-rupee-policy",
+    "level": 3,
+    "head": "Rupee falls 5% in a month and the RBI lets it slide",
+    "dek": "Importers scramble to hedge.",
+    "items": [
+      {
+        "label": "Rupee cost of a company's dollar loan",
+        "move": "up",
+        "term": "rupee-depreciation"
+      },
+      {
+        "label": "Imported inflation",
+        "move": "up",
+        "term": "inflation"
+      },
+      {
+        "label": "Odds of an RBI rate cut soon",
+        "move": "down",
+        "term": "repo-rate"
+      },
+      {
+        "label": "IT stocks compared with oil marketing stocks",
+        "move": "up",
+        "term": "sector-rotation"
+      }
+    ],
+    "why": "A dollar loan needs more rupees to repay. Dearer imports push inflation up, which makes the RBI less likely to cut. Exporters gain and importers lose, so money rotates from one to the other."
+  },
+  {
+    "id": "h-buyback-premium",
+    "level": 3,
+    "head": "Company announces a buyback at 20% above the market price",
+    "dek": "Promoters say they won't tender their shares.",
+    "items": [
+      {
+        "label": "Share price",
+        "move": "up",
+        "term": "buyback"
+      },
+      {
+        "label": "EPS after the buyback",
+        "move": "up",
+        "term": "eps"
+      },
+      {
+        "label": "Cash on the balance sheet",
+        "move": "down",
+        "term": "balance-sheet"
+      },
+      {
+        "label": "Promoters' percentage holding",
+        "move": "up",
+        "term": "shareholding-pattern"
+      }
+    ],
+    "why": "An offer above the market pulls the price up. Fewer shares lift EPS, and the cash to pay for it leaves the balance sheet. If promoters keep all their shares while others sell, promoters own a bigger slice."
+  },
+  {
+    "id": "h-rights-deleverage",
+    "level": 3,
+    "head": "Company does a rights issue at a 25% discount to repay debt",
+    "dek": "Shareholders get one new share for every four held.",
+    "items": [
+      {
+        "label": "Share price on the ex-rights date",
+        "move": "down",
+        "term": "rights-issue"
+      },
+      {
+        "label": "Shares outstanding",
+        "move": "up",
+        "term": "dilution"
+      },
+      {
+        "label": "Debt-to-equity",
+        "move": "down",
+        "term": "debt-to-equity"
+      },
+      {
+        "label": "Interest coverage",
+        "move": "up",
+        "term": "interest-coverage"
+      }
+    ],
+    "why": "New shares sold below the market price pull the share price down on the ex-date. Equity goes up and debt goes down, so leverage falls, and with less interest to pay, coverage improves."
+  },
+  {
+    "id": "h-levered-deal",
+    "level": 3,
+    "head": "A cash-rich company borrows heavily to buy a rival",
+    "dek": "The deal is expected to earn more than the loan costs.",
+    "items": [
+      {
+        "label": "Debt-to-equity",
+        "move": "up",
+        "term": "debt-to-equity"
+      },
+      {
+        "label": "Interest coverage",
+        "move": "down",
+        "term": "interest-coverage"
+      },
+      {
+        "label": "ROE, if the deal earns more than the debt costs",
+        "move": "up",
+        "term": "roe"
+      },
+      {
+        "label": "Credit rating",
+        "move": "down",
+        "term": "credit-rating"
+      }
+    ],
+    "why": "Debt rises and so does the interest bill. If the deal returns more than the interest, the profit lands on the same equity, so return on equity rises. But more leverage means more credit risk, so the rating falls."
+  },
+  {
+    "id": "h-casa-drain",
+    "level": 3,
+    "head": "As rates rise, savers move money from savings accounts to fixed deposits",
+    "dek": "Banks compete hard for deposits.",
+    "items": [
+      {
+        "label": "CASA ratio",
+        "move": "down",
+        "term": "casa-ratio"
+      },
+      {
+        "label": "Bank's cost of funds",
+        "move": "up",
+        "term": "casa-ratio"
+      },
+      {
+        "label": "Net interest margin, at first",
+        "move": "down",
+        "term": "net-interest-margin"
+      },
+      {
+        "label": "Fixed deposit balances",
+        "move": "up",
+        "term": "interest-rate"
+      }
+    ],
+    "why": "Fixed deposits pay more than savings accounts, so the shift makes the bank's money dearer. Until loan rates catch up, the margin between what it earns and pays narrows."
+  },
+  {
+    "id": "h-crisis-week",
+    "level": 3,
+    "head": "Market falls 8% in a week as correlations jump",
+    "dek": "Leveraged traders are forced to sell.",
+    "items": [
+      {
+        "label": "Benefit of diversification",
+        "move": "down",
+        "term": "correlations-go-to-one"
+      },
+      {
+        "label": "Expected shortfall",
+        "move": "up",
+        "term": "expected-shortfall"
+      },
+      {
+        "label": "Margin calls on leveraged accounts",
+        "move": "up",
+        "term": "margin-call"
+      },
+      {
+        "label": "Implied volatility of out-of-the-money puts compared with calls",
+        "move": "up",
+        "term": "volatility-skew"
+      }
+    ],
+    "why": "In a crisis everything falls together, so diversification fails and tail losses grow. Losses on leveraged positions trigger margin calls. Demand for downside protection makes OTM puts dearer relative to calls: the skew steepens."
+  },
+  {
+    "id": "h-squeeze",
+    "level": 3,
+    "head": "A heavily shorted stock jumps 20% as open interest falls 30%",
+    "dek": "Borrowed shares are hard to find.",
+    "items": [
+      {
+        "label": "Price",
+        "move": "up",
+        "term": "short-squeeze"
+      },
+      {
+        "label": "Short positions still open",
+        "move": "down",
+        "term": "short-covering"
+      },
+      {
+        "label": "Open interest",
+        "move": "down",
+        "term": "open-interest"
+      },
+      {
+        "label": "Fee to borrow the stock through SLB",
+        "move": "up",
+        "term": "slb"
+      }
+    ],
+    "why": "Shorts rushing to buy back push the price up, which forces more shorts to cover: a squeeze. Closing positions drains open interest. When everyone wants to borrow or keep borrowed stock, the lending fee rises."
+  },
+  {
+    "id": "h-pinned-expiry",
+    "level": 3,
+    "head": "Expiry afternoon: Nifty sits right at 24,000, the strike with the most open interest",
+    "dek": "Option writers watch every tick.",
+    "items": [
+      {
+        "label": "Gamma of the 24,000 options",
+        "move": "up",
+        "term": "gamma"
+      },
+      {
+        "label": "Pin risk for a writer of the 24,000 straddle",
+        "move": "up",
+        "term": "pin-risk"
+      },
+      {
+        "label": "Time value of far out-of-the-money options",
+        "move": "down",
+        "term": "far-otm"
+      },
+      {
+        "label": "Theta per hour on at-the-money options",
+        "move": "up",
+        "term": "theta"
+      }
+    ],
+    "why": "Near expiry, at-the-money options have the most gamma and decay fastest. A writer whose strike is right at the price can't tell which way it will settle: pin risk. Far OTM options are close to worthless."
+  },
+  {
+    "id": "h-skew-steepens",
+    "level": 3,
+    "head": "Implied volatility on out-of-the-money puts rises while calls stay flat",
+    "dek": "Funds buy downside protection before a big event.",
+    "items": [
+      {
+        "label": "Volatility skew",
+        "move": "up",
+        "term": "volatility-skew"
+      },
+      {
+        "label": "Cost of a protective put",
+        "move": "up",
+        "term": "protective-put"
+      },
+      {
+        "label": "Net cost of a bullish risk reversal (buy a call, sell a put)",
+        "move": "down",
+        "term": "risk-reversal"
+      }
+    ],
+    "why": "Puts getting dearer while calls stay flat is a steeper skew. Protection costs more, because the put you buy is pricier. A bullish risk reversal goes the other way: you sell the dear put and buy the unchanged call, so you pay less for it, or even collect money."
+  },
+  {
+    "id": "h-liquidity-crunch",
+    "level": 3,
+    "head": "Banking system liquidity turns deeply negative; call rate shoots above the MSF rate",
+    "dek": "Advance tax payments drain cash from banks.",
+    "items": [
+      {
+        "label": "Overnight call money rate",
+        "move": "up",
+        "term": "call-rate"
+      },
+      {
+        "label": "Banks borrowing from the RBI's marginal standing facility",
+        "move": "up",
+        "term": "msf"
+      },
+      {
+        "label": "Rates on new commercial paper",
+        "move": "up",
+        "term": "commercial-paper"
+      },
+      {
+        "label": "Prices of commercial paper held by liquid funds",
+        "move": "down",
+        "term": "commercial-paper"
+      }
+    ],
+    "why": "When cash is short, banks bid up overnight money and turn to the MSF window. Short-term borrowing costs rise for companies too, and existing paper falls in price as yields rise."
+  },
+  {
+    "id": "h-index-add",
+    "level": 3,
+    "head": "Index provider adds a stock to the Nifty 50, effective in two weeks",
+    "dek": "Passive funds will have to buy it on the effective date.",
+    "items": [
+      {
+        "label": "Price before the effective date, usually",
+        "move": "up",
+        "term": "index-fund"
+      },
+      {
+        "label": "Its liquidity",
+        "move": "up",
+        "term": "liquidity"
+      },
+      {
+        "label": "Tracking error for an index fund that doesn't buy it",
+        "move": "up",
+        "term": "tracking-error"
+      }
+    ],
+    "why": "Traders buy ahead of the known passive demand. Joining the index brings more trading. An index fund that doesn't hold what the index holds drifts away from it."
+  },
+  {
+    "id": "h-other-income",
+    "level": 3,
+    "head": "Company's profit jumps on a one-off gain; operating profit is flat",
+    "dek": "It sold a piece of land.",
+    "items": [
+      {
+        "label": "PAT",
+        "move": "up",
+        "term": "other-income"
+      },
+      {
+        "label": "Earnings quality",
+        "move": "down",
+        "term": "earnings-quality"
+      },
+      {
+        "label": "P/E on reported earnings at the same price",
+        "move": "down",
+        "term": "pe-ratio"
+      }
+    ],
+    "why": "The gain lifts profit after tax, but it won't repeat, so the profit is of lower quality. The P/E looks cheaper only because the earnings are flattered."
+  },
+  {
+    "id": "h-auditor-quits",
+    "level": 3,
+    "head": "Auditor resigns, saying it didn't get the information it asked for",
+    "dek": "The company says it disagrees.",
+    "items": [
+      {
+        "label": "Share price",
+        "move": "down",
+        "term": "auditor-resignation"
+      },
+      {
+        "label": "Chance of a rating watch on its bonds",
+        "move": "up",
+        "term": "rating-watch"
+      },
+      {
+        "label": "Trust in the reported numbers",
+        "move": "down",
+        "term": "qualified-audit-opinion"
+      }
+    ],
+    "why": "An auditor quitting over missing information is one of the strongest red flags. Investors sell, rating agencies may put the bonds on watch, and the accounts become hard to rely on."
+  },
+  {
+    "id": "h-disinflation",
+    "level": 3,
+    "head": "Inflation falls sharply and the RBI turns dovish",
+    "dek": "The governor signals room to cut.",
+    "items": [
+      {
+        "label": "Real return on an existing fixed deposit",
+        "move": "up",
+        "term": "real-return"
+      },
+      {
+        "label": "Price of long-term bonds",
+        "move": "up",
+        "term": "bond"
+      },
+      {
+        "label": "Odds of a rate cut",
+        "move": "up",
+        "term": "dovish"
+      }
+    ],
+    "why": "With the same deposit rate and lower inflation, the real return rises. A dovish central bank means rate cuts are coming, which lifts bond prices."
+  },
+  {
+    "id": "h-de-gross",
+    "level": 3,
+    "head": "Risk tells a long-short fund to de-gross by a third",
+    "dek": "Volatility has doubled in a month.",
+    "items": [
+      {
+        "label": "Gross exposure",
+        "move": "down",
+        "term": "de-gross"
+      },
+      {
+        "label": "Size of both longs and shorts",
+        "move": "down",
+        "term": "gross-exposure"
+      },
+      {
+        "label": "Leverage",
+        "move": "down",
+        "term": "leverage"
+      }
+    ],
+    "why": "De-grossing means cutting both sides of the book. Gross exposure, the sum of longs and shorts, falls, and so does leverage. The net position can stay about the same."
+  },
+  {
+    "id": "h-vol-doubles",
+    "level": 3,
+    "head": "A stock's volatility doubles; you size positions by volatility",
+    "dek": "Your old position is still on.",
+    "items": [
+      {
+        "label": "Position size you should hold",
+        "move": "down",
+        "term": "size-by-vol"
+      },
+      {
+        "label": "VaR of the old position",
+        "move": "up",
+        "term": "var"
+      },
+      {
+        "label": "Share of the risk budget the old position uses",
+        "move": "up",
+        "term": "risk-budget"
+      }
+    ],
+    "why": "Sizing by volatility keeps the risk per position steady, so twice the volatility means about half the size. Until you cut, the same position carries more risk and eats more of the budget."
+  },
+  {
+    "id": "h-costs-double",
+    "level": 3,
+    "head": "A strategy's trading costs double after a fee change",
+    "dek": "The strategy trades its whole book every week.",
+    "items": [
+      {
+        "label": "Net Sharpe ratio",
+        "move": "down",
+        "term": "sharpe-ratio"
+      },
+      {
+        "label": "Profit factor",
+        "move": "down",
+        "term": "profit-factor"
+      },
+      {
+        "label": "Appeal of fast signals compared with slow ones",
+        "move": "down",
+        "term": "transaction-costs"
+      }
+    ],
+    "why": "Costs come out of every trade, so net returns fall while risk stays the same, which lowers the Sharpe ratio and the profit factor. A signal that trades often loses the most."
+  },
+  {
+    "id": "h-toxic-flow",
+    "level": 3,
+    "head": "Market makers find the flow in a stock has turned toxic",
+    "dek": "Their fills keep losing money minutes later.",
+    "items": [
+      {
+        "label": "Spreads they quote",
+        "move": "up",
+        "term": "toxic-flow"
+      },
+      {
+        "label": "Depth they show at the best price",
+        "move": "down",
+        "term": "market-depth"
+      },
+      {
+        "label": "Markouts on their fills",
+        "move": "down",
+        "term": "markout"
+      }
+    ],
+    "why": "Toxic flow comes from traders who know more. Market makers lose on it, which shows up as negative markouts, so they widen spreads and quote smaller to protect themselves."
+  },
+  {
+    "id": "h-results-jump",
+    "level": 3,
+    "head": "Results day: a stock jumps 6% and its implied volatility drops from 45% to 25%",
+    "dek": "You bought an at-the-money call and an at-the-money put the day before.",
+    "items": [
+      {
+        "label": "Delta P&L on the call",
+        "move": "up",
+        "term": "delta"
+      },
+      {
+        "label": "Vega P&L on the whole position",
+        "move": "down",
+        "term": "vega"
+      },
+      {
+        "label": "Value of the put",
+        "move": "down",
+        "term": "iv-crush"
+      },
+      {
+        "label": "ATM implied volatility",
+        "move": "down",
+        "term": "atm-iv"
+      }
+    ],
+    "why": "The call gains from the move through delta. Both options lose from the fall in implied volatility. The put loses on both counts: the stock moved away from it and its volatility collapsed."
+  },
+  {
+    "id": "h-yields-fall",
+    "level": 3,
+    "head": "Bond yields fall 1% across the curve",
+    "dek": "Inflation surprises on the low side for the third month.",
+    "items": [
+      {
+        "label": "Price of a 10-year zero-coupon bond",
+        "move": "up",
+        "term": "zero-coupon-bond"
+      },
+      {
+        "label": "Mark-to-market gains in banks' bond books",
+        "move": "up",
+        "term": "mtm"
+      },
+      {
+        "label": "Coupon on newly issued bonds",
+        "move": "down",
+        "term": "coupon"
+      }
+    ],
+    "why": "Falling yields lift bond prices, most for long zero-coupon bonds. Banks hold large G-sec books, so they book mark-to-market gains. New bonds can be issued with lower coupons."
+  },
+  {
+    "id": "h-carry-unwind",
+    "level": 3,
+    "head": "Yen surges 5% and global carry trades unwind",
+    "dek": "Funds that borrowed yen to buy higher-yielding assets rush to repay.",
+    "items": [
+      {
+        "label": "Emerging-market currencies, including the rupee",
+        "move": "down",
+        "term": "carry-trade"
+      },
+      {
+        "label": "Global equities",
+        "move": "down",
+        "term": "de-risking"
+      },
+      {
+        "label": "India VIX",
+        "move": "up",
+        "term": "india-vix"
+      }
+    ],
+    "why": "Unwinding a carry trade means selling the high-yield assets and buying back the cheap funding currency. That sells emerging-market currencies and stocks and pushes volatility up."
+  },
+  {
+    "id": "h-slowdown",
+    "level": 3,
+    "head": "PMI falls below 50 and GDP growth slows to a two-year low",
+    "dek": "Factories report fewer new orders.",
+    "items": [
+      {
+        "label": "Cyclical stocks",
+        "move": "down",
+        "term": "cyclical-stocks"
+      },
+      {
+        "label": "Defensive stocks compared with cyclicals",
+        "move": "up",
+        "term": "defensive-stocks"
+      },
+      {
+        "label": "Odds of a rate cut",
+        "move": "up",
+        "term": "repo-rate"
+      },
+      {
+        "label": "G-sec yields",
+        "move": "down",
+        "term": "g-sec"
+      }
+    ],
+    "why": "A PMI below 50 means activity is shrinking. Cyclicals depend on growth, defensives less so. A slowdown makes rate cuts more likely, and bond yields fall in anticipation."
+  },
+  {
+    "id": "h-pledge-fall",
+    "level": 3,
+    "head": "A stock with heavy promoter pledges falls 20% in two days",
+    "dek": "Lenders hold most of the promoters' shares as collateral.",
+    "items": [
+      {
+        "label": "Margin calls on the pledged shares",
+        "move": "up",
+        "term": "promoter-pledge"
+      },
+      {
+        "label": "Selling by lenders who invoke the pledge",
+        "move": "up",
+        "term": "margin-pledge"
+      },
+      {
+        "label": "The stock's volatility",
+        "move": "up",
+        "term": "volatility"
+      }
+    ],
+    "why": "When the collateral loses value, lenders ask promoters for more. If they can't pay, lenders sell the shares, which pushes the price down further: a spiral that makes the stock more volatile."
+  },
+  {
+    "id": "h-futures-rich",
+    "level": 3,
+    "head": "Nifty futures trade well above their fair value",
+    "dek": "Arbitrage desks get to work.",
+    "items": [
+      {
+        "label": "Cash-and-carry arbitrage",
+        "move": "up",
+        "term": "cash-and-carry-arbitrage"
+      },
+      {
+        "label": "Spot price, from arbitrage buying",
+        "move": "up",
+        "term": "arbitrage"
+      },
+      {
+        "label": "Futures price, from arbitrage selling",
+        "move": "down",
+        "term": "futures-fair-value"
+      },
+      {
+        "label": "Basis",
+        "move": "down",
+        "term": "basis"
+      }
+    ],
+    "why": "When futures are rich, desks buy spot and sell futures to lock in the gap. That buying lifts spot and the selling pulls futures down, so the basis shrinks back towards fair value."
+  },
+  {
+    "id": "h-etf-premium",
+    "level": 3,
+    "head": "An ETF trades at a 2% premium to its iNAV",
+    "dek": "Retail buying swamps the market makers.",
+    "items": [
+      {
+        "label": "New ETF units created by market makers",
+        "move": "up",
+        "term": "etf-arbitrage"
+      },
+      {
+        "label": "Premium to iNAV",
+        "move": "down",
+        "term": "inav"
+      },
+      {
+        "label": "Buying of the underlying stocks",
+        "move": "up",
+        "term": "etf-arbitrage"
+      }
+    ],
+    "why": "Market makers buy the basket of stocks, create new units at NAV and sell them at the premium. That extra supply of units pushes the ETF price back towards iNAV."
+  },
+  {
+    "id": "h-merger-spread",
+    "level": 3,
+    "head": "Company A agrees to buy B for ₹500 a share in cash; B trades at ₹470",
+    "dek": "Regulators must approve the deal.",
+    "items": [
+      {
+        "label": "B's price if regulators approve",
+        "move": "up",
+        "term": "merger-arbitrage"
+      },
+      {
+        "label": "The merger spread, as approval nears",
+        "move": "down",
+        "term": "merger-arbitrage"
+      },
+      {
+        "label": "B's price if the deal collapses",
+        "move": "down",
+        "term": "event-risk"
+      }
+    ],
+    "why": "The ₹30 gap is the price of the risk that the deal fails. As it closes, B converges to ₹500 and the spread shrinks. If it fails, B falls back towards its pre-deal price."
+  },
+  {
+    "id": "h-quiet-month",
+    "level": 3,
+    "head": "Volatility falls steadily for a month",
+    "dek": "Markets drift up in a narrow range.",
+    "items": [
+      {
+        "label": "P&L of a short-vol programme",
+        "move": "up",
+        "term": "short-vol-programme"
+      },
+      {
+        "label": "P&L of a tail hedge",
+        "move": "down",
+        "term": "tail-hedge"
+      },
+      {
+        "label": "Value of a long straddle",
+        "move": "down",
+        "term": "long-volatility"
+      }
+    ],
+    "why": "Selling options earns time decay and gains when volatility falls. Anything that owns options, such as a tail hedge or a long straddle, slowly loses value in a calm market."
+  },
+  {
+    "id": "h-steepener",
+    "level": 3,
+    "head": "10-year yields rise while 2-year yields stay flat",
+    "dek": "Markets worry about long-term government borrowing.",
+    "items": [
+      {
+        "label": "2s10s spread",
+        "move": "up",
+        "term": "two-s-ten-s"
+      },
+      {
+        "label": "P&L of a steepener",
+        "move": "up",
+        "term": "steepener"
+      },
+      {
+        "label": "P&L of a flattener",
+        "move": "down",
+        "term": "flattener"
+      }
+    ],
+    "why": "Long yields rising more than short ones widens the gap and steepens the curve. A steepener bets on that; a flattener bets the other way."
+  }
+]

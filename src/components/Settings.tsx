@@ -5,6 +5,7 @@ import { newProgress } from '../lib/scheduler';
 import { canSpeak, speak } from '../lib/speech';
 import { getTexture, getTheme, setTexture, setTheme, THEMES, type Theme } from '../lib/theme';
 import type { Progress } from '../lib/types';
+import { SWITCHER } from '../lib/modes/ids';
 import { landingMode } from '../lib/modes/knowledge';
 import { useModeAccess } from './modes/modeAccess';
 import { MODE_INFO } from './modes/ModeBar';
@@ -39,7 +40,9 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
   const [texture, pickTexture] = useState(getTexture);
   const s = progress.settings;
   const minutes = s.newPerDay;
-  const { shown: modes, off: modesOff, admin } = useModeAccess();
+  const { shown, off: modesOff, admin } = useModeAccess();
+  // Only the switcher's modes can be the start screen; the others open from More.
+  const modes = shown.filter((m) => SWITCHER.includes(m));
   // A learner's landing mode that the admin switched off opens Path instead; the admin's own choice stands.
   const landing = landingMode(progress, admin ? [] : modesOff);
   const signedIn = account.kind === 'in';
