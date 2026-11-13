@@ -4,6 +4,11 @@
   "order": 1,
   "units": [
     {
+      "id": "b7",
+      "name": "Building blocks",
+      "core": true
+    },
+    {
       "id": "b1",
       "name": "Prices and quotes",
       "core": true
@@ -31,11 +36,6 @@
     {
       "id": "b5",
       "name": "Portfolios and risk",
-      "core": false
-    },
-    {
-      "id": "b7",
-      "name": "Building blocks",
       "core": false
     }
   ],

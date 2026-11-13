@@ -57,7 +57,7 @@ describe('picking a unit', () => {
   it('ignores a pick on a locked unit', () => {
     const p = withFocus(newProgress(), 'o5');
     expect(focusQueue(p)).toEqual([]);
-    expect(nextNewTermIds(p, 4)).toEqual(termIdsOfUnit('b1').slice(0, 4));
+    expect(nextNewTermIds(p, 4)).toEqual(termIdsOfUnit('b7').slice(0, 4));
   });
 
   it('drops the pick once the unit is fully met', () => {
