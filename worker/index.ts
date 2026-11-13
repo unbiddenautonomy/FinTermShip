@@ -11,6 +11,7 @@
  */
 import { mergeProgress } from '../src/lib/sync';
 import type { Progress } from '../src/lib/types';
+import { askCards, givenCards } from './cards';
 import { signInPage } from './signin';
 
 // ---------- The few Cloudflare types this file uses ----------
@@ -33,6 +34,8 @@ export interface Env {
   ADMIN_EMAIL?: string;
   /** The same, set in wrangler.jsonc; ADMIN_EMAIL wins when both are set. */
   OWNER_EMAIL?: string;
+  /** A PBKDF2 hash of the password that opens the quant switch and phase 3 (scripts/hash-password.mjs); UNLOCK_HASH below when unset. */
+  UNLOCK_HASH?: string;
 }
 
 // ---------- Settings ----------
@@ -43,12 +46,24 @@ const LOCK_MINUTES = 15;
 const PBKDF2_ROUNDS = 100_000;
 const MAX_PROGRESS_BYTES = 1_500_000;
 const COOKIE = 'fts_session';
+/**
+ * The password that opens the quant switch and phase 3, as a salted PBKDF2
+ * hash. It is checked here, never in the app. A runtime secret UNLOCK_HASH
+ * takes its place; make one with `node scripts/hash-password.mjs`.
+ */
+const UNLOCK_HASH = 'pbkdf2$100000$wjB2RlNhWdfz41iw3+KiqQ==$MC/2JGBehUY3g9dL5D6NfNJ533mSVj/yWz9SgG7Qlnw=';
 
 const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, pw TEXT NOT NULL, admin INTEGER NOT NULL DEFAULT 0, quant INTEGER NOT NULL DEFAULT 0, phase3 INTEGER NOT NULL DEFAULT 0, disabled INTEGER NOT NULL DEFAULT 0, fails INTEGER NOT NULL DEFAULT 0, locked_until INTEGER NOT NULL DEFAULT 0, created INTEGER NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, user_id INTEGER NOT NULL, expires INTEGER NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS invites (code TEXT PRIMARY KEY, quant INTEGER NOT NULL, phase3 INTEGER NOT NULL, created INTEGER NOT NULL, expires INTEGER NOT NULL, used_by INTEGER)`,
   `CREATE TABLE IF NOT EXISTS progress (user_id INTEGER PRIMARY KEY, data TEXT NOT NULL, updated INTEGER NOT NULL)`,
+  // The term cards each account has been given (worker/cards.ts), and accounts already given their earlier terms' cards.
+  `CREATE TABLE IF NOT EXISTS cards (user_id INTEGER NOT NULL, term_id TEXT NOT NULL, issued INTEGER NOT NULL, test TEXT, PRIMARY KEY (user_id, term_id))`,
+  `CREATE INDEX IF NOT EXISTS cards_recent ON cards (user_id, issued)`,
+  `CREATE TABLE IF NOT EXISTS card_seed (user_id INTEGER PRIMARY KEY, at INTEGER NOT NULL)`,
+  // Wrong tries at the unlock password, per account.
+  `CREATE TABLE IF NOT EXISTS unlock_tries (user_id INTEGER PRIMARY KEY, fails INTEGER NOT NULL, locked_until INTEGER NOT NULL)`,
 ];
 
 /** What the admin sees of a learner's progress: a handful of counts, never the progress itself. */
@@ -339,6 +354,36 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     if (next.length < 8 || next.length > 200) return fail(400, 'Use a password of at least 8 characters.');
     await db.batch([db.prepare('UPDATE users SET pw = ? WHERE id = ?').bind(await hashPassword(next), user.id), db.prepare('DELETE FROM sessions WHERE user_id = ?').bind(user.id)]);
     return startSession(user);
+  }
+
+  // ---------- Term cards ----------
+  if (route === 'GET /api/cards') {
+    const since = Number(url.searchParams.get('since') ?? 0);
+    return json(await givenCards(db, user, now, url.searchParams.get('have'), Number.isFinite(since) ? since : 0));
+  }
+
+  if (route === 'POST /api/cards') {
+    const b = await body();
+    return json(await askCards(db, user, b.ids, b.test, now));
+  }
+
+  // The password for the quant switch and phase 3: right once, and the account keeps both.
+  if (route === 'POST /api/unlock') {
+    const b = await body();
+    const tries = await db.prepare('SELECT fails, locked_until FROM unlock_tries WHERE user_id = ?').bind(user.id).first<{ fails: number; locked_until: number }>();
+    if (tries && tries.locked_until > now) return fail(429, `Too many tries. Wait ${Math.ceil((tries.locked_until - now) / 60000)} minutes and try again.`);
+    const password = typeof b.password === 'string' ? b.password.trim() : '';
+    if (!password || password.length > 200 || !(await verifyPassword(password, env.UNLOCK_HASH || UNLOCK_HASH))) {
+      const fails = (tries?.fails ?? 0) + 1;
+      const lock = fails >= MAX_FAILS;
+      await db
+        .prepare('INSERT INTO unlock_tries (user_id, fails, locked_until) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE SET fails = excluded.fails, locked_until = excluded.locked_until')
+        .bind(user.id, lock ? 0 : fails, lock ? now + LOCK_MINUTES * 60000 : 0)
+        .run();
+      return fail(401, 'That password isn’t right.');
+    }
+    await db.batch([db.prepare('UPDATE users SET quant = 1, phase3 = 1 WHERE id = ?').bind(user.id), db.prepare('DELETE FROM unlock_tries WHERE user_id = ?').bind(user.id)]);
+    return json({ user: publicUser({ ...user, quant: 1, phase3: 1 }) });
   }
 
   if (route === 'GET /api/progress') {

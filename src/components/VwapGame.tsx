@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { termById } from '../lib/content';
+import { glossOrUnit, termById } from '../lib/content';
 import { finishGame } from '../lib/practice';
 import { seededRng } from '../lib/questions';
 import { averagePrice, bps, forecastIn, isDone, newVwapDay, playSlice, scoreVwap, shares, SLICES, startState, VWAP, vwapUpTo, type VwapDay, type VwapState } from '../lib/vwap';
@@ -86,7 +86,7 @@ export function VwapGame({ unitId, seed, progress, today, onProgress, onFinish, 
             title: 'The terms',
             items: TERMS.map((id) => termById.get(id))
               .filter((t): t is NonNullable<typeof t> => t !== undefined)
-              .map((t) => ({ prompt: t.term, shown: t.short })),
+              .map((t) => ({ prompt: t.term, shown: glossOrUnit(t) })),
           },
         ],
       },

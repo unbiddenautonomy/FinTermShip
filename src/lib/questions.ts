@@ -1,4 +1,4 @@
-import { categoryOfTerm, talkByTerm, talkItems, talkTerms, termById } from './content';
+import { awaitingCard, categoryOfTerm, talkByTerm, talkItems, talkTerms, termById } from './content';
 import type { FillContext, Question, TalkItem, Term } from './types';
 
 export type Rng = () => number;
@@ -26,17 +26,16 @@ export function shuffle<T>(items: T[], rng: Rng): T[] {
 
 /** Terms listed as confusable with this one, in either direction. */
 let confusedWith: Map<string, Set<string>> | null = null;
-const nearCache = new Map<string, Set<string>>();
 
 /**
  * Terms too close to this one to be a fair wrong option in an example sentence:
  * confusables in either direction, and terms of the same area that either
  * definition names (a DII's definition names mutual funds, so "mutual fund
- * buying" would fit a DII sentence too).
+ * buying" would fit a DII sentence too). The second kind needs every
+ * definition in the area, so scripts/build-outline.mjs works it out ahead and
+ * the outline carries it as `near`.
  */
 function closeTo(term: Term): Set<string> {
-  const cached = nearCache.get(term.id);
-  if (cached) return cached;
   if (!confusedWith) {
     confusedWith = new Map();
     const link = (a: string, b: string) => {
@@ -50,15 +49,12 @@ function closeTo(term: Term): Set<string> {
       }
     }
   }
-  const near = new Set(confusedWith.get(term.id) ?? []);
-  const names = (x: Term) => [x.term, ...(x.aliases ?? [])].filter((n) => n.length >= 2);
-  // Whether y's definition or gloss names x, plurals included.
-  const named = (x: Term, y: Term) => names(x).some((n) => phraseHits(`${y.definition} ${y.short}`, n, true).length);
-  for (const t of categoryOfTerm.get(term.id)?.terms ?? []) {
-    if (t.id !== term.id && (named(t, term) || named(term, t))) near.add(t.id);
-  }
-  nearCache.set(term.id, near);
-  return near;
+  return new Set([...(confusedWith.get(term.id) ?? []), ...(term.near ?? [])]);
+}
+
+/** Whether y's definition or gloss names x, plurals included. Exported for the outline's check. */
+export function definitionNames(x: Term, y: Term): boolean {
+  return [x.term, ...(x.aliases ?? [])].filter((n) => n.length >= 2).some((n) => phraseHits(`${y.definition} ${y.short}`, n, true).length > 0);
 }
 
 /**
@@ -169,6 +165,8 @@ const contextCache = new Map<string, FillContext[]>();
 export function exampleFills(term: Term): FillContext[] {
   const cached = contextCache.get(term.id);
   if (cached) return cached;
+  // No examples until the card arrives; work them out (and keep them) only then.
+  if (awaitingCard(term.id)) return [];
   const name = term.term;
   const lower = name.toLowerCase();
   const longer: string[] = [];

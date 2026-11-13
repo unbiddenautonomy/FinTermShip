@@ -1,5 +1,5 @@
 import { useMemo, useState, type ReactNode } from 'react';
-import { categories as allCategories, isCore, isPhase3Area } from '../lib/content';
+import { categories as allCategories, glossOrUnit, hasCard, isCore, isPhase3Area } from '../lib/content';
 import { phase3Open } from '../lib/phase3';
 import type { Progress, Term } from '../lib/types';
 import { ChevronDown, Search } from './icons';
@@ -32,7 +32,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
                 !q ||
                 t.term.toLowerCase().includes(q) ||
                 t.aliases?.some((a) => a.toLowerCase().includes(q)) ||
-                t.short.toLowerCase().includes(q)
+                (hasCard(t.id) && t.short.toLowerCase().includes(q))
               );
             })
             .sort((a, b) => a.term.localeCompare(b.term)),
@@ -115,7 +115,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
                             <span className="rounded-md bg-violet-soft px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-violet-ink">sums</span>
                           )}
                         </span>
-                        <span className="block truncate text-sm text-ink-3">{t.short}</span>
+                        <span className="block truncate text-sm text-ink-3">{glossOrUnit(t)}</span>
                       </span>
                       <span className="flex shrink-0 items-center gap-2">
                         {s ? <StepDots step={s.step} /> : <span className="text-xs font-semibold text-ink-3">not met</span>}
