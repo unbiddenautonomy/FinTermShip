@@ -185,3 +185,32 @@ export function areaKpis(p: Progress, today: string) {
       return { id: c.id, name: c.name, terms: c.terms.length, met, known, strength: met ? Math.round(total / met) : 0 };
     });
 }
+
+export interface AnswerSource {
+  mode: ModeId;
+  answers: number;
+  right: number;
+  /** Sessions finished; not kept for Path, whose lessons, drills and tests are counted elsewhere. */
+  sessions?: number;
+  last?: string;
+}
+
+/**
+ * Where the learner's answers came from. The other modes keep their own tallies; Path's share
+ * is everything else in the term record, so Path needs no new field and old progress still adds up.
+ */
+export function answerSources(p: Progress): AnswerSource[] {
+  let answers = 0;
+  let right = 0;
+  for (const s of Object.values(p.terms)) {
+    answers += s.correct + s.wrong;
+    right += s.correct;
+  }
+  const others = MODES.filter((m) => m !== 'path').map((m) => {
+    const r = modeRecord(p, m);
+    return { mode: m, answers: r.answers, right: r.right, sessions: r.sessions, last: r.last };
+  });
+  const pathAnswers = Math.max(0, answers - others.reduce((n, o) => n + o.answers, 0));
+  const pathRight = Math.min(pathAnswers, Math.max(0, right - others.reduce((n, o) => n + o.right, 0)));
+  return [{ mode: 'path', answers: pathAnswers, right: pathRight }, ...others];
+}

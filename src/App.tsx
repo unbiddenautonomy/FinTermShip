@@ -18,6 +18,8 @@ import { loadProgress, requestPersistence, saveProgress } from './lib/storage';
 import { firstName } from './lib/profile';
 import { buildWeakSpots, weakSpots } from './lib/weak';
 import { currentUnit } from './lib/track';
+import { landingMode, type ModeId } from './lib/modes/knowledge';
+import { ModeBar } from './components/modes/ModeBar';
 import type { GameId, Progress } from './lib/types';
 
 // Everything but Home loads on demand, then quietly in the background once Home is up.
@@ -46,6 +48,9 @@ const LOADERS = {
   Results: () => import('./components/Results').then((m) => ({ default: m.Results })),
   Settings: () => import('./components/Settings').then((m) => ({ default: m.Settings })),
   ProgressScreen: () => import('./components/ProgressScreen').then((m) => ({ default: m.ProgressScreen })),
+  CallIt: () => import('./components/modes/CallIt').then((m) => ({ default: m.CallIt })),
+  Exchange: () => import('./components/modes/Exchange').then((m) => ({ default: m.Exchange })),
+  TermLines: () => import('./components/modes/TermLines').then((m) => ({ default: m.TermLines })),
 };
 const Careers = lazy(LOADERS.Careers);
 const MockRound = lazy(LOADERS.MockRound);
@@ -71,6 +76,9 @@ const PayoffGame = lazy(LOADERS.PayoffGame);
 const Results = lazy(LOADERS.Results);
 const Settings = lazy(LOADERS.Settings);
 const ProgressScreen = lazy(LOADERS.ProgressScreen);
+const CallIt = lazy(LOADERS.CallIt);
+const Exchange = lazy(LOADERS.Exchange);
+const TermLines = lazy(LOADERS.TermLines);
 
 function prefetchScreens() {
   for (const load of Object.values(LOADERS)) void load().catch(() => undefined);
@@ -103,7 +111,8 @@ type Screen =
   | { name: Tab; sheet?: string; q?: string }
   | { name: 'careers' }
   | { name: 'mock'; round: string }
-  | { name: 'lesson'; plan: LessonPlan; seed: number }
+  | { name: 'lines' | 'callit' | 'exchange' }
+  | { name: 'lesson'; plan: LessonPlan; seed: number; mode?: Exclude<ModeId, 'path'> }
   | { name: 'drill' | 'game' | 'case'; unitId: string; seed: number }
   | { name: 'results'; summary: LessonSummary };
 
@@ -125,12 +134,21 @@ export default function App() {
   // A unit sheet opened over the career map or the guide, and where to come back to after a lesson started from one.
   const [overlay, setOverlay] = useState<string | null>(null);
   const [origin, setOrigin] = useState<Screen | null>(null);
+  // The mode the Learn tab returns to, and the area the modes share (a line, a sector).
+  const [mode, setMode] = useState<ModeId>('path');
+  const [area, setArea] = useState<string | null>(null);
   const originY = useRef(0);
   const restoreY = useRef<number | null>(null);
   const saveChain = useRef<Promise<void>>(Promise.resolve());
 
   useEffect(() => {
-    loadProgress().then(setProgress);
+    loadProgress().then((p) => {
+      setProgress(p);
+      // Open in the learner's chosen mode; Path (Home) unless they picked another in Settings.
+      const m = landingMode(p);
+      setMode(m);
+      if (m !== 'path') setScreen({ name: m });
+    });
     requestPersistence().then(setPersisted);
     // Roll "today" over if the app stays open past midnight.
     const t = setInterval(() => setToday(dayKey()), 60_000);
@@ -163,7 +181,7 @@ export default function App() {
 
   // Keyboard: 1 to 9 answer and Enter goes on, in games, cases and mocks; "/" searches the glossary.
   useGameKeys(['game', 'case', 'mock', 'results'].includes(screen.name));
-  const tabScreen = (TABS as { id: string }[]).some((t) => t.id === screen.name) || screen.name === 'careers';
+  const tabScreen = (TABS as { id: string }[]).some((t) => t.id === screen.name) || ['careers', 'lines', 'callit', 'exchange'].includes(screen.name);
   const toSearch = useCallback(() => {
     if (!tabScreen) return;
     setScreen((s) => (s.name === 'glossary' ? s : { name: 'glossary' }));
@@ -206,6 +224,25 @@ export default function App() {
   const practise = (unitId: string) => run((seed) => buildPractice(progress, unitId, seededRng(seed)));
   const takeTest = (categoryId: string) => run((seed) => (categoryId === PHASE3 ? buildPhase3Test(seededRng(seed)) : buildTest(categoryId, seededRng(seed))));
   const pick = (unitId: string | null) => update(withFocus(progress, unitId));
+  const goMode = (m: ModeId) => {
+    setMode(m);
+    setScreen(m === 'path' ? { name: 'home' } : { name: m });
+  };
+  const onTab = (name: Tab) => (name === 'home' ? goMode(mode) : setScreen({ name }));
+  // A lesson started from a mode: answers are tallied for it, and finishing comes back to it.
+  const runIn = (m: Exclude<ModeId, 'path'>) => (make: (rng: ReturnType<typeof seededRng>) => LessonPlan | null) => {
+    const seed = Date.now() % 2_147_483_647;
+    const plan = make(seededRng(seed));
+    if (!plan) return;
+    setOrigin(screen);
+    originY.current = window.scrollY;
+    setScreen({ name: 'lesson', plan, seed, mode: m });
+  };
+  const depot = (unitId: string) => {
+    setOrigin(screen);
+    originY.current = window.scrollY;
+    drill(unitId);
+  };
 
   const body = (() => {
   switch (screen.name) {
@@ -220,7 +257,26 @@ export default function App() {
           onProgress={update}
           onFinish={(summary) => setScreen({ name: 'results', summary })}
           onQuit={back}
+          mode={screen.mode}
         />
+      );
+    case 'lines':
+      return (
+        <WithTabs tab="home" onTab={onTab}>
+          <TermLines progress={progress} today={today} area={area} onArea={setArea} onMode={goMode} onRun={runIn('lines')} onDepot={depot} />
+        </WithTabs>
+      );
+    case 'callit':
+      return (
+        <WithTabs tab="home" onTab={onTab}>
+          <CallIt progress={progress} today={today} onProgress={update} onMode={goMode} />
+        </WithTabs>
+      );
+    case 'exchange':
+      return (
+        <WithTabs tab="home" onTab={onTab}>
+          <Exchange progress={progress} today={today} area={area} onArea={setArea} onProgress={update} onMode={goMode} onRun={runIn('exchange')} />
+        </WithTabs>
       );
     case 'drill':
       return (
@@ -280,19 +336,19 @@ export default function App() {
     }
     case 'progress':
       return (
-        <WithTabs tab="progress" onTab={(name) => setScreen({ name })}>
+        <WithTabs tab="progress" onTab={onTab}>
           <ProgressScreen progress={progress} today={today} onWeak={practiseWeak} />
         </WithTabs>
       );
     case 'glossary':
       return (
-        <WithTabs tab="glossary" onTab={(name) => setScreen({ name })}>
+        <WithTabs tab="glossary" onTab={onTab}>
           <Glossary progress={progress} initialQuery={screen.q} />
         </WithTabs>
       );
     case 'guide':
       return (
-        <WithTabs tab="guide" onTab={(name) => setScreen({ name })}>
+        <WithTabs tab="guide" onTab={onTab}>
           <Guide
             progress={progress}
             today={today}
@@ -308,7 +364,7 @@ export default function App() {
       );
     case 'settings':
       return (
-        <WithTabs tab="settings" onTab={(name) => setScreen({ name })}>
+        <WithTabs tab="settings" onTab={onTab}>
           <Settings
             progress={progress}
             today={today}
@@ -324,7 +380,7 @@ export default function App() {
       );
     case 'careers':
       return (
-        <WithTabs tab="home" onTab={(name) => setScreen({ name })}>
+        <WithTabs tab="home" onTab={onTab}>
           <Careers
             progress={progress}
             onBack={() => setScreen({ name: 'home' })}
@@ -337,7 +393,10 @@ export default function App() {
       return <MockRound key={screen.round} round={screen.round} progress={progress} today={today} onProgress={update} onBack={() => setScreen({ name: 'careers' })} />;
     default:
       return (
-        <WithTabs tab="home" onTab={(name) => setScreen({ name })}>
+        <WithTabs tab="home" onTab={onTab}>
+          <div className="mx-auto max-w-xl px-4 pt-5 lg:max-w-6xl lg:px-8 lg:pt-8">
+            <ModeBar progress={progress} today={today} mode="path" onMode={goMode} />
+          </div>
           <Home
             progress={progress}
             today={today}

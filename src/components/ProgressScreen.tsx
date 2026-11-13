@@ -7,6 +7,8 @@ import { accuracy, areaStats, practiceBests, totals, weeklyStats, type WeekStat 
 import type { Progress } from '../lib/types';
 import { weakSpots } from '../lib/weak';
 import { Check } from './icons';
+import { answerSources } from '../lib/modes/knowledge';
+import { MODE_INFO } from './modes/ModeBar';
 import { Card, SectionTitle } from './ui';
 
 const pct = (v: number | null) => (v === null ? '–' : `${Math.round(v * 100)}%`);
@@ -136,7 +138,48 @@ export function ProgressScreen({ progress, today, onWeak }: { progress: Progress
           </ul>
         </Card>
       </section>
+
+      <Sources progress={progress} />
     </div>
+  );
+}
+
+const SOURCE_TONE = { path: 'bg-brand', lines: 'bg-sky', callit: 'bg-amber', exchange: 'bg-violet' } as const;
+
+/** Where your answers came from: every mode writes to the same record, and this splits it by mode. */
+function Sources({ progress }: { progress: Progress }) {
+  const sources = answerSources(progress);
+  const total = sources.reduce((n, s) => n + s.answers, 0);
+  return (
+    <section>
+      <SectionTitle aside={`${total} answers`}>Where your answers came from</SectionTitle>
+      <Card className="space-y-4">
+        {total > 0 && (
+          <div className="flex h-3 gap-[2px] overflow-hidden rounded-full bg-sunken" role="img" aria-label={sources.map((s) => `${MODE_INFO[s.mode].label} ${s.answers}`).join(', ')}>
+            {sources.filter((s) => s.answers > 0).map((s) => (
+              <span key={s.mode} className={`h-full ${SOURCE_TONE[s.mode]}`} style={{ width: `${(s.answers / total) * 100}%` }} />
+            ))}
+          </div>
+        )}
+        <ul className="grid grid-cols-2 gap-3 lg:grid-cols-4">
+          {sources.map((s) => (
+            <li key={s.mode} className="rounded-2xl bg-sunken px-3 py-2.5">
+              <p className="flex items-center gap-2 text-sm font-extrabold text-ink">
+                <span className={`h-2.5 w-2.5 rounded-full ${SOURCE_TONE[s.mode]}`} />
+                {MODE_INFO[s.mode].label}
+              </p>
+              <p className="num mt-1 text-xl font-extrabold text-ink">{s.answers}</p>
+              <p className="num text-xs text-ink-3">
+                {pct(accuracy(s.right, s.answers - s.right))} right{s.sessions ? ` · ${s.sessions} session${s.sessions === 1 ? '' : 's'}` : ''}
+              </p>
+            </li>
+          ))}
+        </ul>
+        <p className="text-xs leading-relaxed text-ink-3">
+          Every mode adds to the same terms, so Known, Due, Strength and Coverage count all of these together. Call It answers keep a term on schedule but can't make it Known on their own.
+        </p>
+      </Card>
+    </section>
   );
 }
 

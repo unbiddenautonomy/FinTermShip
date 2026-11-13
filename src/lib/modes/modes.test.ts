@@ -238,3 +238,20 @@ describe('Recall Exchange', () => {
     expect(m1.modes).toEqual(m2.modes);
   });
 });
+
+describe('answer sources', () => {
+  it('gives Path whatever the other modes did not record', async () => {
+    const { answerSources, recordAnswer } = await import('./knowledge');
+    const { newProgress, introduce, graduate, recordPractice } = await import('../scheduler');
+    let p = newProgress();
+    p = graduate(introduce(p, 'bid', '2026-01-01'), 'bid', '2026-01-01');
+    p = recordPractice(p, 'bid', true);
+    p = recordPractice(p, 'bid', false);
+    p = recordAnswer(p, { termId: 'bid', correct: true, ms: 3000, evidence: 'weak', mode: 'callit' }, '2026-01-05');
+    const s = Object.fromEntries(answerSources(p).map((x) => [x.mode, x]));
+    expect(s.callit.answers).toBe(1);
+    expect(s.path.answers).toBe(2);
+    expect(s.path.right).toBe(1);
+    expect(s.lines.answers).toBe(0);
+  });
+});

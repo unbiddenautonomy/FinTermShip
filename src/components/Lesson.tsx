@@ -3,6 +3,7 @@ import { categoryOfTerm, isCore, talkById, termById, termName } from '../lib/con
 import { applyTest, settleFocus } from '../lib/choose';
 import type { LessonPlan } from '../lib/lesson';
 import { promptFor, retryQuestion, tidyOption, type Rng } from '../lib/questions';
+import { evidenceOf, finishModeSession, recordAnswer, type ModeId } from '../lib/modes/knowledge';
 import { finishLesson, graduate, introduce, recordPractice, review } from '../lib/scheduler';
 import { speak } from '../lib/speech';
 import type { Progress, Question, ScoredQuestion, TalkFormat, TalkItem, Term } from '../lib/types';
@@ -49,6 +50,8 @@ interface Props {
   onProgress: (p: Progress) => void;
   onFinish: (summary: LessonSummary) => void;
   onQuit: () => void;
+  /** Set when a mode other than Path runs the lesson: answers go through the shared recordAnswer and are tallied for that mode. */
+  mode?: Exclude<ModeId, 'path'>;
 }
 
 type Item = { q: Question; retry: boolean };
@@ -72,7 +75,7 @@ const TALK_LABELS: Record<TalkFormat, { text: string; tone: Tone; icon: ReactNod
   misuse: { text: 'Spot the misuse', tone: 'amber', icon: <Target className="h-3.5 w-3.5" /> },
 };
 
-export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQuit }: Props) {
+export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQuit, mode }: Props) {
   const [items, setItems] = useState<Item[]>(() => plan.questions.map((q) => ({ q, retry: false })));
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
@@ -112,6 +115,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
     const perfect = stats.firstTryTotal > 0 && stats.firstTryCorrect === stats.firstTryTotal;
     const xp = 10 + (perfect ? 5 : 0) + stats.reviewsCorrect;
     p = finishLesson(p, today, xp);
+    if (mode) p = finishModeSession(p, mode, today);
     onProgress(p);
     onFinish({
       xp,
@@ -124,7 +128,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
       weak: plan.weak,
       test,
     });
-  }, [plan, today, stats, missed, isTest, onProgress, onFinish]);
+  }, [plan, today, stats, missed, isTest, onProgress, onFinish, mode]);
 
   const next = useCallback(() => {
     setPicked(null);
@@ -160,7 +164,8 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
         return;
       }
       let p = progressRef.current;
-      if (q.review && !item.retry) p = review(p, q.termId, correct, ms, today, isCore(q.termId));
+      if (mode && !item.retry) p = recordAnswer(p, { termId: q.termId, correct, ms, evidence: evidenceOf(q.kind), mode }, today);
+      else if (q.review && !item.retry) p = review(p, q.termId, correct, ms, today, isCore(q.termId));
       else p = recordPractice(p, q.termId, correct);
       onProgress(p);
       if (!correct) {
@@ -169,21 +174,23 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
         if (!item.retry) setItems((list) => [...list, { q: retryQuestion(q, rng, new Set(Object.keys(progressRef.current.terms))), retry: true }]);
       }
     },
-    [q, item, picked, today, rng, isTest, onProgress, score],
+    [q, item, picked, today, rng, isTest, onProgress, score, mode],
   );
 
   const matchDone = useCallback(
     (mistakes: Record<string, number>) => {
       if (!q || q.kind !== 'match') return;
       let p = progressRef.current;
-      for (const id of q.termIds) p = recordPractice(p, id, !mistakes[id]);
+      const ms = Date.now() - shownAt.current;
+      for (const id of q.termIds)
+        p = mode && !item.retry ? recordAnswer(p, { termId: id, correct: !mistakes[id], ms, evidence: 'medium', mode }, today) : recordPractice(p, id, !mistakes[id]);
       onProgress(p);
       const wrongIds = Object.keys(mistakes).filter((id) => mistakes[id] > 0);
       score(wrongIds.length === 0, item.retry, false);
       if (wrongIds.length) setMissed((m) => [...m, ...wrongIds.filter((id) => !m.includes(id))]);
       next();
     },
-    [q, item, onProgress, next, score],
+    [q, item, onProgress, next, score, mode, today],
   );
 
   useEffect(() => {
