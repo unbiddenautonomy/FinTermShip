@@ -67,6 +67,13 @@ for (const b of read('backtests.json')) {
   });
 }
 
+// Headline Desk and Finnections content (the app ships only rounds.json: ids, levels and terms).
+for (const h of read('modes/headlines.json')) {
+  take(`headline ${h.id}`, h.head + ' ' + h.dek);
+  take(`headline ${h.id}: why`, h.why);
+}
+for (const b of read('modes/finnections.json')) b.groups.forEach((g, i) => take(`board ${b.id}: group ${i + 1} why`, g.why));
+
 const found = samples.filter((s) => bundle.includes(s.text));
 if (found.length) {
   console.error(`The app's bundle holds ${found.length} pieces of term cards or packs, which should only come from the server. First few:`);

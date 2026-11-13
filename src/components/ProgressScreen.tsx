@@ -144,7 +144,7 @@ export function ProgressScreen({ progress, today, onWeak }: { progress: Progress
   );
 }
 
-const SOURCE_TONE = { path: 'bg-brand', lines: 'bg-sky', callit: 'bg-amber', exchange: 'bg-violet' } as const;
+const SOURCE_TONE = { path: 'bg-brand', lines: 'bg-sky', callit: 'bg-amber', exchange: 'bg-violet', headline: 'bg-bad', finnections: 'bg-good' } as const;
 
 /** Where your answers came from: every mode writes to the same record, and this splits it by mode. */
 function Sources({ progress }: { progress: Progress }) {
@@ -176,7 +176,7 @@ function Sources({ progress }: { progress: Progress }) {
           ))}
         </ul>
         <p className="text-xs leading-relaxed text-ink-3">
-          Every mode adds to the same terms, so Known, Due, Strength and Coverage count all of these together. A true or false call in Call It is practice: it can't move a term on its own, but a wrong call brings the term back for a proper review the next day.
+          Every mode adds to the same terms, so Known, Due, Strength and Coverage count all of these together. A true or false call in Call It, or a headline line in Headline Desk, is practice: it can't move a term on its own, but a wrong call brings the term back for a proper review the next day.
         </p>
       </Card>
     </section>

@@ -111,7 +111,7 @@ describe('landing', () => {
     const onExchange = { ...p, settings: { ...p.settings, landing: 'exchange' as ModeId } };
     expect(landingMode(onExchange, ['exchange'])).toBe('path');
     expect(landingMode(onExchange, ['callit'])).toBe('exchange');
-    expect(modesOn(['callit', 'path', 'nonsense'])).toEqual(['path', 'lines', 'exchange']);
+    expect(modesOn(['callit', 'path', 'nonsense'])).toEqual(['path', 'lines', 'exchange', 'headline', 'finnections']);
   });
 });
 

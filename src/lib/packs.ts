@@ -1,6 +1,6 @@
 /**
- * Packs: a desk case, or the content one game draws on (meeting clips, Fermi
- * questions, backtest reports). Like term cards, they are not in the app's
+ * Packs: a desk case, or the content one game or mode draws on (meeting clips,
+ * Fermi questions, backtest reports, Headline Desk headlines, Finnections boards). Like term cards, they are not in the app's
  * files: the server sends a pack when the learner opens that case or game
  * (worker/cards.ts), and the app keeps it with the account's cards.
  */
@@ -8,6 +8,7 @@ import { STRATEGIES, type Strategy } from './backtest';
 import { caseById, unitById } from './content';
 import { fermiItems, type FermiItem } from './fermi';
 import { clips, type Clip } from './meeting';
+import { boardById, headlineById, type Board, type Headline } from './modes/rounds';
 import type { DeskCase } from './types';
 
 /** Games whose content is a pack; the others make their rounds in code. */
@@ -34,6 +35,8 @@ export function applyPacks(packs: Record<string, unknown>): void {
     else if (id === 'meeting') clips.splice(0, clips.length, ...(data as Clip[]));
     else if (id === 'fermi') fermiItems.splice(0, fermiItems.length, ...(data as FermiItem[]));
     else if (id === 'backtest') STRATEGIES.splice(0, STRATEGIES.length, ...(data as Strategy[]));
+    else if (id === 'headlines' || id === 'headlines:p3') for (const h of data as Headline[]) headlineById.set(h.id, h);
+    else if (id === 'finnections' || id === 'finnections:p3') for (const b of data as Board[]) boardById.set(b.id, b);
     else continue;
     have.add(id);
   }
@@ -45,5 +48,7 @@ export function clearPacks(): void {
   clips.length = 0;
   fermiItems.length = 0;
   STRATEGIES.length = 0;
+  headlineById.clear();
+  boardById.clear();
   have.clear();
 }

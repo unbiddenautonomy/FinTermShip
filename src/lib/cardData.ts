@@ -24,11 +24,14 @@ import commodities from '../data/terms/commodities.json';
 import credit from '../data/terms/credit.json';
 import fundamentals from '../data/terms/fundamentals.json';
 import claims from '../data/modes/claims.json';
+import headlines from '../data/modes/headlines.json';
+import boards from '../data/modes/finnections.json';
 import talk from '../data/talk.json';
 import cases from '../data/cases.json';
 import meetings from '../data/meetings.json';
 import fermi from '../data/fermi.json';
 import backtests from '../data/backtests.json';
+import type { Board, Headline } from './modes/rounds';
 import { CARD_FIELDS, type Card, type Category, type TalkItem, type WrittenClaim } from './types';
 
 /** The syllabus with every term in full. */
@@ -57,12 +60,23 @@ export function buildCards(): Map<string, Card> {
   return cards;
 }
 
-/** Every pack, by id: each desk case as 'case:<unit id>', and the meeting, Fermi and backtest games' content. */
+/**
+ * Every pack, by id: each desk case as 'case:<unit id>', the meeting, Fermi and backtest games'
+ * content, and the Headline Desk and Finnections content. Items that use a phase 3 term go in
+ * a ':p3' pack of their own, given only once phase 3 is open.
+ */
 export function buildPacks(): Map<string, unknown> {
   const packs = new Map<string, unknown>();
   for (const [id, c] of Object.entries(cases)) packs.set(`case:${id}`, c);
   packs.set('meeting', meetings);
   packs.set('fermi', fermi);
   packs.set('backtest', backtests);
+  const phase3 = new Set(fullCategories.filter((c) => c.phase === 3).flatMap((c) => c.terms.map((t) => t.id)));
+  const split = <T,>(id: string, items: T[], terms: (x: T) => string[]) => {
+    packs.set(id, items.filter((x) => !terms(x).some((t) => phase3.has(t))));
+    packs.set(`${id}:p3`, items.filter((x) => terms(x).some((t) => phase3.has(t))));
+  };
+  split('headlines', headlines as Headline[], (h) => h.items.map((i) => i.term));
+  split('finnections', boards as Board[], (b) => b.groups.flatMap((g) => g.terms));
   return packs;
 }
