@@ -1,6 +1,6 @@
 {
-  "name": "FinTermShip",
-  "short_name": "FinTermShip",
+  "name": "fintermship",
+  "short_name": "fintermship",
   "description": "Learn and remember trading and market terms.",
   "start_url": "/",
   "display": "standalone",

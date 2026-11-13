@@ -17,8 +17,8 @@ export function signInPage(): string {
 <link rel="manifest" href="/manifest.webmanifest" />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Fraunces:opsz,wght@9..144,600&display=swap" rel="stylesheet" />
-<title>FinTermShip</title>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Outfit:wght@300&display=swap" rel="stylesheet" />
+<title>fintermship</title>
 <style>
   :root { --bg: 246 244 238; --surface: 255 254 250; --line: 224 219 206; --ink: 20 34 28; --ink-2: 58 70 63; --ink-3: 114 122 112; --brand: 24 78 57; --brand-ink: 22 80 58; --bad-ink: 160 58 58; --bad-soft: 252 240 239; }
   @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]):not([data-theme="white"]) { --bg: 11 20 16; --surface: 18 31 25; --line: 40 58 49; --ink: 238 234 224; --ink-2: 208 210 199; --ink-3: 140 152 142; --brand: 40 112 82; --brand-ink: 222 172 126; --bad-ink: 240 150 150; --bad-soft: 60 28 28; } }
@@ -29,7 +29,7 @@ export function signInPage(): string {
   main { width: 100%; max-width: 380px; }
   .head { display: flex; align-items: center; gap: 12px; margin-bottom: 22px; }
   .head img { width: 48px; height: 48px; }
-  h1 { font: 600 28px/1.1 Fraunces, Georgia, serif; margin: 0; }
+  h1 { font: 300 30px/1.1 Outfit, Manrope, system-ui, sans-serif; letter-spacing: 0.04em; margin: 0; }
   .sub { margin: 2px 0 0; color: rgb(var(--ink-3)); font-size: 14px; }
   .card { background: rgb(var(--surface)); border: 1px solid rgb(var(--line)); border-radius: 20px; padding: 22px; }
   .tabs { display: flex; gap: 6px; margin-bottom: 18px; background: rgb(var(--bg)); border-radius: 12px; padding: 4px; }
@@ -55,7 +55,7 @@ export function signInPage(): string {
 <main>
   <div class="head">
     <img src="/brand/medallion-64.png" alt="" />
-    <div><h1>FinTermShip</h1><p class="sub">Trading and quant terms, a few a day.</p></div>
+    <div><h1>fintermship</h1><p class="sub">Trading and quant terms, a few a day.</p></div>
   </div>
   <form class="card" id="form" novalidate>
     <div class="tabs" role="tablist">
@@ -73,7 +73,7 @@ export function signInPage(): string {
     <button class="go" id="go" type="submit">Sign in</button>
     <p class="err" id="err" role="alert" hidden></p>
   </form>
-  <p class="note" id="note">FinTermShip is invite only. Ask the person who shared the link for an invite code.</p>
+  <p class="note" id="note">fintermship is invite only. Ask the person who shared the link for an invite code.</p>
 </main>
 <script>
   (function () {

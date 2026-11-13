@@ -274,7 +274,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
                 try {
                   setPending(await readBackupFile(new File([pasted], 'backup.json')));
                 } catch {
-                  setMessage('That text is not a FinTermShip backup.');
+                  setMessage('That text is not a fintermship backup.');
                 }
               }}
             >
@@ -344,7 +344,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
       )}
 
       <p className="px-1 text-xs leading-relaxed text-ink-3">
-        FinTermShip is a learning tool, not investment advice. Facts that change, such as rules and tax rates, show the date they were last checked in the glossary.
+        fintermship is a learning tool, not investment advice. Facts that change, such as rules and tax rates, show the date they were last checked in the glossary.
       </p>
     </div>
   );
