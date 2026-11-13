@@ -3,7 +3,6 @@
  * by two questions on what the people meant. A round is five clips from five
  * different settings, with half a minute for each question.
  */
-import meetings from '../data/meetings.json';
 import { shuffle, type Rng } from './questions';
 
 export const MEETING = { clips: 5, perClip: 2, passRight: 8, seconds: 30 };
@@ -37,7 +36,8 @@ export interface Clip {
   terms: string[];
 }
 
-export const clips = meetings as Clip[];
+/** The clips. They come from the server when the learner opens the game (src/lib/packs.ts). */
+export const clips: Clip[] = [];
 
 export interface MeetingQuestion {
   q: string;

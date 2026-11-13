@@ -4,7 +4,7 @@
  * until passed, and can be skipped for a day.
  */
 import { settleFocus } from './choose';
-import { caseById, practiceKind } from './content';
+import { caseById, caseSummary, practiceKind } from './content';
 import { clock, DRILLS } from './drills';
 import { gameSpec } from './games';
 import { finishLesson } from './scheduler';
@@ -18,8 +18,8 @@ export const KIND_LABEL: Record<PracticeKind, string> = {
 
 /** Steps in one go at a case: you may miss one and still pass. */
 export function casePassMark(unitId: string): number {
-  const c = caseById.get(unitId);
-  return c ? c.steps.length - 1 : 0;
+  const steps = caseSummary.get(unitId)?.steps ?? 0;
+  return steps ? steps - 1 : 0;
 }
 
 /** What a round of this unit is, e.g. "10 questions" or "9 turns". */
@@ -27,7 +27,7 @@ export function roundSize(unitId: string): string {
   const kind = practiceKind(unitId);
   if (kind === 'drill') return `${DRILLS[unitId]?.count ?? 0} questions`;
   if (kind === 'game') return gameSpec(unitId)?.size ?? '';
-  if (kind === 'case') return `${caseById.get(unitId)?.steps.length ?? 0} decisions`;
+  if (kind === 'case') return `${caseSummary.get(unitId)?.steps ?? 0} decisions`;
   return '';
 }
 
@@ -43,12 +43,16 @@ export function passRule(unitId: string): string {
   return '';
 }
 
+/** What a case's sheet says before the case has come from the server. */
+export const CASE_UNSEEN = 'A short story of linked decisions on the desk. The story starts when you open the case.';
+
 /** A short description for the unit sheet. */
 export function practiceAbout(unitId: string): string {
   const kind = practiceKind(unitId);
   if (kind === 'drill') return DRILLS[unitId]?.about ?? '';
   if (kind === 'game') return gameSpec(unitId)?.about ?? '';
-  if (kind === 'case') return caseById.get(unitId)?.setup ?? '';
+  // A phase 3 case's setup comes from the server with the case itself, the first time it's opened.
+  if (kind === 'case') return caseSummary.get(unitId)?.setup ?? caseById.get(unitId)?.setup ?? CASE_UNSEEN;
   return '';
 }
 
@@ -64,7 +68,7 @@ export function recordLine(p: Progress, unitId: string): string {
   }
   if (kind === 'game') return gameSpec(unitId)?.record(rec) ?? '';
   if (kind === 'case') {
-    const steps = caseById.get(unitId)?.steps.length ?? 0;
+    const steps = caseSummary.get(unitId)?.steps ?? 0;
     if (rec?.passed) return `Passed · ${rec.bestRight}/${steps}`;
     if (rec) return `Best ${rec.bestRight}/${steps}`;
     return `Desk case, ${steps} decisions`;

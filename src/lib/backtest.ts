@@ -7,7 +7,6 @@
  * for a flawed one. A round deals six cases with six different flaws, from six
  * different strategies.
  */
-import strategies from '../data/backtests.json';
 import { shuffle, type Rng } from './questions';
 
 export const BACKTEST = { cases: 6, passPoints: 9 };
@@ -49,7 +48,8 @@ export interface Strategy {
   cases: { flaw: Flaw; slot: Slot; line: string; why: string; stats: { sharpe: number; annual: number; drawdown: number } }[];
 }
 
-export const STRATEGIES = strategies as Strategy[];
+/** The reports. They come from the server when the learner opens the game (src/lib/packs.ts). */
+export const STRATEGIES: Strategy[] = [];
 
 export interface BacktestCase {
   strategy: Strategy;
