@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { areaOpen, canTakeTest, unitOpen } from '../lib/choose';
-import { caseById, categories, categoryOfUnit, isPracticeUnit, practiceKind, termById, termIdsOfUnit, unitById } from '../lib/content';
+import { caseById, categories, categoryOfUnit, hasCard, isPracticeUnit, practiceKind, termById, termIdsOfUnit, unitById } from '../lib/content';
 import { drillPassed } from '../lib/drills';
 import { answer, careers, replyFor, STARTERS, type HelpAction, type Intent, type Reply, type Target } from '../lib/guide';
 import { todayStatus } from '../lib/lesson';
@@ -9,7 +9,7 @@ import { firstName } from '../lib/profile';
 import { currentUnit } from '../lib/track';
 import type { Progress } from '../lib/types';
 import { ChatIcon, Lock } from './icons';
-import { Pill, TermDetails } from './ui';
+import { NotReached, Pill, TermDetails } from './ui';
 
 export interface GuideEntry {
   id: number;
@@ -308,7 +308,7 @@ function ReplyView({ reply, progress: p, today, act }: { reply: Reply; progress:
               return (
                 <div key={id} className="rounded-xl bg-sunken/60 p-3">
                   <p className="font-extrabold text-ink">{t.term}</p>
-                  <p className="mt-1 text-[15px]">{t.definition}</p>
+                  {hasCard(id) ? <p className="mt-1 text-[15px]">{t.definition}</p> : <div className="mt-2"><NotReached term={t} /></div>}
                 </div>
               );
             })}

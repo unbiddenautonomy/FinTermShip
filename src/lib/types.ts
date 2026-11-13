@@ -24,6 +24,27 @@ export interface Term {
   tf?: TrueFalse[];
   /** For a number that moves, such as a company KPI: what a rise and a fall usually mean for traders. */
   reads?: { up: string; down: string };
+  /** Terms of the same area too close to stand as a wrong option in an example sentence (from the outline). */
+  near?: string[];
+}
+
+/** What a term card adds to the outline: everything the term teaches and asks. The app gets it from the server. */
+export const CARD_FIELDS = ['short', 'definition', 'examples', 'fill', 'wrong', 'note', 'formula', 'asOf', 'source', 'calcs', 'tf', 'reads'] as const;
+export type CardBody = Pick<Term, (typeof CARD_FIELDS)[number]>;
+
+/** A hand-written true or false claim about a term, for Call It. */
+export interface WrittenClaim {
+  id: string;
+  term: string;
+  s: string;
+  a: boolean;
+  why: string;
+}
+
+/** One term's card: its body, plus the Call It claims and talk items written for it. */
+export interface Card extends CardBody {
+  claims?: WrittenClaim[];
+  talk?: TalkItem[];
 }
 
 export interface Calc {

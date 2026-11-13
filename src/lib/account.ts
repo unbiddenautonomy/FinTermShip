@@ -89,6 +89,8 @@ export const signIn = (email: string, password: string) => api<{ user: Me }>('PO
 export const signUp = (email: string, password: string, invite: string) => api<{ user: Me }>('POST', 'signup', { email, password, invite }).then((r) => r.user);
 export const signOut = () => api<{ ok: true }>('POST', 'logout', {});
 export const changePassword = (current: string, next: string) => api<{ user: Me }>('POST', 'password', { current, next });
+/** The password for the quant switch and phase 3, checked on the server. Right once, and the account keeps both. */
+export const unlock = (password: string) => api<{ user: Me }>('POST', 'unlock', { password }).then((r) => r.user);
 
 /** Send this device's progress; get back the merge of every device's. */
 export async function pushProgress(p: Progress): Promise<Progress> {

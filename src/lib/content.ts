@@ -1,25 +1,17 @@
-import basics from '../data/terms/basics.json';
-import india from '../data/terms/india.json';
-import options from '../data/terms/options.json';
-import quant from '../data/terms/quant.json';
-import trading from '../data/terms/trading.json';
-import desk from '../data/terms/desk.json';
-import conditions from '../data/terms/conditions.json';
-import micro from '../data/terms/micro.json';
-import skills from '../data/terms/skills.json';
-import instruments from '../data/terms/instruments.json';
-import execution from '../data/terms/execution.json';
-import macro from '../data/terms/macro.json';
-import strategies from '../data/terms/strategies.json';
-import systematic from '../data/terms/systematic.json';
-import commodities from '../data/terms/commodities.json';
-import credit from '../data/terms/credit.json';
-import fundamentals from '../data/terms/fundamentals.json';
+import outline from '../data/outline.json';
 import cases from '../data/cases.json';
-import talk from '../data/talk.json';
-import type { Category, DeskCase, PracticeKind, TalkItem, Term, Unit } from './types';
+import { CARD_FIELDS, type Card, type Category, type DeskCase, type PracticeKind, type TalkItem, type Term, type Unit, type WrittenClaim } from './types';
 
-export const categories: Category[] = ([basics, india, trading, options, instruments, quant, skills, desk, conditions, macro, micro, execution, commodities, credit, fundamentals, strategies, systematic] as Category[]).sort((a, b) => a.order - b.order);
+/**
+ * The syllabus as the app ships it: areas, units and each term's name, from
+ * src/data/outline.json. What a term means, its examples and its questions
+ * come on its card, which the server sends once the learner reaches the term
+ * (src/lib/cards.ts). Until then the term's text fields are empty and
+ * `hasCard` is false.
+ */
+const blankBody = () => ({ short: '', definition: '', examples: [] as string[], fill: '', wrong: [] as string[] });
+
+export const categories: Category[] = (outline.categories as unknown as Category[]).map((c) => ({ ...c, terms: c.terms.map((t) => ({ ...blankBody(), ...t }) as Term) }));
 
 export const termById = new Map<string, Term>();
 export const unitById = new Map<string, Unit & { categoryId: string }>();
@@ -63,11 +55,88 @@ export function isPracticeUnit(unitId: string): boolean {
   return practiceKind(unitId) !== null;
 }
 
-/** Talk items (decode it, say it like the desk, respond in the room, spot the misuse), by id and by the term they practise. */
-export const talkItems = talk as TalkItem[];
-export const talkById = new Map(talkItems.map((i) => [i.id, i]));
+/** Talk items (decode it, say it like the desk, respond in the room, spot the misuse), by id and by the term they practise. They come on their term's card. */
+export const talkItems: TalkItem[] = [];
+export const talkById = new Map<string, TalkItem>();
 export const talkByTerm = new Map<string, TalkItem[]>();
-for (const i of talkItems) talkByTerm.set(i.term, [...(talkByTerm.get(i.term) ?? []), i]);
+
+/** Hand-written Call It claims, by the term they test. They come on their term's card. */
+export const writtenByTerm = new Map<string, WrittenClaim[]>();
+
+// ---------- Term cards ----------
+const carded = new Set<string>();
+let cardsVersion = 0;
+const cardListeners = new Set<() => void>();
+
+/** Whether the term's card has arrived: its meaning, examples and questions are here. */
+export function hasCard(id: string): boolean {
+  return carded.has(id);
+}
+
+/** A term of the syllabus whose card hasn't arrived: leave it out of reviews and lists until it does. */
+export function awaitingCard(id: string): boolean {
+  return termById.has(id) && !carded.has(id);
+}
+
+/** A term's one-line gloss once its card is here; before that, the unit it comes in. */
+export function glossOrUnit(term: Term): string {
+  return carded.has(term.id) ? term.short : `In ${unitById.get(term.unit)?.name ?? 'a later unit'}`;
+}
+
+/** How many cards have arrived. */
+export function cardCount(): number {
+  return carded.size;
+}
+
+/** Fill terms in from their cards. Cards for unknown terms are skipped. */
+export function applyCards(cards: Record<string, Card>): void {
+  let added = 0;
+  for (const [id, card] of Object.entries(cards)) {
+    const t = termById.get(id);
+    if (!t) continue;
+    const { claims, talk, ...body } = card;
+    Object.assign(t, body);
+    writtenByTerm.set(id, claims ?? []);
+    for (const old of talkByTerm.get(id) ?? []) {
+      talkById.delete(old.id);
+      talkItems.splice(talkItems.indexOf(old), 1);
+    }
+    talkByTerm.set(id, talk ?? []);
+    for (const i of talk ?? []) {
+      talkItems.push(i);
+      talkById.set(i.id, i);
+    }
+    if (!carded.has(id)) added++;
+    carded.add(id);
+  }
+  if (added || Object.keys(cards).length) {
+    cardsVersion++;
+    for (const f of cardListeners) f();
+  }
+}
+
+/** Empty every card again (tests, and signing in as someone else on this device). */
+export function clearCards(): void {
+  for (const id of carded) {
+    const t = termById.get(id)!;
+    for (const k of CARD_FIELDS) delete (t as unknown as Record<string, unknown>)[k];
+    Object.assign(t, blankBody());
+  }
+  carded.clear();
+  talkItems.length = 0;
+  talkById.clear();
+  talkByTerm.clear();
+  writtenByTerm.clear();
+  cardsVersion++;
+  for (const f of cardListeners) f();
+}
+
+/** For React: re-render when cards arrive. */
+export function subscribeCards(f: () => void): () => void {
+  cardListeners.add(f);
+  return () => cardListeners.delete(f);
+}
+export const getCardsVersion = () => cardsVersion;
 
 /** Every term a talk item needs the learner to know. */
 export function talkTerms(i: TalkItem): string[] {

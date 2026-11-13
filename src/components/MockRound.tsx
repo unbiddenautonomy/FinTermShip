@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ANSWER_HINT, checkAnswer, clock } from '../lib/drills';
-import { isRight, mockByRound, mockReady, MOCK_READY, newMock, recordMock, type MockAnswer, type MockQuestion } from '../lib/mock';
+import { isRight, mockByRound, mockReady, MOCK_MIN, MOCK_READY, newMock, recordMock, type MockAnswer, type MockQuestion } from '../lib/mock';
 import { comma } from '../lib/profile';
 import { seededRng } from '../lib/questions';
 import type { Progress } from '../lib/types';
@@ -118,6 +118,12 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
             One clock for the whole round and no marks until the end, like the real thing. You can skip a question; skipped and unanswered questions count as wrong. Get{' '}
             {Math.round(MOCK_READY * 100)}% to count as interview-ready.
           </p>
+          {questions.length < spec.count && (
+            <p className="text-sm font-semibold leading-relaxed text-amber-ink">
+              This round's sums come from terms you have met, and you have met the terms for {questions.length} so far. Learn more of them to fill it
+              {questions.length < MOCK_MIN ? `: it opens at ${MOCK_MIN}.` : '.'}
+            </p>
+          )}
           {best && (
             <p className="num text-sm font-bold text-ink-3">
               Best: {best.best} of {best.total}
@@ -125,7 +131,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
             </p>
           )}
         </Card>
-        <Button className="w-full" onClick={start}>
+        <Button className="w-full" onClick={start} disabled={questions.length < MOCK_MIN}>
           Start the clock
         </Button>
       </div>

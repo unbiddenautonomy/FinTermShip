@@ -35,15 +35,17 @@ What it has now:
 
 ```bash
 npm install
-npm run dev        # http://localhost:5173
+npm run dev        # http://localhost:5173, every term card loaded (no server, no sign-in)
 npm test           # scheduler, lesson, drill and path tests
 npm run check:terms  # validates every term card
-npm run build      # checks terms, type-checks, builds to dist/
+npm run build      # checks terms and the outline, type-checks, builds to dist/, then checks no card is in dist/
 ```
 
 ## Adding or editing terms
 
 Terms live in `src/data/terms/*.json`, one file per category. `npm run check:terms` fails if a card is missing a field, has a broken fill-in sentence, gives the answer away, or points at an unknown confusable term. Facts that change (rules, tax rates, timings) carry `asOf` and `source`.
+
+After editing terms, run `npm run build:outline` (and `npm run build:modes`). The app ships only the outline, `src/data/outline.json`: areas, units, and each term's name, aliases, unit and confusables, never what it means. Everything else on a term, plus its talk items and Call It claims, is its card, and the Worker sends cards to each learner as they reach the terms (see "Who sees the content" below). The build fails if the outline is out of date, and `scripts/check-bundle.mjs` fails it if any definition, example, fill sentence, worked sum, claim or talk item turns up in `dist/`.
 
 ## Adding or editing drills
 
@@ -57,7 +59,7 @@ Talk items live in `src/data/talk.json`. Each has a `format` (`decode`, `say`, `
 
 Cases live in `src/data/cases.json`, keyed by the id of a unit with `"kind": "case"`. Each has a setup, a few facts, and steps; every step has 3 or 4 options, exactly one marked `best`, and a `why` for each option. `npm run check:terms` checks all of this, and that every term a step names exists. A learner passes with all but one best call.
 
-Phase 3 areas are term files with `"phase": 3`; none of their units may be core. The readiness test's question pool (`PHASE3_PREREQS`) and its size are in `src/lib/phase3.ts`.
+Phase 3 areas are term files with `"phase": 3`; none of their units may be core. The readiness test's question pool (`PHASE3_PREREQS`) is in `src/lib/phase3prereqs.ts` (the Worker reads it too) and its size in `src/lib/phase3.ts`.
 
 The career map is `src/data/careers.json`: roles and interview rounds, each with the unit ids to practise. `npm run check:terms` checks that those units exist.
 
@@ -77,13 +79,26 @@ Signal lab and Pairs trader draw their data fresh each round. Their generators r
 
 ## The password
 
-The quant switch and phase 3 ask for the same password. Only its hash is in the code, in `src/lib/gate.ts`. To change it:
+The quant switch and phase 3 ask for the same password. The Worker checks it (`POST /api/unlock`, eight wrong tries lock it for 15 minutes) and, once it is right, opens both on the account; the app holds no copy of it. Only a salted PBKDF2 hash is kept, in `UNLOCK_HASH` in `worker/index.ts`. To change the password:
 
 ```bash
 node scripts/hash-password.mjs "new password"
 ```
 
-Paste the printed hash into `PASSWORD_HASH`. This only keeps the password out of plain sight: anyone who reads the code closely can get past it. Access granted on an account (below) is the real lock, and stands in for the password.
+Set the printed hash as a runtime secret named `UNLOCK_HASH` on the Worker (Settings, Variables and secrets), which takes the place of the one in the code, or paste it into `worker/index.ts`. Access granted on an account (below) does the same as the password.
+
+## Who sees the content
+
+Opening Inspect on the app shows what the browser was sent. So the browser is sent only what this learner has reached:
+
+- Signed out, nothing: the sign-in page only (see below).
+- Signed in, the app's code and the outline (term names, never what they mean), plus the **cards** for the terms this account has reached. A card holds a term's definition, examples, fill sentence, wrong options, worked sums, true-or-false items, its talk items and its Call It claims.
+- The Worker (`worker/cards.ts`) keeps which cards each account has been given. It gives new terms as the learner starts a lesson on them, at most 60 in any 24 hours (Path's largest daily goal is 40); an area test's core terms for up to three area tests a day; and phase 3 terms only to accounts with phase 3. The admin gets any card. Accounts made before 15 November 2026 got the cards for the terms in their synced progress once.
+- The app keeps its cards in IndexedDB per account, so it opens quickly and works offline on terms already met, and asks the server only for what is new (`src/lib/cards.ts`). Until a term's card arrives, the term shows its name and the unit it comes in.
+
+Desk cases, meeting clips, Fermi questions and backtest reports still ship with the app for now; they are next to move to the server.
+
+A signed-in learner can still save the cards they have been given, and the answers to the lesson in front of them are in the browser. Seeing the whole syllabus would take weeks at the daily limit, and the admin sees each account's activity.
 
 ## Accounts and sync
 
