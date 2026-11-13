@@ -56,17 +56,40 @@ describe('one answer, one memory, whatever the mode', () => {
       ids.reduce((acc, id, i) => recordAnswer(acc, { termId: id, correct: i % 3 !== 0, ms: 3000, evidence: 'strong', mode }, today), p);
     const a = run('callit');
     const b = run('exchange');
+    const c = run('path');
     expect(a.terms).toEqual(b.terms);
+    expect(c.terms).toEqual(b.terms);
     expect(kpis(a, today)).toEqual(kpis(b, today));
+    expect(kpis(c, today)).toEqual(kpis(b, today));
+    // Path keeps no tally of its own: its share is worked out from the term record.
+    expect(c.modes?.path).toBeUndefined();
     expect(a.modes?.callit?.answers).toBe(ids.length);
     expect(b.modes?.exchange?.answers).toBe(ids.length);
   });
 
   it('wrong answers drop a term and bring it back tomorrow in every mode', () => {
     const p = learner(ids, 4, today);
-    const q = recordAnswer(p, { termId: 'bid', correct: false, ms: 1000, evidence: 'weak', mode: 'callit' }, today);
-    expect(q.terms.bid.step).toBe(2);
-    expect(q.terms.bid.due).toBe(addDays(today, 1));
+    for (const mode of ['path', 'lines', 'exchange'] as ModeId[]) {
+      const q = recordAnswer(p, { termId: 'bid', correct: false, ms: 1000, evidence: 'strong', mode }, today);
+      expect(q.terms.bid.step).toBe(2);
+      expect(q.terms.bid.due).toBe(addDays(today, 1));
+    }
+  });
+
+  it('a true/false call never moves the ladder: right is practice, wrong brings the term back tomorrow', () => {
+    const p = learner(ids, 4, addDays(today, 10));
+    const right = recordAnswer(p, { termId: 'bid', correct: true, ms: 1000, evidence: 'weak', mode: 'callit' }, today);
+    expect({ ...right.terms.bid, seen: 0, correct: 0 }).toEqual({ ...p.terms.bid, seen: 0, correct: 0 });
+    const wrong = recordAnswer(p, { termId: 'bid', correct: false, ms: 1000, evidence: 'weak', mode: 'callit' }, today);
+    expect(wrong.terms.bid.step).toBe(4);
+    expect(wrong.terms.bid.due).toBe(addDays(today, 1));
+    // A due term stays due for a proper review, whatever the call.
+    const due = learner(ids, 3, today);
+    for (const correct of [true, false]) {
+      const q = recordAnswer(due, { termId: 'bid', correct, ms: 1000, evidence: 'weak', mode: 'callit' }, today);
+      expect(q.terms.bid.step).toBe(3);
+      expect(q.terms.bid.due).toBe(today);
+    }
   });
 });
 

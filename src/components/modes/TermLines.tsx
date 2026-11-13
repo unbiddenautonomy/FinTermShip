@@ -10,7 +10,7 @@ import { termById, unitById } from '../../lib/content';
 import { KIND_LABEL } from '../../lib/practice';
 import type { LessonPlan } from '../../lib/lesson';
 import { areaKpis, type ModeId } from '../../lib/modes/knowledge';
-import { buildRide, lines, lineById, nextStop, RIDE_STOPS, type Line } from '../../lib/modes/plans';
+import { buildRevisit, buildRide, canRideFrom, dueStops, frontier, lines, lineById, REVISIT_MAX, RIDE_STOPS, type Line } from '../../lib/modes/plans';
 import { areaOf, areas, termStatus, type TermStatus } from '../../lib/modes/status';
 import { interchangesAt } from '../../lib/modes/transfer';
 import type { Rng } from '../../lib/questions';
@@ -125,13 +125,18 @@ function LineView({
 }) {
   const [sheet, setSheet] = useState<string | null>(null);
   const colour = colourOf(line.id);
-  const here = nextStop(progress, line.id, today);
+  const here = frontier(progress, line.id);
   const unitAt = useMemo(() => new Map(line.units.map((u) => [u.from, u])), [line]);
-  const preview = useMemo(() => buildRide(progress, line.id, here, today, () => 0.5), [progress, line.id, here, today]);
+  const preview = useMemo(() => (here >= 0 ? buildRide(progress, line.id, here, today, () => 0.5) : null), [progress, line.id, here, today]);
+  const due = dueStops(progress, line.id, today);
   const ride = (from: number) => onRun((rng) => buildRide(progress, line.id, from, today, rng)?.plan ?? null);
+  const revisit = () => onRun((rng) => buildRevisit(progress, line.id, today, rng));
   const stopOf = (termId: string) => line.stops.findIndex((s) => 'term' in s && s.term === termId);
+  const termAt = (i: number) => termById.get((line.stops[i] as { term: string }).term);
   const terms = line.stops.filter((s) => 'term' in s).length;
   const met = line.stops.filter((s) => 'term' in s && progress.terms[s.term]).length;
+  const allLocked = line.units.every((u) => !unitOpen(progress, u.id));
+  const waiting = line.stops.some((s) => 'term' in s && !progress.terms[s.term]);
 
   return (
     <ModeFrame
@@ -156,27 +161,48 @@ function LineView({
         </span>
       }
     >
-      <div className="sticky top-2 z-20 flex items-center gap-3 rounded-2xl border border-line bg-surface/95 p-3 shadow-card backdrop-blur">
-        <div className="min-w-0 flex-1 text-sm">
-          {preview ? (
-            <>
-              <p className="font-bold text-ink">
-                Ride from {termById.get('term' in line.stops[here] ? (line.stops[here] as { term: string }).term : '')?.term ?? 'here'}
-              </p>
+      <div className="sticky top-2 z-20 space-y-2 rounded-2xl border border-line bg-surface/95 p-3 shadow-card backdrop-blur">
+        <div className="flex items-center gap-3">
+          <div className="min-w-0 flex-1 text-sm">
+            {preview ? (
+              <>
+                <p className="font-bold text-ink">Ride on from {termAt(here)?.term ?? 'here'}</p>
+                <p className="text-ink-3">
+                  {[
+                    preview.plan.newIds.length ? `${preview.plan.newIds.length} new` : '',
+                    preview.to - preview.from + 1 - preview.plan.newIds.length > 0 ? `${preview.to - preview.from + 1 - preview.plan.newIds.length} met` : '',
+                  ]
+                    .filter(Boolean)
+                    .join(', ')}
+                  {preview.endsAt && 'depot' in preview.endsAt ? ' · ends at a depot' : ''}
+                </p>
+              </>
+            ) : (
               <p className="text-ink-3">
-                {preview.plan.newIds.length ? `${preview.plan.newIds.length} new` : ''}
-                {preview.plan.newIds.length && preview.to - preview.from + 1 - preview.plan.newIds.length > 0 ? ', ' : ''}
-                {preview.to - preview.from + 1 - preview.plan.newIds.length > 0 ? `${preview.to - preview.from + 1 - preview.plan.newIds.length} to revisit` : ''}
-                {preview.endsAt && 'depot' in preview.endsAt ? ' · ends at a depot' : ''}
+                {allLocked
+                  ? 'This line opens after the phase 3 test.'
+                  : here >= 0
+                    ? 'No new stops left today. Come back tomorrow, or revisit a station.'
+                    : waiting
+                      ? 'The rest of this line opens with its area: meet every core term and pass its drills, or pass the area test in Path.'
+                      : 'Every station on this line is met.'}
               </p>
-            </>
-          ) : (
-            <p className="text-ink-3">{line.units.every((u) => !unitOpen(progress, u.id)) ? 'This line opens after the phase 3 test.' : 'No new stops left today. Come back tomorrow, or revisit a station.'}</p>
-          )}
+            )}
+          </div>
+          <Button onClick={() => ride(here)} disabled={!preview} className="!px-4 !py-2.5 text-sm">
+            Ride {Math.min(RIDE_STOPS, preview ? preview.to - preview.from + 1 : RIDE_STOPS)} stops
+          </Button>
         </div>
-        <Button onClick={() => ride(here)} disabled={!preview} className="!px-4 !py-2.5 text-sm">
-          Ride {Math.min(RIDE_STOPS, preview ? preview.to - preview.from + 1 : RIDE_STOPS)} stops
-        </Button>
+        {due.length > 0 && (
+          <div className="flex items-center gap-3 border-t border-line pt-2">
+            <p className="min-w-0 flex-1 text-sm text-ink-3">
+              <span className="font-bold text-amber-ink">{due.length} due</span> on this line, wherever they sit
+            </p>
+            <Button variant="secondary" onClick={revisit} className="!px-4 !py-2 text-sm">
+              Revisit {Math.min(due.length, REVISIT_MAX)}
+            </Button>
+          </div>
+        )}
       </div>
 
       <ol className="relative">
@@ -255,10 +281,14 @@ function LineView({
           onClose={() => setSheet(null)}
           onOpenTerm={setSheet}
           actions={
-            stopOf(sheet) >= 0 && unitOpen(progress, termById.get(sheet)!.unit) ? (
+            stopOf(sheet) < 0 || !unitOpen(progress, termById.get(sheet)!.unit) ? undefined : canRideFrom(progress, line.id, stopOf(sheet)) ? (
               <Button onClick={() => ride(stopOf(sheet))} className="sm:col-span-2">
                 Ride from this station
               </Button>
+            ) : here >= 0 ? (
+              <p className="text-sm text-ink-3 sm:col-span-2">
+                Stations are met in the order Path teaches them, so this one comes {stopOf(sheet) - here} stops after {termAt(here)?.term}, where the line goes on from.
+              </p>
             ) : undefined
           }
         />

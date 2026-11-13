@@ -118,10 +118,18 @@ export function review(
   return withDay(out, today, { reviews: 1 });
 }
 
+/**
+ * A term is due once its review date arrives. That includes a term left at step 0 when its
+ * first lesson was not finished: its first review finishes it. Every mode uses this one test.
+ */
+export function isDueOn(s: TermState | undefined, today: string): boolean {
+  return !!s && s.due <= today;
+}
+
 /** Terms due on or before today, oldest due first, then lowest step. */
 export function dueTermIds(p: Progress, today: string): string[] {
   return Object.entries(p.terms)
-    .filter(([, s]) => s.due <= today)
+    .filter(([, s]) => isDueOn(s, today))
     .sort((a, b) => (a[1].due === b[1].due ? a[1].step - b[1].step : a[1].due < b[1].due ? -1 : 1))
     .map(([id]) => id);
 }

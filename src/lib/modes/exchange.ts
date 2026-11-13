@@ -5,7 +5,7 @@
 import tickerData from '../../data/modes/tickers.json';
 import { categoryOfTerm, isCore, termById } from '../content';
 import { addDays } from '../dates';
-import { isKnown } from '../scheduler';
+import { isDueOn, isKnown } from '../scheduler';
 import type { Progress } from '../types';
 import { kpis, modeRecord, strength } from './knowledge';
 
@@ -34,7 +34,7 @@ export function quote(p: Progress, termId: string, today: string): Quote | null 
     sector: categoryOfTerm.get(termId)!.id,
     price,
     change: price - before,
-    falling: s.step > 0 && s.due <= today,
+    falling: isDueOn(s, today),
     blueChip: isKnown(s),
   };
 }

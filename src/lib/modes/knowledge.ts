@@ -6,7 +6,7 @@
 import { categories, isCore, isPhase3Area } from '../content';
 import { addDays, daysBetween } from '../dates';
 import { phase3Open } from '../phase3';
-import { dueTermIds, intervalFor, isKnown, KNOWN_STEP, MAX_STEP, recordPractice, review, reviewsLeftToday } from '../scheduler';
+import { dueTermIds, intervalFor, isDueOn, isKnown, KNOWN_STEP, MAX_STEP, recordPractice, review, reviewsLeftToday } from '../scheduler';
 import type { Progress, Question, TermState } from '../types';
 
 export type ModeId = 'path' | 'lines' | 'callit' | 'exchange';
@@ -72,23 +72,36 @@ export interface Answer {
   ms: number;
   evidence: Evidence;
   mode: ModeId;
+  /**
+   * True when the answer can't stand as the term's review: the term is being taught in this
+   * session, the question is a match round or the retry of a missed question, or the learner
+   * chose a practice round, which never moves the schedule.
+   */
+  practice?: boolean;
 }
 
 /**
- * The one way any mode reports an answer.
- * A term that is due today gets a scheduled review; otherwise the answer is practice and the
+ * The one way any mode, Path included, reports an answer.
+ * The first medium or strong answer on a due term is its scheduled review; anything else is practice and the
  * ladder doesn't move. Because a review always books the next date for tomorrow or later,
  * a term can move on the ladder at most once a day, whichever modes are used.
- * Weak evidence never steps a term up; only strong evidence can make a term Known.
+ * Weak evidence (a true/false call) never moves the ladder; only strong evidence can make a term Known.
+ * Path's answers are not tallied separately: answerSources works out Path's share.
  */
 export function recordAnswer(p: Progress, a: Answer, today: string): Progress {
   const s = p.terms[a.termId];
   if (!s) return p;
   let out: Progress;
-  if (s.step > 0 && s.due <= today) {
+  if (a.evidence === 'weak' && !a.practice) {
+    // A true/false call can be guessed half the time, so it never stands as a review. A right call
+    // is practice. A wrong one flags the term: it comes back tomorrow for a proper review, without
+    // losing its step, so one unlucky call can't undo what the learner has shown.
+    out = recordPractice(p, a.termId, a.correct);
+    const tomorrow = addDays(today, 1);
+    if (!a.correct && s.due > tomorrow) out = { ...out, terms: { ...out.terms, [a.termId]: { ...out.terms[a.termId], due: tomorrow } } };
+  } else if (!a.practice && isDueOn(s, today)) {
     const core = isCore(a.termId);
-    // A weak right answer counts like a slow one: it holds the step and reschedules.
-    out = review(p, a.termId, a.correct, a.evidence === 'weak' ? Number.POSITIVE_INFINITY : a.ms, today, core);
+    out = review(p, a.termId, a.correct, a.ms, today, core);
     const next = out.terms[a.termId];
     if (a.correct && a.evidence !== 'strong' && s.step < KNOWN_STEP && next.step >= KNOWN_STEP) {
       const step = KNOWN_STEP - 1;
@@ -97,6 +110,7 @@ export function recordAnswer(p: Progress, a: Answer, today: string): Progress {
   } else {
     out = recordPractice(p, a.termId, a.correct);
   }
+  if (a.mode === 'path') return out;
   return withMode(out, a.mode, (r) => ({ ...r, answers: r.answers + 1, right: r.right + (a.correct ? 1 : 0) }));
 }
 

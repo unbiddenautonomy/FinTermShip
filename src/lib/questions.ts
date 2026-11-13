@@ -275,8 +275,7 @@ export function listenQuestion(term: Term, rng: Rng, review = false): Question |
 /**
  * Which format a scheduled review uses, by how well the term is known.
  * Early steps check recognition (by ear too, when `listen` is on); later steps
- * make the learner use the term: in a sentence, in a sum, in desk talk, or
- * against a common misreading.
+ * make the learner use the term: in a sentence, in a sum or in desk talk.
  */
 export function reviewQuestion(term: Term, step: number, rng: Rng, known?: Set<string>, listen = false): Question {
   const r = rng();
@@ -284,9 +283,10 @@ export function reviewQuestion(term: Term, step: number, rng: Rng, known?: Set<s
     if (listen && r < 0.2 && term.said) return listenQuestion(term, rng, true)!;
     return r < 0.5 ? meaningQuestion(term, rng, true) : termQuestion(term, rng, true, known);
   }
-  if (step === 2) return (r < 0.35 && tfQuestion(term, rng, true)) || termQuestion(term, rng, true, known);
+  // A scheduled review asks for recall, never a true/false call: a coin flip can't show a term is held.
+  // True/false claims stay in new lessons as practice and in Call It.
+  if (step === 2) return r < 0.35 ? fillQuestion(term, rng, true, known) : termQuestion(term, rng, true, known);
   if (r < 0.5 && term.calcs?.length) return calcQuestion(term, rng, true)!;
-  if (r > 0.8 && term.tf?.length) return tfQuestion(term, rng, true)!;
   if (r >= 0.45 && r < 0.7) {
     const item = talkFor(term, rng, known);
     if (item) return talkQuestion(item, rng, true);
