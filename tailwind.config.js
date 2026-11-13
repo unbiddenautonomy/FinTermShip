@@ -36,12 +36,14 @@ export default {
       keyframes: {
         sheet: { from: { transform: 'translateY(100%)' }, to: { transform: 'translateY(0)' } },
         pop: { '0%': { transform: 'scale(0.96)', opacity: '0' }, '100%': { transform: 'scale(1)', opacity: '1' } },
+        tape: { from: { transform: 'translateX(0)' }, to: { transform: 'translateX(-50%)' } },
         shake: { '0%,100%': { transform: 'translateX(0)' }, '25%': { transform: 'translateX(-4px)' }, '75%': { transform: 'translateX(4px)' } },
       },
       animation: {
         sheet: 'sheet 200ms cubic-bezier(0.2, 0.8, 0.2, 1)',
         pop: 'pop 180ms ease-out',
         shake: 'shake 250ms ease-in-out',
+        tape: 'tape 60s linear infinite',
       },
     },
   },

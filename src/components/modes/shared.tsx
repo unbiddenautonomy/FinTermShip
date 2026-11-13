@@ -24,9 +24,12 @@ import { Bar, TermDetails } from '../ui';
 export function TermDot({ status, colour, size = 14, className = '' }: { status: TermStatus; colour: string; size?: number; className?: string }) {
   const ring = Math.max(2, Math.round(size / 5));
   const base = { width: size, height: size, borderWidth: ring, borderColor: colour } as const;
+  // Due keeps the line colour but gains an amber halo, so it reads apart from Learning even when still (the ping is easy to miss).
   const fill =
-    status === 'met' || status === 'due'
-      ? { background: colour }
+    status === 'due'
+      ? { background: colour, boxShadow: `0 0 0 ${ring}px rgb(var(--surface)), 0 0 0 ${ring * 2}px rgb(var(--amber))` }
+      : status === 'met'
+        ? { background: colour }
       : status === 'known'
         ? { background: `radial-gradient(circle, rgb(var(--surface)) 0 34%, ${colour} 36%)` }
         : { background: 'rgb(var(--surface))' };

@@ -9,9 +9,10 @@ import type { Progress } from '../types';
 import type { WrittenClaim } from '../types';
 import claimsJson from '../../data/modes/claims.json';
 import { buildDeck, claimsFor } from './claims';
-import { quote, snapshotIndex, tickers, watchlist } from './exchange';
-import { kpis, landingMode, recordAnswer, strength, type ModeId } from './knowledge';
+import { marketIndex, quote, snapshotCurrent, snapshotIndex, tickers, watchlist } from './exchange';
+import { kpis, landingMode, MIN_HALF_LIFE, recordAnswer, strength, STRENGTH_FLOOR, type ModeId } from './knowledge';
 import { interchanges, transferPuzzle } from './transfer';
+import { modesOn } from './ids';
 
 const writtenClaims = claimsJson as WrittenClaim[];
 
@@ -104,6 +105,14 @@ describe('landing', () => {
     expect(landingMode({ ...p, settings: { ...p.settings, landing: 'exchange' } })).toBe('exchange');
     expect(landingMode({ ...p, settings: { ...p.settings, landing: 'nowhere' as ModeId } })).toBe('path');
   });
+
+  it('falls back to Path when the admin switched the chosen mode off, and Path is never off', () => {
+    const p = newProgress();
+    const onExchange = { ...p, settings: { ...p.settings, landing: 'exchange' as ModeId } };
+    expect(landingMode(onExchange, ['exchange'])).toBe('path');
+    expect(landingMode(onExchange, ['callit'])).toBe('exchange');
+    expect(modesOn(['callit', 'path', 'nonsense'])).toEqual(['path', 'lines', 'exchange']);
+  });
 });
 
 describe('strength', () => {
@@ -113,6 +122,20 @@ describe('strength', () => {
     expect(strength(s, addDays(today, -5))).toBe(held);
     expect(strength(s, addDays(today, 7))).toBe(Math.round(held / 2));
     expect(strength(undefined, today)).toBe(0);
+  });
+
+  it('never halves faster than every few days, and never drops below the floor', () => {
+    const young = learner(['vega'], 1, today).terms.vega;
+    const held = strength(young, today);
+    expect(Math.abs(strength(young, addDays(today, MIN_HALF_LIFE)) - held / 2)).toBeLessThanOrEqual(1);
+    expect(strength(young, addDays(today, 60))).toBe(STRENGTH_FLOOR);
+  });
+
+  it('prices a shaky record below a clean one on the same step', () => {
+    const clean = learner(['vega'], 4, addDays(today, 5)).terms.vega;
+    const shaky = { ...clean, correct: 3, wrong: 3 };
+    expect(strength(shaky, today)).toBeLessThan(strength(clean, today));
+    expect(strength(shaky, today)).toBeGreaterThan(strength({ ...clean, step: 3 }, today));
   });
 
   it('runs from 0 to 100', () => {
@@ -248,11 +271,37 @@ describe('Recall Exchange', () => {
   it('prices a term at its strength and lists due terms as falling, first', () => {
     const p = learner(['bid', 'ask', 'theta'], 4, addDays(today, 2));
     const late = { ...p, terms: { ...p.terms, theta: { ...p.terms.theta, due: addDays(today, -3) } } };
-    const list = watchlist(late, today);
+    // A visit yesterday sets the baseline; theta loses another day overdue since then.
+    const seen = snapshotIndex(late, addDays(today, -1));
+    const list = watchlist(seen, today);
     expect(list[0].termId).toBe('theta');
     expect(list[0].falling).toBe(true);
     expect(list[0].change).toBeLessThan(0);
-    expect(quote(late, 'bid', today)!.blueChip).toBe(true);
+    expect(quote(seen, 'bid', today)!.blueChip).toBe(true);
+  });
+
+  it('shows a right review as a rise and a wrong one as a fall, against the last visit', () => {
+    const p = snapshotIndex(learner(['bid', 'ask'], 2, today), addDays(today, -1));
+    const up = recordAnswer(p, { termId: 'bid', correct: true, ms: 2000, evidence: 'strong', mode: 'exchange' }, today);
+    const down = recordAnswer(p, { termId: 'ask', correct: false, ms: 2000, evidence: 'strong', mode: 'exchange' }, today);
+    expect(quote(up, 'bid', today)!.change).toBeGreaterThan(0);
+    expect(quote(down, 'ask', today)!.change).toBeLessThan(0);
+    // With no earlier visit there is nothing to compare with.
+    expect(quote(learner(['bid'], 2, today), 'bid', today)!.change).toBe(0);
+  });
+
+  it('marks terms listed since the last visit as new', () => {
+    const p = snapshotIndex(learner(['bid'], 2, addDays(today, 3)), addDays(today, -1));
+    const q = graduate(introduce(p, 'ask', today), 'ask', today);
+    expect(quote(q, 'ask', today)!.fresh).toBe(true);
+    expect(quote(q, 'bid', today)!.fresh).toBe(false);
+  });
+
+  it('lifts the index when a new term is learned', () => {
+    const p = learner(['bid', 'ask', 'spread'], 5, addDays(today, 10));
+    const more = graduate(introduce(p, 'theta', today), 'theta', today);
+    expect(marketIndex(more, today)).toBeGreaterThan(marketIndex(p, today));
+    expect(marketIndex(newProgress(), today)).toBe(0);
   });
 
   it('keeps one index reading a day, merged across devices without loss', () => {
@@ -261,8 +310,18 @@ describe('Recall Exchange', () => {
     const b = snapshotIndex(p, addDays(today, 1));
     const m1 = mergeProgress(a, b);
     const m2 = mergeProgress(b, a);
-    expect(Object.keys(m1.modes!.exchange!.history!).sort()).toEqual([today, addDays(today, 1)]);
+    expect(Object.keys(m1.modes!.exchange!.closes!).sort()).toEqual([today, addDays(today, 1)]);
+    expect(m1.modes!.exchange!.marks!.day).toBe(addDays(today, 1));
     expect(m1.modes).toEqual(m2.modes);
+  });
+
+  it('moves the baseline forward only when the day changes', () => {
+    const p = learner(['bid'], 3, addDays(today, 2));
+    const y = snapshotIndex(p, addDays(today, -1));
+    const t1 = snapshotIndex(y, today);
+    const t2 = snapshotIndex(t1, today);
+    expect(t2.modes!.exchange!.prevMarks!.day).toBe(addDays(today, -1));
+    expect(snapshotCurrent(t2, today)).toBe(true);
   });
 });
 

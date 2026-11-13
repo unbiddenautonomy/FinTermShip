@@ -1,9 +1,10 @@
 /** The mode switcher and the KPI strip. Kept apart from the term sheet so Path's Home doesn't load the metro map. */
 import { useState } from 'react';
-import { kpis, MODES, type ModeId } from '../../lib/modes/knowledge';
+import { kpis, type ModeId } from '../../lib/modes/knowledge';
 import { currentStreak } from '../../lib/scheduler';
 import type { Progress } from '../../lib/types';
 import { CallIcon, Flame, LinesIcon, PathIcon, TickerIcon } from '../icons';
+import { useModeAccess } from './modeAccess';
 
 export const MODE_INFO: Record<ModeId, { label: string; blurb: string; icon: typeof PathIcon }> = {
   path: { label: 'Path', blurb: 'Lessons in order, with drills, games and tests.', icon: PathIcon },
@@ -15,7 +16,7 @@ export const MODE_INFO: Record<ModeId, { label: string; blurb: string; icon: typ
 const KPI_HELP: { key: string; text: string }[] = [
   { key: 'Known', text: 'Terms answered well over several days, of every term open to you. Only questions where you produce or use the term can make one Known.' },
   { key: 'Due', text: 'Terms ready for a review today. Any mode can clear them: a Path review, a ride past the station, defending the stock, or a call.' },
-  { key: 'Strength', text: 'How firmly you hold the terms you have met, 0 to 100. It fades when a review is overdue. The Exchange index is this number.' },
+  { key: 'Strength', text: 'How firmly you hold the terms you have met, 0 to 100. It fades when a review is overdue, never below 5. On the Exchange it is the price of a term.' },
   { key: 'Coverage', text: 'Share of open terms you have met at least once, in any mode.' },
 ];
 
@@ -24,23 +25,27 @@ export function ModeBar({ progress, today, mode, onMode }: { progress: Progress;
   const k = kpis(progress, today);
   const streak = currentStreak(progress, today);
   const [help, setHelp] = useState(false);
+  const { shown, isOff } = useModeAccess();
   return (
     <div className="space-y-3">
-      <nav className="grid grid-cols-4 gap-1 rounded-2xl border border-line bg-surface p-1 shadow-card" aria-label="Modes">
-        {MODES.map((m) => {
+      <nav className="grid gap-1 rounded-2xl border border-line bg-surface p-1 shadow-card" style={{ gridTemplateColumns: `repeat(${shown.length}, minmax(0, 1fr))` }} aria-label="Modes">
+        {shown.map((m) => {
           const { label, icon: Icon } = MODE_INFO[m];
           const active = m === mode;
+          // Only the admin ever sees a switched-off mode here, marked so it's clear learners don't.
+          const off = isOff(m);
           return (
             <button
               key={m}
               type="button"
               onClick={() => onMode(m)}
               aria-current={active ? 'page' : undefined}
-              title={MODE_INFO[m].blurb}
-              className={`flex items-center justify-center gap-1.5 rounded-xl px-1 py-2 text-[13px] font-extrabold transition sm:text-sm ${active ? 'bg-brand text-white' : 'text-ink-2 hover:bg-sunken'}`}
+              title={off ? `${MODE_INFO[m].blurb} Switched off for learners.` : MODE_INFO[m].blurb}
+              className={`relative flex items-center justify-center gap-1.5 rounded-xl px-1 py-2 text-[13px] font-extrabold transition sm:text-sm ${active ? 'bg-brand text-white' : 'text-ink-2 hover:bg-sunken'} ${off && !active ? 'opacity-60' : ''}`}
             >
               <Icon className="hidden h-4 w-4 shrink-0 min-[400px]:block" />
               {label}
+              {off && <span className="absolute -top-1 right-0.5 rounded bg-ink px-1 text-[9px] font-extrabold uppercase leading-4 tracking-wider text-bg">off</span>}
             </button>
           );
         })}

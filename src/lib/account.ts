@@ -13,6 +13,12 @@ export interface Me {
   phase3: boolean;
 }
 
+/** Settings the admin sets for everyone. */
+export interface Site {
+  /** Modes switched off for every learner. */
+  modesOff: string[];
+}
+
 export interface AdminUser {
   id: number;
   email: string;
@@ -106,3 +112,7 @@ export const adminList = () => api<{ users: AdminUser[]; invites: Invite[] }>('G
 export const adminInvite = (quant: boolean, phase3: boolean) => api<{ code: string; expires: number }>('POST', 'admin/invites', { quant, phase3 });
 export const adminDeleteInvite = (code: string) => api<{ ok: true }>('POST', 'admin/invites/delete', { code });
 export const adminUpdate = (id: number, change: Partial<Record<'quant' | 'phase3' | 'disabled', boolean>>) => api<{ ok: true }>('POST', 'admin/user', { id, ...change });
+
+export const fetchSite = () => api<Site>('GET', 'site');
+/** Switch a mode on or off for everyone (admin only). Path can't be switched off. */
+export const adminSetMode = (mode: string, on: boolean) => api<Site>('POST', 'admin/modes', { mode, on });
