@@ -9,7 +9,20 @@ const field = 'mt-1 w-full rounded-xl border border-line bg-sunken px-3 py-2.5 t
  * Name and target role. Shown once on the home screen
  * (with a skip), and always editable in Settings.
  */
-export function AboutYou({ progress, onSave, onSkip, saveLabel = 'Save' }: { progress: Progress; onSave: (p: Progress) => void; onSkip?: () => void; saveLabel?: string }) {
+export function AboutYou({
+  progress,
+  onSave,
+  onSkip,
+  saveLabel = 'Save',
+  inline = false,
+}: {
+  progress: Progress;
+  onSave: (p: Progress) => void;
+  onSkip?: () => void;
+  saveLabel?: string;
+  /** On a laptop, put both questions and the buttons on one row. */
+  inline?: boolean;
+}) {
   const s = progress.settings;
   const [name, setName] = useState(s.name ?? '');
   const [target, setTarget] = useState(s.target ?? '');
@@ -21,7 +34,7 @@ export function AboutYou({ progress, onSave, onSkip, saveLabel = 'Save' }: { pro
   };
   return (
     <form
-      className="space-y-3"
+      className={`space-y-3 ${inline ? 'lg:grid lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_16rem] lg:items-end lg:gap-4 lg:space-y-0' : ''}`}
       onSubmit={(e) => {
         e.preventDefault();
         save();
