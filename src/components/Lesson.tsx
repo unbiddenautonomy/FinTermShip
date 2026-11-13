@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { categoryOfTerm, isCore, talkById, termById, termName } from '../lib/content';
+import { categoryOfTerm, talkById, termById, termName } from '../lib/content';
 import { applyTest, settleFocus } from '../lib/choose';
 import type { LessonPlan } from '../lib/lesson';
 import { promptFor, retryQuestion, tidyOption, type Rng } from '../lib/questions';
 import { evidenceOf, finishModeSession, recordAnswer, type ModeId } from '../lib/modes/knowledge';
-import { finishLesson, graduate, introduce, recordPractice, review } from '../lib/scheduler';
+import { finishLesson, graduate, introduce } from '../lib/scheduler';
 import { speak } from '../lib/speech';
 import type { Progress, Question, ScoredQuestion, TalkFormat, TalkItem, Term } from '../lib/types';
 import { Calculator, ChatIcon, Check, Cross, Flame, Pairs, Quote, Scale, Speaker, Sparkle, Target } from './icons';
@@ -50,7 +50,7 @@ interface Props {
   onProgress: (p: Progress) => void;
   onFinish: (summary: LessonSummary) => void;
   onQuit: () => void;
-  /** Set when a mode other than Path runs the lesson: answers go through the shared recordAnswer and are tallied for that mode. */
+  /** Set when a mode other than Path runs the lesson, so its answers and session are tallied for that mode. */
   mode?: Exclude<ModeId, 'path'>;
 }
 
@@ -163,18 +163,17 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
         else setMissed((m) => (m.includes(q.termId) ? m : [...m, q.termId]));
         return;
       }
-      let p = progressRef.current;
-      if (mode && !item.retry) p = recordAnswer(p, { termId: q.termId, correct, ms, evidence: evidenceOf(q.kind), mode }, today);
-      else if (q.review && !item.retry) p = review(p, q.termId, correct, ms, today, isCore(q.termId));
-      else p = recordPractice(p, q.termId, correct);
-      onProgress(p);
+      // Every mode, Path included, records through the same rule: the first answer on a due term
+      // is its review. A term being taught here, a retry and a chosen practice round are practice.
+      const practice = item.retry || plan.kind === 'practice' || plan.newIds.includes(q.termId);
+      onProgress(recordAnswer(progressRef.current, { termId: q.termId, correct, ms, evidence: evidenceOf(q.kind), mode: mode ?? 'path', practice }, today));
       if (!correct) {
         setMissed((m) => (m.includes(q.termId) ? m : [...m, q.termId]));
         // One retry per question, at the end of the lesson.
         if (!item.retry) setItems((list) => [...list, { q: retryQuestion(q, rng, new Set(Object.keys(progressRef.current.terms))), retry: true }]);
       }
     },
-    [q, item, picked, today, rng, isTest, onProgress, score, mode],
+    [q, item, picked, today, rng, isTest, onProgress, score, mode, plan],
   );
 
   const matchDone = useCallback(
@@ -182,8 +181,8 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
       if (!q || q.kind !== 'match') return;
       let p = progressRef.current;
       const ms = Date.now() - shownAt.current;
-      for (const id of q.termIds)
-        p = mode && !item.retry ? recordAnswer(p, { termId: id, correct: !mistakes[id], ms, evidence: 'medium', mode }, today) : recordPractice(p, id, !mistakes[id]);
+      // A match round is practice: once one pair is placed the others narrow down, so it can't stand as a review.
+      for (const id of q.termIds) p = recordAnswer(p, { termId: id, correct: !mistakes[id], ms, evidence: 'medium', mode: mode ?? 'path', practice: true }, today);
       onProgress(p);
       const wrongIds = Object.keys(mistakes).filter((id) => mistakes[id] > 0);
       score(wrongIds.length === 0, item.retry, false);

@@ -176,7 +176,7 @@ function Sources({ progress }: { progress: Progress }) {
           ))}
         </ul>
         <p className="text-xs leading-relaxed text-ink-3">
-          Every mode adds to the same terms, so Known, Due, Strength and Coverage count all of these together. Call It answers keep a term on schedule but can't make it Known on their own.
+          Every mode adds to the same terms, so Known, Due, Strength and Coverage count all of these together. A true or false call in Call It is practice: it can't move a term on its own, but a wrong call brings the term back for a proper review the next day.
         </p>
       </Card>
     </section>
