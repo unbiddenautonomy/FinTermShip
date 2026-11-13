@@ -3,7 +3,7 @@
  * and the term sheet. Path keeps its own screens; these sit around it and inside the new modes.
  */
 import { useEffect, type ReactNode } from 'react';
-import { termById, unitById } from '../../lib/content';
+import { hasCard, termById, unitById } from '../../lib/content';
 import { daysBetween } from '../../lib/dates';
 import { strength, type ModeId } from '../../lib/modes/knowledge';
 import { tickers } from '../../lib/modes/exchange';
@@ -135,7 +135,7 @@ export function TermSheet({
               <h2 id="sheet-title" className="mt-1 font-display text-[28px] font-semibold leading-tight tracking-tight text-ink">
                 {term.term}
               </h2>
-              <p className="mt-1 inline-block rounded-lg bg-sky-soft px-2.5 py-1 text-sm font-bold text-sky-ink">{tidyOption(term.short)}</p>
+              {hasCard(termId) && <p className="mt-1 inline-block rounded-lg bg-sky-soft px-2.5 py-1 text-sm font-bold text-sky-ink">{tidyOption(term.short)}</p>}
             </div>
             <button type="button" onClick={onClose} className="rounded-xl p-2 text-ink-3 hover:bg-sunken" aria-label="Close">
               <Cross className="h-5 w-5" />

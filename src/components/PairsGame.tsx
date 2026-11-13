@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from 'react';
-import { termById } from '../lib/content';
+import { glossOrUnit, termById } from '../lib/content';
 import { rupees } from '../lib/greeks';
 import { brokenAt, callDay, fmtZ, heldPath, newPairsGame, PAIR_CALLS, PAIR_DAYS, pairPnl, PAIRS, ruleCalls, rulePath, ruleReason, scorePairs, shownZ, weekPnl, type Pair, type Pos } from '../lib/pairs';
 import { finishGame } from '../lib/practice';
@@ -108,7 +108,7 @@ export function PairsGame({ unitId, seed, progress, today, onProgress, onFinish,
             title: 'The terms',
             items: TERMS.map((id) => termById.get(id))
               .filter((t): t is NonNullable<typeof t> => t !== undefined)
-              .map((t) => ({ prompt: t.term, shown: t.short })),
+              .map((t) => ({ prompt: t.term, shown: glossOrUnit(t) })),
           },
         ],
       },

@@ -1,3 +1,4 @@
+import { awaitingCard } from './content';
 import { addDays, daysBetween } from './dates';
 import type { DayStats, Progress, TermState } from './types';
 
@@ -126,10 +127,10 @@ export function isDueOn(s: TermState | undefined, today: string): boolean {
   return !!s && s.due <= today;
 }
 
-/** Terms due on or before today, oldest due first, then lowest step. */
+/** Terms due on or before today, oldest due first, then lowest step. A term whose card isn't on this device yet waits. */
 export function dueTermIds(p: Progress, today: string): string[] {
   return Object.entries(p.terms)
-    .filter(([, s]) => isDueOn(s, today))
+    .filter(([id, s]) => isDueOn(s, today) && !awaitingCard(id))
     .sort((a, b) => (a[1].due === b[1].due ? a[1].step - b[1].step : a[1].due < b[1].due ? -1 : 1))
     .map(([id]) => id);
 }
