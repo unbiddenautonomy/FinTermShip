@@ -81,7 +81,7 @@ function SignIn({ onSignedIn }: { onSignedIn: (me: Me) => void }) {
       <p className="text-sm leading-relaxed text-ink-2">
         {mode === 'in'
           ? 'Sign in to keep your progress in step across your phone and laptop. Progress on this device is kept and merged in.'
-          : 'FinTermShip is invite-only. Use the code you were sent, with your email and a password of at least 8 characters.'}
+          : 'fintermship is invite-only. Use the code you were sent, with your email and a password of at least 8 characters.'}
       </p>
       <label className="block text-sm font-bold text-ink">
         Email

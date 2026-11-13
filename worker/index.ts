@@ -1,5 +1,5 @@
 /**
- * The FinTermShip Worker: runs invite-only accounts and progress sync under
+ * The fintermship Worker: runs invite-only accounts and progress sync under
  * /api/ on a D1 database, and serves the app's files only to a signed-in
  * session. Everyone else gets the sign-in page and nothing more.
  *
@@ -418,7 +418,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     } catch {
       return fail(400, 'Send progress as JSON.');
     }
-    if (!looksLikeProgress(incoming)) return fail(400, 'That is not FinTermShip progress.');
+    if (!looksLikeProgress(incoming)) return fail(400, 'That is not fintermship progress.');
     const row = await db.prepare('SELECT data FROM progress WHERE user_id = ?').bind(user.id).first<{ data: string }>();
     const merged = row ? mergeProgress(JSON.parse(row.data) as Progress, incoming) : incoming;
     await db
@@ -508,7 +508,7 @@ export async function serveApp(request: Request, env: Env, now = Date.now()): Pr
   if (!env.ASSETS) return new Response('Not found', { status: 404 });
   if (PUBLIC_FILES.test(url.pathname)) return env.ASSETS.fetch(request);
   const db = env.DB;
-  if (!db) return page('<!doctype html><title>FinTermShip</title><p>Sign-in is not set up on this server yet.</p>', 503);
+  if (!db) return page('<!doctype html><title>fintermship</title><p>Sign-in is not set up on this server yet.</p>', 503);
   await ensureSchema(db);
   if (!(await sessionOf(request, db, now))) {
     if (request.method === 'GET' && wantsPage(url)) return page(signInPage(), 200);
@@ -529,7 +529,7 @@ export default {
       return await serveApp(request, env);
     } catch (e) {
       console.error(e);
-      return url.pathname.startsWith('/api/') ? fail(500, 'Something went wrong on the server.') : page('<!doctype html><title>FinTermShip</title><p>Something went wrong. Reload to try again.</p>', 500);
+      return url.pathname.startsWith('/api/') ? fail(500, 'Something went wrong on the server.') : page('<!doctype html><title>fintermship</title><p>Something went wrong. Reload to try again.</p>', 500);
     }
   },
 };

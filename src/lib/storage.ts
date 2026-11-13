@@ -104,7 +104,7 @@ export async function readBackupFile(file: File): Promise<Progress> {
   const text = await file.text();
   const parsed = JSON.parse(text);
   if (!parsed || parsed.version !== 1 || typeof parsed.terms !== 'object') {
-    throw new Error('This file is not a FinTermShip backup.');
+    throw new Error('This file is not a fintermship backup.');
   }
   return normalise(parsed);
 }
