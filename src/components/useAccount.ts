@@ -1,10 +1,22 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
-import { ApiError, fetchAccount, pullProgress, pushProgress, type AccountState } from '../lib/account';
+import { ApiError, fetchAccount, fetchSite, pullProgress, pushProgress, type AccountState, type Site } from '../lib/account';
 import { withPhase3Key } from '../lib/phase3';
 import { mergeProgress, sameProgress } from '../lib/sync';
 import type { Progress } from '../lib/types';
 
 export type SyncStatus = { state: 'idle' } | { state: 'syncing' } | { state: 'ok'; at: number } | { state: 'error'; message: string };
+
+const SITE_KEY = 'fintermship-site';
+
+/** The last site settings seen, so an offline start still hides switched-off modes. */
+function cachedSite(): Site {
+  try {
+    const raw = JSON.parse(localStorage.getItem(SITE_KEY) ?? 'null') as Site | null;
+    return raw && Array.isArray(raw.modesOff) ? { modesOff: raw.modesOff.filter((m) => typeof m === 'string') } : { modesOff: [] };
+  } catch {
+    return { modesOff: [] };
+  }
+}
 
 /** Wait this long after the last change before sending progress, so a lesson sends once, not on every answer. */
 const PUSH_DELAY = 2500;
@@ -17,6 +29,15 @@ const PUSH_DELAY = 2500;
 export function useAccount(progress: Progress | null, update: (p: Progress) => void) {
   const [account, setAccount] = useState<AccountState>({ kind: 'loading' });
   const [sync, setSync] = useState<SyncStatus>({ state: 'idle' });
+  const [site, setSiteState] = useState<Site>(cachedSite);
+  const setSite = useCallback((s: Site) => {
+    setSiteState(s);
+    try {
+      localStorage.setItem(SITE_KEY, JSON.stringify(s));
+    } catch {
+      // Storage can be unavailable; the settings still hold for this visit.
+    }
+  }, []);
   const latest = useRef(progress);
   latest.current = progress;
   const pulled = useRef(false);
@@ -95,6 +116,16 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
     return () => document.removeEventListener('visibilitychange', onHide);
   }, [signedIn, push]);
 
+  // Settings the admin set for everyone, fetched on sign-in and whenever the app comes back to the front.
+  useEffect(() => {
+    if (!signedIn) return;
+    const load = () => fetchSite().then(setSite, () => undefined);
+    load();
+    const onShow = () => document.visibilityState === 'visible' && load();
+    document.addEventListener('visibilitychange', onShow);
+    return () => document.removeEventListener('visibilitychange', onShow);
+  }, [signedIn, setSite]);
+
   // Phase 3 granted on the account stands in for the password.
   const phase3 = account.kind === 'in' && account.me.phase3;
   useEffect(() => {
@@ -108,5 +139,5 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
     setSync({ state: 'idle' });
   }, []);
 
-  return { account, setAccount, sync, syncNow: push, signedOut };
+  return { account, setAccount, sync, syncNow: push, signedOut, site, setSite };
 }

@@ -5,7 +5,8 @@ import { newProgress } from '../lib/scheduler';
 import { canSpeak, speak } from '../lib/speech';
 import { getTexture, getTheme, setTexture, setTheme, THEMES, type Theme } from '../lib/theme';
 import type { Progress } from '../lib/types';
-import { landingMode, MODES } from '../lib/modes/knowledge';
+import { landingMode } from '../lib/modes/knowledge';
+import { useModeAccess } from './modes/modeAccess';
 import { MODE_INFO } from './modes/ModeBar';
 import { AboutYou } from './AboutYou';
 import { AccountPanel } from './Account';
@@ -38,6 +39,9 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
   const [texture, pickTexture] = useState(getTexture);
   const s = progress.settings;
   const minutes = s.newPerDay;
+  const { shown: modes, off: modesOff, admin } = useModeAccess();
+  // A learner's landing mode that the admin switched off opens Path instead; the admin's own choice stands.
+  const landing = landingMode(progress, admin ? [] : modesOff);
   const signedIn = account.kind === 'in';
   const quantGranted = signedIn && account.me.quant;
 
@@ -103,16 +107,16 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
             <p className="font-bold text-ink" id="landing-label">
               Open the app in
             </p>
-            <p className="mb-3 text-sm text-ink-3">{MODE_INFO[landingMode(progress)].blurb} Every mode shares the same progress, so you can switch at any time.</p>
-            <div className="grid grid-cols-4 gap-1 rounded-xl bg-sunken p-1" role="radiogroup" aria-labelledby="landing-label">
-              {MODES.map((m) => (
+            <p className="mb-3 text-sm text-ink-3">{MODE_INFO[landing].blurb} Every mode shares the same progress, so you can switch at any time.</p>
+            <div className="grid gap-1 rounded-xl bg-sunken p-1" style={{ gridTemplateColumns: `repeat(${modes.length}, minmax(0, 1fr))` }} role="radiogroup" aria-labelledby="landing-label">
+              {modes.map((m) => (
                 <button
                   key={m}
                   type="button"
                   role="radio"
-                  aria-checked={landingMode(progress) === m}
+                  aria-checked={landing === m}
                   onClick={() => onChange({ ...progress, settings: { ...s, landing: m } })}
-                  className={`rounded-lg py-2 text-sm font-extrabold transition ${landingMode(progress) === m ? 'bg-surface text-brand-ink shadow-card' : 'text-ink-3 hover:text-ink-2'}`}
+                  className={`rounded-lg py-2 text-sm font-extrabold transition ${landing === m ? 'bg-surface text-brand-ink shadow-card' : 'text-ink-3 hover:text-ink-2'}`}
                 >
                   {MODE_INFO[m].label}
                 </button>

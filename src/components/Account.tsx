@@ -3,6 +3,7 @@ import {
   adminDeleteInvite,
   adminInvite,
   adminList,
+  adminSetMode,
   adminUpdate,
   changePassword,
   signIn,
@@ -16,6 +17,9 @@ import {
 import { Button, Toggle } from './ui';
 import { dayKey, daysBetween } from '../lib/dates';
 import type { SyncStatus } from './useAccount';
+import { ALWAYS_ON, MODES } from '../lib/modes/ids';
+import { MODE_INFO } from './modes/ModeBar';
+import { useModeAccess } from './modes/modeAccess';
 
 interface Props {
   account: AccountState;
@@ -224,6 +228,7 @@ function AdminPanel() {
 
   return (
     <div className="space-y-4 px-4 py-4">
+      <ModesForEveryone onError={setError} />
       <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Admin: invites and access</p>
       <div className="space-y-3 rounded-xl bg-sunken p-3">
         <p className="text-sm font-bold text-ink">New invite</p>
@@ -326,6 +331,38 @@ function Check({ label, checked, onChange }: { label: string; checked: boolean; 
       <input type="checkbox" checked={checked} onChange={(e) => onChange(e.target.checked)} className="h-4 w-4 accent-[rgb(var(--brand))]" />
       {label}
     </label>
+  );
+}
+
+/** The admin's switches for the whole site: which modes everyone can use. */
+function ModesForEveryone({ onError }: { onError: (message: string) => void }) {
+  const { off, setOff } = useModeAccess();
+  const [saving, setSaving] = useState<string | null>(null);
+  const flip = (mode: string, on: boolean) => {
+    setSaving(mode);
+    adminSetMode(mode, on)
+      .then((r) => setOff(r.modesOff))
+      .catch((e) => onError(e instanceof Error ? e.message : 'Could not change that mode.'))
+      .finally(() => setSaving(null));
+  };
+  return (
+    <div className="space-y-2.5 rounded-xl bg-sunken p-3">
+      <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Admin: modes for everyone</p>
+      <p className="text-sm text-ink-3">A mode switched off disappears for every learner, from the mode bar and the start screen. Their progress in it is kept. You still see it, marked off, so you can test it.</p>
+      {MODES.map((m) => (
+        <div key={m} className="flex items-center justify-between gap-3 text-sm text-ink-2">
+          <span>
+            <b className="text-ink">{MODE_INFO[m].label}</b>
+            {saving === m && <span className="text-ink-3"> · saving…</span>}
+          </span>
+          {m === ALWAYS_ON ? (
+            <span className="text-xs font-bold text-ink-3">Always on</span>
+          ) : (
+            <Toggle checked={!off.includes(m)} onChange={(v) => saving === null && flip(m, v)} label={`${MODE_INFO[m].label} for everyone`} />
+          )}
+        </div>
+      ))}
+    </div>
   );
 }
 

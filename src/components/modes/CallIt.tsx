@@ -14,6 +14,7 @@ import type { Progress } from '../../lib/types';
 import { Check, Cross, Flame } from '../icons';
 import { Button } from '../ui';
 import { KpiDelta } from './KpiDelta';
+import { useModeAccess } from './modeAccess';
 import { ModeFrame, TermDot, TermSheet } from './shared';
 
 interface Props {
@@ -47,6 +48,7 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   const answered = calls.length > index;
   const last = answered ? calls[index] : undefined;
   const record = modeRecord(progress, 'callit');
+  const { canOpen } = useModeAccess();
 
   useEffect(() => {
     shownAt.current = Date.now();
@@ -136,9 +138,11 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
         <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-ink-2">Call It only asks about terms you have already learned. Finish a lesson in Path, or ride a few stops on Lines, and your first deck is ready.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button onClick={() => onMode('path')}>Go to Path</Button>
-          <Button variant="secondary" onClick={() => onMode('lines')}>
-            Ride Lines
-          </Button>
+          {canOpen('lines') && (
+            <Button variant="secondary" onClick={() => onMode('lines')}>
+              Ride Lines
+            </Button>
+          )}
         </div>
       </div>,
     );
@@ -178,11 +182,13 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
             </ul>
           </section>
         )}
-        <div className="grid grid-cols-2 gap-3">
+        <div className={`grid gap-3 ${canOpen('exchange') ? 'grid-cols-2' : ''}`}>
           <Button onClick={again}>Another deck</Button>
-          <Button variant="secondary" onClick={() => onMode('exchange')}>
-            See the Exchange
-          </Button>
+          {canOpen('exchange') && (
+            <Button variant="secondary" onClick={() => onMode('exchange')}>
+              See the Exchange
+            </Button>
+          )}
         </div>
       </div>,
     );

@@ -12,6 +12,7 @@ import { buildDeck, claimsFor } from './claims';
 import { marketIndex, quote, snapshotCurrent, snapshotIndex, tickers, watchlist } from './exchange';
 import { kpis, landingMode, MIN_HALF_LIFE, recordAnswer, strength, STRENGTH_FLOOR, type ModeId } from './knowledge';
 import { interchanges, transferPuzzle } from './transfer';
+import { modesOn } from './ids';
 
 const writtenClaims = claimsJson as WrittenClaim[];
 
@@ -103,6 +104,14 @@ describe('landing', () => {
     const p = newProgress();
     expect(landingMode({ ...p, settings: { ...p.settings, landing: 'exchange' } })).toBe('exchange');
     expect(landingMode({ ...p, settings: { ...p.settings, landing: 'nowhere' as ModeId } })).toBe('path');
+  });
+
+  it('falls back to Path when the admin switched the chosen mode off, and Path is never off', () => {
+    const p = newProgress();
+    const onExchange = { ...p, settings: { ...p.settings, landing: 'exchange' as ModeId } };
+    expect(landingMode(onExchange, ['exchange'])).toBe('path');
+    expect(landingMode(onExchange, ['callit'])).toBe('exchange');
+    expect(modesOn(['callit', 'path', 'nonsense'])).toEqual(['path', 'lines', 'exchange']);
   });
 });
 
