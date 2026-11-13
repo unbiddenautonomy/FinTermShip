@@ -153,6 +153,8 @@ function SignedIn({ me, sync, onSignedOut, onSyncNow }: { me: Me; sync: SyncStat
                 await signOut();
               } finally {
                 onSignedOut();
+                // The app's files are for signed-in sessions only, so leave for the sign-in page.
+                window.location.assign('/');
               }
             }}
           >

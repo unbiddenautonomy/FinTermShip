@@ -22,22 +22,59 @@ function fakeD1(): D1Database {
 const ORIGIN = 'https://fintermship.example.dev';
 let env: Env;
 
+/** A browser in miniature: keeps cookies by path and sends each only where its path covers. */
 class Client {
-  cookie = '';
+  jar = new Map<string, string>();
+  /** The cookies a request to the API would carry. */
+  get cookie() {
+    return this.cookieFor('/api/me');
+  }
+  cookieFor(path: string) {
+    return [...this.jar]
+      .filter(([p]) => path === p || path.startsWith(p === '/' ? '/' : p + '/'))
+      .sort((a, b) => b[0].length - a[0].length)
+      .map(([, c]) => c)
+      .join('; ');
+  }
+  absorb(res: Response) {
+    for (const set of res.headers.getSetCookie()) {
+      const [pair, ...attrs] = set.split(';').map((x) => x.trim());
+      const path = attrs.find((a) => a.startsWith('Path='))?.slice(5) ?? '/';
+      if (/Max-Age=0\b/.test(set) || pair.endsWith('=')) this.jar.delete(path);
+      else this.jar.set(path, pair);
+    }
+  }
+  async open(path: string) {
+    const headers: Record<string, string> = {};
+    const cookie = this.cookieFor(path);
+    if (cookie) headers.cookie = cookie;
+    const res = await worker.fetch(new Request(ORIGIN + path, { headers }), env);
+    this.absorb(res);
+    return res;
+  }
   async call(method: string, path: string, body?: unknown) {
     const headers: Record<string, string> = { origin: ORIGIN };
     if (body !== undefined) headers['content-type'] = 'application/json';
-    if (this.cookie) headers.cookie = this.cookie;
+    const cookie = this.cookieFor(path);
+    if (cookie) headers.cookie = cookie;
     const res = await worker.fetch(new Request(ORIGIN + path, { method, headers, body: body === undefined ? undefined : JSON.stringify(body) }), env);
-    const set = res.headers.get('set-cookie');
-    if (set) this.cookie = set.split(';')[0];
+    this.absorb(res);
     // eslint-disable-next-line @typescript-eslint/no-explicit-any -- response shapes vary by route
     return { status: res.status, data: (await res.json()) as Record<string, any> };
   }
 }
 
+/** Stands in for the built app: answers with the path it was asked for. */
+const fakeAssets: NonNullable<Env['ASSETS']> = {
+  fetch: async (req) => {
+    const path = new URL(req.url).pathname;
+    const cache = path.startsWith('/assets/') ? 'public, max-age=31536000, immutable' : 'public, max-age=0, must-revalidate';
+    return new Response(`file ${path}`, { headers: { 'cache-control': cache } });
+  },
+};
+
 beforeEach(() => {
-  env = { DB: fakeD1(), ADMIN_EMAIL: 'Owner@Example.com' };
+  env = { DB: fakeD1(), ADMIN_EMAIL: 'Owner@Example.com', ASSETS: fakeAssets };
 });
 
 describe('worker: accounts', () => {
@@ -167,5 +204,78 @@ describe('worker: progress sync', () => {
     expect((await phone.call('GET', '/api/progress')).data.progress.xp).toBe(50);
     expect((await phone.call('PUT', '/api/progress', { progress: { nope: 1 } })).status).toBe(400);
     expect((await new Client().call('GET', '/api/progress')).status).toBe(401);
+  });
+});
+
+describe('worker: the app is for signed-in sessions only', () => {
+  it('gives a signed-out visitor the sign-in page and none of the app', async () => {
+    const c = new Client();
+    for (const path of ['/', '/index.html', '/lines', '/progress']) {
+      const res = await c.open(path);
+      expect(res.status).toBe(200);
+      const html = await res.text();
+      expect(html).toContain('Sign in');
+      expect(html).toContain('/api/login');
+      expect(html).not.toMatch(/\/assets\/|src\/main|file \//);
+      expect(res.headers.get('cache-control')).toBe('no-store');
+    }
+    for (const path of ['/assets/index-abc123.js', '/assets/content-abc123.js', '/assets/index-abc.css', '/logo.webp', '/textures/grain.png']) {
+      const res = await c.open(path);
+      expect(res.status).toBe(401);
+      expect(await res.text()).not.toContain('file');
+    }
+    // The sign-in page's own icons and the home-screen manifest stay open.
+    for (const path of ['/favicon.ico', '/brand/medallion-64.png', '/manifest.webmanifest']) expect(await (await c.open(path)).text()).toBe(`file ${path}`);
+  });
+
+  it('serves the app to a signed-in session, kept in that browser only', async () => {
+    const c = new Client();
+    await c.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
+    expect(c.cookieFor('/')).toMatch(/^fts_session=/);
+    const js = await c.open('/assets/index-abc123.js');
+    expect(await js.text()).toBe('file /assets/index-abc123.js');
+    expect(js.headers.get('cache-control')).toBe('private, max-age=31536000, immutable');
+    const home = await c.open('/');
+    expect(await home.text()).toBe('file /');
+    expect(home.headers.get('cache-control')).toBe('private, no-cache');
+    // Signing out shuts the app again.
+    await c.call('POST', '/api/logout', {});
+    expect(c.jar.size).toBe(0);
+    expect((await c.open('/assets/index-abc123.js')).status).toBe(401);
+  });
+
+  it('moves a session from before the sign-in page onto the whole site', async () => {
+    const first = new Client();
+    await first.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
+    // An old browser holds the session on /api only.
+    const old = new Client();
+    old.jar.set('/api', first.jar.get('/')!);
+    expect((await old.open('/assets/index-abc123.js')).status).toBe(401);
+    expect(await (await old.open('/')).text()).toContain('Sign in');
+    // The sign-in page asks /api/me, which re-sends the cookie for every path and clears the old one.
+    expect((await old.call('GET', '/api/me')).status).toBe(200);
+    expect([...old.jar.keys()]).toEqual(['/']);
+    expect(await (await old.open('/assets/index-abc123.js')).text()).toBe('file /assets/index-abc123.js');
+  });
+
+  it('turns away a switched-off account and a forged cookie', async () => {
+    const admin = new Client();
+    await admin.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
+    const { data } = await admin.call('POST', '/api/admin/invites', { quant: false, phase3: false });
+    const friend = new Client();
+    await friend.call('POST', '/api/signup', { email: 'friend@example.com', password: 'friendpass', invite: data.code });
+    expect((await friend.open('/assets/a.js')).status).toBe(200);
+    const id = (await admin.call('GET', '/api/admin/users')).data.users.find((u: { email: string }) => u.email === 'friend@example.com').id;
+    await admin.call('POST', '/api/admin/user', { id, disabled: true });
+    expect((await friend.open('/assets/a.js')).status).toBe(401);
+    const forger = new Client();
+    forger.jar.set('/', 'fts_session=not-a-real-token');
+    expect((await forger.open('/assets/a.js')).status).toBe(401);
+  });
+
+  it('shows nothing of the app when there is no database', async () => {
+    const res = await worker.fetch(new Request(ORIGIN + '/assets/a.js'), { ASSETS: fakeAssets });
+    expect(res.status).toBe(503);
+    expect(await res.text()).not.toContain('file');
   });
 });
