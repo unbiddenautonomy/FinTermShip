@@ -6,10 +6,14 @@ import { seededRng } from '../questions';
 import { introduce, graduate, newProgress, KNOWN_STEP } from '../scheduler';
 import { mergeProgress } from '../sync';
 import type { Progress } from '../types';
-import { buildDeck, claimsFor, writtenClaims } from './claims';
+import type { WrittenClaim } from '../types';
+import claimsJson from '../../data/modes/claims.json';
+import { buildDeck, claimsFor } from './claims';
 import { marketIndex, quote, snapshotCurrent, snapshotIndex, tickers, watchlist } from './exchange';
 import { kpis, landingMode, MIN_HALF_LIFE, recordAnswer, strength, STRENGTH_FLOOR, type ModeId } from './knowledge';
 import { interchanges, transferPuzzle } from './transfer';
+
+const writtenClaims = claimsJson as WrittenClaim[];
 
 const today = '2026-11-13';
 const allTerms = categories.flatMap((c) => c.terms);

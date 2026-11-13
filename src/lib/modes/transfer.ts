@@ -3,7 +3,7 @@
  * people mix up; the learner matches each to its meaning, then sees how they differ.
  */
 import metro from '../../data/modes/metro.json';
-import { termById } from '../content';
+import { hasCard, termById } from '../content';
 import { shuffle, tidyOption, type Rng } from '../questions';
 
 export interface Interchange {
@@ -25,7 +25,8 @@ export interface Transfer {
 export function transferPuzzle(a: string, b: string, rng: Rng): Transfer | null {
   const x = termById.get(a);
   const y = termById.get(b);
-  if (!x || !y) return null;
+  // Both glosses are needed: a term not reached yet has none here.
+  if (!x || !y || !hasCard(a) || !hasCard(b)) return null;
   const glosses = shuffle([tidyOption(x.short), tidyOption(y.short)], rng);
   return {
     termIds: [a, b],

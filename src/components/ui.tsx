@@ -1,4 +1,5 @@
 import type { ReactNode } from 'react';
+import { categoryOfTerm, hasCard, unitById } from '../lib/content';
 import { canSpeak, speakTerm } from '../lib/speech';
 import type { Term } from '../lib/types';
 import { Speaker } from './icons';
@@ -194,6 +195,7 @@ export function Toggle({ checked, onChange, label }: { checked: boolean; onChang
 }
 
 export function TermDetails({ term, showExamples = 2 }: { term: Term; showExamples?: number }) {
+  if (!hasCard(term.id)) return <NotReached term={term} />;
   return (
     <div className="space-y-4">
       <p className="text-[17px] leading-relaxed text-ink">{term.definition}</p>
@@ -217,6 +219,18 @@ export function TermDetails({ term, showExamples = 2 }: { term: Term; showExampl
       ))}
       {term.note && <p className="text-sm leading-relaxed text-ink-3">{term.note}</p>}
     </div>
+  );
+}
+
+/** In place of a term's card before the learner reaches it: where it comes, nothing of what it says. */
+export function NotReached({ term }: { term: Term }) {
+  const unit = unitById.get(term.unit);
+  const area = categoryOfTerm.get(term.id);
+  return (
+    <p className="rounded-2xl border border-dashed border-line px-4 py-3 text-[15px] leading-relaxed text-ink-3">
+      You haven’t reached this term yet. It comes in <b className="text-ink-2">{unit?.name ?? 'a later unit'}</b>
+      {area ? `, in ${area.name}` : ''}, and opens here once you meet it.
+    </p>
   );
 }
 

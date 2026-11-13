@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
-import { termById } from '../lib/content';
+import { glossOrUnit, termById } from '../lib/content';
 import { clipSpeech, MEETING, MEETING_QUESTIONS, meetingPassed, newMeetingRound, SETTINGS } from '../lib/meeting';
 import { finishGame } from '../lib/practice';
 import { seededRng } from '../lib/questions';
@@ -92,7 +92,7 @@ export function MeetingGame({ unitId, seed, progress, today, onProgress, onFinis
             title: 'Phrases you heard',
             items: termIds.map((id) => {
               const t = termById.get(id)!;
-              return { prompt: t.term, shown: t.short };
+              return { prompt: t.term, shown: glossOrUnit(t) };
             }),
           },
         ],
