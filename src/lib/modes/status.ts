@@ -5,7 +5,7 @@
 import areaData from '../../data/modes/areas.json';
 import { unitOpen } from '../choose';
 import { categoryOfTerm, termById } from '../content';
-import { isKnown } from '../scheduler';
+import { isDueOn, isKnown } from '../scheduler';
 import type { Progress } from '../types';
 
 export type TermStatus = 'locked' | 'unmet' | 'met' | 'due' | 'known';
@@ -16,7 +16,7 @@ export function termStatus(p: Progress, termId: string, today: string): TermStat
     const t = termById.get(termId);
     return t && unitOpen(p, t.unit) ? 'unmet' : 'locked';
   }
-  if (s.step > 0 && s.due <= today) return 'due';
+  if (isDueOn(s, today)) return 'due';
   return isKnown(s) ? 'known' : 'met';
 }
 

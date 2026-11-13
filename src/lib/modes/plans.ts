@@ -9,7 +9,7 @@ import { categories, termById } from '../content';
 import type { LessonPlan } from '../lesson';
 import { nextNewTermIds } from '../lesson';
 import { matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, type Rng } from '../questions';
-import { dueTermIds, newLeftToday } from '../scheduler';
+import { dueTermIds, isDueOn, newLeftToday } from '../scheduler';
 import type { Progress, Question, Term } from '../types';
 import { interchangesAt } from './transfer';
 
@@ -25,10 +25,7 @@ export interface Line {
 export const lines = metro.lines as Line[];
 export const lineById = new Map(lines.map((l) => [l.id, l]));
 
-const isDue = (p: Progress, id: string, today: string) => {
-  const s = p.terms[id];
-  return !!s && s.step > 0 && s.due <= today;
-};
+const isDue = (p: Progress, id: string, today: string) => isDueOn(p.terms[id], today);
 
 /** One question per term, the one Path would ask at the term's step. Due terms count as reviews. */
 export function buildDefend(p: Progress, termIds: string[], today: string, rng: Rng): LessonPlan | null {
@@ -81,7 +78,8 @@ export interface Ride {
 export const RIDE_STOPS = 5;
 
 /**
- * Term Lines: ride a few stops along a line from a station, in syllabus order.
+ * Term Lines: ride a few stops along a line from a station, in syllabus order. A ride starts at a
+ * met station or at the frontier, never past it (see canRideFrom).
  * New terms are taught (within today's shared limit), met terms get the question Path would ask,
  * and a station that is an interchange with a met term on another line adds a Transfer puzzle.
  * The ride ends at a depot (a game, drill or case), at the end of the line, after RIDE_STOPS stops,
@@ -90,6 +88,7 @@ export const RIDE_STOPS = 5;
 export function buildRide(p: Progress, lineId: string, from: number, today: string, rng: Rng, maxStops = RIDE_STOPS): Ride | null {
   const line = lineById.get(lineId);
   if (!line) return null;
+  if ('term' in (line.stops[from] ?? {}) && !canRideFrom(p, lineId, from)) return null;
   let newLeft = newLeftToday(p, today);
   const fresh: Term[] = [];
   const met: Term[] = [];
@@ -135,12 +134,41 @@ export function buildRide(p: Progress, lineId: string, from: number, today: stri
   };
 }
 
-/** Where a learner would naturally pick up a line: the first station not yet met, or the first due one. */
-export function nextStop(p: Progress, lineId: string, today: string): number {
+/**
+ * Where the line goes on from: the first station not yet met, in the order Path teaches them.
+ * -1 when every open station is met (a locked stretch waits for its area to open).
+ */
+export function frontier(p: Progress, lineId: string): number {
   const line = lineById.get(lineId);
-  if (!line) return 0;
-  const due = line.stops.findIndex((s) => 'term' in s && isDue(p, s.term, today));
-  if (due >= 0) return due;
-  const fresh = line.stops.findIndex((s) => 'term' in s && !p.terms[s.term]);
-  return fresh >= 0 ? fresh : 0;
+  if (!line) return -1;
+  const i = line.stops.findIndex((s) => 'term' in s && !p.terms[s.term]);
+  if (i < 0) return -1;
+  const t = termById.get((line.stops[i] as { term: string }).term);
+  return t && unitOpen(p, t.unit) ? i : -1;
+}
+
+/**
+ * Can a ride start at this station? Any station already met can be revisited, and new ones are
+ * met in order from the frontier, as Path teaches them. Jumping past the frontier would skip terms
+ * the later ones build on, so it isn't offered; picking a unit in Path is the way to aim ahead.
+ */
+export function canRideFrom(p: Progress, lineId: string, stop: number): boolean {
+  const line = lineById.get(lineId);
+  const s = line?.stops[stop];
+  if (!s || !('term' in s)) return false;
+  return !!p.terms[s.term] || stop === frontier(p, lineId);
+}
+
+/** Due stations on a line, in line order. */
+export function dueStops(p: Progress, lineId: string, today: string): string[] {
+  const line = lineById.get(lineId);
+  if (!line) return [];
+  return line.stops.flatMap((s) => ('term' in s && isDue(p, s.term, today) ? [s.term] : []));
+}
+
+/** Revisit a line: its due stations, up to REVISIT_MAX, each asked the way Path would ask it. */
+export const REVISIT_MAX = 8;
+export function buildRevisit(p: Progress, lineId: string, today: string, rng: Rng): LessonPlan | null {
+  const ids = dueStops(p, lineId, today).slice(0, REVISIT_MAX);
+  return ids.length ? buildDefend(p, ids, today, rng) : null;
 }
