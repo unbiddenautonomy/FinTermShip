@@ -1258,5 +1258,1328 @@
     "s": "Companies don't have to explain why an auditor resigned.",
     "a": false,
     "why": "They must file the reason with the exchange."
+  },
+  {
+    "id": "hit-the-bid-claim-1",
+    "term": "hit-the-bid",
+    "s": "Hitting the bid means buying at the best price on offer.",
+    "a": false,
+    "why": "Hitting the bid is selling at the best bid. Buying at the offer is lifting it."
+  },
+  {
+    "id": "lift-the-offer-claim-1",
+    "term": "lift-the-offer",
+    "s": "Lifting the offer gets you filled fast but costs you the spread.",
+    "a": true,
+    "why": "You buy at the seller's price straight away, paying up for speed."
+  },
+  {
+    "id": "two-way-price-claim-1",
+    "term": "two-way-price",
+    "s": "A two-way price tells the other side which way you want to trade.",
+    "a": false,
+    "why": "Showing both a bid and an offer hides your direction; that's the point of asking for one."
+  },
+  {
+    "id": "size-claim-1",
+    "term": "size",
+    "s": "\"Can you do size?\" asks whether someone can trade a large quantity.",
+    "a": true,
+    "why": "On the desk, size means quantity, and \"in size\" means a lot of it."
+  },
+  {
+    "id": "working-an-order-claim-1",
+    "term": "working-an-order",
+    "s": "Working an order means sending the whole quantity to the market at once.",
+    "a": false,
+    "why": "It means filling it in pieces over time so the price isn't pushed."
+  },
+  {
+    "id": "print-claim-1",
+    "term": "print",
+    "s": "A big print in a stock tells traders a large trade has just gone through.",
+    "a": true,
+    "why": "A print is a reported trade; large ones get watched closely."
+  },
+  {
+    "id": "market-color-claim-1",
+    "term": "market-color",
+    "s": "Market color is the exchange's official data on prices and volumes.",
+    "a": false,
+    "why": "Color is the informal context from brokers and traders: who's doing what, and why."
+  },
+  {
+    "id": "flow-claim-1",
+    "term": "flow",
+    "s": "\"Flow is better for sale\" means more clients are selling than buying.",
+    "a": true,
+    "why": "Flow is client orders through a desk; better for sale means sellers dominate."
+  },
+  {
+    "id": "axe-claim-1",
+    "term": "axe",
+    "s": "A broker's axe is a position it is trying to hide from clients.",
+    "a": false,
+    "why": "An axe is an interest the desk wants known, so it can find the other side."
+  },
+  {
+    "id": "book-claim-1",
+    "term": "book",
+    "s": "A trader \"running a book\" is responsible for a set of positions and their risk.",
+    "a": true,
+    "why": "The book is all the positions a trader or desk manages."
+  },
+  {
+    "id": "buy-side-claim-1",
+    "term": "buy-side",
+    "s": "Brokers and investment banks are buy-side firms.",
+    "a": false,
+    "why": "They're sell-side. Buy-side firms invest money: funds, insurers, pension funds."
+  },
+  {
+    "id": "sell-side-claim-1",
+    "term": "sell-side",
+    "s": "A broker's research analyst works on the sell side.",
+    "a": true,
+    "why": "Sell-side firms sell services, including research, to investors."
+  },
+  {
+    "id": "fund-manager-claim-1",
+    "term": "fund-manager",
+    "s": "A fund manager places every order on the exchange personally.",
+    "a": false,
+    "why": "The manager decides what to buy and sell; a dealer usually places the orders."
+  },
+  {
+    "id": "research-analyst-claim-1",
+    "term": "research-analyst",
+    "s": "A research analyst can publish a sell rating on a stock.",
+    "a": true,
+    "why": "Analysts give buy, hold or sell views on the companies they cover."
+  },
+  {
+    "id": "sales-trader-claim-1",
+    "term": "sales-trader",
+    "s": "A sales trader manages the broker's own trading positions.",
+    "a": false,
+    "why": "A sales trader takes clients' orders and shares color; prop traders run the firm's money."
+  },
+  {
+    "id": "dealer-claim-1",
+    "term": "dealer",
+    "s": "In India, a fund's dealer is the person who places and manages its orders on the exchange.",
+    "a": true,
+    "why": "The dealer executes what the fund manager decides."
+  },
+  {
+    "id": "investment-bank-claim-1",
+    "term": "investment-bank",
+    "s": "An investment bank's main job is taking deposits from the public.",
+    "a": false,
+    "why": "That's a commercial bank. Investment banks arrange share sales, debt and mergers."
+  },
+  {
+    "id": "prop-trading-claim-1",
+    "term": "prop-trading",
+    "s": "A prop desk trades with the firm's own money, not clients'.",
+    "a": true,
+    "why": "Proprietary trading is for the firm's own profit."
+  },
+  {
+    "id": "hedge-fund-claim-1",
+    "term": "hedge-fund",
+    "s": "Hedge funds can only buy shares, never short them.",
+    "a": false,
+    "why": "Hedge funds can short, use leverage and trade derivatives. Long-only funds can't."
+  },
+  {
+    "id": "long-only-fund-claim-1",
+    "term": "long-only-fund",
+    "s": "A long-only fund can make money only when its holdings rise.",
+    "a": true,
+    "why": "It can't short, so it gains only from rising prices."
+  },
+  {
+    "id": "custodian-claim-1",
+    "term": "custodian",
+    "s": "A custodian decides which shares an institutional fund should buy.",
+    "a": false,
+    "why": "A custodian holds securities and handles settlement; the fund manager decides."
+  },
+  {
+    "id": "coverage-claim-1",
+    "term": "coverage",
+    "s": "\"Initiating coverage\" means an analyst publishes their first report on a company.",
+    "a": true,
+    "why": "Coverage is the set of companies an analyst follows."
+  },
+  {
+    "id": "stock-rating-claim-1",
+    "term": "stock-rating",
+    "s": "All Indian brokers use the same three ratings: buy, hold and sell.",
+    "a": false,
+    "why": "Many also use add and reduce, and some use overweight and underweight."
+  },
+  {
+    "id": "target-price-claim-1",
+    "term": "target-price",
+    "s": "A target price is usually set for about 12 months ahead.",
+    "a": true,
+    "why": "Analysts commonly give a 12-month target."
+  },
+  {
+    "id": "upgrade-claim-1",
+    "term": "upgrade",
+    "s": "Raising a target price always counts as an upgrade.",
+    "a": false,
+    "why": "An upgrade is raising the rating, such as hold to buy; a higher target alone isn't one."
+  },
+  {
+    "id": "downgrade-claim-1",
+    "term": "downgrade",
+    "s": "A stock can be downgraded from buy to hold even while its target price rises.",
+    "a": true,
+    "why": "The rating and the target are separate; a smaller upside can cut the rating."
+  },
+  {
+    "id": "overweight-claim-1",
+    "term": "overweight",
+    "s": "A fund that is overweight banks holds fewer banks than its benchmark.",
+    "a": false,
+    "why": "Overweight means holding more than the benchmark's weight."
+  },
+  {
+    "id": "earnings-call-claim-1",
+    "term": "earnings-call",
+    "s": "Analysts can question management directly on an earnings call.",
+    "a": true,
+    "why": "The call has a Q&A where analysts and investors ask questions."
+  },
+  {
+    "id": "earnings-beat-claim-1",
+    "term": "earnings-beat",
+    "s": "An earnings beat always makes the stock rise.",
+    "a": false,
+    "why": "Stocks can fall on a beat if the quality, guidance or the whisper number disappoints."
+  },
+  {
+    "id": "re-rating-claim-1",
+    "term": "re-rating",
+    "s": "A stock can rise sharply on a re-rating even if its earnings don't change.",
+    "a": true,
+    "why": "A higher multiple on the same earnings lifts the price."
+  },
+  {
+    "id": "well-bid-claim-1",
+    "term": "well-bid",
+    "s": "\"Banks are well bid\" means banks are falling as sellers rush out.",
+    "a": false,
+    "why": "Well bid means buyers are eager and keep raising their bids."
+  },
+  {
+    "id": "offered-claim-1",
+    "term": "offered",
+    "s": "\"IT is offered\" means sellers are in control of IT stocks.",
+    "a": true,
+    "why": "Offered means sellers keep lowering their offers."
+  },
+  {
+    "id": "chase-claim-1",
+    "term": "chase",
+    "s": "Chasing a stock gets you a better price than waiting.",
+    "a": false,
+    "why": "You keep paying up as the market runs away, so you usually get a worse price."
+  },
+  {
+    "id": "fade-claim-1",
+    "term": "fade",
+    "s": "Fading a gap-up means selling into it, expecting the price to fall back.",
+    "a": true,
+    "why": "Fading is trading against a move you think will reverse."
+  },
+  {
+    "id": "stopped-out-claim-1",
+    "term": "stopped-out",
+    "s": "Being stopped out means your profit target was hit.",
+    "a": false,
+    "why": "It means your stop-loss was hit and you exited at a loss."
+  },
+  {
+    "id": "trim-claim-1",
+    "term": "trim",
+    "s": "Trimming a position means selling part of it, not all.",
+    "a": true,
+    "why": "Trim is a partial sale; selling everything is exiting or closing out."
+  },
+  {
+    "id": "unwind-claim-1",
+    "term": "unwind",
+    "s": "Unwinding a trade means adding to it.",
+    "a": false,
+    "why": "Unwinding is closing it out, often in steps."
+  },
+  {
+    "id": "tape-claim-1",
+    "term": "tape",
+    "s": "Reading the tape means judging buying and selling pressure from live trades.",
+    "a": true,
+    "why": "The tape is the live record of trades and prices."
+  },
+  {
+    "id": "principal-trade-claim-1",
+    "term": "principal-trade",
+    "s": "In a principal trade, the broker takes no risk.",
+    "a": false,
+    "why": "In a principal trade the broker trades from its own book and takes the risk; in an agency trade it doesn't."
+  },
+  {
+    "id": "agency-trade-claim-1",
+    "term": "agency-trade",
+    "s": "In an agency trade, the broker earns a commission and takes no market risk.",
+    "a": true,
+    "why": "It trades in the market on the client's behalf."
+  },
+  {
+    "id": "firm-price-claim-1",
+    "term": "firm-price",
+    "s": "A firm price can be changed after you accept it.",
+    "a": false,
+    "why": "A firm price is a commitment: accept it and the trade is done."
+  },
+  {
+    "id": "indicative-price-claim-1",
+    "term": "indicative-price",
+    "s": "You can't hold a dealer to an indicative price.",
+    "a": true,
+    "why": "It's a guide, not a commitment."
+  },
+  {
+    "id": "the-street-claim-1",
+    "term": "the-street",
+    "s": "\"The street\" in India refers only to BSE's building.",
+    "a": false,
+    "why": "Dalal Street is BSE's address, but \"the street\" means the market and its professionals."
+  },
+  {
+    "id": "sell-the-news-claim-1",
+    "term": "sell-the-news",
+    "s": "A stock can fall on the day a long-awaited good event happens.",
+    "a": true,
+    "why": "Traders who bought the rumour sell once the news arrives."
+  },
+  {
+    "id": "falling-knife-claim-1",
+    "term": "falling-knife",
+    "s": "Catching a falling knife means selling a stock before it falls.",
+    "a": false,
+    "why": "It means buying a stock that's still dropping sharply, before it has settled."
+  },
+  {
+    "id": "long-and-wrong-claim-1",
+    "term": "long-and-wrong",
+    "s": "A trader who is long and wrong owns a stock that is falling.",
+    "a": true,
+    "why": "They bet on a rise and the market went the other way."
+  },
+  {
+    "id": "take-some-off-claim-1",
+    "term": "take-some-off",
+    "s": "Taking some off the table means closing a losing trade.",
+    "a": false,
+    "why": "It means selling part of a winning position to lock in gains."
+  },
+  {
+    "id": "let-winners-run-claim-1",
+    "term": "let-winners-run",
+    "s": "Letting winners run often goes with a trailing stop.",
+    "a": true,
+    "why": "The stop follows the price up and protects most of the gain."
+  },
+  {
+    "id": "cut-losers-claim-1",
+    "term": "cut-losers",
+    "s": "Cutting losers means holding losing trades until they recover.",
+    "a": false,
+    "why": "It means exiting losing trades early, at a planned stop."
+  },
+  {
+    "id": "double-down-claim-1",
+    "term": "double-down",
+    "s": "Doubling down usually happens after a position has moved against you.",
+    "a": true,
+    "why": "It means making the position much bigger, often after a loss."
+  },
+  {
+    "id": "scale-in-claim-1",
+    "term": "scale-in",
+    "s": "Scaling in means buying the full position in one order.",
+    "a": false,
+    "why": "Scaling in means building the position in steps."
+  },
+  {
+    "id": "scale-out-claim-1",
+    "term": "scale-out",
+    "s": "Scaling out could mean selling a third of a position at each of three targets.",
+    "a": true,
+    "why": "Scaling out is exiting in pieces."
+  },
+  {
+    "id": "wheres-your-stop-claim-1",
+    "term": "wheres-your-stop",
+    "s": "\"Where's your stop?\" asks what profit you expect from the trade.",
+    "a": false,
+    "why": "It asks the price at which the idea is wrong and you'll exit."
+  },
+  {
+    "id": "pyramiding-claim-1",
+    "term": "pyramiding",
+    "s": "In pyramiding, each addition to a winning position is usually smaller than the last.",
+    "a": true,
+    "why": "Adding smaller lots as the price moves your way limits the risk."
+  },
+  {
+    "id": "revenge-trading-claim-1",
+    "term": "revenge-trading",
+    "s": "Revenge trading is a disciplined way to recover losses.",
+    "a": false,
+    "why": "It breaks the trader's own rules and usually makes losses bigger."
+  },
+  {
+    "id": "overtrading-claim-1",
+    "term": "overtrading",
+    "s": "Overtrading raises costs even when the trades break even.",
+    "a": true,
+    "why": "Every trade pays brokerage, taxes and spread."
+  },
+  {
+    "id": "bag-holder-claim-1",
+    "term": "bag-holder",
+    "s": "A bag holder is the trader who sold at the top.",
+    "a": false,
+    "why": "A bag holder is left holding the stock after others sold."
+  },
+  {
+    "id": "order-book-claim-1",
+    "term": "order-book",
+    "s": "The order book shows waiting limit orders, sorted by price.",
+    "a": true,
+    "why": "Bids sit on one side, offers on the other."
+  },
+  {
+    "id": "best-bid-offer-claim-1",
+    "term": "best-bid-offer",
+    "s": "The best bid is always higher than the best offer.",
+    "a": false,
+    "why": "In a normal book the best bid sits below the best offer; the gap is the spread."
+  },
+  {
+    "id": "market-depth-claim-1",
+    "term": "market-depth",
+    "s": "A deep market can absorb a big order without moving the price much.",
+    "a": true,
+    "why": "Deep means lots of quantity waiting near the best prices."
+  },
+  {
+    "id": "mid-price-claim-1",
+    "term": "mid-price",
+    "s": "You can always trade at the mid price with a market order.",
+    "a": false,
+    "why": "A market order fills at the bid or offer, not at the mid."
+  },
+  {
+    "id": "matching-engine-claim-1",
+    "term": "matching-engine",
+    "s": "The matching engine fills orders by price-time priority.",
+    "a": true,
+    "why": "Best price first, then the earliest order at that price."
+  },
+  {
+    "id": "passive-order-claim-1",
+    "term": "passive-order",
+    "s": "A passive order crosses the spread and trades at once.",
+    "a": false,
+    "why": "That's an aggressive order. A passive order waits in the book."
+  },
+  {
+    "id": "aggressive-order-claim-1",
+    "term": "aggressive-order",
+    "s": "An aggressive buy order takes liquidity from the book.",
+    "a": true,
+    "why": "It trades at once against orders already waiting."
+  },
+  {
+    "id": "thin-market-claim-1",
+    "term": "thin-market",
+    "s": "In a thin market, a modest order barely moves the price.",
+    "a": false,
+    "why": "Few orders wait, so even modest trades move the price."
+  },
+  {
+    "id": "price-discovery-claim-1",
+    "term": "price-discovery",
+    "s": "Auctions like the pre-open session help with price discovery.",
+    "a": true,
+    "why": "They pool orders to find one price that reflects them."
+  },
+  {
+    "id": "market-maker-claim-1",
+    "term": "market-maker",
+    "s": "Market makers earn their profit mainly from commissions charged to clients.",
+    "a": false,
+    "why": "They mainly earn the spread between their bid and offer."
+  },
+  {
+    "id": "adverse-selection-claim-1",
+    "term": "adverse-selection",
+    "s": "A market maker trading with better-informed traders faces adverse selection.",
+    "a": true,
+    "why": "Informed traders tend to leave the market maker with losses."
+  },
+  {
+    "id": "informed-trader-claim-1",
+    "term": "informed-trader",
+    "s": "Informed traders' orders usually carry no information about future prices.",
+    "a": false,
+    "why": "Their orders carry real information, which is why market makers fear them."
+  },
+  {
+    "id": "noise-trader-claim-1",
+    "term": "noise-trader",
+    "s": "Noise traders give market makers someone to trade with profitably.",
+    "a": true,
+    "why": "Their uninformed orders let market makers earn the spread."
+  },
+  {
+    "id": "algo-trading-claim-1",
+    "term": "algo-trading",
+    "s": "Algorithmic trading always means trading at very high speed.",
+    "a": false,
+    "why": "Algos can be slow, like VWAP over a day. Only HFT is about extreme speed."
+  },
+  {
+    "id": "hft-claim-1",
+    "term": "hft",
+    "s": "High-frequency traders often hold positions for seconds or less.",
+    "a": true,
+    "why": "Very short holding periods define HFT."
+  },
+  {
+    "id": "latency-claim-1",
+    "term": "latency",
+    "s": "Lower latency means orders take longer to reach the exchange.",
+    "a": false,
+    "why": "Lower latency means faster: less delay between sending and arriving."
+  },
+  {
+    "id": "co-location-claim-1",
+    "term": "co-location",
+    "s": "Co-location puts a firm's servers inside the exchange's data centre.",
+    "a": true,
+    "why": "It cuts the distance, and so the delay, to the matching engine."
+  },
+  {
+    "id": "slippage-claim-1",
+    "term": "slippage",
+    "s": "Slippage only happens with limit orders.",
+    "a": false,
+    "why": "It's most common with market orders, which fill wherever the price is."
+  },
+  {
+    "id": "impact-cost-claim-1",
+    "term": "impact-cost",
+    "s": "A larger order usually has a higher impact cost.",
+    "a": true,
+    "why": "It eats through more price levels in the book."
+  },
+  {
+    "id": "call-auction-claim-1",
+    "term": "call-auction",
+    "s": "In a call auction, every order fills at its own limit price.",
+    "a": false,
+    "why": "All matched orders trade at one price, the one that clears the most quantity."
+  },
+  {
+    "id": "periodic-call-auction-claim-1",
+    "term": "periodic-call-auction",
+    "s": "NSE trades some very illiquid stocks only in periodic call auctions.",
+    "a": true,
+    "why": "They trade in hourly auctions instead of continuously."
+  },
+  {
+    "id": "disclosed-quantity-claim-1",
+    "term": "disclosed-quantity",
+    "s": "Disclosed quantity shows the whole order in market depth.",
+    "a": false,
+    "why": "It shows only part of it, revealing more as each part fills."
+  },
+  {
+    "id": "order-to-trade-ratio-claim-1",
+    "term": "order-to-trade-ratio",
+    "s": "Exchanges can charge traders whose order-to-trade ratio is very high.",
+    "a": true,
+    "why": "Too many orders per trade burdens the system, so exchanges penalise it."
+  },
+  {
+    "id": "algo-id-claim-1",
+    "term": "algo-id",
+    "s": "Algo IDs are optional labels that brokers may add if they wish.",
+    "a": false,
+    "why": "Every order from an approved algo must carry its exchange-issued ID."
+  },
+  {
+    "id": "black-box-algo-claim-1",
+    "term": "black-box-algo",
+    "s": "A black-box algo's rules aren't shown to the people using it.",
+    "a": true,
+    "why": "That's what black box means; the logic is hidden."
+  },
+  {
+    "id": "tick-by-tick-data-claim-1",
+    "term": "tick-by-tick-data",
+    "s": "Tick-by-tick data gives a snapshot of the market every minute.",
+    "a": false,
+    "why": "It records every single order and trade as it happens."
+  },
+  {
+    "id": "market-price-protection-claim-1",
+    "term": "market-price-protection",
+    "s": "Market price protection can leave part of a market order unfilled.",
+    "a": true,
+    "why": "It caps how far the order may fill, turning it into a limit order."
+  },
+  {
+    "id": "spoofing-claim-1",
+    "term": "spoofing",
+    "s": "Spoofing is legal as long as the orders are cancelled in time.",
+    "a": false,
+    "why": "Placing orders you never mean to fill, to mislead, is market manipulation."
+  },
+  {
+    "id": "layering-claim-1",
+    "term": "layering",
+    "s": "Layering stacks fake orders at several price levels on one side.",
+    "a": true,
+    "why": "It's a form of spoofing meant to push the price."
+  },
+  {
+    "id": "front-running-claim-1",
+    "term": "front-running",
+    "s": "Front-running is buying a stock just before your own earnings report.",
+    "a": false,
+    "why": "It's trading ahead of a known large order, such as a client's."
+  },
+  {
+    "id": "insider-trading-claim-1",
+    "term": "insider-trading",
+    "s": "Trading on unpublished results before they're announced is insider trading.",
+    "a": true,
+    "why": "Results are price-sensitive and unpublished, so they're UPSI."
+  },
+  {
+    "id": "upsi-claim-1",
+    "term": "upsi",
+    "s": "UPSI covers any news already published on the exchange website.",
+    "a": false,
+    "why": "Once published, it's no longer unpublished; UPSI is news not yet public."
+  },
+  {
+    "id": "trading-window-claim-1",
+    "term": "trading-window",
+    "s": "A company's trading window closes for insiders from the end of the quarter until results are out.",
+    "a": true,
+    "why": "That stops insiders trading on results before the public sees them."
+  },
+  {
+    "id": "pump-and-dump-claim-1",
+    "term": "pump-and-dump",
+    "s": "Pump-and-dump schemes usually target large, liquid stocks.",
+    "a": false,
+    "why": "They target small, thinly traded stocks that are easy to move."
+  },
+  {
+    "id": "circular-trading-claim-1",
+    "term": "circular-trading",
+    "s": "Circular trading creates fake volume among related accounts.",
+    "a": true,
+    "why": "The group trades the same shares back and forth among themselves."
+  },
+  {
+    "id": "wash-trade-claim-1",
+    "term": "wash-trade",
+    "s": "A wash trade changes who owns the shares.",
+    "a": false,
+    "why": "The same person is on both sides, so nothing really changes hands."
+  },
+  {
+    "id": "operator-claim-1",
+    "term": "operator",
+    "s": "In Indian market slang, an operator is someone who rigs the price of a small stock.",
+    "a": true,
+    "why": "Operators use circular trading and tips to move prices."
+  },
+  {
+    "id": "lit-market-claim-1",
+    "term": "lit-market",
+    "s": "In a lit market, orders are hidden until after they trade.",
+    "a": false,
+    "why": "Lit means visible: waiting orders show in the book before they trade."
+  },
+  {
+    "id": "dark-pool-claim-1",
+    "term": "dark-pool",
+    "s": "Dark pools let big investors trade size without showing their orders first.",
+    "a": true,
+    "why": "Orders aren't displayed before they trade."
+  },
+  {
+    "id": "fragmentation-claim-1",
+    "term": "fragmentation",
+    "s": "Fragmentation means all trading in a stock happens on one venue.",
+    "a": false,
+    "why": "It means trading is split across several venues."
+  },
+  {
+    "id": "smart-order-routing-claim-1",
+    "term": "smart-order-routing",
+    "s": "Smart order routing can split an order between NSE and BSE.",
+    "a": true,
+    "why": "It sends each part to wherever the best price is."
+  },
+  {
+    "id": "toxic-flow-claim-1",
+    "term": "toxic-flow",
+    "s": "Market makers seek out toxic flow because it pays them the spread.",
+    "a": false,
+    "why": "Toxic flow tends to leave the other side with losses; market makers avoid it."
+  },
+  {
+    "id": "latency-arbitrage-claim-1",
+    "term": "latency-arbitrage",
+    "s": "Latency arbitrage profits from reacting to price changes before slower traders.",
+    "a": true,
+    "why": "Speed lets you trade on prices others haven't updated."
+  },
+  {
+    "id": "hidden-liquidity-claim-1",
+    "term": "hidden-liquidity",
+    "s": "Hidden liquidity is shown in full in the order book.",
+    "a": false,
+    "why": "By definition it isn't visible in the book."
+  },
+  {
+    "id": "fill-rate-claim-1",
+    "term": "fill-rate",
+    "s": "Passive orders usually have lower fill rates than aggressive ones.",
+    "a": true,
+    "why": "They wait for a match that may never come."
+  },
+  {
+    "id": "white-box-algo-claim-1",
+    "term": "white-box-algo",
+    "s": "A white-box algo's rules are hidden from users.",
+    "a": false,
+    "why": "White-box means the logic is fully shown and can be rebuilt."
+  },
+  {
+    "id": "ops-threshold-claim-1",
+    "term": "ops-threshold",
+    "s": "A retail strategy sending more than 10 orders a second must be registered with the exchange.",
+    "a": true,
+    "why": "That's the order-per-second threshold the exchanges set."
+  },
+  {
+    "id": "static-ip-claim-1",
+    "term": "static-ip",
+    "s": "A static IP changes every time you log in to your broker.",
+    "a": false,
+    "why": "Static means fixed: one registered address for API orders."
+  },
+  {
+    "id": "algo-provider-claim-1",
+    "term": "algo-provider",
+    "s": "An algo provider offers its algorithms to retail clients through a broker.",
+    "a": true,
+    "why": "It builds the algos; the broker makes them available."
+  },
+  {
+    "id": "minimum-contract-size-claim-1",
+    "term": "minimum-contract-size",
+    "s": "An index F&O contract can be launched at any value the exchange likes.",
+    "a": false,
+    "why": "SEBI sets a minimum value, ₹15 lakh at launch."
+  },
+  {
+    "id": "upfront-premium-claim-1",
+    "term": "upfront-premium",
+    "s": "Brokers must collect the full premium from an option buyer before the order goes in.",
+    "a": true,
+    "why": "That's the upfront premium rule."
+  },
+  {
+    "id": "expiry-day-elm-claim-1",
+    "term": "expiry-day-elm",
+    "s": "The extra expiry-day margin applies to option buyers.",
+    "a": false,
+    "why": "It applies to short options expiring that day."
+  },
+  {
+    "id": "calendar-spread-benefit-claim-1",
+    "term": "calendar-spread-benefit",
+    "s": "Holding opposite positions in two expiries of the same underlying can lower margin.",
+    "a": true,
+    "why": "The positions partly offset, so less margin is needed."
+  },
+  {
+    "id": "futeq-oi-claim-1",
+    "term": "futeq-oi",
+    "s": "Futures-equivalent OI counts every option contract the same, whatever its delta.",
+    "a": false,
+    "why": "It weights each option by its delta, measuring risk not contract count."
+  },
+  {
+    "id": "intraday-position-monitoring-claim-1",
+    "term": "intraday-position-monitoring",
+    "s": "Exchanges check index F&O position limits during the day as well as at the close.",
+    "a": true,
+    "why": "They take intraday snapshots to catch limit breaches."
+  },
+  {
+    "id": "bull-market-claim-1",
+    "term": "bull-market",
+    "s": "A common rule of thumb calls a rise of 20% or more from a low a bull market.",
+    "a": true,
+    "why": "It's a rough convention, not a formal definition."
+  },
+  {
+    "id": "bear-market-claim-1",
+    "term": "bear-market",
+    "s": "A bear market is often defined as a fall of 20% or more from a recent high.",
+    "a": true,
+    "why": "That's the common rule of thumb."
+  },
+  {
+    "id": "rally-claim-1",
+    "term": "rally",
+    "s": "A rally can happen inside a bear market.",
+    "a": true,
+    "why": "Strong rises over days or weeks happen in falling markets too."
+  },
+  {
+    "id": "sell-off-claim-1",
+    "term": "sell-off",
+    "s": "A sell-off is a slow, gentle decline over many months.",
+    "a": false,
+    "why": "A sell-off is a quick, heavy bout of selling."
+  },
+  {
+    "id": "correction-claim-1",
+    "term": "correction",
+    "s": "A 12% fall from a recent peak is usually called a correction.",
+    "a": true,
+    "why": "Corrections are roughly 10% to 20% falls from a peak."
+  },
+  {
+    "id": "crash-claim-1",
+    "term": "crash",
+    "s": "A crash is a gradual slide of about 10% over several months.",
+    "a": false,
+    "why": "A crash is a sudden, very steep fall over a day or a few days."
+  },
+  {
+    "id": "all-time-high-claim-1",
+    "term": "all-time-high",
+    "s": "A stock at an all-time high has no holders sitting on losses from higher prices.",
+    "a": true,
+    "why": "Nobody bought higher, so there's no overhead supply from trapped buyers."
+  },
+  {
+    "id": "52-week-high-claim-1",
+    "term": "52-week-high",
+    "s": "A 52-week high is always also an all-time high.",
+    "a": false,
+    "why": "It's the highest of the last year; the all-time high may be older and higher."
+  },
+  {
+    "id": "support-claim-1",
+    "term": "support",
+    "s": "Once support breaks, it often acts as resistance afterwards.",
+    "a": true,
+    "why": "Old support becomes a level where sellers show up."
+  },
+  {
+    "id": "resistance-claim-1",
+    "term": "resistance",
+    "s": "Resistance is a price level where falls tend to stop.",
+    "a": false,
+    "why": "That's support. Resistance is where rises tend to stall."
+  },
+  {
+    "id": "breakout-claim-1",
+    "term": "breakout",
+    "s": "Traders give more weight to a breakout that comes on heavy volume.",
+    "a": true,
+    "why": "Volume suggests real conviction behind the move."
+  },
+  {
+    "id": "risk-on-claim-1",
+    "term": "risk-on",
+    "s": "In a risk-on mood, investors move money into government bonds and gold.",
+    "a": false,
+    "why": "That's risk-off. Risk-on favours shares, small caps and emerging markets."
+  },
+  {
+    "id": "risk-off-claim-1",
+    "term": "risk-off",
+    "s": "In risk-off phases, money tends to move into government bonds and gold.",
+    "a": true,
+    "why": "Investors seek safety."
+  },
+  {
+    "id": "profit-booking-claim-1",
+    "term": "profit-booking",
+    "s": "Profit booking can pull prices down even with no bad news.",
+    "a": true,
+    "why": "Sellers are locking in gains, not reacting to news."
+  },
+  {
+    "id": "panic-selling-claim-1",
+    "term": "panic-selling",
+    "s": "Panic selling is driven by careful analysis of valuations.",
+    "a": false,
+    "why": "It's driven by fear, with holdings dumped at almost any price."
+  },
+  {
+    "id": "capitulation-claim-1",
+    "term": "capitulation",
+    "s": "Capitulation often comes with a spike in volume.",
+    "a": true,
+    "why": "The final wave of sellers gives up all at once."
+  },
+  {
+    "id": "fomo-claim-1",
+    "term": "fomo",
+    "s": "FOMO buying is based on careful valuation work.",
+    "a": false,
+    "why": "FOMO is buying because others seem to be making money."
+  },
+  {
+    "id": "buy-the-dip-claim-1",
+    "term": "buy-the-dip",
+    "s": "Buying the dip can hurt badly when a bear market is starting.",
+    "a": true,
+    "why": "The fall can keep going instead of recovering."
+  },
+  {
+    "id": "dead-cat-bounce-claim-1",
+    "term": "dead-cat-bounce",
+    "s": "A dead cat bounce is the start of a lasting recovery.",
+    "a": false,
+    "why": "It's a brief rebound inside a continuing fall."
+  },
+  {
+    "id": "short-squeeze-claim-1",
+    "term": "short-squeeze",
+    "s": "In a short squeeze, short sellers' buying pushes the price even higher.",
+    "a": true,
+    "why": "They buy back to limit losses, adding to the rise."
+  },
+  {
+    "id": "crowded-trade-claim-1",
+    "term": "crowded-trade",
+    "s": "A crowded trade is easy to exit quickly, because so many people hold it.",
+    "a": false,
+    "why": "When the story changes everyone rushes for the door, so exits get hard."
+  },
+  {
+    "id": "range-bound-claim-1",
+    "term": "range-bound",
+    "s": "Selling near the top of a range and buying near the bottom suits a range-bound market.",
+    "a": true,
+    "why": "With no trend, prices keep swinging between the same levels."
+  },
+  {
+    "id": "consolidation-claim-1",
+    "term": "consolidation",
+    "s": "Consolidation is a sharp rise right after a big move.",
+    "a": false,
+    "why": "It's a sideways pause after a big move."
+  },
+  {
+    "id": "trending-market-claim-1",
+    "term": "trending-market",
+    "s": "An uptrend shows higher highs and higher lows.",
+    "a": true,
+    "why": "That pattern defines a rising trend."
+  },
+  {
+    "id": "whipsaw-claim-1",
+    "term": "whipsaw",
+    "s": "A whipsaw is a long, smooth move in one direction.",
+    "a": false,
+    "why": "A whipsaw is a sharp move one way, then a sharp reversal."
+  },
+  {
+    "id": "gap-up-claim-1",
+    "term": "gap-up",
+    "s": "A gap-up usually follows overnight news or strong global cues.",
+    "a": true,
+    "why": "The price opens well above yesterday's close."
+  },
+  {
+    "id": "overbought-claim-1",
+    "term": "overbought",
+    "s": "An overbought stock must fall the next day.",
+    "a": false,
+    "why": "Overbought only suggests a pause or pullback is likely; stocks can stay overbought."
+  },
+  {
+    "id": "v-shaped-recovery-claim-1",
+    "term": "v-shaped-recovery",
+    "s": "Indian shares made a V-shaped recovery after the March 2020 crash.",
+    "a": true,
+    "why": "Prices fell sharply and rebounded just as fast."
+  },
+  {
+    "id": "flash-crash-claim-1",
+    "term": "flash-crash",
+    "s": "A flash crash takes several weeks to recover.",
+    "a": false,
+    "why": "A flash crash reverses within minutes."
+  },
+  {
+    "id": "market-breadth-claim-1",
+    "term": "market-breadth",
+    "s": "An index can rise while most of its stocks fall.",
+    "a": true,
+    "why": "A few heavyweights can carry the index; that's poor breadth."
+  },
+  {
+    "id": "advance-decline-ratio-claim-1",
+    "term": "advance-decline-ratio",
+    "s": "An advance-decline ratio below 1 means more stocks fell than rose.",
+    "a": true,
+    "why": "It's rising stocks divided by falling stocks."
+  },
+  {
+    "id": "broad-based-rally-claim-1",
+    "term": "broad-based-rally",
+    "s": "A broad-based rally is one led by just two or three large stocks.",
+    "a": false,
+    "why": "Broad-based means most stocks and sectors rise."
+  },
+  {
+    "id": "sector-rotation-claim-1",
+    "term": "sector-rotation",
+    "s": "Sector rotation can lift banks while IT falls, with the index flat.",
+    "a": true,
+    "why": "Money moves between sectors rather than into or out of the market."
+  },
+  {
+    "id": "cyclical-stocks-claim-1",
+    "term": "cyclical-stocks",
+    "s": "Cyclical stocks do best during recessions.",
+    "a": false,
+    "why": "Their earnings rise and fall with the economy, so they usually suffer in recessions."
+  },
+  {
+    "id": "high-beta-stocks-claim-1",
+    "term": "high-beta-stocks",
+    "s": "High-beta stocks tend to fall more than the market in a sell-off.",
+    "a": true,
+    "why": "They swing more than the market in both directions."
+  },
+  {
+    "id": "risk-appetite-claim-1",
+    "term": "risk-appetite",
+    "s": "Strong risk appetite shows up as money flowing into gold and government bonds.",
+    "a": false,
+    "why": "That's weak risk appetite. Strong appetite sends money into small caps and riskier assets."
+  },
+  {
+    "id": "fund-flows-claim-1",
+    "term": "fund-flows",
+    "s": "FPI and DII buying and selling numbers are published every day.",
+    "a": true,
+    "why": "They're watched closely as a guide to fund flows."
+  },
+  {
+    "id": "bubble-claim-1",
+    "term": "bubble",
+    "s": "A bubble is easy to recognise and time while it is happening.",
+    "a": false,
+    "why": "Bubbles are usually clear only in hindsight."
+  },
+  {
+    "id": "melt-up-claim-1",
+    "term": "melt-up",
+    "s": "A melt-up is driven more by fear of missing out than by fundamentals.",
+    "a": true,
+    "why": "It's a sudden, steep rise late in a bull market."
+  },
+  {
+    "id": "black-swan-claim-1",
+    "term": "black-swan",
+    "s": "A black swan is a risk everyone expects and prices in.",
+    "a": false,
+    "why": "It's a rare, unexpected shock that seems obvious only afterwards."
+  },
+  {
+    "id": "contagion-claim-1",
+    "term": "contagion",
+    "s": "Contagion can make investors sell healthy companies that merely look similar to a troubled one.",
+    "a": true,
+    "why": "Fear spreads from one company or market to others."
+  },
+  {
+    "id": "event-risk-claim-1",
+    "term": "event-risk",
+    "s": "Event risk refers only to surprises nobody can see coming.",
+    "a": false,
+    "why": "Event risk is about known events, such as an RBI decision or an election result."
+  },
+  {
+    "id": "headline-risk-claim-1",
+    "term": "headline-risk",
+    "s": "A single tariff headline can move a stock sharply within minutes.",
+    "a": true,
+    "why": "That's headline risk."
+  },
+  {
+    "id": "earnings-season-claim-1",
+    "term": "earnings-season",
+    "s": "In India, all companies report on the same day each quarter.",
+    "a": false,
+    "why": "Results come out over a few weeks after each quarter ends."
+  },
+  {
+    "id": "liquidity-crunch-claim-1",
+    "term": "liquidity-crunch",
+    "s": "In a liquidity crunch, even good borrowers can struggle to roll over their loans.",
+    "a": true,
+    "why": "Cash and credit dry up for almost everyone."
+  },
+  {
+    "id": "de-risking-claim-1",
+    "term": "de-risking",
+    "s": "De-risking means adding leverage ahead of uncertain events.",
+    "a": false,
+    "why": "De-risking means cutting positions and leverage."
+  },
+  {
+    "id": "short-build-up-claim-1",
+    "term": "short-build-up",
+    "s": "A price fall with rising open interest suggests fresh short positions.",
+    "a": true,
+    "why": "That combination is read as a short build-up."
+  },
+  {
+    "id": "long-unwinding-claim-1",
+    "term": "long-unwinding",
+    "s": "In long unwinding, open interest rises as the price falls.",
+    "a": false,
+    "why": "Open interest falls, because longs are closing out."
+  },
+  {
+    "id": "delivery-percentage-claim-1",
+    "term": "delivery-percentage",
+    "s": "A high delivery percentage suggests buyers are holding shares rather than trading them within the day.",
+    "a": true,
+    "why": "It's the share of traded quantity that ends in delivery."
+  },
+  {
+    "id": "participant-wise-oi-claim-1",
+    "term": "participant-wise-oi",
+    "s": "Participant-wise OI shows each individual trader's position.",
+    "a": false,
+    "why": "It groups positions into clients, DIIs, FIIs and pros."
+  },
+  {
+    "id": "parent-order-claim-1",
+    "term": "parent-order",
+    "s": "A parent order is usually split into many child orders.",
+    "a": true,
+    "why": "The full order is sliced so it can be worked without moving the price."
+  },
+  {
+    "id": "arrival-price-claim-1",
+    "term": "arrival-price",
+    "s": "Arrival price is the mid price at the moment the order reached the desk.",
+    "a": true,
+    "why": "It's the usual benchmark for implementation shortfall."
+  },
+  {
+    "id": "explicit-costs-claim-1",
+    "term": "explicit-costs",
+    "s": "Brokerage, STT and exchange fees are explicit costs.",
+    "a": true,
+    "why": "They're visible on the contract note."
+  },
+  {
+    "id": "implicit-costs-claim-1",
+    "term": "implicit-costs",
+    "s": "The spread you pay and your own market impact are implicit costs.",
+    "a": true,
+    "why": "They're hidden in the prices you get, not billed separately."
+  },
+  {
+    "id": "temporary-impact-claim-1",
+    "term": "temporary-impact",
+    "s": "Temporary impact fades after you stop trading.",
+    "a": true,
+    "why": "It's the short-lived push from your own buying or selling."
+  },
+  {
+    "id": "square-root-law-claim-1",
+    "term": "square-root-law",
+    "s": "Under the square-root law, quadrupling an order's size roughly doubles its impact.",
+    "a": true,
+    "why": "Impact grows with the square root of size: √4 = 2."
+  },
+  {
+    "id": "opportunity-cost-claim-1",
+    "term": "opportunity-cost",
+    "s": "Opportunity cost counts only shares that were actually filled.",
+    "a": false,
+    "why": "It's the gain missed on shares that never filled."
+  },
+  {
+    "id": "timing-risk-claim-1",
+    "term": "timing-risk",
+    "s": "Trading more slowly lowers timing risk.",
+    "a": false,
+    "why": "Trading slowly leaves you exposed to price moves for longer, which raises timing risk."
+  },
+  {
+    "id": "law-of-one-price-claim-1",
+    "term": "law-of-one-price",
+    "s": "The law of one price says the same asset should trade at the same price everywhere, once costs are counted.",
+    "a": true,
+    "why": "Arbitrage closes any gap beyond costs."
+  },
+  {
+    "id": "inav-claim-1",
+    "term": "inav",
+    "s": "An ETF's iNAV is its live value worked out from its holdings during the day.",
+    "a": true,
+    "why": "Traders compare the ETF's price with iNAV to spot gaps."
+  },
+  {
+    "id": "leg-risk-claim-1",
+    "term": "leg-risk",
+    "s": "Leg risk is the danger that one side of an arbitrage fills and the other doesn't.",
+    "a": true,
+    "why": "Until both legs fill, you hold a naked position."
+  },
+  {
+    "id": "alpha-decay-claim-1",
+    "term": "alpha-decay",
+    "s": "A signal shared by many traders usually suffers faster alpha decay.",
+    "a": true,
+    "why": "Crowding competes the edge away."
+  },
+  {
+    "id": "market-neutral-claim-1",
+    "term": "market-neutral",
+    "s": "A market-neutral book aims to make money whether the market rises or falls.",
+    "a": true,
+    "why": "Its longs and shorts offset the market's direction."
+  },
+  {
+    "id": "pairs-trading-claim-1",
+    "term": "pairs-trading",
+    "s": "Pairs trading means buying two related stocks together.",
+    "a": false,
+    "why": "You buy one and short its close cousin, betting the gap between them closes."
+  },
+  {
+    "id": "risk-parity-claim-1",
+    "term": "risk-parity",
+    "s": "Risk parity gives every asset the same amount of money.",
+    "a": false,
+    "why": "It weights assets so each adds equal risk, so low-volatility assets get more money."
+  },
+  {
+    "id": "rollover-claim-1",
+    "term": "rollover",
+    "s": "Rolling over a futures position means letting it expire and settle.",
+    "a": false,
+    "why": "Rolling over means closing this month's contract and opening the next month's."
+  },
+  {
+    "id": "coupon-claim-1",
+    "term": "coupon",
+    "s": "A bond's coupon changes every day with market yields.",
+    "a": false,
+    "why": "For a fixed-rate bond the coupon is set at issue; its price and yield move instead."
+  },
+  {
+    "id": "accrued-interest-claim-1",
+    "term": "accrued-interest",
+    "s": "A bond buyer pays nothing for the interest built up since the last coupon.",
+    "a": false,
+    "why": "The buyer pays the seller the accrued interest on top of the price."
+  },
+  {
+    "id": "basis-risk-claim-1",
+    "term": "basis-risk",
+    "s": "A hedge using futures on the exact same asset can never have basis risk.",
+    "a": false,
+    "why": "The futures-spot gap can still move before expiry, so some basis risk remains."
+  },
+  {
+    "id": "credit-spread-claim-1",
+    "term": "credit-spread",
+    "s": "A wider credit spread means the market sees a borrower as safer.",
+    "a": false,
+    "why": "A wider spread means investors demand more extra yield, so they see more risk."
+  },
+  {
+    "id": "dovish-claim-1",
+    "term": "dovish",
+    "s": "A dovish central bank leans towards raising rates to fight inflation.",
+    "a": false,
+    "why": "That's hawkish. Dovish leans towards lower rates to support growth."
+  },
+  {
+    "id": "crr-claim-1",
+    "term": "crr",
+    "s": "Banks earn interest from RBI on the cash they keep as CRR.",
+    "a": false,
+    "why": "CRR balances held with the RBI earn no interest."
+  },
+  {
+    "id": "usdinr-claim-1",
+    "term": "usdinr",
+    "s": "If USDINR rises from 83 to 85, the rupee has strengthened.",
+    "a": false,
+    "why": "More rupees per dollar means the rupee has weakened."
+  },
+  {
+    "id": "t-bill-claim-1",
+    "term": "t-bill",
+    "s": "T-bills pay a coupon twice a year.",
+    "a": false,
+    "why": "T-bills are sold at a discount and repaid at face value; there's no coupon."
+  },
+  {
+    "id": "fill-claim-1",
+    "term": "fill",
+    "s": "A limit order can sit for hours before it gets a fill.",
+    "a": true,
+    "why": "It fills only when someone trades at your price or better."
+  },
+  {
+    "id": "ioc-claim-1",
+    "term": "ioc",
+    "s": "An IOC order never rests in the order book.",
+    "a": true,
+    "why": "Whatever can't fill at once is cancelled."
+  },
+  {
+    "id": "lot-size-claim-1",
+    "term": "lot-size",
+    "s": "You can't buy half a lot of Nifty futures.",
+    "a": true,
+    "why": "F&O contracts trade only in whole lots."
   }
 ]
