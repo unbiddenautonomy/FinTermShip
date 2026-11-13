@@ -1,6 +1,7 @@
-// Fails the build if the app's bundle holds any term card: a definition, an example, a fill
-// sentence, a written claim or a talk item. Those come from the server, a learner's worth at a
-// time (worker/cards.ts), so a look at the app's files with Inspect never shows the syllabus.
+// Fails the build if the app's bundle holds any term card (a definition, an example, a fill
+// sentence, a written claim or a talk item) or any pack (a desk case's decisions, meeting clips,
+// Fermi answers, backtest reports). Those come from the server, a learner's worth at a time
+// (worker/cards.ts), so a look at the app's files with Inspect never shows the syllabus.
 //
 //   node scripts/check-bundle.mjs   (after vite build; reads dist/)
 import { readFileSync, readdirSync, statSync } from 'node:fs';
@@ -41,10 +42,35 @@ for (const f of readdirSync(join(data, 'terms')).filter((f) => f.endsWith('.json
 for (const c of JSON.parse(readFileSync(join(data, 'modes', 'claims.json'), 'utf8'))) take(`claim ${c.id}`, c.why);
 for (const i of JSON.parse(readFileSync(join(data, 'talk.json'), 'utf8'))) take(`talk ${i.id}`, i.why);
 
+// Packs: desk cases and the meeting, Fermi and backtest games' content (src/lib/packs.ts).
+// A case's setup ships for phases 1 and 2 (the unit sheet shows it), so only its steps count.
+const read = (f) => JSON.parse(readFileSync(join(data, f), 'utf8'));
+for (const [id, c] of Object.entries(read('cases.json'))) {
+  c.steps.forEach((s, i) => {
+    take(`case ${id}: step ${i + 1}`, s.text);
+    s.options.forEach((o, j) => {
+      take(`case ${id}: step ${i + 1} option ${j + 1}`, o.text);
+      take(`case ${id}: step ${i + 1} option ${j + 1} why`, o.why);
+    });
+  });
+}
+for (const m of read('meetings.json')) {
+  m.lines.forEach((l, i) => take(`meeting ${m.id}: line ${i + 1}`, l.text));
+  m.questions.forEach((q, i) => take(`meeting ${m.id}: question ${i + 1}`, q.why));
+}
+for (const f of read('fermi.json')) take(`fermi ${f.id}`, f.how);
+for (const b of read('backtests.json')) {
+  take(`backtest ${b.id}`, b.about);
+  b.cases.forEach((c, i) => {
+    take(`backtest ${b.id}: case ${i + 1}`, c.line);
+    take(`backtest ${b.id}: case ${i + 1} why`, c.why);
+  });
+}
+
 const found = samples.filter((s) => bundle.includes(s.text));
 if (found.length) {
-  console.error(`The app's bundle holds ${found.length} pieces of term cards, which should only come from the server. First few:`);
+  console.error(`The app's bundle holds ${found.length} pieces of term cards or packs, which should only come from the server. First few:`);
   for (const s of found.slice(0, 8)) console.error(`  ${s.where}: "${s.text}…"`);
   process.exit(1);
 }
-console.log(`Bundle check: none of ${samples.length} card texts are in the ${files.length} built files.`);
+console.log(`Bundle check: none of ${samples.length} card and pack texts are in the ${files.length} built files.`);

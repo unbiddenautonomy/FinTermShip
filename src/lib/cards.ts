@@ -7,9 +7,12 @@
  *
  * Cards are kept in IndexedDB per account, so opening the app again fetches
  * only what is new, and a learner can review offline what they have met.
+ * Packs (desk cases and game content, src/lib/packs.ts) come the same way,
+ * when the learner first opens that case or game.
  */
 import { applyCards, clearCards, hasCard, termById } from './content';
 import type { LessonPlan } from './lesson';
+import { applyPacks, clearPacks, hasPack } from './packs';
 import type { Card } from './types';
 
 interface Stored {
@@ -18,6 +21,8 @@ interface Stored {
   /** When the server last sent cards (ms, server time). */
   at: number;
   cards: Record<string, Card>;
+  /** Desk cases and game content (src/lib/packs.ts), by pack id. */
+  packs?: Record<string, unknown>;
 }
 
 // ---------- The cache ----------
@@ -79,6 +84,7 @@ interface CardsReply {
   version: string;
   at: number;
   cards: Record<string, Card>;
+  packs?: Record<string, unknown>;
   /** Asked-for terms the server would not give (yet), and why. */
   refused?: string[];
   reason?: string;
@@ -107,9 +113,29 @@ let stored: Stored | null = null;
 
 function remember(reply: CardsReply, fresh: boolean) {
   if (!account) return;
-  const cards = fresh || !stored || stored.version !== reply.version ? { ...reply.cards } : { ...stored.cards, ...reply.cards };
-  stored = { version: reply.version, at: reply.at, cards };
+  const keep = !fresh && stored && stored.version === reply.version;
+  const cards = keep ? { ...stored!.cards, ...reply.cards } : { ...reply.cards };
+  const packs = keep ? { ...stored!.packs, ...reply.packs } : { ...reply.packs };
+  stored = { version: reply.version, at: reply.at, cards, packs };
   void writeStored(account, stored);
+}
+
+/** Put what the server sent, or what this device kept, where the app reads it. */
+function apply(from: { cards: Record<string, Card>; packs?: Record<string, unknown> }) {
+  applyCards(from.cards);
+  if (from.packs) applyPacks(from.packs);
+}
+
+/** Switch to this account's cards and packs on this device, dropping the last account's from memory. */
+async function switchAccount(email: string) {
+  if (account === email) return;
+  if (account) {
+    clearCards();
+    clearPacks();
+  }
+  account = email;
+  stored = await readStored(email);
+  if (stored) apply(stored);
 }
 
 export type CardsStatus = 'loading' | 'ready' | 'offline' | 'signed-out' | 'error';
@@ -119,18 +145,12 @@ export type CardsStatus = 'loading' | 'ready' | 'offline' | 'signed-out' | 'erro
  * has added or changed since. Resolves to 'ready' once the app can run.
  */
 export async function loadCards(email: string): Promise<CardsStatus> {
-  if (account !== email) {
-    // Another account on this device: none of the last one's cards stay in memory.
-    if (account) clearCards();
-    account = email;
-    stored = await readStored(email);
-    if (stored) applyCards(stored.cards);
-  }
+  await switchAccount(email);
   try {
     const q = stored ? `?have=${encodeURIComponent(stored.version)}&since=${stored.at}` : '';
     const reply = await call('GET', `cards${q}`);
     const full = !stored || stored.version !== reply.version;
-    applyCards(reply.cards);
+    apply(reply);
     remember(reply, full);
     return 'ready';
   } catch (e) {
@@ -144,12 +164,7 @@ export async function loadCards(email: string): Promise<CardsStatus> {
 
 /** Load the cards kept on this device only, when the server can't be reached. */
 export async function loadStoredCards(email: string): Promise<CardsStatus> {
-  if (account !== email) {
-    if (account) clearCards();
-    account = email;
-    stored = await readStored(email);
-    if (stored) applyCards(stored.cards);
-  }
+  await switchAccount(email);
   return stored ? 'ready' : 'offline';
 }
 
@@ -169,11 +184,12 @@ export function rememberAccount(email: string): void {
   }
 }
 
-/** Every card at once, for `npm run dev`, which has no server. Never part of the production build. */
+/** Every card and pack at once, for `npm run dev`, which has no server. Never part of the production build. */
 export async function loadAllCardsForDev(): Promise<CardsStatus> {
   if (import.meta.env.DEV) {
-    const { buildCards } = await import('./cardData');
+    const { buildCards, buildPacks } = await import('./cardData');
     applyCards(Object.fromEntries(buildCards()));
+    applyPacks(Object.fromEntries(buildPacks()));
     return 'ready';
   }
   return 'error';
@@ -194,11 +210,31 @@ export async function ensureCards(ids: string[], test?: string): Promise<string 
     // The server takes a few hundred at a time.
     for (let i = 0; i < need.length; i += 300) {
       const reply = await call('POST', 'cards', { ids: need.slice(i, i + 300), ...(test ? { test } : {}) });
-      applyCards(reply.cards);
+      apply(reply);
       remember(reply, false);
       reason ??= reply.reason;
     }
     if (need.some((id) => !hasCard(id))) return reason ?? 'Some of these terms could not be loaded. Try again in a moment.';
+    return null;
+  } catch (e) {
+    if (e instanceof CardsError && e.status === 401) return 'Your session has ended. Reload the page to sign in again.';
+    return e instanceof Error ? e.message : 'Something went wrong.';
+  }
+}
+
+/**
+ * Get packs (a desk case, a game's content) before the learner opens them.
+ * Resolves to null when they are all here, or to a sentence saying why not.
+ */
+export async function ensurePacks(ids: string[]): Promise<string | null> {
+  const need = [...new Set(ids)].filter((id) => !hasPack(id));
+  if (!need.length) return null;
+  if (import.meta.env.DEV) return loadAllCardsForDev().then(() => null);
+  try {
+    const reply = await call('POST', 'cards', { ids: [], packs: need });
+    apply(reply);
+    remember(reply, false);
+    if (need.some((id) => !hasPack(id))) return reply.reason ?? 'This could not be loaded. Try again in a moment.';
     return null;
   } catch (e) {
     if (e instanceof CardsError && e.status === 401) return 'Your session has ended. Reload the page to sign in again.';
