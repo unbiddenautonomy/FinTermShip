@@ -9,6 +9,11 @@
       "core": true
     },
     {
+      "id": "n7",
+      "name": "The three statements",
+      "core": false
+    },
+    {
       "id": "n2",
       "name": "Cash flow and the balance sheet",
       "core": false
@@ -820,6 +825,156 @@
       ]
     },
     {
+      "id": "dcf",
+      "term": "DCF",
+      "unit": "n3",
+      "short": "Value as today's worth of future cash flows",
+      "definition": "Discounted cash flow: a valuation that forecasts a company's free cash flows, discounts each back to today at the cost of capital, and adds a terminal value for the years beyond the forecast. The answer is very sensitive to the discount rate and the long-term growth assumed, so analysts show a range, not one number.",
+      "examples": [
+        "Our DCF gives ₹1,450 a share, 20% above the market price.",
+        "Raise the discount rate by one point and the DCF value drops by 15%.",
+        "Most of the DCF value comes from the terminal value, so check the growth assumption first."
+      ],
+      "fill": "Forecasting free cash flows and discounting them back at the cost of capital is a ____ valuation.",
+      "confusables": [
+        "present-value",
+        "valuation",
+        "multiple"
+      ],
+      "wrong": [
+        "Valuing a company at a multiple of peers' earnings",
+        "Valuing a company at the book value of its assets",
+        "Valuing a stock from its recent price trend"
+      ],
+      "difficulty": 2,
+      "said": "D C F",
+      "speak": "D C F",
+      "aliases": [
+        "discounted cash flow",
+        "DCF valuation"
+      ],
+      "tf": [
+        {
+          "s": "In a typical DCF, most of the value comes from the first five forecast years.",
+          "a": false,
+          "why": "For a growing company the terminal value, covering everything after the forecast, is usually more than half of the total. That is why the long-term growth and discount rate matter so much."
+        }
+      ]
+    },
+    {
+      "id": "wacc",
+      "term": "WACC",
+      "unit": "n3",
+      "short": "Blended cost of a company's debt and equity",
+      "definition": "Weighted average cost of capital: the return a company must earn to satisfy both its lenders and its shareholders, weighted by how much of each it uses. Debt is cheaper, and interest is tax-deductible, so it is counted after tax. A DCF discounts free cash flows at the WACC.",
+      "examples": [
+        "The DCF uses a 12% WACC: 14% cost of equity, 8% post-tax cost of debt.",
+        "A project that earns less than the WACC destroys value, even if it is profitable.",
+        "Higher interest rates raised the WACC and cut our target price."
+      ],
+      "fill": "Cost of equity and post-tax cost of debt, weighted by how much of each is used, give the ____.",
+      "confusables": [
+        "cost-of-equity",
+        "dcf",
+        "risk-free-rate"
+      ],
+      "wrong": [
+        "The interest rate on the company's latest loan",
+        "The return the company made on its equity last year",
+        "The dividend yield plus earnings growth"
+      ],
+      "difficulty": 3,
+      "said": "wack",
+      "speak": "whack",
+      "aliases": [
+        "weighted average cost of capital",
+        "cost of capital"
+      ],
+      "formula": "WACC = E/(D+E) × cost of equity + D/(D+E) × cost of debt × (1 − tax rate)",
+      "calcs": [
+        {
+          "q": "A company is 60% equity at a 15% cost of equity and 40% debt at 10% interest, with a 25% tax rate. What is its WACC?",
+          "options": [
+            "12%",
+            "13%",
+            "12.5%",
+            "10.5%"
+          ],
+          "answer": 0,
+          "why": "Equity: 0.6 × 15% = 9%. Debt after tax: 10% × (1 − 0.25) = 7.5%, and 0.4 × 7.5% = 3%. WACC = 9% + 3% = 12%."
+        }
+      ]
+    },
+    {
+      "id": "terminal-value",
+      "term": "terminal value",
+      "unit": "n3",
+      "short": "Value of all cash flows after the forecast",
+      "definition": "The value, at the end of a DCF's forecast period, of every cash flow after it. It is usually worked out by assuming cash flows grow at a steady rate forever (the Gordon growth formula) or by applying an exit multiple. It is often more than half of a DCF's answer, so a small change in long-term growth moves the value a lot.",
+      "examples": [
+        "Terminal value is 70% of our DCF, so the 5% long-term growth assumption carries the whole call.",
+        "Using a 12x exit multiple instead of 5% perpetual growth gave a very different terminal value.",
+        "Long-term growth in the terminal value can't sensibly be above the economy's nominal growth."
+      ],
+      "fill": "In a DCF, the value of every cash flow after year ten is the ____.",
+      "confusables": [
+        "dcf",
+        "present-value",
+        "fair-value"
+      ],
+      "wrong": [
+        "The share price on the last day of the forecast",
+        "The book value of assets at the end of the forecast",
+        "The price the stock is expected to hit next year"
+      ],
+      "difficulty": 3,
+      "formula": "Terminal value = FCF next year ÷ (WACC − g)",
+      "calcs": [
+        {
+          "q": "Free cash flow in the year after the forecast is ₹100 crore, WACC is 12% and long-term growth is 5%. What is the terminal value?",
+          "options": [
+            "About ₹1,429 crore",
+            "About ₹833 crore",
+            "About ₹2,000 crore",
+            "About ₹588 crore"
+          ],
+          "answer": 0,
+          "why": "100 ÷ (0.12 − 0.05) = 100 ÷ 0.07 ≈ ₹1,429 crore. That value is as of the end of the forecast, so it is then discounted back to today."
+        }
+      ]
+    },
+    {
+      "id": "cost-of-equity",
+      "term": "cost of equity",
+      "unit": "n3",
+      "short": "The return shareholders require",
+      "definition": "The return shareholders expect for the risk of owning the stock. It isn't a bill the company pays, but a project that earns less is destroying their value. It is usually estimated with CAPM: the risk-free rate plus beta times the equity risk premium.",
+      "examples": [
+        "With a 7% risk-free rate, 1.1 beta and 6% risk premium, the cost of equity is about 13.6%.",
+        "An ROE below the cost of equity means the stock should trade below book.",
+        "The bank's cost of equity is higher than its cost of deposits, so equity is its most expensive funding."
+      ],
+      "fill": "The return shareholders need for owning a risky stock, often estimated with CAPM, is the ____.",
+      "confusables": [
+        "wacc",
+        "roe",
+        "capm"
+      ],
+      "wrong": [
+        "The interest rate the company pays on its loans",
+        "The dividend the company paid last year",
+        "The return the company actually earned on equity"
+      ],
+      "difficulty": 3,
+      "tf": [
+        {
+          "s": "Equity is free money for a company, because unlike debt it has no interest to pay.",
+          "a": false,
+          "why": "Shareholders expect a return for their risk. Equity is usually more expensive than debt, because shareholders are paid last when things go wrong."
+        }
+      ]
+    },
+    {
       "id": "net-interest-margin",
       "term": "net interest margin",
       "unit": "n4",
@@ -1463,6 +1618,278 @@
         "The CFO retiring on schedule"
       ],
       "difficulty": 2
+    },
+    {
+      "id": "income-statement",
+      "term": "income statement",
+      "unit": "n7",
+      "short": "Revenue, costs and profit over a period",
+      "definition": "The statement that shows what a company earned and spent over a quarter or a year: revenue at the top, then costs, interest, depreciation and tax, down to net profit at the bottom. Indian filings call it the statement of profit and loss. It shows profit, not cash: a sale on credit counts here before any money arrives.",
+      "examples": [
+        "The income statement showed record profit, but the cash flow statement showed receivables piling up.",
+        "Start at the top of the income statement: did revenue grow, or only margins?",
+        "Other income was 40% of profit before tax on the income statement this quarter."
+      ],
+      "fill": "Revenue at the top, net profit at the bottom, for one quarter: that's the ____.",
+      "confusables": [
+        "balance-sheet",
+        "cash-flow-statement",
+        "pnl"
+      ],
+      "wrong": [
+        "A snapshot of what the company owns and owes on one date",
+        "The cash that came in and went out over the year",
+        "A list of the company's shareholders"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "P&L statement",
+        "profit and loss statement",
+        "statement of profit and loss"
+      ],
+      "tf": [
+        {
+          "s": "A company can report a profit on its income statement and still run out of cash.",
+          "a": true,
+          "why": "Profit counts sales when they are made, not when they are paid for. If customers pay late or stock builds up, cash can drain while profit looks fine."
+        }
+      ]
+    },
+    {
+      "id": "balance-sheet",
+      "term": "balance sheet",
+      "unit": "n7",
+      "short": "What a company owns and owes, on one date",
+      "definition": "A snapshot on one date, usually the end of a quarter or year: assets on one side, and on the other the liabilities owed to lenders and suppliers plus the shareholders' equity. The two sides always balance, because everything the company owns was paid for with either borrowed money or owners' money.",
+      "examples": [
+        "The balance sheet shows ₹2,000 crore of debt against ₹1,500 crore of equity.",
+        "Listed Indian companies publish the balance sheet every half year, not every quarter.",
+        "Net cash on the balance sheet covers the whole market cap of the subsidiary."
+      ],
+      "fill": "Assets on one side, liabilities plus shareholders' equity on the other, as of 31 March: the ____.",
+      "confusables": [
+        "income-statement",
+        "cash-flow-statement",
+        "book-value"
+      ],
+      "wrong": [
+        "Revenue and costs over a full year",
+        "The cash received and paid during the quarter",
+        "The company's plan for next year's spending"
+      ],
+      "difficulty": 1,
+      "formula": "Assets = Liabilities + Shareholders' equity",
+      "tf": [
+        {
+          "s": "A balance sheet shows how much profit the company made during the year.",
+          "a": false,
+          "why": "The balance sheet is a snapshot of what is owned and owed on one date. Profit over a period is on the income statement."
+        }
+      ]
+    },
+    {
+      "id": "cash-flow-statement",
+      "term": "cash flow statement",
+      "unit": "n7",
+      "short": "Where the cash came from and went",
+      "definition": "The statement of actual cash in and out over a period, split three ways: operating (running the business), investing (capex, buying or selling businesses) and financing (borrowing, repaying, dividends, buybacks). It is the hardest statement to dress up, so analysts check it against reported profit.",
+      "examples": [
+        "Operating cash flow on the cash flow statement was half of net profit, which worried the analyst.",
+        "The cash flow statement shows the dividend was paid out of new borrowing.",
+        "Investing outflows jumped on the cash flow statement because of the new plant."
+      ],
+      "fill": "Cash from operations, from investing and from financing are the three parts of the ____.",
+      "confusables": [
+        "income-statement",
+        "operating-cash-flow",
+        "free-cash-flow"
+      ],
+      "wrong": [
+        "Revenue and costs over the year",
+        "What the company owns and owes on one date",
+        "Forecasts of next year's earnings"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "cash flow"
+      ],
+      "tf": [
+        {
+          "s": "Paying a dividend shows up in the investing section of the cash flow statement.",
+          "a": false,
+          "why": "Dividends, borrowing, repayments and buybacks are financing cash flows. Investing covers capex and buying or selling businesses and investments."
+        }
+      ]
+    },
+    {
+      "id": "gross-margin",
+      "term": "gross margin",
+      "unit": "n7",
+      "short": "Revenue left after the direct cost of goods",
+      "definition": "Revenue minus the direct cost of making or buying what was sold (raw materials, goods bought for resale), as a share of revenue. It shows pricing power and input costs before rent, salaries and other overheads. For a paint or FMCG company, raw-material prices move it every quarter.",
+      "examples": [
+        "Crude fell, so the paint maker's gross margin expanded by 300 basis points.",
+        "Gross margin held up, so the profit drop came from higher ad spend, not costs of goods.",
+        "A retailer's gross margin is thin, so it lives on volume."
+      ],
+      "fill": "Revenue minus raw-material cost, divided by revenue, is the ____.",
+      "confusables": [
+        "ebitda-margin",
+        "operating-margin",
+        "net-interest-margin"
+      ],
+      "wrong": [
+        "Profit after every cost, interest and tax",
+        "Money blocked by a broker to hold a position",
+        "The gap between the bid and the ask"
+      ],
+      "difficulty": 2,
+      "formula": "Gross margin = (Revenue − Cost of goods sold) ÷ Revenue",
+      "calcs": [
+        {
+          "q": "Revenue is ₹500 crore and the cost of goods sold is ₹300 crore. What is the gross margin?",
+          "options": [
+            "40%",
+            "60%",
+            "67%",
+            "20%"
+          ],
+          "answer": 0,
+          "why": "(500 − 300) ÷ 500 = 200 ÷ 500 = 40%."
+        }
+      ],
+      "reads": {
+        "up": "A wider gross margin usually means lower input costs or stronger pricing, and often lifts earnings estimates for the next quarters.",
+        "down": "A narrower gross margin points to rising input costs or price cuts; analysts check whether the company can pass the costs on."
+      }
+    },
+    {
+      "id": "operating-margin",
+      "term": "operating margin",
+      "unit": "n7",
+      "short": "Operating profit (EBIT) as a share of revenue",
+      "definition": "Operating profit, or EBIT (earnings before interest and tax), divided by revenue. Unlike EBITDA margin it is after depreciation, so it counts the cost of wearing out plants and equipment. It shows how much of each rupee of sales the core business keeps before financing costs and tax.",
+      "examples": [
+        "Operating margin fell even though EBITDA margin rose, because depreciation on the new plant kicked in.",
+        "IT services firms guide on operating margin, usually in a band like 20–22%.",
+        "An operating margin of 8% leaves little room if wages rise."
+      ],
+      "fill": "EBIT divided by revenue, after depreciation but before interest and tax, is the ____.",
+      "confusables": [
+        "ebitda-margin",
+        "gross-margin",
+        "operating-leverage"
+      ],
+      "wrong": [
+        "Profit before depreciation, as a share of revenue",
+        "Net profit as a share of shareholders' equity",
+        "Revenue left after raw materials only"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "EBIT margin"
+      ],
+      "formula": "Operating margin = EBIT ÷ Revenue",
+      "calcs": [
+        {
+          "q": "Revenue is ₹1,000 crore, EBITDA is ₹200 crore and depreciation is ₹50 crore. What is the operating margin?",
+          "options": [
+            "15%",
+            "20%",
+            "25%",
+            "5%"
+          ],
+          "answer": 0,
+          "why": "EBIT = EBITDA − depreciation = 200 − 50 = 150. Operating margin = 150 ÷ 1,000 = 15%. The EBITDA margin is 20%."
+        }
+      ],
+      "reads": {
+        "up": "A rising operating margin means the core business is keeping more of each rupee of sales; it usually drives earnings upgrades.",
+        "down": "A falling operating margin, from wages, costs or price cuts, usually leads to earnings downgrades even if revenue grows."
+      }
+    },
+    {
+      "id": "current-ratio",
+      "term": "current ratio",
+      "unit": "n7",
+      "short": "Short-term assets over short-term debts",
+      "definition": "Current assets (cash, receivables, inventory, anything turning into cash within a year) divided by current liabilities (what must be paid within a year). Above 1 means the company can cover its near-term bills from near-term assets. Too low is a liquidity worry; very high can mean cash or stock sitting idle.",
+      "examples": [
+        "A current ratio of 0.8 means short-term bills exceed short-term assets.",
+        "The lender's covenant requires a current ratio above 1.2.",
+        "Inventory is most of the current assets, so the current ratio flatters the real liquidity."
+      ],
+      "fill": "Current assets divided by current liabilities is the ____.",
+      "confusables": [
+        "working-capital",
+        "interest-coverage",
+        "debt-to-equity"
+      ],
+      "wrong": [
+        "Debt divided by shareholders' equity",
+        "Operating profit divided by interest cost",
+        "Share price divided by earnings per share"
+      ],
+      "difficulty": 2,
+      "formula": "Current ratio = Current assets ÷ Current liabilities",
+      "calcs": [
+        {
+          "q": "Current assets are ₹600 crore and current liabilities are ₹400 crore. What is the current ratio?",
+          "options": [
+            "1.5",
+            "0.67",
+            "2.5",
+            "1.2"
+          ],
+          "answer": 0,
+          "why": "600 ÷ 400 = 1.5: near-term assets cover near-term bills one and a half times."
+        }
+      ]
+    },
+    {
+      "id": "dividend-payout-ratio",
+      "term": "dividend payout ratio",
+      "unit": "n7",
+      "short": "Share of profit paid out as dividends",
+      "definition": "Dividends paid divided by net profit. A high payout suits mature, cash-rich companies such as PSUs and FMCG firms; a low one means profit is kept to fund growth. A payout above 100% means the dividend is coming out of past savings or borrowing, which can't last.",
+      "examples": [
+        "The PSU's dividend payout ratio is 60%, so most of the profit comes back to shareholders.",
+        "A payout above 100% this year was funded from reserves.",
+        "Growth companies keep the dividend payout ratio low and reinvest."
+      ],
+      "fill": "Dividends of ₹40 out of a net profit of ₹100 mean a ____ of 40%.",
+      "confusables": [
+        "dividend-yield",
+        "dividend",
+        "buyback"
+      ],
+      "wrong": [
+        "Dividend per share divided by the share price",
+        "The date you must hold shares to get a dividend",
+        "Profit kept in the business each year"
+      ],
+      "difficulty": 2,
+      "formula": "Payout ratio = Dividends ÷ Net profit",
+      "calcs": [
+        {
+          "q": "A company earns ₹50 per share and pays ₹20 per share in dividends. What is its payout ratio?",
+          "options": [
+            "40%",
+            "250%",
+            "20%",
+            "60%"
+          ],
+          "answer": 0,
+          "why": "20 ÷ 50 = 40% of profit paid out; the other 60% is kept in the business."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A high dividend payout ratio and a high dividend yield are the same thing.",
+          "a": false,
+          "why": "Payout compares dividends with profit. Yield compares dividends with the share price. A stock can pay out most of its profit and still yield little if the price is high."
+        }
+      ]
     }
   ]
 }
