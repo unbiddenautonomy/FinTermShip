@@ -11,6 +11,7 @@
  */
 import { mergeProgress } from '../src/lib/sync';
 import type { Progress } from '../src/lib/types';
+import { ALWAYS_ON, isModeId, MODES } from '../src/lib/modes/ids';
 import { askCards, givenCards } from './cards';
 import { signInPage } from './signin';
 
@@ -62,6 +63,8 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS cards (user_id INTEGER NOT NULL, term_id TEXT NOT NULL, issued INTEGER NOT NULL, test TEXT, PRIMARY KEY (user_id, term_id))`,
   `CREATE INDEX IF NOT EXISTS cards_recent ON cards (user_id, issued)`,
   `CREATE TABLE IF NOT EXISTS card_seed (user_id INTEGER PRIMARY KEY, at INTEGER NOT NULL)`,
+  // Settings for the whole site, set by the admin: 'modes_off' is a JSON list of mode ids switched off for everyone.
+  `CREATE TABLE IF NOT EXISTS site (key TEXT PRIMARY KEY, value TEXT NOT NULL)`,
   // Wrong tries at the unlock password, per account.
   `CREATE TABLE IF NOT EXISTS unlock_tries (user_id INTEGER PRIMARY KEY, fails INTEGER NOT NULL, locked_until INTEGER NOT NULL)`,
 ];
@@ -228,6 +231,18 @@ function looksLikeProgress(x: unknown): x is Progress {
 
 const adminEmail = (env: Env) => env.ADMIN_EMAIL || env.OWNER_EMAIL || '';
 
+/** The modes the admin has switched off for everyone. Unknown ids are dropped, and Path is never off. */
+export async function modesOff(db: D1Database): Promise<string[]> {
+  const row = await db.prepare("SELECT value FROM site WHERE key = 'modes_off'").first<{ value: string }>();
+  let list: unknown = [];
+  try {
+    list = row ? JSON.parse(row.value) : [];
+  } catch {
+    list = [];
+  }
+  return Array.isArray(list) ? MODES.filter((m) => m !== ALWAYS_ON && list.includes(m)) : [];
+}
+
 // ---------- The API ----------
 const schemaReady = new WeakMap<D1Database, Promise<unknown>>();
 function ensureSchema(db: D1Database): Promise<unknown> {
@@ -356,6 +371,9 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     return startSession(user);
   }
 
+  // Settings the admin sets for everyone.
+  if (route === 'GET /api/site') return json({ modesOff: await modesOff(db) });
+
   // ---------- Term cards ----------
   if (route === 'GET /api/cards') {
     const since = Number(url.searchParams.get('since') ?? 0);
@@ -437,6 +455,22 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
       const b = await body();
       await db.prepare('DELETE FROM invites WHERE code = ? AND used_by IS NULL').bind(String(b.code ?? '')).run();
       return json({ ok: true });
+    }
+
+    if (route === 'POST /api/admin/modes') {
+      const b = await body();
+      if (!isModeId(b.mode)) return fail(400, 'No such mode.');
+      if (b.mode === ALWAYS_ON) return fail(400, 'Path stays on: it holds the lessons, drills and tests.');
+      if (typeof b.on !== 'boolean') return fail(400, 'Say whether the mode is on.');
+      const now = new Set(await modesOff(db));
+      if (b.on) now.delete(b.mode);
+      else now.add(b.mode);
+      const list = MODES.filter((m) => now.has(m));
+      await db
+        .prepare("INSERT INTO site (key, value) VALUES ('modes_off', ?) ON CONFLICT(key) DO UPDATE SET value = excluded.value")
+        .bind(JSON.stringify(list))
+        .run();
+      return json({ modesOff: list });
     }
 
     if (route === 'POST /api/admin/user') {

@@ -9,13 +9,13 @@ import { phase3Open } from '../phase3';
 import { dueTermIds, intervalFor, isDueOn, isKnown, KNOWN_STEP, MAX_STEP, recordPractice, review, reviewsLeftToday } from '../scheduler';
 import type { Progress, Question, TermState } from '../types';
 
-export type ModeId = 'path' | 'lines' | 'callit' | 'exchange';
-export const MODES: ModeId[] = ['path', 'lines', 'callit', 'exchange'];
+import { MODES, type ModeId } from './ids';
+export { MODES, type ModeId };
 
-/** Where the app opens: the learner's choice in Settings, or Path. */
-export function landingMode(p: Progress): ModeId {
+/** Where the app opens: the learner's choice in Settings, or Path. A mode the admin switched off for everyone falls back to Path. */
+export function landingMode(p: Progress, off: readonly string[] = []): ModeId {
   const m = p.settings.landing;
-  return m && MODES.includes(m) ? m : 'path';
+  return m && MODES.includes(m) && !off.includes(m) ? m : 'path';
 }
 
 /**

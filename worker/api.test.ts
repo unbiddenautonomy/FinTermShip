@@ -130,6 +130,26 @@ describe('worker: accounts', () => {
     expect((await friend.call('GET', '/api/me')).status).toBe(401);
   });
 
+  it('lets the admin switch a mode off and on for everyone, but never Path', async () => {
+    const admin = new Client();
+    await admin.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
+    const { data } = await admin.call('POST', '/api/admin/invites', { quant: false, phase3: false });
+    const friend = new Client();
+    await friend.call('POST', '/api/signup', { email: 'friend@example.com', password: 'friendpass', invite: data.code });
+    expect((await friend.call('GET', '/api/site')).data).toEqual({ modesOff: [] });
+    expect((await new Client().call('GET', '/api/site')).status).toBe(401);
+    // Only the admin can change it, and only for real modes other than Path.
+    expect((await friend.call('POST', '/api/admin/modes', { mode: 'callit', on: false })).status).toBe(403);
+    expect((await admin.call('POST', '/api/admin/modes', { mode: 'path', on: false })).status).toBe(400);
+    expect((await admin.call('POST', '/api/admin/modes', { mode: 'casino', on: false })).status).toBe(400);
+    expect((await admin.call('POST', '/api/admin/modes', { mode: 'callit' })).status).toBe(400);
+    expect((await admin.call('POST', '/api/admin/modes', { mode: 'exchange', on: false })).data).toEqual({ modesOff: ['exchange'] });
+    expect((await admin.call('POST', '/api/admin/modes', { mode: 'callit', on: false })).data).toEqual({ modesOff: ['callit', 'exchange'] });
+    expect((await friend.call('GET', '/api/site')).data).toEqual({ modesOff: ['callit', 'exchange'] });
+    await admin.call('POST', '/api/admin/modes', { mode: 'exchange', on: true });
+    expect((await friend.call('GET', '/api/site')).data).toEqual({ modesOff: ['callit'] });
+  });
+
   it('shows the admin a summary of each learner, not their progress', async () => {
     const admin = new Client();
     await admin.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
