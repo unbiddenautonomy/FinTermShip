@@ -154,6 +154,8 @@ export interface Progress {
   projects?: Record<string, { done: number[]; reviewed: boolean }>;
   /** Best timed mock interview round, by interview round name. */
   mocks?: Record<string, { best: number; total: number; date: string; tries: number }>;
+  /** Per-mode records (sessions, answers, Call It's best run, the Exchange index history). Never part of the shared KPIs. */
+  modes?: import('./modes/knowledge').ModeRecords;
   /** When progress was last reset or replaced from a backup (ms). Sync keeps the newest start over the merge. */
   epoch?: number;
 }

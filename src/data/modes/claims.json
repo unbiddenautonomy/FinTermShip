@@ -1,0 +1,1262 @@
+[
+  {
+    "id": "ask-claim-1",
+    "term": "ask",
+    "s": "The ask is the highest price a buyer is willing to pay.",
+    "a": false,
+    "why": "That's the bid. The ask (or offer) is the lowest price a seller will accept."
+  },
+  {
+    "id": "spread-claim-1",
+    "term": "spread",
+    "s": "A wide bid-ask spread usually means a stock is harder to trade cheaply.",
+    "a": true,
+    "why": "Each round trip costs you about the spread, so wide spreads mean costly, less liquid trading."
+  },
+  {
+    "id": "ltp-claim-1",
+    "term": "ltp",
+    "s": "The last traded price is the price you are guaranteed to get on your next market order.",
+    "a": false,
+    "why": "A market order fills at the best available ask or bid, which can differ from the last trade."
+  },
+  {
+    "id": "liquidity-claim-1",
+    "term": "liquidity",
+    "s": "In a liquid stock you can trade a large quantity without moving the price much.",
+    "a": true,
+    "why": "That is what liquidity means: size trades cheaply and quickly."
+  },
+  {
+    "id": "volume-claim-1",
+    "term": "volume",
+    "s": "Volume counts buyers and sellers separately, so 100 shares changing hands is volume of 200.",
+    "a": false,
+    "why": "Every trade has a buyer and a seller; 100 shares traded is volume of 100."
+  },
+  {
+    "id": "lakh-claim-1",
+    "term": "lakh",
+    "s": "Ten lakh make one million.",
+    "a": true,
+    "why": "1 lakh = 1,00,000, so 10 lakh = 10,00,000 = one million."
+  },
+  {
+    "id": "crore-claim-1",
+    "term": "crore",
+    "s": "One crore equals one billion.",
+    "a": false,
+    "why": "One crore is ten million. 100 crore make one billion."
+  },
+  {
+    "id": "market-cap-claim-1",
+    "term": "market-cap",
+    "s": "A company's market cap rises when it takes on more debt.",
+    "a": false,
+    "why": "Market cap is share price × shares outstanding; debt isn't in it (enterprise value adds debt)."
+  },
+  {
+    "id": "basis-point-claim-1",
+    "term": "basis-point",
+    "s": "A rate going from 6.50% to 6.75% is a rise of 25 basis points.",
+    "a": true,
+    "why": "One basis point is 0.01%, so 0.25% is 25 bps."
+  },
+  {
+    "id": "position-claim-1",
+    "term": "position",
+    "s": "You have a position only while an order is waiting to be filled.",
+    "a": false,
+    "why": "An open order isn't a position. A position is what you actually hold after a fill."
+  },
+  {
+    "id": "long-claim-1",
+    "term": "long",
+    "s": "Being long a stock means you gain if its price rises.",
+    "a": true,
+    "why": "Long means you own it (or are exposed as if you did), so you profit from a rise."
+  },
+  {
+    "id": "margin-claim-1",
+    "term": "margin",
+    "s": "Margin is a fee the broker keeps for letting you trade.",
+    "a": false,
+    "why": "Margin is money blocked as collateral against losses; you get it back when you close."
+  },
+  {
+    "id": "pnl-claim-1",
+    "term": "pnl",
+    "s": "P&L includes both closed trades and positions still open, unless it says realised or unrealised.",
+    "a": true,
+    "why": "Plain P&L is the total; realised and unrealised split it."
+  },
+  {
+    "id": "realised-pnl-claim-1",
+    "term": "realised-pnl",
+    "s": "Unrealised profit becomes realised when the price moves in your favour.",
+    "a": false,
+    "why": "It's realised only when you close the position; until then it's on paper."
+  },
+  {
+    "id": "mtm-claim-1",
+    "term": "mtm",
+    "s": "Marking to market can show a loss on a position you haven't sold.",
+    "a": true,
+    "why": "MTM revalues open positions at today's price, so paper losses show up daily."
+  },
+  {
+    "id": "notional-claim-1",
+    "term": "notional",
+    "s": "The notional of a futures position is the margin you paid for it.",
+    "a": false,
+    "why": "Notional is the full value controlled (price × quantity); margin is a fraction of it."
+  },
+  {
+    "id": "leverage-claim-1",
+    "term": "leverage",
+    "s": "With 5x leverage, a 4% fall in price is about a 20% loss on your own capital.",
+    "a": true,
+    "why": "Leverage multiplies both gains and losses: 5 × 4% = 20%."
+  },
+  {
+    "id": "return-claim-1",
+    "term": "return",
+    "s": "A gain of 50% followed by a loss of 50% leaves you back where you started.",
+    "a": false,
+    "why": "₹100 → ₹150 → ₹75. You end 25% down."
+  },
+  {
+    "id": "cagr-claim-1",
+    "term": "cagr",
+    "s": "An investment that doubles in 5 years has a CAGR of about 15%, not 20%.",
+    "a": true,
+    "why": "2^(1/5) − 1 ≈ 14.9%. 20% would be simple, not compounded."
+  },
+  {
+    "id": "volatility-claim-1",
+    "term": "volatility",
+    "s": "A highly volatile stock is one whose price only falls.",
+    "a": false,
+    "why": "Volatility measures how much prices swing, up and down, not the direction."
+  },
+  {
+    "id": "dividend-claim-1",
+    "term": "dividend",
+    "s": "A company can pay a dividend even in a year it makes a loss, out of past reserves.",
+    "a": true,
+    "why": "Dividends can come from accumulated profits, though it's a warning sign if sustained."
+  },
+  {
+    "id": "dividend-yield-claim-1",
+    "term": "dividend-yield",
+    "s": "If a stock's price falls and its dividend stays the same, its dividend yield falls.",
+    "a": false,
+    "why": "Yield = dividend ÷ price, so a lower price means a higher yield."
+  },
+  {
+    "id": "total-return-claim-1",
+    "term": "total-return",
+    "s": "Total return can be positive even when the share price ends lower, if dividends cover the fall.",
+    "a": true,
+    "why": "Total return adds dividends to the price change."
+  },
+  {
+    "id": "face-value-claim-1",
+    "term": "face-value",
+    "s": "A share's face value tells you roughly what it trades for on the exchange.",
+    "a": false,
+    "why": "Face value is a nominal figure (often ₹1 or ₹10) and has little to do with market price."
+  },
+  {
+    "id": "book-value-claim-1",
+    "term": "book-value",
+    "s": "A company's book value can be negative if its liabilities exceed its assets.",
+    "a": true,
+    "why": "Book value is assets minus liabilities, which can go below zero."
+  },
+  {
+    "id": "fair-value-claim-1",
+    "term": "fair-value",
+    "s": "Fair value is the price the stock last traded at.",
+    "a": false,
+    "why": "Fair value is an estimate of worth; the market price may sit above or below it."
+  },
+  {
+    "id": "premium-claim-1",
+    "term": "premium",
+    "s": "A stock trading at a premium to its peers has a higher valuation multiple than them.",
+    "a": true,
+    "why": "Premium means priced above the reference, here the peer group's multiple."
+  },
+  {
+    "id": "discount-claim-1",
+    "term": "discount",
+    "s": "A stock at a discount to its fair value is always a good buy.",
+    "a": false,
+    "why": "It might be cheap for a reason; a discount is only a comparison, not a verdict."
+  },
+  {
+    "id": "upside-claim-1",
+    "term": "upside",
+    "s": "If a stock is ₹800 and the target is ₹1,000, the upside is 25%.",
+    "a": true,
+    "why": "(1,000 − 800) ÷ 800 = 25%."
+  },
+  {
+    "id": "eps-claim-1",
+    "term": "eps",
+    "s": "EPS goes up whenever a company issues new shares.",
+    "a": false,
+    "why": "Issuing shares spreads the same profit over more shares, which lowers EPS."
+  },
+  {
+    "id": "pe-ratio-claim-1",
+    "term": "pe-ratio",
+    "s": "A P/E of 25 means you pay ₹25 for each ₹1 of yearly earnings.",
+    "a": true,
+    "why": "P/E = price ÷ earnings per share."
+  },
+  {
+    "id": "pb-ratio-claim-1",
+    "term": "pb-ratio",
+    "s": "A P/B below 1 means the company is losing money.",
+    "a": false,
+    "why": "P/B below 1 means the market values it under its book value; it says nothing directly about profit."
+  },
+  {
+    "id": "enterprise-value-claim-1",
+    "term": "enterprise-value",
+    "s": "Two companies with the same market cap can have very different enterprise values.",
+    "a": true,
+    "why": "EV adds debt and subtracts cash, which differ between companies."
+  },
+  {
+    "id": "ebitda-claim-1",
+    "term": "ebitda",
+    "s": "EBITDA is the cash that is left for shareholders after all expenses.",
+    "a": false,
+    "why": "EBITDA is before interest, tax, depreciation and capex, so it overstates what's left for shareholders."
+  },
+  {
+    "id": "multiple-claim-1",
+    "term": "multiple",
+    "s": "An EV/EBITDA of 12x is a valuation multiple.",
+    "a": true,
+    "why": "A multiple is any ratio of value to a profit or sales figure."
+  },
+  {
+    "id": "earnings-claim-1",
+    "term": "earnings",
+    "s": "In India, earnings season comes once a year.",
+    "a": false,
+    "why": "Listed companies report quarterly, so there are four results seasons a year."
+  },
+  {
+    "id": "guidance-claim-1",
+    "term": "guidance",
+    "s": "A company can beat analysts' estimates and still fall if it cuts its guidance.",
+    "a": true,
+    "why": "The market prices the future; a weaker outlook can outweigh a good quarter."
+  },
+  {
+    "id": "consensus-claim-1",
+    "term": "consensus",
+    "s": "Consensus is the forecast of the single most accurate analyst.",
+    "a": false,
+    "why": "Consensus is the average (or median) of all covering analysts' forecasts."
+  },
+  {
+    "id": "valuation-claim-1",
+    "term": "valuation",
+    "s": "A great company can be a poor investment if its valuation is too high.",
+    "a": true,
+    "why": "Price paid matters: an expensive stock can disappoint even if the business does well."
+  },
+  {
+    "id": "hedge-claim-1",
+    "term": "hedge",
+    "s": "A perfect hedge increases your profit if the market moves your way.",
+    "a": false,
+    "why": "A hedge offsets moves both ways; it gives up gains to cut losses."
+  },
+  {
+    "id": "portfolio-claim-1",
+    "term": "portfolio",
+    "s": "A portfolio can hold cash, bonds and gold as well as shares.",
+    "a": true,
+    "why": "A portfolio is all of an investor's holdings, across asset classes."
+  },
+  {
+    "id": "benchmark-claim-1",
+    "term": "benchmark",
+    "s": "A fund that falls 5% has underperformed its benchmark by 5%.",
+    "a": false,
+    "why": "If the benchmark fell 8%, the fund outperformed by 3%. Compare against the benchmark's return."
+  },
+  {
+    "id": "outperform-claim-1",
+    "term": "outperform",
+    "s": "A stock can fall in price and still outperform the market.",
+    "a": true,
+    "why": "Outperform is relative: falling 2% while the index falls 6% is outperformance."
+  },
+  {
+    "id": "underperform-claim-1",
+    "term": "underperform",
+    "s": "An analyst's \"underperform\" rating means the stock is expected to fall.",
+    "a": false,
+    "why": "It means doing worse than the market or peers, which can still be a rise."
+  },
+  {
+    "id": "exposure-claim-1",
+    "term": "exposure",
+    "s": "Buying a Nifty future gives you exposure to the index without owning its 50 stocks.",
+    "a": true,
+    "why": "Exposure is how much you gain or lose from a move, however it's held."
+  },
+  {
+    "id": "asset-class-claim-1",
+    "term": "asset-class",
+    "s": "Large caps and small caps are different asset classes.",
+    "a": false,
+    "why": "Both are equities, one asset class; they are different segments within it."
+  },
+  {
+    "id": "nse-claim-1",
+    "term": "nse",
+    "s": "NSE handles the vast majority of India's equity derivatives trading.",
+    "a": true,
+    "why": "NSE dominates F&O volumes; BSE's share has grown but is smaller."
+  },
+  {
+    "id": "bse-claim-1",
+    "term": "bse",
+    "s": "The Nifty 50 is BSE's flagship index.",
+    "a": false,
+    "why": "BSE runs the Sensex. Nifty 50 belongs to NSE."
+  },
+  {
+    "id": "cash-segment-claim-1",
+    "term": "cash-segment",
+    "s": "When you buy shares for delivery, you trade in the cash segment.",
+    "a": true,
+    "why": "The cash (equity) segment is where shares themselves are bought and sold."
+  },
+  {
+    "id": "fno-claim-1",
+    "term": "fno",
+    "s": "F&O trading in India is open only to institutions.",
+    "a": false,
+    "why": "Retail traders can trade F&O through their broker, subject to margin and risk disclosures."
+  },
+  {
+    "id": "promoter-claim-1",
+    "term": "promoter",
+    "s": "Promoter holding is disclosed every quarter in the shareholding pattern.",
+    "a": true,
+    "why": "Listed companies file their shareholding pattern quarterly, promoters included."
+  },
+  {
+    "id": "free-float-claim-1",
+    "term": "free-float",
+    "s": "Free float includes shares held by the promoters.",
+    "a": false,
+    "why": "Free float excludes promoter and other locked-in holdings; it's what the public can trade."
+  },
+  {
+    "id": "nifty-50-claim-1",
+    "term": "nifty-50",
+    "s": "Nifty 50 weights its stocks by free-float market cap.",
+    "a": true,
+    "why": "Bigger free-float companies carry more weight in the index."
+  },
+  {
+    "id": "sensex-claim-1",
+    "term": "sensex",
+    "s": "The Sensex is made up of 50 stocks.",
+    "a": false,
+    "why": "The Sensex has 30 stocks. Nifty 50 has 50."
+  },
+  {
+    "id": "bank-nifty-claim-1",
+    "term": "bank-nifty",
+    "s": "Bank Nifty is made up only of bank stocks.",
+    "a": true,
+    "why": "It tracks the most liquid large banks listed on NSE."
+  },
+  {
+    "id": "large-cap-claim-1",
+    "term": "large-cap",
+    "s": "Large cap means any company worth more than ₹10,000 crore.",
+    "a": false,
+    "why": "In India it's the top 100 by full market cap, as ranked under SEBI's rules."
+  },
+  {
+    "id": "mid-cap-claim-1",
+    "term": "mid-cap",
+    "s": "A company ranked 150th by market cap is a mid cap.",
+    "a": true,
+    "why": "Mid caps are ranked 101 to 250."
+  },
+  {
+    "id": "small-cap-claim-1",
+    "term": "small-cap",
+    "s": "Small caps are companies ranked 101 to 250 by market cap.",
+    "a": false,
+    "why": "That's mid cap. Small caps are ranked 251 and below."
+  },
+  {
+    "id": "sebi-claim-1",
+    "term": "sebi",
+    "s": "SEBI regulates stockbrokers, mutual funds and stock exchanges.",
+    "a": true,
+    "why": "SEBI is the securities market regulator for all of these."
+  },
+  {
+    "id": "rbi-claim-1",
+    "term": "rbi",
+    "s": "RBI is the regulator of stock exchanges.",
+    "a": false,
+    "why": "RBI is the central bank (rates, banks, currency). SEBI regulates exchanges."
+  },
+  {
+    "id": "stockbroker-claim-1",
+    "term": "stockbroker",
+    "s": "You need a registered stockbroker to buy shares on NSE.",
+    "a": true,
+    "why": "Only exchange members can place orders; retail investors go through a broker."
+  },
+  {
+    "id": "depository-claim-1",
+    "term": "depository",
+    "s": "Your shares are held by your stockbroker in its own name.",
+    "a": false,
+    "why": "Shares sit in your demat account with a depository (NSDL or CDSL), in your name."
+  },
+  {
+    "id": "demat-account-claim-1",
+    "term": "demat-account",
+    "s": "A demat account holds your shares; a trading account is used to place orders.",
+    "a": true,
+    "why": "They're separate accounts with different jobs, usually opened together."
+  },
+  {
+    "id": "dp-claim-1",
+    "term": "dp",
+    "s": "A depository participant is the exchange where your shares trade.",
+    "a": false,
+    "why": "A DP is the agent (often your broker or bank) that runs your demat account with a depository."
+  },
+  {
+    "id": "trading-account-claim-1",
+    "term": "trading-account",
+    "s": "You can't hold shares in a trading account; it is for placing orders.",
+    "a": true,
+    "why": "Holdings sit in the demat account."
+  },
+  {
+    "id": "clearing-corporation-claim-1",
+    "term": "clearing-corporation",
+    "s": "If the other side of your trade defaults, your trade is cancelled.",
+    "a": false,
+    "why": "The clearing corporation steps in as the counterparty and guarantees settlement."
+  },
+  {
+    "id": "t-plus-1-claim-1",
+    "term": "t-plus-1",
+    "s": "Shares bought on a Friday under T+1 normally reach your demat account on Monday.",
+    "a": true,
+    "why": "T+1 counts working days, so Friday's trade settles the next working day, Monday."
+  },
+  {
+    "id": "stt-claim-1",
+    "term": "stt",
+    "s": "STT is charged only when you make a profit.",
+    "a": false,
+    "why": "STT is charged on the value of each eligible trade, profit or loss."
+  },
+  {
+    "id": "contract-note-claim-1",
+    "term": "contract-note",
+    "s": "A contract note lists your trades with their prices, charges and taxes.",
+    "a": true,
+    "why": "It's the legal record your broker sends after each trading day."
+  },
+  {
+    "id": "fpi-claim-1",
+    "term": "fpi",
+    "s": "FPIs can only invest in Indian government bonds, not shares.",
+    "a": false,
+    "why": "FPIs invest heavily in Indian shares, and also in bonds."
+  },
+  {
+    "id": "dii-claim-1",
+    "term": "dii",
+    "s": "Mutual funds and insurers count as DIIs.",
+    "a": true,
+    "why": "DIIs are domestic institutions: MFs, insurers, banks and pension funds."
+  },
+  {
+    "id": "retail-investor-claim-1",
+    "term": "retail-investor",
+    "s": "Every individual investor counts as retail, however large the application.",
+    "a": false,
+    "why": "In IPOs, individuals applying for more than ₹2 lakh are classed as HNIs (NIIs), not retail."
+  },
+  {
+    "id": "hni-claim-1",
+    "term": "hni",
+    "s": "An individual applying for ₹5 lakh of shares in an IPO falls in the HNI (NII) category.",
+    "a": true,
+    "why": "Applications above ₹2 lakh move from the retail quota to the NII quota."
+  },
+  {
+    "id": "mutual-fund-claim-1",
+    "term": "mutual-fund",
+    "s": "A mutual fund guarantees you won't lose money.",
+    "a": false,
+    "why": "Mutual funds carry market risk; their value goes up and down with what they hold."
+  },
+  {
+    "id": "sip-claim-1",
+    "term": "sip",
+    "s": "A SIP buys more units when the NAV is low and fewer when it is high.",
+    "a": true,
+    "why": "A fixed amount buys more units at lower prices; that's rupee-cost averaging."
+  },
+  {
+    "id": "nav-claim-1",
+    "term": "nav",
+    "s": "A fund with a lower NAV is cheaper and so better value.",
+    "a": false,
+    "why": "NAV is just per-unit value; a low NAV doesn't make a fund cheap."
+  },
+  {
+    "id": "amc-claim-1",
+    "term": "amc",
+    "s": "An AMC can run many different mutual fund schemes.",
+    "a": true,
+    "why": "The AMC is the fund house; each scheme is a separate fund it manages."
+  },
+  {
+    "id": "circuit-limit-claim-1",
+    "term": "circuit-limit",
+    "s": "Every stock in India, including those with F&O, has a fixed daily circuit limit.",
+    "a": false,
+    "why": "Stocks in F&O have no fixed price band; they use dynamic price bands instead."
+  },
+  {
+    "id": "lower-circuit-claim-1",
+    "term": "lower-circuit",
+    "s": "A stock stuck at lower circuit can have many sellers and almost no buyers.",
+    "a": true,
+    "why": "Trading continues only at the limit price, so sellers queue unfilled."
+  },
+  {
+    "id": "mwcb-claim-1",
+    "term": "mwcb",
+    "s": "A market-wide circuit breaker halts just the stock that fell most.",
+    "a": false,
+    "why": "It halts trading across all equity and equity derivatives on the exchanges."
+  },
+  {
+    "id": "asm-claim-1",
+    "term": "asm",
+    "s": "Stocks under ASM can need higher margins, up to 100%.",
+    "a": true,
+    "why": "ASM adds stricter rules such as higher margins to curb speculation."
+  },
+  {
+    "id": "pre-open-claim-1",
+    "term": "pre-open",
+    "s": "Pre-open orders match continuously as they arrive.",
+    "a": false,
+    "why": "Pre-open is a call auction: orders collect, then match at one price."
+  },
+  {
+    "id": "muhurat-trading-claim-1",
+    "term": "muhurat-trading",
+    "s": "Muhurat trading takes place on Diwali.",
+    "a": true,
+    "why": "It's a short, symbolic session held on Diwali evening for the new Samvat year."
+  },
+  {
+    "id": "block-deal-claim-1",
+    "term": "block-deal",
+    "s": "A block deal can be done by any investor for any quantity.",
+    "a": false,
+    "why": "Block deals have a minimum size and trade in a special window."
+  },
+  {
+    "id": "bulk-deal-claim-1",
+    "term": "bulk-deal",
+    "s": "A bulk deal happens through normal market orders, not a special window.",
+    "a": true,
+    "why": "It's a disclosure rule: one client trading over 0.5% of shares in a day."
+  },
+  {
+    "id": "ipo-claim-1",
+    "term": "ipo",
+    "s": "In an IPO, all of the money always goes to the company.",
+    "a": false,
+    "why": "In an offer-for-sale part, existing holders sell and get the money, not the company."
+  },
+  {
+    "id": "gmp-claim-1",
+    "term": "gmp",
+    "s": "GMP is unofficial and isn't regulated by SEBI.",
+    "a": true,
+    "why": "It comes from informal grey-market dealing, outside the exchanges."
+  },
+  {
+    "id": "listing-gains-claim-1",
+    "term": "listing-gains",
+    "s": "Listing gains are guaranteed if an IPO is oversubscribed.",
+    "a": false,
+    "why": "Strong demand helps, but the listing price can still fall below the issue price."
+  },
+  {
+    "id": "ofs-claim-1",
+    "term": "ofs",
+    "s": "In an OFS, the company itself usually gets none of the money.",
+    "a": true,
+    "why": "Existing shareholders are selling, so the proceeds go to them."
+  },
+  {
+    "id": "qip-claim-1",
+    "term": "qip",
+    "s": "Retail investors can buy shares in a QIP.",
+    "a": false,
+    "why": "A QIP is sold only to qualified institutional buyers."
+  },
+  {
+    "id": "rights-issue-claim-1",
+    "term": "rights-issue",
+    "s": "Shareholders who skip a rights issue see their ownership share shrink.",
+    "a": true,
+    "why": "New shares go to others, so your percentage falls."
+  },
+  {
+    "id": "record-date-claim-1",
+    "term": "record-date",
+    "s": "To get the dividend, buying on the record date itself is enough.",
+    "a": false,
+    "why": "Under T+1 the ex-date and record date are the same day, so you must buy at least one trading day before."
+  },
+  {
+    "id": "buyback-claim-1",
+    "term": "buyback",
+    "s": "A buyback reduces the number of shares outstanding.",
+    "a": true,
+    "why": "The company buys and cancels its own shares."
+  },
+  {
+    "id": "mcx-claim-1",
+    "term": "mcx",
+    "s": "Most of India's commodity futures, including gold and crude oil, trade on MCX.",
+    "a": true,
+    "why": "MCX is the main commodity derivatives exchange for bullion, metals and energy."
+  },
+  {
+    "id": "ncdex-claim-1",
+    "term": "ncdex",
+    "s": "NCDEX is where India's crude oil and gold futures mainly trade.",
+    "a": false,
+    "why": "Those trade on MCX. NCDEX focuses on farm commodities."
+  },
+  {
+    "id": "bullion-claim-1",
+    "term": "bullion",
+    "s": "On MCX, gold is quoted per 10 grams and silver per kilogram.",
+    "a": true,
+    "why": "Those are the standard quote units for the main contracts."
+  },
+  {
+    "id": "base-metals-claim-1",
+    "term": "base-metals",
+    "s": "Gold and silver are base metals.",
+    "a": false,
+    "why": "They're precious metals. Base metals are industrial: copper, zinc, aluminium, lead, nickel."
+  },
+  {
+    "id": "energy-futures-claim-1",
+    "term": "energy-futures",
+    "s": "MCX crude oil prices move with both the global oil price and the rupee.",
+    "a": true,
+    "why": "They're priced off WTI converted into rupees, so USDINR matters too."
+  },
+  {
+    "id": "evening-session-claim-1",
+    "term": "evening-session",
+    "s": "MCX closes at 5 pm, like the equity market.",
+    "a": false,
+    "why": "MCX trades till late at night, to overlap with US and European hours."
+  },
+  {
+    "id": "import-parity-claim-1",
+    "term": "import-parity",
+    "s": "If USDINR rises while global gold is flat, Indian gold prices usually rise.",
+    "a": true,
+    "why": "Import parity converts the global price at USDINR, so a weaker rupee lifts it."
+  },
+  {
+    "id": "convenience-yield-claim-1",
+    "term": "convenience-yield",
+    "s": "A high convenience yield pushes futures prices further above spot.",
+    "a": false,
+    "why": "Convenience yield lowers futures relative to spot, and can cause backwardation."
+  },
+  {
+    "id": "storage-cost-claim-1",
+    "term": "storage-cost",
+    "s": "Storage costs are one reason commodity futures usually trade above spot.",
+    "a": true,
+    "why": "Holding the physical good costs money, so later delivery is priced higher."
+  },
+  {
+    "id": "super-contango-claim-1",
+    "term": "super-contango",
+    "s": "Super contango happens when storage is nearly empty.",
+    "a": false,
+    "why": "It happens when storage is nearly full, making it very expensive to hold more."
+  },
+  {
+    "id": "crack-spread-claim-1",
+    "term": "crack-spread",
+    "s": "A wider crack spread is usually good news for refiners.",
+    "a": true,
+    "why": "It's a proxy for refining margin: product prices minus crude."
+  },
+  {
+    "id": "gold-silver-ratio-claim-1",
+    "term": "gold-silver-ratio",
+    "s": "A gold-silver ratio of 85 means gold costs ₹85 more than silver.",
+    "a": false,
+    "why": "It's a ratio: one ounce of gold buys about 85 ounces of silver."
+  },
+  {
+    "id": "inventory-report-claim-1",
+    "term": "inventory-report",
+    "s": "A bigger-than-expected rise in US crude inventories usually pushes oil prices down.",
+    "a": true,
+    "why": "More stored oil than expected signals weaker demand or more supply."
+  },
+  {
+    "id": "opec-plus-claim-1",
+    "term": "opec-plus",
+    "s": "OPEC+ is made up only of Middle Eastern countries.",
+    "a": false,
+    "why": "It includes non-OPEC allies such as Russia and Kazakhstan."
+  },
+  {
+    "id": "devolvement-claim-1",
+    "term": "devolvement",
+    "s": "An in-the-money MCX option on futures can turn into a futures position at expiry.",
+    "a": true,
+    "why": "That's devolvement: options on futures become the underlying futures contract."
+  },
+  {
+    "id": "mini-contract-claim-1",
+    "term": "mini-contract",
+    "s": "A mini contract tracks a different, cheaper grade of the commodity.",
+    "a": false,
+    "why": "It's the same commodity in a smaller lot size."
+  },
+  {
+    "id": "daily-price-range-claim-1",
+    "term": "daily-price-range",
+    "s": "Exchanges can widen a commodity's daily price range after the limit is hit.",
+    "a": true,
+    "why": "MCX relaxes the band in steps after a cooling-off period."
+  },
+  {
+    "id": "hedger-claim-1",
+    "term": "hedger",
+    "s": "A hedger uses futures to make extra profit from price moves.",
+    "a": false,
+    "why": "A hedger offsets an existing business exposure; the aim is protection, not profit."
+  },
+  {
+    "id": "domestic-premium-claim-1",
+    "term": "domestic-premium",
+    "s": "Indian gold can trade at a discount to import parity when local demand is weak.",
+    "a": true,
+    "why": "Dealers offer discounts in weak demand and charge premiums in strong demand."
+  },
+  {
+    "id": "credit-risk-claim-1",
+    "term": "credit-risk",
+    "s": "A government bond in its own currency has almost no credit risk but still has interest-rate risk.",
+    "a": true,
+    "why": "The government can pay in rupees, but rising rates still lower the bond's price."
+  },
+  {
+    "id": "interest-rate-risk-claim-1",
+    "term": "interest-rate-risk",
+    "s": "A short-term bond loses more value than a long-term bond when rates rise.",
+    "a": false,
+    "why": "Longer bonds have higher duration, so they lose more."
+  },
+  {
+    "id": "default-claim-1",
+    "term": "default",
+    "s": "In India, a single day's delay on a rated bond's payment counts as a default.",
+    "a": true,
+    "why": "Rating agencies treat even a one-day delay as default."
+  },
+  {
+    "id": "credit-rating-claim-1",
+    "term": "credit-rating",
+    "s": "A AAA rating is a guarantee that the issuer won't default.",
+    "a": false,
+    "why": "A rating is an opinion on likelihood, not a guarantee; AAA issuers have defaulted."
+  },
+  {
+    "id": "rating-agency-claim-1",
+    "term": "rating-agency",
+    "s": "CRISIL and ICRA are credit rating agencies.",
+    "a": true,
+    "why": "Both are SEBI-registered agencies, along with CARE and India Ratings."
+  },
+  {
+    "id": "investment-grade-claim-1",
+    "term": "investment-grade",
+    "s": "A bond rated BB+ is investment grade.",
+    "a": false,
+    "why": "Investment grade is BBB− or above. BB+ is high yield."
+  },
+  {
+    "id": "spread-over-gsec-claim-1",
+    "term": "spread-over-gsec",
+    "s": "A corporate bond paying 8.5% when the same-maturity G-sec pays 7% has a spread of 150 bps.",
+    "a": true,
+    "why": "8.5% − 7% = 1.5% = 150 basis points."
+  },
+  {
+    "id": "probability-of-default-claim-1",
+    "term": "probability-of-default",
+    "s": "A 2% probability of default means the investor will lose 2% of the bond's value each year.",
+    "a": false,
+    "why": "It's the chance of default; the loss also depends on what's recovered."
+  },
+  {
+    "id": "recovery-rate-claim-1",
+    "term": "recovery-rate",
+    "s": "Secured lenders usually recover more after a default than unsecured ones.",
+    "a": true,
+    "why": "They have a claim on collateral, which raises recovery."
+  },
+  {
+    "id": "loss-given-default-claim-1",
+    "term": "loss-given-default",
+    "s": "If the recovery rate is 40%, the loss given default is 40%.",
+    "a": false,
+    "why": "LGD = 1 − recovery rate = 60%."
+  },
+  {
+    "id": "ncd-claim-1",
+    "term": "ncd",
+    "s": "An NCD can't be converted into the company's shares.",
+    "a": true,
+    "why": "That's what non-convertible means."
+  },
+  {
+    "id": "commercial-paper-claim-1",
+    "term": "commercial-paper",
+    "s": "Commercial paper pays a coupon twice a year.",
+    "a": false,
+    "why": "CP is issued at a discount and repaid at face value; there are no coupons."
+  },
+  {
+    "id": "credit-risk-fund-claim-1",
+    "term": "credit-risk-fund",
+    "s": "A credit risk fund must put most of its money in bonds below the top ratings.",
+    "a": true,
+    "why": "That's the category rule: higher yield for more default risk."
+  },
+  {
+    "id": "segregated-portfolio-claim-1",
+    "term": "segregated-portfolio",
+    "s": "A segregated portfolio lets new investors share in any recovery from the defaulted bond.",
+    "a": false,
+    "why": "Only investors holding units on the day of the split get recovery from the side pocket."
+  },
+  {
+    "id": "rating-watch-claim-1",
+    "term": "rating-watch",
+    "s": "A rating watch can be negative, positive or developing.",
+    "a": true,
+    "why": "It flags the likely direction of a possible change."
+  },
+  {
+    "id": "covenant-claim-1",
+    "term": "covenant",
+    "s": "Breaking a covenant has no effect until the borrower misses a payment.",
+    "a": false,
+    "why": "A covenant breach can let lenders demand early repayment or change terms."
+  },
+  {
+    "id": "credit-default-swap-claim-1",
+    "term": "credit-default-swap",
+    "s": "You can buy CDS protection on a company without owning its bonds.",
+    "a": true,
+    "why": "That's how CDS can be used to bet on credit, not just hedge."
+  },
+  {
+    "id": "expected-loss-claim-1",
+    "term": "expected-loss",
+    "s": "Expected loss is the worst loss that can happen on a loan.",
+    "a": false,
+    "why": "It's the average loss: PD × LGD × exposure. The worst case is far bigger."
+  },
+  {
+    "id": "high-yield-bond-claim-1",
+    "term": "high-yield-bond",
+    "s": "High-yield bond prices tend to move more with the company's results than with interest rates.",
+    "a": true,
+    "why": "Default risk dominates, so they behave a bit like equity."
+  },
+  {
+    "id": "distressed-debt-claim-1",
+    "term": "distressed-debt",
+    "s": "Distressed debt always trades near its face value.",
+    "a": false,
+    "why": "It trades at deep discounts, often under 50 paise on the rupee."
+  },
+  {
+    "id": "jump-to-default-claim-1",
+    "term": "jump-to-default",
+    "s": "A bond's spread can look calm right up to a default.",
+    "a": true,
+    "why": "Jump-to-default is a sudden gap, not a gradual slide."
+  },
+  {
+    "id": "spread-widening-claim-1",
+    "term": "spread-widening",
+    "s": "When credit spreads widen, corporate bond prices rise relative to G-secs.",
+    "a": false,
+    "why": "Wider spreads mean higher corporate yields, so their prices fall relative to G-secs."
+  },
+  {
+    "id": "revenue-growth-claim-1",
+    "term": "revenue-growth",
+    "s": "A company can grow revenue and still post falling profit.",
+    "a": true,
+    "why": "Costs or margins can fall faster than sales rise."
+  },
+  {
+    "id": "ebitda-margin-claim-1",
+    "term": "ebitda-margin",
+    "s": "An EBITDA margin of 20% means the company keeps 20 paise of net profit from each rupee of sales.",
+    "a": false,
+    "why": "It's operating profit before interest, tax, depreciation and amortisation, not net profit."
+  },
+  {
+    "id": "pat-claim-1",
+    "term": "pat",
+    "s": "PAT can rise in a quarter even when operating profit falls, thanks to other income or lower tax.",
+    "a": true,
+    "why": "PAT is after everything, so non-operating items can move it."
+  },
+  {
+    "id": "yoy-growth-claim-1",
+    "term": "yoy-growth",
+    "s": "Comparing a December quarter with the September quarter is year-on-year growth.",
+    "a": false,
+    "why": "That's quarter-on-quarter. Year-on-year compares with the December quarter last year."
+  },
+  {
+    "id": "qoq-growth-claim-1",
+    "term": "qoq-growth",
+    "s": "Seasonal businesses can show big quarter-on-quarter swings that mean little.",
+    "a": true,
+    "why": "Festive or monsoon seasons move sales between quarters, so YoY is cleaner."
+  },
+  {
+    "id": "operating-leverage-claim-1",
+    "term": "operating-leverage",
+    "s": "High operating leverage means a company has borrowed a lot.",
+    "a": false,
+    "why": "It's about fixed costs, not debt. That's financial leverage."
+  },
+  {
+    "id": "other-income-claim-1",
+    "term": "other-income",
+    "s": "A jump in other income can flatter profit without the core business improving.",
+    "a": true,
+    "why": "It comes from outside operations, such as interest on cash or investment gains."
+  },
+  {
+    "id": "exceptional-items-claim-1",
+    "term": "exceptional-items",
+    "s": "Exceptional items are part of a company's recurring profit.",
+    "a": false,
+    "why": "They're one-offs, reported separately so they can be stripped out."
+  },
+  {
+    "id": "operating-cash-flow-claim-1",
+    "term": "operating-cash-flow",
+    "s": "A company can report profit while operating cash flow is negative.",
+    "a": true,
+    "why": "Unpaid customer bills or growing inventory can tie up the cash."
+  },
+  {
+    "id": "free-cash-flow-claim-1",
+    "term": "free-cash-flow",
+    "s": "Free cash flow is operating cash flow plus capex.",
+    "a": false,
+    "why": "It's operating cash flow minus capex."
+  },
+  {
+    "id": "capex-claim-1",
+    "term": "capex",
+    "s": "Capex shows up mostly as depreciation in the P&L over later years, not as a one-time expense.",
+    "a": true,
+    "why": "It's capitalised as an asset and depreciated over its life."
+  },
+  {
+    "id": "working-capital-claim-1",
+    "term": "working-capital",
+    "s": "A growing company usually needs less working capital as it grows.",
+    "a": false,
+    "why": "More sales usually means more inventory and receivables, so more working capital."
+  },
+  {
+    "id": "receivable-days-claim-1",
+    "term": "receivable-days",
+    "s": "Rising receivable days can mean customers are taking longer to pay.",
+    "a": true,
+    "why": "Receivables ÷ sales × 365 goes up when collections slow."
+  },
+  {
+    "id": "inventory-days-claim-1",
+    "term": "inventory-days",
+    "s": "Falling inventory days usually signal weakening demand.",
+    "a": false,
+    "why": "Stock clearing faster usually means demand is healthy. Rising days are the worry."
+  },
+  {
+    "id": "debt-to-equity-claim-1",
+    "term": "debt-to-equity",
+    "s": "Debt-to-equity of 2 means lenders fund twice as much as shareholders.",
+    "a": true,
+    "why": "D/E = debt ÷ equity."
+  },
+  {
+    "id": "interest-coverage-claim-1",
+    "term": "interest-coverage",
+    "s": "An interest coverage of 0.8x means interest is comfortably covered.",
+    "a": false,
+    "why": "Below 1x, operating profit doesn't cover interest at all."
+  },
+  {
+    "id": "roe-claim-1",
+    "term": "roe",
+    "s": "Borrowing more can raise ROE even if the business doesn't improve.",
+    "a": true,
+    "why": "Debt shrinks equity relative to profit, which flatters ROE. That's why ROCE is checked too."
+  },
+  {
+    "id": "roce-claim-1",
+    "term": "roce",
+    "s": "ROCE is flattered by borrowing in the same way as ROE.",
+    "a": false,
+    "why": "ROCE counts debt in capital employed, so leverage doesn't inflate it."
+  },
+  {
+    "id": "asset-turnover-claim-1",
+    "term": "asset-turnover",
+    "s": "Retailers usually have higher asset turnover than power utilities.",
+    "a": true,
+    "why": "Retailers generate lots of sales per rupee of assets; utilities are asset-heavy."
+  },
+  {
+    "id": "cash-conversion-claim-1",
+    "term": "cash-conversion",
+    "s": "A cash conversion of 40% of EBITDA is a sign of very high earnings quality.",
+    "a": false,
+    "why": "Low conversion means much of the profit isn't turning into cash, which is a warning sign."
+  },
+  {
+    "id": "earnings-quality-claim-1",
+    "term": "earnings-quality",
+    "s": "Profit driven by one-off gains is low-quality earnings.",
+    "a": true,
+    "why": "Quality earnings come from the core business, in cash, repeatedly."
+  },
+  {
+    "id": "dilution-claim-1",
+    "term": "dilution",
+    "s": "A stock split dilutes existing shareholders.",
+    "a": false,
+    "why": "A split gives everyone more shares in proportion; ownership doesn't change."
+  },
+  {
+    "id": "peg-ratio-claim-1",
+    "term": "peg-ratio",
+    "s": "A P/E of 30 with 30% expected earnings growth gives a PEG of 1.",
+    "a": true,
+    "why": "PEG = P/E ÷ growth rate in percent = 30 ÷ 30 = 1."
+  },
+  {
+    "id": "ev-to-ebitda-claim-1",
+    "term": "ev-to-ebitda",
+    "s": "EV/EBITDA ignores a company's debt.",
+    "a": false,
+    "why": "EV includes net debt, which is why it compares companies with different debt levels."
+  },
+  {
+    "id": "net-interest-margin-claim-1",
+    "term": "net-interest-margin",
+    "s": "NIM tends to rise for banks when their lending rates reprice faster than deposit rates.",
+    "a": true,
+    "why": "NIM is interest earned minus interest paid, over earning assets."
+  },
+  {
+    "id": "gross-npa-claim-1",
+    "term": "gross-npa",
+    "s": "A loan becomes an NPA as soon as one EMI is a day late.",
+    "a": false,
+    "why": "A loan turns NPA when it's overdue for more than 90 days."
+  },
+  {
+    "id": "casa-ratio-claim-1",
+    "term": "casa-ratio",
+    "s": "A higher CASA ratio usually means cheaper funding for a bank.",
+    "a": true,
+    "why": "Current and savings accounts pay little interest compared with fixed deposits."
+  },
+  {
+    "id": "arpu-claim-1",
+    "term": "arpu",
+    "s": "ARPU rises when a telecom company adds many low-paying users.",
+    "a": false,
+    "why": "Low-paying users drag the average down. Tariff hikes or upgrades raise ARPU."
+  },
+  {
+    "id": "same-store-sales-growth-claim-1",
+    "term": "same-store-sales-growth",
+    "s": "A retailer can grow total sales while same-store sales fall.",
+    "a": true,
+    "why": "New store openings can lift total sales even if old stores sell less."
+  },
+  {
+    "id": "order-backlog-claim-1",
+    "term": "order-backlog",
+    "s": "A large order backlog guarantees higher profit next year.",
+    "a": false,
+    "why": "It's work in hand, but execution, costs and cancellations still decide profit."
+  },
+  {
+    "id": "attrition-rate-claim-1",
+    "term": "attrition-rate",
+    "s": "High attrition raises hiring and training costs for an IT services firm.",
+    "a": true,
+    "why": "People are the main cost, so replacing them is expensive."
+  },
+  {
+    "id": "total-contract-value-claim-1",
+    "term": "total-contract-value",
+    "s": "TCV signed in a quarter is booked as revenue in that same quarter.",
+    "a": false,
+    "why": "TCV is the whole-life value of deals; revenue comes over the years they run."
+  },
+  {
+    "id": "consolidated-results-claim-1",
+    "term": "consolidated-results",
+    "s": "Consolidated results include the company's subsidiaries.",
+    "a": true,
+    "why": "They add the parent and all subsidiaries together."
+  },
+  {
+    "id": "investor-presentation-claim-1",
+    "term": "investor-presentation",
+    "s": "An investor presentation is a private document shared only with big funds.",
+    "a": false,
+    "why": "It's filed on the exchange for everyone, usually with the results."
+  },
+  {
+    "id": "management-commentary-claim-1",
+    "term": "management-commentary",
+    "s": "A stock can fall on strong numbers if management sounds cautious about the next quarters.",
+    "a": true,
+    "why": "Markets price the outlook, and tone moves it."
+  },
+  {
+    "id": "segment-reporting-claim-1",
+    "term": "segment-reporting",
+    "s": "Listed companies may choose not to disclose segment numbers.",
+    "a": false,
+    "why": "Segment reporting is required with results for listed companies with distinct segments."
+  },
+  {
+    "id": "shareholding-pattern-claim-1",
+    "term": "shareholding-pattern",
+    "s": "The shareholding pattern shows how much promoters have pledged.",
+    "a": true,
+    "why": "It discloses promoter holdings and the share pledged."
+  },
+  {
+    "id": "earnings-surprise-claim-1",
+    "term": "earnings-surprise",
+    "s": "A stock always rises when earnings grow strongly.",
+    "a": false,
+    "why": "Stocks react to the surprise against expectations; strong growth below estimates can still fall."
+  },
+  {
+    "id": "order-inflow-claim-1",
+    "term": "order-inflow",
+    "s": "Order inflow tells you about future revenue more than current-quarter revenue does.",
+    "a": true,
+    "why": "Orders won now turn into revenue as they're executed."
+  },
+  {
+    "id": "annual-report-claim-1",
+    "term": "annual-report",
+    "s": "The annual report's financial statements are unaudited.",
+    "a": false,
+    "why": "Annual report statements are audited, with the auditor's report included."
+  },
+  {
+    "id": "mdna-claim-1",
+    "term": "mdna",
+    "s": "The MD&A is where management explains performance and risks in its own words.",
+    "a": true,
+    "why": "It's the narrative section of the annual report."
+  },
+  {
+    "id": "notes-to-accounts-claim-1",
+    "term": "notes-to-accounts",
+    "s": "Notes to accounts only repeat the numbers in the main statements.",
+    "a": false,
+    "why": "They explain policies, debt terms, guarantees and disputes the statements don't show."
+  },
+  {
+    "id": "related-party-transactions-claim-1",
+    "term": "related-party-transactions",
+    "s": "Large related-party transactions need shareholder approval in India.",
+    "a": true,
+    "why": "Material RPTs need approval from shareholders, with related parties not voting."
+  },
+  {
+    "id": "contingent-liabilities-claim-1",
+    "term": "contingent-liabilities",
+    "s": "Contingent liabilities are shown as debt on the balance sheet.",
+    "a": false,
+    "why": "They sit in the notes, because they depend on an event that may not happen."
+  },
+  {
+    "id": "qualified-audit-opinion-claim-1",
+    "term": "qualified-audit-opinion",
+    "s": "A qualified audit opinion is more serious than an emphasis-of-matter paragraph.",
+    "a": true,
+    "why": "Qualification means the auditor disagrees or couldn't verify; emphasis only highlights."
+  },
+  {
+    "id": "auditor-resignation-claim-1",
+    "term": "auditor-resignation",
+    "s": "Companies don't have to explain why an auditor resigned.",
+    "a": false,
+    "why": "They must file the reason with the exchange."
+  }
+]
