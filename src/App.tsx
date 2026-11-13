@@ -19,7 +19,7 @@ import { firstName } from './lib/profile';
 import { buildWeakSpots, weakSpots } from './lib/weak';
 import { currentUnit } from './lib/track';
 import { landingMode, type ModeId } from './lib/modes/knowledge';
-import { ModeBar } from './components/modes/ModeBar';
+import { MODE_INFO, ModeBar } from './components/modes/ModeBar';
 import type { GameId, Progress } from './lib/types';
 
 // Everything but Home loads on demand, then quietly in the background once Home is up.
@@ -312,12 +312,15 @@ export default function App() {
       const last = screen.summary.drill ?? screen.summary.round;
       const nextDrill = drillUp(progress, today);
       const stuck = last && !last.passed && currentUnit(progress, today) === last.unitId;
+      // Started from Lines or the Exchange: the way on is back to that mode, not Path's next lesson.
+      const fromMode = origin && (origin.name === 'lines' || origin.name === 'exchange' || origin.name === 'callit') ? origin.name : null;
       return (
         <Results
           summary={screen.summary}
           name={firstName(progress)}
           weakLeft={weakSpots(progress).length}
-          canContinue={s.due > 0 || s.newLeft > 0 || !!s.drill}
+          canContinue={!fromMode && (s.due > 0 || s.newLeft > 0 || !!s.drill)}
+          homeLabel={fromMode ? `Back to ${MODE_INFO[fromMode].label}` : undefined}
           nextLabel={nextDrill && nextDrill === last?.unitId ? 'Try again' : nextDrill ? `Next: a ${KIND_LABEL[practiceKind(nextDrill) ?? 'drill']}` : 'Next lesson'}
           onHome={back}
           onNext={() => start(false)}

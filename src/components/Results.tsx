@@ -12,6 +12,8 @@ interface Props {
   /** Label for the continue button, e.g. "Try again" when the next step is the same drill. */
   nextLabel?: string;
   onHome: () => void;
+  /** The label for the button that leaves, when it goes somewhere other than where Done would. */
+  homeLabel?: string;
   onNext: () => void;
   /** Offered after a failed drill, game or case that holds up the path. */
   onSnooze?: () => void;
@@ -21,7 +23,7 @@ interface Props {
   weakLeft?: number;
 }
 
-export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHome, onNext, onSnooze, name, weakLeft = 0 }: Props) {
+export function Results({ summary, canContinue, nextLabel = 'Next lesson', homeLabel = 'Done', onHome, onNext, onSnooze, name, weakLeft = 0 }: Props) {
   const pct = summary.firstTryTotal ? Math.round((summary.firstTryCorrect / summary.firstTryTotal) * 100) : 100;
   const test = summary.test;
   const drill = summary.drill;
@@ -163,7 +165,7 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', onHom
           </Button>
         )}
         <Button variant={canContinue ? 'secondary' : 'primary'} onClick={onHome} className="w-full">
-          Done
+          {homeLabel}
         </Button>
         {onSnooze && (
           <button type="button" onClick={onSnooze} className="w-full py-2 text-sm font-extrabold text-ink-3 hover:text-ink-2">
