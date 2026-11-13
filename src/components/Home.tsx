@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { areaCoreTermIds, canTakeTest, focusActive, focusQueue, unitOpen } from '../lib/choose';
-import { categories, isPhase3Area, isQuantArea, practiceKind, termById, unitById } from '../lib/content';
+import { categories, hasCard, isPhase3Area, isQuantArea, practiceKind, termById, unitById } from '../lib/content';
 import { weakSpots, WEAK_MIN } from '../lib/weak';
 import { DRILLS } from '../lib/drills';
 import { gameSpec } from '../lib/games';
@@ -548,7 +549,9 @@ function Sheet({ kicker, title, sub, onClose, children, actions }: { kicker: str
     return () => window.removeEventListener('keydown', onKey);
   }, [onClose]);
 
-  return (
+  // Rendered on <body>: on a laptop the sheet's caller sits in the sticky side column, which is its own
+  // stacking context, so a sheet left there is painted under the path column beside it.
+  return createPortal(
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-ink/40 backdrop-blur-[2px] sm:items-center sm:p-4" onClick={onClose}>
       <div
         role="dialog"
@@ -572,7 +575,8 @@ function Sheet({ kicker, title, sub, onClose, children, actions }: { kicker: str
         <div className="space-y-3 overflow-y-auto px-5">{children}</div>
         <div className="space-y-2.5 px-5 pb-5 pt-4 empty:hidden">{actions}</div>
       </div>
-    </div>
+    </div>,
+    document.body,
   );
 }
 
@@ -765,7 +769,7 @@ function UnitSheet({
               <li key={t.id} className="flex items-center gap-3 px-4 py-2.5">
                 <span className="min-w-0 flex-1">
                   <span className="block truncate font-bold text-ink">{t.term}</span>
-                  <span className="block truncate text-xs text-ink-3">{t.short}</span>
+                  {hasCard(t.id) && <span className="block truncate text-xs text-ink-3">{t.short}</span>}
                 </span>
                 {s ? <StepDots step={s.step} /> : <span className="text-xs font-semibold text-ink-3">Not met</span>}
               </li>

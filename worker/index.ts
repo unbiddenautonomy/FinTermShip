@@ -1,16 +1,18 @@
 /**
- * The FinTermShip Worker: serves the app, and under /api/ runs invite-only
- * accounts and progress sync on a D1 database.
+ * The FinTermShip Worker: runs invite-only accounts and progress sync under
+ * /api/ on a D1 database, and serves the app's files only to a signed-in
+ * session. Everyone else gets the sign-in page and nothing more.
  *
  * Setup (once, in the Cloudflare dashboard):
  * - create a D1 database and put its id in wrangler.jsonc as the DB binding;
  * - add a secret ADMIN_EMAIL: the account with that email signs up without
  *   an invite and becomes the admin, who invites everyone else.
  * Tables are created on first use, so there are no migrations to run.
- * Without a database the app still works, saving progress in the browser only.
  */
 import { mergeProgress } from '../src/lib/sync';
 import type { Progress } from '../src/lib/types';
+import { askCards, givenCards } from './cards';
+import { signInPage } from './signin';
 
 // ---------- The few Cloudflare types this file uses ----------
 interface D1Result<T> {
@@ -32,6 +34,8 @@ export interface Env {
   ADMIN_EMAIL?: string;
   /** The same, set in wrangler.jsonc; ADMIN_EMAIL wins when both are set. */
   OWNER_EMAIL?: string;
+  /** A PBKDF2 hash of the password that opens the quant switch and phase 3 (scripts/hash-password.mjs); UNLOCK_HASH below when unset. */
+  UNLOCK_HASH?: string;
 }
 
 // ---------- Settings ----------
@@ -42,12 +46,24 @@ const LOCK_MINUTES = 15;
 const PBKDF2_ROUNDS = 100_000;
 const MAX_PROGRESS_BYTES = 1_500_000;
 const COOKIE = 'fts_session';
+/**
+ * The password that opens the quant switch and phase 3, as a salted PBKDF2
+ * hash. It is checked here, never in the app. A runtime secret UNLOCK_HASH
+ * takes its place; make one with `node scripts/hash-password.mjs`.
+ */
+const UNLOCK_HASH = 'pbkdf2$100000$wjB2RlNhWdfz41iw3+KiqQ==$MC/2JGBehUY3g9dL5D6NfNJ533mSVj/yWz9SgG7Qlnw=';
 
 const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT, email TEXT NOT NULL UNIQUE, pw TEXT NOT NULL, admin INTEGER NOT NULL DEFAULT 0, quant INTEGER NOT NULL DEFAULT 0, phase3 INTEGER NOT NULL DEFAULT 0, disabled INTEGER NOT NULL DEFAULT 0, fails INTEGER NOT NULL DEFAULT 0, locked_until INTEGER NOT NULL DEFAULT 0, created INTEGER NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, user_id INTEGER NOT NULL, expires INTEGER NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS invites (code TEXT PRIMARY KEY, quant INTEGER NOT NULL, phase3 INTEGER NOT NULL, created INTEGER NOT NULL, expires INTEGER NOT NULL, used_by INTEGER)`,
   `CREATE TABLE IF NOT EXISTS progress (user_id INTEGER PRIMARY KEY, data TEXT NOT NULL, updated INTEGER NOT NULL)`,
+  // The term cards each account has been given (worker/cards.ts), and accounts already given their earlier terms' cards.
+  `CREATE TABLE IF NOT EXISTS cards (user_id INTEGER NOT NULL, term_id TEXT NOT NULL, issued INTEGER NOT NULL, test TEXT, PRIMARY KEY (user_id, term_id))`,
+  `CREATE INDEX IF NOT EXISTS cards_recent ON cards (user_id, issued)`,
+  `CREATE TABLE IF NOT EXISTS card_seed (user_id INTEGER PRIMARY KEY, at INTEGER NOT NULL)`,
+  // Wrong tries at the unlock password, per account.
+  `CREATE TABLE IF NOT EXISTS unlock_tries (user_id INTEGER PRIMARY KEY, fails INTEGER NOT NULL, locked_until INTEGER NOT NULL)`,
 ];
 
 /** What the admin sees of a learner's progress: a handful of counts, never the progress itself. */
@@ -118,8 +134,11 @@ interface UserRow {
 }
 
 // ---------- Small helpers ----------
-const json = (body: unknown, status = 200, headers: Record<string, string> = {}) =>
-  new Response(JSON.stringify(body), { status, headers: { 'content-type': 'application/json', 'cache-control': 'no-store', ...headers } });
+const json = (body: unknown, status = 200, cookies: string[] = []) => {
+  const headers = new Headers({ 'content-type': 'application/json', 'cache-control': 'no-store' });
+  for (const c of cookies) headers.append('set-cookie', c);
+  return new Response(JSON.stringify(body), { status, headers });
+};
 const fail = (status: number, error: string) => json({ error }, status);
 
 const b64 = (bytes: Uint8Array) => btoa(String.fromCharCode(...bytes));
@@ -160,16 +179,45 @@ export function inviteCode(): string {
 const cleanEmail = (x: unknown) => (typeof x === 'string' ? x.trim().toLowerCase() : '');
 const validEmail = (e: string) => e.length <= 200 && /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
 
-function cookieValue(request: Request, name: string): string | null {
+/** Every value sent under this cookie name: a browser can hold two, one per path. */
+function cookieValues(request: Request, name: string): string[] {
+  const out: string[] = [];
   for (const part of (request.headers.get('cookie') ?? '').split(';')) {
     const [k, ...v] = part.trim().split('=');
-    if (k === name) return v.join('=');
+    if (k === name && v.length) out.push(v.join('='));
   }
-  return null;
+  return out;
 }
 
-function sessionCookie(token: string, maxAge: number, secure: boolean): string {
-  return `${COOKIE}=${token}; Path=/api; HttpOnly; SameSite=Strict; Max-Age=${maxAge}${secure ? '; Secure' : ''}`;
+/**
+ * The session cookie covers the whole site, so the app's own files can check
+ * it. Sessions from before that lived on /api only; each new cookie also
+ * clears that old one.
+ */
+function sessionCookies(token: string, maxAge: number, secure: boolean): string[] {
+  const flags = `HttpOnly; SameSite=Strict${secure ? '; Secure' : ''}`;
+  return [`${COOKIE}=; Path=/api; ${flags}; Max-Age=0`, `${COOKIE}=${token}; Path=/; ${flags}; Max-Age=${maxAge}`];
+}
+
+interface Session {
+  user: UserRow;
+  token: string;
+  expires: number;
+}
+
+/** The signed-in account behind this request's cookie, if any. */
+async function sessionOf(request: Request, db: D1Database, now: number): Promise<Session | null> {
+  for (const token of cookieValues(request, COOKIE)) {
+    const row = await db
+      .prepare('SELECT users.*, sessions.expires AS session_expires FROM sessions JOIN users ON users.id = sessions.user_id WHERE sessions.token = ? AND sessions.expires > ?')
+      .bind(await sha256(token), now)
+      .first<UserRow & { session_expires: number }>();
+    if (row && !row.disabled) {
+      const { session_expires, ...user } = row;
+      return { user, token, expires: session_expires };
+    }
+  }
+  return null;
 }
 
 const publicUser = (u: UserRow) => ({ email: u.email, admin: !!u.admin, quant: !!u.quant, phase3: !!u.phase3 });
@@ -225,17 +273,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
       db.prepare('DELETE FROM sessions WHERE expires < ?').bind(now),
       db.prepare('INSERT INTO sessions (token, user_id, expires) VALUES (?, ?, ?)').bind(await sha256(token), user.id, now + SESSION_DAYS * 864e5),
     ]);
-    return json({ user: publicUser(user) }, 200, { 'set-cookie': sessionCookie(token, SESSION_DAYS * 86400, secure) });
-  };
-
-  const currentUser = async (): Promise<UserRow | null> => {
-    const token = cookieValue(request, COOKIE);
-    if (!token) return null;
-    const row = await db
-      .prepare('SELECT users.* FROM sessions JOIN users ON users.id = sessions.user_id WHERE sessions.token = ? AND sessions.expires > ?')
-      .bind(await sha256(token), now)
-      .first<UserRow>();
-    return row && !row.disabled ? row : null;
+    return json({ user: publicUser(user) }, 200, sessionCookies(token, SESSION_DAYS * 86400, secure));
   };
 
   if (route === 'POST /api/signup') {
@@ -298,15 +336,16 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   }
 
   if (route === 'POST /api/logout') {
-    const token = cookieValue(request, COOKIE);
-    if (token) await db.prepare('DELETE FROM sessions WHERE token = ?').bind(await sha256(token)).run();
-    return json({ ok: true }, 200, { 'set-cookie': sessionCookie('', 0, secure) });
+    for (const token of cookieValues(request, COOKIE)) await db.prepare('DELETE FROM sessions WHERE token = ?').bind(await sha256(token)).run();
+    return json({ ok: true }, 200, sessionCookies('', 0, secure));
   }
 
-  const user = await currentUser();
-  if (!user) return fail(401, 'Not signed in.');
+  const session = await sessionOf(request, db, now);
+  if (!session) return fail(401, 'Not signed in.');
+  const { user } = session;
 
-  if (route === 'GET /api/me') return json({ user: publicUser(user) });
+  // Also re-sends the cookie for the whole site, which moves a session from before the sign-in page onto it.
+  if (route === 'GET /api/me') return json({ user: publicUser(user) }, 200, sessionCookies(session.token, Math.floor((session.expires - now) / 1000), secure));
 
   if (route === 'POST /api/password') {
     const b = await body();
@@ -315,6 +354,36 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     if (next.length < 8 || next.length > 200) return fail(400, 'Use a password of at least 8 characters.');
     await db.batch([db.prepare('UPDATE users SET pw = ? WHERE id = ?').bind(await hashPassword(next), user.id), db.prepare('DELETE FROM sessions WHERE user_id = ?').bind(user.id)]);
     return startSession(user);
+  }
+
+  // ---------- Term cards ----------
+  if (route === 'GET /api/cards') {
+    const since = Number(url.searchParams.get('since') ?? 0);
+    return json(await givenCards(db, user, now, url.searchParams.get('have'), Number.isFinite(since) ? since : 0));
+  }
+
+  if (route === 'POST /api/cards') {
+    const b = await body();
+    return json(await askCards(db, user, b.ids, b.test, now));
+  }
+
+  // The password for the quant switch and phase 3: right once, and the account keeps both.
+  if (route === 'POST /api/unlock') {
+    const b = await body();
+    const tries = await db.prepare('SELECT fails, locked_until FROM unlock_tries WHERE user_id = ?').bind(user.id).first<{ fails: number; locked_until: number }>();
+    if (tries && tries.locked_until > now) return fail(429, `Too many tries. Wait ${Math.ceil((tries.locked_until - now) / 60000)} minutes and try again.`);
+    const password = typeof b.password === 'string' ? b.password.trim() : '';
+    if (!password || password.length > 200 || !(await verifyPassword(password, env.UNLOCK_HASH || UNLOCK_HASH))) {
+      const fails = (tries?.fails ?? 0) + 1;
+      const lock = fails >= MAX_FAILS;
+      await db
+        .prepare('INSERT INTO unlock_tries (user_id, fails, locked_until) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE SET fails = excluded.fails, locked_until = excluded.locked_until')
+        .bind(user.id, lock ? 0 : fails, lock ? now + LOCK_MINUTES * 60000 : 0)
+        .run();
+      return fail(401, 'That password isn’t right.');
+    }
+    await db.batch([db.prepare('UPDATE users SET quant = 1, phase3 = 1 WHERE id = ?').bind(user.id), db.prepare('DELETE FROM unlock_tries WHERE user_id = ?').bind(user.id)]);
+    return json({ user: publicUser({ ...user, quant: 1, phase3: 1 }) });
   }
 
   if (route === 'GET /api/progress') {
@@ -386,17 +455,47 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   return fail(404, 'No such endpoint.');
 }
 
+// ---------- The app's files ----------
+/** Files the sign-in page and an installed home-screen icon need. They hold nothing of the app. */
+const PUBLIC_FILES = /^\/(favicon\.ico|manifest\.webmanifest|apple-touch-icon\.png|robots\.txt|brand\/[\w.-]+\.png)$/;
+
+const page = (html: string, status: number) =>
+  new Response(html, { status, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store', 'x-robots-tag': 'noindex' } });
+
+/** A page load gets the sign-in page; a script, style sheet, image or data file gets nothing. */
+const wantsPage = (url: URL) => url.pathname === '/' || url.pathname.endsWith('.html') || !/\.[a-z0-9]+$/i.test(url.pathname);
+
+/**
+ * Serves a file of the app, but only to a signed-in session. A browser keeps
+ * what it is sent for this one person (private), never a shared cache.
+ */
+export async function serveApp(request: Request, env: Env, now = Date.now()): Promise<Response> {
+  const url = new URL(request.url);
+  if (!env.ASSETS) return new Response('Not found', { status: 404 });
+  if (PUBLIC_FILES.test(url.pathname)) return env.ASSETS.fetch(request);
+  const db = env.DB;
+  if (!db) return page('<!doctype html><title>FinTermShip</title><p>Sign-in is not set up on this server yet.</p>', 503);
+  await ensureSchema(db);
+  if (!(await sessionOf(request, db, now))) {
+    if (request.method === 'GET' && wantsPage(url)) return page(signInPage(), 200);
+    return new Response('Sign in first.', { status: 401, headers: { 'cache-control': 'no-store' } });
+  }
+  const res = await env.ASSETS.fetch(request);
+  const out = new Response(res.body, res);
+  const cache = res.headers.get('cache-control');
+  out.headers.set('cache-control', cache && /immutable/.test(cache) ? 'private, max-age=31536000, immutable' : 'private, no-cache');
+  return out;
+}
+
 export default {
   async fetch(request: Request, env: Env): Promise<Response> {
     const url = new URL(request.url);
-    if (url.pathname.startsWith('/api/')) {
-      try {
-        return await handleApi(request, env);
-      } catch (e) {
-        console.error(e);
-        return fail(500, 'Something went wrong on the server.');
-      }
+    try {
+      if (url.pathname.startsWith('/api/')) return await handleApi(request, env);
+      return await serveApp(request, env);
+    } catch (e) {
+      console.error(e);
+      return url.pathname.startsWith('/api/') ? fail(500, 'Something went wrong on the server.') : page('<!doctype html><title>FinTermShip</title><p>Something went wrong. Reload to try again.</p>', 500);
     }
-    return env.ASSETS ? env.ASSETS.fetch(request) : new Response('Not found', { status: 404 });
   },
 };

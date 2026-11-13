@@ -1,26 +1,17 @@
 /**
  * Call It: decks of true/false claims, built from the syllabus.
  * Four sources, all checked against the term cards:
- *  - written: hand-written misconception claims (a term's tf items and data/modes/claims.json)
+ *  - written: hand-written misconception claims (a term's tf items and data/modes/claims.json, on the term's card)
  *  - definition: the term with its own gloss (true) or one of its hand-written near misses (false)
  *  - swap: a confusable term's gloss given as this term's (false)
  *  - number: a worked sum with its right answer (true) or a wrong option (false)
  * Every deck is split evenly between true and false so guessing can't win.
  */
-import extra from '../../data/modes/claims.json';
-import { termById } from '../content';
+import { hasCard, termById, writtenByTerm } from '../content';
 import { dueTermIds } from '../scheduler';
 import { shuffle, tidyOption, type Rng } from '../questions';
 import { isWeak } from '../weak';
 import type { Progress, Term } from '../types';
-
-export interface WrittenClaim {
-  id: string;
-  term: string;
-  s: string;
-  a: boolean;
-  why: string;
-}
 
 export type ClaimSource = 'written' | 'definition' | 'swap' | 'number';
 
@@ -31,10 +22,6 @@ export interface Claim {
   why: string;
   source: ClaimSource;
 }
-
-export const writtenClaims = extra as WrittenClaim[];
-const writtenByTerm = new Map<string, WrittenClaim[]>();
-for (const c of writtenClaims) writtenByTerm.set(c.term, [...(writtenByTerm.get(c.term) ?? []), c]);
 
 const pick = <T,>(items: T[], rng: Rng): T => items[Math.floor(rng() * items.length)];
 
@@ -51,7 +38,8 @@ export function claimsFor(term: Term, truth: boolean): Claim[] {
   if (!truth)
     for (const id of term.confusables) {
       const other = termById.get(id);
-      if (!other || other.short.toLowerCase() === term.short.toLowerCase()) continue;
+      // A confusable the learner hasn't reached has no gloss here to swap in.
+      if (!other || !hasCard(id) || other.short.toLowerCase() === term.short.toLowerCase()) continue;
       // Skip a parent concept named inside the term ("long" in "long and wrong"): its gloss can be partly true.
       const [x, y] = [term.term.toLowerCase(), other.term.toLowerCase()];
       if (x.includes(y) || y.includes(x)) continue;
@@ -82,7 +70,7 @@ export const DECK_SIZE = 12;
  * Half the cards are true and half false. Returns fewer cards when fewer than 4 terms are met.
  */
 export function buildDeck(p: Progress, today: string, rng: Rng, size = DECK_SIZE): Claim[] {
-  const met = Object.keys(p.terms).filter((id) => termById.has(id) && p.terms[id].step > 0);
+  const met = Object.keys(p.terms).filter((id) => hasCard(id) && p.terms[id].step > 0);
   if (met.length < 4) return [];
   const due = new Set(dueTermIds(p, today));
   const weak = new Set(met.filter((id) => isWeak(p.terms[id])));

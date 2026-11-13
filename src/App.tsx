@@ -3,6 +3,8 @@ import type { GuideEntry } from './components/Guide';
 import { Home, UnitSheets } from './components/Home';
 import type { LessonSummary } from './components/Lesson';
 import { useAccount } from './components/useAccount';
+import { useCards } from './components/useCards';
+import { CardsGate, CardsToast } from './components/CardsGate';
 import { useGameKeys, useSlashKey } from './components/useKeys';
 import { BookIcon, ChartIcon, ChatIcon, GearIcon, Logo, PathIcon } from './components/icons';
 import { buildPractice, buildTest, withFocus } from './lib/choose';
@@ -13,6 +15,8 @@ import { buildPhase3Test, PHASE3, withPhase3Key } from './lib/phase3';
 import { dayKey } from './lib/dates';
 import { buildLesson, drillUp, todayStatus, type LessonPlan } from './lib/lesson';
 import { seededRng } from './lib/questions';
+import { ensureCards, planTermIds } from './lib/cards';
+import { hasCard } from './lib/content';
 import { KIND_LABEL } from './lib/practice';
 import { loadProgress, requestPersistence, saveProgress } from './lib/storage';
 import { firstName } from './lib/profile';
@@ -162,6 +166,10 @@ export default function App() {
   }, []);
 
   const { account, setAccount, sync, syncNow, signedOut } = useAccount(progress, update);
+  const cards = useCards(account, progress);
+  // Fetching cards for a lesson about to start, and anything that stopped one.
+  const [fetching, setFetching] = useState(false);
+  const [notice, setNotice] = useState<string | null>(null);
 
   useEffect(() => {
     const y = restoreY.current;
@@ -196,14 +204,41 @@ export default function App() {
   }, [tabScreen]);
   useSlashKey(toSearch);
 
-  if (!progress) {
-    return <div className="flex min-h-[100dvh] items-center justify-center text-ink-3">Loading…</div>;
+  if (!progress || cards.status !== 'ready') {
+    return <CardsGate status={progress ? cards.status : 'loading'} onRetry={cards.retry} />;
   }
 
-  const run = (make: (seed: number) => LessonPlan | null) => {
+  /**
+   * Build a lesson, first fetching the cards of any term in it that this device
+   * doesn't have yet (new terms, an area test's terms). The plan is built again
+   * from the same seed once they are here, so it asks with the real cards.
+   */
+  const prepare = async (make: (seed: number) => LessonPlan | null, test?: string): Promise<{ plan: LessonPlan; seed: number } | null> => {
     const seed = Date.now() % 2_147_483_647;
-    const plan = make(seed);
-    if (plan) setScreen({ name: 'lesson', plan, seed });
+    let plan = make(seed);
+    if (!plan) return null;
+    const need = planTermIds(plan).filter((id) => !hasCard(id));
+    if (!need.length) return { plan, seed };
+    setFetching(true);
+    const failed = await ensureCards(need, test);
+    setFetching(false);
+    if (failed) {
+      setNotice(failed);
+      return null;
+    }
+    plan = make(seed);
+    if (!plan) return null;
+    if (planTermIds(plan).some((id) => !hasCard(id))) {
+      setNotice('Some of these terms could not be loaded. Try again in a moment.');
+      return null;
+    }
+    return { plan, seed };
+  };
+
+  const run = async (make: (seed: number) => LessonPlan | null, test?: string) => {
+    if (fetching) return;
+    const ready = await prepare(make, test);
+    if (ready) setScreen({ name: 'lesson', ...ready });
     else setOrigin(null);
   };
   // Leaving a lesson, drill, game or results goes back to where it was started from.
@@ -218,11 +253,12 @@ export default function App() {
   const start = (ignoreNewCap: boolean) => {
     const d = drillUp(progress, today);
     if (d) drill(d);
-    else run((seed) => buildLesson(progress, today, seededRng(seed), ignoreNewCap));
+    else void run((seed) => buildLesson(progress, today, seededRng(seed), ignoreNewCap));
   };
-  const practiseWeak = () => run((seed) => buildWeakSpots(progress, seededRng(seed)));
-  const practise = (unitId: string) => run((seed) => buildPractice(progress, unitId, seededRng(seed)));
-  const takeTest = (categoryId: string) => run((seed) => (categoryId === PHASE3 ? buildPhase3Test(seededRng(seed)) : buildTest(categoryId, seededRng(seed))));
+  const practiseWeak = () => void run((seed) => buildWeakSpots(progress, seededRng(seed)));
+  const practise = (unitId: string) => void run((seed) => buildPractice(progress, unitId, seededRng(seed)));
+  const takeTest = (categoryId: string) =>
+    void run((seed) => (categoryId === PHASE3 ? buildPhase3Test(seededRng(seed)) : buildTest(categoryId, seededRng(seed))), categoryId);
   const pick = (unitId: string | null) => update(withFocus(progress, unitId));
   const goMode = (m: ModeId) => {
     setMode(m);
@@ -230,13 +266,15 @@ export default function App() {
   };
   const onTab = (name: Tab) => (name === 'home' ? goMode(mode) : setScreen({ name }));
   // A lesson started from a mode: answers are tallied for it, and finishing comes back to it.
-  const runIn = (m: Exclude<ModeId, 'path'>) => (make: (rng: ReturnType<typeof seededRng>) => LessonPlan | null) => {
-    const seed = Date.now() % 2_147_483_647;
-    const plan = make(seededRng(seed));
-    if (!plan) return;
-    setOrigin(screen);
-    originY.current = window.scrollY;
-    setScreen({ name: 'lesson', plan, seed, mode: m });
+  const runIn = (m: Exclude<ModeId, 'path'>) => async (make: (rng: ReturnType<typeof seededRng>) => LessonPlan | null) => {
+    if (fetching) return;
+    const from = screen;
+    const y = window.scrollY;
+    const ready = await prepare((seed) => make(seededRng(seed)));
+    if (!ready) return;
+    setOrigin(from);
+    originY.current = y;
+    setScreen({ name: 'lesson', ...ready, mode: m });
   };
   const depot = (unitId: string) => {
     setOrigin(screen);
@@ -444,6 +482,7 @@ export default function App() {
           onPhase3Key={() => update(withPhase3Key(progress))}
         />
       )}
+      <CardsToast fetching={fetching} notice={notice} onClose={() => setNotice(null)} />
     </Suspense>
   );
 }

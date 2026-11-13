@@ -5,13 +5,15 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "npm run check:terms && npm run check:modes && tsc -b && vite build",
+    "build": "npm run check:terms && npm run check:modes && npm run check:outline && tsc -b && vite build && node scripts/check-bundle.mjs",
     "preview": "vite preview",
     "test": "vitest run",
     "check:terms": "node scripts/validate-terms.mjs",
     "lint": "eslint .",
     "check:modes": "node scripts/build-modes.mjs --check",
-    "build:modes": "node scripts/build-modes.mjs"
+    "build:modes": "node scripts/build-modes.mjs",
+    "check:outline": "node scripts/build-outline.mjs --check",
+    "build:outline": "node scripts/build-outline.mjs"
   },
   "dependencies": {
     "react": "^19.1.0",
