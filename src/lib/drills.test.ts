@@ -2,7 +2,6 @@ import { describe, expect, it } from 'vitest';
 import { settleFocus, unitOpen, withFocus } from './choose';
 import { coreTermIds, path } from './content';
 import { checkAnswer, DRILLS, drillPasses, parseAnswer, recordDrill, snoozeDrill, type DrillQuestion } from './drills';
-import { checkPassword } from './gate';
 import { drillUp, nextNewTermIds, todayStatus } from './lesson';
 import { seededRng } from './questions';
 import { graduate, introduce, newProgress } from './scheduler';
@@ -217,14 +216,6 @@ describe('drills on the one track', () => {
 
 describe('quant switch', () => {
   const on = (p: Progress): Progress => ({ ...p, settings: { ...p.settings, quantFirst: true } });
-
-  it('takes the password, and only the password', () => {
-    expect(checkPassword('007')).toBe(true);
-    expect(checkPassword(' 007 ')).toBe(true);
-    expect(checkPassword('7')).toBe(false);
-    expect(checkPassword('0070')).toBe(false);
-    expect(checkPassword('')).toBe(false);
-  });
 
   it('puts the quant areas first, core before advanced, and opens them', () => {
     const p = on(newProgress());

@@ -6,6 +6,7 @@
 import { categories, isPhase3Area, mainTermIds, path, termById } from './content';
 import type { LessonPlan } from './lesson';
 import { calcQuestion, fillQuestion, shuffle, termQuestion, type Rng } from './questions';
+import { PHASE3_PREREQS } from './phase3prereqs';
 import type { Progress, Term } from './types';
 
 /** The key phase 3 uses in `progress.tests` and `progress.unlocked`. */
@@ -13,65 +14,8 @@ export const PHASE3 = 'phase3';
 /** Questions in one readiness test. Passing takes 80% of them, as in the area tests. */
 export const PHASE3_TEST_SIZE = 20;
 
-/** What the strategies build on: option pricing and Greeks, futures and carry, risk, margins, execution, speed and backtesting. */
-export const PHASE3_PREREQS = [
-  'call-option',
-  'put-option',
-  'intrinsic-value',
-  'time-value',
-  'delta',
-  'gamma',
-  'theta',
-  'vega',
-  'implied-volatility',
-  'delta-hedging',
-  'short-gamma',
-  'realised-volatility',
-  'volatility-skew',
-  'iv-crush',
-  'put-call-parity',
-  'covered-call',
-  'protective-put',
-  'straddle',
-  'strangle',
-  'bull-call-spread',
-  'iron-condor',
-  'calendar-spread',
-  'gamma-scalping',
-  'pin-risk',
-  'synthetic-long',
-  'box-spread',
-  'cost-of-carry',
-  'futures-fair-value',
-  'basis',
-  'rollover',
-  'rollover-cost',
-  'cash-and-carry-arbitrage',
-  'basis-risk',
-  'sharpe-ratio',
-  'max-drawdown',
-  'var',
-  'expected-shortfall',
-  'beta',
-  'correlation',
-  'lot-size',
-  'span-margin',
-  'exposure-margin',
-  'market-maker',
-  'adverse-selection',
-  'slippage',
-  'implementation-shortfall',
-  'market-impact',
-  'hft',
-  'latency',
-  'z-score',
-  'stationarity',
-  'autocorrelation',
-  'momentum-factor',
-  'backtest',
-  'overfitting',
-  'out-of-sample',
-];
+/** What the strategies build on (in phase3prereqs.ts, which the Worker reads too). */
+export { PHASE3_PREREQS };
 
 /** Phase 3 is open once the password was entered and the readiness test passed. */
 export function phase3Open(p: Progress): boolean {

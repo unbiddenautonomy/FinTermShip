@@ -1,6 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { BACKTEST, BACKTEST_POINTS, backtestPassed, FLAWS, newBacktestRound, SLOTS } from '../lib/backtest';
-import { termById } from '../lib/content';
+import { glossOrUnit, termById } from '../lib/content';
 import { finishGame } from '../lib/practice';
 import { seededRng } from '../lib/questions';
 import { Choices, GameFrame, Verdict, type GameProps } from './GameFrame';
@@ -75,7 +75,7 @@ export function BacktestGame({ unitId, seed, progress, today, onProgress, onFini
             items: cases
               .map((k) => termById.get(FLAWS[k.flaw].term))
               .filter((t) => t !== undefined)
-              .map((t) => ({ prompt: t.term, shown: t.short })),
+              .map((t) => ({ prompt: t.term, shown: glossOrUnit(t) })),
           },
         ],
       },

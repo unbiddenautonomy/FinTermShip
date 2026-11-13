@@ -3,7 +3,7 @@
  * with no feedback until the end, like the real thing. Questions come from
  * the drills (typed answers), worked sums on the cards and the code snippets.
  */
-import { categories } from './content';
+import { categories, hasCard } from './content';
 import { checkAnswer, DRILLS, type DrillQuestion } from './drills';
 import { shuffle, type Rng } from './questions';
 import type { Progress } from './types';
@@ -48,9 +48,13 @@ function choice(prompt: string, options: string[], why: string, rng: Rng, code?:
 
 function pool(source: MockSource, rng: Rng): MockQuestion[] {
   if ('drill' in source) return DRILLS[source.drill].make(rng).map((d) => ({ kind: 'typed', prompt: d.prompt, drill: d }));
-  const calcs = categories.filter((c) => source.calcs.includes(c.id)).flatMap((c) => c.terms.flatMap((t) => t.calcs ?? []));
+  // Worked sums from the terms this learner has reached: the others' cards aren't on this device.
+  const calcs = categories.filter((c) => source.calcs.includes(c.id)).flatMap((c) => c.terms.filter((t) => hasCard(t.id)).flatMap((t) => t.calcs ?? []));
   return shuffle(calcs, rng).map((c) => choice(c.q, c.options, c.why, rng));
 }
+
+/** Fewest questions a round runs with: a sums round is short until the learner has reached enough of its terms. */
+export const MOCK_MIN = 5;
 
 /** A round: questions taken in turn from each source, no prompt twice. */
 export function newMock(spec: MockSpec, rng: Rng): MockQuestion[] {
@@ -60,7 +64,9 @@ export function newMock(spec: MockSpec, rng: Rng): MockQuestion[] {
   for (let guard = 0; out.length < spec.count && guard < 50; guard++) {
     for (let i = 0; i < pools.length && out.length < spec.count; i++) {
       if (!pools[i].length) pools[i] = pool(spec.sources[i], rng);
-      const q = pools[i].shift()!;
+      // A sums source with no terms reached yet has nothing to give.
+      const q = pools[i].shift();
+      if (!q) continue;
       const key = q.prompt + (q.kind === 'choice' ? (q.code ?? '') : '');
       if (seen.has(key)) continue;
       seen.add(key);
