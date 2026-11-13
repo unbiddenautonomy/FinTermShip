@@ -12,8 +12,9 @@ import { seededRng } from '../../lib/questions';
 import { finishLesson } from '../../lib/scheduler';
 import type { Progress } from '../../lib/types';
 import { Check, Cross, Flame } from '../icons';
-import { Bar, Button } from '../ui';
+import { Button } from '../ui';
 import { KpiDelta } from './KpiDelta';
+import { useModeAccess } from './modeAccess';
 import { ModeFrame, TermDot, TermSheet } from './shared';
 
 interface Props {
@@ -47,6 +48,7 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   const answered = calls.length > index;
   const last = answered ? calls[index] : undefined;
   const record = modeRecord(progress, 'callit');
+  const { canOpen } = useModeAccess();
 
   useEffect(() => {
     shownAt.current = Date.now();
@@ -136,9 +138,11 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
         <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-ink-2">Call It only asks about terms you have already learned. Finish a lesson in Path, or ride a few stops on Lines, and your first deck is ready.</p>
         <div className="mt-6 flex flex-wrap justify-center gap-3">
           <Button onClick={() => onMode('path')}>Go to Path</Button>
-          <Button variant="secondary" onClick={() => onMode('lines')}>
-            Ride Lines
-          </Button>
+          {canOpen('lines') && (
+            <Button variant="secondary" onClick={() => onMode('lines')}>
+              Ride Lines
+            </Button>
+          )}
         </div>
       </div>,
     );
@@ -178,11 +182,13 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
             </ul>
           </section>
         )}
-        <div className="grid grid-cols-2 gap-3">
+        <div className={`grid gap-3 ${canOpen('exchange') ? 'grid-cols-2' : ''}`}>
           <Button onClick={again}>Another deck</Button>
-          <Button variant="secondary" onClick={() => onMode('exchange')}>
-            See the Exchange
-          </Button>
+          {canOpen('exchange') && (
+            <Button variant="secondary" onClick={() => onMode('exchange')}>
+              See the Exchange
+            </Button>
+          )}
         </div>
       </div>,
     );
@@ -196,23 +202,34 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
 
   return frame(
     <div className="space-y-4">
-      <div className="flex items-center gap-3">
-        <Bar value={index + (answered ? 1 : 0)} max={deck.length} className="h-2" label="Deck progress" />
-        <span className="num shrink-0 font-mono text-sm text-ink-3">
-          {index + 1}/{deck.length}
-        </span>
-        <span className={`num inline-flex w-10 shrink-0 items-center justify-end gap-0.5 text-sm font-extrabold ${run >= 2 ? 'text-amber' : 'text-transparent'}`} aria-label={run >= 2 ? `${run} in a row` : undefined}>
-          <Flame className="h-4 w-4" />
-          {run}
-        </span>
+      <div>
+        <div className="flex items-baseline justify-between font-mono text-sm">
+          <span className="text-ink-2">
+            Card <b className="num text-ink">{index + 1}</b> / {deck.length}
+          </span>
+          <span className={`num inline-flex items-center gap-1 font-semibold ${run >= 2 ? 'text-bad-strong' : 'text-transparent'}`} aria-label={run >= 2 ? `${run} in a row` : undefined}>
+            <Flame className="h-4 w-4" />
+            {run} in a row
+          </span>
+        </div>
+        {/* One tick per card: ink for a right call, red for a wrong one. */}
+        <div className="mt-2 flex gap-1" role="progressbar" aria-label="Deck progress" aria-valuemin={0} aria-valuemax={deck.length} aria-valuenow={calls.length}>
+          {deck.map((_, i) => (
+            <span key={i} className={`h-1.5 flex-1 rounded-sm ${i < calls.length ? (calls[i].right ? 'bg-ink' : 'bg-bad-strong') : i === index ? 'bg-ink/30' : 'bg-ink/10'}`} />
+          ))}
+        </div>
       </div>
 
-      <div className="relative" style={{ perspective: 1200 }}>
+      {/* The table: a dotted mat with the rest of the deck stacked under the card in play. */}
+      <div className="relative -mx-4 px-6 py-8 sm:mx-0 sm:rounded-2xl" style={{ backgroundImage: 'radial-gradient(rgb(var(--ink) / 0.13) 1px, transparent 1.2px)', backgroundSize: '14px 14px' }}>
+        {index + 1 < deck.length && <div className="absolute inset-x-8 bottom-6 top-10 rotate-[2.5deg] rounded-xl border-2 border-ink bg-surface" style={{ boxShadow: `6px 6px 0 ${colour}` }} aria-hidden="true" />}
+        {index + 2 < deck.length && <div className="absolute inset-x-7 bottom-7 top-9 -rotate-[2deg] rounded-xl border-2 border-ink bg-surface" aria-hidden="true" />}
         <div
           key={index}
-          className={`relative min-h-[19rem] touch-pan-y select-none rounded-3xl border-2 bg-surface shadow-card ${answered ? '' : 'animate-pop cursor-grab active:cursor-grabbing'}`}
+          className={`relative min-h-[19rem] touch-pan-y select-none rounded-xl border-2 bg-surface ${answered ? '' : 'animate-pop cursor-grab active:cursor-grabbing'}`}
           style={{
-            borderColor: lean === 'true' ? 'rgb(var(--good))' : lean === 'false' ? 'rgb(var(--bad))' : 'rgb(var(--line))',
+            borderColor: lean === 'true' ? 'rgb(var(--good-strong))' : lean === 'false' ? 'rgb(var(--bad-strong))' : 'rgb(var(--ink))',
+            boxShadow: `8px 8px 0 ${colour}`,
             transform: answered ? 'rotateY(0deg)' : `translateX(${drag}px) rotate(${tilt}deg)`,
             transition: dragFrom.current === null ? 'transform 220ms cubic-bezier(0.2,0.8,0.2,1), border-color 150ms' : 'none',
           }}
@@ -237,15 +254,25 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
             setDrag(0);
           }}
         >
-          <div className="h-1.5 rounded-t-[22px]" style={{ background: colour }} />
-          <div className="flex flex-col gap-4 p-6">
-            <p className="flex items-center gap-2 text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">
+          <div className="flex min-h-[19rem] flex-col gap-4 p-6">
+            <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-ink-3">
               <TermDot status={termStatus(progress, card.termId, today)} colour={colour} size={11} />
-              <span className="font-mono">{area?.code}</span>
-              <span className="truncate normal-case tracking-normal">{term.term}</span>
+              <span className="font-semibold" style={{ color: colour }}>
+                {area?.code}
+              </span>
+              <span className="truncate">{area?.name}</span>
             </p>
             {!answered ? (
-              <p className="font-display text-[22px] font-medium leading-snug text-ink">{card.text}</p>
+              <>
+                <p className="my-auto text-[26px] font-extrabold leading-[1.15] tracking-tight text-ink">
+                  <Marked text={card.text} term={term.term} colour={colour} />
+                </p>
+                <p className="flex justify-between font-mono text-xs text-ink-3" aria-hidden="true">
+                  <span>← false</span>
+                  <span>flick</span>
+                  <span>true →</span>
+                </p>
+              </>
             ) : (
               <div className="animate-pop space-y-3">
                 <p className={`flex items-center gap-2 text-xl font-extrabold ${last!.right ? 'text-good-ink' : 'text-bad-ink'}`}>
@@ -273,28 +300,45 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
       </div>
 
       {!answered ? (
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-4">
           <button
             type="button"
             onClick={() => call(false)}
-            className="flex items-center justify-center gap-2 rounded-2xl border-2 border-bad/50 bg-bad-soft py-4 text-lg font-extrabold text-bad-ink shadow-press-line active:translate-y-[1px] active:shadow-none"
+            className="flex items-center justify-center gap-2 rounded-lg border-2 border-ink bg-bad-strong py-4 text-xl font-extrabold uppercase tracking-wide text-white shadow-[5px_5px_0_rgb(var(--ink))] transition active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
           >
-            <Cross className="h-5 w-5" /> False
+            <span aria-hidden="true">←</span> False
           </button>
           <button
             type="button"
             onClick={() => call(true)}
-            className="flex items-center justify-center gap-2 rounded-2xl border-2 border-good/50 bg-good-soft py-4 text-lg font-extrabold text-good-ink shadow-press-line active:translate-y-[1px] active:shadow-none"
+            className="flex items-center justify-center gap-2 rounded-lg border-2 border-ink bg-good-strong py-4 text-xl font-extrabold uppercase tracking-wide text-white shadow-[5px_5px_0_rgb(var(--ink))] transition active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
           >
-            True <Check className="h-5 w-5" />
+            True <span aria-hidden="true">→</span>
           </button>
         </div>
       ) : (
-        <Button onClick={next} className="w-full">
-          {index + 1 < deck.length ? 'Next card' : 'Finish deck'}
-        </Button>
+        <button
+          type="button"
+          onClick={next}
+          className="w-full rounded-lg border-2 border-ink bg-ink py-4 text-lg font-extrabold uppercase tracking-wide text-bg shadow-[5px_5px_0_rgb(var(--ink)/0.25)] transition active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
+        >
+          {index + 1 < deck.length ? 'Next card →' : 'Finish deck'}
+        </button>
       )}
       <p className="hidden text-center text-xs text-ink-3 sm:block">Drag the card, or press ← for false and → for true.</p>
     </div>,
+  );
+}
+
+/** The claim with its term picked out in the area colour, where the term appears in it. */
+function Marked({ text, term, colour }: { text: string; term: string; colour: string }) {
+  const at = text.toLowerCase().indexOf(term.toLowerCase());
+  if (at < 0) return <>{text}</>;
+  return (
+    <>
+      {text.slice(0, at)}
+      <span style={{ color: colour, textShadow: '2px 2px 0 rgb(var(--ink) / 0.12)' }}>{text.slice(at, at + term.length)}</span>
+      {text.slice(at + term.length)}
+    </>
   );
 }

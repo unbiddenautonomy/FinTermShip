@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
 import type { GuideEntry } from './components/Guide';
 import { Home, UnitSheets } from './components/Home';
 import type { LessonSummary } from './components/Lesson';
@@ -23,6 +23,8 @@ import { firstName } from './lib/profile';
 import { buildWeakSpots, weakSpots } from './lib/weak';
 import { currentUnit } from './lib/track';
 import { landingMode, type ModeId } from './lib/modes/knowledge';
+import { modesOn } from './lib/modes/ids';
+import { ModeAccessContext } from './components/modes/modeAccess';
 import { MODE_INFO, ModeBar } from './components/modes/ModeBar';
 import type { GameId, Progress } from './lib/types';
 
@@ -165,8 +167,20 @@ export default function App() {
     saveChain.current = saveChain.current.then(() => saveProgress(p));
   }, []);
 
-  const { account, setAccount, sync, syncNow, signedOut } = useAccount(progress, update);
+  const { account, setAccount, sync, syncNow, signedOut, site, setSite } = useAccount(progress, update);
+  // Modes the admin switched off for everyone are hidden from learners; the admin keeps them, to test.
+  const isAdmin = account.kind === 'in' && account.me.admin;
+  const access = useMemo(() => ({ off: site.modesOff, admin: isAdmin, setOff: (modesOff: string[]) => setSite({ modesOff }) }), [site.modesOff, isAdmin, setSite]);
+  const canOpen = useCallback((m: ModeId) => isAdmin || modesOn(site.modesOff).includes(m), [isAdmin, site.modesOff]);
   const cards = useCards(account, progress);
+  // If the mode on screen (or the one Learn returns to) is switched off, go back to Path.
+  const shownMode = screen.name === 'lines' || screen.name === 'callit' || screen.name === 'exchange' ? screen.name : null;
+  useEffect(() => {
+    if (account.kind === 'loading') return;
+    if (!canOpen(mode)) setMode('path');
+    if (shownMode && !canOpen(shownMode)) setScreen({ name: 'home' });
+  }, [account.kind, canOpen, mode, shownMode]);
+
   // Fetching cards for a lesson about to start, and anything that stopped one.
   const [fetching, setFetching] = useState(false);
   const [notice, setNotice] = useState<string | null>(null);
@@ -260,7 +274,8 @@ export default function App() {
   const takeTest = (categoryId: string) =>
     void run((seed) => (categoryId === PHASE3 ? buildPhase3Test(seededRng(seed)) : buildTest(categoryId, seededRng(seed))), categoryId);
   const pick = (unitId: string | null) => update(withFocus(progress, unitId));
-  const goMode = (m: ModeId) => {
+  const goMode = (want: ModeId) => {
+    const m = canOpen(want) ? want : 'path';
     setMode(m);
     setScreen(m === 'path' ? { name: 'home' } : { name: m });
   };
@@ -467,6 +482,7 @@ export default function App() {
     f();
   };
   return (
+    <ModeAccessContext.Provider value={access}>
     <Suspense fallback={<Spinner />}>
       {body}
       {overlay && overlayFrom && (
@@ -484,6 +500,7 @@ export default function App() {
       )}
       <CardsToast fetching={fetching} notice={notice} onClose={() => setNotice(null)} />
     </Suspense>
+    </ModeAccessContext.Provider>
   );
 }
 

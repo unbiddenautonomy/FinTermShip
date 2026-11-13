@@ -9,13 +9,13 @@ import { phase3Open } from '../phase3';
 import { dueTermIds, intervalFor, isDueOn, isKnown, KNOWN_STEP, MAX_STEP, recordPractice, review, reviewsLeftToday } from '../scheduler';
 import type { Progress, Question, TermState } from '../types';
 
-export type ModeId = 'path' | 'lines' | 'callit' | 'exchange';
-export const MODES: ModeId[] = ['path', 'lines', 'callit', 'exchange'];
+import { MODES, type ModeId } from './ids';
+export { MODES, type ModeId };
 
-/** Where the app opens: the learner's choice in Settings, or Path. */
-export function landingMode(p: Progress): ModeId {
+/** Where the app opens: the learner's choice in Settings, or Path. A mode the admin switched off for everyone falls back to Path. */
+export function landingMode(p: Progress, off: readonly string[] = []): ModeId {
   const m = p.settings.landing;
-  return m && MODES.includes(m) ? m : 'path';
+  return m && MODES.includes(m) && !off.includes(m) ? m : 'path';
 }
 
 /**
@@ -49,9 +49,20 @@ export interface ModeRecord {
   last?: string;
   /** Call It: longest run of right calls. */
   bestRun?: number;
-  /** Recall Exchange: highest index reached, and the index once a day for the chart. */
+  /** Recall Exchange, first version: the average-strength index. Kept so old records still sync; no longer shown. */
   indexHigh?: number;
   history?: Record<string, number>;
+  /** Recall Exchange: the index (0 to 1000) at its latest reading each day, and its highest. */
+  closes?: Record<string, number>;
+  top?: number;
+  /** Recall Exchange: every price at the latest visit, and at the latest visit on an earlier day, for each stock's change. */
+  marks?: Marks;
+  prevMarks?: Marks;
+}
+
+export interface Marks {
+  day: string;
+  prices: Record<string, number>;
 }
 
 export type ModeRecords = Partial<Record<ModeId, ModeRecord>>;
@@ -123,17 +134,35 @@ export function finishModeSession(p: Progress, mode: ModeId, today: string, extr
   });
 }
 
+/** Full price of a term held cleanly at a ladder step (step 0, met today, is 5). */
+function heldAt(step: number): number {
+  return step <= 0 ? 5 : 100 * Math.pow(step / MAX_STEP, 0.7);
+}
+
+/** A met term never trades below this, however long it sits overdue: it was learned once. */
+export const STRENGTH_FLOOR = 5;
+/** Overdue strength halves at most this often, so a young term isn't wiped out within days. */
+export const MIN_HALF_LIFE = 3;
+
 /**
- * Strength, 0 to 100: how firmly a term is held today. It comes from the ladder step and
- * holds until the term falls due, then halves for each review interval it sits overdue.
- * Nothing new is stored; it is read from the step and the due date.
+ * Strength, 0 to 100: how firmly a term is held today. Nothing new is stored; it is read from
+ * the ladder step, the term's record and the due date.
+ * - The step sets the full price. A shaky record (wrong answers among the right ones) takes up
+ *   to half the gap to the step below off it, so two terms on the same step can differ.
+ * - It holds until the term falls due, then halves for each review interval it sits overdue
+ *   (never faster than every MIN_HALF_LIFE days), and never drops below STRENGTH_FLOOR.
  */
 export function strength(s: TermState | undefined, today: string, core = false): number {
   if (!s) return 0;
-  const base = s.step === 0 ? 5 : 100 * Math.pow(s.step / MAX_STEP, 0.7);
+  if (s.step === 0) return STRENGTH_FLOOR;
+  const top = heldAt(s.step);
+  const below = heldAt(s.step - 1);
+  const answered = s.correct + s.wrong;
+  const accuracy = answered ? s.correct / answered : 1;
+  const held = top - ((1 - accuracy) * (top - below)) / 2;
   const overdue = Math.max(0, daysBetween(s.due, today));
-  const interval = Math.max(1, intervalFor(s.step, core));
-  return Math.round(base * Math.pow(2, -overdue / interval));
+  const halfLife = Math.max(MIN_HALF_LIFE, intervalFor(s.step, core));
+  return Math.max(STRENGTH_FLOOR, Math.round(held * Math.pow(2, -overdue / halfLife)));
 }
 
 /** Term ids the learner can reach now: everything outside phase 3, and phase 3 once it is open. */
