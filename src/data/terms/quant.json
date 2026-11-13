@@ -21,6 +21,11 @@
       "game": "guess"
     },
     {
+      "id": "q23",
+      "name": "Probability basics",
+      "core": false
+    },
+    {
       "id": "q3",
       "name": "Statistics for research",
       "core": false
@@ -1318,6 +1323,55 @@
       "difficulty": 1
     },
     {
+      "id": "log-return",
+      "term": "log return",
+      "unit": "q3",
+      "short": "Return as ln(new price ÷ old price)",
+      "definition": "The natural log of the ratio of two prices. Log returns add up over time: the log return for a month is the sum of the daily ones, which makes them easier to work with than simple percentage returns. For small moves the two are almost equal; for big moves they differ.",
+      "examples": [
+        "Up 10% then down 10% is a loss, but the log returns, +9.5% and −10.5%, add up to show it.",
+        "We model log returns as normal, which makes prices log-normal.",
+        "Sum the daily log returns to get the month's log return."
+      ],
+      "fill": "ln(110 ÷ 100) ≈ 9.5% is the ____ for a move from 100 to 110.",
+      "confusables": [
+        "return",
+        "cagr",
+        "lognormal-distribution"
+      ],
+      "wrong": [
+        "The rupee change in price",
+        "The return after inflation",
+        "The return including dividends"
+      ],
+      "difficulty": 2,
+      "aliases": [
+        "log returns",
+        "continuously compounded return"
+      ],
+      "formula": "r = ln(P₁ ÷ P₀)",
+      "calcs": [
+        {
+          "q": "A stock goes from ₹100 to ₹110 and back to ₹100. What do the two log returns add up to?",
+          "options": [
+            "0%",
+            "+0.9%",
+            "+20%",
+            "−0.9%"
+          ],
+          "answer": 0,
+          "why": "ln(110/100) + ln(100/110) = 0. Log returns add up exactly. The simple returns, +10% and −9.1%, add to +0.9% even though you ended where you started."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A +10% day followed by a −10% day leaves you where you started.",
+          "a": false,
+          "why": "₹100 × 1.1 × 0.9 = ₹99. Simple returns don't add; log returns do, which is why quants use them."
+        }
+      ]
+    },
+    {
       "id": "factor",
       "term": "factor",
       "unit": "q4",
@@ -1594,6 +1648,84 @@
         "An active fund run by a star manager"
       ],
       "difficulty": 2
+    },
+    {
+      "id": "capm",
+      "term": "CAPM",
+      "unit": "q4",
+      "short": "Expected return = risk-free + beta × premium",
+      "definition": "The capital asset pricing model: a stock's expected return is the risk-free rate plus its beta times the market's excess return over the risk-free rate. Only market risk is paid for, because stock-specific risk can be diversified away. It is the usual way to estimate the cost of equity, and alpha is measured against it.",
+      "examples": [
+        "By CAPM, a 1.2 beta stock should return 7% + 1.2 × 5% = 13%.",
+        "The fund's alpha is what's left after CAPM explains returns with beta.",
+        "Factor models grew out of CAPM failing to explain value and size."
+      ],
+      "fill": "Risk-free rate plus beta times the market risk premium gives a stock's expected return under ____.",
+      "confusables": [
+        "beta",
+        "alpha",
+        "cost-of-equity"
+      ],
+      "wrong": [
+        "A model that values a company from its future cash flows",
+        "A model that prices options from volatility",
+        "A rule for sizing bets from their edge"
+      ],
+      "difficulty": 2,
+      "said": "cap M",
+      "speak": "cap M",
+      "aliases": [
+        "capital asset pricing model"
+      ],
+      "formula": "E[R] = Rf + β × (E[Rm] − Rf)",
+      "calcs": [
+        {
+          "q": "The risk-free rate is 7%, the market is expected to return 12% and a stock's beta is 1.2. What does CAPM give as its expected return?",
+          "options": [
+            "13%",
+            "14.4%",
+            "12%",
+            "8.4%"
+          ],
+          "answer": 0,
+          "why": "7% + 1.2 × (12% − 7%) = 7% + 6% = 13%."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Under CAPM, a stock with more total volatility should always have a higher expected return.",
+          "a": false,
+          "why": "CAPM pays only for market risk, measured by beta. Volatility specific to the stock can be diversified away, so it earns nothing extra."
+        }
+      ]
+    },
+    {
+      "id": "efficient-frontier",
+      "term": "efficient frontier",
+      "unit": "q4",
+      "short": "Best return for each level of risk",
+      "definition": "The set of portfolios that give the highest expected return for each level of volatility, or the lowest volatility for each return, from a given set of assets. Anything below the frontier could be improved without taking more risk. It comes from Markowitz's portfolio theory and depends heavily on the inputs, especially expected returns.",
+      "examples": [
+        "Adding gold pushed the efficient frontier up: more return for the same risk.",
+        "Our portfolio sits below the efficient frontier, so we're taking risk we aren't paid for.",
+        "Small changes to expected returns move the efficient frontier a lot."
+      ],
+      "fill": "The curve of portfolios with the highest return for each level of risk is the ____.",
+      "confusables": [
+        "diversification",
+        "sharpe-ratio",
+        "yield-curve"
+      ],
+      "wrong": [
+        "The chart of a portfolio's value over time",
+        "The curve of yields across bond maturities",
+        "The line of best fit through returns and beta"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "Markowitz frontier",
+        "mean-variance frontier"
+      ]
     },
     {
       "id": "backtest",
@@ -1897,6 +2029,33 @@
         "A switch from one benchmark to another"
       ],
       "difficulty": 2
+    },
+    {
+      "id": "cross-validation",
+      "term": "cross-validation",
+      "unit": "q5",
+      "short": "Fit on some data, test on the rest, rotate",
+      "definition": "Splitting data into parts, fitting a model on some and testing on the part held out, then rotating so every part is tested once. It estimates how a model will do on data it hasn't seen. With market data the folds must respect time order, and data near each test fold has to be dropped, or the future leaks into the fit.",
+      "examples": [
+        "Cross-validation showed the model's accuracy falls from 60% in-sample to 51% out of it.",
+        "Plain shuffled cross-validation leaks information in time series; use time-ordered folds.",
+        "We tuned the lookback with cross-validation instead of picking the best backtest."
+      ],
+      "fill": "Fitting on four parts of the data, testing on the fifth, and rotating is ____.",
+      "confusables": [
+        "out-of-sample",
+        "walk-forward",
+        "overfitting"
+      ],
+      "wrong": [
+        "Running the same backtest on a second computer",
+        "Comparing a strategy with its benchmark",
+        "Checking prices against a second data vendor"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "k-fold cross-validation"
+      ]
     },
     {
       "id": "hit-rate",
@@ -5420,6 +5579,338 @@
         "Fitting a line to a scatter plot"
       ],
       "difficulty": 2
+    },
+    {
+      "id": "expected-value",
+      "term": "expected value",
+      "unit": "q23",
+      "short": "Probability-weighted average outcome",
+      "definition": "The average result of a bet or trade if you could repeat it many times: each outcome times its probability, added up. A trade with a positive expected value can still lose most of the time, and one with a high win rate can still have a negative expected value.",
+      "examples": [
+        "The trade wins only 40% of the time, but its expected value is positive because the wins are big.",
+        "Interviewers love expected value: what's a fair price to roll one die and get paid its number?",
+        "Selling far out-of-the-money options wins often but can have negative expected value after the rare blow-up."
+      ],
+      "fill": "Add up each outcome times its probability and you get the ____.",
+      "confusables": [
+        "expectancy",
+        "hit-rate",
+        "mean-reversion"
+      ],
+      "wrong": [
+        "The most likely single outcome",
+        "The best outcome that can happen",
+        "The share of bets that win"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "expectation",
+        "expected payoff"
+      ],
+      "formula": "E[X] = Σ outcome × probability",
+      "calcs": [
+        {
+          "q": "A trade has a 40% chance of making ₹500 and a 60% chance of losing ₹200. What is its expected value?",
+          "options": [
+            "+₹80",
+            "+₹300",
+            "−₹20",
+            "+₹140"
+          ],
+          "answer": 0,
+          "why": "0.4 × 500 − 0.6 × 200 = 200 − 120 = +₹80 a trade, even though it loses more often than it wins."
+        },
+        {
+          "q": "You roll one fair die and are paid its number in rupees. What is the fair price to play?",
+          "options": [
+            "₹3.50",
+            "₹3",
+            "₹6",
+            "₹4"
+          ],
+          "answer": 0,
+          "why": "(1 + 2 + 3 + 4 + 5 + 6) ÷ 6 = 21 ÷ 6 = ₹3.50."
+        }
+      ],
+      "tf": [
+        {
+          "s": "A strategy that wins 70% of the time must have a positive expected value.",
+          "a": false,
+          "why": "If the 30% of losses are much bigger than the wins, the expected value is negative. Win rate alone says nothing about it."
+        }
+      ]
+    },
+    {
+      "id": "conditional-probability",
+      "term": "conditional probability",
+      "unit": "q23",
+      "short": "Probability given that something else happened",
+      "definition": "The probability of one event once you know another has happened, written P(A | B). It is the share of B's cases in which A also happens. Most trading questions are conditional: not 'how often does the stock rise?' but 'how often does it rise after a gap-down?'",
+      "examples": [
+        "Unconditionally the stock rises 52% of days; conditional on a 3% gap-down, it rises 58%.",
+        "The interviewer asked for the conditional probability that both children are boys given that one is.",
+        "Our signal's value is in the conditional probability of a rally after it fires, not in how often it fires."
+      ],
+      "fill": "The chance a stock rises given that it gapped down is a ____.",
+      "confusables": [
+        "bayes-theorem",
+        "independent-events",
+        "p-value"
+      ],
+      "wrong": [
+        "The chance of two events both happening",
+        "The chance an event never happens",
+        "The average outcome over many trials"
+      ],
+      "difficulty": 2,
+      "formula": "P(A | B) = P(A and B) ÷ P(B)",
+      "calcs": [
+        {
+          "q": "On 40% of days the market gaps down. On 12% of all days it gaps down and then closes higher. Given a gap-down, what is the probability it closes higher?",
+          "options": [
+            "30%",
+            "12%",
+            "4.8%",
+            "52%"
+          ],
+          "answer": 0,
+          "why": "P(higher | gap-down) = P(both) ÷ P(gap-down) = 0.12 ÷ 0.40 = 30%."
+        }
+      ]
+    },
+    {
+      "id": "bayes-theorem",
+      "term": "Bayes' theorem",
+      "unit": "q23",
+      "short": "Update a probability with new evidence",
+      "definition": "The rule for turning P(evidence | event) into P(event | evidence), using how common the event was to begin with (the base rate). It is why a signal that is right 90% of the time can still be wrong most of the times it fires, when what it looks for is rare.",
+      "examples": [
+        "The signal catches 90% of crashes, but crashes are so rare that Bayes' theorem says most alerts are false alarms.",
+        "Classic interview question: a test is 99% accurate for a 1-in-1,000 condition; Bayes' theorem gives the real chance.",
+        "Each new results beat should update your view of management a little, Bayes' theorem style."
+      ],
+      "fill": "Working out P(rally | signal) from P(signal | rally) and the base rate of rallies uses ____.",
+      "confusables": [
+        "conditional-probability",
+        "expected-value",
+        "statistical-significance"
+      ],
+      "wrong": [
+        "The rule that averages settle down over many trials",
+        "The rule that independent risks add in variance",
+        "A test of whether a series has a unit root"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "Bayes rule",
+        "Bayes"
+      ],
+      "formula": "P(A | B) = P(B | A) × P(A) ÷ P(B)",
+      "calcs": [
+        {
+          "q": "10% of days are big up days. A signal fires on 90% of big up days and on 20% of other days. When it fires, what is the chance today is a big up day?",
+          "options": [
+            "About 33%",
+            "90%",
+            "About 10%",
+            "About 45%"
+          ],
+          "answer": 0,
+          "why": "Fires on a big up day: 0.9 × 0.1 = 0.09. Fires on another day: 0.2 × 0.9 = 0.18. P(big up | fires) = 0.09 ÷ (0.09 + 0.18) = 1/3."
+        }
+      ],
+      "tf": [
+        {
+          "s": "If a signal fires before 90% of rallies, a rally follows about 90% of its signals.",
+          "a": false,
+          "why": "That mixes up P(signal | rally) with P(rally | signal). If rallies are rare and the signal also fires on ordinary days, most signals are false alarms."
+        }
+      ]
+    },
+    {
+      "id": "independent-events",
+      "term": "independent events",
+      "unit": "q23",
+      "short": "One happening doesn't change the other's odds",
+      "definition": "Two events are independent when knowing one happened tells you nothing about the other, so the chance of both is the product of their chances. Coin flips are independent. Returns of two stocks in a sell-off usually are not, which is why risk adds up faster than a model of independent bets says.",
+      "examples": [
+        "Two independent 60% trades both win 36% of the time.",
+        "The model treated defaults as independent events, which is why it missed the cluster in 2008.",
+        "A coin landing heads five times doesn't make tails more likely: flips are independent events."
+      ],
+      "fill": "If the chance of both is just the product of each chance, the two are ____.",
+      "confusables": [
+        "independent-increments",
+        "correlation",
+        "conditional-probability"
+      ],
+      "wrong": [
+        "Events that can't both happen",
+        "Events that always happen together",
+        "Events with the same probability"
+      ],
+      "difficulty": 2,
+      "formula": "P(A and B) = P(A) × P(B)",
+      "calcs": [
+        {
+          "q": "Two independent trades each win with probability 60%. What is the chance both win?",
+          "options": [
+            "36%",
+            "60%",
+            "120%",
+            "16%"
+          ],
+          "answer": 0,
+          "why": "Independent, so multiply: 0.6 × 0.6 = 0.36."
+        }
+      ],
+      "tf": [
+        {
+          "s": "Events that can't both happen are independent.",
+          "a": false,
+          "why": "That is 'mutually exclusive', the opposite. If one happens the other can't, so knowing one changes the other's odds completely."
+        }
+      ]
+    },
+    {
+      "id": "law-of-large-numbers",
+      "term": "law of large numbers",
+      "unit": "q23",
+      "short": "Averages settle near the expected value",
+      "definition": "As the number of independent trials grows, the average result gets closer to the expected value. It is why a casino or a market maker with a small edge on many trades makes money steadily. It says nothing about the next single trial: after a losing streak the next bet is no more likely to win.",
+      "examples": [
+        "The edge is 1 paisa a trade, but over a million trades the law of large numbers makes it reliable.",
+        "Twenty trades are too few for the law of large numbers to show your real hit rate.",
+        "The law of large numbers is about averages over many bets, not about being 'due' a win."
+      ],
+      "fill": "A small edge becomes a steady profit over thousands of trades because of the ____.",
+      "confusables": [
+        "central-limit-theorem",
+        "regression-to-the-mean",
+        "gamblers-ruin"
+      ],
+      "wrong": [
+        "After a run of losses, a win becomes more likely",
+        "Bigger positions always mean bigger returns",
+        "Prices always return to their long-run average"
+      ],
+      "difficulty": 2,
+      "tf": [
+        {
+          "s": "By the law of large numbers, after ten reds in a row on a fair roulette wheel, black is more likely next.",
+          "a": false,
+          "why": "That is the gambler's fallacy. Spins are independent; the law only says the share of reds settles down over very many spins."
+        }
+      ]
+    },
+    {
+      "id": "central-limit-theorem",
+      "term": "central limit theorem",
+      "unit": "q23",
+      "short": "Averages of many draws look normal",
+      "definition": "The average (or sum) of many independent draws is close to normally distributed, whatever the shape of each draw, as long as its variance is finite. The spread of the average shrinks with the square root of the number of draws. It is why monthly returns look more normal than daily ones, and why fat-tailed data needs care.",
+      "examples": [
+        "Daily returns are fat-tailed, but by the central limit theorem the average over a year is close to normal.",
+        "The standard error of the mean falls with √n, straight from the central limit theorem.",
+        "Using the central limit theorem with only eight trades is asking for trouble."
+      ],
+      "fill": "The average of many independent returns is roughly normal, whatever each one looks like: the ____.",
+      "confusables": [
+        "law-of-large-numbers",
+        "normal-distribution",
+        "fat-tails"
+      ],
+      "wrong": [
+        "Prices always follow a normal distribution",
+        "Large samples always remove every bias",
+        "Volatility grows in step with time"
+      ],
+      "difficulty": 3,
+      "aliases": [
+        "CLT"
+      ],
+      "formula": "Standard error of the mean = σ ÷ √n",
+      "calcs": [
+        {
+          "q": "Daily returns have a standard deviation of 1%. Roughly what is the standard error of the average return over 100 days?",
+          "options": [
+            "0.1%",
+            "1%",
+            "0.01%",
+            "10%"
+          ],
+          "answer": 0,
+          "why": "σ ÷ √n = 1% ÷ √100 = 1% ÷ 10 = 0.1%."
+        }
+      ]
+    },
+    {
+      "id": "confidence-interval",
+      "term": "confidence interval",
+      "unit": "q23",
+      "short": "A range that likely holds the true value",
+      "definition": "A range around an estimate, built so that if you repeated the sampling many times, ranges built this way would contain the true value a stated share of the time, often 95%. Roughly, it is the estimate plus or minus about two standard errors. If a strategy's 95% interval for its mean return includes zero, you can't rule out that it has no edge.",
+      "examples": [
+        "The mean daily return is 0.05%, but the 95% confidence interval runs from −0.01% to 0.11%, so it includes zero.",
+        "Report the Sharpe ratio with a confidence interval, not just the point estimate.",
+        "Ten more years of data narrowed the confidence interval a lot."
+      ],
+      "fill": "Estimate plus or minus about two standard errors gives a 95% ____.",
+      "confusables": [
+        "statistical-significance",
+        "p-value",
+        "standard-deviation"
+      ],
+      "wrong": [
+        "The range of prices the stock traded in today",
+        "The maximum loss expected on 95% of days",
+        "The band the RBI keeps the rupee in"
+      ],
+      "difficulty": 3,
+      "calcs": [
+        {
+          "q": "A strategy's mean daily return is 0.05% with a standard error of 0.03%. Roughly what is the 95% confidence interval?",
+          "options": [
+            "About −0.01% to 0.11%",
+            "About 0.02% to 0.08%",
+            "About 0.04% to 0.06%",
+            "About −0.05% to 0.15%"
+          ],
+          "answer": 0,
+          "why": "0.05% ± 1.96 × 0.03% ≈ 0.05% ± 0.06%, so about −0.01% to 0.11%. It includes zero, so the edge isn't proven."
+        }
+      ]
+    },
+    {
+      "id": "null-hypothesis",
+      "term": "null hypothesis",
+      "unit": "q23",
+      "short": "The 'no effect' claim a test tries to reject",
+      "definition": "The default assumption a statistical test starts from, usually that there is no effect: the strategy's mean return is zero, the signal has no link to future returns. A small p-value means the data would be unlikely if the null were true, so you reject it. Failing to reject it doesn't prove it.",
+      "examples": [
+        "The null hypothesis is that the signal's IC is zero; with a t-stat of 3.5 we reject it.",
+        "We couldn't reject the null hypothesis, which doesn't mean the strategy is useless, only unproven.",
+        "State the null hypothesis before you look at the backtest."
+      ],
+      "fill": "A test starts from the ____ that the strategy has no edge, and asks if the data can reject it.",
+      "confusables": [
+        "p-value",
+        "statistical-significance",
+        "t-statistic"
+      ],
+      "wrong": [
+        "The result you hope the test will prove",
+        "The return of the benchmark index",
+        "The chance the result is a fluke"
+      ],
+      "difficulty": 3,
+      "tf": [
+        {
+          "s": "If a test fails to reject the null hypothesis, the null is proven true.",
+          "a": false,
+          "why": "It means only that the data isn't strong enough to rule it out. With little data, a real effect often fails to reach significance."
+        }
+      ]
     }
   ]
 }

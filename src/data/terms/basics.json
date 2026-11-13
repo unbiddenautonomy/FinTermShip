@@ -1608,6 +1608,47 @@
       "difficulty": 1
     },
     {
+      "id": "real-return",
+      "term": "real return",
+      "unit": "b5",
+      "short": "Return after inflation",
+      "definition": "What an investment earns once inflation is taken out, so it measures what your money can actually buy. Roughly, it is the nominal return minus inflation. A 7% fixed deposit with 6% inflation earns only about 1% in real terms, before tax.",
+      "examples": [
+        "The FD pays 7%, but with inflation at 5% the real return is under 2%.",
+        "Equities have beaten inflation over long periods; that's their real return.",
+        "In a year when inflation beat the coupon, the bond's real return was negative."
+      ],
+      "fill": "Return after taking inflation out is the ____.",
+      "confusables": [
+        "return",
+        "inflation",
+        "total-return"
+      ],
+      "wrong": [
+        "Return after tax",
+        "Return including dividends",
+        "Return compared with the index"
+      ],
+      "difficulty": 1,
+      "aliases": [
+        "inflation-adjusted return"
+      ],
+      "formula": "Real return = (1 + nominal) ÷ (1 + inflation) − 1 ≈ nominal − inflation",
+      "calcs": [
+        {
+          "q": "A deposit pays 7% and inflation is 5%. What is the real return, exactly?",
+          "options": [
+            "About 1.9%",
+            "2%",
+            "12%",
+            "About 1.4%"
+          ],
+          "answer": 0,
+          "why": "1.07 ÷ 1.05 − 1 ≈ 1.9%. The quick estimate 7% − 5% = 2% is close but a little high."
+        }
+      ]
+    },
+    {
       "id": "share",
       "term": "share",
       "aliases": [
