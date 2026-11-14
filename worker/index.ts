@@ -13,6 +13,7 @@ import { mergeProgress } from '../src/lib/sync';
 import type { Progress } from '../src/lib/types';
 import { ALWAYS_ON, isModeId, MODES } from '../src/lib/modes/ids';
 import { askCards, countAsk } from './cards';
+import { dealDeck, markCall } from './callit';
 import { dealRound, markRound } from './rounds';
 import { signInPage } from './signin';
 
@@ -400,6 +401,16 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     // Recorded like packs, so the admin sees each account's rounds.
     if (out.items.length) await db.batch(out.items.map((x) => db.prepare('INSERT OR IGNORE INTO packs (user_id, pack, issued) VALUES (?, ?, ?)').bind(user.id, `round:${x.id}`, now)));
     return json(out);
+  }
+
+  // ---------- Call It ----------
+  // A deck is dealt without whether each claim is true, and each call is marked here (worker/callit.ts).
+  if (route === 'POST /api/callit' || route === 'POST /api/callit/mark') {
+    if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
+    const b = await body();
+    if (route === 'POST /api/callit') return json(dealDeck(user, b.ids, b.known));
+    const out = markCall(user, b.termId, b.text);
+    return 'error' in out ? fail(400, out.error) : json(out);
   }
 
   // The password for the quant switch and phase 3: right once, and the account keeps both.

@@ -3,10 +3,10 @@
  * button, arrow key or a flick of the card. Every call goes to the shared record as weak
  * evidence: a right call is practice, and a wrong one brings the term back for review tomorrow.
  */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { termById } from '../../lib/content';
-import { ensureCards } from '../../lib/cards';
-import { buildDeck, deckWants, type Claim } from '../../lib/modes/claims';
+import { DECK_SIZE, deckTermIds } from '../../lib/modes/claims';
+import { dealDeck, markCall } from '../../lib/modes/roundApi';
 import { finishModeSession, kpis, modeRecord, recordAnswer, type Kpis, type ModeId } from '../../lib/modes/knowledge';
 import { areaOf, termStatus } from '../../lib/modes/status';
 import { seededRng } from '../../lib/questions';
@@ -25,15 +25,19 @@ interface Props {
   onMode: (m: ModeId) => void;
 }
 
-type Call = { claim: Claim; said: boolean; right: boolean };
+/** A claim as dealt: its text, without whether it is true. The truth and why come when it is called. */
+type Dealt = { termId: string; text: string };
+type Call = { claim: Dealt & { truth: boolean; why: string }; said: boolean; right: boolean };
 
 const FLICK = 90;
 
 export function CallIt({ progress, today, onProgress, onMode }: Props) {
   const [seed, setSeed] = useState(() => Date.now() % 2_147_483_647);
-  // Each deck's cards come from the server as it is dealt; the deck is built once they are here.
-  const [dealt, setDealt] = useState<{ seed: number; failed: string | null } | null>(null);
-  const deck = useMemo(() => (dealt?.seed === seed ? buildDeck(progress, today, seededRng(seed)) : []), [seed, dealt]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Each deck is dealt by the server without the answers; each call is marked there.
+  const [dealt, setDealt] = useState<{ seed: number; failed: string | null; deck: Dealt[] } | null>(null);
+  const deck = dealt?.seed === seed ? dealt.deck : [];
+  const [marking, setMarking] = useState(false);
+  const [callError, setCallError] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
   const [calls, setCalls] = useState<Call[]>([]);
   const [run, setRun] = useState(0);
@@ -55,9 +59,13 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
 
   useEffect(() => {
     let live = true;
-    void ensureCards(deckWants(progressRef.current, today, seededRng(seed))).then((failed) => {
-      if (live) setDealt({ seed, failed });
-    });
+    const p = progressRef.current;
+    const ids = deckTermIds(p, today, seededRng(seed), DECK_SIZE);
+    const known = [...new Set(ids.flatMap((id) => termById.get(id)?.confusables ?? []))].filter((id) => p.terms[id]);
+    (ids.length ? dealDeck(ids, known) : Promise.resolve([])).then(
+      (d) => live && setDealt({ seed, failed: null, deck: d }),
+      (e: Error) => live && setDealt({ seed, failed: e.message, deck: [] }),
+    );
     return () => {
       live = false;
     };
@@ -69,18 +77,31 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   }, [index, seed, dealt]);
 
   const call = useCallback(
-    (said: boolean) => {
-      if (!card || answered || done) return;
-      const right = said === card.truth;
-      const p = recordAnswer(progressRef.current, { termId: card.termId, correct: right, ms: Date.now() - shownAt.current, evidence: 'weak', mode: 'callit' }, today);
+    async (said: boolean) => {
+      if (!card || answered || done || marking) return;
+      const ms = Date.now() - shownAt.current;
+      setMarking(true);
+      setCallError(null);
+      let answer: { truth: boolean; why: string };
+      try {
+        answer = await markCall(card.termId, card.text);
+      } catch (e) {
+        setCallError(e instanceof Error ? e.message : 'That call didn’t go through. Try again.');
+        setDrag(0);
+        return;
+      } finally {
+        setMarking(false);
+      }
+      const right = said === answer.truth;
+      const p = recordAnswer(progressRef.current, { termId: card.termId, correct: right, ms, evidence: 'weak', mode: 'callit' }, today);
       onProgress(p);
-      setCalls((c) => [...c, { claim: card, said, right }]);
+      setCalls((c) => [...c, { claim: { ...card, ...answer }, said, right }]);
       const r = right ? run + 1 : 0;
       setRun(r);
       setBestRun((b) => Math.max(b, r));
       setDrag(said ? 400 : -400);
     },
-    [card, answered, done, run, today, onProgress],
+    [card, answered, done, marking, run, today, onProgress],
   );
 
   const next = useCallback(() => {
@@ -111,8 +132,8 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
     const onKey = (e: KeyboardEvent) => {
       if (sheet || done) return;
       if (!answered) {
-        if (e.key === 'ArrowRight' || e.key === 't') call(true);
-        else if (e.key === 'ArrowLeft' || e.key === 'f') call(false);
+        if (e.key === 'ArrowRight' || e.key === 't') void call(true);
+        else if (e.key === 'ArrowLeft' || e.key === 'f') void call(false);
       } else if (e.key === 'Enter' || e.key === ' ' || e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
         e.preventDefault();
         next();
@@ -274,8 +295,8 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
           onPointerUp={() => {
             if (dragFrom.current === null) return;
             dragFrom.current = null;
-            if (drag > FLICK) call(true);
-            else if (drag < -FLICK) call(false);
+            if (drag > FLICK) void call(true);
+            else if (drag < -FLICK) void call(false);
             else setDrag(0);
           }}
           onPointerCancel={() => {
@@ -308,10 +329,10 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
                   <span className={`flex h-8 w-8 items-center justify-center rounded-full text-white ${last!.right ? 'bg-good' : 'bg-bad'}`}>
                     {last!.right ? <Check className="h-4 w-4" /> : <Cross className="h-4 w-4" />}
                   </span>
-                  {last!.right ? 'Right call' : 'Wrong call'}: it's {card.truth ? 'true' : 'false'}
+                  {last!.right ? 'Right call' : 'Wrong call'}: it's {last!.claim.truth ? 'true' : 'false'}
                 </p>
                 <p className="text-sm italic text-ink-3">“{card.text}”</p>
-                <p className="leading-relaxed text-ink-2">{card.why}</p>
+                <p className="leading-relaxed text-ink-2">{last!.claim.why}</p>
                 <button type="button" onClick={() => setSheet(card.termId)} className="text-sm font-extrabold text-sky-ink">
                   Open {term.term}
                 </button>
@@ -328,18 +349,23 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
         </div>
       </div>
 
+      {callError && !answered && (
+        <p className="text-center text-sm font-bold text-bad-ink" role="alert">
+          {callError}
+        </p>
+      )}
       {!answered ? (
-        <div className="grid grid-cols-2 gap-4">
+        <div className={`grid grid-cols-2 gap-4 ${marking ? 'pointer-events-none opacity-60' : ''}`} aria-busy={marking}>
           <button
             type="button"
-            onClick={() => call(false)}
+            onClick={() => void call(false)}
             className="flex items-center justify-center gap-2 rounded-lg border-2 border-ink bg-bad-strong py-4 text-xl font-extrabold uppercase tracking-wide text-white shadow-[5px_5px_0_rgb(var(--ink))] transition active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
           >
             <span aria-hidden="true">←</span> False
           </button>
           <button
             type="button"
-            onClick={() => call(true)}
+            onClick={() => void call(true)}
             className="flex items-center justify-center gap-2 rounded-lg border-2 border-ink bg-good-strong py-4 text-xl font-extrabold uppercase tracking-wide text-white shadow-[5px_5px_0_rgb(var(--ink))] transition active:translate-x-[3px] active:translate-y-[3px] active:shadow-none"
           >
             True <span aria-hidden="true">→</span>
