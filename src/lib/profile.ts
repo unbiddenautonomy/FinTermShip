@@ -2,12 +2,24 @@
  * Small personal touches: the learner's name and the role they are preparing
  * for. Both optional, kept in settings, so they sync with the account.
  */
-import careerData from '../data/careers.json';
 import { MOCKS, mockReady } from './mock';
-import type { CareerMap, Progress } from './types';
+import type { Progress } from './types';
 
-const careers = careerData as CareerMap;
-export const ROLES = careers.roles.map((r) => ({ id: r.id, title: r.title }));
+/**
+ * The roles on the career map, by id and title only: the map itself (src/data/careers.json)
+ * loads with the Careers screen. A test checks this list matches it.
+ */
+export const ROLES: { id: string; title: string }[] = [
+  { id: "quant-trader", title: "Quant trader" },
+  { id: "quant-researcher", title: "Quant researcher" },
+  { id: "quant-developer", title: "Quant developer" },
+  { id: "execution-trader", title: "Execution trader" },
+  { id: "risk-manager", title: "Risk manager" },
+  { id: "rates-fx-trader", title: "Rates and currency trader" },
+  { id: "equity-research-analyst", title: "Equity research analyst" },
+  { id: "credit-analyst", title: "Credit analyst" },
+  { id: "commodities-trader", title: "Commodities trader" },
+];
 export const NAME_MAX = 30;
 
 /** The first word of the name, or '' when none is set. */
@@ -18,7 +30,7 @@ export function firstName(p: Progress): string {
 /** ", Nachi" when a name is set, '' otherwise: for the end of a short line. */
 export const comma = (p: Progress) => (firstName(p) ? `, ${firstName(p)}` : '');
 
-export const targetRole = (p: Progress) => careers.roles.find((r) => r.id === p.settings.target);
+export const targetRole = (p: Progress) => ROLES.find((r) => r.id === p.settings.target);
 
 /** Timed mock rounds counted as interview-ready, out of all of them. */
 export function mocksReady(p: Progress): { ready: number; total: number } {
