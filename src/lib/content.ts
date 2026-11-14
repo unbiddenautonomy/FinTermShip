@@ -1,5 +1,5 @@
 import outline from '../data/outline.json';
-import { CARD_FIELDS, type Card, type Category, type DeskCase, type PracticeKind, type TalkItem, type Term, type Unit, type WrittenClaim } from './types';
+import { CARD_FIELDS, type Card, type Category, type PracticeKind, type TalkItem, type Term, type Unit, type WrittenClaim } from './types';
 
 /**
  * The syllabus as the app ships it: areas, units and each term's name, from
@@ -141,9 +141,6 @@ export const getCardsVersion = () => cardsVersion;
 export function talkTerms(i: TalkItem): string[] {
   return [i.term, ...(i.also ?? [])];
 }
-
-/** Desk cases in full, by unit id. A case comes from the server when the learner opens it (src/lib/packs.ts). */
-export const caseById = new Map<string, DeskCase>();
 
 /** What a case's unit sheet shows before it starts: its setup (not for phase 3) and how many decisions it has. */
 export const caseSummary = new Map<string, { setup?: string; steps: number }>(Object.entries((outline as { cases: Record<string, { setup?: string; steps: number }> }).cases));

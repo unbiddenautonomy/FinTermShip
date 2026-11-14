@@ -1,10 +1,9 @@
-import { afterEach, describe, expect, it } from 'vitest';
+import { describe, expect, it } from 'vitest';
 import headlinesJson from '../../data/modes/headlines.json';
 import boardsJson from '../../data/modes/finnections.json';
 import { buildPacks } from '../cardData';
 import { categories, termById } from '../content';
 import { addDays } from '../dates';
-import { applyPacks, clearPacks } from '../packs';
 import { seededRng } from '../questions';
 import { graduate, introduce, newProgress } from '../scheduler';
 import type { Progress } from '../types';
@@ -30,11 +29,6 @@ const headlines = headlinesJson as Headline[];
 const boards = boardsJson as Board[];
 const phase3 = new Set(categories.filter((c) => c.phase === 3).flatMap((c) => c.terms.map((t) => t.id)));
 const all = Object.fromEntries(buildPacks());
-
-afterEach(() => {
-  clearPacks();
-  applyPacks(all);
-});
 
 /** Meet these terms, each at a step and due on a given day. */
 function learner(ids: string[], step = 2, due = addDays(today, 5)): Progress {

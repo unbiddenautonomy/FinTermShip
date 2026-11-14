@@ -4,7 +4,7 @@
  * until passed, and can be skipped for a day.
  */
 import { settleFocus } from './choose';
-import { caseById, caseSummary, practiceKind } from './content';
+import { caseSummary, practiceKind } from './content';
 import { clock, DRILLS } from './drills';
 import { gameSpec } from './games';
 import { finishLesson } from './scheduler';
@@ -43,7 +43,7 @@ export function passRule(unitId: string): string {
   return '';
 }
 
-/** What a case's sheet says before the case has come from the server. */
+/** What a phase 3 case's sheet says: its story is dealt only once the case is opened. */
 export const CASE_UNSEEN = 'A short story of linked decisions on the desk. The story starts when you open the case.';
 
 /** A short description for the unit sheet. */
@@ -51,8 +51,7 @@ export function practiceAbout(unitId: string): string {
   const kind = practiceKind(unitId);
   if (kind === 'drill') return DRILLS[unitId]?.about ?? '';
   if (kind === 'game') return gameSpec(unitId)?.about ?? '';
-  // A phase 3 case's setup comes from the server with the case itself, the first time it's opened.
-  if (kind === 'case') return caseSummary.get(unitId)?.setup ?? caseById.get(unitId)?.setup ?? CASE_UNSEEN;
+  if (kind === 'case') return caseSummary.get(unitId)?.setup ?? CASE_UNSEEN;
   return '';
 }
 

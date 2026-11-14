@@ -1,12 +1,13 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { glossOrUnit, termById } from '../lib/content';
-import { clipSpeech, MEETING, MEETING_QUESTIONS, meetingPassed, newMeetingRound, SETTINGS } from '../lib/meeting';
+import { clipSpeech, MEETING, MEETING_QUESTIONS, meetingPassed, SETTINGS, type Clip } from '../lib/meeting';
+import { markPractice } from '../lib/modes/roundApi';
 import { finishGame } from '../lib/practice';
-import { seededRng } from '../lib/questions';
 import { canSpeak, speak } from '../lib/speech';
 import { Choices, GameFrame, Verdict, type GameProps } from './GameFrame';
 import { ChatIcon, Speaker } from './icons';
 import { Bar, Button } from './ui';
+import { PracticeWait, usePractice } from './usePractice';
 
 /** How fast the lines of a clip appear, like people taking turns. */
 const LINE_MS = 1600;
@@ -14,10 +15,22 @@ const LINE_MS = 1600;
 interface Answer {
   picked: number | null;
   right: boolean;
+  /** The right option and why, as the server marked it. */
+  answer: number;
+  why: string;
 }
 
-export function MeetingGame({ unitId, seed, progress, today, onProgress, onFinish, onQuit }: GameProps) {
-  const items = useMemo(() => newMeetingRound(seededRng(seed)), [seed]);
+/** A clip as dealt: its lines and questions, each question's options shuffled and none marked right. */
+type DealtClip = Pick<Clip, 'id' | 'setting' | 'title' | 'lines' | 'terms'> & { questions: { q: string; options: string[] }[] };
+
+export function MeetingGame(props: GameProps) {
+  const dealt = usePractice<{ items: DealtClip[] }>('meeting', props.seed);
+  if (!dealt.round) return <PracticeWait error={dealt.error} onRetry={dealt.retry} onQuit={props.onQuit} />;
+  return <MeetingRound {...props} items={dealt.round.items.map((clip) => ({ clip, questions: clip.questions }))} />;
+}
+
+function MeetingRound({ unitId, progress, today, onProgress, onFinish, onQuit, items }: GameProps & { items: { clip: DealtClip; questions: { q: string; options: string[] }[] }[] }) {
+  const [marking, setMarking] = useState(false);
   const [clipIndex, setClipIndex] = useState(0);
   const [qIndex, setQIndex] = useState(0);
   const [shown, setShown] = useState(1);
@@ -40,8 +53,18 @@ export function MeetingGame({ unitId, seed, progress, today, onProgress, onFinis
     return () => clearTimeout(t);
   }, [shown, allShown]);
 
-  const answer = (picked: number | null) => {
-    setAnswers((a) => (a.length > flat ? a : [...a, { picked, right: picked === question.answer }]));
+  const answer = async (picked: number | null) => {
+    if (answers.length > flat || marking) return;
+    setMarking(true);
+    try {
+      const m = await markPractice<{ answer: string; why: string }>({ kind: 'meeting', id: clip.id, q: qIndex });
+      const right = question.options.indexOf(m.answer);
+      setAnswers((a) => (a.length > flat ? a : [...a, { picked, right: picked === right, answer: right, why: m.why }]));
+    } catch {
+      // Not marked: the question stays open to answer again.
+    } finally {
+      setMarking(false);
+    }
   };
 
   // Half a minute a question, once the whole clip is on screen. Running out counts as wrong.
@@ -50,10 +73,14 @@ export function MeetingGame({ unitId, seed, progress, today, onProgress, onFinis
   useEffect(() => {
     if (!allShown || locked) return;
     const started = performance.now();
+    let fired = false;
     const t = setInterval(() => {
       const remaining = Math.max(0, MEETING.seconds - Math.floor((performance.now() - started) / 1000));
       setLeft(remaining);
-      if (remaining === 0) answerRef.current(null);
+      if (remaining === 0 && !fired) {
+        fired = true;
+        void answerRef.current(null);
+      }
     }, 250);
     return () => clearInterval(t);
   }, [allShown, locked, clipIndex, qIndex]);
@@ -176,10 +203,10 @@ export function MeetingGame({ unitId, seed, progress, today, onProgress, onFinis
             </span>
           </div>
           {!locked && <Bar value={left} max={MEETING.seconds} tone={left <= 8 ? 'bad' : 'brand'} label="Time left" />}
-          <Choices labels={question.options} picked={locked ? (a.picked ?? -1) : null} answer={question.answer} onPick={(i) => answer(i)} />
+          <Choices labels={question.options} picked={locked ? (a.picked ?? -1) : null} answer={locked ? a.answer : -1} onPick={(i) => void answer(i)} />
           {locked && (
             <Verdict good={a.right} title={a.right ? 'Right' : a.picked === null ? 'Out of time' : 'Not quite'} next={last ? 'See how you did' : qIndex + 1 < item.questions.length ? 'Next question' : 'Next clip'} onNext={next}>
-              <p className="leading-relaxed text-ink-2">{question.why}</p>
+              <p className="leading-relaxed text-ink-2">{a.why}</p>
             </Verdict>
           )}
         </section>

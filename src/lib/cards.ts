@@ -5,12 +5,11 @@
  * opens a term, deals a round (worker/cards.ts). There is no download of
  * everything given so far, and nothing is kept on the device: cards live in
  * memory for this session and go when the page closes or someone else signs in.
- * Packs (desk cases and game content, src/lib/packs.ts) come the same way,
- * when the learner opens that case or game.
+ * Desk cases, games and modes never come whole: the server deals one round
+ * at a time without its answers (src/lib/modes/roundApi.ts).
  */
 import { applyCards, clearCards, hasCard, termById } from './content';
 import type { LessonPlan } from './lesson';
-import { applyPacks, clearPacks, hasPack } from './packs';
 import type { Card } from './types';
 
 // ---------- Talking to the server ----------
@@ -26,7 +25,6 @@ interface CardsReply {
   version: string;
   at: number;
   cards: Record<string, Card>;
-  packs?: Record<string, unknown>;
   /** Asked-for terms the server would not give (yet), and why. */
   refused?: string[];
   reason?: string;
@@ -53,9 +51,8 @@ async function call(method: 'POST', path: string, body?: unknown): Promise<Cards
 let account: string | null = null;
 
 /** Put what the server sent where the app reads it. */
-function apply(from: { cards: Record<string, Card>; packs?: Record<string, unknown> }) {
+function apply(from: { cards: Record<string, Card> }) {
   applyCards(from.cards);
-  if (from.packs) applyPacks(from.packs);
 }
 
 export type CardsStatus = 'loading' | 'ready' | 'offline' | 'signed-out' | 'error';
@@ -68,10 +65,7 @@ export type CardsStatus = 'loading' | 'ready' | 'offline' | 'signed-out' | 'erro
  */
 export function startCards(email: string): CardsStatus {
   if (account !== email) {
-    if (account) {
-      clearCards();
-      clearPacks();
-    }
+    if (account) clearCards();
     tried.clear();
     account = email;
   }
@@ -96,12 +90,11 @@ function forgetStoredCards() {
   }
 }
 
-/** Every card and pack at once, for `npm run dev`, which has no server. Never part of the production build. */
+/** Every card at once, for `npm run dev`, which has no server. Never part of the production build. */
 export async function loadAllCardsForDev(): Promise<CardsStatus> {
   if (import.meta.env.DEV) {
-    const { buildCards, buildPacks } = await import('./cardData');
+    const { buildCards } = await import('./cardData');
     applyCards(Object.fromEntries(buildCards()));
-    applyPacks(Object.fromEntries(buildPacks()));
     return 'ready';
   }
   return 'error';
@@ -146,29 +139,6 @@ export function wantCards(ids: string[]): void {
   void ensureCards(need).then((failed) => {
     if (failed) setTimeout(() => need.forEach((id) => tried.delete(id)), 30_000);
   });
-}
-
-/**
- * Get packs (a desk case, a game's content) before the learner opens them.
- * Resolves to null when they are all here, or to a sentence saying why not.
- */
-export async function ensurePacks(ids: string[]): Promise<string | null> {
-  const need = [...new Set(ids)].filter((id) => !hasPack(id));
-  if (!need.length) return null;
-  if (import.meta.env.DEV) return loadAllCardsForDev().then(() => null);
-  try {
-    let reason: string | undefined;
-    for (let i = 0; i < need.length; i += 4) {
-      const reply = await call('POST', 'cards', { ids: [], packs: need.slice(i, i + 4) });
-      apply(reply);
-      reason ??= reply.reason;
-    }
-    if (need.some((id) => !hasPack(id))) return reason ?? 'This could not be loaded. Try again in a moment.';
-    return null;
-  } catch (e) {
-    if (e instanceof CardsError && e.status === 401) return 'Your session has ended. Reload the page to sign in again.';
-    return e instanceof Error ? e.message : 'Something went wrong.';
-  }
 }
 
 /** Every term a lesson plan shows or asks about. */
