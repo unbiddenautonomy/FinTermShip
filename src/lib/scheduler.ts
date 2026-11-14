@@ -218,3 +218,12 @@ export function currentStreak(p: Progress, today: string): number {
 export function isKnown(s: TermState | undefined): boolean {
   return !!s && s.step >= KNOWN_STEP;
 }
+
+/**
+ * Known today: high enough on the ladder and not waiting on a review. A known term that falls due
+ * counts as Due until it is reviewed, so every met term is exactly one of Learning, Due or Known,
+ * and the KPI strip, the metro stations and the Exchange's blue chips always add up the same way.
+ */
+export function isKnownOn(s: TermState | undefined, today: string): boolean {
+  return isKnown(s) && !isDueOn(s, today);
+}

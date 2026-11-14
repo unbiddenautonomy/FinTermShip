@@ -50,7 +50,7 @@ function fingerprint(text: string): string {
 const built = (() => {
   const cards = buildCards();
   const packs = buildPacks();
-  // Term ids and pack ids ('case:<unit>') that need phase 3.
+  // Term ids and pack ids ('case:<unit>', and the ':p3' content packs) that need phase 3.
   const phase3 = new Set<string>();
   const core = new Map<string, Set<string>>();
   for (const c of fullCategories) {
@@ -62,6 +62,7 @@ const built = (() => {
     }
   }
   core.set('phase3', new Set(PHASE3_PREREQS));
+  for (const id of packs.keys()) if (id.endsWith(':p3')) phase3.add(id);
   return { cards, packs, phase3, core, version: fingerprint(JSON.stringify([...cards, ...packs])) };
 })();
 
@@ -175,7 +176,7 @@ export async function askPacks(db: CardsDb, user: CardsUser, ids: unknown, now: 
     if (given.has(id)) continue;
     if (phase3.has(id) && !user.phase3 && !user.admin) {
       refused.push(id);
-      reason = 'Phase 3 cases open once phase 3 is unlocked on your account.';
+      reason = 'Phase 3 content opens once phase 3 is unlocked on your account.';
     } else fresh.push(id);
   }
   let allowed = fresh;
