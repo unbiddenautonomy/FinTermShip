@@ -8,6 +8,7 @@
 import type { DealtPlan, DealtQuestion } from '../../worker/session';
 import { applyCards } from './content';
 import { call } from './modes/roundApi';
+import type { Sum } from './mock';
 import type { Card, Progress } from './types';
 
 export type { DealtPlan, DealtQuestion };
@@ -57,7 +58,7 @@ export async function startSession(recipe: Recipe, progress: Progress, today: st
 }
 
 /** Mark a pick: the right option, the reason, and the term's card (put where the feedback reads it). */
-export async function markPick(q: PickQuestion): Promise<Marked> {
+export async function markPick(q: Pick<PickQuestion, 'termId' | 'token'>): Promise<Marked> {
   let out: Marked & { card?: Card };
   if (import.meta.env.DEV) {
     const { s, key } = await dev();
@@ -78,4 +79,13 @@ export async function markPair(token: string, left: number, right: number): Prom
     return !!r.correct;
   }
   return (await call<{ correct: boolean }>('mark', { token, pair: [left, right] })).correct;
+}
+
+/** A mock round's worked sums: from the learner's met terms, sealed until the round is marked. */
+export async function dealSums(round: string, progress: Progress): Promise<Sum[]> {
+  if (import.meta.env.DEV) {
+    const { s, key } = await dev();
+    return s.dealSums(key, 0, s.mockSumTerms(round, progress) ?? [], Date.now() % 2_147_483_647);
+  }
+  return (await call<{ sums: Sum[] }>('sums', { round, progress })).sums;
 }

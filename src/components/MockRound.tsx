@@ -1,8 +1,9 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { ANSWER_HINT, checkAnswer, clock } from '../lib/drills';
-import { isRight, mockByRound, mockReady, MOCK_MIN, MOCK_READY, newMock, recordMock, type MockAnswer, type MockQuestion } from '../lib/mock';
+import { hasSums, isRight, mockByRound, mockReady, MOCK_MIN, MOCK_READY, newMock, recordMock, type MockAnswer, type MockQuestion, type Sum } from '../lib/mock';
 import { comma } from '../lib/profile';
 import { seededRng } from '../lib/questions';
+import { dealSums, markPick } from '../lib/session';
 import type { Progress } from '../lib/types';
 import { Briefcase, Check, Cross } from './icons';
 import { Bar, Button, Card, ConfirmDialog, Pill } from './ui';
@@ -15,13 +16,32 @@ interface Props {
   onBack: () => void;
 }
 
-type Phase = 'intro' | 'run' | 'done';
+type Phase = 'intro' | 'run' | 'marking' | 'done';
 
 /** A timed mock of one interview round: one clock, no feedback until the end. */
 export function MockRound({ round, progress, today, onProgress, onBack }: Props) {
   const spec = mockByRound.get(round)!;
   const [seed, setSeed] = useState(() => Date.now() % 2_147_483_647);
-  const questions = useMemo(() => newMock(spec, seededRng(seed)), [spec, seed]);
+  // Worked sums come from the server, sealed; a round of drills alone needs none.
+  const [sums, setSums] = useState<{ seed: number; list: Sum[] | null; error: string | null }>({ seed: -1, list: null, error: null });
+  const needSums = hasSums(spec);
+  useEffect(() => {
+    if (!needSums || sums.seed === seed) return;
+    let live = true;
+    dealSums(round, progressRef.current).then(
+      (list) => live && setSums({ seed, list, error: null }),
+      (e: unknown) => live && setSums({ seed, list: null, error: e instanceof Error ? e.message : 'The sums could not be loaded. Try again in a moment.' }),
+    );
+    return () => {
+      live = false;
+    };
+  }, [needSums, round, seed, sums.seed]);
+  const sumsReady = !needSums || (sums.seed === seed && !!sums.list);
+  const dealt = useMemo(() => (sumsReady ? newMock(spec, seededRng(seed), sums.list ?? []) : []), [spec, seed, sumsReady, sums.list]);
+  /** The round once marked: each sum's answer and working filled in. */
+  const [marked, setMarked] = useState<MockQuestion[] | null>(null);
+  const [markError, setMarkError] = useState<string | null>(null);
+  const questions = marked ?? dealt;
   const [phase, setPhase] = useState<Phase>('intro');
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<MockAnswer[]>([]);
@@ -35,18 +55,30 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
   progressRef.current = progress;
   const best = progress.mocks?.[round];
 
+  /** The round is over: the server marks its sums, then it is scored. */
   const finish = useCallback(
-    (all: MockAnswer[]) => {
-      const full = questions.map((_, i) => all[i] ?? null);
+    async (all: MockAnswer[]) => {
+      const full = dealt.map((_, i) => all[i] ?? null);
       setAnswers(full);
-      const right = questions.filter((q, i) => isRight(q, full[i])).length;
-      onProgress(recordMock(progressRef.current, round, right, questions.length, today));
+      setPhase('marking');
+      setMarkError(null);
+      let out: MockQuestion[];
+      try {
+        out = await Promise.all(dealt.map(async (q) => (q.kind === 'choice' ? { ...q, ...(await markPick(q.sum)) } : q)));
+      } catch (e) {
+        setMarkError(e instanceof Error ? e.message : 'The round could not be marked. Try again in a moment.');
+        return;
+      }
+      setMarked(out);
+      const right = out.filter((q, i) => isRight(q, full[i])).length;
+      onProgress(recordMock(progressRef.current, round, right, out.length, today));
       setPhase('done');
     },
-    [questions, round, today, onProgress],
+    [dealt, round, today, onProgress],
   );
 
   const start = () => {
+    setMarked(null);
     setIndex(0);
     setAnswers([]);
     setInput('');
@@ -67,7 +99,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
       if (ms <= 0) {
         clearInterval(t);
         setLeft(0);
-        finish(answersRef.current);
+        void finish(answersRef.current);
       } else setLeft(ms);
     }, 250);
     return () => clearInterval(t);
@@ -82,7 +114,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
     setInput('');
     setPicked(null);
     setHint(null);
-    if (index + 1 >= questions.length) finish(all);
+    if (index + 1 >= questions.length) void finish(all);
     else setIndex(index + 1);
   };
 
@@ -131,9 +163,41 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
             </p>
           )}
         </Card>
-        <Button className="w-full" onClick={start} disabled={questions.length < MOCK_MIN}>
-          Start the clock
-        </Button>
+        {needSums && !sumsReady ? (
+          sums.error && sums.seed === seed ? (
+            <div className="space-y-3" role="alert">
+              <p className="text-sm font-bold text-bad-ink">{sums.error}</p>
+              <Button variant="secondary" className="w-full" onClick={() => setSums((x) => ({ ...x, seed: -1, error: null }))}>
+                Try again
+              </Button>
+            </div>
+          ) : (
+            <p className="text-sm font-semibold text-ink-3">Getting the round ready…</p>
+          )
+        ) : (
+          <Button className="w-full" onClick={start} disabled={questions.length < MOCK_MIN}>
+            Start the clock
+          </Button>
+        )}
+      </div>
+    );
+  }
+
+  if (phase === 'marking') {
+    return (
+      <div className="mx-auto max-w-xl lg:max-w-2xl space-y-4 px-4 pb-32 pt-10 text-center">
+        {markError ? (
+          <>
+            <p className="font-bold text-bad-ink" role="alert">
+              {markError}
+            </p>
+            <Button className="w-full" onClick={() => void finish(answers)}>
+              Try again
+            </Button>
+          </>
+        ) : (
+          <p className="font-semibold text-ink-3">Marking your round…</p>
+        )}
       </div>
     );
   }
@@ -163,6 +227,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
             variant="secondary"
             onClick={() => {
               setSeed((s) => (s * 48271) % 2_147_483_647);
+              setMarked(null);
               setPhase('intro');
             }}
           >
@@ -200,11 +265,6 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
         <p key={index} className="animate-pop text-xl font-extrabold leading-snug tracking-tight text-ink">
           {q.prompt}
         </p>
-        {q.kind === 'choice' && q.code && (
-          <pre className="mt-4 overflow-x-auto rounded-2xl bg-sunken p-4 font-mono text-[13px] leading-relaxed text-ink">
-            <code>{q.code}</code>
-          </pre>
-        )}
 
         {q.kind === 'typed' ? (
           <form
@@ -247,7 +307,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
                 aria-checked={picked === i}
                 data-key="choice"
                 onClick={() => setPicked(i)}
-                className={`w-full rounded-2xl border-2 px-4 py-3 text-left font-semibold transition ${q.code && /print/.test(q.prompt) ? 'font-mono text-[15px]' : ''} ${picked === i ? 'border-violet bg-violet-soft text-ink' : 'border-line bg-surface text-ink hover:border-violet/50'}`}
+                className={`w-full rounded-2xl border-2 px-4 py-3 text-left font-semibold transition ${picked === i ? 'border-violet bg-violet-soft text-ink' : 'border-line bg-surface text-ink hover:border-violet/50'}`}
               >
                 {o}
               </button>
@@ -281,7 +341,7 @@ export function MockRound({ round, progress, today, onProgress, onBack }: Props)
 function ReviewRow({ n, q, a }: { n: number; q: MockQuestion; a: MockAnswer }) {
   const good = isRight(q, a);
   const yours = a === null ? 'Skipped' : q.kind === 'typed' ? String(a) : q.options[a as number];
-  const answer = q.kind === 'typed' ? q.drill.shown : q.options[q.answer];
+  const answer = q.kind === 'typed' ? q.drill.shown : q.answer !== undefined ? q.options[q.answer] : '';
   return (
     <li className="rounded-2xl border border-line bg-surface p-4">
       <p className="flex gap-2 font-bold text-ink">
@@ -291,11 +351,6 @@ function ReviewRow({ n, q, a }: { n: number; q: MockQuestion; a: MockAnswer }) {
           {q.prompt}
         </span>
       </p>
-      {q.kind === 'choice' && q.code && (
-        <pre className="mt-2 overflow-x-auto rounded-xl bg-sunken p-3 font-mono text-[12px] leading-relaxed text-ink">
-          <code>{q.code}</code>
-        </pre>
-      )}
       <p className="mt-2 text-sm text-ink-2">
         <span className="font-bold">You:</span> {yours}
       </p>

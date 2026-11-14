@@ -14,7 +14,6 @@ import { gameOf } from './lib/games';
 import { withPhase3Key } from './lib/phase3';
 import { dayKey } from './lib/dates';
 import { drillUp, todayStatus } from './lib/lesson';
-import { ensureCards } from './lib/cards';
 import { startSession, type DealtPlan, type Recipe } from './lib/session';
 import { canSpeak } from './lib/speech';
 import { KIND_LABEL } from './lib/practice';
@@ -298,18 +297,8 @@ export default function App() {
     originY.current = y;
     setScreen({ name: 'lesson', ...ready, mode: m });
   };
-  // A mock round asks worked sums from the met terms of its areas: fetch their cards, then open it.
-  // A sum whose card didn't come is left out of the round, so it opens either way.
-  const openMock = async (round: string) => {
-    if (fetching) return;
-    setFetching('Getting the round ready…');
-    const { MOCKS, mockTermIds } = await import('./lib/mock');
-    const spec = MOCKS.find((m) => m.round === round);
-    const failed = spec ? await ensureCards(mockTermIds(spec, progress)) : null;
-    setFetching(null);
-    if (failed) setNotice(failed);
-    setScreen({ name: 'mock', round });
-  };
+  // A mock round deals its own worked sums when it opens.
+  const openMock = (round: string) => setScreen({ name: 'mock', round });
   const depot = (unitId: string) => {
     setOrigin(screen);
     originY.current = window.scrollY;
@@ -471,7 +460,7 @@ export default function App() {
             progress={progress}
             onBack={() => setScreen({ name: 'home' })}
             onOpenUnit={setOverlay}
-            onOpenMock={(round) => void openMock(round)}
+            onOpenMock={openMock}
           />
         </WithTabs>
       );

@@ -158,9 +158,6 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
                           {isCore(t.id) && (
                             <span className="rounded-md bg-brand-soft px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-brand-ink">core</span>
                           )}
-                          {(t.calcs?.length ?? 0) > 0 && (
-                            <span className="rounded-md bg-violet-soft px-1.5 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-violet-ink">sums</span>
-                          )}
                         </span>
                         <span className="block truncate text-sm text-ink-3">{glossOrUnit(t)}</span>
                       </span>

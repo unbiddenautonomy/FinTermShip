@@ -1,9 +1,9 @@
 /**
  * Timed mock interview rounds: a fixed number of questions against one clock,
  * with no feedback until the end, like the real thing. Questions come from
- * the drills (typed answers), worked sums on the cards and the code snippets.
+ * the drills (typed answers) and worked sums on the cards. The sums are dealt by the server
+ * without their answers (worker/session.ts) and marked when the round ends.
  */
-import { categories, hasCard } from './content';
 import { checkAnswer, DRILLS, type DrillQuestion } from './drills';
 import { shuffle, type Rng } from './questions';
 import type { Progress } from './types';
@@ -37,43 +37,43 @@ export const MOCKS: MockSpec[] = [
 ];
 export const mockByRound = new Map(MOCKS.map((m) => [m.round, m]));
 
+/** A worked sum as the server deals it: sealed until the round is marked. */
+export interface Sum {
+  termId: string;
+  prompt: string;
+  options: string[];
+  token: string;
+}
+
 export type MockQuestion =
   | { kind: 'typed'; prompt: string; drill: DrillQuestion }
-  | { kind: 'choice'; prompt: string; code?: string; options: string[]; answer: number; why: string };
+  /** `answer` and `why` are filled in once the round is marked. */
+  | { kind: 'choice'; prompt: string; options: string[]; sum: Sum; answer?: number; why?: string };
 
-function choice(prompt: string, options: string[], why: string, rng: Rng, code?: string): MockQuestion {
-  const order = shuffle([0, 1, 2, 3], rng);
-  return { kind: 'choice', prompt, code, options: order.map((k) => options[k]), answer: order.indexOf(0), why };
-}
+/** Does this round ask worked sums (which come from the server)? */
+export const hasSums = (spec: MockSpec) => spec.sources.some((s) => 'calcs' in s);
 
-function pool(source: MockSource, rng: Rng): MockQuestion[] {
+function pool(source: MockSource, rng: Rng, sums: Sum[]): MockQuestion[] {
   if ('drill' in source) return DRILLS[source.drill].make(rng).map((d) => ({ kind: 'typed', prompt: d.prompt, drill: d }));
-  // Worked sums from the terms this learner has reached: the others' cards aren't on this device.
-  const calcs = categories.filter((c) => source.calcs.includes(c.id)).flatMap((c) => c.terms.filter((t) => hasCard(t.id)).flatMap((t) => t.calcs ?? []));
-  return shuffle(calcs, rng).map((c) => choice(c.q, c.options, c.why, rng));
-}
-
-/** The met terms whose worked sums a round can ask: their cards are fetched as the round opens. */
-export function mockTermIds(spec: MockSpec, p: Progress): string[] {
-  const areas = spec.sources.flatMap((s) => ('calcs' in s ? s.calcs : []));
-  return categories.filter((c) => areas.includes(c.id)).flatMap((c) => c.terms.filter((t) => p.terms[t.id]).map((t) => t.id));
+  // Worked sums from the terms this learner has met, dealt by the server.
+  return shuffle(sums, rng).map((sum) => ({ kind: 'choice', prompt: sum.prompt, options: sum.options, sum }));
 }
 
 /** Fewest questions a round runs with: a sums round is short until the learner has reached enough of its terms. */
 export const MOCK_MIN = 5;
 
 /** A round: questions taken in turn from each source, no prompt twice. */
-export function newMock(spec: MockSpec, rng: Rng): MockQuestion[] {
-  const pools = spec.sources.map((s) => pool(s, rng));
+export function newMock(spec: MockSpec, rng: Rng, sums: Sum[] = []): MockQuestion[] {
+  const pools = spec.sources.map((s) => pool(s, rng, sums));
   const seen = new Set<string>();
   const out: MockQuestion[] = [];
   for (let guard = 0; out.length < spec.count && guard < 50; guard++) {
     for (let i = 0; i < pools.length && out.length < spec.count; i++) {
-      if (!pools[i].length) pools[i] = pool(spec.sources[i], rng);
+      if (!pools[i].length) pools[i] = pool(spec.sources[i], rng, sums);
       // A sums source with no terms reached yet has nothing to give.
       const q = pools[i].shift();
       if (!q) continue;
-      const key = q.prompt + (q.kind === 'choice' ? (q.code ?? '') : '');
+      const key = q.prompt;
       if (seen.has(key)) continue;
       seen.add(key);
       out.push(q);
@@ -88,7 +88,7 @@ export type MockAnswer = string | number | null;
 export function isRight(q: MockQuestion, a: MockAnswer): boolean {
   if (a === null) return false;
   if (q.kind === 'typed') return typeof a === 'string' && checkAnswer(q.drill, a) === 'right';
-  return a === q.answer;
+  return q.answer !== undefined && a === q.answer;
 }
 
 export function recordMock(p: Progress, round: string, right: number, total: number, today: string): Progress {

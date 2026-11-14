@@ -6,7 +6,7 @@ import { categories } from '../src/lib/content';
 import { addDays } from '../src/lib/dates';
 import type { Progress } from '../src/lib/types';
 import worker, { handleApi, hashPassword, inviteCode, verifyPassword, type D1Database, type Env } from './index';
-import { ASKS_PER_MINUTE, content, MAX_IDS, NEW_PER_HOUR } from './cards';
+import { ASKS_PER_MINUTE, content, grant, MAX_IDS, NEW_PER_HOUR } from './cards';
 import type { FermiItem } from '../src/lib/fermi';
 import type { Clip } from '../src/lib/meeting';
 import type { Strategy } from '../src/lib/backtest';
@@ -325,53 +325,64 @@ describe('worker: term cards', () => {
     return { admin, friend };
   }
 
-  it('gives only the cards asked for, and has no way to send everything given so far', async () => {
+  /** Save progress with these terms met, as the app does after a lesson. */
+  async function meet(c: Client, termIds: string[]) {
+    let p = newProgress();
+    for (const id of termIds) p = introduce(p, id, '2026-11-01');
+    expect((await c.call('PUT', '/api/progress', { progress: p })).status).toBe(200);
+  }
+
+  it('gives a card only for a term reached, only what teaches it, and has no way to send everything', async () => {
     const { friend } = await friendWith();
     expect((await friend.call('GET', '/api/cards')).status).toBe(404);
-    const r = await friend.call('POST', '/api/cards', { ids: ['bid', 'ask', 'not-a-term'] });
+    // Not met yet: no card.
+    const before = await friend.call('POST', '/api/cards', { ids: ['bid', 'ask', 'not-a-term'] });
+    expect(before.data.cards).toEqual({});
+    expect(before.data.refused).toEqual(['bid', 'ask']);
+    await meet(friend, ['bid', 'ask']);
+    const r = await friend.call('POST', '/api/cards', { ids: ['bid', 'ask', 'spread'] });
     expect(Object.keys(r.data.cards).sort()).toEqual(['ask', 'bid']);
+    expect(r.data.refused).toEqual(['spread']);
     expect(r.data.cards.bid.definition).toBe(cards.get('bid')!.definition);
-    expect(r.data.refused).toBeUndefined();
-    // Asking again gives the same cards back; nothing else rides along.
-    expect(Object.keys((await friend.call('POST', '/api/cards', { ids: ['spread'] })).data.cards)).toEqual(['spread']);
+    // What its questions are made from stays on the server.
+    for (const f of ['fill', 'wrong', 'calcs', 'tf', 'talk', 'claims']) expect(r.data.cards.bid).not.toHaveProperty(f);
+    // A term a lesson teaches is reached from then on.
+    const lesson = await friend.call('POST', '/api/session', { recipe: { build: 'lesson', keepGoing: true, listen: false }, progress: newProgress(), today: '2026-11-14' });
+    const taught = lesson.data.plan.newIds as string[];
+    expect(taught.length).toBeGreaterThan(0);
+    expect(Object.keys((await friend.call('POST', '/api/cards', { ids: taught })).data.cards).sort()).toEqual([...taught].sort());
     expect((await new Client().call('POST', '/api/cards', { ids: ['bid'] })).status).toBe(401);
   });
 
-  it('has no daily limit: only a ceiling per hour on new cards that no learner reaches', async () => {
+  it('has no daily limit: only a ceiling per hour on new terms that no learner reaches', async () => {
     const t0 = Date.UTC(2026, 11, 1, 9);
-    const { friend } = await friendWith();
+    await friendWith();
+    const db = env.DB!;
+    const row = await db.prepare('SELECT id, admin, phase3, created FROM users WHERE email = ?').bind('friend@example.com').first<{ id: number; admin: number; phase3: number; created: number }>();
+    const user = row!;
     const want = mainIds.slice(0, NEW_PER_HOUR + 20);
-    let got = 0;
-    let refused: string[] = [];
-    for (let i = 0; i < want.length; i += MAX_IDS) {
-      const r = await friend.call('POST', '/api/cards', { ids: want.slice(i, i + MAX_IDS) }, t0 + i);
-      got += Object.keys(r.data.cards).length;
-      refused = [...refused, ...(r.data.refused ?? [])];
-    }
-    expect(got).toBe(NEW_PER_HOUR);
-    expect(refused).toEqual(want.slice(NEW_PER_HOUR));
-    // Cards it already has always come back, and an hour later there is room again.
-    const again = await friend.call('POST', '/api/cards', { ids: want.slice(0, 5) }, t0 + 1000);
-    expect(Object.keys(again.data.cards).length).toBe(5);
-    const later = await friend.call('POST', '/api/cards', { ids: want.slice(NEW_PER_HOUR) }, t0 + 3600_000 + 2000);
-    expect(Object.keys(later.data.cards).length).toBe(20);
-    // Well past what a day's old limits allowed.
-    expect(got + 20).toBeGreaterThan(60);
+    const first = await grant(db, user, want, t0);
+    expect(first.allowed).toEqual(want.slice(0, NEW_PER_HOUR));
+    expect(first.refused).toEqual(want.slice(NEW_PER_HOUR));
+    // Terms it already has are always allowed, and an hour later there is room again.
+    expect((await grant(db, user, want.slice(0, 5), t0 + 1000)).allowed.length).toBe(5);
+    expect((await grant(db, user, want.slice(NEW_PER_HOUR), t0 + 3600_000 + 2000)).allowed.length).toBe(20);
   });
 
   it('sends at most a screen’s worth per ask, and a limited number of asks a minute', async () => {
     const t0 = Date.UTC(2026, 11, 1, 9, 0, 0);
-    const { friend } = await friendWith();
-    const big = await friend.call('POST', '/api/cards', { ids: mainIds.slice(0, MAX_IDS + 20) }, t0);
+    const { admin, friend } = await friendWith();
+    const big = await admin.call('POST', '/api/cards', { ids: mainIds.slice(0, MAX_IDS + 20) }, t0);
     expect(Object.keys(big.data.cards).length).toBe(MAX_IDS);
-    for (let i = 1; i < ASKS_PER_MINUTE; i++) expect((await friend.call('POST', '/api/cards', { ids: ['bid'] }, t0 + i)).status).toBe(200);
+    for (let i = 0; i < ASKS_PER_MINUTE; i++) expect((await friend.call('POST', '/api/cards', { ids: ['bid'] }, t0 + i)).status).toBe(200);
     const over = await friend.call('POST', '/api/cards', { ids: ['bid'] }, t0 + 100);
     expect(over.status).toBe(429);
     expect((await friend.call('POST', '/api/cards', { ids: ['bid'] }, t0 + 60_000)).status).toBe(200);
   });
 
-  it('keeps phase 3 cards for accounts with phase 3, and the admin', async () => {
+  it('keeps phase 3 cards for accounts with phase 3, and lets the admin look up any term', async () => {
     const { admin, friend } = await friendWith();
+    await meet(friend, [strategyId, 'bid']);
     const r = await friend.call('POST', '/api/cards', { ids: [strategyId, 'bid'] });
     expect(Object.keys(r.data.cards)).toEqual(['bid']);
     expect(r.data.refused).toEqual([strategyId]);
@@ -380,18 +391,17 @@ describe('worker: term cards', () => {
     let got = 0;
     for (let i = 0; i < ids.length; i += MAX_IDS) got += Object.keys((await admin.call('POST', '/api/cards', { ids: ids.slice(i, i + MAX_IDS) })).data.cards).length;
     expect(got).toBe(ids.length);
-    const { friend: other } = await (async () => {
-      const { data } = await admin.call('POST', '/api/admin/invites', { quant: false, phase3: true });
-      const c = new Client();
-      await c.call('POST', '/api/signup', { email: 'p3@example.com', password: 'friendpass', invite: data.code });
-      return { friend: c };
-    })();
+    const { data } = await admin.call('POST', '/api/admin/invites', { quant: false, phase3: true });
+    const other = new Client();
+    await other.call('POST', '/api/signup', { email: 'p3@example.com', password: 'friendpass', invite: data.code });
+    await meet(other, [strategyId]);
     expect(Object.keys((await other.call('POST', '/api/cards', { ids: [strategyId] })).data.cards)).toEqual([strategyId]);
   });
 
   it('opens phase 3 with the password, checked on the server, and locks after repeated misses', async () => {
     env.UNLOCK_HASH = await hashPassword('open sesame');
     const { friend } = await friendWith();
+    await meet(friend, [strategyId]);
     const miss = await friend.call('POST', '/api/unlock', { password: 'wrong' });
     expect(miss.status).toBe(401);
     expect((await friend.call('POST', '/api/cards', { ids: [strategyId] })).data.refused).toEqual([strategyId]);
