@@ -1,12 +1,14 @@
 /**
  * Finnections: sixteen terms on tiles, four hidden groups of four. Pick four and submit; four
- * mistakes end the board. Each group found is an answer for its terms in the shared record,
- * and every group comes with the reason its terms belong together (src/lib/modes/rounds.ts).
+ * mistakes end the board. The server deals the tiles without the groups and checks each guess;
+ * the groups come back only once the board is over. Each group found is an answer for its terms
+ * in the shared record, with the reason its terms belong together (src/lib/modes/rounds.ts).
  */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { termById } from '../../lib/content';
 import { kpis, type Kpis, type ModeId } from '../../lib/modes/knowledge';
-import { access, levelNote, boardById, boardScore, finishRound, levelState, pickRound, recordBoard, type Board, type BoardGroup } from '../../lib/modes/rounds';
+import { guessBoard, revealBoard } from '../../lib/modes/roundApi';
+import { access, levelNote, boardScore, finishRound, levelState, recordBoard, type FoundGroup } from '../../lib/modes/rounds';
 import { seededRng, shuffle } from '../../lib/questions';
 import { finishLesson } from '../../lib/scheduler';
 import type { Progress } from '../../lib/types';
@@ -14,7 +16,7 @@ import { Button } from '../ui';
 import { KpiDelta } from './KpiDelta';
 import { useModeAccess } from './modeAccess';
 import { LevelMeter, NotYet } from './roundKit';
-import { useRoundContent } from './useRoundContent';
+import { useDealtRound } from './useRoundContent';
 import { ModeFrame, TermSheet } from './shared';
 
 interface Props {
@@ -35,16 +37,16 @@ const INK = '#221d33';
 const name = (id: string) => termById.get(id)?.term ?? id;
 
 export function Finnections({ progress, today, onProgress, onMode }: Props) {
-  const content = useRoundContent('finnections', progress);
   const open = access(progress, 'finnections').open;
   const [seed, setSeed] = useState(() => Date.now() % 2_147_483_647);
-  const board: Board | undefined = useMemo(
-    () => (content.state === 'ready' ? pickRound(progress, 'finnections', today, seededRng(seed)).flatMap((x) => boardById.get(x.id) ?? [])[0] : undefined),
-    [seed, content.state], // eslint-disable-line react-hooks/exhaustive-deps
-  );
+  const content = useDealtRound('finnections', progress, today, seed, open);
+  const board = content.items[0];
   const [tiles, setTiles] = useState<string[]>([]);
   const [sel, setSel] = useState<string[]>([]);
-  const [found, setFound] = useState<string[]>([]);
+  // Groups found so far, as the server marked them; every group once the board is over.
+  const [found, setFound] = useState<FoundGroup[]>([]);
+  const [all, setAll] = useState<FoundGroup[] | null>(null);
+  const [busy, setBusy] = useState(false);
   const [tried, setTried] = useState<string[]>([]);
   const [mistakes, setMistakes] = useState(0);
   const [note, setNote] = useState<string | null>(null);
@@ -59,9 +61,10 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
 
   useEffect(() => {
     if (!board) return;
-    setTiles(shuffle(board.groups.flatMap((g) => g.terms), seededRng(seed + 7)));
+    setTiles(board.tiles);
     setSel([]);
     setFound([]);
+    setAll(null);
     setTried([]);
     setMistakes(0);
     setNote(null);
@@ -69,58 +72,81 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
     startedAt.current = Date.now();
   }, [board, seed]);
 
-  /** End the board: record every group's terms, count the round, and move the level. */
+  /** End the board: get every group, record their terms, count the round, and move the level. */
   const end = useCallback(
-    (foundNames: string[], lastFree: boolean) => {
+    async (foundNames: string[], lastFree: boolean, misses: number, known?: FoundGroup[]) => {
       if (!board) return;
       const ms = Math.round((Date.now() - startedAt.current) / 16);
-      let p = recordBoard(progressRef.current, board, foundNames, lastFree, ms, today);
+      let groups: FoundGroup[];
+      try {
+        groups = known ?? (await revealBoard(board.id));
+      } catch (e) {
+        setNote(e instanceof Error ? e.message : 'The board didn’t close. Try again.');
+        return false;
+      }
+      setAll(groups);
+      setFound(foundNames.map((n) => groups.find((g) => g.name === n)!));
+      let p = recordBoard(progressRef.current, { id: board.id, level: board.level, groups }, foundNames, lastFree, ms, today);
       const score = boardScore(foundNames.length);
       const before = levelState(p, 'finnections').level;
-      p = finishLesson(p, today, 10 + (score === 1 && mistakes === 0 ? 5 : 0));
+      p = finishLesson(p, today, 10 + (score === 1 && misses === 0 ? 5 : 0));
       p = finishRound(p, 'finnections', today, [board.id], score);
       onProgress(p);
       const after = levelState(p, 'finnections');
       setDone({ before, after: after.level, good: after.good, won: foundNames.length === 4 });
+      return true;
     },
-    [board, mistakes, today, onProgress],
+    [board, today, onProgress],
   );
 
-  const submit = () => {
-    if (!board || done || sel.length !== 4) return;
+  const submit = async () => {
+    if (!board || done || busy || sel.length !== 4) return;
     const key = [...sel].sort().join('|');
     if (tried.includes(key)) {
       setNote('You already tried those four.');
       return;
     }
-    const g = board.groups.find((x) => sel.every((id) => x.terms.includes(id)));
-    if (g) {
-      const now = [...found, g.name];
-      setSel([]);
-      setNote(null);
-      if (now.length === 3) {
-        // The last four can only be one group: it is shown, and counted as practice.
-        const last = board.groups.find((x) => !now.includes(x.name))!;
-        const all = [...now, last.name];
-        setFound(all);
-        setTiles([]);
-        end(all, true);
-      } else {
+    setBusy(true);
+    try {
+      let reply: Awaited<ReturnType<typeof guessBoard>>;
+      try {
+        reply = await guessBoard(board.id, sel);
+      } catch (e) {
+        setNote(e instanceof Error ? e.message : 'That guess didn’t go through. Try again.');
+        return;
+      }
+      const g = reply.group;
+      if (g) {
+        const now = [...found, g];
+        setSel([]);
+        setNote(null);
         setFound(now);
         setTiles((t) => t.filter((id) => !g.terms.includes(id)));
+        // The last four can only be one group: it is shown, and counted as practice.
+        if (now.length === 3) {
+          const names = now.map((x) => x.name);
+          const groups = await revealBoard(board.id).catch(() => null);
+          const last = groups?.find((x) => !names.includes(x.name));
+          if (!last) {
+            setNote('The board didn’t close. Try again.');
+            return;
+          }
+          setTiles([]);
+          await end([...names, last.name], true, mistakes, groups ?? undefined);
+        }
+        return;
       }
-      return;
-    }
-    const m = mistakes + 1;
-    setTried((t) => [...t, key]);
-    setMistakes(m);
-    setWrong(sel);
-    const close = board.groups.some((x) => sel.filter((id) => x.terms.includes(id)).length === 3);
-    setNote(close ? 'One away.' : 'Not a group.');
-    if (m >= MISTAKES) {
-      setSel([]);
-      setTiles([]);
-      end(found, false);
+      const m = mistakes + 1;
+      setTried((t) => [...t, key]);
+      setMistakes(m);
+      setWrong(sel);
+      setNote(reply.oneAway ? 'One away.' : 'Not a group.');
+      if (m >= MISTAKES) {
+        setSel([]);
+        if (await end(found.map((x) => x.name), false, m)) setTiles([]);
+      }
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -140,16 +166,15 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
   if (content.state === 'loading') return frame(<p className="py-16 text-center text-sm font-bold text-ink-3">Dealing the board…</p>);
   if (content.state !== 'ready' || !board) return frame(<NotYet progress={progress} mode="finnections" error={content.state !== 'ready' ? content.state : 'No boards came through. Try again in a moment.'} onMode={onMode} onRetry={content.retry} />);
 
-  const order = (g: BoardGroup) => board.groups.indexOf(g);
-  const foundGroups = found.map((n) => board.groups.find((g) => g.name === n)!);
-  const missed = done ? board.groups.filter((g) => !found.includes(g.name)) : [];
-  const lastFree = done?.won ? found[found.length - 1] : null;
+  const foundNames = found.map((g) => g.name);
+  const missed = done && all ? all.filter((g) => !foundNames.includes(g.name)) : [];
+  const lastFree = done?.won ? foundNames[foundNames.length - 1] : null;
 
   return frame(
     <div className="space-y-4">
       <div className="-mx-4 space-y-2 px-4 py-5 sm:mx-0 sm:rounded-3xl sm:px-5" style={{ background: BG, color: INK }}>
-        {[...foundGroups, ...missed].map((g) => (
-          <GroupBar key={g.name} group={g} colour={GROUP_COLOURS[order(g)]} missed={!found.includes(g.name)} free={g.name === lastFree} open={!!done} onTerm={setSheet} />
+        {[...found, ...missed].map((g) => (
+          <GroupBar key={g.name} group={g} colour={GROUP_COLOURS[g.order]} missed={!foundNames.includes(g.name)} free={g.name === lastFree} open={!!done} onTerm={setSheet} />
         ))}
         {tiles.length > 0 && (
           <div className="grid grid-cols-4 gap-2">
@@ -191,7 +216,7 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
               <button type="button" onClick={() => setSel([])} disabled={!sel.length} className="rounded-full border-[1.5px] px-3.5 py-1.5 text-[13px] font-extrabold disabled:opacity-40" style={{ borderColor: DEEP, color: DEEP }}>
                 Clear
               </button>
-              <button type="button" onClick={submit} disabled={sel.length !== 4} className="rounded-full px-4 py-1.5 text-[13px] font-extrabold text-white disabled:opacity-40" style={{ background: DEEP }}>
+              <button type="button" onClick={() => void submit()} disabled={sel.length !== 4 || busy} className="rounded-full px-4 py-1.5 text-[13px] font-extrabold text-white disabled:opacity-40" style={{ background: DEEP }}>
                 Submit
               </button>
             </span>
@@ -236,7 +261,7 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
   );
 }
 
-function GroupBar({ group, colour, missed, free, open, onTerm }: { group: BoardGroup; colour: string; missed: boolean; free: boolean; open: boolean; onTerm: (id: string) => void }) {
+function GroupBar({ group, colour, missed, free, open, onTerm }: { group: FoundGroup; colour: string; missed: boolean; free: boolean; open: boolean; onTerm: (id: string) => void }) {
   return (
     <div className="animate-pop rounded-2xl px-4 py-3 text-center" style={{ background: colour, color: '#1a1625', opacity: missed ? 0.85 : 1, outline: missed ? '2px dashed rgb(26 22 37 / 0.45)' : undefined, outlineOffset: -4 }}>
       <p className="text-[13px] font-extrabold uppercase tracking-[0.08em]">
