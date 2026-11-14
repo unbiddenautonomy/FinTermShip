@@ -174,7 +174,7 @@ function LineView({
                 {allLocked
                   ? 'This line opens after the phase 3 test.'
                   : here >= 0
-                    ? 'No new stops left today. Come back tomorrow, or revisit a station.'
+                    ? 'Nothing to ride from here yet. Revisit a station instead.'
                     : waiting
                       ? 'The rest of this line opens with its area: meet every core term and pass its drills, or pass the area test in Path.'
                       : 'Every station on this line is met.'}

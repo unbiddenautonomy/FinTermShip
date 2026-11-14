@@ -5,7 +5,8 @@
  */
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { termById } from '../../lib/content';
-import { buildDeck, type Claim } from '../../lib/modes/claims';
+import { ensureCards } from '../../lib/cards';
+import { buildDeck, deckWants, type Claim } from '../../lib/modes/claims';
 import { finishModeSession, kpis, modeRecord, recordAnswer, type Kpis, type ModeId } from '../../lib/modes/knowledge';
 import { areaOf, termStatus } from '../../lib/modes/status';
 import { seededRng } from '../../lib/questions';
@@ -30,7 +31,9 @@ const FLICK = 90;
 
 export function CallIt({ progress, today, onProgress, onMode }: Props) {
   const [seed, setSeed] = useState(() => Date.now() % 2_147_483_647);
-  const deck = useMemo(() => buildDeck(progress, today, seededRng(seed)), [seed]); // eslint-disable-line react-hooks/exhaustive-deps
+  // Each deck's cards come from the server as it is dealt; the deck is built once they are here.
+  const [dealt, setDealt] = useState<{ seed: number; failed: string | null } | null>(null);
+  const deck = useMemo(() => (dealt?.seed === seed ? buildDeck(progress, today, seededRng(seed)) : []), [seed, dealt]); // eslint-disable-line react-hooks/exhaustive-deps
   const [index, setIndex] = useState(0);
   const [calls, setCalls] = useState<Call[]>([]);
   const [run, setRun] = useState(0);
@@ -51,9 +54,19 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   const { canOpen } = useModeAccess();
 
   useEffect(() => {
+    let live = true;
+    void ensureCards(deckWants(progressRef.current, today, seededRng(seed))).then((failed) => {
+      if (live) setDealt({ seed, failed });
+    });
+    return () => {
+      live = false;
+    };
+  }, [seed, today]);
+
+  useEffect(() => {
     shownAt.current = Date.now();
     setDrag(0);
-  }, [index, seed]);
+  }, [index, seed, dealt]);
 
   const call = useCallback(
     (said: boolean) => {
@@ -130,6 +143,22 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
       {sheet && <TermSheet termId={sheet} progress={progress} today={today} onClose={() => setSheet(null)} onOpenTerm={setSheet} />}
     </ModeFrame>
   );
+
+  if (dealt?.seed !== seed) {
+    return frame(<p className="animate-pulse rounded-3xl border border-dashed border-line px-6 py-10 text-center text-ink-3">Dealing your deck…</p>);
+  }
+
+  if (!deck.length && dealt.failed) {
+    return frame(
+      <div className="rounded-3xl border border-dashed border-line px-6 py-10 text-center">
+        <p className="font-display text-xl font-semibold text-ink">This deck didn’t load</p>
+        <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-ink-2">{dealt.failed}</p>
+        <div className="mt-6 flex justify-center">
+          <Button onClick={again}>Try again</Button>
+        </div>
+      </div>,
+    );
+  }
 
   if (!deck.length) {
     return frame(

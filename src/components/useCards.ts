@@ -1,14 +1,14 @@
-import { useEffect, useRef, useState, useSyncExternalStore } from 'react';
+import { useEffect, useState, useSyncExternalStore } from 'react';
 import type { AccountState } from '../lib/account';
-import { ensureCards, lastAccount, loadAllCardsForDev, loadCards, loadStoredCards, rememberAccount, type CardsStatus } from '../lib/cards';
-import { getCardsVersion, hasCard, subscribeCards, termById } from '../lib/content';
-import type { Progress } from '../lib/types';
+import { loadAllCardsForDev, startCards, wantCards, type CardsStatus } from '../lib/cards';
+import { getCardsVersion, subscribeCards } from '../lib/content';
 
 /**
- * The term cards for the signed-in account (src/lib/cards.ts). The app waits
- * for them before it shows anything, and re-renders as more arrive.
+ * The term cards for the signed-in account (src/lib/cards.ts). Nothing is
+ * fetched up front: each screen asks for the cards it shows when the learner
+ * opens it. This only says whether the app can run, and re-renders as cards arrive.
  */
-export function useCards(account: AccountState, progress: Progress | null): { status: CardsStatus; retry: () => void } {
+export function useCards(account: AccountState): { status: CardsStatus; retry: () => void } {
   const [status, setStatus] = useState<CardsStatus>('loading');
   const [attempt, setAttempt] = useState(0);
   const email = account.kind === 'in' ? account.me.email : null;
@@ -22,14 +22,10 @@ export function useCards(account: AccountState, progress: Progress | null): { st
     if (import.meta.env.DEV) {
       // `npm run dev` has no server: every card, straight from the syllabus files.
       void loadAllCardsForDev().then(done);
-    } else if (email) {
-      rememberAccount(email);
-      void loadCards(email).then(done);
-    } else if (kind === 'offline') {
-      const last = lastAccount();
-      if (last) void loadStoredCards(last).then(done);
-      else done('offline');
-    } else if (kind === 'out') done('signed-out');
+    } else if (email) done(startCards(email));
+    // Lessons and rounds come from the server as they start, so the app needs a connection.
+    else if (kind === 'offline') done('offline');
+    else if (kind === 'out') done('signed-out');
     else if (kind !== 'loading') done('error');
     return () => {
       live = false;
@@ -38,16 +34,6 @@ export function useCards(account: AccountState, progress: Progress | null): { st
 
   useSyncExternalStore(subscribeCards, getCardsVersion);
 
-  // Terms already met on this device whose cards aren't here (met before cards came from the server, or on a device that hadn't synced): ask once.
-  const asked = useRef(new Set<string>());
-  useEffect(() => {
-    if (status !== 'ready' || !progress || !email) return;
-    const missing = Object.keys(progress.terms).filter((id) => termById.has(id) && !hasCard(id) && !asked.current.has(id));
-    if (!missing.length) return;
-    for (const id of missing) asked.current.add(id);
-    void ensureCards(missing);
-  }, [status, progress, email]);
-
   return {
     status,
     retry: () => {
@@ -55,4 +41,17 @@ export function useCards(account: AccountState, progress: Progress | null): { st
       setAttempt((a) => a + 1);
     },
   };
+}
+
+/**
+ * Fetch the cards of these met terms while the screen that shows them is open,
+ * and redraw as they arrive. Pass only terms the learner has met: a term not
+ * reached yet keeps showing just its name and unit.
+ */
+export function useTermCards(ids: string[]): void {
+  const key = ids.join('|');
+  useEffect(() => {
+    if (key) wantCards(key.split('|'));
+  }, [key]);
+  useSyncExternalStore(subscribeCards, getCardsVersion);
 }

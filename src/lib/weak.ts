@@ -1,4 +1,4 @@
-import { awaitingCard, termById } from './content';
+import { termById } from './content';
 import { buildPracticeOn } from './choose';
 import type { LessonPlan } from './lesson';
 import type { Rng } from './questions';
@@ -20,7 +20,7 @@ export function isWeak(s: TermState): boolean {
 /** The learner's most-missed terms, worst first. */
 export function weakSpots(p: Progress, limit = WEAK_TERMS): string[] {
   return Object.entries(p.terms)
-    .filter(([id, s]) => termById.has(id) && !awaitingCard(id) && isWeak(s))
+    .filter(([id, s]) => termById.has(id) && isWeak(s))
     .sort(([, a], [, b]) => Number(b.trouble) - Number(a.trouble) || missRate(b) - missRate(a) || b.lapses - a.lapses || b.wrong - a.wrong)
     .slice(0, limit)
     .map(([id]) => id);
