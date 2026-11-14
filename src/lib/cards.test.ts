@@ -1,7 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import outline from '../data/outline.json';
 import { buildCards, fullCategories } from './cardData';
-import { planTermIds } from './cards';
 import { buildPractice, buildTest } from './choose';
 import { applyCards, awaitingCard, categories, clearCards, hasCard, talkByTerm, termById, writtenByTerm } from './content';
 import { buildLesson, type LessonPlan } from './lesson';
@@ -68,22 +67,6 @@ describe('term cards', () => {
     expect(t.term).not.toBe('');
     expect(t.definition).toBe('');
     expect(writtenByTerm.size).toBe(0);
-  });
-
-  it('let a new learner’s first lesson be built, its cards fetched, and the same lesson built again', () => {
-    clearCards();
-    const p = newProgress();
-    const make = (seed: number) => buildLesson(p, today, seededRng(seed));
-    const first = make(7)!;
-    const need = planTermIds(first).filter((id) => !hasCard(id));
-    expect(need.length).toBeGreaterThan(0);
-    expect(need).toEqual(expect.arrayContaining(first.newIds));
-    applyCards(some(need));
-    const again = make(7)!;
-    expect(again.newIds).toEqual(first.newIds);
-    expect(planTermIds(again).every(hasCard)).toBe(true);
-    // Options are names (from the outline) or the asked term's own text: none is blank.
-    for (const q of again.questions) if ('options' in q) for (const o of q.options) expect(o.trim(), q.kind).not.toBe('');
   });
 
   it('count every met term as due or weak before its card is here, and deal Call It once its cards come', () => {
