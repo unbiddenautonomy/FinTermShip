@@ -36,7 +36,7 @@ export interface Clip {
   terms: string[];
 }
 
-/** The clips. They come from the server when the learner opens the game (src/lib/packs.ts). */
+/** The clips. Empty in the app: the server deals each round (worker/practice.ts). */
 export const clips: Clip[] = [];
 
 export interface MeetingQuestion {
@@ -73,4 +73,4 @@ export function newMeetingRound(rng: Rng): MeetingItem[] {
 export const meetingPassed = (right: number) => right >= MEETING.passRight;
 
 /** The clip as one passage to read aloud. */
-export const clipSpeech = (clip: Clip) => clip.lines.map((l) => `${l.who}: ${l.text}`).join(' ');
+export const clipSpeech = (clip: Pick<Clip, 'lines'>) => clip.lines.map((l) => `${l.who}: ${l.text}`).join(' ');

@@ -1,13 +1,14 @@
-import { useMemo, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { settleFocus } from '../lib/choose';
-import { caseById, categoryOfUnit, termName, unitById } from '../lib/content';
+import { categoryOfUnit, termName, unitById } from '../lib/content';
+import { markPractice } from '../lib/modes/roundApi';
 import { casePassMark, passRule, recordRound } from '../lib/practice';
-import { seededRng, shuffle } from '../lib/questions';
 import { finishLesson } from '../lib/scheduler';
-import type { Progress } from '../lib/types';
+import type { CaseStep, DeskCase as Story, Progress } from '../lib/types';
 import { Briefcase, Check, Cross } from './icons';
 import type { LessonSummary } from './Lesson';
 import { Bar, Button, ConfirmDialog, Pill } from './ui';
+import { PracticeWait, usePractice } from './usePractice';
 
 interface Props {
   unitId: string;
@@ -19,14 +20,20 @@ interface Props {
   onQuit: () => void;
 }
 
-export function DeskCase({ unitId, seed, progress, today, onProgress, onFinish, onQuit }: Props) {
-  const story = caseById.get(unitId)!;
+/** A case as dealt: the setup and each step's options, shuffled, with none marked best. */
+type Dealt = Pick<Story, 'setup' | 'facts'> & { steps: (Omit<CaseStep, 'options'> & { options: string[] })[] };
+
+export function DeskCase(props: Props) {
+  const dealt = usePractice<Dealt>('case', props.seed, props.unitId);
+  if (!dealt.round) return <PracticeWait error={dealt.error} onRetry={dealt.retry} onQuit={props.onQuit}>Getting the case…</PracticeWait>;
+  return <CaseRound {...props} story={dealt.round} />;
+}
+
+function CaseRound({ unitId, progress, today, onProgress, onFinish, onQuit, story }: Props & { story: Dealt }) {
   const unit = unitById.get(unitId);
-  // Options are shuffled once per go, so the best one isn't always in the same place.
-  const steps = useMemo(() => {
-    const rng = seededRng(seed);
-    return story.steps.map((s) => ({ ...s, options: shuffle(s.options, rng) }));
-  }, [story, seed]);
+  // Each step's options gain which is best and why once a pick is marked.
+  const [steps, setSteps] = useState<CaseStep[]>(() => story.steps.map((s) => ({ ...s, options: s.options.map((text) => ({ text, why: '' })) })));
+  const [marking, setMarking] = useState(false);
   const [index, setIndex] = useState(0);
   const [picks, setPicks] = useState<number[]>([]);
   const [confirmQuit, setConfirmQuit] = useState(false);
@@ -70,6 +77,21 @@ export function DeskCase({ unitId, seed, progress, today, onProgress, onFinish, 
           : [],
       },
     });
+  };
+
+  const pick = async (i: number) => {
+    if (answered || marking) return;
+    setMarking(true);
+    try {
+      const m = await markPractice<{ options: CaseStep['options'] }>({ kind: 'case', unit: unitId, step: index });
+      const byText = new Map(m.options.map((o) => [o.text, o]));
+      setSteps((all) => all.map((s, k) => (k === index ? { ...s, options: s.options.map((o) => byText.get(o.text) ?? o) } : s)));
+      setPicks((p) => [...p.slice(0, index), i]);
+    } catch {
+      // Not marked: the step stays open to pick again.
+    } finally {
+      setMarking(false);
+    }
   };
 
   const next = () => {
@@ -134,9 +156,9 @@ export function DeskCase({ unitId, seed, progress, today, onProgress, onFinish, 
                 <button
                   key={i}
                   type="button"
-                  disabled={answered}
+                  disabled={answered || marking}
                   data-key="choice"
-                  onClick={() => setPicks((p) => [...p.slice(0, index), i])}
+                  onClick={() => void pick(i)}
                   className={`flex w-full items-start gap-3 rounded-2xl border-2 px-4 py-3 text-left transition active:scale-[0.99] ${tone}`}
                 >
                   <span className="flex-1 font-semibold text-ink">{o.text}</span>

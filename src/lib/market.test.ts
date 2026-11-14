@@ -1,12 +1,14 @@
 import { describe, expect, it } from 'vitest';
 import { areaCoreDrillIds, areaOpen } from './choose';
-import { caseById, path, unitById } from './content';
+import { buildPacks } from './cardData';
+import { path, unitById } from './content';
 import { drillUp } from './lesson';
 import { fairValue, MM, newMarketGame, noiseTradeChance, playTurn, scoreGame, shownBefore, validQuote, type MarketGame, type Quote, type TurnResult } from './market';
 import { casePassMark, recordLine, recordRound } from './practice';
 import { seededRng } from './questions';
 import { newProgress } from './scheduler';
 import { currentUnit, trackTermIds } from './track';
+import type { DeskCase } from './types';
 import type { Progress } from './types';
 
 const today = '2026-11-07';
@@ -141,6 +143,7 @@ describe('games and cases on the track', () => {
   });
 
   it('gives every desk case a unit and a pass mark of all but one decision', () => {
+    const caseById = new Map([...buildPacks()].filter(([id]) => id.startsWith('case:')).map(([id, c]) => [id.slice(5), c as DeskCase]));
     for (const [id, c] of caseById) {
       expect(unitById.get(id)?.kind).toBe('case');
       expect(casePassMark(id)).toBe(c.steps.length - 1);

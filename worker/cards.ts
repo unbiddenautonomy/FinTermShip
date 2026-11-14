@@ -6,27 +6,25 @@
  * gets a bulk download.
  *
  * - No daily allowance: learners take as many lessons as they like.
- * - Each ask carries at most MAX_IDS cards and MAX_PACKS packs, and an account
+ * - Each ask carries at most MAX_IDS cards, and an account
  *   can ask at most ASKS_PER_MINUTE times a minute. No one reaches either by
  *   tapping; a script copying the syllabus hits them at once.
  * - At most NEW_PER_HOUR cards an account has never had before, in any hour.
  *   A lesson teaches a handful of new terms, so learners never meet it.
- * - Phase 3 terms and packs only once the account has phase 3 (the password, or the admin).
+ * - Phase 3 terms only once the account has phase 3 (the password, or the admin).
  *
- * Packs work the same way: a desk case, or one game or mode's content, given
- * when the learner opens it. The admin has no per-hour ceiling. Every card and
- * pack given is recorded, so the admin sees each account's activity.
+ * The admin has no per-hour ceiling. Every card given is recorded, so the admin
+ * sees each account's activity.
+ *
+ * Packs (desk cases, game content, headlines and boards) are never given whole.
+ * They stay here, and one round at a time is dealt without its answers
+ * (worker/practice.ts, worker/rounds.ts, worker/callit.ts).
  */
 import { buildCards, buildPacks, fullCategories } from '../src/lib/cardData';
 import type { Card } from '../src/lib/types';
 
-/** The packs that hold round content: dealt one round at a time by worker/rounds.ts, never whole. */
-export const ROUND_PACKS = new Set(['headlines', 'headlines:p3', 'finnections', 'finnections:p3']);
-
 /** Cards in one ask: a lesson needs a few dozen; the phase 3 test's terms are the most at once. */
 export const MAX_IDS = 80;
-/** Packs in one ask. */
-export const MAX_PACKS = 4;
 /** Asks an account can make in a minute. */
 export const ASKS_PER_MINUTE = 60;
 /** Cards an account has never had before, in any hour. */
@@ -108,7 +106,6 @@ export interface CardsReply {
   version: string;
   at: number;
   cards: Record<string, Card>;
-  packs: Record<string, unknown>;
   refused?: string[];
   reason?: string;
 }
@@ -128,36 +125,14 @@ export async function countAsk(db: CardsDb, user: CardsUser, now: number): Promi
   return (row?.n ?? 1) <= ASKS_PER_MINUTE;
 }
 
-/** Give these packs, under the rules at the top of this file. */
-export async function askPacks(db: CardsDb, user: CardsUser, ids: unknown, now: number): Promise<{ packs: Record<string, unknown>; refused: string[]; reason?: string }> {
-  const { packs, phase3 } = content();
-  // Round content (headlines, boards) is dealt one round at a time instead (worker/rounds.ts).
-  const wanted = [...new Set(Array.isArray(ids) ? ids.filter((x): x is string => typeof x === 'string' && packs.has(x) && !ROUND_PACKS.has(x)) : [])].slice(0, MAX_PACKS);
-  const out: Record<string, unknown> = {};
-  const refused: string[] = [];
-  let reason: string | undefined;
-  const allowed: string[] = [];
-  for (const id of wanted) {
-    if (phase3.has(id) && !user.phase3 && !user.admin) {
-      refused.push(id);
-      reason = 'Phase 3 content opens once phase 3 is unlocked on your account.';
-    } else allowed.push(id);
-  }
-  if (allowed.length)
-    await db.batch(allowed.map((id) => db.prepare('INSERT OR IGNORE INTO packs (user_id, pack, issued) VALUES (?, ?, ?)').bind(user.id, id, now)));
-  for (const id of allowed) out[id] = packs.get(id);
-  return { packs: out, refused, reason };
-}
-
 /**
- * Give the cards for these terms (and any packs), under the rules at the top of
+ * Give the cards for these terms, under the rules at the top of
  * this file. Cards this account has had before always come back; new ones count
  * towards the hour.
  */
-export async function askCards(db: CardsDb, user: CardsUser, ids: unknown, now: number, packIds?: unknown): Promise<CardsReply> {
+export async function askCards(db: CardsDb, user: CardsUser, ids: unknown, now: number): Promise<CardsReply> {
   const { cards, phase3, version } = content();
   const wanted = [...new Set(Array.isArray(ids) ? ids.filter((x): x is string => typeof x === 'string' && cards.has(x)) : [])].slice(0, MAX_IDS);
-  const asked = await askPacks(db, user, packIds, now);
   const given = new Set<string>();
   if (wanted.length) {
     const { results } = await db
@@ -190,7 +165,5 @@ export async function askCards(db: CardsDb, user: CardsUser, ids: unknown, now: 
 
   const out: Record<string, Card> = {};
   for (const id of [...allowed.filter((id) => given.has(id)), ...issued]) out[id] = cards.get(id)!;
-  refused.push(...asked.refused);
-  reason ??= asked.reason;
-  return { version, at: now, cards: out, packs: asked.packs, ...(refused.length ? { refused, reason } : {}) };
+  return { version, at: now, cards: out, ...(refused.length ? { refused, reason } : {}) };
 }

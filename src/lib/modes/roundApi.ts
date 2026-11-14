@@ -1,5 +1,5 @@
 /**
- * Headline Desk, Finnections and Call It talk to the server here: a round is dealt without its answers,
+ * Headline Desk, Finnections, Call It, desk cases and the pack games talk to the server here: a round is dealt without its answers,
  * and each answer is marked by the server (worker/rounds.ts). `npm run dev` has no server, so
  * there the same code runs in the page, never in the production build.
  */
@@ -65,4 +65,26 @@ export async function markCall(termId: string, text: string): Promise<{ truth: b
     return out;
   }
   return call('callit/mark', { termId, text });
+}
+
+/** Deal a desk case, Fermi, meeting or backtest round, without its answers. */
+export async function dealPractice<T>(kind: 'fermi' | 'meeting' | 'backtest' | 'case', unit?: string): Promise<T> {
+  if (import.meta.env.DEV) {
+    const { dealPractice: deal } = await import('../../../worker/practice');
+    const out = deal({ admin: 1, phase3: 1 }, kind, unit);
+    if ('error' in out) throw new Error(String(out.error));
+    return out as T;
+  }
+  return call<T>('practice', { kind, unit });
+}
+
+/** Mark one answer in a practice round: the right answer and the reason come back. */
+export async function markPractice<T>(body: Record<string, unknown>): Promise<T> {
+  if (import.meta.env.DEV) {
+    const { markPractice: mark } = await import('../../../worker/practice');
+    const out = mark({ admin: 1, phase3: 1 }, body);
+    if ('error' in out) throw new Error(String(out.error));
+    return out as T;
+  }
+  return call<T>('practice/mark', body);
 }

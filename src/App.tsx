@@ -15,8 +15,7 @@ import { buildPhase3Test, PHASE3, withPhase3Key } from './lib/phase3';
 import { dayKey } from './lib/dates';
 import { buildLesson, drillUp, todayStatus, type LessonPlan } from './lib/lesson';
 import { seededRng } from './lib/questions';
-import { ensureCards, ensurePacks, planTermIds } from './lib/cards';
-import { hasPack, packOf } from './lib/packs';
+import { ensureCards, planTermIds } from './lib/cards';
 import { hasCard } from './lib/content';
 import { KIND_LABEL } from './lib/practice';
 import { loadProgress, requestPersistence, saveProgress } from './lib/storage';
@@ -268,21 +267,10 @@ export default function App() {
   };
   /**
    * Drills, games and desk cases each have their own screen. A desk case, and a
-   * game whose content comes from the server, is fetched first if this device
-   * doesn't have it. Resolves to whether the screen opened.
+   * game whose content is on the server, deals its round once the screen opens.
+   * Resolves to whether the screen opened.
    */
   const drill = async (unitId: string): Promise<boolean> => {
-    const pack = packOf(unitId);
-    if (pack && !hasPack(pack)) {
-      if (fetching) return false;
-      setFetching(pack.startsWith('case:') ? 'Getting the case…' : 'Getting the game ready…');
-      const failed = await ensurePacks([pack]);
-      setFetching(null);
-      if (failed) {
-        setNotice(failed);
-        return false;
-      }
-    }
     setScreen({ name: practiceKind(unitId) ?? 'drill', unitId, seed: Date.now() % 2_147_483_647 });
     return true;
   };
