@@ -522,3 +522,38 @@ describe('worker: Headline Desk and Finnections rounds', () => {
     expect((await friend.call('POST', '/api/round/mark', { mode: 'finnections', id: p3Board.id, reveal: true })).status).toBe(400);
   });
 });
+
+describe('worker: Call It', () => {
+  async function learner() {
+    const admin = new Client();
+    await admin.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
+    const { data } = await admin.call('POST', '/api/admin/invites', { quant: false, phase3: false });
+    const friend = new Client();
+    await friend.call('POST', '/api/signup', { email: 'friend@example.com', password: 'friendpass', invite: data.code });
+    return friend;
+  }
+  const ids = ['bid', 'ask', 'spread', 'ltp', 'liquidity', 'volume'];
+
+  it('deals one claim per term, without whether it is true, and marks each call', async () => {
+    const friend = await learner();
+    const r = await friend.call('POST', '/api/callit', { ids, known: [] });
+    expect(r.data.claims.map((c: { termId: string }) => c.termId)).toEqual(ids);
+    for (const c of r.data.claims) expect(Object.keys(c).sort()).toEqual(['termId', 'text']);
+    const truths: boolean[] = [];
+    for (const c of r.data.claims) {
+      const m = await friend.call('POST', '/api/callit/mark', c);
+      expect(m.status).toBe(200);
+      expect(typeof m.data.why).toBe('string');
+      truths.push(m.data.truth);
+    }
+    expect(truths.filter(Boolean).length).toBe(3);
+    expect((await friend.call('POST', '/api/callit/mark', { termId: 'bid', text: 'made up' })).status).toBe(400);
+  });
+
+  it('keeps phase 3 terms out of a deck before phase 3', async () => {
+    const friend = await learner();
+    const strategy = [...content().phase3].find((id) => content().cards.has(id))!;
+    const r = await friend.call('POST', '/api/callit', { ids: [strategy, 'bid'], known: [] });
+    expect(r.data.claims.map((c: { termId: string }) => c.termId)).toEqual(['bid']);
+  });
+});
