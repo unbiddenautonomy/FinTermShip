@@ -89,8 +89,13 @@ const TermLines = lazy(LOADERS.TermLines);
 const HeadlineDesk = lazy(LOADERS.HeadlineDesk);
 const Finnections = lazy(LOADERS.Finnections);
 
+/**
+ * Screens whose files carry content (the Lines map, Exchange tickers, the career map, the Guide's
+ * replies) load only when the learner opens them. The rest is code, fetched ahead while Home shows.
+ */
+const ON_OPEN = new Set<keyof typeof LOADERS>(['Careers', 'Guide', 'CallIt', 'Exchange', 'TermLines', 'HeadlineDesk', 'Finnections']);
 function prefetchScreens() {
-  for (const load of Object.values(LOADERS)) void load().catch(() => undefined);
+  for (const [name, load] of Object.entries(LOADERS)) if (!ON_OPEN.has(name as keyof typeof LOADERS)) void load().catch(() => undefined);
 }
 
 function Spinner() {
