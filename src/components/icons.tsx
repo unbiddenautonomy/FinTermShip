@@ -203,3 +203,30 @@ export const ArrowLeft = (p: IconProps) => (
     <path d="M19 12H5M11 18l-6-6 6-6" />
   </Svg>
 );
+
+/** Headline Desk: a folded newspaper. */
+export const PaperIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <path d="M4 5h13v13a2 2 0 0 0 2 2H6a2 2 0 0 1-2-2V5Z" />
+    <path d="M17 9h3v9a2 2 0 0 1-4 0" />
+    <path d="M7 9h7M7 13h7M7 16h4" />
+  </Svg>
+);
+
+/** Finnections: a four-by-four grid with one row found. */
+export const GridIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="3" y="3" width="18" height="4" rx="1.5" />
+    <path d="M3 11h4v4H3zM10 11h4v4h-4zM17 11h4v4h-4zM3 18h4v3H3zM10 18h4v3h-4zM17 18h4v3h-4z" />
+  </Svg>
+);
+
+/** The More button: four tiles. */
+export const MoreIcon = (p: IconProps) => (
+  <Svg {...p}>
+    <rect x="4" y="4" width="6.5" height="6.5" rx="1.5" />
+    <rect x="13.5" y="4" width="6.5" height="6.5" rx="1.5" />
+    <rect x="4" y="13.5" width="6.5" height="6.5" rx="1.5" />
+    <path d="M16.75 13.5v6.5M13.5 16.75H20" />
+  </Svg>
+);

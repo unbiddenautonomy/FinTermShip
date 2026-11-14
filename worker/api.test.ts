@@ -472,11 +472,12 @@ describe('worker: desk cases and game content (packs)', () => {
     return { admin, friend };
   }
 
-  it('has every desk case and the meeting, Fermi and backtest content, and phase 3 cases need phase 3', () => {
-    expect([...packs.keys()].filter((id) => !id.startsWith('case:')).sort()).toEqual(['backtest', 'fermi', 'meeting']);
+  it('has every desk case, the games and modes content, and phase 3 cases and content need phase 3', () => {
+    expect([...packs.keys()].filter((id) => !id.startsWith('case:')).sort()).toEqual(['backtest', 'fermi', 'finnections', 'finnections:p3', 'headlines', 'headlines:p3', 'meeting']);
     expect(mainPacks.filter((id) => id.startsWith('case:')).length).toBeGreaterThan(0);
     expect(phase3Packs.length).toBeGreaterThan(0);
-    expect(phase3Packs.every((id) => id.startsWith('case:'))).toBe(true);
+    expect(phase3Packs.every((id) => id.startsWith('case:') || id.endsWith(':p3'))).toBe(true);
+    expect(phase3Packs).toEqual(expect.arrayContaining(['headlines:p3', 'finnections:p3']));
   });
 
   it('gives a new account no packs until it opens one, then that one on every device', async () => {
@@ -514,7 +515,7 @@ describe('worker: desk cases and game content (packs)', () => {
     const r = await friend.call('POST', '/api/cards', { ids: [], packs: [phase3Packs[0], 'fermi'] });
     expect(Object.keys(r.data.packs)).toEqual(['fermi']);
     expect(r.data.refused).toEqual([phase3Packs[0]]);
-    expect(r.data.reason).toMatch(/Phase 3 cases/);
+    expect(r.data.reason).toMatch(/Phase 3 content/);
     const all = await admin.call('POST', '/api/cards', { ids: [], packs: [...packs.keys()] });
     expect(Object.keys(all.data.packs).length).toBe(packs.size);
     expect(all.data.refused).toBeUndefined();
