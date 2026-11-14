@@ -18,7 +18,7 @@ export function CardsGate({ status, onRetry }: { status: CardsStatus; onRetry: (
   );
   if (status === 'loading') return <div className="flex min-h-[100dvh] items-center justify-center text-ink-3">Loading…</div>;
   if (status === 'signed-out') return box('Your session has ended', 'Sign in again to carry on. Your progress is saved.', { label: 'Sign in', onClick: () => window.location.assign('/') });
-  if (status === 'offline') return box('You’re offline', 'fintermship needs a connection the first time it opens on a device. Try again once you’re back online.', { label: 'Try again', onClick: onRetry });
+  if (status === 'offline') return box('You’re offline', 'fintermship fetches each lesson, term and round as you open it, so it needs a connection. Try again once you’re back online.', { label: 'Try again', onClick: onRetry });
   return box('Your terms didn’t load', 'Something went wrong fetching them. Your progress is safe.', { label: 'Try again', onClick: onRetry });
 }
 

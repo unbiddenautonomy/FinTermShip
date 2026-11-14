@@ -4,7 +4,7 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { newProgress } from '../src/lib/scheduler';
 import type { Progress } from '../src/lib/types';
 import worker, { handleApi, hashPassword, inviteCode, verifyPassword, type D1Database, type Env } from './index';
-import { content, NEW_PER_DAY, PACKS_PER_DAY, SEED_BEFORE, TESTS_PER_DAY } from './cards';
+import { ASKS_PER_MINUTE, content, MAX_IDS, MAX_PACKS, NEW_PER_HOUR } from './cards';
 
 function fakeD1(): D1Database {
   const sql = new DatabaseSync(':memory:');
@@ -304,7 +304,7 @@ describe('worker: the app is for signed-in sessions only', () => {
 });
 
 describe('worker: term cards', () => {
-  const { cards, phase3, core } = content();
+  const { cards, phase3 } = content();
   const ids = [...cards.keys()];
   const mainIds = ids.filter((id) => !phase3.has(id));
   const strategyId = [...phase3][0];
@@ -318,70 +318,49 @@ describe('worker: term cards', () => {
     return { admin, friend };
   }
 
-  it('gives a new account no cards until it asks, then only what it asked for', async () => {
+  it('gives only the cards asked for, and has no way to send everything given so far', async () => {
     const { friend } = await friendWith();
-    const first = await friend.call('GET', '/api/cards');
-    expect(first.status).toBe(200);
-    expect(first.data.cards).toEqual({});
-    expect(typeof first.data.version).toBe('string');
+    expect((await friend.call('GET', '/api/cards')).status).toBe(404);
     const r = await friend.call('POST', '/api/cards', { ids: ['bid', 'ask', 'not-a-term'] });
     expect(Object.keys(r.data.cards).sort()).toEqual(['ask', 'bid']);
     expect(r.data.cards.bid.definition).toBe(cards.get('bid')!.definition);
     expect(r.data.refused).toBeUndefined();
-    // Every device gets them from now on.
-    expect(Object.keys((await friend.call('GET', '/api/cards')).data.cards).sort()).toEqual(['ask', 'bid']);
-    expect((await new Client().call('GET', '/api/cards')).status).toBe(401);
+    // Asking again gives the same cards back; nothing else rides along.
+    expect(Object.keys((await friend.call('POST', '/api/cards', { ids: ['spread'] })).data.cards)).toEqual(['spread']);
+    expect((await new Client().call('POST', '/api/cards', { ids: ['bid'] })).status).toBe(401);
   });
 
-  it('gives at most a day’s worth of new terms, and more the next day', async () => {
+  it('has no daily limit: only a ceiling per hour on new cards that no learner reaches', async () => {
     const t0 = Date.UTC(2026, 11, 1, 9);
     const { friend } = await friendWith();
-    const want = mainIds.slice(0, NEW_PER_DAY + 15);
-    const r = await friend.call('POST', '/api/cards', { ids: want }, t0);
-    expect(Object.keys(r.data.cards).length).toBe(NEW_PER_DAY);
-    expect(r.data.refused).toEqual(want.slice(NEW_PER_DAY));
-    expect(r.data.reason).toMatch(/new terms for one day/);
-    // Asking again the same day gives back what it has, and nothing new.
-    const again = await friend.call('POST', '/api/cards', { ids: want }, t0 + 3600_000);
-    expect(Object.keys(again.data.cards).length).toBe(NEW_PER_DAY);
-    expect(again.data.refused.length).toBe(15);
-    // A day later there is room again.
-    const next = await friend.call('POST', '/api/cards', { ids: want }, t0 + 864e5 + 1);
-    expect(Object.keys(next.data.cards).length).toBe(NEW_PER_DAY + 15);
-    expect(next.data.refused).toBeUndefined();
-  });
-
-  it('sends a device only the cards given since it last asked, unless the syllabus changed', async () => {
-    const t0 = Date.UTC(2026, 11, 1, 9);
-    const { friend } = await friendWith();
-    const a = await friend.call('POST', '/api/cards', { ids: ['bid', 'ask'] }, t0);
-    await friend.call('POST', '/api/cards', { ids: ['spread'] }, t0 + 60_000);
-    const since = await friend.call('GET', `/api/cards?have=${encodeURIComponent(a.data.version)}&since=${t0 + 1}`, undefined, t0 + 120_000);
-    expect(Object.keys(since.data.cards)).toEqual(['spread']);
-    const stale = await friend.call('GET', `/api/cards?have=old&since=${t0 + 1}`, undefined, t0 + 120_000);
-    expect(Object.keys(stale.data.cards).sort()).toEqual(['ask', 'bid', 'spread']);
-  });
-
-  it('gives an area test its core terms on top of the day’s new ones, for a few areas a day', async () => {
-    const t0 = Date.UTC(2026, 11, 1, 9);
-    const { friend } = await friendWith();
-    await friend.call('POST', '/api/cards', { ids: mainIds.slice(0, NEW_PER_DAY) }, t0);
-    const areas = [...core.keys()].filter((a) => a !== 'phase3' && core.get(a)!.size > 0);
-    for (const [i, area] of areas.slice(0, TESTS_PER_DAY).entries()) {
-      const want = [...core.get(area)!];
-      const r = await friend.call('POST', '/api/cards', { ids: want, test: area }, t0 + i);
-      expect(Object.keys(r.data.cards).length, area).toBe(want.length);
+    const want = mainIds.slice(0, NEW_PER_HOUR + 20);
+    let got = 0;
+    let refused: string[] = [];
+    for (let i = 0; i < want.length; i += MAX_IDS) {
+      const r = await friend.call('POST', '/api/cards', { ids: want.slice(i, i + MAX_IDS) }, t0 + i);
+      got += Object.keys(r.data.cards).length;
+      refused = [...refused, ...(r.data.refused ?? [])];
     }
-    // A term outside the area can't ride along on its test.
-    const tested = new Set(areas.slice(0, TESTS_PER_DAY).flatMap((a) => [...core.get(a)!]));
-    const outside = mainIds.slice(NEW_PER_DAY).find((id) => !tested.has(id))!;
-    const mixed = await friend.call('POST', '/api/cards', { ids: [...core.get(areas[0])!, outside], test: areas[0] }, t0 + 10);
-    expect(mixed.data.refused).toContain(outside);
-    // One more area the same day waits.
-    const extra = areas[TESTS_PER_DAY];
-    const r = await friend.call('POST', '/api/cards', { ids: [...core.get(extra)!], test: extra }, t0 + 20);
-    expect(r.data.reason).toMatch(/area tests/);
-    expect(Object.keys(r.data.cards).filter((id) => core.get(extra)!.has(id) && !core.get(areas[0])!.has(id)).length).toBeLessThan(core.get(extra)!.size);
+    expect(got).toBe(NEW_PER_HOUR);
+    expect(refused).toEqual(want.slice(NEW_PER_HOUR));
+    // Cards it already has always come back, and an hour later there is room again.
+    const again = await friend.call('POST', '/api/cards', { ids: want.slice(0, 5) }, t0 + 1000);
+    expect(Object.keys(again.data.cards).length).toBe(5);
+    const later = await friend.call('POST', '/api/cards', { ids: want.slice(NEW_PER_HOUR) }, t0 + 3600_000 + 2000);
+    expect(Object.keys(later.data.cards).length).toBe(20);
+    // Well past what a day's old limits allowed.
+    expect(got + 20).toBeGreaterThan(60);
+  });
+
+  it('sends at most a screen’s worth per ask, and a limited number of asks a minute', async () => {
+    const t0 = Date.UTC(2026, 11, 1, 9, 0, 0);
+    const { friend } = await friendWith();
+    const big = await friend.call('POST', '/api/cards', { ids: mainIds.slice(0, MAX_IDS + 20) }, t0);
+    expect(Object.keys(big.data.cards).length).toBe(MAX_IDS);
+    for (let i = 1; i < ASKS_PER_MINUTE; i++) expect((await friend.call('POST', '/api/cards', { ids: ['bid'] }, t0 + i)).status).toBe(200);
+    const over = await friend.call('POST', '/api/cards', { ids: ['bid'] }, t0 + 100);
+    expect(over.status).toBe(429);
+    expect((await friend.call('POST', '/api/cards', { ids: ['bid'] }, t0 + 60_000)).status).toBe(200);
   });
 
   it('keeps phase 3 cards for accounts with phase 3, and the admin', async () => {
@@ -390,9 +369,9 @@ describe('worker: term cards', () => {
     expect(Object.keys(r.data.cards)).toEqual(['bid']);
     expect(r.data.refused).toEqual([strategyId]);
     expect(r.data.reason).toMatch(/Phase 3/);
-    // The admin can have any card (asked for a few hundred at a time).
+    // The admin can have any card, with no hourly ceiling.
     let got = 0;
-    for (let i = 0; i < ids.length; i += 300) got += Object.keys((await admin.call('POST', '/api/cards', { ids: ids.slice(i, i + 300) })).data.cards).length;
+    for (let i = 0; i < ids.length; i += MAX_IDS) got += Object.keys((await admin.call('POST', '/api/cards', { ids: ids.slice(i, i + MAX_IDS) })).data.cards).length;
     expect(got).toBe(ids.length);
     const { friend: other } = await (async () => {
       const { data } = await admin.call('POST', '/api/admin/invites', { quant: false, phase3: true });
@@ -425,37 +404,6 @@ describe('worker: term cards', () => {
     for (let i = 0; i < 8; i++) expect((await guesser.call('POST', '/api/unlock', { password: String(i) })).status).toBe(401);
     expect((await guesser.call('POST', '/api/unlock', { password: 'open sesame' })).status).toBe(429);
   });
-
-  it('gives an account from before cards came from the server the cards for terms it had met, once', async () => {
-    const before = SEED_BEFORE - 864e5;
-    const old = new Client();
-    await old.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' }, before);
-    // The admin has every card anyway; seed a learner made before the cutoff instead.
-    const { data } = await old.call('POST', '/api/admin/invites', { quant: false, phase3: false }, before);
-    const learner = new Client();
-    await learner.call('POST', '/api/signup', { email: 'early@example.com', password: 'friendpass', invite: data.code }, before);
-    const t = { step: 2, due: '2026-11-20', seen: 3, correct: 2, wrong: 1, lapses: 0, trouble: false, introduced: '2026-11-01' };
-    const p: Progress = { ...newProgress(), terms: { bid: t, ask: t, [strategyId]: t, gone: t }, phase3Key: true };
-    await learner.call('PUT', '/api/progress', { progress: p }, before);
-    const after = SEED_BEFORE + 864e5;
-    const r = await learner.call('GET', '/api/cards', undefined, after);
-    expect(Object.keys(r.data.cards).sort()).toEqual(['ask', 'bid', strategyId].sort());
-    // Phase 3 opened with the old password carries over; the seeded cards don't use up the day.
-    expect((await learner.call('GET', '/api/me', undefined, after)).data.user.phase3).toBe(true);
-    const more = await learner.call('POST', '/api/cards', { ids: mainIds.filter((id) => id !== 'bid' && id !== 'ask').slice(0, NEW_PER_DAY) }, after);
-    expect(more.data.reason).toBeUndefined();
-    expect(more.data.refused).toBeUndefined();
-    // Later progress doesn't seed again.
-    const later = mainIds[NEW_PER_DAY + 30];
-    await learner.call('PUT', '/api/progress', { progress: { ...p, terms: { ...p.terms, [later]: t } } }, after);
-    expect((await learner.call('GET', '/api/cards', undefined, after + 1)).data.cards[later]).toBeUndefined();
-    // An account made after the cutoff gets nothing from its progress.
-    const { data: inv } = await old.call('POST', '/api/admin/invites', { quant: false, phase3: false }, after);
-    const late = new Client();
-    await late.call('POST', '/api/signup', { email: 'late@example.com', password: 'friendpass', invite: inv.code }, after);
-    await late.call('PUT', '/api/progress', { progress: p }, after);
-    expect((await late.call('GET', '/api/cards', undefined, after)).data.cards).toEqual({});
-  });
 });
 
 describe('worker: desk cases and game content (packs)', () => {
@@ -480,34 +428,19 @@ describe('worker: desk cases and game content (packs)', () => {
     expect(phase3Packs).toEqual(expect.arrayContaining(['headlines:p3', 'finnections:p3']));
   });
 
-  it('gives a new account no packs until it opens one, then that one on every device', async () => {
+  it('gives the packs asked for, a few at a time, with no daily limit', async () => {
     const { friend } = await friendWith();
-    expect((await friend.call('GET', '/api/cards')).data.packs).toEqual({});
     const caseId = mainPacks.find((id) => id.startsWith('case:'))!;
     const r = await friend.call('POST', '/api/cards', { ids: [], packs: ['meeting', caseId, 'not-a-pack'] });
     expect(Object.keys(r.data.packs).sort()).toEqual([caseId, 'meeting'].sort());
     expect(r.data.packs.meeting).toEqual(packs.get('meeting'));
-    expect(r.data.packs[caseId]).toEqual(packs.get(caseId));
     expect(r.data.cards).toEqual({});
     expect(r.data.refused).toBeUndefined();
-    expect(Object.keys((await friend.call('GET', '/api/cards')).data.packs).sort()).toEqual([caseId, 'meeting'].sort());
-  });
-
-  it('gives at most a few new packs a day, and the rest the next day', async () => {
-    const t0 = Date.UTC(2026, 11, 1, 9);
-    const { friend } = await friendWith({ phase3: true });
-    const want = [...mainPacks, ...phase3Packs].slice(0, PACKS_PER_DAY + 2);
-    const r = await friend.call('POST', '/api/cards', { ids: [], packs: want }, t0);
-    expect(Object.keys(r.data.packs).length).toBe(PACKS_PER_DAY);
-    expect(r.data.refused).toEqual(want.slice(PACKS_PER_DAY));
-    expect(r.data.reason).toMatch(/cases and games for one day/);
-    // What it already has always comes back.
-    const again = await friend.call('POST', '/api/cards', { ids: [], packs: want.slice(0, 2) }, t0 + 3600_000);
-    expect(Object.keys(again.data.packs).sort()).toEqual(want.slice(0, 2).sort());
-    expect(again.data.refused).toBeUndefined();
-    const next = await friend.call('POST', '/api/cards', { ids: [], packs: want }, t0 + 864e5 + 1);
-    expect(Object.keys(next.data.packs).length).toBe(want.length);
-    expect(next.data.refused).toBeUndefined();
+    const big = await friend.call('POST', '/api/cards', { ids: [], packs: mainPacks.slice(0, MAX_PACKS + 3) });
+    expect(Object.keys(big.data.packs).length).toBe(MAX_PACKS);
+    let got = 0;
+    for (let i = 0; i < mainPacks.length; i += MAX_PACKS) got += Object.keys((await friend.call('POST', '/api/cards', { ids: [], packs: mainPacks.slice(i, i + MAX_PACKS) })).data.packs).length;
+    expect(got).toBe(mainPacks.length);
   });
 
   it('keeps phase 3 cases for accounts with phase 3, and the admin', async () => {
@@ -516,24 +449,8 @@ describe('worker: desk cases and game content (packs)', () => {
     expect(Object.keys(r.data.packs)).toEqual(['fermi']);
     expect(r.data.refused).toEqual([phase3Packs[0]]);
     expect(r.data.reason).toMatch(/Phase 3 content/);
-    const all = await admin.call('POST', '/api/cards', { ids: [], packs: [...packs.keys()] });
-    expect(Object.keys(all.data.packs).length).toBe(packs.size);
+    const all = await admin.call('POST', '/api/cards', { ids: [], packs: phase3Packs.slice(0, MAX_PACKS) });
+    expect(Object.keys(all.data.packs).length).toBe(Math.min(MAX_PACKS, phase3Packs.length));
     expect(all.data.refused).toBeUndefined();
-  });
-
-  it('sends a device only the packs given since it last asked, and does not count them as new terms', async () => {
-    const t0 = Date.UTC(2026, 11, 1, 9);
-    const { friend } = await friendWith();
-    const a = await friend.call('POST', '/api/cards', { ids: ['bid'], packs: ['fermi'] }, t0);
-    expect(Object.keys(a.data.cards)).toEqual(['bid']);
-    await friend.call('POST', '/api/cards', { ids: [], packs: ['backtest'] }, t0 + 60_000);
-    const since = await friend.call('GET', `/api/cards?have=${encodeURIComponent(a.data.version)}&since=${t0 + 1}`, undefined, t0 + 120_000);
-    expect(Object.keys(since.data.packs)).toEqual(['backtest']);
-    expect(since.data.cards).toEqual({});
-    const stale = await friend.call('GET', `/api/cards?have=old&since=${t0 + 1}`, undefined, t0 + 120_000);
-    expect(Object.keys(stale.data.packs).sort()).toEqual(['backtest', 'fermi']);
-    // Packs have their own allowance: the day's new terms are all still there (bid aside).
-    const more = await friend.call('POST', '/api/cards', { ids: [...content().cards.keys()].filter((id) => !phase3.has(id) && id !== 'bid').slice(0, NEW_PER_DAY - 1) }, t0 + 180_000);
-    expect(more.data.refused).toBeUndefined();
   });
 });

@@ -419,7 +419,7 @@ function Intro({ term, voice }: { term: Term; voice: boolean }) {
         </p>
       )}
       <p className="mb-5 mt-4 inline-block rounded-xl bg-sky-soft px-3 py-1.5 text-sm font-bold text-sky-ink">{tidyOption(term.short)}</p>
-      <TermDetails term={term} />
+      <TermDetails term={term} met />
     </div>
   );
 }

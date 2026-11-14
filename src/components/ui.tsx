@@ -3,6 +3,7 @@ import { categoryOfTerm, hasCard, unitById } from '../lib/content';
 import { canSpeak, speakTerm } from '../lib/speech';
 import type { Term } from '../lib/types';
 import { Speaker } from './icons';
+import { useTermCards } from './useCards';
 
 export type Tone = 'brand' | 'good' | 'sky' | 'amber' | 'violet' | 'bad' | 'ink';
 
@@ -194,8 +195,10 @@ export function Toggle({ checked, onChange, label }: { checked: boolean; onChang
   );
 }
 
-export function TermDetails({ term, showExamples = 2 }: { term: Term; showExamples?: number }) {
-  if (!hasCard(term.id)) return <NotReached term={term} />;
+/** A term's card. Pass `met` when the learner has met it, so its card is fetched if it isn't here yet. */
+export function TermDetails({ term, met = false, showExamples = 2 }: { term: Term; met?: boolean; showExamples?: number }) {
+  useTermCards(met ? [term.id] : []);
+  if (!hasCard(term.id)) return met ? <CardLoading /> : <NotReached term={term} />;
   return (
     <div className="space-y-4">
       <p className="text-[17px] leading-relaxed text-ink">{term.definition}</p>
@@ -220,6 +223,18 @@ export function TermDetails({ term, showExamples = 2 }: { term: Term; showExampl
       {term.note && <p className="text-sm leading-relaxed text-ink-3">{term.note}</p>}
     </div>
   );
+}
+
+/** Just a term's definition, fetched like TermDetails when the learner has met it. */
+export function TermDefinition({ term, met }: { term: Term; met: boolean }) {
+  useTermCards(met ? [term.id] : []);
+  if (hasCard(term.id)) return <p className="mt-1 text-[15px]">{term.definition}</p>;
+  return <div className="mt-2">{met ? <CardLoading /> : <NotReached term={term} />}</div>;
+}
+
+/** In place of a met term's card while it is fetched. */
+export function CardLoading() {
+  return <p className="animate-pulse rounded-2xl bg-sunken px-4 py-3 text-[15px] text-ink-3">Getting this term…</p>;
 }
 
 /** In place of a term's card before the learner reaches it: where it comes, nothing of what it says. */

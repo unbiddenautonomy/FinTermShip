@@ -89,15 +89,16 @@ Set the printed hash as a runtime secret named `UNLOCK_HASH` on the Worker (Sett
 
 ## Who sees the content
 
-Opening Inspect on the app shows what the browser was sent. So the browser is sent only what this learner has reached:
+Opening Inspect on the app shows what the browser was sent. So the browser is sent only what the learner is doing:
 
 - Signed out, nothing: the sign-in page only (see below).
-- Signed in, the app's code and the outline (term names, never what they mean), plus the **cards** for the terms this account has reached. A card holds a term's definition, examples, fill sentence, wrong options, worked sums, true-or-false items, its talk items and its Call It claims.
-- The Worker (`worker/cards.ts`) keeps which cards each account has been given. It gives new terms as the learner starts a lesson on them, at most 60 in any 24 hours (Path's largest daily goal is 40); an area test's core terms for up to three area tests a day; and phase 3 terms only to accounts with phase 3. The admin gets any card. Accounts made before 15 November 2026 got the cards for the terms in their synced progress once.
-- Desk cases, meeting clips, Fermi questions and backtest reports come the same way, as **packs** (`src/lib/packs.ts`): a case's pack is fetched the first time the learner opens that case, and a game's when they open that game. The Worker gives at most six new packs in any 24 hours, and phase 3 cases only to accounts with phase 3. The outline carries each case's length, and its setup for the unit sheet outside phase 3; the decisions and their explanations are only in the pack.
-- The app keeps its cards and packs in IndexedDB per account, so it opens quickly and works offline on terms already met and cases already opened, and asks the server only for what is new (`src/lib/cards.ts`). Until a term's card arrives, the term shows its name and the unit it comes in.
+- Signed in, the app's code and the outline (term names, never what they mean). Nothing else comes at sign-in: no download of everything given so far.
+- A term's **card** (its definition, examples, fill sentence, wrong options, worked sums, true-or-false items, talk items and Call It claims) is fetched only when the learner does something that shows it: starts a lesson or a test on it, opens a met term's sheet, opens a unit, deals a Call It deck, opens a mock round. Cards stay in memory for that visit only. Nothing is kept on the device, and older copies in IndexedDB are deleted (`src/lib/cards.ts`).
+- The Worker (`worker/cards.ts`) has no daily allowance: learners take as many lessons, tests, cases and games as they like. Each ask carries at most 80 cards and 4 packs, an account can ask 60 times a minute, and at most 300 cards it has never had before in any hour (a lesson teaches four). Phase 3 terms and packs go only to accounts with phase 3. The admin has no hourly ceiling. Every card and pack given is recorded, so the admin sees each account's activity.
+- Desk cases, meeting clips, Fermi questions and backtest reports come the same way, as **packs** (`src/lib/packs.ts`): a case's pack when the learner opens that case, and a game's when they open that game. The outline carries each case's length, and its setup for the unit sheet outside phase 3; the decisions and their explanations are only in the pack.
+- Until a met term's card arrives, its sheet says it is being fetched; a term not reached yet shows its name and the unit it comes in.
 
-A signed-in learner can still save the cards and packs they have been given, and the answers to the lesson, case or game in front of them are in the browser. The games that make their rounds in code (the drills, market making, payoffs and the rest) ship their rules with the app. Seeing the whole syllabus would take weeks at the daily limit, and the admin sees each account's activity.
+What is on screen is always in the browser, and the answers to the lesson, case or game in front of the learner are there too. The games that make their rounds in code (the drills, market making, payoffs and the rest) ship their rules with the app. The Worker doesn't yet check that an asked-for term has been reached, so a script could fetch about 300 new cards an hour; the next steps move dealing and marking to the Worker, which closes that.
 
 ## Accounts and sync
 
