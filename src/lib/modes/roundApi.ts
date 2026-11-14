@@ -1,12 +1,12 @@
 /**
- * Headline Desk and Finnections talk to the server here: a round is dealt without its answers,
+ * Headline Desk, Finnections and Call It talk to the server here: a round is dealt without its answers,
  * and each answer is marked by the server (worker/rounds.ts). `npm run dev` has no server, so
  * there the same code runs in the page, never in the production build.
  */
 import type { DealtBoard, DealtHeadline, FoundGroup, Headline, RoundMode } from './rounds';
 
 async function call<T>(path: string, body: unknown): Promise<T> {
-  if (import.meta.env.DEV) {
+  if (import.meta.env.DEV && path.startsWith('round')) {
     const { dealRound, markRound } = await import('../../../worker/rounds');
     const b = body as Record<string, unknown>;
     const out = path === 'round' ? dealRound({ admin: 1, phase3: 1 }, b.mode, b.ids) : markRound({ admin: 1, phase3: 1 }, b);
@@ -45,4 +45,24 @@ export async function guessBoard(id: string, tiles: string[]): Promise<{ group?:
 /** Every group of a board that is over, in the board's order. */
 export async function revealBoard(id: string): Promise<FoundGroup[]> {
   return (await call<{ groups: FoundGroup[] }>('round/mark', { mode: 'finnections', id, reveal: true })).groups;
+}
+
+/** Deal a Call It deck: one claim per term, without whether it is true. `known` are met terms whose glosses may be swapped in. */
+export async function dealDeck(ids: string[], known: string[]): Promise<{ termId: string; text: string }[]> {
+  if (import.meta.env.DEV) {
+    const { dealDeck: deal } = await import('../../../worker/callit');
+    return deal({ admin: 1, phase3: 1 }, ids, known).claims;
+  }
+  return (await call<{ claims: { termId: string; text: string }[] }>('callit', { ids, known })).claims;
+}
+
+/** Mark a call on a claim: whether it was true, and why. */
+export async function markCall(termId: string, text: string): Promise<{ truth: boolean; why: string }> {
+  if (import.meta.env.DEV) {
+    const { markCall: mark } = await import('../../../worker/callit');
+    const out = mark({ admin: 1, phase3: 1 }, termId, text);
+    if ('error' in out) throw new Error(out.error);
+    return out;
+  }
+  return call('callit/mark', { termId, text });
 }
