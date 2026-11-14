@@ -14,6 +14,7 @@ import type { Progress } from '../src/lib/types';
 import { ALWAYS_ON, isModeId, MODES } from '../src/lib/modes/ids';
 import { askCards, countAsk } from './cards';
 import { dealDeck, markCall } from './callit';
+import { dealPractice, markPractice } from './practice';
 import { dealRound, markRound } from './rounds';
 import { signInPage } from './signin';
 
@@ -384,7 +385,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   if (route === 'POST /api/cards') {
     if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
     const b = await body();
-    return json(await askCards(db, user, b.ids, now, b.packs));
+    return json(await askCards(db, user, b.ids, now));
   }
 
   // ---------- Headline Desk and Finnections ----------
@@ -411,6 +412,18 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     if (route === 'POST /api/callit') return json(dealDeck(user, b.ids, b.known));
     const out = markCall(user, b.termId, b.text);
     return 'error' in out ? fail(400, out.error) : json(out);
+  }
+
+  // ---------- Desk cases, Fermi, the meeting game, backtest detective ----------
+  // A round is dealt without its answers, and each answer is marked here (worker/practice.ts).
+  if (route === 'POST /api/practice' || route === 'POST /api/practice/mark') {
+    if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
+    const b = await body();
+    const out = route === 'POST /api/practice' ? dealPractice(user, b.kind, b.unit) : markPractice(user, b);
+    if ('error' in out) return fail(400, String(out.error));
+    // Recorded like packs, so the admin sees what each account has opened.
+    if (route === 'POST /api/practice') await db.prepare('INSERT OR IGNORE INTO packs (user_id, pack, issued) VALUES (?, ?, ?)').bind(user.id, b.kind === 'case' ? `case:${String(b.unit)}` : String(b.kind), now).run();
+    return json(out);
   }
 
   // The password for the quant switch and phase 3: right once, and the account keeps both.

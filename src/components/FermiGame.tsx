@@ -1,16 +1,28 @@
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { bigNumber, DIAL, FERMI, fermiHit, newFermiRound, offText } from '../lib/fermi';
+import { useEffect, useRef, useState } from 'react';
+import { bigNumber, DIAL, FERMI, fermiHit, offText, type FermiItem } from '../lib/fermi';
+import { markPractice } from '../lib/modes/roundApi';
 import { finishGame } from '../lib/practice';
-import { seededRng } from '../lib/questions';
 import { GameFrame, Verdict, type GameProps } from './GameFrame';
+import { PracticeWait, usePractice } from './usePractice';
 import { Calculator } from './icons';
 import { Bar, Button } from './ui';
 
 /** The dial starts at 1,000 for every question. */
 const START = DIAL.indexOf(1000);
 
-export function FermiGame({ unitId, seed, progress, today, onProgress, onFinish, onQuit }: GameProps) {
-  const items = useMemo(() => newFermiRound(seededRng(seed)), [seed]);
+/** A question as dealt: what to estimate, without the answer. The answer and how come once a guess is locked. */
+type Dealt = Pick<FermiItem, 'id' | 'q' | 'unit'>;
+
+export function FermiGame(props: GameProps) {
+  const dealt = usePractice<{ items: Dealt[] }>('fermi', props.seed);
+  if (!dealt.round) return <PracticeWait error={dealt.error} onRetry={dealt.retry} onQuit={props.onQuit} />;
+  return <FermiRound {...props} dealt={dealt.round.items} />;
+}
+
+function FermiRound({ unitId, progress, today, onProgress, onFinish, onQuit, dealt }: GameProps & { dealt: Dealt[] }) {
+  // Each question gains its answer, how and source once its guess is marked.
+  const [items, setItems] = useState<FermiItem[]>(() => dealt.map((d) => ({ ...d, answer: 0, how: '' })));
+  const [marking, setMarking] = useState(false);
   const [index, setIndex] = useState(0);
   const [dial, setDial] = useState(START);
   const [left, setLeft] = useState(FERMI.seconds);
@@ -20,9 +32,18 @@ export function FermiGame({ unitId, seed, progress, today, onProgress, onFinish,
   const locked = answers.length > index;
   const guess = DIAL[dial];
 
-  const lock = (timedOut = false) => {
-    if (answers.length > index) return;
-    setAnswers((a) => (a.length > index ? a : [...a, { guess, hit: fermiHit(guess, item.answer), timedOut }]));
+  const lock = async (timedOut = false) => {
+    if (answers.length > index || marking) return;
+    setMarking(true);
+    try {
+      const full = { ...item, ...(await markPractice<Omit<FermiItem, 'id' | 'q'>>({ kind: 'fermi', id: item.id, guess })) };
+      setItems((all) => all.map((x, i) => (i === index ? full : x)));
+      setAnswers((a) => (a.length > index ? a : [...a, { guess, hit: fermiHit(guess, full.answer), timedOut }]));
+    } catch {
+      // Not marked: the guess stays open, and the learner can lock it again.
+    } finally {
+      setMarking(false);
+    }
   };
 
   // A minute a question; when it runs out, the dial's value is the answer.
@@ -31,10 +52,15 @@ export function FermiGame({ unitId, seed, progress, today, onProgress, onFinish,
   useEffect(() => {
     if (locked) return;
     const started = performance.now();
+    let fired = false;
     const t = setInterval(() => {
       const remaining = Math.max(0, FERMI.seconds - Math.floor((performance.now() - started) / 1000));
       setLeft(remaining);
-      if (remaining === 0) lockRef.current(true);
+      // Out of time locks the dial's value, once.
+      if (remaining === 0 && !fired) {
+        fired = true;
+        void lockRef.current(true);
+      }
     }, 250);
     return () => clearInterval(t);
   }, [index, locked]);
@@ -161,7 +187,7 @@ export function FermiGame({ unitId, seed, progress, today, onProgress, onFinish,
               </button>
             ))}
           </div>
-          <Button className="w-full text-base" onClick={() => lock()}>
+          <Button className="w-full text-base" onClick={() => void lock()} disabled={marking}>
             Lock it in
           </Button>
         </section>

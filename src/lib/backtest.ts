@@ -48,7 +48,7 @@ export interface Strategy {
   cases: { flaw: Flaw; slot: Slot; line: string; why: string; stats: { sharpe: number; annual: number; drawdown: number } }[];
 }
 
-/** The reports. They come from the server when the learner opens the game (src/lib/packs.ts). */
+/** The reports. Empty in the app: the server deals each round with this code (worker/practice.ts). */
 export const STRATEGIES: Strategy[] = [];
 
 export interface BacktestCase {
