@@ -13,6 +13,7 @@ import { mergeProgress } from '../src/lib/sync';
 import type { Progress } from '../src/lib/types';
 import { ALWAYS_ON, isModeId, MODES } from '../src/lib/modes/ids';
 import { askCards, countAsk } from './cards';
+import { dealRound, markRound } from './rounds';
 import { signInPage } from './signin';
 
 // ---------- The few Cloudflare types this file uses ----------
@@ -383,6 +384,22 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
     const b = await body();
     return json(await askCards(db, user, b.ids, now, b.packs));
+  }
+
+  // ---------- Headline Desk and Finnections ----------
+  // A round is dealt without its answers, and each answer is marked here (worker/rounds.ts).
+  if (route === 'POST /api/round' || route === 'POST /api/round/mark') {
+    if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
+    const b = await body();
+    if (route === 'POST /api/round/mark') {
+      const out = markRound(user, b);
+      return 'error' in out ? fail(400, String(out.error)) : json(out);
+    }
+    const out = dealRound(user, b.mode, b.ids);
+    if ('error' in out) return fail(400, out.error);
+    // Recorded like packs, so the admin sees each account's rounds.
+    if (out.items.length) await db.batch(out.items.map((x) => db.prepare('INSERT OR IGNORE INTO packs (user_id, pack, issued) VALUES (?, ?, ?)').bind(user.id, `round:${x.id}`, now)));
+    return json(out);
   }
 
   // The password for the quant switch and phase 3: right once, and the account keeps both.

@@ -20,6 +20,9 @@
 import { buildCards, buildPacks, fullCategories } from '../src/lib/cardData';
 import type { Card } from '../src/lib/types';
 
+/** The packs that hold round content: dealt one round at a time by worker/rounds.ts, never whole. */
+export const ROUND_PACKS = new Set(['headlines', 'headlines:p3', 'finnections', 'finnections:p3']);
+
 /** Cards in one ask: a lesson needs a few dozen; the phase 3 test's terms are the most at once. */
 export const MAX_IDS = 80;
 /** Packs in one ask. */
@@ -128,7 +131,8 @@ export async function countAsk(db: CardsDb, user: CardsUser, now: number): Promi
 /** Give these packs, under the rules at the top of this file. */
 export async function askPacks(db: CardsDb, user: CardsUser, ids: unknown, now: number): Promise<{ packs: Record<string, unknown>; refused: string[]; reason?: string }> {
   const { packs, phase3 } = content();
-  const wanted = [...new Set(Array.isArray(ids) ? ids.filter((x): x is string => typeof x === 'string' && packs.has(x)) : [])].slice(0, MAX_PACKS);
+  // Round content (headlines, boards) is dealt one round at a time instead (worker/rounds.ts).
+  const wanted = [...new Set(Array.isArray(ids) ? ids.filter((x): x is string => typeof x === 'string' && packs.has(x) && !ROUND_PACKS.has(x)) : [])].slice(0, MAX_PACKS);
   const out: Record<string, unknown> = {};
   const refused: string[] = [];
   let reason: string | undefined;

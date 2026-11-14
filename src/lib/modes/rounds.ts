@@ -10,11 +10,11 @@
  * - A round takes unseen items first, then ones with a term due for review, then the ones seen
  *   longest ago. If the level is short of items, the rest come from the levels below.
  *
- * The content comes from the server (packs 'headlines' and 'finnections', and their ':p3'
- * halves once phase 3 is open). The app ships only rounds.json: each item's id, level and terms.
+ * The app ships only rounds.json: each item's id, level and terms. It picks a round's items from
+ * that and the server deals them without their answers, then marks each answer
+ * (src/lib/modes/roundApi.ts, worker/rounds.ts).
  */
 import index from '../../data/modes/rounds.json';
-import { phase3Open } from '../phase3';
 import { shuffle, type Rng } from '../questions';
 import { finishModeSession, modeRecord, recordAnswer } from './knowledge';
 import type { ModeId } from './ids';
@@ -67,20 +67,22 @@ export const RISE_AFTER = 2;
 /** A round below this share moves the level down one. */
 export const DROP_BELOW = 0.4;
 
-/** The content, filled from the server's packs (src/lib/packs.ts). */
-export const headlineById = new Map<string, Headline>();
-export const boardById = new Map<string, Board>();
-
-const PACK_OF: Record<RoundMode, string> = { headline: 'headlines', finnections: 'finnections' };
-/** The packs a mode needs for this learner: the main one, and its phase 3 half once phase 3 is open. */
-export function packsFor(mode: RoundMode, p: Progress): string[] {
-  const id = PACK_OF[mode];
-  return phase3Open(p) ? [id, `${id}:p3`] : [id];
+/** A headline as it is dealt: what the learner reads and the lines to call, without the moves, terms or reason. */
+export interface DealtHeadline {
+  id: string;
+  level: number;
+  head: string;
+  dek: string;
+  items: { label: string }[];
 }
-
-export function hasContent(mode: RoundMode, id: string): boolean {
-  return mode === 'headline' ? headlineById.has(id) : boardById.has(id);
+/** A board as it is dealt: its sixteen term ids in a random order, without the groups. */
+export interface DealtBoard {
+  id: string;
+  level: number;
+  tiles: string[];
 }
+/** A group as the server gives it back, with its place in the board's order (for its colour). */
+export type FoundGroup = BoardGroup & { order: number };
 
 /** Items the learner can play: every term met. */
 export function playable(p: Progress, mode: RoundMode): IndexItem[] {
