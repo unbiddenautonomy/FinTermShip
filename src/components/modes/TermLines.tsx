@@ -8,12 +8,11 @@ import { useMemo, useState } from 'react';
 import { unitOpen } from '../../lib/choose';
 import { termById, unitById } from '../../lib/content';
 import { KIND_LABEL } from '../../lib/practice';
-import type { LessonPlan } from '../../lib/lesson';
 import { areaKpis, type ModeId } from '../../lib/modes/knowledge';
-import { buildRevisit, buildRide, canRideFrom, dueStops, frontier, lines, lineById, REVISIT_MAX, RIDE_STOPS, type Line } from '../../lib/modes/plans';
+import { canRideFrom, dueStops, frontier, lines, lineById, REVISIT_MAX, rideRoute, RIDE_STOPS, type Line } from '../../lib/modes/plans';
 import { areaOf, areas, termStatus, unitStatus } from '../../lib/modes/status';
 import { interchangesAt } from '../../lib/modes/transfer';
-import type { Rng } from '../../lib/questions';
+import type { Recipe } from '../../lib/session';
 import type { PracticeKind, Progress } from '../../lib/types';
 import { ArrowLeft, ChevronDown, Lock } from '../icons';
 import { Button } from '../ui';
@@ -26,7 +25,7 @@ interface Props {
   area: string | null;
   onArea: (a: string | null) => void;
   onMode: (m: ModeId) => void;
-  onRun: (make: (rng: Rng) => LessonPlan | null) => void;
+  onRun: (recipe: Recipe) => void;
   onDepot: (unitId: string) => void;
 }
 
@@ -112,16 +111,16 @@ function LineView({
   today: string;
   onBack: () => void;
   onMode: (m: ModeId) => void;
-  onRun: (make: (rng: Rng) => LessonPlan | null) => void;
+  onRun: (recipe: Recipe) => void;
   onDepot: (unitId: string) => void;
 }) {
   const [sheet, setSheet] = useState<string | null>(null);
   const colour = colourOf(line.id);
   const here = frontier(progress, line.id);
-  const preview = useMemo(() => (here >= 0 ? buildRide(progress, line.id, here, today, () => 0.5) : null), [progress, line.id, here, today]);
+  const preview = useMemo(() => (here >= 0 ? rideRoute(progress, line.id, here) : null), [progress, line.id, here]);
   const due = dueStops(progress, line.id, today);
-  const ride = (from: number) => onRun((rng) => buildRide(progress, line.id, from, today, rng)?.plan ?? null);
-  const revisit = () => onRun((rng) => buildRevisit(progress, line.id, today, rng));
+  const ride = (from: number) => onRun({ build: 'ride', lineId: line.id, from });
+  const revisit = () => onRun({ build: 'revisit', lineId: line.id });
   const stopOf = (termId: string) => line.stops.findIndex((s) => 'term' in s && s.term === termId);
   const termAt = (i: number) => termById.get((line.stops[i] as { term: string }).term);
   const terms = line.stops.filter((s) => 'term' in s).length;
@@ -172,8 +171,8 @@ function LineView({
                 <p className="font-bold text-ink">Ride on from {termAt(here)?.term ?? 'here'}</p>
                 <p className="text-ink-3">
                   {[
-                    preview.plan.newIds.length ? `${preview.plan.newIds.length} new` : '',
-                    preview.to - preview.from + 1 - preview.plan.newIds.length > 0 ? `${preview.to - preview.from + 1 - preview.plan.newIds.length} met` : '',
+                    preview.newIds.length ? `${preview.newIds.length} new` : '',
+                    preview.to - preview.from + 1 - preview.newIds.length > 0 ? `${preview.to - preview.from + 1 - preview.newIds.length} met` : '',
                   ]
                     .filter(Boolean)
                     .join(', ')}

@@ -12,9 +12,10 @@
 import { mergeProgress } from '../src/lib/sync';
 import type { Progress } from '../src/lib/types';
 import { ALWAYS_ON, isModeId, MODES } from '../src/lib/modes/ids';
-import { askCards, countAsk } from './cards';
+import { askCards, countAsk, grant } from './cards';
 import { dealDeck, markCall } from './callit';
 import { dealPractice, markPractice } from './practice';
+import { buildSession, dealSession, importKey, markAnswer, newKeyBytes, sessionTermIds } from './session';
 import { dealRound, markRound } from './rounds';
 import { signInPage } from './signin';
 
@@ -40,6 +41,23 @@ export interface Env {
   OWNER_EMAIL?: string;
   /** A PBKDF2 hash of the password that opens the quant switch and phase 3 (scripts/hash-password.mjs); UNLOCK_HASH below when unset. */
   UNLOCK_HASH?: string;
+}
+
+// ---------- The key that seals answers (worker/session.ts) ----------
+// Made once and kept in the site table, so every Worker instance marks with the same key.
+const markKeys = new WeakMap<object, Promise<CryptoKey>>();
+function markKey(db: D1Database): Promise<CryptoKey> {
+  let k = markKeys.get(db);
+  if (!k) {
+    k = (async () => {
+      await db.prepare('INSERT OR IGNORE INTO site (key, value) VALUES (?, ?)').bind('mark_key', newKeyBytes()).run();
+      const row = await db.prepare('SELECT value FROM site WHERE key = ?').bind('mark_key').first<{ value: string }>();
+      return importKey(row!.value);
+    })();
+    k.catch(() => markKeys.delete(db));
+    markKeys.set(db, k);
+  }
+  return k;
 }
 
 // ---------- Settings ----------
@@ -412,6 +430,26 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     if (route === 'POST /api/callit') return json(dealDeck(user, b.ids, b.known));
     const out = markCall(user, b.termId, b.text);
     return 'error' in out ? fail(400, out.error) : json(out);
+  }
+
+  // ---------- Lessons, practice rounds, tests and mode rounds ----------
+  // Built here from the learner's progress and dealt without answers; each pick is marked here (worker/session.ts).
+  if (route === 'POST /api/session' || route === 'POST /api/mark') {
+    if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
+    const b = await body();
+    const key = await markKey(db);
+    if (route === 'POST /api/mark') {
+      const out = await markAnswer(key, user.id, b);
+      return 'error' in out ? fail(400, String(out.error)) : json(out);
+    }
+    const seed = crypto.getRandomValues(new Uint32Array(1))[0] % 2_147_483_647;
+    const plan = buildSession(b.recipe, b.progress, b.today, seed);
+    if (plan && 'error' in plan) return fail(400, plan.error);
+    if (!plan) return json({ plan: null, cards: {} });
+    // Every term it asks about or teaches must be one this account may have, as for cards.
+    const { refused, reason } = await grant(db, user, sessionTermIds(plan), now);
+    if (refused.length) return fail(403, reason ?? 'Some of these terms are not available yet.');
+    return json(await dealSession(key, user.id, plan, b.progress as Progress, seed));
   }
 
   // ---------- Desk cases, Fermi, the meeting game, backtest detective ----------

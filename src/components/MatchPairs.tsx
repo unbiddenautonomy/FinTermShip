@@ -1,39 +1,53 @@
 import { useEffect, useRef, useState } from 'react';
 import { termById } from '../lib/content';
-import { tidyOption } from '../lib/questions';
 
 interface Props {
   termIds: string[];
+  /** The meanings, in the order shown. */
   right: string[];
+  /** Whether the term at `left` goes with the meaning at `right`: the server checks each pair. */
+  check: (left: number, right: number) => Promise<boolean>;
   onDone: (mistakes: Record<string, number>) => void;
 }
 
 /** Tap a term, then its meaning. Wrong pairs flash red and count as a mistake for that term. */
-export function MatchPairs({ termIds, right, onDone }: Props) {
-  const [left, setLeft] = useState<string | null>(null);
-  const [matched, setMatched] = useState<string[]>([]);
-  const [flash, setFlash] = useState<{ l: string; r: string } | null>(null);
+export function MatchPairs({ termIds, right, check, onDone }: Props) {
+  const [left, setLeft] = useState<number | null>(null);
+  /** Matched pairs: term index to meaning index. */
+  const [matched, setMatched] = useState<Map<number, number>>(new Map());
+  const [flash, setFlash] = useState<{ l: number; r: number } | null>(null);
+  const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const mistakes = useRef<Record<string, number>>({});
   const doneRef = useRef(false);
 
   useEffect(() => {
-    if (matched.length === termIds.length && !doneRef.current) {
+    if (matched.size === termIds.length && !doneRef.current) {
       doneRef.current = true;
       const t = setTimeout(() => onDone(mistakes.current), 450);
       return () => clearTimeout(t);
     }
   }, [matched, termIds.length, onDone]);
 
-  const pickRight = (id: string) => {
-    if (!left || matched.includes(id)) return;
-    if (left === id) {
-      setMatched((m) => [...m, id]);
+  const taken = new Set(matched.values());
+  const pickRight = async (r: number) => {
+    if (left === null || taken.has(r) || busy) return;
+    const l = left;
+    setBusy(true);
+    setError(null);
+    try {
+      if (await check(l, r)) setMatched((m) => new Map(m).set(l, r));
+      else {
+        const id = termIds[l];
+        mistakes.current[id] = (mistakes.current[id] ?? 0) + 1;
+        setFlash({ l, r });
+        setTimeout(() => setFlash(null), 500);
+      }
       setLeft(null);
-    } else {
-      mistakes.current[left] = (mistakes.current[left] ?? 0) + 1;
-      setFlash({ l: left, r: id });
-      setTimeout(() => setFlash(null), 500);
-      setLeft(null);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : 'Something went wrong. Try again in a moment.');
+    } finally {
+      setBusy(false);
     }
   };
 
@@ -47,28 +61,33 @@ export function MatchPairs({ termIds, right, onDone }: Props) {
     <div>
       <div className="grid grid-cols-[2fr_3fr] gap-3">
         <div className="space-y-3">
-          {termIds.map((id) => {
-            const done = matched.includes(id);
-            const style = done ? ok : flash?.l === id ? bad : left === id ? sel : idle;
+          {termIds.map((id, i) => {
+            const done = matched.has(i);
+            const style = done ? ok : flash?.l === i ? bad : left === i ? sel : idle;
             return (
-              <button key={id} type="button" disabled={done} onClick={() => setLeft(id)} className={`${base} ${style}`} aria-pressed={left === id}>
+              <button key={id} type="button" disabled={done} onClick={() => setLeft(i)} className={`${base} ${style}`} aria-pressed={left === i}>
                 {termById.get(id)?.term}
               </button>
             );
           })}
         </div>
         <div className="space-y-3">
-          {right.map((id) => {
-            const done = matched.includes(id);
-            const style = done ? ok : flash?.r === id ? bad : idle;
+          {right.map((text, r) => {
+            const done = taken.has(r);
+            const style = done ? ok : flash?.r === r ? bad : idle;
             return (
-              <button key={id} type="button" disabled={done || !left} onClick={() => pickRight(id)} className={`${base} ${style} font-semibold`}>
-                {tidyOption(termById.get(id)?.short ?? '')}
+              <button key={r} type="button" disabled={done || left === null || busy} onClick={() => void pickRight(r)} className={`${base} ${style} font-semibold`}>
+                {text}
               </button>
             );
           })}
         </div>
       </div>
+      {error && (
+        <p role="alert" className="mt-4 text-sm font-bold text-bad-ink">
+          {error}
+        </p>
+      )}
       <p className="mt-5 text-sm text-ink-3">Tap a term on the left, then its meaning on the right.</p>
     </div>
   );

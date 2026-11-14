@@ -7,20 +7,20 @@ import { useCards } from './components/useCards';
 import { CardsGate, CardsToast } from './components/CardsGate';
 import { useGameKeys, useSlashKey } from './components/useKeys';
 import { BookIcon, ChartIcon, ChatIcon, GearIcon, Logo, PathIcon } from './components/icons';
-import { buildPractice, buildTest, withFocus } from './lib/choose';
+import { withFocus } from './lib/choose';
 import { snoozeDrill } from './lib/drills';
 import { practiceKind } from './lib/content';
 import { gameOf } from './lib/games';
-import { buildPhase3Test, PHASE3, withPhase3Key } from './lib/phase3';
+import { withPhase3Key } from './lib/phase3';
 import { dayKey } from './lib/dates';
-import { buildLesson, drillUp, todayStatus, type LessonPlan } from './lib/lesson';
-import { seededRng } from './lib/questions';
-import { ensureCards, planTermIds } from './lib/cards';
-import { hasCard } from './lib/content';
+import { drillUp, todayStatus } from './lib/lesson';
+import { ensureCards } from './lib/cards';
+import { startSession, type DealtPlan, type Recipe } from './lib/session';
+import { canSpeak } from './lib/speech';
 import { KIND_LABEL } from './lib/practice';
 import { loadProgress, requestPersistence, saveProgress } from './lib/storage';
 import { firstName } from './lib/profile';
-import { buildWeakSpots, weakSpots } from './lib/weak';
+import { weakSpots } from './lib/weak';
 import { currentUnit } from './lib/track';
 import { landingMode, type ModeId } from './lib/modes/knowledge';
 import { isModeId, modesOn } from './lib/modes/ids';
@@ -122,7 +122,7 @@ type Screen =
   | { name: 'careers' }
   | { name: 'mock'; round: string }
   | { name: Exclude<ModeId, 'path'> }
-  | { name: 'lesson'; plan: LessonPlan; seed: number; mode?: Exclude<ModeId, 'path'> }
+  | { name: 'lesson'; plan: DealtPlan; seed: number; mode?: Exclude<ModeId, 'path'> }
   | { name: 'drill' | 'game' | 'case'; unitId: string; seed: number }
   | { name: 'results'; summary: LessonSummary };
 
@@ -228,34 +228,26 @@ export default function App() {
   }
 
   /**
-   * Build a lesson, first fetching the cards of the terms in it: nothing is kept
-   * between visits, so this is where a lesson's cards come from. The plan is
-   * built again from the same seed once they are here, so it asks with the real
-   * cards; if that plan reaches for more terms, those are fetched too.
+   * Ask the server to build a session (worker/session.ts): it comes without its answers, with the
+   * cards of the terms it teaches. Null when there is nothing to do, or it could not be built.
    */
-  const prepare = async (make: (seed: number) => LessonPlan | null): Promise<{ plan: LessonPlan; seed: number } | null> => {
-    const seed = Date.now() % 2_147_483_647;
-    let plan = make(seed);
-    for (let round = 0; plan; round++) {
-      const need = planTermIds(plan).filter((id) => !hasCard(id));
-      if (!need.length) return { plan, seed };
-      if (round === 3) break;
-      setFetching('Getting your terms…');
-      const failed = await ensureCards(need);
+  const prepare = async (recipe: Recipe): Promise<{ plan: DealtPlan; seed: number } | null> => {
+    setFetching('Getting your terms…');
+    try {
+      const plan = await startSession(recipe, progress, today);
+      if (!plan) setNotice('There is nothing to practise here right now.');
+      return plan ? { plan, seed: Date.now() % 2_147_483_647 } : null;
+    } catch (e) {
+      setNotice(e instanceof Error ? e.message : 'Something went wrong. Try again in a moment.');
+      return null;
+    } finally {
       setFetching(null);
-      if (failed) {
-        setNotice(failed);
-        return null;
-      }
-      plan = make(seed);
     }
-    if (plan) setNotice('Some of these terms could not be loaded. Try again in a moment.');
-    return null;
   };
 
-  const run = async (make: (seed: number) => LessonPlan | null) => {
+  const run = async (recipe: Recipe) => {
     if (fetching) return;
-    const ready = await prepare(make);
+    const ready = await prepare(recipe);
     if (ready) setScreen({ name: 'lesson', ...ready });
     else setOrigin(null);
   };
@@ -283,12 +275,11 @@ export default function App() {
   const start = (keepGoing: boolean) => {
     const d = drillUp(progress, today);
     if (d) void drill(d);
-    else void run((seed) => buildLesson(progress, today, seededRng(seed), keepGoing));
+    else void run({ build: 'lesson', keepGoing, listen: progress.settings.voice && canSpeak() });
   };
-  const practiseWeak = () => void run((seed) => buildWeakSpots(progress, seededRng(seed)));
-  const practise = (unitId: string) => void run((seed) => buildPractice(progress, unitId, seededRng(seed)));
-  const takeTest = (categoryId: string) =>
-    void run((seed) => (categoryId === PHASE3 ? buildPhase3Test(seededRng(seed)) : buildTest(categoryId, seededRng(seed))));
+  const practiseWeak = () => void run({ build: 'weak' });
+  const practise = (unitId: string) => void run({ build: 'practice', unitId });
+  const takeTest = (categoryId: string) => void run({ build: 'test', categoryId });
   const pick = (unitId: string | null) => update(withFocus(progress, unitId));
   const goMode = (want: ModeId) => {
     const m = canOpen(want) ? want : 'path';
@@ -297,11 +288,11 @@ export default function App() {
   };
   const onTab = (name: Tab) => (name === 'home' ? goMode(mode) : setScreen({ name }));
   // A lesson started from a mode: answers are tallied for it, and finishing comes back to it.
-  const runIn = (m: Exclude<ModeId, 'path'>) => async (make: (rng: ReturnType<typeof seededRng>) => LessonPlan | null) => {
+  const runIn = (m: Exclude<ModeId, 'path'>) => async (recipe: Recipe) => {
     if (fetching) return;
     const from = screen;
     const y = window.scrollY;
-    const ready = await prepare((seed) => make(seededRng(seed)));
+    const ready = await prepare(recipe);
     if (!ready) return;
     setOrigin(from);
     originY.current = y;
@@ -334,7 +325,6 @@ export default function App() {
           plan={screen.plan}
           progress={progress}
           today={today}
-          rng={seededRng(screen.seed + 1)}
           onProgress={update}
           onFinish={(summary) => setScreen({ name: 'results', summary })}
           onQuit={back}

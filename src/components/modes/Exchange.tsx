@@ -8,10 +8,9 @@ import { termById } from '../../lib/content';
 import { addDays } from '../../lib/dates';
 import { baseline, INDEX_FULL, marketIndex, snapshotCurrent, snapshotIndex, watchlist } from '../../lib/modes/exchange';
 import { areaKpis, kpis, modeRecord, type ModeId } from '../../lib/modes/knowledge';
-import { buildDefend, buildListing, buildRally } from '../../lib/modes/plans';
+import { DEFEND_MAX } from '../../lib/modes/plans';
+import type { Recipe } from '../../lib/session';
 import { areas } from '../../lib/modes/status';
-import type { LessonPlan } from '../../lib/lesson';
-import type { Rng } from '../../lib/questions';
 import { dueTermIds } from '../../lib/scheduler';
 import type { Progress } from '../../lib/types';
 import { Button } from '../ui';
@@ -24,10 +23,10 @@ interface Props {
   onArea: (a: string | null) => void;
   onProgress: (p: Progress) => void;
   onMode: (m: ModeId) => void;
-  onRun: (make: (rng: Rng) => LessonPlan | null) => void;
+  onRun: (recipe: Recipe) => void;
 }
 
-const DEFEND_MAX = 8;
+
 
 export function Exchange({ progress, today, area, onArea, onProgress, onMode, onRun }: Props) {
   const [sheet, setSheet] = useState<string | null>(null);
@@ -58,7 +57,7 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
   const since = baseline(progress, today)?.day;
   const fresh = quotes.filter((q) => q.fresh).length;
 
-  const defend = (ids: string[]) => onRun((rng) => buildDefend(progress, ids.slice(0, DEFEND_MAX), today, rng));
+  const defend = (ids: string[]) => onRun({ build: 'defend', termIds: ids.slice(0, DEFEND_MAX) });
 
   // The tape: the biggest movers since the last visit, or the lowest prices on a first visit.
   const tape = [...quotes].sort((a, b) => Math.abs(b.change) - Math.abs(a.change) || a.price - b.price).slice(0, 14);
@@ -113,10 +112,10 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
                 title="Rally this sector"
                 detail="Up to 5 due terms, back to back"
                 disabled={!quotes.some((q) => q.sector === area && due.has(q.termId))}
-                onClick={() => onRun((rng) => buildRally(progress, area, today, rng))}
+                onClick={() => onRun({ build: 'rally', areaId: area })}
               />
             )}
-            <Action title="New listings" detail="Learn the next 3 terms on your track" onClick={() => onRun((rng) => buildListing(progress, today, rng))} />
+            <Action title="New listings" detail="Learn the next 3 terms on your track" onClick={() => onRun({ build: 'listing' })} />
             <p className="text-xs leading-relaxed text-[#8FA096]">
               The index is what your terms are worth together: {INDEX_FULL} is every open term at full price, so it equals Strength × Coverage × 10 from the strip above. Learning lists new terms and lifts it. A review left overdue lets that term slip until you answer it, in any mode.
             </p>
@@ -134,7 +133,7 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
           <div className="px-5 py-10 text-center text-sm text-[#A9B6AE]">
             Nothing listed yet. Terms list here once you meet them in any mode.
             <div className="mt-4">
-              <button type="button" onClick={() => onRun((rng) => buildListing(progress, today, rng))} className="rounded-lg bg-[#F2B456] px-4 py-2.5 font-extrabold text-[#1B1408]">
+              <button type="button" onClick={() => onRun({ build: 'listing' })} className="rounded-lg bg-[#F2B456] px-4 py-2.5 font-extrabold text-[#1B1408]">
                 List your first terms
               </button>
             </div>

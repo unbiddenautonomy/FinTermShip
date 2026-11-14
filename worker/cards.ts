@@ -21,12 +21,12 @@
  * (worker/practice.ts, worker/rounds.ts, worker/callit.ts).
  */
 import { buildCards, buildPacks, fullCategories } from '../src/lib/cardData';
-import type { Card } from '../src/lib/types';
+import { TEACH_FIELDS, type Card } from '../src/lib/types';
 
 /** Cards in one ask: a lesson needs a few dozen; the phase 3 test's terms are the most at once. */
 export const MAX_IDS = 80;
 /** Asks an account can make in a minute. */
-export const ASKS_PER_MINUTE = 60;
+export const ASKS_PER_MINUTE = 120;
 /** Cards an account has never had before, in any hour. */
 export const NEW_PER_HOUR = 300;
 
@@ -126,31 +126,32 @@ export async function countAsk(db: CardsDb, user: CardsUser, now: number): Promi
 }
 
 /**
- * Give the cards for these terms, under the rules at the top of
- * this file. Cards this account has had before always come back; new ones count
- * towards the hour.
+ * Let this account have these terms, under the rules at the top of this file: phase 3 terms only
+ * with phase 3, and at most NEW_PER_HOUR it has never had before in any hour. Terms it has had
+ * before are always allowed. What is allowed is recorded as given.
  */
-export async function askCards(db: CardsDb, user: CardsUser, ids: unknown, now: number): Promise<CardsReply> {
-  const { cards, phase3, version } = content();
-  const wanted = [...new Set(Array.isArray(ids) ? ids.filter((x): x is string => typeof x === 'string' && cards.has(x)) : [])].slice(0, MAX_IDS);
+export async function grant(db: CardsDb, user: CardsUser, ids: string[], now: number): Promise<{ allowed: string[]; refused: string[]; reason?: string }> {
+  const { cards, phase3 } = content();
+  const wanted = [...new Set(ids)].filter((id) => cards.has(id));
   const given = new Set<string>();
-  if (wanted.length) {
+  for (let i = 0; i < wanted.length; i += 90) {
+    const chunk = wanted.slice(i, i + 90);
     const { results } = await db
-      .prepare(`SELECT term_id FROM cards WHERE user_id = ? AND term_id IN (${wanted.map(() => '?').join(', ')})`)
-      .bind(user.id, ...wanted)
+      .prepare(`SELECT term_id FROM cards WHERE user_id = ? AND term_id IN (${chunk.map(() => '?').join(', ')})`)
+      .bind(user.id, ...chunk)
       .all<{ term_id: string }>();
     for (const r of results) given.add(r.term_id);
   }
   const refused: string[] = [];
   let reason: string | undefined;
-  const allowed: string[] = [];
+  const open: string[] = [];
   for (const id of wanted) {
     if (phase3.has(id) && !user.phase3 && !user.admin) {
       refused.push(id);
       reason = 'Phase 3 terms open once phase 3 is unlocked on your account.';
-    } else allowed.push(id);
+    } else open.push(id);
   }
-  const fresh = allowed.filter((id) => !given.has(id));
+  const fresh = open.filter((id) => !given.has(id));
   let issued = fresh;
   if (!user.admin && fresh.length) {
     const recent = await db.prepare('SELECT COUNT(*) AS n FROM cards WHERE user_id = ? AND issued > ?').bind(user.id, now - HOUR).first<{ n: number }>();
@@ -162,8 +163,28 @@ export async function askCards(db: CardsDb, user: CardsUser, ids: unknown, now: 
     }
   }
   if (issued.length) await db.batch(issue(db, user.id, issued, now, null));
+  const ok = new Set(issued);
+  return { allowed: open.filter((id) => given.has(id) || ok.has(id)), refused, reason };
+}
 
+/** A card as the app gets it: what the term means and how it is used, without the material its questions are made from. */
+export function teachingCard(id: string): Card | undefined {
+  const c = content().cards.get(id);
+  if (!c) return undefined;
+  const out: Record<string, unknown> = {};
+  for (const f of TEACH_FIELDS) if (c[f] !== undefined) out[f] = c[f];
+  return out as unknown as Card;
+}
+
+/**
+ * Give the cards for these terms, under the rules at the top of this file. Cards this account
+ * has had before always come back; new ones count towards the hour.
+ */
+export async function askCards(db: CardsDb, user: CardsUser, ids: unknown, now: number): Promise<CardsReply> {
+  const { cards, version } = content();
+  const wanted = [...new Set(Array.isArray(ids) ? ids.filter((x): x is string => typeof x === 'string' && cards.has(x)) : [])].slice(0, MAX_IDS);
+  const { allowed, refused, reason } = await grant(db, user, wanted, now);
   const out: Record<string, Card> = {};
-  for (const id of [...allowed.filter((id) => given.has(id)), ...issued]) out[id] = cards.get(id)!;
+  for (const id of allowed) out[id] = cards.get(id)!;
   return { version, at: now, cards: out, ...(refused.length ? { refused, reason } : {}) };
 }
