@@ -1,6 +1,7 @@
 import { useMemo, useState, type ReactNode } from 'react';
 import { categories as allCategories, glossOrUnit, hasCard, isCore, isPhase3Area } from '../lib/content';
 import { phase3Open } from '../lib/phase3';
+import { areas } from '../lib/modes/status';
 import type { Progress, Term } from '../lib/types';
 import { ChevronDown, Search } from './icons';
 import { Pill, SpeakButton, StepDots, TermDetails } from './ui';
@@ -40,8 +41,21 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
         })),
     [categories, q, cat, filter, progress.terms],
   );
-  // Opening the glossary fetches nothing. Picking an area or searching fetches the glosses of the met terms that shows, a screen's worth at a time.
-  useTermCards(cat === 'all' && !q ? [] : groups.flatMap((g) => g.terms.filter((t) => progress.terms[t.id]).map((t) => t.id)).slice(0, 80));
+  // Each area is a titled section, shut until tapped. Searching, or picking one area, opens what matches.
+  const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
+  const isOpen = (id: string) => cat !== 'all' || !!q || expanded.has(id);
+  const toggle = (id: string) => {
+    const opening = !expanded.has(id);
+    setExpanded((e) => {
+      const n = new Set(e);
+      if (opening) n.add(id);
+      else n.delete(id);
+      return n;
+    });
+    if (opening) requestAnimationFrame(() => document.getElementById(`area-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  };
+  // Opening the glossary fetches nothing. An open section fetches the glosses of its met terms, a screen's worth at a time.
+  useTermCards(groups.filter((g) => isOpen(g.cat.id)).flatMap((g) => g.terms.filter((t) => progress.terms[t.id]).map((t) => t.id)).slice(0, 80));
   const openTerm = open ? categories.flatMap((c) => c.terms).find((t) => t.id === open) : undefined;
   const shown = groups.reduce((n, g) => n + g.terms.length, 0);
 
@@ -106,8 +120,27 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
 
       {groups.map(({ cat: c, terms }) =>
         terms.length ? (
-          <section key={c.id} className="mt-4">
-            <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">{c.name}</h2>
+          <section key={c.id} id={`area-${c.id}`} className="mt-3 scroll-mt-36">
+            {cat === 'all' && !q ? (
+              <button
+                type="button"
+                onClick={() => toggle(c.id)}
+                aria-expanded={isOpen(c.id)}
+                className="flex w-full items-center gap-3 rounded-2xl border border-line bg-surface px-4 py-3 text-left shadow-card transition hover:bg-sunken/60"
+              >
+                <span className="h-8 w-1.5 shrink-0 rounded-full" style={{ background: areas[c.id]?.colour ?? 'rgb(var(--brand))' }} aria-hidden />
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-bold text-ink">{c.name}</span>
+                  <span className="num block text-xs text-ink-3">
+                    {terms.filter((t) => progress.terms[t.id]).length} of {terms.length} met
+                  </span>
+                </span>
+                <ChevronDown className={`h-4 w-4 shrink-0 text-ink-3 transition ${isOpen(c.id) ? 'rotate-180' : ''}`} />
+              </button>
+            ) : (
+              <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">{c.name}</h2>
+            )}
+            {isOpen(c.id) && (
             <ul className="divide-y divide-line overflow-hidden rounded-2xl border border-line bg-surface shadow-card lg:grid lg:grid-cols-[repeat(auto-fill,minmax(19rem,1fr))] lg:gap-2 lg:divide-y-0 lg:overflow-visible lg:rounded-none lg:border-0 lg:bg-transparent lg:shadow-none">
               {terms.map((t) => {
                 const s = progress.terms[t.id];
@@ -145,6 +178,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
                 );
               })}
             </ul>
+            )}
           </section>
         ) : null,
       )}
