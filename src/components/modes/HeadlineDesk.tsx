@@ -1,20 +1,21 @@
 /**
  * Headline Desk: a headline breaks, and the learner calls which way each thing on the desk
- * moves. Three headlines a round, at the mode's level. Filing a headline shows the right
- * calls and why, and each line's term goes to the shared record (src/lib/modes/rounds.ts).
+ * moves. Three headlines a round, at the mode's level, dealt by the server without the answers.
+ * Filing a headline sends the calls to be marked; the right calls and why come back, and each
+ * line's term goes to the shared record (src/lib/modes/rounds.ts).
  */
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { termById } from '../../lib/content';
 import { kpis, type Kpis, type ModeId } from '../../lib/modes/knowledge';
-import { access, levelNote, finishRound, headlineById, levelState, pickRound, recordHeadline, type Headline } from '../../lib/modes/rounds';
-import { seededRng } from '../../lib/questions';
+import { markHeadline } from '../../lib/modes/roundApi';
+import { access, levelNote, finishRound, levelState, recordHeadline, type Headline } from '../../lib/modes/rounds';
 import { finishLesson } from '../../lib/scheduler';
 import type { Progress } from '../../lib/types';
 import { Button } from '../ui';
 import { KpiDelta } from './KpiDelta';
 import { useModeAccess } from './modeAccess';
 import { LevelMeter, NotYet } from './roundKit';
-import { useRoundContent } from './useRoundContent';
+import { useDealtRound } from './useRoundContent';
 import { ModeFrame, TermSheet } from './shared';
 
 interface Props {
@@ -38,13 +39,13 @@ const RED = '#b3261e';
 const GREEN = '#1d6b45';
 
 export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
-  const content = useRoundContent('headline', progress);
   const open = access(progress, 'headline').open;
   const [seed, setSeed] = useState(() => Date.now() % 2_147_483_647);
-  const round = useMemo(
-    () => (content.state === 'ready' ? pickRound(progress, 'headline', today, seededRng(seed)).flatMap((x) => headlineById.get(x.id) ?? []) : []),
-    [seed, content.state], // eslint-disable-line react-hooks/exhaustive-deps
-  );
+  const content = useDealtRound('headline', progress, today, seed, open);
+  const round = content.items;
+  // Calls on their way to be marked, and why marking failed.
+  const [filing, setFiling] = useState(false);
+  const [fileError, setFileError] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
   const [picks, setPicks] = useState<(Move | undefined)[]>([]);
   const [filed, setFiled] = useState<Filed[]>([]);
@@ -63,14 +64,25 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
   useEffect(() => {
     shownAt.current = Date.now();
     setPicks([]);
+    setFileError(null);
   }, [index, seed]);
 
-  const file = useCallback(() => {
-    if (!h || current || !ready) return;
+  const file = useCallback(async () => {
+    if (!h || current || !ready || filing) return;
     const ps = picks as Move[];
-    onProgress(recordHeadline(progressRef.current, h, ps, Date.now() - shownAt.current, today));
-    setFiled((f) => [...f, { headline: h, picks: ps, right: h.items.filter((it, i) => ps[i] === it.move).length }]);
-  }, [h, current, ready, picks, today, onProgress]);
+    const ms = Date.now() - shownAt.current;
+    setFiling(true);
+    setFileError(null);
+    try {
+      const full = await markHeadline(h.id, ps);
+      onProgress(recordHeadline(progressRef.current, full, ps, ms, today));
+      setFiled((f) => [...f, { headline: full, picks: ps, right: full.items.filter((it, i) => ps[i] === it.move).length }]);
+    } catch (e) {
+      setFileError(e instanceof Error ? e.message : 'That call didn’t go through. Try again.');
+    } finally {
+      setFiling(false);
+    }
+  }, [h, current, ready, filing, picks, today, onProgress]);
 
   const next = useCallback(() => {
     if (!current) return;
@@ -102,7 +114,7 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
       if (sheet || done || e.key !== 'Enter') return;
       if ((e.target as HTMLElement)?.tagName === 'BUTTON') return;
       if (current) next();
-      else file();
+      else void file();
     };
     window.addEventListener('keydown', onKey);
     return () => window.removeEventListener('keydown', onKey);
@@ -118,6 +130,8 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
   if (!open) return frame(<NotYet progress={progress} mode="headline" onMode={onMode} />);
   if (content.state === 'loading') return frame(<p className="py-16 text-center text-sm font-bold text-ink-3">Getting today’s paper…</p>);
   if (content.state !== 'ready' || !round.length) return frame(<NotYet progress={progress} mode="headline" error={content.state !== 'ready' ? content.state : 'No headlines came through. Try again in a moment.'} onMode={onMode} onRetry={content.retry} />);
+  // Once filed, the headline on the page is the marked one: each line's move and term, and why.
+  const marked = current?.headline;
 
   if (done) {
     const right = filed.reduce((n, f) => n + f.right, 0);
@@ -189,22 +203,23 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
         <p className="mb-2 mt-5 text-[11px] font-extrabold uppercase tracking-[0.14em] opacity-60">{current ? 'The calls' : 'Call each one'}</p>
         <ul className="space-y-2">
           {h.items.map((it, i) => {
+            const answer = marked?.items[i];
             const mine = current ? current.picks[i] : picks[i];
-            const right = current ? mine === it.move : null;
+            const right = answer ? mine === answer.move : null;
             return (
               <li key={it.label} className="grid grid-cols-[minmax(0,1fr)_auto] items-center gap-3 border px-3 py-2.5" style={{ background: '#f7f6f2', borderColor: right === null ? RULE : right ? GREEN : RED }}>
                 <span className="min-w-0">
                   <span className="block font-bold leading-snug">{it.label}</span>
-                  {current && (
-                    <button type="button" onClick={() => setSheet(it.term)} className="mt-0.5 text-xs font-bold underline decoration-dotted underline-offset-2 opacity-70 hover:opacity-100">
-                      {termById.get(it.term)?.term}
+                  {answer && (
+                    <button type="button" onClick={() => setSheet(answer.term)} className="mt-0.5 text-xs font-bold underline decoration-dotted underline-offset-2 opacity-70 hover:opacity-100">
+                      {termById.get(answer.term)?.term}
                     </button>
                   )}
                 </span>
                 <span className="inline-flex gap-1" role="group" aria-label={it.label}>
                   {(['up', 'down'] as const).map((m) => {
                     const chosen = mine === m;
-                    const isAnswer = current && it.move === m;
+                    const isAnswer = !!answer && answer.move === m;
                     const bg = current ? (isAnswer ? (chosen ? GREEN : 'transparent') : chosen ? RED : 'transparent') : chosen ? INK : 'transparent';
                     const fg = current ? (isAnswer && chosen) || (!isAnswer && chosen) ? '#fff' : isAnswer ? GREEN : INK : chosen ? PAPER : INK;
                     const border = current ? (isAnswer ? GREEN : chosen ? RED : RULE) : INK;
@@ -212,7 +227,7 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
                       <button
                         key={m}
                         type="button"
-                        disabled={!!current}
+                        disabled={!!current || filing}
                         aria-pressed={chosen}
                         onClick={() => setPicks((p) => Object.assign([...p], { [i]: m }))}
                         className="min-w-[5.2rem] border-[1.5px] px-2.5 py-1.5 text-[13px] font-extrabold transition disabled:cursor-default"
@@ -232,19 +247,24 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
             <p className="text-sm font-extrabold" style={{ color: current.right === h.items.length ? GREEN : RED }}>
               {current.right === h.items.length ? 'All called right.' : `${current.right} of ${h.items.length} called right.`}
             </p>
-            <p className="mt-1 font-display text-[16px] leading-relaxed">{h.why}</p>
+            <p className="mt-1 font-display text-[16px] leading-relaxed">{marked?.why}</p>
           </div>
+        )}
+        {fileError && (
+          <p className="mt-4 text-sm font-bold" style={{ color: RED }} role="alert">
+            {fileError}
+          </p>
         )}
         <div className="mt-5">
           {!current ? (
             <button
               type="button"
-              onClick={file}
-              disabled={!ready}
+              onClick={() => void file()}
+              disabled={!ready || filing}
               className="px-5 py-2.5 text-[13px] font-extrabold uppercase tracking-[0.06em] text-white transition disabled:opacity-40"
               style={{ background: RED }}
             >
-              File the call
+              {filing ? 'Filing…' : 'File the call'}
             </button>
           ) : (
             <button type="button" onClick={next} className="px-5 py-2.5 text-[13px] font-extrabold uppercase tracking-[0.06em]" style={{ background: INK, color: PAPER }}>
