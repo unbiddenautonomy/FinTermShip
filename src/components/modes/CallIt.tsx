@@ -164,7 +164,7 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
             {record.bestRun && bestRun >= record.bestRun ? ' · your best yet' : ''}
           </p>
         </div>
-        <KpiDelta before={startKpis.current} after={kpis(progress, today)} note="Calls hold due terms on schedule. To move a term up, answer it in Path, Lines or the Exchange." />
+        <KpiDelta before={startKpis.current} after={kpis(progress, today)} note="Calls are practice: a wrong one brings the term back tomorrow, a right one doesn't count as its review. To clear Due or move a term up, answer it in Path, Lines, the Exchange, Headline Desk or Finnections." />
         {missed.length > 0 && (
           <section>
             <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Worth another look</h2>

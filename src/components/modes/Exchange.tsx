@@ -118,7 +118,7 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
             )}
             <Action title="New listings" detail="Learn the next 3 terms on your track" onClick={() => onRun((rng) => buildListing(progress, today, rng))} />
             <p className="text-xs leading-relaxed text-[#8FA096]">
-              The index is what your terms are worth together: {INDEX_FULL} is every open term at full price. Learning lists new terms and lifts it. A review left overdue lets that term slip until you answer it, in any mode.
+              The index is what your terms are worth together: {INDEX_FULL} is every open term at full price, so it equals Strength × Coverage × 10 from the strip above. Learning lists new terms and lifts it. A review left overdue lets that term slip until you answer it, in any mode.
             </p>
           </div>
         </section>

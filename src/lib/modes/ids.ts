@@ -1,10 +1,6 @@
 /** The modes, by id. Kept apart from the knowledge layer so the Worker can use it without the content. */
 export type ModeId = 'path' | 'lines' | 'callit' | 'exchange' | 'headline' | 'finnections';
 export const MODES: ModeId[] = ['path', 'lines', 'callit', 'exchange', 'headline', 'finnections'];
-/** The four in the switcher, in order. */
-export const SWITCHER: ModeId[] = ['path', 'lines', 'callit', 'exchange'];
-/** The rest, opened from the switcher's More pop-up once the learner has met the terms they use. */
-export const MORE_MODES: ModeId[] = ['headline', 'finnections'];
 /** Path is the spine of the app (lessons, drills, tests), so it can't be switched off. */
 export const ALWAYS_ON: ModeId = 'path';
 
