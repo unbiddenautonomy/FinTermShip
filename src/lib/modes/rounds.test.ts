@@ -4,19 +4,16 @@ import boardsJson from '../../data/modes/finnections.json';
 import { buildPacks } from '../cardData';
 import { categories, termById } from '../content';
 import { addDays } from '../dates';
-import { applyPacks, clearPacks, hasPack } from '../packs';
+import { applyPacks, clearPacks } from '../packs';
 import { seededRng } from '../questions';
 import { graduate, introduce, newProgress } from '../scheduler';
 import type { Progress } from '../types';
 import { modeRecord } from './knowledge';
 import {
   access,
-  boardById,
   finishRound,
-  headlineById,
   levelState,
   nextLevel,
-  packsFor,
   pickRound,
   playable,
   recordBoard,
@@ -83,20 +80,6 @@ describe('Headline Desk and Finnections content', () => {
     expect(b3.length).toBeGreaterThan(0);
   });
 
-  it('asks for the phase 3 packs only once phase 3 is open', () => {
-    expect(packsFor('headline', newProgress())).toEqual(['headlines']);
-    const open = { ...newProgress(), phase3Key: true, unlocked: ['phase3'] };
-    expect(packsFor('finnections', open)).toEqual(['finnections', 'finnections:p3']);
-  });
-
-  it('fills the content from its packs, and empties it again', () => {
-    clearPacks();
-    expect(headlineById.size + boardById.size).toBe(0);
-    applyPacks({ headlines: all['headlines'], finnections: all['finnections'] });
-    expect(hasPack('headlines')).toBe(true);
-    expect(headlineById.size).toBe((all['headlines'] as Headline[]).length);
-    expect(boardById.size).toBe((all['finnections'] as Board[]).length);
-  });
 });
 
 describe('when the modes open', () => {

@@ -4,7 +4,8 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { newProgress } from '../src/lib/scheduler';
 import type { Progress } from '../src/lib/types';
 import worker, { handleApi, hashPassword, inviteCode, verifyPassword, type D1Database, type Env } from './index';
-import { ASKS_PER_MINUTE, content, MAX_IDS, MAX_PACKS, NEW_PER_HOUR } from './cards';
+import { ASKS_PER_MINUTE, content, MAX_IDS, MAX_PACKS, NEW_PER_HOUR, ROUND_PACKS } from './cards';
+import type { Board, Headline } from '../src/lib/modes/rounds';
 
 function fakeD1(): D1Database {
   const sql = new DatabaseSync(':memory:');
@@ -408,8 +409,9 @@ describe('worker: term cards', () => {
 
 describe('worker: desk cases and game content (packs)', () => {
   const { packs, phase3 } = content();
-  const mainPacks = [...packs.keys()].filter((id) => !phase3.has(id));
-  const phase3Packs = [...packs.keys()].filter((id) => phase3.has(id));
+  // Round content is dealt a round at a time (worker/rounds.ts), never as a pack.
+  const mainPacks = [...packs.keys()].filter((id) => !phase3.has(id) && !ROUND_PACKS.has(id));
+  const phase3Packs = [...packs.keys()].filter((id) => phase3.has(id) && !ROUND_PACKS.has(id));
 
   async function friendWith(access: { phase3?: boolean } = {}) {
     const admin = new Client();
@@ -425,7 +427,7 @@ describe('worker: desk cases and game content (packs)', () => {
     expect(mainPacks.filter((id) => id.startsWith('case:')).length).toBeGreaterThan(0);
     expect(phase3Packs.length).toBeGreaterThan(0);
     expect(phase3Packs.every((id) => id.startsWith('case:') || id.endsWith(':p3'))).toBe(true);
-    expect(phase3Packs).toEqual(expect.arrayContaining(['headlines:p3', 'finnections:p3']));
+    expect([...ROUND_PACKS].every((id) => packs.has(id))).toBe(true);
   });
 
   it('gives the packs asked for, a few at a time, with no daily limit', async () => {
@@ -452,5 +454,71 @@ describe('worker: desk cases and game content (packs)', () => {
     const all = await admin.call('POST', '/api/cards', { ids: [], packs: phase3Packs.slice(0, MAX_PACKS) });
     expect(Object.keys(all.data.packs).length).toBe(Math.min(MAX_PACKS, phase3Packs.length));
     expect(all.data.refused).toBeUndefined();
+  });
+
+  it('never sends round content whole: headlines and boards are not packs the app can ask for', async () => {
+    const { friend } = await friendWith();
+    const r = await friend.call('POST', '/api/cards', { ids: [], packs: ['headlines', 'finnections'] });
+    expect(r.data.packs).toEqual({});
+  });
+});
+
+describe('worker: Headline Desk and Finnections rounds', () => {
+  const { packs } = content();
+  const headlines = packs.get('headlines') as Headline[];
+  const boards = packs.get('finnections') as Board[];
+  const p3Board = (packs.get('finnections:p3') as Board[])[0];
+
+  async function learner() {
+    const admin = new Client();
+    await admin.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
+    const { data } = await admin.call('POST', '/api/admin/invites', { quant: false, phase3: false });
+    const friend = new Client();
+    await friend.call('POST', '/api/signup', { email: 'friend@example.com', password: 'friendpass', invite: data.code });
+    return friend;
+  }
+
+  it('deals headlines without their moves, terms or reason, three at most', async () => {
+    const friend = await learner();
+    const r = await friend.call('POST', '/api/round', { mode: 'headline', ids: [...headlines.slice(0, 5).map((h) => h.id), 'nope'] });
+    expect(r.status).toBe(200);
+    expect(r.data.items).toHaveLength(3);
+    const text = JSON.stringify(r.data);
+    for (const h of headlines.slice(0, 3)) {
+      expect(text).not.toContain(h.why);
+      for (const i of h.items) expect(text).not.toContain(`"${i.term}"`);
+    }
+    expect(text).not.toMatch(/"move"/);
+  });
+
+  it('marks a headline only once every line is called, and then gives the answers', async () => {
+    const friend = await learner();
+    const h = headlines[0];
+    expect((await friend.call('POST', '/api/round/mark', { mode: 'headline', id: h.id, picks: ['up'] })).status).toBe(400);
+    const r = await friend.call('POST', '/api/round/mark', { mode: 'headline', id: h.id, picks: h.items.map(() => 'up') });
+    expect(r.data.headline).toEqual(h);
+  });
+
+  it('deals a board as shuffled tiles, checks each guess, and reveals the groups only when asked at the end', async () => {
+    const friend = await learner();
+    const b = boards[0];
+    const r = await friend.call('POST', '/api/round', { mode: 'finnections', ids: [b.id] });
+    const dealt = r.data.items[0];
+    expect([...dealt.tiles].sort()).toEqual(b.groups.flatMap((g) => g.terms).sort());
+    expect(JSON.stringify(r.data)).not.toContain(b.groups[0].name);
+    const hit = await friend.call('POST', '/api/round/mark', { mode: 'finnections', id: b.id, tiles: b.groups[1].terms });
+    expect(hit.data.group).toEqual({ ...b.groups[1], order: 1 });
+    const three = [...b.groups[0].terms.slice(0, 3), b.groups[2].terms[0]];
+    const near = await friend.call('POST', '/api/round/mark', { mode: 'finnections', id: b.id, tiles: three });
+    expect(near.data).toEqual({ oneAway: true });
+    const all = await friend.call('POST', '/api/round/mark', { mode: 'finnections', id: b.id, reveal: true });
+    expect(all.data.groups.map((g: { name: string }) => g.name)).toEqual(b.groups.map((g) => g.name));
+  });
+
+  it('keeps phase 3 rounds for accounts with phase 3', async () => {
+    const friend = await learner();
+    const r = await friend.call('POST', '/api/round', { mode: 'finnections', ids: [p3Board.id] });
+    expect(r.data.items).toEqual([]);
+    expect((await friend.call('POST', '/api/round/mark', { mode: 'finnections', id: p3Board.id, reveal: true })).status).toBe(400);
   });
 });
