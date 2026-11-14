@@ -4,7 +4,11 @@ import { beforeEach, describe, expect, it } from 'vitest';
 import { newProgress } from '../src/lib/scheduler';
 import type { Progress } from '../src/lib/types';
 import worker, { handleApi, hashPassword, inviteCode, verifyPassword, type D1Database, type Env } from './index';
-import { ASKS_PER_MINUTE, content, MAX_IDS, MAX_PACKS, NEW_PER_HOUR, ROUND_PACKS } from './cards';
+import { ASKS_PER_MINUTE, content, MAX_IDS, NEW_PER_HOUR } from './cards';
+import type { FermiItem } from '../src/lib/fermi';
+import type { Clip } from '../src/lib/meeting';
+import type { Strategy } from '../src/lib/backtest';
+import type { DeskCase } from '../src/lib/types';
 import type { Board, Headline } from '../src/lib/modes/rounds';
 
 function fakeD1(): D1Database {
@@ -407,11 +411,11 @@ describe('worker: term cards', () => {
   });
 });
 
-describe('worker: desk cases and game content (packs)', () => {
+describe('worker: desk cases and game content, dealt and marked', () => {
   const { packs, phase3 } = content();
-  // Round content is dealt a round at a time (worker/rounds.ts), never as a pack.
-  const mainPacks = [...packs.keys()].filter((id) => !phase3.has(id) && !ROUND_PACKS.has(id));
-  const phase3Packs = [...packs.keys()].filter((id) => phase3.has(id) && !ROUND_PACKS.has(id));
+  const caseIds = [...packs.keys()].filter((id) => id.startsWith('case:'));
+  const mainCase = caseIds.find((id) => !phase3.has(id))!.slice(5);
+  const p3Case = caseIds.find((id) => phase3.has(id))!.slice(5);
 
   async function friendWith(access: { phase3?: boolean } = {}) {
     const admin = new Client();
@@ -422,44 +426,91 @@ describe('worker: desk cases and game content (packs)', () => {
     return { admin, friend };
   }
 
-  it('has every desk case, the games and modes content, and phase 3 cases and content need phase 3', () => {
+  it('has every desk case and the games content, and phase 3 cases need phase 3', () => {
     expect([...packs.keys()].filter((id) => !id.startsWith('case:')).sort()).toEqual(['backtest', 'fermi', 'finnections', 'finnections:p3', 'headlines', 'headlines:p3', 'meeting']);
-    expect(mainPacks.filter((id) => id.startsWith('case:')).length).toBeGreaterThan(0);
-    expect(phase3Packs.length).toBeGreaterThan(0);
-    expect(phase3Packs.every((id) => id.startsWith('case:') || id.endsWith(':p3'))).toBe(true);
-    expect([...ROUND_PACKS].every((id) => packs.has(id))).toBe(true);
+    expect(caseIds.length).toBeGreaterThan(0);
+    expect(phase3.has(`case:${p3Case}`)).toBe(true);
   });
 
-  it('gives the packs asked for, a few at a time, with no daily limit', async () => {
+  it('never gives a pack whole: the cards endpoint has no packs any more', async () => {
     const { friend } = await friendWith();
-    const caseId = mainPacks.find((id) => id.startsWith('case:'))!;
-    const r = await friend.call('POST', '/api/cards', { ids: [], packs: ['meeting', caseId, 'not-a-pack'] });
-    expect(Object.keys(r.data.packs).sort()).toEqual([caseId, 'meeting'].sort());
-    expect(r.data.packs.meeting).toEqual(packs.get('meeting'));
-    expect(r.data.cards).toEqual({});
-    expect(r.data.refused).toBeUndefined();
-    const big = await friend.call('POST', '/api/cards', { ids: [], packs: mainPacks.slice(0, MAX_PACKS + 3) });
-    expect(Object.keys(big.data.packs).length).toBe(MAX_PACKS);
-    let got = 0;
-    for (let i = 0; i < mainPacks.length; i += MAX_PACKS) got += Object.keys((await friend.call('POST', '/api/cards', { ids: [], packs: mainPacks.slice(i, i + MAX_PACKS) })).data.packs).length;
-    expect(got).toBe(mainPacks.length);
+    const r = await friend.call('POST', '/api/cards', { ids: [], packs: ['meeting', `case:${mainCase}`, 'fermi', 'backtest'] });
+    expect(r.status).toBe(200);
+    expect(r.data.packs).toBeUndefined();
+  });
+
+  it('deals a Fermi round without answers, and marks a guess', async () => {
+    const { friend } = await friendWith();
+    const { data } = await friend.call('POST', '/api/practice', { kind: 'fermi' });
+    expect(data.items.length).toBe(8);
+    const text = JSON.stringify(data);
+    const all = packs.get('fermi') as FermiItem[];
+    for (const it of data.items) {
+      expect(Object.keys(it).every((k) => ['id', 'q', 'unit'].includes(k))).toBe(true);
+      const f = all.find((x) => x.id === it.id)!;
+      expect(text).not.toContain(f.how);
+    }
+    const f = all.find((x) => x.id === data.items[0].id)!;
+    const m = await friend.call('POST', '/api/practice/mark', { kind: 'fermi', id: f.id, guess: 1000 });
+    expect(m.data).toMatchObject({ answer: f.answer, how: f.how });
+    expect((await friend.call('POST', '/api/practice/mark', { kind: 'fermi', id: f.id })).status).toBe(400);
+    expect((await friend.call('POST', '/api/practice/mark', { kind: 'fermi', id: 'nope', guess: 3 })).status).toBe(400);
+  });
+
+  it('deals meeting clips without the right option or reason, and marks each question', async () => {
+    const { friend } = await friendWith();
+    const { data } = await friend.call('POST', '/api/practice', { kind: 'meeting' });
+    expect(data.items.length).toBe(5);
+    const clips = packs.get('meeting') as Clip[];
+    for (const it of data.items) {
+      const clip = clips.find((c) => c.id === it.id)!;
+      expect(it.questions.length).toBe(2);
+      for (const q of it.questions) {
+        expect(Object.keys(q).sort()).toEqual(['options', 'q']);
+        expect(JSON.stringify(it)).not.toContain(clip.questions.find((x) => x.q === q.q)!.why);
+      }
+    }
+    const clip = clips.find((c) => c.id === data.items[0].id)!;
+    const m = await friend.call('POST', '/api/practice/mark', { kind: 'meeting', id: clip.id, q: 1 });
+    expect(m.data).toEqual({ answer: clip.questions[1].options[0], why: clip.questions[1].why });
+    expect((await friend.call('POST', '/api/practice/mark', { kind: 'meeting', id: clip.id, q: 5 })).status).toBe(400);
+  });
+
+  it('deals backtest reports without the flaw, and marks the line', async () => {
+    const { friend } = await friendWith();
+    const { data } = await friend.call('POST', '/api/practice', { kind: 'backtest' });
+    expect(data.items.length).toBeGreaterThan(0);
+    const all = packs.get('backtest') as Strategy[];
+    for (const it of data.items) {
+      expect(it).not.toHaveProperty('answer');
+      expect(it).not.toHaveProperty('flaw');
+      const c = all.find((s) => s.id === it.id)!.cases[it.case];
+      expect(c).toBeDefined();
+      expect(JSON.stringify(it)).not.toContain(c.why);
+      const m = await friend.call('POST', '/api/practice/mark', { kind: 'backtest', id: it.id, case: it.case });
+      expect(m.data.flaw).toBe(c.flaw);
+      expect(it.lines[m.data.answer].text).toBe(c.line);
+    }
+  });
+
+  it('deals a desk case without the best options or reasons, and marks each step', async () => {
+    const { friend } = await friendWith();
+    const story = packs.get(`case:${mainCase}`) as DeskCase;
+    const { data } = await friend.call('POST', '/api/practice', { kind: 'case', unit: mainCase });
+    expect(data.steps.length).toBe(story.steps.length);
+    const text = JSON.stringify(data);
+    expect(text).not.toContain('"best"');
+    for (const s of story.steps) for (const o of s.options) expect(text).not.toContain(o.why);
+    const m = await friend.call('POST', '/api/practice/mark', { kind: 'case', unit: mainCase, step: 0 });
+    expect(m.data.options).toEqual(story.steps[0].options.map((o) => ({ text: o.text, best: !!o.best, why: o.why })));
+    expect((await friend.call('POST', '/api/practice', { kind: 'case', unit: 'no-such-case' })).status).toBe(400);
   });
 
   it('keeps phase 3 cases for accounts with phase 3, and the admin', async () => {
     const { admin, friend } = await friendWith();
-    const r = await friend.call('POST', '/api/cards', { ids: [], packs: [phase3Packs[0], 'fermi'] });
-    expect(Object.keys(r.data.packs)).toEqual(['fermi']);
-    expect(r.data.refused).toEqual([phase3Packs[0]]);
-    expect(r.data.reason).toMatch(/Phase 3 content/);
-    const all = await admin.call('POST', '/api/cards', { ids: [], packs: phase3Packs.slice(0, MAX_PACKS) });
-    expect(Object.keys(all.data.packs).length).toBe(Math.min(MAX_PACKS, phase3Packs.length));
-    expect(all.data.refused).toBeUndefined();
-  });
-
-  it('never sends round content whole: headlines and boards are not packs the app can ask for', async () => {
-    const { friend } = await friendWith();
-    const r = await friend.call('POST', '/api/cards', { ids: [], packs: ['headlines', 'finnections'] });
-    expect(r.data.packs).toEqual({});
+    expect((await friend.call('POST', '/api/practice', { kind: 'case', unit: p3Case })).status).toBe(400);
+    expect((await friend.call('POST', '/api/practice/mark', { kind: 'case', unit: p3Case, step: 0 })).status).toBe(400);
+    expect((await admin.call('POST', '/api/practice', { kind: 'case', unit: p3Case })).status).toBe(200);
   });
 });
 

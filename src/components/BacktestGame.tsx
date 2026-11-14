@@ -1,18 +1,42 @@
-import { useMemo, useRef, useState } from 'react';
-import { BACKTEST, BACKTEST_POINTS, backtestPassed, FLAWS, newBacktestRound, SLOTS } from '../lib/backtest';
+import { useRef, useState } from 'react';
+import { BACKTEST, BACKTEST_POINTS, backtestPassed, FLAWS, SLOTS, type BacktestCase, type Flaw } from '../lib/backtest';
 import { glossOrUnit, termById } from '../lib/content';
+import { markPractice } from '../lib/modes/roundApi';
 import { finishGame } from '../lib/practice';
-import { seededRng } from '../lib/questions';
 import { Choices, GameFrame, Verdict, type GameProps } from './GameFrame';
 import { Search } from './icons';
+import { PracticeWait, usePractice } from './usePractice';
 
 interface Answer {
   line: number;
   name: number | null;
 }
 
-export function BacktestGame({ unitId, seed, progress, today, onProgress, onFinish, onQuit }: GameProps) {
-  const cases = useMemo(() => newBacktestRound(seededRng(seed)), [seed]);
+/** A report as dealt: its lines, numbers and four flaw names, without which line is flawed or why. */
+interface DealtReport {
+  id: string;
+  case: number;
+  title: string;
+  about: string;
+  lines: BacktestCase['lines'];
+  stats: BacktestCase['stats'];
+  names: Flaw[];
+}
+/** A report once its line is picked: the server has said which line, which flaw and why. */
+type Report = Omit<BacktestCase, 'strategy'> & { strategy: { id: string; title: string; about: string }; case: number };
+
+export function BacktestGame(props: GameProps) {
+  const dealt = usePractice<{ items: DealtReport[] }>('backtest', props.seed);
+  if (!dealt.round) return <PracticeWait error={dealt.error} onRetry={dealt.retry} onQuit={props.onQuit} />;
+  return <BacktestRound {...props} dealt={dealt.round.items} />;
+}
+
+function BacktestRound({ unitId, progress, today, onProgress, onFinish, onQuit, dealt }: GameProps & { dealt: DealtReport[] }) {
+  // answer, flaw and why are filled in for each report once its line is marked.
+  const [cases, setCases] = useState<Report[]>(() =>
+    dealt.map((d) => ({ strategy: { id: d.id, title: d.title, about: d.about }, case: d.case, lines: d.lines, stats: d.stats, names: d.names, answer: -1, flaw: d.names[0], why: '' })),
+  );
+  const [marking, setMarking] = useState(false);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const finished = useRef(false);
@@ -24,9 +48,18 @@ export function BacktestGame({ unitId, seed, progress, today, onProgress, onFini
   const done = a?.name != null;
   const points = answers.reduce((n, x, i) => n + (x.line === cases[i].answer ? 1 : 0) + (x.name != null && cases[i].names[x.name] === cases[i].flaw ? 1 : 0), 0);
 
-  const pickLine = (i: number) => {
-    if (a) return;
-    setAnswers((all) => [...all, { line: i, name: null }]);
+  const pickLine = async (i: number) => {
+    if (a || marking) return;
+    setMarking(true);
+    try {
+      const m = await markPractice<{ answer: number; flaw: Flaw; why: string }>({ kind: 'backtest', id: c.strategy.id, case: c.case });
+      setCases((all) => all.map((x, k) => (k === index ? { ...x, ...m } : x)));
+      setAnswers((all) => (all.length > index ? all : [...all, { line: i, name: null }]));
+    } catch {
+      // Not marked: the report stays open to pick again.
+    } finally {
+      setMarking(false);
+    }
   };
   const pickName = (i: number) => {
     if (!a || a.name != null) return;
@@ -128,7 +161,7 @@ export function BacktestGame({ unitId, seed, progress, today, onProgress, onFini
           else if (a) style = 'border-line bg-surface opacity-60';
           return (
             <li key={l.slot}>
-              <button type="button" disabled={!!a} data-key="choice" onClick={() => pickLine(i)} className={`w-full rounded-2xl border-2 px-4 py-2.5 text-left transition ${style}`}>
+              <button type="button" disabled={!!a || marking} data-key="choice" onClick={() => void pickLine(i)} className={`w-full rounded-2xl border-2 px-4 py-2.5 text-left transition ${style}`}>
                 <span className="block text-[11px] font-extrabold uppercase tracking-wider text-ink-3">{SLOTS[l.slot]}</span>
                 <span className="block text-[15px] font-bold leading-snug text-ink">{l.text}</span>
               </button>

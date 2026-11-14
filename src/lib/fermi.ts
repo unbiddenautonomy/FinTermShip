@@ -22,7 +22,7 @@ export interface FermiItem {
   asOf?: string;
 }
 
-/** The questions. They come from the server when the learner opens the game (src/lib/packs.ts). */
+/** The questions. Empty in the app: the server deals each round (worker/practice.ts). */
 export const fermiItems: FermiItem[] = [];
 
 export function newFermiRound(rng: Rng): FermiItem[] {
