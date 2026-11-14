@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { areaOpen, canTakeTest, unitOpen } from '../lib/choose';
-import { caseSummary, categories, categoryOfUnit, hasCard, isPracticeUnit, practiceKind, termById, termIdsOfUnit, unitById } from '../lib/content';
+import { caseSummary, categories, categoryOfUnit, isPracticeUnit, practiceKind, termById, termIdsOfUnit, unitById } from '../lib/content';
 import { drillPassed } from '../lib/drills';
 import { answer, careers, replyFor, STARTERS, type HelpAction, type Intent, type Reply, type Target } from '../lib/guide';
 import { todayStatus } from '../lib/lesson';
@@ -9,7 +9,7 @@ import { firstName } from '../lib/profile';
 import { currentUnit } from '../lib/track';
 import type { Progress } from '../lib/types';
 import { ChatIcon, Lock } from './icons';
-import { NotReached, Pill, TermDetails } from './ui';
+import { Pill, TermDefinition, TermDetails } from './ui';
 
 export interface GuideEntry {
   id: number;
@@ -308,7 +308,7 @@ function ReplyView({ reply, progress: p, today, act }: { reply: Reply; progress:
               return (
                 <div key={id} className="rounded-xl bg-sunken/60 p-3">
                   <p className="font-extrabold text-ink">{t.term}</p>
-                  {hasCard(id) ? <p className="mt-1 text-[15px]">{t.definition}</p> : <div className="mt-2"><NotReached term={t} /></div>}
+                  <TermDefinition term={t} met={!!p.terms[id]} />
                 </div>
               );
             })}
@@ -335,7 +335,7 @@ function TermView({ termId, p, today, act }: { termId: string; p: Progress; toda
         <span className="text-lg font-extrabold text-ink">{t.term}</span>
         {s ? <Pill tone={s.step >= 4 ? 'brand' : 'sky'}>Met · step {s.step} of 6</Pill> : <Pill>Not met yet</Pill>}
       </p>
-      <TermDetails term={t} showExamples={1} />
+      <TermDetails term={t} met={!!s} showExamples={1} />
       <p className="mt-3 text-sm text-ink-3">
         In {categoryOfUnit(t.unit)?.name} · {unit.name}
       </p>

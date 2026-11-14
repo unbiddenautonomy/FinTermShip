@@ -4,6 +4,7 @@ import { phase3Open } from '../lib/phase3';
 import type { Progress, Term } from '../lib/types';
 import { ChevronDown, Search } from './icons';
 import { Pill, SpeakButton, StepDots, TermDetails } from './ui';
+import { useTermCards } from './useCards';
 
 type Filter = 'all' | 'met' | 'trouble';
 
@@ -39,6 +40,8 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
         })),
     [categories, q, cat, filter, progress.terms],
   );
+  // Opening the glossary fetches nothing. Picking an area or searching fetches the glosses of the met terms that shows, a screen's worth at a time.
+  useTermCards(cat === 'all' && !q ? [] : groups.flatMap((g) => g.terms.filter((t) => progress.terms[t.id]).map((t) => t.id)).slice(0, 80));
   const openTerm = open ? categories.flatMap((c) => c.terms).find((t) => t.id === open) : undefined;
   const shown = groups.reduce((n, g) => n + g.terms.length, 0);
 
@@ -188,7 +191,7 @@ function TermBody({ term: t, progress }: { term: Term; progress: Progress }) {
           </span>
         </div>
       )}
-      <TermDetails term={t} showExamples={3} />
+      <TermDetails term={t} met={!!s} showExamples={3} />
       {s && (
         <div className="flex flex-wrap items-center gap-2 text-xs text-ink-3">
           <Pill tone={s.step >= 4 ? 'brand' : 'sky'}>Step {s.step} of 6</Pill>

@@ -12,7 +12,7 @@
 import { mergeProgress } from '../src/lib/sync';
 import type { Progress } from '../src/lib/types';
 import { ALWAYS_ON, isModeId, MODES } from '../src/lib/modes/ids';
-import { askCards, givenCards } from './cards';
+import { askCards, countAsk } from './cards';
 import { signInPage } from './signin';
 
 // ---------- The few Cloudflare types this file uses ----------
@@ -59,10 +59,11 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS sessions (token TEXT PRIMARY KEY, user_id INTEGER NOT NULL, expires INTEGER NOT NULL)`,
   `CREATE TABLE IF NOT EXISTS invites (code TEXT PRIMARY KEY, quant INTEGER NOT NULL, phase3 INTEGER NOT NULL, created INTEGER NOT NULL, expires INTEGER NOT NULL, used_by INTEGER)`,
   `CREATE TABLE IF NOT EXISTS progress (user_id INTEGER PRIMARY KEY, data TEXT NOT NULL, updated INTEGER NOT NULL)`,
-  // The term cards each account has been given (worker/cards.ts), and accounts already given their earlier terms' cards.
+  // The term cards each account has been given (worker/cards.ts), for the admin's view of activity and the hourly ceiling.
   `CREATE TABLE IF NOT EXISTS cards (user_id INTEGER NOT NULL, term_id TEXT NOT NULL, issued INTEGER NOT NULL, test TEXT, PRIMARY KEY (user_id, term_id))`,
   `CREATE INDEX IF NOT EXISTS cards_recent ON cards (user_id, issued)`,
-  `CREATE TABLE IF NOT EXISTS card_seed (user_id INTEGER PRIMARY KEY, at INTEGER NOT NULL)`,
+  // Asks for cards per account per minute (worker/cards.ts), against scripts.
+  `CREATE TABLE IF NOT EXISTS asks (user_id INTEGER NOT NULL, minute INTEGER NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (user_id, minute))`,
   // Settings for the whole site, set by the admin: 'modes_off' is a JSON list of mode ids switched off for everyone.
   `CREATE TABLE IF NOT EXISTS site (key TEXT PRIMARY KEY, value TEXT NOT NULL)`,
   // The cases and game content (packs) each account has been given.
@@ -377,14 +378,11 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   if (route === 'GET /api/site') return json({ modesOff: await modesOff(db) });
 
   // ---------- Term cards ----------
-  if (route === 'GET /api/cards') {
-    const since = Number(url.searchParams.get('since') ?? 0);
-    return json(await givenCards(db, user, now, url.searchParams.get('have'), Number.isFinite(since) ? since : 0));
-  }
-
+  // One screen's worth at a time; there is no way to get everything given so far in one go.
   if (route === 'POST /api/cards') {
+    if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
     const b = await body();
-    return json(await askCards(db, user, b.ids, b.test, now, b.packs));
+    return json(await askCards(db, user, b.ids, now, b.packs));
   }
 
   // The password for the quant switch and phase 3: right once, and the account keeps both.

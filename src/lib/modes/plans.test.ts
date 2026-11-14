@@ -31,14 +31,15 @@ describe('mode lesson plans', () => {
     expect(plan.reviewIds).not.toContain('bid');
   });
 
-  it('listings teach new terms within the shared daily limit', () => {
+  it('listings teach new terms, and carry on past the daily goal', () => {
     const p = newProgress();
     const plan = buildListing(p, today, seededRng(1))!;
     expect(plan.newIds.length).toBe(3);
     expect(plan.questions.filter((q) => q.kind === 'intro')).toHaveLength(3);
     const full = { ...p, days: { [today]: { xp: 0, newTerms: p.settings.newPerDay, reviews: 0, lessons: 0 } } };
     expect(newLeftToday(full, today)).toBe(0);
-    expect(buildListing(full, today, seededRng(1))).toBeNull();
+    expect(buildListing(full, today, seededRng(1))!.newIds.length).toBe(3);
+    expect(buildRide(full, 'basics', 0, today, seededRng(3))!.plan.newIds.length).toBeGreaterThan(0);
   });
 
   it('a ride follows the line in syllabus order and teaches unmet stations', () => {
