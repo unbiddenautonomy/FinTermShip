@@ -27,6 +27,9 @@ export const lineById = new Map(lines.map((l) => [l.id, l]));
 
 const isDue = (p: Progress, id: string, today: string) => isDueOn(p.terms[id], today);
 
+/** Most terms in one Defend round. */
+export const DEFEND_MAX = 8;
+
 /** One question per term, the one Path would ask at the term's step. Due terms count as reviews. */
 export function buildDefend(p: Progress, termIds: string[], today: string, rng: Rng): LessonPlan | null {
   const known = new Set(Object.keys(p.terms));
@@ -87,12 +90,24 @@ export const RIDE_STOPS = 5;
  * The ride ends at a depot (a game, drill or case), at a locked unit, at the end of the line, or
  * after RIDE_STOPS stops.
  */
-export function buildRide(p: Progress, lineId: string, from: number, today: string, rng: Rng, maxStops = RIDE_STOPS): Ride | null {
+export interface RideRoute {
+  /** Stops covered, as indexes into the line's stops. */
+  from: number;
+  to: number;
+  newIds: string[];
+  metIds: string[];
+  /** Interchanges on the way with a met term on another line: [this line's term, the other]. */
+  transfers: [string, string][];
+  endsAt?: Ride['endsAt'];
+}
+
+/** Where a ride from this station goes, without its questions (the line's preview reads this). */
+export function rideRoute(p: Progress, lineId: string, from: number, maxStops = RIDE_STOPS): RideRoute | null {
   const line = lineById.get(lineId);
   if (!line) return null;
   if ('term' in (line.stops[from] ?? {}) && !canRideFrom(p, lineId, from)) return null;
-  const fresh: Term[] = [];
-  const met: Term[] = [];
+  const fresh: string[] = [];
+  const met: string[] = [];
   const transfers: [string, string][] = [];
   let i = from;
   let endsAt: Ride['endsAt'];
@@ -105,30 +120,38 @@ export function buildRide(p: Progress, lineId: string, from: number, today: stri
     }
     const t = termById.get(stop.term);
     if (!t) continue;
-    if (p.terms[t.id]) met.push(t);
+    if (p.terms[t.id]) met.push(t.id);
     else if (!unitOpen(p, t.unit)) {
       endsAt = { locked: t.unit };
       break;
-    } else fresh.push(t);
+    } else fresh.push(t.id);
     const twin = interchangesAt(t.id).find((id) => p.terms[id]);
     if (twin && transfers.length < 2) transfers.push([t.id, twin]);
   }
   if (!fresh.length && !met.length) return null;
-  const known = new Set([...Object.keys(p.terms), ...fresh.map((t) => t.id)]);
+  if (transfers.length && !endsAt) endsAt = { interchange: transfers[transfers.length - 1][1] };
+  return { from, to: i - 1, newIds: fresh, metIds: met, transfers, endsAt };
+}
+
+export function buildRide(p: Progress, lineId: string, from: number, today: string, rng: Rng, maxStops = RIDE_STOPS): Ride | null {
+  const route = rideRoute(p, lineId, from, maxStops);
+  const line = lineById.get(lineId);
+  if (!route || !line) return null;
+  const fresh = route.newIds.map((id) => termById.get(id)!);
+  const known = new Set([...Object.keys(p.terms), ...route.newIds]);
   const qs: Question[] = [];
   // Stops in order: a new station is taught, a met one is asked the way Path would ask it.
-  for (const t of [...line.stops.slice(from, i)].flatMap((s) => ('term' in s ? [termById.get(s.term)!] : []))) {
-    if (fresh.includes(t)) qs.push({ kind: 'intro', termId: t.id }, meaningQuestion(t, rng));
-    else if (met.includes(t)) qs.push({ ...reviewQuestion(t, Math.max(1, p.terms[t.id].step), rng, known), review: isDue(p, t.id, today) } as Question);
+  for (const t of line.stops.slice(from, route.to + 1).flatMap((s) => ('term' in s ? [termById.get(s.term)!] : []))) {
+    if (route.newIds.includes(t.id)) qs.push({ kind: 'intro', termId: t.id }, meaningQuestion(t, rng));
+    else if (route.metIds.includes(t.id)) qs.push({ ...reviewQuestion(t, Math.max(1, p.terms[t.id].step), rng, known), review: isDue(p, t.id, today) } as Question);
   }
   for (const t of shuffle(fresh, rng)) qs.push(termQuestion(t, rng, false, known));
-  for (const [a, b] of transfers) qs.push(matchQuestion([termById.get(a)!, termById.get(b)!], rng));
-  if (transfers.length && !endsAt) endsAt = { interchange: transfers[transfers.length - 1][1] };
+  for (const [a, b] of route.transfers) qs.push(matchQuestion([termById.get(a)!, termById.get(b)!], rng));
   return {
-    plan: { kind: fresh.length ? 'new' : 'review', newIds: fresh.map((t) => t.id), reviewIds: met.filter((t) => isDue(p, t.id, today)).map((t) => t.id), questions: qs },
-    from,
-    to: i - 1,
-    endsAt,
+    plan: { kind: fresh.length ? 'new' : 'review', newIds: route.newIds, reviewIds: route.metIds.filter((id) => isDue(p, id, today)), questions: qs },
+    from: route.from,
+    to: route.to,
+    endsAt: route.endsAt,
   };
 }
 

@@ -5,7 +5,7 @@
  */
 import type { DealtBoard, DealtHeadline, FoundGroup, Headline, RoundMode } from './rounds';
 
-async function call<T>(path: string, body: unknown): Promise<T> {
+export async function call<T>(path: string, body: unknown): Promise<T> {
   if (import.meta.env.DEV && path.startsWith('round')) {
     const { dealRound, markRound } = await import('../../../worker/rounds');
     const b = body as Record<string, unknown>;

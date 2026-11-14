@@ -31,6 +31,8 @@ export interface Term {
 /** What a term card adds to the outline: everything the term teaches and asks. The app gets it from the server. */
 export const CARD_FIELDS = ['short', 'definition', 'examples', 'fill', 'wrong', 'note', 'formula', 'asOf', 'source', 'calcs', 'tf', 'reads'] as const;
 export type CardBody = Pick<Term, (typeof CARD_FIELDS)[number]>;
+/** The fields that teach a term, which the app may hold. The rest (fill, wrong, calcs, tf, talk, claims) is what its questions are made from, and stays on the server. */
+export const TEACH_FIELDS = ['short', 'definition', 'examples', 'note', 'formula', 'asOf', 'source', 'reads'] as const;
 
 /** A hand-written true or false claim about a term, for Call It. */
 export interface WrittenClaim {

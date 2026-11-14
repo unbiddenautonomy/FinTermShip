@@ -9,7 +9,6 @@
  * at a time without its answers (src/lib/modes/roundApi.ts).
  */
 import { applyCards, clearCards, hasCard, termById } from './content';
-import type { LessonPlan } from './lesson';
 import type { Card } from './types';
 
 // ---------- Talking to the server ----------
@@ -139,14 +138,4 @@ export function wantCards(ids: string[]): void {
   void ensureCards(need).then((failed) => {
     if (failed) setTimeout(() => need.forEach((id) => tried.delete(id)), 30_000);
   });
-}
-
-/** Every term a lesson plan shows or asks about. */
-export function planTermIds(plan: LessonPlan): string[] {
-  const ids = new Set([...plan.newIds, ...plan.reviewIds]);
-  for (const q of plan.questions) {
-    if ('termId' in q) ids.add(q.termId);
-    if ('termIds' in q) for (const id of q.termIds) ids.add(id);
-  }
-  return [...ids];
 }
