@@ -1,0 +1,2210 @@
+[
+  {
+    "id": "f101",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Greeks",
+        "terms": [
+          "delta",
+          "gamma",
+          "theta",
+          "vega"
+        ],
+        "why": "Each Greek measures how an option's price reacts to one thing: the share price (delta), delta itself (gamma), time (theta), or volatility (vega)."
+      },
+      {
+        "name": "Order types",
+        "terms": [
+          "market-order",
+          "limit-order",
+          "stop-loss",
+          "sl-m-order"
+        ],
+        "why": "These are the basic instructions you can give a broker: trade now, trade only at my price, or get me out if it goes against me."
+      },
+      {
+        "name": "Institutions",
+        "terms": [
+          "sebi",
+          "rbi",
+          "nse",
+          "bse"
+        ],
+        "why": "The bodies that run Indian markets: the regulator, the central bank, and the two stock exchanges."
+      },
+      {
+        "name": "Pooled funds",
+        "terms": [
+          "etf",
+          "index-fund",
+          "mutual-fund",
+          "reit"
+        ],
+        "why": "Each one pools many investors' money into one portfolio that someone else manages."
+      }
+    ]
+  },
+  {
+    "id": "f102",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Parts of an option",
+        "terms": [
+          "call-option",
+          "put-option",
+          "strike-price",
+          "expiry"
+        ],
+        "why": "The four things that define an option contract: whether it's a call or a put, its strike, and when it expires."
+      },
+      {
+        "name": "Quote screen",
+        "terms": [
+          "bid",
+          "ask",
+          "ltp",
+          "spread"
+        ],
+        "why": "What you see on a quote screen: the best buyer, the best seller, the gap between them, and the last trade."
+      },
+      {
+        "name": "Units",
+        "terms": [
+          "lakh",
+          "crore",
+          "basis-point",
+          "percentage-point"
+        ],
+        "why": "Units for sizes and changes: lakh and crore count money, while basis points and percentage points measure changes in rates."
+      },
+      {
+        "name": "Direction",
+        "terms": [
+          "bull-market",
+          "bear-market",
+          "rally",
+          "sell-off"
+        ],
+        "why": "Words for which way the market is going: up for a long time, down for a long time, a sharp rise, or a sharp fall."
+      }
+    ]
+  },
+  {
+    "id": "f103",
+    "level": 1,
+    "groups": [
+      {
+        "name": "RBI policy",
+        "terms": [
+          "repo-rate",
+          "mpc",
+          "hawkish",
+          "dovish"
+        ],
+        "why": "Words from RBI policy days: the rate, the committee that sets it, and the two moods it can be in."
+      },
+      {
+        "name": "Investors",
+        "terms": [
+          "fpi",
+          "dii",
+          "retail-investor",
+          "hni"
+        ],
+        "why": "Who is buying and selling: foreign funds, Indian institutions, individuals, and wealthy individuals."
+      },
+      {
+        "name": "IPO words",
+        "terms": [
+          "ipo",
+          "gmp",
+          "asba",
+          "anchor-investor"
+        ],
+        "why": "Words you meet when a company first lists: the issue, the grey-market premium, how you apply, and the big early investors."
+      },
+      {
+        "name": "Corporate actions",
+        "terms": [
+          "dividend",
+          "bonus-issue",
+          "stock-split",
+          "buyback"
+        ],
+        "why": "Things a company does to its shares or hands to its shareholders: cash, free shares, splitting shares, or buying them back."
+      }
+    ]
+  },
+  {
+    "id": "f104",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Product types",
+        "terms": [
+          "mis",
+          "cnc",
+          "nrml",
+          "mtf"
+        ],
+        "why": "The product you choose on a broker's order screen: intraday, delivery, F&O carry-forward, or delivery bought with a broker loan."
+      },
+      {
+        "name": "Validity",
+        "terms": [
+          "day-order",
+          "ioc",
+          "gtt",
+          "amo"
+        ],
+        "why": "How long an order stays alive: today only, this instant only, until a trigger is hit, or from tonight until the next open."
+      },
+      {
+        "name": "Margins",
+        "terms": [
+          "span-margin",
+          "exposure-margin",
+          "peak-margin",
+          "haircut"
+        ],
+        "why": "How the exchange and broker decide how much money you must put up, and how much your collateral counts for."
+      },
+      {
+        "name": "F&O limits",
+        "terms": [
+          "lot-size",
+          "freeze-quantity",
+          "mwpl",
+          "fo-ban"
+        ],
+        "why": "Rules that cap the size of F&O trades: the contract size, the largest single order, the market-wide position cap, and the ban when that cap is hit."
+      }
+    ]
+  },
+  {
+    "id": "f105",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Exchanges",
+        "terms": [
+          "nse",
+          "bse",
+          "mcx",
+          "ncdex"
+        ],
+        "why": "Where things trade in India: two stock exchanges and two commodity exchanges."
+      },
+      {
+        "name": "Indices",
+        "terms": [
+          "nifty-50",
+          "sensex",
+          "bank-nifty",
+          "india-vix"
+        ],
+        "why": "Numbers that summarise the market: three stock indices and the volatility index."
+      },
+      {
+        "name": "Accounts",
+        "terms": [
+          "demat-account",
+          "dp",
+          "depository",
+          "trading-account"
+        ],
+        "why": "What you need to hold and trade shares: the demat account, the agent that runs it, the depository behind it, and the trading account."
+      },
+      {
+        "name": "After you trade",
+        "terms": [
+          "clearing-corporation",
+          "t-plus-1",
+          "contract-note",
+          "stt"
+        ],
+        "why": "What happens after you trade: the clearing corporation settles it the next working day, you get a contract note, and you pay STT."
+      }
+    ]
+  },
+  {
+    "id": "f106",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Returns",
+        "terms": [
+          "return",
+          "cagr",
+          "total-return",
+          "xirr"
+        ],
+        "why": "Ways of measuring how much you made."
+      },
+      {
+        "name": "Valuation",
+        "terms": [
+          "pe-ratio",
+          "pb-ratio",
+          "ev-to-ebitda",
+          "peg-ratio"
+        ],
+        "why": "Ways of saying whether a share is cheap or expensive compared with its earnings, assets or growth."
+      },
+      {
+        "name": "Risk stats",
+        "terms": [
+          "standard-deviation",
+          "variance",
+          "beta",
+          "max-drawdown"
+        ],
+        "why": "Ways of measuring how risky something is: how much it swings, how much it follows the market, and how deep it has fallen."
+      },
+      {
+        "name": "Risk-adjusted",
+        "terms": [
+          "sharpe-ratio",
+          "sortino-ratio",
+          "calmar-ratio",
+          "information-ratio"
+        ],
+        "why": "Each one divides return by a measure of risk, so you can compare a calm fund with a wild one fairly."
+      }
+    ]
+  },
+  {
+    "id": "f107",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Sentiment",
+        "terms": [
+          "fomo",
+          "panic-selling",
+          "capitulation",
+          "buy-the-dip"
+        ],
+        "why": "Feelings that drive trading: fear of missing out, fear of losing more, giving up, and hope after a fall."
+      },
+      {
+        "name": "Chart",
+        "terms": [
+          "support",
+          "resistance",
+          "breakout",
+          "consolidation"
+        ],
+        "why": "Words for what you see on a price chart."
+      },
+      {
+        "name": "Players",
+        "terms": [
+          "hedge-fund",
+          "prop-trading",
+          "long-only-fund",
+          "investment-bank"
+        ],
+        "why": "Types of firm that trade or arrange deals."
+      },
+      {
+        "name": "Research calls",
+        "terms": [
+          "upgrade",
+          "downgrade",
+          "overweight",
+          "underweight"
+        ],
+        "why": "What an analyst says about a stock: raising or cutting the rating, and holding more or less than the index."
+      }
+    ]
+  },
+  {
+    "id": "f108",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Futures pricing",
+        "terms": [
+          "cost-of-carry",
+          "basis",
+          "contango",
+          "backwardation"
+        ],
+        "why": "Words for how a futures price relates to the spot price."
+      },
+      {
+        "name": "Bonds",
+        "terms": [
+          "coupon",
+          "yield-to-maturity",
+          "accrued-interest",
+          "zero-coupon-bond"
+        ],
+        "why": "Words for how a bond pays you and what it's worth."
+      },
+      {
+        "name": "Data",
+        "terms": [
+          "cpi-inflation",
+          "gdp-growth",
+          "pmi",
+          "core-inflation"
+        ],
+        "why": "Economic numbers that get released on a schedule and move markets."
+      },
+      {
+        "name": "Rupee",
+        "terms": [
+          "usdinr",
+          "forex-reserves",
+          "rbi-intervention",
+          "currency-futures"
+        ],
+        "why": "Words about the rupee against the dollar, and how the RBI and traders deal in it."
+      }
+    ]
+  },
+  {
+    "id": "f109",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Credit",
+        "terms": [
+          "credit-rating",
+          "default",
+          "investment-grade",
+          "recovery-rate"
+        ],
+        "why": "Words about whether a borrower pays you back, and what you get if they don't."
+      },
+      {
+        "name": "Results lines",
+        "terms": [
+          "revenue-growth",
+          "ebitda-margin",
+          "pat",
+          "other-income"
+        ],
+        "why": "Lines you read in a company's quarterly results."
+      },
+      {
+        "name": "Balance sheet health",
+        "terms": [
+          "debt-to-equity",
+          "interest-coverage",
+          "current-ratio",
+          "working-capital"
+        ],
+        "why": "Ratios that show whether a company's finances can take a hit."
+      },
+      {
+        "name": "Sector KPIs",
+        "terms": [
+          "net-interest-margin",
+          "gross-npa",
+          "arpu",
+          "same-store-sales-growth"
+        ],
+        "why": "Numbers analysts watch for one kind of business: banks, telecom, and retail."
+      }
+    ]
+  },
+  {
+    "id": "f110",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Order book",
+        "terms": [
+          "order-book",
+          "best-bid-offer",
+          "market-depth",
+          "tick-size"
+        ],
+        "why": "The parts of an order book: the full list, the best prices, how much is waiting, and the smallest price step."
+      },
+      {
+        "name": "Abuse",
+        "terms": [
+          "spoofing",
+          "front-running",
+          "insider-trading",
+          "pump-and-dump"
+        ],
+        "why": "Practices that are banned because they cheat other traders."
+      },
+      {
+        "name": "Costs",
+        "terms": [
+          "market-impact",
+          "slippage",
+          "explicit-costs",
+          "implicit-costs"
+        ],
+        "why": "What a trade really costs you: visible fees, and the hidden cost of moving the price."
+      },
+      {
+        "name": "Players",
+        "terms": [
+          "market-maker",
+          "informed-trader",
+          "noise-trader",
+          "hft"
+        ],
+        "why": "The kinds of trader you meet in an order book: the one who quotes, the one who knows, the one who doesn't, and the very fast one."
+      }
+    ]
+  },
+  {
+    "id": "f111",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Moneyness",
+        "terms": [
+          "in-the-money",
+          "out-of-the-money",
+          "at-the-money",
+          "deep-itm"
+        ],
+        "why": "Where an option's strike sits compared with the current price."
+      },
+      {
+        "name": "Strategies",
+        "terms": [
+          "covered-call",
+          "protective-put",
+          "straddle",
+          "strangle"
+        ],
+        "why": "Standard option positions, each with a simple goal: earn income, insure a holding, or bet on a big move."
+      },
+      {
+        "name": "Option chain",
+        "terms": [
+          "option-chain",
+          "open-interest",
+          "put-call-ratio",
+          "max-pain"
+        ],
+        "why": "Things you read on an option chain screen."
+      },
+      {
+        "name": "Exercise",
+        "terms": [
+          "exercise",
+          "assignment",
+          "cash-settlement",
+          "physical-settlement"
+        ],
+        "why": "What happens when an option is used, and the two ways it can be settled."
+      }
+    ]
+  },
+  {
+    "id": "f112",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Probability",
+        "terms": [
+          "expected-value",
+          "conditional-probability",
+          "bayes-theorem",
+          "independent-events"
+        ],
+        "why": "Ideas from probability: averages over outcomes, odds given new facts, and events that don't affect each other."
+      },
+      {
+        "name": "Statistics",
+        "terms": [
+          "regression",
+          "r-squared",
+          "t-statistic",
+          "p-value"
+        ],
+        "why": "Tools for testing whether a pattern in data is real."
+      },
+      {
+        "name": "Biases",
+        "terms": [
+          "look-ahead-bias",
+          "survivorship-bias",
+          "data-snooping",
+          "overfitting"
+        ],
+        "why": "Ways a backtest fools you into thinking a strategy works."
+      },
+      {
+        "name": "Factors",
+        "terms": [
+          "value-factor",
+          "momentum-factor",
+          "size-factor",
+          "quality-factor"
+        ],
+        "why": "Factors: types of stock that have tended to beat the market over long periods."
+      }
+    ]
+  },
+  {
+    "id": "f113",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Desk jargon",
+        "terms": [
+          "hit-the-bid",
+          "lift-the-offer",
+          "two-way-price",
+          "axe"
+        ],
+        "why": "Phrases traders use with each other: selling to the bid, buying from the offer, quoting both sides, and having an interest."
+      },
+      {
+        "name": "Trade management",
+        "terms": [
+          "scale-in",
+          "scale-out",
+          "pyramiding",
+          "trailing-stop-loss"
+        ],
+        "why": "Ways to grow, cut or protect a trade as it moves."
+      },
+      {
+        "name": "Warning phrases",
+        "terms": [
+          "falling-knife",
+          "long-and-wrong",
+          "bag-holder",
+          "revenge-trading"
+        ],
+        "why": "Things people say when a trade is going badly or someone is trading emotionally."
+      },
+      {
+        "name": "Research",
+        "terms": [
+          "target-price",
+          "stock-rating",
+          "coverage",
+          "earnings-call"
+        ],
+        "why": "Words from equity research: the price target, the rating, the stocks covered, and the call after results."
+      }
+    ]
+  },
+  {
+    "id": "f114",
+    "level": 1,
+    "groups": [
+      {
+        "name": "RBI tools",
+        "terms": [
+          "sdf",
+          "msf",
+          "omo",
+          "crr"
+        ],
+        "why": "Tools the RBI uses to add money to banks or drain it from them."
+      },
+      {
+        "name": "Govt borrowing",
+        "terms": [
+          "g-sec",
+          "t-bill",
+          "sdl",
+          "cash-management-bill"
+        ],
+        "why": "Ways the central and state governments borrow."
+      },
+      {
+        "name": "Overnight money",
+        "terms": [
+          "call-rate",
+          "treps",
+          "wacr",
+          "mibor"
+        ],
+        "why": "Rates and markets for money borrowed for one night."
+      },
+      {
+        "name": "Credit instruments",
+        "terms": [
+          "ncd",
+          "commercial-paper",
+          "high-yield-bond",
+          "credit-default-swap"
+        ],
+        "why": "Debt that companies issue, plus the swap that insures against them defaulting."
+      }
+    ]
+  },
+  {
+    "id": "f115",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Scheduled events",
+        "terms": [
+          "union-budget",
+          "fomc",
+          "mpc",
+          "earnings-season"
+        ],
+        "why": "Dates the market marks on its calendar ahead of time."
+      },
+      {
+        "name": "Safety rails",
+        "terms": [
+          "circuit-limit",
+          "upper-circuit",
+          "mwcb",
+          "asm"
+        ],
+        "why": "Rules that stop or slow trading when prices move too far or a stock looks risky."
+      },
+      {
+        "name": "Taxes and costs",
+        "terms": [
+          "stt",
+          "stcg",
+          "ltcg",
+          "stamp-duty"
+        ],
+        "why": "Taxes and duties you pay when you trade or take a gain."
+      },
+      {
+        "name": "Sessions",
+        "terms": [
+          "pre-open",
+          "closing-auction",
+          "muhurat-trading",
+          "evening-session"
+        ],
+        "why": "Trading sessions outside the normal day: before the open, at the close, on Diwali, and at night on MCX."
+      }
+    ]
+  },
+  {
+    "id": "f116",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Quote screen",
+        "terms": [
+          "bid",
+          "ask",
+          "ltp",
+          "spread"
+        ],
+        "why": "What you see on a quote screen: the best buyer, the best seller, the gap between them, and the last trade."
+      },
+      {
+        "name": "Profit and loss",
+        "terms": [
+          "pnl",
+          "realised-pnl",
+          "unrealised-pnl",
+          "mtm"
+        ],
+        "why": "Ways of counting what a position has made or lost: in total, on closed trades, on open ones, and marked at today's price."
+      },
+      {
+        "name": "Ways out of a trade",
+        "terms": [
+          "stop-loss",
+          "trailing-stop-loss",
+          "profit-target",
+          "square-off"
+        ],
+        "why": "Ways a trade ends: a stop when it goes wrong, a stop that follows a winner, a target when it goes right, or simply closing it."
+      },
+      {
+        "name": "Who runs the market",
+        "terms": [
+          "sebi",
+          "rbi",
+          "nse",
+          "bse"
+        ],
+        "why": "The regulator, the central bank, and the two stock exchanges."
+      }
+    ]
+  },
+  {
+    "id": "f117",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Greeks",
+        "terms": [
+          "delta",
+          "gamma",
+          "theta",
+          "vega"
+        ],
+        "why": "Each Greek measures how an option's price reacts to one thing: the share price (delta), delta itself (gamma), time (theta), or volatility (vega)."
+      },
+      {
+        "name": "What an option costs",
+        "terms": [
+          "option-premium",
+          "intrinsic-value",
+          "time-value",
+          "implied-volatility"
+        ],
+        "why": "The premium is the price. It splits into intrinsic value and time value, and implied volatility is what the market's price says about future swings."
+      },
+      {
+        "name": "Product types",
+        "terms": [
+          "mis",
+          "cnc",
+          "nrml",
+          "mtf"
+        ],
+        "why": "The product you choose on a broker's order screen: intraday, delivery, F&O carry-forward, or delivery bought with a broker loan."
+      },
+      {
+        "name": "Order types",
+        "terms": [
+          "market-order",
+          "limit-order",
+          "sl-order",
+          "sl-m-order"
+        ],
+        "why": "Instructions for how to trade: at any price now, only at your price, or once a stop price is hit, as a limit or as a market order."
+      }
+    ]
+  },
+  {
+    "id": "f118",
+    "level": 1,
+    "groups": [
+      {
+        "name": "Counting money",
+        "terms": [
+          "lakh",
+          "crore",
+          "basis-point",
+          "percentage-point"
+        ],
+        "why": "Lakh and crore count rupees; basis points and percentage points measure changes in rates."
+      },
+      {
+        "name": "Returns",
+        "terms": [
+          "return",
+          "cagr",
+          "total-return",
+          "dividend-yield"
+        ],
+        "why": "Ways of measuring what an investment pays you, from the simple percentage gain to the yearly rate with dividends."
+      },
+      {
+        "name": "Company size",
+        "terms": [
+          "market-cap",
+          "large-cap",
+          "mid-cap",
+          "small-cap"
+        ],
+        "why": "Market value of a company's shares, and the three size buckets it puts companies in."
+      },
+      {
+        "name": "Money over time",
+        "terms": [
+          "interest-rate",
+          "compounding",
+          "time-value-of-money",
+          "present-value"
+        ],
+        "why": "A rupee today is worth more than a rupee later, because it can earn interest, and that interest earns interest."
+      }
+    ]
+  },
+  {
+    "id": "f201",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Quote screen",
+        "terms": [
+          "bid",
+          "ask",
+          "ltp",
+          "vwap"
+        ],
+        "why": "Prices you see on a quote screen, including the day's volume-weighted average."
+      },
+      {
+        "name": "Strategies",
+        "terms": [
+          "straddle",
+          "strangle",
+          "iron-condor",
+          "covered-call"
+        ],
+        "why": "Option strategies made of two or more legs."
+      },
+      {
+        "name": "Risk",
+        "terms": [
+          "var",
+          "beta",
+          "standard-deviation",
+          "max-drawdown"
+        ],
+        "why": "Ways of measuring risk: a bad-day loss figure, market sensitivity, how much it swings, and the worst fall."
+      },
+      {
+        "name": "Spreads that aren't bid-ask",
+        "terms": [
+          "crack-spread",
+          "credit-spread",
+          "two-s-ten-s",
+          "swap-spread"
+        ],
+        "why": "Each one is a gap between two prices or yields, not a bid-ask gap: refining margin, extra yield on company bonds, the yield curve, and swaps against government bonds."
+      }
+    ]
+  },
+  {
+    "id": "f202",
+    "level": 2,
+    "groups": [
+      {
+        "name": "RBI tools",
+        "terms": [
+          "repo-rate",
+          "crr",
+          "slr",
+          "omo"
+        ],
+        "why": "Tools the RBI uses to steer interest rates and how much money banks have."
+      },
+      {
+        "name": "Rupee",
+        "terms": [
+          "usdinr",
+          "ndf",
+          "forward-premium",
+          "currency-futures"
+        ],
+        "why": "Ways the rupee is priced and traded: the spot rate, the offshore forward, the forward premium, and exchange futures."
+      },
+      {
+        "name": "Govt debt",
+        "terms": [
+          "g-sec",
+          "t-bill",
+          "sdl",
+          "fiscal-deficit"
+        ],
+        "why": "How governments borrow, and the gap that makes them borrow."
+      },
+      {
+        "name": "Inflation",
+        "terms": [
+          "cpi-inflation",
+          "core-inflation",
+          "inflation-target",
+          "real-return"
+        ],
+        "why": "Words about rising prices: the headline number, the number without food and fuel, the RBI's goal, and your return after inflation."
+      }
+    ]
+  },
+  {
+    "id": "f203",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Greeks",
+        "terms": [
+          "delta",
+          "gamma",
+          "theta",
+          "vega"
+        ],
+        "why": "The first-order Greeks: each one is a sensitivity of the option's price."
+      },
+      {
+        "name": "Higher-order",
+        "terms": [
+          "vanna",
+          "vomma",
+          "charm",
+          "speed"
+        ],
+        "why": "Greeks of Greeks: how delta, vega or gamma themselves change with volatility, time or the share price."
+      },
+      {
+        "name": "Return stats",
+        "terms": [
+          "alpha",
+          "beta",
+          "correlation",
+          "r-squared"
+        ],
+        "why": "Statistics that compare a stock's returns with the market's."
+      },
+      {
+        "name": "Volatility",
+        "terms": [
+          "implied-volatility",
+          "realised-volatility",
+          "india-vix",
+          "volatility-skew"
+        ],
+        "why": "Ways to measure or describe volatility: priced in options, actually seen, the index, and how it differs across strikes."
+      }
+    ]
+  },
+  {
+    "id": "f204",
+    "level": 2,
+    "groups": [
+      {
+        "name": "OI patterns",
+        "terms": [
+          "long-build-up",
+          "short-build-up",
+          "long-unwinding",
+          "short-covering"
+        ],
+        "why": "The four price-and-open-interest patterns: price up or down, with open interest up or down."
+      },
+      {
+        "name": "Chain levels",
+        "terms": [
+          "put-base",
+          "call-wall",
+          "max-pain",
+          "oi-shifting"
+        ],
+        "why": "Levels traders read off an option chain."
+      },
+      {
+        "name": "Sellers' talk",
+        "terms": [
+          "sell-premium",
+          "naked-selling",
+          "adjustment",
+          "buy-wings"
+        ],
+        "why": "How option sellers talk about their trades: selling, selling without a hedge, changing legs, and buying cheap protection."
+      },
+      {
+        "name": "Expiry day",
+        "terms": [
+          "gamma-blast",
+          "nine-twenty-straddle",
+          "hero-zero",
+          "pin-risk"
+        ],
+        "why": "Things that happen or get talked about on expiry day."
+      }
+    ]
+  },
+  {
+    "id": "f205",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Exits",
+        "terms": [
+          "square-off",
+          "stopped-out",
+          "trim",
+          "unwind"
+        ],
+        "why": "Ways to get out of all or part of a trade."
+      },
+      {
+        "name": "Adding",
+        "terms": [
+          "scale-in",
+          "pyramiding",
+          "average-down",
+          "double-down"
+        ],
+        "why": "Ways to add to a trade, some sensible and some dangerous."
+      },
+      {
+        "name": "Orders",
+        "terms": [
+          "limit-order",
+          "sl-order",
+          "iceberg-order",
+          "bracket-order"
+        ],
+        "why": "Order types that do more than buy or sell at the market."
+      },
+      {
+        "name": "Benchmarks",
+        "terms": [
+          "vwap",
+          "twap",
+          "arrival-price",
+          "decision-price"
+        ],
+        "why": "Prices used to judge how well a trade was done."
+      }
+    ]
+  },
+  {
+    "id": "f206",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Multiples",
+        "terms": [
+          "pe-ratio",
+          "pb-ratio",
+          "ev-to-ebitda",
+          "peg-ratio"
+        ],
+        "why": "Valuation multiples: what you pay for each rupee of earnings, book value, or operating profit."
+      },
+      {
+        "name": "Profitability",
+        "terms": [
+          "roe",
+          "roce",
+          "ebitda-margin",
+          "gross-margin"
+        ],
+        "why": "Measures of how much profit a business makes on its sales or its capital."
+      },
+      {
+        "name": "Cash",
+        "terms": [
+          "free-cash-flow",
+          "operating-cash-flow",
+          "capex",
+          "working-capital"
+        ],
+        "why": "Lines about cash: what the business brings in, what it spends on assets, what's left over, and what's tied up day to day."
+      },
+      {
+        "name": "Methods",
+        "terms": [
+          "dcf",
+          "wacc",
+          "terminal-value",
+          "cost-of-equity"
+        ],
+        "why": "Parts of a discounted cash flow valuation."
+      }
+    ]
+  },
+  {
+    "id": "f207",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Credit maths",
+        "terms": [
+          "default",
+          "recovery-rate",
+          "loss-given-default",
+          "probability-of-default"
+        ],
+        "why": "The pieces of credit loss: whether it defaults, how likely that is, how much you lose, and how much you get back."
+      },
+      {
+        "name": "Ratings",
+        "terms": [
+          "credit-rating",
+          "rating-agency",
+          "rating-watch",
+          "investment-grade"
+        ],
+        "why": "Words about credit ratings and the firms that give them."
+      },
+      {
+        "name": "Bond maths",
+        "terms": [
+          "modified-duration",
+          "convexity",
+          "pv01",
+          "macaulay-duration"
+        ],
+        "why": "Measures of how a bond's price reacts to interest rates."
+      },
+      {
+        "name": "Debt instruments",
+        "terms": [
+          "ncd",
+          "commercial-paper",
+          "zero-coupon-bond",
+          "g-sec"
+        ],
+        "why": "Kinds of debt: company bonds, short-term company IOUs, bonds with no coupons, and government bonds."
+      }
+    ]
+  },
+  {
+    "id": "f208",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Abuse",
+        "terms": [
+          "spoofing",
+          "layering",
+          "wash-trade",
+          "circular-trading"
+        ],
+        "why": "Ways of faking activity or prices."
+      },
+      {
+        "name": "Insider and information rules",
+        "terms": [
+          "insider-trading",
+          "upsi",
+          "front-running",
+          "trading-window"
+        ],
+        "why": "Rules on using secret information, or on using a client's order against them."
+      },
+      {
+        "name": "Hidden liquidity",
+        "terms": [
+          "dark-pool",
+          "iceberg-order",
+          "hidden-liquidity",
+          "disclosed-quantity"
+        ],
+        "why": "Ways to trade without showing everyone your full size."
+      },
+      {
+        "name": "Speed",
+        "terms": [
+          "hft",
+          "latency",
+          "co-location",
+          "latency-arbitrage"
+        ],
+        "why": "Words about being faster than other traders."
+      }
+    ]
+  },
+  {
+    "id": "f209",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Fear",
+        "terms": [
+          "panic-selling",
+          "capitulation",
+          "flight-to-safety",
+          "risk-off"
+        ],
+        "why": "Words for markets in a scare."
+      },
+      {
+        "name": "Greed",
+        "terms": [
+          "fomo",
+          "melt-up",
+          "bubble",
+          "risk-on"
+        ],
+        "why": "Words for markets caught up in excitement."
+      },
+      {
+        "name": "Bounces",
+        "terms": [
+          "dead-cat-bounce",
+          "v-shaped-recovery",
+          "short-squeeze",
+          "buy-the-dip"
+        ],
+        "why": "Ways prices come back up after a fall, and the bet that they will."
+      },
+      {
+        "name": "Shocks",
+        "terms": [
+          "black-swan",
+          "flash-crash",
+          "contagion",
+          "liquidity-crunch"
+        ],
+        "why": "Sudden events that break markets."
+      }
+    ]
+  },
+  {
+    "id": "f210",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Futures",
+        "terms": [
+          "rollover",
+          "basis",
+          "convergence",
+          "near-month-contract"
+        ],
+        "why": "Words about futures contracts and how they expire."
+      },
+      {
+        "name": "Arbitrage",
+        "terms": [
+          "cash-and-carry-arbitrage",
+          "reverse-cash-and-carry",
+          "arbitrage-fund",
+          "conversion"
+        ],
+        "why": "Trades that earn the gap between futures and spot, or a fund that runs them."
+      },
+      {
+        "name": "Settlement",
+        "terms": [
+          "cash-settlement",
+          "physical-settlement",
+          "t-plus-1",
+          "mtm-settlement"
+        ],
+        "why": "How trades and contracts are finally settled."
+      },
+      {
+        "name": "Margin",
+        "terms": [
+          "span-margin",
+          "exposure-margin",
+          "margin-call",
+          "margin-shortfall"
+        ],
+        "why": "Words about the money you must keep with your broker for F&O."
+      }
+    ]
+  },
+  {
+    "id": "f211",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Costs",
+        "terms": [
+          "market-impact",
+          "slippage",
+          "delay-cost",
+          "opportunity-cost"
+        ],
+        "why": "Costs of trading that don't appear on the bill."
+      },
+      {
+        "name": "Algos",
+        "terms": [
+          "vwap-algo",
+          "twap-algo",
+          "pov-algo",
+          "arrival-price-algo"
+        ],
+        "why": "Execution algorithms named after the benchmark they aim for."
+      },
+      {
+        "name": "Measures",
+        "terms": [
+          "vwap",
+          "twap",
+          "arrival-price",
+          "implementation-shortfall"
+        ],
+        "why": "Benchmarks for judging a trade, and the gap between the paper trade and the real one."
+      },
+      {
+        "name": "Order desk talk",
+        "terms": [
+          "not-held",
+          "in-the-close",
+          "percent-done",
+          "no-rush"
+        ],
+        "why": "What a fund's dealer says to the broker about how to work an order."
+      }
+    ]
+  },
+  {
+    "id": "f212",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Probability",
+        "terms": [
+          "expected-value",
+          "law-of-large-numbers",
+          "central-limit-theorem",
+          "conditional-probability"
+        ],
+        "why": "Rules of probability, including why averages behave well."
+      },
+      {
+        "name": "Tests",
+        "terms": [
+          "t-statistic",
+          "p-value",
+          "null-hypothesis",
+          "statistical-significance"
+        ],
+        "why": "Steps in a statistical test."
+      },
+      {
+        "name": "Time series",
+        "terms": [
+          "autocorrelation",
+          "stationarity",
+          "random-walk",
+          "white-noise"
+        ],
+        "why": "Words about data that moves over time."
+      },
+      {
+        "name": "Shape",
+        "terms": [
+          "skewness",
+          "kurtosis",
+          "fat-tails",
+          "normal-distribution"
+        ],
+        "why": "Words for the shape of a distribution of returns."
+      }
+    ]
+  },
+  {
+    "id": "f213",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Funds",
+        "terms": [
+          "mutual-fund",
+          "etf",
+          "index-fund",
+          "arbitrage-fund"
+        ],
+        "why": "Kinds of fund."
+      },
+      {
+        "name": "Fund words",
+        "terms": [
+          "nav",
+          "sip",
+          "amc",
+          "xirr"
+        ],
+        "why": "Words used in mutual fund statements."
+      },
+      {
+        "name": "Investors",
+        "terms": [
+          "fpi",
+          "dii",
+          "hni",
+          "retail-investor"
+        ],
+        "why": "Who invests: foreign funds, Indian institutions, the wealthy, and everyone else."
+      },
+      {
+        "name": "Against a benchmark",
+        "terms": [
+          "benchmark",
+          "tracking-error",
+          "outperform",
+          "underperform"
+        ],
+        "why": "Words for comparing a fund with its index."
+      }
+    ]
+  },
+  {
+    "id": "f214",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Indices",
+        "terms": [
+          "nifty-50",
+          "sensex",
+          "bank-nifty",
+          "gift-nifty"
+        ],
+        "why": "Indian indices, including the Nifty futures traded at GIFT City."
+      },
+      {
+        "name": "Exchanges",
+        "terms": [
+          "nse",
+          "bse",
+          "mcx",
+          "ncdex"
+        ],
+        "why": "Indian exchanges."
+      },
+      {
+        "name": "Custody",
+        "terms": [
+          "clearing-corporation",
+          "custodian",
+          "depository",
+          "dp"
+        ],
+        "why": "Firms that hold securities or settle trades for everyone."
+      },
+      {
+        "name": "Brokers and accounts",
+        "terms": [
+          "stockbroker",
+          "discount-broker",
+          "demat-account",
+          "trading-account"
+        ],
+        "why": "Who you deal with to buy shares, and the accounts you need."
+      }
+    ]
+  },
+  {
+    "id": "f215",
+    "level": 2,
+    "groups": [
+      {
+        "name": "Bull",
+        "terms": [
+          "bull-market",
+          "rally",
+          "breakout",
+          "melt-up"
+        ],
+        "why": "Words for a rising market."
+      },
+      {
+        "name": "Bear",
+        "terms": [
+          "bear-market",
+          "sell-off",
+          "correction",
+          "crash"
+        ],
+        "why": "Words for a falling market."
+      },
+      {
+        "name": "Levels",
+        "terms": [
+          "support",
+          "resistance",
+          "52-week-high",
+          "all-time-high"
+        ],
+        "why": "Price levels traders watch on a chart."
+      },
+      {
+        "name": "Price action",
+        "terms": [
+          "gap-up",
+          "gap-down",
+          "overbought",
+          "oversold"
+        ],
+        "why": "Words for a sharp opening move or a price that has run too far."
+      }
+    ]
+  },
+  {
+    "id": "f301",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Credit risks",
+        "terms": [
+          "credit-risk",
+          "default",
+          "jump-to-default",
+          "loss-given-default"
+        ],
+        "why": "Risks of lending money: not being paid, a sudden collapse, and the loss when it happens."
+      },
+      {
+        "name": "Execution risks",
+        "terms": [
+          "timing-risk",
+          "slippage",
+          "information-leakage",
+          "market-impact"
+        ],
+        "why": "Risks and costs of carrying out a big order."
+      },
+      {
+        "name": "Options risks",
+        "terms": [
+          "pin-risk",
+          "short-gamma",
+          "assignment",
+          "iv-crush"
+        ],
+        "why": "Risks that come with options, including the fall in IV that hurts option buyers after an event."
+      },
+      {
+        "name": "Event risks",
+        "terms": [
+          "event-risk",
+          "headline-risk",
+          "gap-risk",
+          "black-swan"
+        ],
+        "why": "Risks from news and shocks."
+      }
+    ]
+  },
+  {
+    "id": "f302",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Measured in time",
+        "terms": [
+          "receivable-days",
+          "inventory-days",
+          "days-to-liquidate",
+          "holding-period"
+        ],
+        "why": "Measured in time: how long customers take to pay, how long stock sits, how long it takes to exit, and how long a trade is held."
+      },
+      {
+        "name": "Percent of something",
+        "terms": [
+          "free-float",
+          "delivery-percentage",
+          "rollover-percentage",
+          "participation-rate"
+        ],
+        "why": "Each one is a share of a bigger total, written as a percent."
+      },
+      {
+        "name": "Ratios (times)",
+        "terms": [
+          "interest-coverage",
+          "current-ratio",
+          "debt-to-equity",
+          "payoff-ratio"
+        ],
+        "why": "Each one is written as a number of times: interest covered, assets over debts, debt over equity, average win over average loss."
+      },
+      {
+        "name": "Rupees per unit",
+        "terms": [
+          "eps",
+          "nav",
+          "face-value",
+          "dividend"
+        ],
+        "why": "Each one is a rupee amount per share or per fund unit."
+      }
+    ]
+  },
+  {
+    "id": "f303",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Desk slang",
+        "terms": [
+          "axe",
+          "natural",
+          "the-street",
+          "print"
+        ],
+        "why": "Desk slang: an interest to trade, a real buyer or seller on the other side, the market's professionals, and a reported trade."
+      },
+      {
+        "name": "Where you stand",
+        "terms": [
+          "flat",
+          "long",
+          "short",
+          "delta-neutral"
+        ],
+        "why": "Words for your position: nothing, own it, sold it, or hedged so small moves don't matter."
+      },
+      {
+        "name": "Sizes",
+        "terms": [
+          "size",
+          "notional",
+          "lot-size",
+          "clip"
+        ],
+        "why": "Ways to describe how big a trade is."
+      },
+      {
+        "name": "Prices",
+        "terms": [
+          "ltp",
+          "mid-price",
+          "average-price",
+          "vwap"
+        ],
+        "why": "Prices you see during a trade: the last trade, the mid, your own average fill, and the day's volume-weighted average."
+      }
+    ]
+  },
+  {
+    "id": "f304",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Liquidity",
+        "terms": [
+          "market-depth",
+          "volume",
+          "impact-cost",
+          "spread"
+        ],
+        "why": "Ways to measure how easy it is to trade."
+      },
+      {
+        "name": "Sentiment",
+        "terms": [
+          "put-call-ratio",
+          "india-vix",
+          "advance-decline-ratio",
+          "fund-flows"
+        ],
+        "why": "Gauges of how traders feel."
+      },
+      {
+        "name": "Valuation",
+        "terms": [
+          "pe-ratio",
+          "dividend-yield",
+          "ev-to-ebitda",
+          "pb-ratio"
+        ],
+        "why": "Valuation measures."
+      },
+      {
+        "name": "Credit stress",
+        "terms": [
+          "spread-over-gsec",
+          "spread-widening",
+          "rating-watch",
+          "credit-default-swap"
+        ],
+        "why": "Signs that lenders are getting worried about a borrower."
+      }
+    ]
+  },
+  {
+    "id": "f305",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Arbitrage",
+        "terms": [
+          "cash-and-carry-arbitrage",
+          "conversion",
+          "box-spread",
+          "index-arbitrage"
+        ],
+        "why": "Trades that lock in a price gap with little market risk."
+      },
+      {
+        "name": "Hedges",
+        "terms": [
+          "protective-put",
+          "beta-hedging",
+          "delta-hedging",
+          "tail-hedge"
+        ],
+        "why": "Ways to protect a position against losses."
+      },
+      {
+        "name": "Directional",
+        "terms": [
+          "bull-call-spread",
+          "bear-put-spread",
+          "risk-reversal",
+          "synthetic-long"
+        ],
+        "why": "Option positions that bet on one direction."
+      },
+      {
+        "name": "Volatility",
+        "terms": [
+          "straddle",
+          "strangle",
+          "butterfly-spread",
+          "variance-swap"
+        ],
+        "why": "Positions that bet on how much the market moves, or how much it is priced to move."
+      }
+    ]
+  },
+  {
+    "id": "f306",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Biases",
+        "terms": [
+          "look-ahead-bias",
+          "survivorship-bias",
+          "data-snooping",
+          "data-leakage"
+        ],
+        "why": "Mistakes that make a backtest look better than it is."
+      },
+      {
+        "name": "Research room phrases",
+        "terms": [
+          "just-beta",
+          "too-many-knobs",
+          "its-noise",
+          "too-good-to-be-true"
+        ],
+        "why": "Things a research room says when it doubts a result."
+      },
+      {
+        "name": "Fixes",
+        "terms": [
+          "out-of-sample",
+          "walk-forward",
+          "cross-validation",
+          "paper-trading"
+        ],
+        "why": "Ways to test a strategy honestly before trusting it."
+      },
+      {
+        "name": "Trade stats",
+        "terms": [
+          "hit-rate",
+          "payoff-ratio",
+          "profit-factor",
+          "expectancy"
+        ],
+        "why": "Statistics that describe a strategy's trades."
+      }
+    ]
+  },
+  {
+    "id": "f307",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Wait",
+        "terms": [
+          "limit-order",
+          "gtt",
+          "gtc",
+          "amo"
+        ],
+        "why": "Orders that wait for your price or a later time."
+      },
+      {
+        "name": "Protect",
+        "terms": [
+          "stop-loss",
+          "sl-m-order",
+          "trailing-stop-loss",
+          "bracket-order"
+        ],
+        "why": "Orders that protect you if the price goes against you."
+      },
+      {
+        "name": "Hide size",
+        "terms": [
+          "iceberg-order",
+          "disclosed-quantity",
+          "dark-pool",
+          "child-order"
+        ],
+        "why": "Ways to hide how much you want to trade."
+      },
+      {
+        "name": "Execute now",
+        "terms": [
+          "market-order",
+          "ioc",
+          "cross-the-spread",
+          "lift-the-offer"
+        ],
+        "why": "Ways to trade right now at the price on offer."
+      }
+    ]
+  },
+  {
+    "id": "f308",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Auctions",
+        "terms": [
+          "call-auction",
+          "pre-open",
+          "closing-auction",
+          "periodic-call-auction"
+        ],
+        "why": "Auctions the exchange runs: the general method, before the open, at the close, and through the day for illiquid stocks."
+      },
+      {
+        "name": "Brakes",
+        "terms": [
+          "mwcb",
+          "circuit-limit",
+          "fo-ban",
+          "kill-switch"
+        ],
+        "why": "Brakes that halt or limit trading."
+      },
+      {
+        "name": "Surveillance",
+        "terms": [
+          "asm",
+          "t2t-segment",
+          "operator",
+          "pump-and-dump"
+        ],
+        "why": "Exchange watchlists and the manipulation they look for."
+      },
+      {
+        "name": "Exchange tech",
+        "terms": [
+          "matching-engine",
+          "co-location",
+          "tick-by-tick-data",
+          "algo-id"
+        ],
+        "why": "The exchange's technology and the data it gives out."
+      }
+    ]
+  },
+  {
+    "id": "f309",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Credit stress",
+        "terms": [
+          "spread-widening",
+          "rating-watch",
+          "segregated-portfolio",
+          "covenant"
+        ],
+        "why": "Signs that a bond or loan is in trouble, and what funds and lenders do about it."
+      },
+      {
+        "name": "Banks",
+        "terms": [
+          "gross-npa",
+          "casa-ratio",
+          "net-interest-margin",
+          "certificate-of-deposit"
+        ],
+        "why": "Words about banks: bad loans, cheap deposits, the lending margin, and short-term deposits banks sell."
+      },
+      {
+        "name": "Red flags",
+        "terms": [
+          "auditor-resignation",
+          "qualified-audit-opinion",
+          "related-party-transactions",
+          "promoter-pledge"
+        ],
+        "why": "Warning signs in a company's governance or accounts."
+      },
+      {
+        "name": "Quality",
+        "terms": [
+          "roce",
+          "cash-conversion",
+          "earnings-quality",
+          "interest-coverage"
+        ],
+        "why": "Measures of whether a company's profits are real and solid."
+      }
+    ]
+  },
+  {
+    "id": "f310",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Sell side",
+        "terms": [
+          "research-analyst",
+          "sales-trader",
+          "dealer",
+          "investment-bank"
+        ],
+        "why": "Firms and people who sell services and ideas to funds."
+      },
+      {
+        "name": "Buy side",
+        "terms": [
+          "fund-manager",
+          "hedge-fund",
+          "long-only-fund",
+          "amc"
+        ],
+        "why": "Firms and people who invest money."
+      },
+      {
+        "name": "Infrastructure",
+        "terms": [
+          "custodian",
+          "clearing-corporation",
+          "depository",
+          "stockbroker"
+        ],
+        "why": "The plumbing that holds securities and gets trades settled."
+      },
+      {
+        "name": "Styles",
+        "terms": [
+          "scalping",
+          "btst",
+          "positional",
+          "intraday"
+        ],
+        "why": "Trading styles, named after how long a trade is held."
+      }
+    ]
+  },
+  {
+    "id": "f311",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Macro data",
+        "terms": [
+          "gdp-growth",
+          "pmi",
+          "cpi-inflation",
+          "fiscal-deficit"
+        ],
+        "why": "Economic data released by the government."
+      },
+      {
+        "name": "Global cues",
+        "terms": [
+          "us-10-year-yield",
+          "dollar-index",
+          "gift-nifty",
+          "fomc"
+        ],
+        "why": "Overseas numbers and events that Indian markets watch before the open."
+      },
+      {
+        "name": "Liquidity",
+        "terms": [
+          "system-liquidity",
+          "call-rate",
+          "vrrr",
+          "sdf"
+        ],
+        "why": "Words about how much spare cash banks have, and the RBI tools that drain it."
+      },
+      {
+        "name": "Rupee",
+        "terms": [
+          "usdinr",
+          "ndf",
+          "forex-reserves",
+          "current-account-deficit"
+        ],
+        "why": "Words about the rupee, its offshore market, the RBI's dollars, and the trade gap."
+      }
+    ]
+  },
+  {
+    "id": "f312",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Risk-adjusted",
+        "terms": [
+          "sharpe-ratio",
+          "sortino-ratio",
+          "information-ratio",
+          "calmar-ratio"
+        ],
+        "why": "Return per unit of risk, each with a different measure of risk."
+      },
+      {
+        "name": "Downside-only",
+        "terms": [
+          "downside-deviation",
+          "max-drawdown",
+          "expected-shortfall",
+          "var"
+        ],
+        "why": "Measures that only look at losses."
+      },
+      {
+        "name": "Relative to a benchmark",
+        "terms": [
+          "alpha",
+          "beta",
+          "tracking-error",
+          "outperform"
+        ],
+        "why": "Measures of how a fund does compared with its index."
+      },
+      {
+        "name": "Distribution",
+        "terms": [
+          "skewness",
+          "kurtosis",
+          "fat-tails",
+          "standard-deviation"
+        ],
+        "why": "Words for the shape and spread of returns."
+      }
+    ]
+  },
+  {
+    "id": "f313",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Want a move",
+        "terms": [
+          "straddle",
+          "strangle",
+          "gamma-scalping",
+          "long-volatility"
+        ],
+        "why": "Positions that make money if the market moves a lot."
+      },
+      {
+        "name": "Want stillness",
+        "terms": [
+          "iron-condor",
+          "short-volatility",
+          "sell-premium",
+          "butterfly-spread"
+        ],
+        "why": "Positions that make money if the market stays quiet."
+      },
+      {
+        "name": "Want up",
+        "terms": [
+          "bull-call-spread",
+          "bull-put-spread",
+          "synthetic-long",
+          "call-option"
+        ],
+        "why": "Positions that make money if the market goes up."
+      },
+      {
+        "name": "Protect",
+        "terms": [
+          "protective-put",
+          "collar",
+          "tail-hedge",
+          "put-option"
+        ],
+        "why": "Positions that limit how much you can lose if the market falls."
+      }
+    ]
+  },
+  {
+    "id": "f314",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Buy aggressively",
+        "terms": [
+          "lift-the-offer",
+          "pay-up",
+          "chase",
+          "cross-the-spread"
+        ],
+        "why": "Buying fast and paying for it."
+      },
+      {
+        "name": "Selling",
+        "terms": [
+          "hit-the-bid",
+          "leaning-on-offer",
+          "offered",
+          "take-some-off"
+        ],
+        "why": "Selling, or sellers being in control."
+      },
+      {
+        "name": "Passive",
+        "terms": [
+          "join-the-bid",
+          "improve-the-bid",
+          "passive-order",
+          "no-rush"
+        ],
+        "why": "Waiting patiently in the queue rather than crossing the spread."
+      },
+      {
+        "name": "Order status",
+        "terms": [
+          "youre-done",
+          "done-for-the-day",
+          "partial-fill",
+          "residual"
+        ],
+        "why": "Updates on how much of an order is done."
+      }
+    ]
+  },
+  {
+    "id": "f315",
+    "level": 3,
+    "groups": [
+      {
+        "name": "Taxes",
+        "terms": [
+          "stt",
+          "stamp-duty",
+          "stcg",
+          "ltcg"
+        ],
+        "why": "Taxes on trading and on gains."
+      },
+      {
+        "name": "IPO",
+        "terms": [
+          "asba",
+          "anchor-investor",
+          "gmp",
+          "listing-gains"
+        ],
+        "why": "Words from an IPO."
+      },
+      {
+        "name": "Account",
+        "terms": [
+          "kyc",
+          "demat-account",
+          "trading-account",
+          "dp"
+        ],
+        "why": "What you need before you can buy shares."
+      },
+      {
+        "name": "Holding styles",
+        "terms": [
+          "btst",
+          "intraday",
+          "delivery-trade",
+          "positional"
+        ],
+        "why": "Holding styles, from a few minutes to months."
+      }
+    ]
+  }
+]
