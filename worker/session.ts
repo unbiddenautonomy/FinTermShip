@@ -9,11 +9,12 @@
  */
 import { buildCards } from '../src/lib/cardData';
 import { buildPractice, buildTest } from '../src/lib/choose';
-import { applyCards, talkById, termById } from '../src/lib/content';
+import { applyCards, categories, talkById, termById } from '../src/lib/content';
 import { buildLesson, type LessonPlan } from '../src/lib/lesson';
 import { buildDefend, buildListing, buildRally, buildRevisit, buildRide, DEFEND_MAX } from '../src/lib/modes/plans';
 import { buildPhase3Test, PHASE3 } from '../src/lib/phase3';
-import { promptFor, retryQuestion, seededRng, tidyOption, type Rng } from '../src/lib/questions';
+import { mockByRound } from '../src/lib/mock';
+import { promptFor, retryQuestion, seededRng, shuffle, tidyOption, type Rng } from '../src/lib/questions';
 import { buildWeakSpots } from '../src/lib/weak';
 import type { Card, Progress, Question, TalkFormat } from '../src/lib/types';
 import { teachingCard } from './cards';
@@ -191,6 +192,42 @@ export async function dealSession(key: CryptoKey, user: number, plan: LessonPlan
     if (c) cards[id] = c;
   }
   return { plan: { ...plan, questions }, cards };
+}
+
+/** A worked sum for a mock round, as dealt: no answer and no working until the round is marked. */
+export interface DealtSum {
+  termId: string;
+  prompt: string;
+  options: string[];
+  token: string;
+}
+
+/** Most sums one mock round is dealt. */
+export const MAX_SUMS = 40;
+
+/**
+ * The worked sums a mock round can ask: those of the learner's met terms in the round's areas,
+ * shuffled, each sealed like a lesson's question. Null for a round that has no sums.
+ */
+export function mockSumTerms(round: unknown, progress: unknown): string[] | null {
+  const spec = typeof round === 'string' ? mockByRound.get(round) : undefined;
+  const p = progress as Progress;
+  if (!spec || !p || typeof p !== 'object' || !p.terms || typeof p.terms !== 'object') return null;
+  const areas = spec.sources.flatMap((x) => ('calcs' in x ? x.calcs : []));
+  return categories.filter((c) => areas.includes(c.id)).flatMap((c) => c.terms.filter((t) => p.terms[t.id] && t.calcs?.length).map((t) => t.id));
+}
+
+export async function dealSums(key: CryptoKey, user: number, termIds: string[], seed: number): Promise<DealtSum[]> {
+  const rng = seededRng(seed);
+  const all = termIds.flatMap((id) => (termById.get(id)?.calcs ?? []).map((c) => ({ id, c })));
+  return Promise.all(
+    shuffle(all, rng)
+      .slice(0, MAX_SUMS)
+      .map(async ({ id, c }) => {
+        const options = shuffle(c.options, rng);
+        return { termId: id, prompt: c.q, options, token: await seal(key, { u: user, a: options.indexOf(c.options[c.answer]), t: id, w: c.why }) };
+      }),
+  );
 }
 
 /**

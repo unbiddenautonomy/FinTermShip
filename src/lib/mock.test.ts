@@ -1,11 +1,15 @@
 import { describe, expect, it } from 'vitest';
 import careerData from '../data/careers.json';
 import { checkAnswer } from './drills';
-import { isRight, mockByRound, mockReady, MOCKS, newMock, recordMock } from './mock';
+import { categories } from './content';
+import { isRight, mockByRound, mockReady, MOCKS, newMock, recordMock, type MockQuestion, type Sum } from './mock';
 import { seededRng } from './questions';
 import type { Progress } from './types';
 
 const base = {} as Progress;
+// Sums as the server deals them; here the token carries the answer, so a test can mark them.
+const sums: Sum[] = categories.flatMap((c) => c.terms.flatMap((t) => (t.calcs ?? []).map((k) => ({ termId: t.id, prompt: k.q, options: k.options, token: String(k.answer) }))));
+const marked = (q: MockQuestion): MockQuestion => (q.kind === 'choice' ? { ...q, answer: Number(q.sum.token), why: 'worked' } : q);
 
 describe('mock rounds', () => {
   it('mocks only rounds that are on the career map', () => {
@@ -16,25 +20,23 @@ describe('mock rounds', () => {
   it('fills every round to its count with no question twice', () => {
     for (const spec of MOCKS)
       for (let s = 1; s <= 40; s++) {
-        const qs = newMock(spec, seededRng(s));
+        const qs = newMock(spec, seededRng(s), sums);
         expect(qs).toHaveLength(spec.count);
-        expect(new Set(qs.map((q) => q.prompt + (q.kind === 'choice' ? (q.code ?? '') : ''))).size).toBe(spec.count);
-        for (const q of qs)
-          if (q.kind === 'choice') {
-            expect(new Set(q.options).size).toBe(q.options.length);
-            expect(q.answer).toBeGreaterThanOrEqual(0);
-            expect(q.answer).toBeLessThan(q.options.length);
-          }
+        expect(new Set(qs.map((q) => q.prompt)).size).toBe(spec.count);
+        // Dealt without answers: those come when the round is marked.
+        for (const q of qs) if (q.kind === 'choice') expect(q.answer).toBeUndefined();
       }
   });
 
   it('marks typed and chosen answers, and a skip as wrong', () => {
     for (const spec of MOCKS) {
-      for (const q of newMock(spec, seededRng(7))) {
+      for (const dealt of newMock(spec, seededRng(7), sums)) {
+        const q = marked(dealt);
         expect(isRight(q, null)).toBe(false);
         if (q.kind === 'choice') {
-          expect(isRight(q, q.answer)).toBe(true);
-          expect(isRight(q, (q.answer + 1) % q.options.length)).toBe(false);
+          expect(isRight(dealt, q.answer!)).toBe(false);
+          expect(isRight(q, q.answer!)).toBe(true);
+          expect(isRight(q, (q.answer! + 1) % q.options.length)).toBe(false);
         } else {
           expect(checkAnswer(q.drill, String(q.drill.answer))).toBe('right');
           expect(isRight(q, String(q.drill.answer))).toBe(true);

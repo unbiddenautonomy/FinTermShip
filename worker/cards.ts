@@ -1,20 +1,24 @@
 /**
  * Term cards: what each term means, its examples and its questions. The app
- * ships with term names only; this is the one place the rest lives. The app
- * asks for a card only when the learner does something that shows it (starts a
- * lesson, taps a term), keeps it in memory for that session only, and never
- * gets a bulk download.
+ * ships with term names only; this is the one place the rest lives.
  *
+ * - The app gets a card only for a term the learner has reached, and only the
+ *   part that teaches it (TEACH_FIELDS): what it means, examples, notes. What
+ *   its questions are made from (fill sentence, near misses, worked sums, true or
+ *   false items, desk talk, claims) never leaves the Worker; lessons and rounds
+ *   are built and marked here (worker/session.ts).
+ * - A term is reached once a lesson, test or round has used it (`grant`, which
+ *   records it), or when it is met in the account's saved progress.
  * - No daily allowance: learners take as many lessons as they like.
- * - Each ask carries at most MAX_IDS cards, and an account
- *   can ask at most ASKS_PER_MINUTE times a minute. No one reaches either by
- *   tapping; a script copying the syllabus hits them at once.
- * - At most NEW_PER_HOUR cards an account has never had before, in any hour.
+ * - Each ask carries at most MAX_IDS cards, and an account can ask at most
+ *   ASKS_PER_MINUTE times a minute. No one reaches either by tapping; a script
+ *   copying the syllabus hits them at once.
+ * - At most NEW_PER_HOUR terms an account has never had before, in any hour.
  *   A lesson teaches a handful of new terms, so learners never meet it.
  * - Phase 3 terms only once the account has phase 3 (the password, or the admin).
  *
- * The admin has no per-hour ceiling. Every card given is recorded, so the admin
- * sees each account's activity.
+ * The admin can look up any term and has no per-hour ceiling. Every term given
+ * is recorded, so the admin sees each account's activity.
  *
  * Packs (desk cases, game content, headlines and boards) are never given whole.
  * They stay here, and one round at a time is dealt without its answers
@@ -125,6 +129,20 @@ export async function countAsk(db: CardsDb, user: CardsUser, now: number): Promi
   return (row?.n ?? 1) <= ASKS_PER_MINUTE;
 }
 
+/** Which of these terms this account has been given before. */
+async function givenBefore(db: CardsDb, userId: number, ids: string[]): Promise<Set<string>> {
+  const given = new Set<string>();
+  for (let i = 0; i < ids.length; i += 90) {
+    const chunk = ids.slice(i, i + 90);
+    const { results } = await db
+      .prepare(`SELECT term_id FROM cards WHERE user_id = ? AND term_id IN (${chunk.map(() => '?').join(', ')})`)
+      .bind(userId, ...chunk)
+      .all<{ term_id: string }>();
+    for (const r of results) given.add(r.term_id);
+  }
+  return given;
+}
+
 /**
  * Let this account have these terms, under the rules at the top of this file: phase 3 terms only
  * with phase 3, and at most NEW_PER_HOUR it has never had before in any hour. Terms it has had
@@ -133,15 +151,7 @@ export async function countAsk(db: CardsDb, user: CardsUser, now: number): Promi
 export async function grant(db: CardsDb, user: CardsUser, ids: string[], now: number): Promise<{ allowed: string[]; refused: string[]; reason?: string }> {
   const { cards, phase3 } = content();
   const wanted = [...new Set(ids)].filter((id) => cards.has(id));
-  const given = new Set<string>();
-  for (let i = 0; i < wanted.length; i += 90) {
-    const chunk = wanted.slice(i, i + 90);
-    const { results } = await db
-      .prepare(`SELECT term_id FROM cards WHERE user_id = ? AND term_id IN (${chunk.map(() => '?').join(', ')})`)
-      .bind(user.id, ...chunk)
-      .all<{ term_id: string }>();
-    for (const r of results) given.add(r.term_id);
-  }
+  const given = await givenBefore(db, user.id, wanted);
   const refused: string[] = [];
   let reason: string | undefined;
   const open: string[] = [];
@@ -177,14 +187,40 @@ export function teachingCard(id: string): Card | undefined {
 }
 
 /**
- * Give the cards for these terms, under the rules at the top of this file. Cards this account
- * has had before always come back; new ones count towards the hour.
+ * Give the cards for these terms, under the rules at the top of this file: only terms this
+ * account has reached, and only what teaches them.
  */
 export async function askCards(db: CardsDb, user: CardsUser, ids: unknown, now: number): Promise<CardsReply> {
-  const { cards, version } = content();
+  const { cards, phase3, version } = content();
   const wanted = [...new Set(Array.isArray(ids) ? ids.filter((x): x is string => typeof x === 'string' && cards.has(x)) : [])].slice(0, MAX_IDS);
-  const { allowed, refused, reason } = await grant(db, user, wanted, now);
+  const reached = user.admin ? new Set(wanted) : await givenBefore(db, user.id, wanted);
+  // Met in the saved progress (an account from before terms were recorded, or one that synced from another device).
+  const fromProgress: string[] = [];
+  const rest = wanted.filter((id) => !reached.has(id));
+  if (rest.length) {
+    const row = await db.prepare('SELECT data FROM progress WHERE user_id = ?').bind(user.id).first<{ data: string }>();
+    let met: Record<string, unknown> = {};
+    try {
+      met = (JSON.parse(row?.data ?? '{}') as { terms?: Record<string, unknown> }).terms ?? {};
+    } catch {
+      // Unreadable progress: nothing more is reached.
+    }
+    for (const id of rest) if (met[id]) fromProgress.push(id);
+  }
+  for (const id of fromProgress) reached.add(id);
   const out: Record<string, Card> = {};
-  for (const id of allowed) out[id] = cards.get(id)!;
+  const refused: string[] = [];
+  let reason: string | undefined;
+  for (const id of wanted) {
+    if (!reached.has(id)) {
+      refused.push(id);
+      reason ??= 'A term’s card comes once you have met it.';
+    } else if (phase3.has(id) && !user.phase3 && !user.admin) {
+      refused.push(id);
+      reason = 'Phase 3 terms open once phase 3 is unlocked on your account.';
+    } else out[id] = teachingCard(id)!;
+  }
+  const record = Object.keys(out).filter((id) => fromProgress.includes(id) || user.admin);
+  if (record.length) await db.batch(issue(db, user.id, record, now, null));
   return { version, at: now, cards: out, ...(refused.length ? { refused, reason } : {}) };
 }

@@ -15,7 +15,7 @@ import { ALWAYS_ON, isModeId, MODES } from '../src/lib/modes/ids';
 import { askCards, countAsk, grant } from './cards';
 import { dealDeck, markCall } from './callit';
 import { dealPractice, markPractice } from './practice';
-import { buildSession, dealSession, importKey, markAnswer, newKeyBytes, sessionTermIds } from './session';
+import { buildSession, dealSession, dealSums, importKey, markAnswer, mockSumTerms, newKeyBytes, sessionTermIds } from './session';
 import { dealRound, markRound } from './rounds';
 import { signInPage } from './signin';
 
@@ -450,6 +450,17 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     const { refused, reason } = await grant(db, user, sessionTermIds(plan), now);
     if (refused.length) return fail(403, reason ?? 'Some of these terms are not available yet.');
     return json(await dealSession(key, user.id, plan, b.progress as Progress, seed));
+  }
+
+  // A mock round's worked sums, sealed the same way; the round is marked by /api/mark once it ends.
+  if (route === 'POST /api/sums') {
+    if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
+    const b = await body();
+    const ids = mockSumTerms(b.round, b.progress);
+    if (!ids) return fail(400, 'Unknown round.');
+    const { allowed } = await grant(db, user, ids, now);
+    const seed = crypto.getRandomValues(new Uint32Array(1))[0] % 2_147_483_647;
+    return json({ sums: await dealSums(await markKey(db), user.id, allowed, seed) });
   }
 
   // ---------- Desk cases, Fermi, the meeting game, backtest detective ----------
