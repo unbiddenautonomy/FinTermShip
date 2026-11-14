@@ -6,7 +6,7 @@ import { buildPractice, buildTest } from './choose';
 import { applyCards, awaitingCard, categories, clearCards, hasCard, talkByTerm, termById, writtenByTerm } from './content';
 import { buildLesson, type LessonPlan } from './lesson';
 import { MOCKS, newMock } from './mock';
-import { buildDeck, claimsFor, deckWants } from './modes/claims';
+import { buildDeck, claimsFor } from './modes/claims';
 import { buildDefend, buildListing, buildRally, buildRevisit, buildRide, lines } from './modes/plans';
 import { buildPhase3Test } from './phase3';
 import { definitionNames, seededRng } from './questions';
@@ -95,13 +95,10 @@ describe('term cards', () => {
     // Nothing is on the device yet: due and weak still count them, and a lesson fetches their cards.
     expect(dueTermIds(p, today).sort()).toEqual([...metIds].sort());
     expect(weakSpots(p).sort()).toEqual([...metIds].sort());
-    // Call It says which cards a deck needs (its terms and their met confusables), then deals the same deck.
+    // A deck built in the app leaves out terms whose cards aren't here.
     expect(buildDeck(p, today, seededRng(3))).toEqual([]);
-    const wants = deckWants(p, today, seededRng(3));
-    expect(wants.every((id) => metIds.includes(id))).toBe(true);
-    applyCards(some(wants));
-    const deck = buildDeck(p, today, seededRng(3));
-    expect(deck.length).toBe(metIds.length);
+    applyCards(some(metIds));
+    expect(buildDeck(p, today, seededRng(3)).length).toBe(metIds.length);
     // A card that didn't come is left out of the deck.
     clearCards();
     applyCards(some(['bid', 'ask', 'spread', 'ltp']));
