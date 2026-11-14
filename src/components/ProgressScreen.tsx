@@ -17,9 +17,9 @@ const shortDay = (d: string) => `${Number(d.slice(8, 10))} ${MONTHS[Number(d.sli
 
 /** How the learner is doing: totals, terms over time, accuracy by area and best scores. */
 export function ProgressScreen({ progress, today, onWeak }: { progress: Progress; today: string; onWeak: () => void }) {
-  const t = totals(progress);
+  const t = totals(progress, today);
   const weeks = weeklyStats(progress, today);
-  const areas = areaStats(progress);
+  const areas = areaStats(progress, today);
   const bests = practiceBests(progress);
   const weak = weakSpots(progress).length;
   const mocks = Object.entries(progress.mocks ?? {});
@@ -144,7 +144,7 @@ export function ProgressScreen({ progress, today, onWeak }: { progress: Progress
   );
 }
 
-const SOURCE_TONE = { path: 'bg-brand', lines: 'bg-sky', callit: 'bg-amber', exchange: 'bg-violet' } as const;
+const SOURCE_TONE = { path: 'bg-brand', lines: 'bg-sky', callit: 'bg-amber', exchange: 'bg-violet', headline: 'bg-bad', finnections: 'bg-good' } as const;
 
 /** Where your answers came from: every mode writes to the same record, and this splits it by mode. */
 function Sources({ progress }: { progress: Progress }) {
@@ -176,7 +176,7 @@ function Sources({ progress }: { progress: Progress }) {
           ))}
         </ul>
         <p className="text-xs leading-relaxed text-ink-3">
-          Every mode adds to the same terms. A Call It answer can't move a term on its own, but a wrong one brings it back for review the next day.
+          Every mode adds to the same terms, so Known, Due, Strength and Coverage count all of these together. A true or false call in Call It is practice: it can't move a term on its own, but a wrong call brings the term back for a proper review the next day. A headline called fully right or a Finnections group found counts like a meaning question: it can clear a review but can't make a term Known by itself.
         </p>
       </Card>
     </section>

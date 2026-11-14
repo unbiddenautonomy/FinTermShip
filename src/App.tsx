@@ -24,7 +24,7 @@ import { firstName } from './lib/profile';
 import { buildWeakSpots, weakSpots } from './lib/weak';
 import { currentUnit } from './lib/track';
 import { landingMode, type ModeId } from './lib/modes/knowledge';
-import { modesOn } from './lib/modes/ids';
+import { isModeId, modesOn } from './lib/modes/ids';
 import { ModeAccessContext } from './components/modes/modeAccess';
 import { MODE_INFO, ModeBar } from './components/modes/ModeBar';
 import type { GameId, Progress } from './lib/types';
@@ -58,6 +58,8 @@ const LOADERS = {
   CallIt: () => import('./components/modes/CallIt').then((m) => ({ default: m.CallIt })),
   Exchange: () => import('./components/modes/Exchange').then((m) => ({ default: m.Exchange })),
   TermLines: () => import('./components/modes/TermLines').then((m) => ({ default: m.TermLines })),
+  HeadlineDesk: () => import('./components/modes/HeadlineDesk').then((m) => ({ default: m.HeadlineDesk })),
+  Finnections: () => import('./components/modes/Finnections').then((m) => ({ default: m.Finnections })),
 };
 const Careers = lazy(LOADERS.Careers);
 const MockRound = lazy(LOADERS.MockRound);
@@ -86,6 +88,8 @@ const ProgressScreen = lazy(LOADERS.ProgressScreen);
 const CallIt = lazy(LOADERS.CallIt);
 const Exchange = lazy(LOADERS.Exchange);
 const TermLines = lazy(LOADERS.TermLines);
+const HeadlineDesk = lazy(LOADERS.HeadlineDesk);
+const Finnections = lazy(LOADERS.Finnections);
 
 function prefetchScreens() {
   for (const load of Object.values(LOADERS)) void load().catch(() => undefined);
@@ -118,7 +122,7 @@ type Screen =
   | { name: Tab; sheet?: string; q?: string }
   | { name: 'careers' }
   | { name: 'mock'; round: string }
-  | { name: 'lines' | 'callit' | 'exchange' }
+  | { name: Exclude<ModeId, 'path'> }
   | { name: 'lesson'; plan: LessonPlan; seed: number; mode?: Exclude<ModeId, 'path'> }
   | { name: 'drill' | 'game' | 'case'; unitId: string; seed: number }
   | { name: 'results'; summary: LessonSummary };
@@ -175,7 +179,7 @@ export default function App() {
   const canOpen = useCallback((m: ModeId) => isAdmin || modesOn(site.modesOff).includes(m), [isAdmin, site.modesOff]);
   const cards = useCards(account, progress);
   // If the mode on screen (or the one Learn returns to) is switched off, go back to Path.
-  const shownMode = screen.name === 'lines' || screen.name === 'callit' || screen.name === 'exchange' ? screen.name : null;
+  const shownMode = isModeId(screen.name) ? screen.name : null;
   useEffect(() => {
     if (account.kind === 'loading') return;
     if (!canOpen(mode)) setMode('path');
@@ -354,6 +358,18 @@ export default function App() {
       return (
         <WithTabs tab="home" onTab={onTab}>
           <Exchange progress={progress} today={today} area={area} onArea={setArea} onProgress={update} onMode={goMode} onRun={runIn('exchange')} />
+        </WithTabs>
+      );
+    case 'headline':
+      return (
+        <WithTabs tab="home" onTab={onTab}>
+          <HeadlineDesk progress={progress} today={today} onProgress={update} onMode={goMode} />
+        </WithTabs>
+      );
+    case 'finnections':
+      return (
+        <WithTabs tab="home" onTab={onTab}>
+          <Finnections progress={progress} today={today} onProgress={update} onMode={goMode} />
         </WithTabs>
       );
     case 'drill':

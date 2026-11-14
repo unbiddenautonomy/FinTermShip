@@ -6,7 +6,7 @@
  */
 import tickerData from '../../data/modes/tickers.json';
 import { categoryOfTerm, isCore, termById } from '../content';
-import { isDueOn, isKnown } from '../scheduler';
+import { isDueOn, isKnownOn } from '../scheduler';
 import type { Progress } from '../types';
 import { modeRecord, openTermIds, strength, type Marks } from './knowledge';
 
@@ -52,7 +52,7 @@ export function quote(p: Progress, termId: string, today: string, base = baselin
     change: base && before !== undefined ? price - before : 0,
     fresh: !!base && before === undefined,
     falling: isDueOn(s, today),
-    blueChip: isKnown(s),
+    blueChip: isKnownOn(s, today),
   };
 }
 

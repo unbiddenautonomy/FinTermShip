@@ -103,6 +103,7 @@ describe('landing', () => {
     expect(landingMode(newProgress())).toBe('path');
     const p = newProgress();
     expect(landingMode({ ...p, settings: { ...p.settings, landing: 'exchange' } })).toBe('exchange');
+    expect(landingMode({ ...p, settings: { ...p.settings, landing: 'finnections' } })).toBe('finnections');
     expect(landingMode({ ...p, settings: { ...p.settings, landing: 'nowhere' as ModeId } })).toBe('path');
   });
 
@@ -111,7 +112,7 @@ describe('landing', () => {
     const onExchange = { ...p, settings: { ...p.settings, landing: 'exchange' as ModeId } };
     expect(landingMode(onExchange, ['exchange'])).toBe('path');
     expect(landingMode(onExchange, ['callit'])).toBe('exchange');
-    expect(modesOn(['callit', 'path', 'nonsense'])).toEqual(['path', 'lines', 'exchange']);
+    expect(modesOn(['callit', 'path', 'nonsense'])).toEqual(['path', 'lines', 'exchange', 'headline', 'finnections']);
   });
 });
 
@@ -154,6 +155,32 @@ describe('KPIs', () => {
     expect(k.due).toBe(1);
     expect(k.coverage).toBeCloseTo(4 / k.open);
     expect(k.strength).toBeGreaterThan(0);
+  });
+
+  it('split every met term into exactly one of Learning, Due or Known, as the stations and stocks do', () => {
+    const p = learner(['bid', 'ask', 'spread', 'theta', 'vega'], 5, addDays(today, 3));
+    // A known term that falls due is Due, not Known, until it is reviewed.
+    const q = { ...p, terms: { ...p.terms, ask: { ...p.terms.ask, due: today }, vega: { ...p.terms.vega, step: 2 } } };
+    const k = kpis(q, today);
+    expect(k).toMatchObject({ met: 5, known: 3, due: 1, learning: 1 });
+    expect(k.known + k.due + k.learning).toBe(k.met);
+    const quotes = watchlist(q, today);
+    expect(quotes.filter((x) => x.blueChip)).toHaveLength(k.known);
+    expect(quotes.filter((x) => x.falling)).toHaveLength(k.due);
+  });
+
+  it('count every due term, past the daily review cap, so Due matches the falling stocks', () => {
+    const ids = categories.filter((c) => c.phase !== 3).flatMap((c) => c.terms.map((t) => t.id)).slice(0, 120);
+    const p = learner(ids, 3, today);
+    const open = new Set(ids);
+    expect(kpis(p, today).due).toBe(watchlist(p, today).filter((x) => x.falling && open.has(x.termId)).length);
+    expect(kpis(p, today).due).toBeGreaterThan(80);
+  });
+
+  it('make the Exchange index Strength × Coverage × 10', () => {
+    const p = learner(['bid', 'ask', 'spread', 'theta'], 4, addDays(today, -9));
+    const k = kpis(p, today);
+    expect(marketIndex(p, today)).toBeCloseTo(k.strength * k.coverage * 10, 0);
   });
 
   it('leave phase 3 out until it opens', () => {

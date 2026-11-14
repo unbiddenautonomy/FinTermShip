@@ -1,18 +1,18 @@
 /**
- * The knowledge layer every mode shares. Path, Term Lines, Call It and Recall Exchange
- * all read the same per-term record (Progress.terms) and write to it only through
+ * The knowledge layer every mode shares. Path, Term Lines, Call It, Recall Exchange, Headline
+ * Desk and Finnections all read the same per-term record (Progress.terms) and write to it only through
  * recordAnswer, so what you know is the same whichever mode you open.
  */
 import { categories, isCore, isPhase3Area } from '../content';
 import { addDays, daysBetween } from '../dates';
 import { phase3Open } from '../phase3';
-import { dueTermIds, intervalFor, isDueOn, isKnown, KNOWN_STEP, MAX_STEP, recordPractice, review, reviewsLeftToday } from '../scheduler';
+import { intervalFor, isDueOn, isKnownOn, KNOWN_STEP, MAX_STEP, recordPractice, review } from '../scheduler';
 import type { Progress, Question, TermState } from '../types';
 
 import { MODES, type ModeId } from './ids';
 export { MODES, type ModeId };
 
-/** Where the app opens: the learner's choice in Settings, or Path. A mode the admin switched off for everyone falls back to Path. */
+/** Where the app opens: the learner's choice in Settings (any mode), or Path. A mode the admin switched off for everyone falls back to Path. */
 export function landingMode(p: Progress, off: readonly string[] = []): ModeId {
   const m = p.settings.landing;
   return m && MODES.includes(m) && !off.includes(m) ? m : 'path';
@@ -58,6 +58,10 @@ export interface ModeRecord {
   /** Recall Exchange: every price at the latest visit, and at the latest visit on an earlier day, for each stock's change. */
   marks?: Marks;
   prevMarks?: Marks;
+  /** Headline Desk and Finnections: the level rounds are played at, good rounds in a row towards the next, and the day each item was last played. */
+  level?: number;
+  good?: number;
+  seen?: Record<string, string>;
 }
 
 export interface Marks {
@@ -130,6 +134,9 @@ export function finishModeSession(p: Progress, mode: ModeId, today: string, extr
   return withMode(p, mode, (r) => {
     const out: ModeRecord = { ...r, sessions: r.sessions + 1, last: today };
     if (extra.bestRun !== undefined) out.bestRun = Math.max(r.bestRun ?? 0, extra.bestRun);
+    if (extra.level !== undefined) out.level = extra.level;
+    if (extra.good !== undefined) out.good = extra.good;
+    if (extra.seen !== undefined) out.seen = extra.seen;
     return out;
   });
 }
@@ -172,11 +179,13 @@ export function openTermIds(p: Progress): string[] {
 }
 
 export interface Kpis {
-  /** Terms at step 4 or above, of all open terms. */
+  /** Terms at step 4 or above and not due, of all open terms. */
   known: number;
   open: number;
-  /** Terms due today, up to what the daily cap still allows. */
+  /** Met terms due for a review today (or overdue): the due stations on Lines and the falling stocks on the Exchange. */
   due: number;
+  /** Met terms neither Known nor Due. known + due + learning = met. */
+  learning: number;
   /** Average strength of every met term, 0 to 100. */
   strength: number;
   /** Terms met, of all open terms. */
@@ -188,21 +197,22 @@ export interface Kpis {
 export function kpis(p: Progress, today: string): Kpis {
   const open = openTermIds(p);
   let known = 0;
+  let due = 0;
   let met = 0;
   let total = 0;
   for (const id of open) {
     const s = p.terms[id];
     if (!s) continue;
     met++;
-    if (isKnown(s)) known++;
+    if (isDueOn(s, today)) due++;
+    else if (isKnownOn(s, today)) known++;
     total += strength(s, today, isCore(id));
   }
-  const openSet = new Set(open);
-  const due = Math.min(dueTermIds(p, today).filter((id) => openSet.has(id)).length, reviewsLeftToday(p, today));
   return {
     known,
     open: open.length,
     due,
+    learning: met - known - due,
     strength: met ? Math.round((total / met) * 10) / 10 : 0,
     met,
     coverage: open.length ? met / open.length : 0,
@@ -217,15 +227,17 @@ export function areaKpis(p: Progress, today: string) {
     .map((c) => {
       let met = 0;
       let known = 0;
+      let due = 0;
       let total = 0;
       for (const t of c.terms) {
         const s = p.terms[t.id];
         if (!s) continue;
         met++;
-        if (isKnown(s)) known++;
+        if (isDueOn(s, today)) due++;
+        else if (isKnownOn(s, today)) known++;
         total += strength(s, today, isCore(t.id));
       }
-      return { id: c.id, name: c.name, terms: c.terms.length, met, known, strength: met ? Math.round(total / met) : 0 };
+      return { id: c.id, name: c.name, terms: c.terms.length, met, known, due, strength: met ? Math.round((total / met) * 10) / 10 : 0 };
     });
 }
 

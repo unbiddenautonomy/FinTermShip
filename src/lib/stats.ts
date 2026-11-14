@@ -2,7 +2,7 @@
 import { categories, isPhase3Area, practiceKind, unitById } from './content';
 import { addDays, daysBetween } from './dates';
 import { phase3Open } from './phase3';
-import { isKnown } from './scheduler';
+import { isKnown, isKnownOn } from './scheduler';
 import type { PracticeKind, Progress } from './types';
 
 export interface AreaStat {
@@ -15,8 +15,11 @@ export interface AreaStat {
   wrong: number;
 }
 
-/** Each term area the learner can see: how many terms are met and known, and how often answers on them were right. */
-export function areaStats(p: Progress): AreaStat[] {
+/**
+ * Each term area the learner can see: how many terms are met and known, and how often answers on them were right.
+ * With `today`, Known leaves out terms due for review, as the KPI strip does.
+ */
+export function areaStats(p: Progress, today?: string): AreaStat[] {
   const open3 = phase3Open(p);
   return categories
     .filter((c) => c.terms.length > 0 && (open3 || !isPhase3Area(c.id)))
@@ -26,7 +29,7 @@ export function areaStats(p: Progress): AreaStat[] {
         const st = p.terms[t.id];
         if (!st) continue;
         s.met++;
-        if (isKnown(st)) s.known++;
+        if (today ? isKnownOn(st, today) : isKnown(st)) s.known++;
         s.right += st.correct;
         s.wrong += st.wrong;
       }
@@ -87,13 +90,13 @@ export function practiceBests(p: Progress): PracticeBest[] {
 }
 
 /** Headline counts. */
-export function totals(p: Progress) {
+export function totals(p: Progress, today?: string) {
   const states = Object.values(p.terms);
   const right = states.reduce((n, s) => n + s.correct, 0);
   const wrong = states.reduce((n, s) => n + s.wrong, 0);
   return {
     met: states.length,
-    known: states.filter(isKnown).length,
+    known: states.filter((s) => (today ? isKnownOn(s, today) : isKnown(s))).length,
     mastered: states.filter((s) => s.step >= 6).length,
     right,
     wrong,
