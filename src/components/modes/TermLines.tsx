@@ -4,7 +4,7 @@
  * interchange wherever two terms on different lines are easily mixed up. The map is generated
  * from the syllabus, so no term is ever left off it.
  */
-import { Fragment, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { unitOpen } from '../../lib/choose';
 import { termById, unitById } from '../../lib/content';
 import { KIND_LABEL } from '../../lib/practice';
@@ -15,7 +15,7 @@ import { areaOf, areas, termStatus, unitStatus } from '../../lib/modes/status';
 import { interchangesAt } from '../../lib/modes/transfer';
 import type { Rng } from '../../lib/questions';
 import type { PracticeKind, Progress } from '../../lib/types';
-import { ArrowLeft, Lock } from '../icons';
+import { ArrowLeft, ChevronDown, Lock } from '../icons';
 import { Button } from '../ui';
 import { NetworkMap } from './NetworkMap';
 import { DotKey, ModeFrame, TermDot, TermSheet } from './shared';
@@ -118,7 +118,6 @@ function LineView({
   const [sheet, setSheet] = useState<string | null>(null);
   const colour = colourOf(line.id);
   const here = frontier(progress, line.id);
-  const unitAt = useMemo(() => new Map(line.units.map((u) => [u.from, u])), [line]);
   const preview = useMemo(() => (here >= 0 ? buildRide(progress, line.id, here, today, () => 0.5) : null), [progress, line.id, here, today]);
   const due = dueStops(progress, line.id, today);
   const ride = (from: number) => onRun((rng) => buildRide(progress, line.id, from, today, rng)?.plan ?? null);
@@ -129,6 +128,18 @@ function LineView({
   const met = line.stops.filter((s) => 'term' in s && progress.terms[s.term]).length;
   const allLocked = line.units.every((u) => !unitOpen(progress, u.id));
   const waiting = line.stops.some((s) => 'term' in s && !progress.terms[s.term]);
+  // Units are titled sections, shut until tapped. The one the line goes on from starts open.
+  const [openUnits, setOpenUnits] = useState<Set<string>>(() => new Set(line.units.filter((u) => here >= u.from && here <= u.to).map((u) => u.id)));
+  const toggle = (id: string) => {
+    const opening = !openUnits.has(id);
+    setOpenUnits((o) => {
+      const n = new Set(o);
+      if (opening) n.add(id);
+      else n.delete(id);
+      return n;
+    });
+    if (opening) requestAnimationFrame(() => document.getElementById(`unit-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+  };
 
   return (
     <ModeFrame
@@ -197,73 +208,97 @@ function LineView({
         )}
       </div>
 
-      <ol className="relative">
-        {line.stops.map((stop, i) => {
-          const unit = unitAt.get(i);
-          const head = unit && (
-            <li className="pb-2 pl-10 pt-5 first:pt-0">
-              <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">
-                {unit.name}
-                {!unit.core && <span className="ml-2 font-bold normal-case tracking-normal text-ink-3">later</span>}
-                {!unitOpen(progress, unit.id) && <Lock className="ml-2 inline h-3.5 w-3.5 text-ink-3" />}
-              </p>
-            </li>
-          );
-          const rail = (
-            <span className="absolute bottom-0 left-[13px] top-0 w-1" style={{ background: line.phase === 3 ? `repeating-linear-gradient(180deg, ${colour} 0 8px, transparent 8px 12px)` : colour }} aria-hidden="true" />
-          );
-          if ('depot' in stop) {
-            const u = unitById.get(stop.depot);
-            const open = unitOpen(progress, stop.depot);
-            const passed = !!progress.drills?.[stop.depot]?.passed;
-            return (
-              <Fragment key={i}>
-                {head}
-                <li className="relative">
-                  {rail}
-                  <button type="button" disabled={!open} onClick={() => onDepot(stop.depot)} className="relative flex w-full items-center gap-3 py-2 text-left disabled:opacity-60">
-                    <span className="ml-[5px] flex h-5 w-5 shrink-0 rotate-45 items-center justify-center border-[3px]" style={{ borderColor: colour, background: passed ? colour : 'rgb(var(--surface))' }} />
-                    <span className="min-w-0 flex-1 rounded-xl border border-dashed px-3 py-2" style={{ borderColor: colour }}>
-                      <span className="block text-[10px] font-extrabold uppercase tracking-[0.12em] text-ink-3">Depot · {KIND_LABEL[stop.kind as PracticeKind] ?? stop.kind}</span>
-                      <span className="block font-bold text-ink">{u?.name ?? stop.depot}</span>
-                    </span>
-                  </button>
-                </li>
-              </Fragment>
-            );
-          }
-          const t = termById.get(stop.term);
-          if (!t) return null;
-          const status = termStatus(progress, t.id, today);
-          // One chip per other line, however many of its terms meet here.
-          const twinLines = [...new Map(interchangesAt(t.id).map((id) => [areaOf(id)?.id, id])).values()].filter((id) => areaOf(id)?.id !== line.id).slice(0, 3);
+      <div className="space-y-2">
+        {line.units.map((unit) => {
+          const isOpen = openUnits.has(unit.id);
+          const stops = line.stops.slice(unit.from, unit.to + 1);
+          const ids = stops.flatMap((st) => ('term' in st ? [st.term] : []));
+          const depot = stops.length === 1 && 'depot' in stops[0];
+          const unitMet = ids.filter((id) => progress.terms[id]).length;
+          const unitDue = ids.filter((id) => termStatus(progress, id, today) === 'due').length;
+          const locked = !unitOpen(progress, unit.id);
+          const hasNext = here >= unit.from && here <= unit.to;
           return (
-            <Fragment key={i}>
-              {head}
-              <li className="relative">
-                {rail}
-                <button type="button" onClick={() => setSheet(t.id)} className={`relative flex w-full items-center gap-3 rounded-xl py-1.5 text-left hover:bg-sunken/60 ${i === here ? 'bg-sunken' : ''}`}>
-                  <span className="flex w-[30px] shrink-0 justify-center">
-                    <TermDot status={status} colour={colour} size={status === 'unmet' || status === 'locked' ? 14 : 16} />
+            <section key={unit.id} id={`unit-${unit.id}`} className="scroll-mt-40 overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+              <button type="button" onClick={() => toggle(unit.id)} aria-expanded={isOpen} className="flex w-full items-center gap-3 px-3 py-2.5 text-left hover:bg-sunken/60">
+                <span className="flex w-[30px] shrink-0 justify-center">
+                  {depot ? (
+                    <span className="h-3.5 w-3.5 rotate-45 border-[3px]" style={{ borderColor: colour, background: progress.drills?.[unit.id]?.passed ? colour : 'rgb(var(--surface))' }} />
+                  ) : (
+                    <TermDot status={unitStatus(progress, unit.id, ids, today)} colour={colour} size={unit.core ? 16 : 13} />
+                  )}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <span className="block truncate font-bold leading-tight text-ink">{unit.name}</span>
+                  <span className="block text-xs text-ink-3">
+                    {depot
+                      ? `Depot · ${KIND_LABEL[(stops[0] as { kind: string }).kind as PracticeKind] ?? 'practice'}`
+                      : `${unitMet}/${ids.length} met${unit.core ? '' : ' · later'}`}
                   </span>
-                  <span className={`min-w-0 flex-1 truncate ${status === 'unmet' || status === 'locked' ? 'text-ink-3' : 'font-bold text-ink'}`}>{t.term}</span>
-                  {i === here && <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}
-                  <span className="flex shrink-0 gap-1 pr-2">
-                    {twinLines.map((id) => {
-                      const a = areaOf(id);
+                </span>
+                {hasNext && <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}
+                {unitDue > 0 && <span className="num rounded-full bg-amber-soft px-2 py-0.5 font-mono text-xs font-semibold text-amber-ink">{unitDue} due</span>}
+                {locked && <Lock className="h-4 w-4 shrink-0 text-ink-3" />}
+                <ChevronDown className={`h-4 w-4 shrink-0 text-ink-3 transition ${isOpen ? 'rotate-180' : ''}`} />
+              </button>
+              {isOpen && (
+                <ol className="relative max-h-[60vh] overflow-y-auto border-t border-line px-1 py-1">
+                  {stops.map((stop, k) => {
+                    const i = unit.from + k;
+                    const rail = (
+                      <span className="absolute bottom-0 left-[13px] top-0 w-1" style={{ background: line.phase === 3 ? `repeating-linear-gradient(180deg, ${colour} 0 8px, transparent 8px 12px)` : colour }} aria-hidden="true" />
+                    );
+                    if ('depot' in stop) {
+                      const u = unitById.get(stop.depot);
+                      const open = unitOpen(progress, stop.depot);
+                      const passed = !!progress.drills?.[stop.depot]?.passed;
                       return (
-                        <span key={id} title={`Interchange with the ${a?.name} line`} className="rounded px-1 font-mono text-[10px] font-semibold text-white" style={{ background: a?.colour }}>
-                          {a?.code}
-                        </span>
+                        <li key={i} className="relative">
+                          {rail}
+                          <button type="button" disabled={!open} onClick={() => onDepot(stop.depot)} className="relative flex w-full items-center gap-3 py-2 text-left disabled:opacity-60">
+                            <span className="ml-[5px] flex h-5 w-5 shrink-0 rotate-45 items-center justify-center border-[3px]" style={{ borderColor: colour, background: passed ? colour : 'rgb(var(--surface))' }} />
+                            <span className="min-w-0 flex-1 rounded-xl border border-dashed px-3 py-2" style={{ borderColor: colour }}>
+                              <span className="block text-[10px] font-extrabold uppercase tracking-[0.12em] text-ink-3">{open ? 'Open the depot' : 'Opens with its unit'}</span>
+                              <span className="block font-bold text-ink">{u?.name ?? stop.depot}</span>
+                            </span>
+                          </button>
+                        </li>
                       );
-                    })}
-                  </span>
-                </button>
-              </li>
-            </Fragment>
+                    }
+                    const t = termById.get(stop.term);
+                    if (!t) return null;
+                    const status = termStatus(progress, t.id, today);
+                    // One chip per other line, however many of its terms meet here.
+                    const twinLines = [...new Map(interchangesAt(t.id).map((id) => [areaOf(id)?.id, id])).values()].filter((id) => areaOf(id)?.id !== line.id).slice(0, 3);
+                    return (
+                      <li key={i} className="relative">
+                        {rail}
+                        <button type="button" onClick={() => setSheet(t.id)} className={`relative flex w-full items-center gap-3 rounded-xl py-1.5 text-left hover:bg-sunken/60 ${i === here ? 'bg-sunken' : ''}`}>
+                          <span className="flex w-[30px] shrink-0 justify-center">
+                            <TermDot status={status} colour={colour} size={status === 'unmet' || status === 'locked' ? 14 : 16} />
+                          </span>
+                          <span className={`min-w-0 flex-1 truncate ${status === 'unmet' || status === 'locked' ? 'text-ink-3' : 'font-bold text-ink'}`}>{t.term}</span>
+                          {i === here && <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}
+                          <span className="flex shrink-0 gap-1 pr-2">
+                            {twinLines.map((id) => {
+                              const a = areaOf(id);
+                              return (
+                                <span key={id} title={`Interchange with the ${a?.name} line`} className="rounded px-1 font-mono text-[10px] font-semibold text-white" style={{ background: a?.colour }}>
+                                  {a?.code}
+                                </span>
+                              );
+                            })}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ol>
+              )}
+            </section>
           );
         })}
-      </ol>
+      </div>
 
       {sheet && (
         <TermSheet
