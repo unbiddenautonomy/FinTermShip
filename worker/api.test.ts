@@ -1,7 +1,9 @@
 // Runs the Worker's API against a real SQLite database standing in for D1.
 import { DatabaseSync } from 'node:sqlite';
 import { beforeEach, describe, expect, it } from 'vitest';
-import { newProgress } from '../src/lib/scheduler';
+import { graduate, introduce, newProgress } from '../src/lib/scheduler';
+import { categories } from '../src/lib/content';
+import { addDays } from '../src/lib/dates';
 import type { Progress } from '../src/lib/types';
 import worker, { handleApi, hashPassword, inviteCode, verifyPassword, type D1Database, type Env } from './index';
 import { ASKS_PER_MINUTE, content, MAX_IDS, NEW_PER_HOUR } from './cards';
@@ -511,6 +513,103 @@ describe('worker: desk cases and game content, dealt and marked', () => {
     expect((await friend.call('POST', '/api/practice', { kind: 'case', unit: p3Case })).status).toBe(400);
     expect((await friend.call('POST', '/api/practice/mark', { kind: 'case', unit: p3Case, step: 0 })).status).toBe(400);
     expect((await admin.call('POST', '/api/practice', { kind: 'case', unit: p3Case })).status).toBe(200);
+  });
+});
+
+describe('worker: lessons built and marked on the server', () => {
+  const today = '2026-11-14';
+  async function friendWith(access: { phase3?: boolean } = {}) {
+    const admin = new Client();
+    await admin.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
+    const { data } = await admin.call('POST', '/api/admin/invites', { quant: false, phase3: !!access.phase3 });
+    const friend = new Client();
+    await friend.call('POST', '/api/signup', { email: 'friend@example.com', password: 'friendpass', invite: data.code });
+    return { admin, friend };
+  }
+  // A learner a little way in: the first dozen main terms met, all due today.
+  const mainIds = categories.filter((c) => c.phase !== 3).flatMap((c) => c.terms.map((t) => t.id));
+  function learner(n = 12): Progress {
+    let p = newProgress();
+    for (const id of mainIds.slice(0, n)) p = graduate(introduce(p, id, addDays(today, -3)), id, addDays(today, -3));
+    for (const id of mainIds.slice(0, n)) p.terms[id] = { ...p.terms[id], step: 3, due: today };
+    return p;
+  }
+  const scored = (q: { kind: string }) => q.kind !== 'intro' && q.kind !== 'match';
+
+  it('deals a lesson without its answers, and marks each pick with the answer, reason and card', async () => {
+    const { friend } = await friendWith();
+    const r = await friend.call('POST', '/api/session', { recipe: { build: 'lesson', keepGoing: true, listen: false }, progress: learner(), today });
+    expect(r.status).toBe(200);
+    const { plan, cards } = r.data;
+    expect(plan.questions.length).toBeGreaterThan(5);
+    const text = JSON.stringify(plan);
+    expect(text).not.toMatch(/"answer"|"why"|"blank"|"wrong"|"calcs"/);
+    // The cards of the terms it teaches, without what their questions are made from.
+    expect(Object.keys(cards).sort()).toEqual([...plan.newIds].sort());
+    for (const c of Object.values(cards) as Record<string, unknown>[]) {
+      expect(c.definition).toBeTruthy();
+      for (const f of ['fill', 'wrong', 'calcs', 'tf', 'talk', 'claims']) expect(c).not.toHaveProperty(f);
+    }
+    for (const q of plan.questions.filter(scored)) {
+      const m = await friend.call('POST', '/api/mark', { token: q.token });
+      expect(m.status).toBe(200);
+      expect(m.data.answer).toBeGreaterThanOrEqual(0);
+      expect(m.data.answer).toBeLessThan(q.options.length);
+      if (q.kind === 'term' || q.kind === 'fill') expect(q.options[m.data.answer]).toBe(q.termId);
+      if (q.kind === 'fill') expect(m.data.blank).toBeTruthy();
+      if (q.kind === 'calc' || q.kind === 'talk') expect(m.data.why).toBeTruthy();
+      expect(m.data.card.definition).toBeTruthy();
+      expect(m.data.card).not.toHaveProperty('wrong');
+      // A missed question is asked again in a fresh form, sealed the same way.
+      expect(q.retry?.token).toBeTruthy();
+    }
+  });
+
+  it('checks a match one pair at a time', async () => {
+    const { friend } = await friendWith();
+    const r = await friend.call('POST', '/api/session', { recipe: { build: 'weak' }, progress: { ...learner(), terms: Object.fromEntries(Object.entries(learner().terms).map(([id, s]) => [id, { ...s, wrong: 3, correct: 1, trouble: true }])) }, today });
+    const lesson = await friend.call('POST', '/api/session', { recipe: { build: 'lesson', keepGoing: true, listen: false }, progress: learner(), today });
+    const match = [...(r.data.plan?.questions ?? []), ...lesson.data.plan.questions].find((q: { kind: string }) => q.kind === 'match');
+    expect(match).toBeDefined();
+    expect(match.right.length).toBe(match.termIds.length);
+    let right = 0;
+    for (let l = 0; l < match.termIds.length; l++)
+      for (let k = 0; k < match.right.length; k++) if ((await friend.call('POST', '/api/mark', { token: match.token, pair: [l, k] })).data.correct) right++;
+    expect(right).toBe(match.termIds.length);
+  });
+
+  it('keeps a token to the account it was dealt to, and refuses one that was changed', async () => {
+    const { admin, friend } = await friendWith();
+    const r = await friend.call('POST', '/api/session', { recipe: { build: 'lesson', keepGoing: true, listen: false }, progress: learner(), today });
+    const q = r.data.plan.questions.find(scored);
+    expect((await admin.call('POST', '/api/mark', { token: q.token })).status).toBe(400);
+    const bent = q.token.slice(0, -4) + (q.token.endsWith('AAAA') ? 'BBBB' : 'AAAA');
+    expect((await friend.call('POST', '/api/mark', { token: bent })).status).toBe(400);
+    expect((await friend.call('POST', '/api/mark', { token: 'nonsense' })).status).toBe(400);
+  });
+
+  it('builds tests and mode rounds too, and nothing it does not know', async () => {
+    const { friend } = await friendWith();
+    const area = categories.find((c) => c.phase !== 3)!;
+    const test = await friend.call('POST', '/api/session', { recipe: { build: 'test', categoryId: area.id }, progress: newProgress(), today });
+    expect(test.status).toBe(200);
+    expect(test.data.plan.kind).toBe('test');
+    // A test only scores: nothing is asked again.
+    expect(test.data.plan.questions.every((q: { retry?: unknown }) => !q.retry)).toBe(true);
+    const defend = await friend.call('POST', '/api/session', { recipe: { build: 'defend', termIds: mainIds.slice(0, 3) }, progress: learner(), today });
+    expect(defend.data.plan.questions.length).toBeGreaterThan(0);
+    expect((await friend.call('POST', '/api/session', { recipe: { build: 'everything' }, progress: learner(), today })).status).toBe(400);
+    expect((await friend.call('POST', '/api/session', { recipe: { build: 'lesson' }, today })).status).toBe(400);
+  });
+
+  it('keeps phase 3 terms back until the account has phase 3', async () => {
+    const { friend } = await friendWith();
+    const p3 = categories.filter((c) => c.phase === 3).flatMap((c) => c.terms.map((t) => t.id)).slice(0, 3);
+    let p = learner();
+    for (const id of p3) p = introduce(p, id, today);
+    const r = await friend.call('POST', '/api/session', { recipe: { build: 'defend', termIds: p3 }, progress: p, today });
+    expect(r.status).toBe(403);
+    expect(r.data.error).toMatch(/Phase 3/);
   });
 });
 

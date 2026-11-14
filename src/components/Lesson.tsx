@@ -1,12 +1,13 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { categoryOfTerm, talkById, termById, termName } from '../lib/content';
+import { categoryOfTerm, termById, termName } from '../lib/content';
 import { applyTest, settleFocus } from '../lib/choose';
 import type { LessonPlan } from '../lib/lesson';
-import { promptFor, retryQuestion, tidyOption, type Rng } from '../lib/questions';
+import { tidyOption } from '../lib/questions';
+import { markPair, markPick, type DealtPlan, type DealtQuestion, type Marked, type PickQuestion } from '../lib/session';
 import { evidenceOf, finishModeSession, recordAnswer, type ModeId } from '../lib/modes/knowledge';
 import { finishLesson, graduate, introduce } from '../lib/scheduler';
 import { speak } from '../lib/speech';
-import type { Progress, Question, ScoredQuestion, TalkFormat, TalkItem, Term } from '../lib/types';
+import type { Progress, TalkFormat, Term } from '../lib/types';
 import { Calculator, ChatIcon, Check, Cross, Flame, Pairs, Quote, Scale, Speaker, Sparkle, Target } from './icons';
 import { MatchPairs } from './MatchPairs';
 import { Bar, Button, ConfirmDialog, Pill, SpeakButton, TermDetails, type Tone } from './ui';
@@ -43,10 +44,9 @@ export interface LessonSummary {
 }
 
 interface Props {
-  plan: LessonPlan;
+  plan: DealtPlan;
   progress: Progress;
   today: string;
-  rng: Rng;
   onProgress: (p: Progress) => void;
   onFinish: (summary: LessonSummary) => void;
   onQuit: () => void;
@@ -54,9 +54,9 @@ interface Props {
   mode?: Exclude<ModeId, 'path'>;
 }
 
-type Item = { q: Question; retry: boolean };
+type Item = { q: DealtQuestion; retry: boolean };
 
-const LABELS: Record<Question['kind'], { text: string; tone: Tone; icon: ReactNode }> = {
+const LABELS: Record<DealtQuestion['kind'], { text: string; tone: Tone; icon: ReactNode }> = {
   intro: { text: 'New term', tone: 'sky', icon: <Sparkle className="h-3.5 w-3.5" /> },
   meaning: { text: 'What does it mean?', tone: 'ink', icon: <Target className="h-3.5 w-3.5" /> },
   term: { text: 'Which term fits?', tone: 'ink', icon: <Target className="h-3.5 w-3.5" /> },
@@ -75,10 +75,14 @@ const TALK_LABELS: Record<TalkFormat, { text: string; tone: Tone; icon: ReactNod
   misuse: { text: 'Spot the misuse', tone: 'amber', icon: <Target className="h-3.5 w-3.5" /> },
 };
 
-export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQuit, mode }: Props) {
+export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mode }: Props) {
   const [items, setItems] = useState<Item[]>(() => plan.questions.map((q) => ({ q, retry: false })));
   const [index, setIndex] = useState(0);
   const [picked, setPicked] = useState<number | null>(null);
+  /** The server's mark of the pick: the right option and the reason. */
+  const [marked, setMarked] = useState<Marked | null>(null);
+  const [marking, setMarking] = useState(false);
+  const [markError, setMarkError] = useState<string | null>(null);
   const [stats, setStats] = useState({ firstTryCorrect: 0, firstTryTotal: 0, reviewsCorrect: 0, run: 0, bestRun: 0 });
   const [missed, setMissed] = useState<string[]>([]);
   const [confirmQuit, setConfirmQuit] = useState(false);
@@ -132,6 +136,8 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
 
   const next = useCallback(() => {
     setPicked(null);
+    setMarked(null);
+    setMarkError(null);
     if (index + 1 >= items.length) finish();
     else setIndex(index + 1);
   }, [index, items.length, finish]);
@@ -150,11 +156,24 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
   }, []);
 
   const answer = useCallback(
-    (choice: number) => {
-      if (!q || q.kind === 'intro' || q.kind === 'match' || picked !== null) return;
+    async (choice: number) => {
+      if (!q || q.kind === 'intro' || q.kind === 'match' || picked !== null || marking) return;
       if (choice < 0 || choice >= q.options.length) return;
-      const correct = choice === q.answer;
       const ms = Date.now() - shownAt.current;
+      // The server marks the pick: the right answer is not in the page until now.
+      setMarking(true);
+      setMarkError(null);
+      let m: Marked;
+      try {
+        m = await markPick(q);
+      } catch (e) {
+        setMarkError(e instanceof Error ? e.message : 'Something went wrong. Try again in a moment.');
+        return;
+      } finally {
+        setMarking(false);
+      }
+      const correct = choice === m.answer;
+      setMarked(m);
       setPicked(choice);
       score(correct, item.retry, q.review);
       if (isTest) {
@@ -170,10 +189,11 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
       if (!correct) {
         setMissed((m) => (m.includes(q.termId) ? m : [...m, q.termId]));
         // One retry per question, at the end of the lesson.
-        if (!item.retry) setItems((list) => [...list, { q: retryQuestion(q, rng, new Set(Object.keys(progressRef.current.terms))), retry: true }]);
+        const again = q.retry;
+        if (!item.retry && again) setItems((list) => [...list, { q: again, retry: true }]);
       }
     },
-    [q, item, picked, today, rng, isTest, onProgress, score, mode, plan],
+    [q, item, picked, marking, today, isTest, onProgress, score, mode, plan],
   );
 
   const matchDone = useCallback(
@@ -202,8 +222,8 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
       }
       if (q.kind === 'match') return;
       if (picked === null) {
-        if (['1', '2', '3', '4'].includes(e.key)) answer(Number(e.key) - 1);
-        else if (q.kind === 'tf' && (e.key === 't' || e.key === 'f')) answer(e.key === 't' ? 0 : 1);
+        if (['1', '2', '3', '4'].includes(e.key)) void answer(Number(e.key) - 1);
+        else if (q.kind === 'tf' && (e.key === 't' || e.key === 'f')) void answer(q.options.indexOf(e.key === 't' ? 'True' : 'False'));
       } else if (e.key === 'Enter') {
         e.preventDefault();
         next();
@@ -216,10 +236,11 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
   if (!q) return null;
   const term = 'termId' in q ? termById.get(q.termId) : undefined;
   const scored = q.kind !== 'intro' && q.kind !== 'match' ? q : null;
-  const answered = scored !== null && picked !== null;
-  const correct = answered && picked === scored.answer;
+  const answered = scored !== null && picked !== null && marked !== null;
+  const correct = answered && picked === marked.answer;
   const label = q.kind === 'talk' ? TALK_LABELS[q.format] : LABELS[q.kind];
-  const talk = q.kind === 'talk' ? talkById.get(q.itemId) : undefined;
+  const pick = (i: number) => void answer(i);
+  const right = marked?.answer ?? null;
 
   return (
     <div className="flex min-h-[100dvh] flex-col">
@@ -258,21 +279,21 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
               <h1 className="text-[32px] font-display font-semibold leading-tight tracking-tight text-ink">{term.term}</h1>
               <SpeakButton term={term} enabled={voice} />
             </div>
-            <Options q={q} labels={q.options} picked={picked} onPick={answer} />
+            <Options q={q} labels={q.options} picked={picked} right={right} busy={marking} onPick={pick} />
           </>
         )}
 
         {q.kind === 'term' && term && (
           <>
-            <p className="mb-8 text-xl font-semibold leading-relaxed text-ink">{promptFor(term)}</p>
-            <Options q={q} labels={q.options.map(termName)} picked={picked} onPick={answer} />
+            <p className="mb-8 text-xl font-semibold leading-relaxed text-ink">{q.prompt}</p>
+            <Options q={q} labels={q.options.map(termName)} picked={picked} right={right} busy={marking} onPick={pick} />
           </>
         )}
 
         {q.kind === 'fill' && term && (
           <>
             <p className="mb-8 text-xl font-semibold leading-relaxed text-ink">
-              {(q.context?.text ?? term.fill).split('____').map((part, i) =>
+              {q.text.split('____').map((part, i) =>
                 i === 0 ? (
                   <span key={i}>{part}</span>
                 ) : (
@@ -280,14 +301,14 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
                     <span
                       className={`${/^[,.;:!?)]/.test(part) ? 'ml-1' : 'mx-1'} inline-block min-w-[5rem] rounded-lg border-b-[3px] px-2 text-center font-extrabold ${answered ? 'border-good bg-good-soft text-good-ink' : 'border-ink-3 bg-sunken'}`}
                     >
-                      {answered ? (q.context?.blank ?? term.term) : ' '}
+                      {answered ? (marked.blank ?? term.term) : ' '}
                     </span>
                     {part}
                   </span>
                 ),
               )}
             </p>
-            <Options q={q} labels={q.options.map(termName)} picked={picked} onPick={answer} />
+            <Options q={q} labels={q.options.map(termName)} picked={picked} right={right} busy={marking} onPick={pick} />
           </>
         )}
 
@@ -297,7 +318,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
               {categoryOfTerm.get(term.id)?.name} · {term.term}
             </p>
             <p className="mb-8 text-xl font-semibold leading-relaxed text-ink">{q.prompt}</p>
-            <Options q={q} labels={q.options} picked={picked} onPick={answer} grid={q.options.every((o) => o.length <= 16)} />
+            <Options q={q} labels={q.options} picked={picked} right={right} busy={marking} onPick={pick} grid={q.options.every((o) => o.length <= 16)} />
           </>
         )}
 
@@ -305,25 +326,30 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
           <>
             <p className="mb-2 text-xs font-bold text-ink-3">About: {term.term}</p>
             <p className="mb-8 rounded-3xl border border-line bg-surface p-5 text-xl font-semibold leading-relaxed text-ink shadow-card">{q.prompt}</p>
-            <Options q={q} labels={q.options} picked={picked} onPick={answer} grid />
+            <Options q={q} labels={q.options} picked={picked} right={right} busy={marking} onPick={pick} grid />
           </>
         )}
 
-        {q.kind === 'talk' && talk && term && (
+        {q.kind === 'talk' && term && (
           <>
-            <TalkPrompt item={talk} term={term} />
-            <Options q={q} labels={q.options} picked={picked} onPick={answer} />
+            <TalkPrompt format={q.format} who={q.who} prompt={q.prompt} term={term} />
+            <Options q={q} labels={q.options} picked={picked} right={right} busy={marking} onPick={pick} />
           </>
         )}
 
         {q.kind === 'listen' && term && (
           <>
             <ListenPrompt term={term} answered={answered} />
-            <Options q={q} labels={q.options} picked={picked} onPick={answer} />
+            <Options q={q} labels={q.options} picked={picked} right={right} busy={marking} onPick={pick} />
           </>
         )}
 
-        {q.kind === 'match' && <MatchPairs termIds={q.termIds} right={q.right} onDone={matchDone} />}
+        {q.kind === 'match' && <MatchPairs termIds={q.termIds} right={q.right} check={(l, r) => markPair(q.token, l, r)} onDone={matchDone} />}
+        {markError && (
+          <p role="alert" className="mt-4 text-sm font-bold text-bad-ink">
+            {markError}
+          </p>
+        )}
       </main>
 
       {q.kind === 'intro' && (
@@ -336,7 +362,7 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
         </footer>
       )}
 
-      {answered && term && scored && <Feedback q={scored} term={term} correct={correct} retryQueued={!correct && !item.retry} onNext={next} />}
+      {answered && term && scored && <Feedback q={scored} marked={marked} term={term} correct={correct} retryQueued={!correct && !item.retry && !!scored.retry} onNext={next} />}
 
       {confirmQuit && (
         <ConfirmDialog
@@ -353,17 +379,17 @@ export function Lesson({ plan, progress, today, rng, onProgress, onFinish, onQui
 
 const PRAISE = ['Correct', 'Nice', 'Spot on', 'Exactly', 'Well done'];
 
-function Feedback({ q, term, correct, retryQueued, onNext }: { q: ScoredQuestion; term: Term; correct: boolean; retryQueued: boolean; onNext: () => void }) {
-  const talk = q.kind === 'talk' ? talkById.get(q.itemId) : undefined;
+function Feedback({ q, marked, term, correct, retryQueued, onNext }: { q: PickQuestion; marked: Marked; term: Term; correct: boolean; retryQueued: boolean; onNext: () => void }) {
+  const talk = q.kind === 'talk';
   const worked = q.kind === 'calc' || q.kind === 'tf';
-  const explain = talk ? talk.why : worked ? (q.why ?? term.definition) : term.definition;
+  const explain = talk ? marked.why : worked ? (marked.why ?? term.definition) : term.definition;
   // Stable per question so the word doesn't change between renders.
-  const praise = q.kind === 'calc' ? 'Worked it out' : PRAISE[(q.termId.length + q.answer) % PRAISE.length];
+  const praise = q.kind === 'calc' ? 'Worked it out' : PRAISE[(q.termId.length + marked.answer) % PRAISE.length];
   const misuse = q.kind === 'talk' && q.format === 'misuse';
   // An example to show after a miss: not the sentence just asked, and not always the first one.
-  const examples = term.examples.filter((_, i) => q.kind !== 'fill' || i !== q.context?.from);
-  const example = examples.length ? examples[(q.termId.length + q.answer) % examples.length] : undefined;
-  const headline = correct ? praise : talk ? (misuse ? 'That one is fine' : 'Not quite') : worked ? `Answer: ${q.options[q.answer]}` : `Answer: ${term.term}`;
+  const examples = (term.examples ?? []).filter((_, i) => q.kind !== 'fill' || i !== q.from);
+  const example = examples.length ? examples[(q.termId.length + marked.answer) % examples.length] : undefined;
+  const headline = correct ? praise : talk ? (misuse ? 'That one is fine' : 'Not quite') : worked ? `Answer: ${q.options[marked.answer]}` : `Answer: ${term.term}`;
   return (
     <footer
       className={`pb-safe fixed inset-x-0 bottom-0 z-40 animate-sheet rounded-t-3xl px-4 pt-5 shadow-sheet ${correct ? 'bg-good-soft' : 'bg-bad-soft'}`}
@@ -380,7 +406,7 @@ function Feedback({ q, term, correct, retryQueued, onNext }: { q: ScoredQuestion
         {talk && !correct && (
           <p className="leading-relaxed text-ink">
             <b>{misuse ? 'The misuse: ' : 'Best answer: '}</b>
-            {q.options[q.answer]}
+            {q.options[marked.answer]}
           </p>
         )}
         <p className="max-h-[30vh] overflow-y-auto leading-relaxed text-ink-2">
@@ -425,22 +451,22 @@ function Intro({ term, voice }: { term: Term; voice: boolean }) {
 }
 
 /** What a talk item shows above its options. */
-function TalkPrompt({ item, term }: { item: TalkItem; term: Term }) {
-  if (item.format === 'misuse') {
+function TalkPrompt({ format, who, prompt, term }: { format: TalkFormat; who?: string; prompt?: string; term: Term }) {
+  if (format === 'misuse') {
     return (
       <p className="mb-8 text-xl font-semibold leading-relaxed text-ink">
         One of these uses <b className="font-extrabold">{term.term}</b> wrongly. Which one?
       </p>
     );
   }
-  const lead = item.format === 'decode' ? 'Heard on the desk' : item.format === 'say' ? 'In plain words' : `${item.who ?? 'Someone'} says`;
-  const ask = item.format === 'decode' ? 'What does it mean?' : item.format === 'say' ? 'How would a trader say it?' : "What's the strongest reply?";
-  const quoted = item.format !== 'say';
+  const lead = format === 'decode' ? 'Heard on the desk' : format === 'say' ? 'In plain words' : `${who ?? 'Someone'} says`;
+  const ask = format === 'decode' ? 'What does it mean?' : format === 'say' ? 'How would a trader say it?' : "What's the strongest reply?";
+  const quoted = format !== 'say';
   return (
     <>
       <p className="mb-2 text-xs font-bold text-ink-3">{lead}</p>
       <p className="mb-4 rounded-3xl border border-line bg-surface p-5 text-xl font-semibold leading-relaxed text-ink shadow-card">
-        {quoted ? `“${item.prompt}”` : item.prompt}
+        {quoted ? `“${prompt}”` : prompt}
       </p>
       <p className="mb-6 font-bold text-ink-2">{ask}</p>
     </>
@@ -488,12 +514,18 @@ function Options({
   q,
   labels,
   picked,
+  right,
+  busy,
   onPick,
   grid = false,
 }: {
-  q: ScoredQuestion;
+  q: PickQuestion;
   labels: string[];
   picked: number | null;
+  /** The right option, once the server has marked the pick. */
+  right: number | null;
+  /** A pick is being marked. */
+  busy: boolean;
   onPick: (i: number) => void;
   grid?: boolean;
 }) {
@@ -505,7 +537,7 @@ function Options({
       {labels.map((opt, i) => {
         let style = 'border-line bg-surface text-ink shadow-press-line hover:bg-sunken/60 active:translate-y-[1px] active:shadow-none';
         let badge = 'border-line text-ink-3';
-        if (done && i === q.answer) {
+        if (done && i === right) {
           style = 'border-good bg-good-soft text-good-ink';
           badge = 'border-good bg-good text-white';
         } else if (done && i === picked) {
@@ -516,7 +548,7 @@ function Options({
           <button
             key={i}
             type="button"
-            disabled={done}
+            disabled={done || busy}
             onClick={() => onPick(i)}
             className={`flex items-center gap-3 rounded-2xl border-2 px-4 font-bold transition ${grid ? 'min-h-[4rem] justify-center py-4 text-center text-lg' : 'py-3.5 text-left text-[15px] leading-snug'} ${style}`}
           >
