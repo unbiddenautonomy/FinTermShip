@@ -66,11 +66,11 @@ function choose(cands: Claim[], rng: Rng): Claim {
 export const DECK_SIZE = 12;
 
 /**
- * A deck from terms the learner has met: due terms first, then weak ones, then the rest at random.
- * Half the cards are true and half false. Returns fewer cards when fewer than 4 terms are met.
+ * The terms a deck asks about: met terms, due ones first, then weak ones, then the rest at random.
+ * Their cards may not be here yet; `deckWants` says what to fetch first.
  */
-export function buildDeck(p: Progress, today: string, rng: Rng, size = DECK_SIZE): Claim[] {
-  const met = Object.keys(p.terms).filter((id) => hasCard(id) && p.terms[id].step > 0);
+function deckTermIds(p: Progress, today: string, rng: Rng, size: number): string[] {
+  const met = Object.keys(p.terms).filter((id) => termById.has(id) && p.terms[id].step > 0);
   if (met.length < 4) return [];
   const due = new Set(dueTermIds(p, today));
   const weak = new Set(met.filter((id) => isWeak(p.terms[id])));
@@ -79,7 +79,23 @@ export function buildDeck(p: Progress, today: string, rng: Rng, size = DECK_SIZE
     ...shuffle(met.filter((id) => !due.has(id) && weak.has(id)), rng),
     ...shuffle(met.filter((id) => !due.has(id) && !weak.has(id)), rng),
   ];
-  const ids = ordered.slice(0, Math.min(size, ordered.length));
+  return ordered.slice(0, Math.min(size, ordered.length));
+}
+
+/** The cards a deck built with this rng needs: its terms, and for a false claim the met confusables whose gloss it can swap in. */
+export function deckWants(p: Progress, today: string, rng: Rng, size = DECK_SIZE): string[] {
+  const ids = deckTermIds(p, today, rng, size);
+  const truths = shuffle(ids.map((_, i) => i % 2 === 0), rng);
+  return [...new Set([...ids, ...ids.flatMap((id, i) => (truths[i] ? [] : termById.get(id)!.confusables.filter((c) => p.terms[c])))])];
+}
+
+/**
+ * A deck from terms the learner has met, built with the same rng as `deckWants` once those cards are here.
+ * Half the cards are true and half false. Returns fewer cards when fewer than 4 terms are met,
+ * and leaves out a term whose card didn't come.
+ */
+export function buildDeck(p: Progress, today: string, rng: Rng, size = DECK_SIZE): Claim[] {
+  const ids = deckTermIds(p, today, rng, size).filter((id) => hasCard(id));
   const truths = shuffle(ids.map((_, i) => i % 2 === 0), rng);
   return ids.map((id, i) => choose(claimsFor(termById.get(id)!, truths[i]), rng));
 }

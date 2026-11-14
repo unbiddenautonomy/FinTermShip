@@ -16,6 +16,7 @@ import { Briefcase, Calculator, Check, Cross, Dice, Flame, Lock } from './icons'
 import { AboutYou } from './AboutYou';
 import { Phase3Gate } from './Phase3Gate';
 import { Bar, Button, Card, Pill, Ring, SectionTitle, StepDots } from './ui';
+import { useTermCards } from './useCards';
 
 interface Props {
   progress: Progress;
@@ -654,6 +655,8 @@ function UnitSheet({
 }) {
   const rows = pathRows(progress);
   const r = rows.find((x) => x.unit.id === unitId);
+  // The glosses of this unit's met terms, fetched as the sheet opens.
+  useTermCards(r ? r.terms.filter((t) => progress.terms[t.id]).map((t) => t.id) : []);
   if (!r) return null;
   const area = r.category;
   const isCurrent = currentIndex(progress, rows, today) === r.i;

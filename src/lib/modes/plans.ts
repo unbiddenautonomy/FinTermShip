@@ -9,7 +9,7 @@ import { categories, termById } from '../content';
 import type { LessonPlan } from '../lesson';
 import { nextNewTermIds } from '../lesson';
 import { matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, type Rng } from '../questions';
-import { dueTermIds, isDueOn, newLeftToday } from '../scheduler';
+import { dueTermIds, isDueOn } from '../scheduler';
 import type { Progress, Question, Term } from '../types';
 import { interchangesAt } from './transfer';
 
@@ -56,10 +56,12 @@ function teach(fresh: Term[], known: Set<string>, rng: Rng): Question[] {
   return qs;
 }
 
-/** Recall Exchange listings: the next new terms on the learner's track, within today's shared limit. */
+/**
+ * Recall Exchange listings: the next new terms on the learner's track. The daily goal is a
+ * goal, not a limit: listings carry on past it for as long as the learner wants.
+ */
 export function buildListing(p: Progress, today: string, rng: Rng, count = 3): LessonPlan | null {
-  const n = Math.min(count, newLeftToday(p, today));
-  const ids = n > 0 ? nextNewTermIds(p, n, today) : [];
+  const ids = nextNewTermIds(p, count, today);
   if (!ids.length) return null;
   const fresh = ids.map((id) => termById.get(id)!).filter(Boolean);
   const known = new Set([...Object.keys(p.terms), ...ids]);
@@ -80,16 +82,15 @@ export const RIDE_STOPS = 5;
 /**
  * Term Lines: ride a few stops along a line from a station, in syllabus order. A ride starts at a
  * met station or at the frontier, never past it (see canRideFrom).
- * New terms are taught (within today's shared limit), met terms get the question Path would ask,
+ * New terms are taught (past the daily goal too, if the learner keeps riding), met terms get the question Path would ask,
  * and a station that is an interchange with a met term on another line adds a Transfer puzzle.
- * The ride ends at a depot (a game, drill or case), at the end of the line, after RIDE_STOPS stops,
- * or when today's new terms run out.
+ * The ride ends at a depot (a game, drill or case), at a locked unit, at the end of the line, or
+ * after RIDE_STOPS stops.
  */
 export function buildRide(p: Progress, lineId: string, from: number, today: string, rng: Rng, maxStops = RIDE_STOPS): Ride | null {
   const line = lineById.get(lineId);
   if (!line) return null;
   if ('term' in (line.stops[from] ?? {}) && !canRideFrom(p, lineId, from)) return null;
-  let newLeft = newLeftToday(p, today);
   const fresh: Term[] = [];
   const met: Term[] = [];
   const transfers: [string, string][] = [];
@@ -108,10 +109,7 @@ export function buildRide(p: Progress, lineId: string, from: number, today: stri
     else if (!unitOpen(p, t.unit)) {
       endsAt = { locked: t.unit };
       break;
-    } else if (newLeft > 0) {
-      fresh.push(t);
-      newLeft--;
-    } else break;
+    } else fresh.push(t);
     const twin = interchangesAt(t.id).find((id) => p.terms[id]);
     if (twin && transfers.length < 2) transfers.push([t.id, twin]);
   }

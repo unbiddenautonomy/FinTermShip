@@ -177,7 +177,7 @@ export default function App() {
   const isAdmin = account.kind === 'in' && account.me.admin;
   const access = useMemo(() => ({ off: site.modesOff, admin: isAdmin, setOff: (modesOff: string[]) => setSite({ modesOff }) }), [site.modesOff, isAdmin, setSite]);
   const canOpen = useCallback((m: ModeId) => isAdmin || modesOn(site.modesOff).includes(m), [isAdmin, site.modesOff]);
-  const cards = useCards(account, progress);
+  const cards = useCards(account);
   // If the mode on screen (or the one Learn returns to) is switched off, go back to Path.
   const shownMode = isModeId(screen.name) ? screen.name : null;
   useEffect(() => {
@@ -229,35 +229,34 @@ export default function App() {
   }
 
   /**
-   * Build a lesson, first fetching the cards of any term in it that this device
-   * doesn't have yet (new terms, an area test's terms). The plan is built again
-   * from the same seed once they are here, so it asks with the real cards.
+   * Build a lesson, first fetching the cards of the terms in it: nothing is kept
+   * between visits, so this is where a lesson's cards come from. The plan is
+   * built again from the same seed once they are here, so it asks with the real
+   * cards; if that plan reaches for more terms, those are fetched too.
    */
-  const prepare = async (make: (seed: number) => LessonPlan | null, test?: string): Promise<{ plan: LessonPlan; seed: number } | null> => {
+  const prepare = async (make: (seed: number) => LessonPlan | null): Promise<{ plan: LessonPlan; seed: number } | null> => {
     const seed = Date.now() % 2_147_483_647;
     let plan = make(seed);
-    if (!plan) return null;
-    const need = planTermIds(plan).filter((id) => !hasCard(id));
-    if (!need.length) return { plan, seed };
-    setFetching('Getting your terms…');
-    const failed = await ensureCards(need, test);
-    setFetching(null);
-    if (failed) {
-      setNotice(failed);
-      return null;
+    for (let round = 0; plan; round++) {
+      const need = planTermIds(plan).filter((id) => !hasCard(id));
+      if (!need.length) return { plan, seed };
+      if (round === 3) break;
+      setFetching('Getting your terms…');
+      const failed = await ensureCards(need);
+      setFetching(null);
+      if (failed) {
+        setNotice(failed);
+        return null;
+      }
+      plan = make(seed);
     }
-    plan = make(seed);
-    if (!plan) return null;
-    if (planTermIds(plan).some((id) => !hasCard(id))) {
-      setNotice('Some of these terms could not be loaded. Try again in a moment.');
-      return null;
-    }
-    return { plan, seed };
+    if (plan) setNotice('Some of these terms could not be loaded. Try again in a moment.');
+    return null;
   };
 
-  const run = async (make: (seed: number) => LessonPlan | null, test?: string) => {
+  const run = async (make: (seed: number) => LessonPlan | null) => {
     if (fetching) return;
-    const ready = await prepare(make, test);
+    const ready = await prepare(make);
     if (ready) setScreen({ name: 'lesson', ...ready });
     else setOrigin(null);
   };
@@ -293,15 +292,15 @@ export default function App() {
       if (!opened) setOrigin(null);
     });
   // One track: when the learner is on a drill, game or case, the next step is that unit.
-  const start = (ignoreNewCap: boolean) => {
+  const start = (keepGoing: boolean) => {
     const d = drillUp(progress, today);
     if (d) void drill(d);
-    else void run((seed) => buildLesson(progress, today, seededRng(seed), ignoreNewCap));
+    else void run((seed) => buildLesson(progress, today, seededRng(seed), keepGoing));
   };
   const practiseWeak = () => void run((seed) => buildWeakSpots(progress, seededRng(seed)));
   const practise = (unitId: string) => void run((seed) => buildPractice(progress, unitId, seededRng(seed)));
   const takeTest = (categoryId: string) =>
-    void run((seed) => (categoryId === PHASE3 ? buildPhase3Test(seededRng(seed)) : buildTest(categoryId, seededRng(seed))), categoryId);
+    void run((seed) => (categoryId === PHASE3 ? buildPhase3Test(seededRng(seed)) : buildTest(categoryId, seededRng(seed))));
   const pick = (unitId: string | null) => update(withFocus(progress, unitId));
   const goMode = (want: ModeId) => {
     const m = canOpen(want) ? want : 'path';
@@ -319,6 +318,18 @@ export default function App() {
     setOrigin(from);
     originY.current = y;
     setScreen({ name: 'lesson', ...ready, mode: m });
+  };
+  // A mock round asks worked sums from the met terms of its areas: fetch their cards, then open it.
+  // A sum whose card didn't come is left out of the round, so it opens either way.
+  const openMock = async (round: string) => {
+    if (fetching) return;
+    setFetching('Getting the round ready…');
+    const { MOCKS, mockTermIds } = await import('./lib/mock');
+    const spec = MOCKS.find((m) => m.round === round);
+    const failed = spec ? await ensureCards(mockTermIds(spec, progress)) : null;
+    setFetching(null);
+    if (failed) setNotice(failed);
+    setScreen({ name: 'mock', round });
   };
   const depot = (unitId: string) => {
     setOrigin(screen);
@@ -482,7 +493,7 @@ export default function App() {
             progress={progress}
             onBack={() => setScreen({ name: 'home' })}
             onOpenUnit={setOverlay}
-            onOpenMock={(round) => setScreen({ name: 'mock', round })}
+            onOpenMock={(round) => void openMock(round)}
           />
         </WithTabs>
       );

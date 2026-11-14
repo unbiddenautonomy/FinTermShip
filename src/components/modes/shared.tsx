@@ -175,7 +175,7 @@ export function TermSheet({
 
           {actions && <div className="grid gap-2 sm:grid-cols-2">{actions}</div>}
 
-          <TermDetails term={term} showExamples={1} />
+          <TermDetails term={term} met={!!st} showExamples={1} />
 
           {twins.length > 0 && (
             <div>

@@ -53,6 +53,12 @@ function pool(source: MockSource, rng: Rng): MockQuestion[] {
   return shuffle(calcs, rng).map((c) => choice(c.q, c.options, c.why, rng));
 }
 
+/** The met terms whose worked sums a round can ask: their cards are fetched as the round opens. */
+export function mockTermIds(spec: MockSpec, p: Progress): string[] {
+  const areas = spec.sources.flatMap((s) => ('calcs' in s ? s.calcs : []));
+  return categories.filter((c) => areas.includes(c.id)).flatMap((c) => c.terms.filter((t) => p.terms[t.id]).map((t) => t.id));
+}
+
 /** Fewest questions a round runs with: a sums round is short until the learner has reached enough of its terms. */
 export const MOCK_MIN = 5;
 

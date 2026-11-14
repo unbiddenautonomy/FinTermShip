@@ -6,7 +6,7 @@ import { buildPractice, buildTest } from './choose';
 import { applyCards, awaitingCard, categories, clearCards, hasCard, talkByTerm, termById, writtenByTerm } from './content';
 import { buildLesson, type LessonPlan } from './lesson';
 import { MOCKS, newMock } from './mock';
-import { buildDeck, claimsFor } from './modes/claims';
+import { buildDeck, claimsFor, deckWants } from './modes/claims';
 import { buildDefend, buildListing, buildRally, buildRevisit, buildRide, lines } from './modes/plans';
 import { buildPhase3Test } from './phase3';
 import { definitionNames, seededRng } from './questions';
@@ -86,14 +86,25 @@ describe('term cards', () => {
     for (const q of again.questions) if ('options' in q) for (const o of q.options) expect(o.trim(), q.kind).not.toBe('');
   });
 
-  it('keep reviews, weak spots and Call It to terms whose cards are here', () => {
+  it('count every met term as due or weak before its card is here, and deal Call It once its cards come', () => {
     clearCards();
     let p: Progress = newProgress();
-    for (const id of ['bid', 'ask', 'spread', 'ltp', 'liquidity', 'volume']) p = graduate(introduce(p, id, '2026-11-01'), id, '2026-11-02');
+    const metIds = ['bid', 'ask', 'spread', 'ltp', 'liquidity', 'volume'];
+    for (const id of metIds) p = graduate(introduce(p, id, '2026-11-01'), id, '2026-11-02');
     p = { ...p, terms: Object.fromEntries(Object.entries(p.terms).map(([id, s]) => [id, { ...s, due: '2026-11-10', wrong: 3, correct: 1, trouble: true }])) };
+    // Nothing is on the device yet: due and weak still count them, and a lesson fetches their cards.
+    expect(dueTermIds(p, today).sort()).toEqual([...metIds].sort());
+    expect(weakSpots(p).sort()).toEqual([...metIds].sort());
+    // Call It says which cards a deck needs (its terms and their met confusables), then deals the same deck.
+    expect(buildDeck(p, today, seededRng(3))).toEqual([]);
+    const wants = deckWants(p, today, seededRng(3));
+    expect(wants.every((id) => metIds.includes(id))).toBe(true);
+    applyCards(some(wants));
+    const deck = buildDeck(p, today, seededRng(3));
+    expect(deck.length).toBe(metIds.length);
+    // A card that didn't come is left out of the deck.
+    clearCards();
     applyCards(some(['bid', 'ask', 'spread', 'ltp']));
-    expect(dueTermIds(p, today).sort()).toEqual(['ask', 'bid', 'ltp', 'spread']);
-    expect(weakSpots(p).sort()).toEqual(['ask', 'bid', 'ltp', 'spread']);
     for (const c of buildDeck(p, today, seededRng(3))) expect(['bid', 'ask', 'spread', 'ltp']).toContain(c.termId);
   });
 
