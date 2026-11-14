@@ -5,7 +5,6 @@ import { newProgress } from '../lib/scheduler';
 import { canSpeak, speak } from '../lib/speech';
 import { getTexture, getTheme, setTexture, setTheme, THEMES, type Theme } from '../lib/theme';
 import type { Progress } from '../lib/types';
-import { SWITCHER } from '../lib/modes/ids';
 import { landingMode } from '../lib/modes/knowledge';
 import { useModeAccess } from './modes/modeAccess';
 import { MODE_INFO } from './modes/ModeBar';
@@ -41,8 +40,8 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
   const s = progress.settings;
   const minutes = s.newPerDay;
   const { shown, off: modesOff, admin } = useModeAccess();
-  // Only the switcher's modes can be the start screen; the others open from More.
-  const modes = shown.filter((m) => SWITCHER.includes(m));
+  // Any mode can be the start screen.
+  const modes = shown;
   // A learner's landing mode that the admin switched off opens Path instead; the admin's own choice stands.
   const landing = landingMode(progress, admin ? [] : modesOff);
   const signedIn = account.kind === 'in';
@@ -114,7 +113,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
               Open the app in
             </p>
             <p className="mb-3 text-sm text-ink-3">{MODE_INFO[landing].blurb} Every mode shares the same progress, so you can switch at any time.</p>
-            <div className="grid gap-1 rounded-xl bg-sunken p-1" style={{ gridTemplateColumns: `repeat(${modes.length}, minmax(0, 1fr))` }} role="radiogroup" aria-labelledby="landing-label">
+            <div className="grid grid-cols-3 gap-1 rounded-xl bg-sunken p-1" role="radiogroup" aria-labelledby="landing-label">
               {modes.map((m) => (
                 <button
                   key={m}
@@ -124,7 +123,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
                   onClick={() => onChange({ ...progress, settings: { ...s, landing: m } })}
                   className={`rounded-lg py-2 text-sm font-extrabold transition ${landing === m ? 'bg-surface text-brand-ink shadow-card' : 'text-ink-3 hover:text-ink-2'}`}
                 >
-                  {MODE_INFO[m].label}
+                  {MODE_INFO[m].short ?? MODE_INFO[m].label}
                 </button>
               ))}
             </div>
