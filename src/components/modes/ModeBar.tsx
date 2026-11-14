@@ -1,13 +1,13 @@
-/** The mode switcher and the KPI strip. Kept apart from the term sheet so Path's Home doesn't load the metro map. */
-import { useState, type CSSProperties } from 'react';
+/** The mode switch and the KPI strip. Kept apart from the term sheet so Path's Home doesn't load the metro map. */
+import { useCallback, useState } from 'react';
 import { kpis, type ModeId } from '../../lib/modes/knowledge';
 import { currentStreak } from '../../lib/scheduler';
 import type { Progress } from '../../lib/types';
-import { access, isRoundMode } from '../../lib/modes/rounds';
-import { Bolt, CallIcon, Flame, GridIcon, LinesIcon, Lock, PaperIcon, PathIcon, TickerIcon } from '../icons';
+import { Bolt, CallIcon, Flame, GridIcon, LinesIcon, PaperIcon, PathIcon, TickerIcon } from '../icons';
 import { useModeAccess } from './modeAccess';
+import { ModePicker, ModeSwitch, statOf, type ModeInfo } from './ModePicker';
 
-export const MODE_INFO: Record<ModeId, { label: string; short?: string; blurb: string; icon: typeof PathIcon }> = {
+export const MODE_INFO: Record<ModeId, ModeInfo> = {
   path: { label: 'Path', blurb: 'Lessons in order, with drills, games and tests.', icon: PathIcon },
   lines: { label: 'Lines', blurb: 'Ride the syllabus as a metro: one line per area, one station per term.', icon: LinesIcon },
   callit: { label: 'Call It', blurb: 'Quick true or false calls on terms you have met.', icon: CallIcon },
@@ -23,64 +23,73 @@ const KPI_HELP: { key: string; text: string }[] = [
   { key: 'Coverage', text: 'Share of open terms you have met at least once, in any mode. The Exchange index is Strength × Coverage × 10.' },
 ];
 
-/** The four shared numbers and the mode switcher, with every mode in it. Same numbers, same words, on every mode. */
+/** The mode switch and the four shared numbers. Same numbers, same words, on every mode. */
 export function ModeBar({ progress, today, mode, onMode }: { progress: Progress; today: string; mode: ModeId; onMode: (m: ModeId) => void }) {
   const k = kpis(progress, today);
   const streak = currentStreak(progress, today);
   const [help, setHelp] = useState(false);
+  const [picking, setPicking] = useState(false);
   const { shown, isOff } = useModeAccess();
+  const close = useCallback(() => setPicking(false), []);
+  const pick = useCallback(
+    (m: ModeId) => {
+      setPicking(false);
+      onMode(m);
+    },
+    [onMode],
+  );
+  const badges = (
+    <>
+      <span className={`num inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-sm font-extrabold ${streak ? 'bg-amber-soft text-amber-ink' : 'bg-sunken text-ink-3'}`} aria-label={`${streak} day streak`} title="Days in a row">
+        <Flame className="h-3.5 w-3.5" />
+        {streak}
+      </span>
+      <span className="num inline-flex items-center gap-1 rounded-full bg-violet-soft px-2.5 py-1 text-sm font-extrabold text-violet-ink" aria-label={`${progress.xp} XP`} title="XP">
+        <Bolt className="h-3.5 w-3.5" />
+        {progress.xp}
+      </span>
+    </>
+  );
+  const share = (n: number) => (k.met ? (n / k.met) * 100 : 0);
   return (
     <div className="space-y-3">
-      {/* Every mode sits in the switcher: three to a row on a phone, all six in one row from a tablet up. */}
-      <nav className="grid grid-cols-3 gap-1 rounded-2xl border border-line bg-surface p-1 shadow-card sm:grid-cols-[repeat(var(--n),minmax(0,1fr))]" style={{ '--n': shown.length } as CSSProperties} aria-label="Modes">
-        {shown.map((m) => {
-          const { label, short, icon: Icon } = MODE_INFO[m];
-          const active = m === mode;
-          // Only the admin ever sees a switched-off mode here, marked so it's clear learners don't.
-          const off = isOff(m);
-          // Headline Desk and Finnections open once a full round only uses terms already met.
-          const gate = isRoundMode(m) ? access(progress, m) : null;
-          const locked = !!gate && !gate.open;
-          const hint = locked ? `${MODE_INFO[m].blurb} Opens after ${gate.gap} more term${gate.gap === 1 ? '' : 's'}.` : MODE_INFO[m].blurb;
-          return (
-            <button
-              key={m}
-              type="button"
-              onClick={() => onMode(m)}
-              aria-current={active ? 'page' : undefined}
-              aria-label={locked ? `${label}, opens after ${gate.gap} more terms` : undefined}
-              title={off ? `${hint} Switched off for learners.` : hint}
-              className={`relative flex min-w-0 items-center justify-center gap-1.5 rounded-xl px-1 py-2 text-[13px] font-extrabold transition sm:text-sm ${active ? 'bg-brand text-white' : 'text-ink-2 hover:bg-sunken'} ${(off || locked) && !active ? 'opacity-60' : ''}`}
-            >
-              {locked ? <Lock className="h-3.5 w-3.5 shrink-0" /> : <Icon className="hidden h-4 w-4 shrink-0 min-[400px]:block" />}
-              <span className="truncate">{short ?? label}</span>
-              {off && <span className="absolute -top-1 right-0.5 rounded bg-ink px-1 text-[9px] font-extrabold uppercase leading-4 tracking-wider text-bg">off</span>}
-            </button>
-          );
-        })}
-      </nav>
-      <button
-        type="button"
-        onClick={() => setHelp((h) => !h)}
-        aria-expanded={help}
-        className="grid w-full grid-cols-[repeat(4,minmax(0,1fr))_auto] items-end gap-2 rounded-2xl px-1 text-left"
-        aria-label="What these numbers mean"
-      >
-        <Kpi label="Known" value={`${k.known}`} sub={`/${k.open}`} />
-        <Kpi label="Due" value={`${k.due}`} tone={k.due > 0 ? 'text-amber-ink' : undefined} />
-        <Kpi label="Strength" value={k.strength.toFixed(1)} />
-        <Kpi label="Coverage" value={`${Math.round(k.coverage * 100)}%`} />
-        <span className="flex flex-col items-end gap-1 self-center sm:flex-row sm:items-center">
-          <span className={`num inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-sm font-extrabold sm:py-1 ${streak ? 'bg-amber-soft text-amber-ink' : 'bg-sunken text-ink-3'}`} aria-label={`${streak} day streak`} title="Days in a row">
-            <Flame className="h-3.5 w-3.5" />
-            {streak}
+      <div className="grid gap-3 lg:grid-cols-[17.5rem_minmax(0,1fr)]">
+        <div className="flex items-center gap-2 lg:items-stretch">
+          <ModeSwitch mode={mode} info={MODE_INFO[mode]} stat={statOf(progress, mode, k)} onOpen={() => setPicking(true)} />
+          <span className="flex shrink-0 flex-col items-end gap-1 lg:hidden">{badges}</span>
+        </div>
+        <button
+          type="button"
+          onClick={() => setHelp((h) => !h)}
+          aria-expanded={help}
+          aria-label="What these numbers mean"
+          className="block w-full rounded-2xl border border-line bg-surface px-4 pb-3 pt-2.5 text-left shadow-card transition hover:border-brand/30"
+        >
+          <span className="grid grid-cols-[repeat(4,minmax(0,1fr))_auto] items-end gap-2">
+            <Kpi label="Known" value={`${k.known}`} sub={`/${k.open}`} />
+            <Kpi label="Due" value={`${k.due}`} tone={k.due > 0 ? 'text-amber-ink' : undefined} />
+            <Kpi label="Strength" value={k.strength.toFixed(1)} />
+            <Kpi label="Coverage" value={`${Math.round(k.coverage * 100)}%`} />
+            <span className="hidden items-center gap-1.5 self-center lg:flex">{badges}</span>
           </span>
-          <span className="num inline-flex items-center gap-1 rounded-full bg-violet-soft px-2.5 py-0.5 text-sm font-extrabold text-violet-ink sm:py-1" aria-label={`${progress.xp} XP`} title="XP">
-            <Bolt className="h-3.5 w-3.5" />
-            {progress.xp}
+          {/* Every met term is exactly one of these three, so the bar always fills. */}
+          <span className="mt-2.5 flex h-2 overflow-hidden rounded-full bg-sunken" role="img" aria-label={`Of ${k.met} terms met: ${k.known} known, ${k.due} due, ${k.learning} learning`}>
+            {k.met > 0 && (
+              <span className="flex h-full w-full origin-left animate-grow gap-[2px]">
+                {k.known > 0 && <span className="h-full rounded-full bg-brand" style={{ width: `${share(k.known)}%` }} />}
+                {k.due > 0 && <span className="h-full rounded-full bg-amber" style={{ width: `${share(k.due)}%` }} />}
+                {k.learning > 0 && <span className="h-full rounded-full bg-brand/30" style={{ width: `${share(k.learning)}%` }} />}
+              </span>
+            )}
           </span>
-        </span>
-      </button>
+          <span className="mt-1.5 flex flex-wrap gap-x-3 gap-y-0.5 text-[11px] font-bold text-ink-3">
+            <Legend dot="bg-brand" n={k.known} label="known" />
+            <Legend dot="bg-amber" n={k.due} label="due" />
+            <Legend dot="bg-brand/30" n={k.learning} label="learning" />
+            <span className="ml-auto hidden sm:inline">of {k.met} met</span>
+          </span>
+        </button>
+      </div>
       {help && (
         <div className="animate-pop space-y-2 rounded-2xl bg-sunken px-4 py-3 text-sm leading-relaxed text-ink-2">
           {KPI_HELP.map((h) => (
@@ -91,7 +100,17 @@ export function ModeBar({ progress, today, mode, onMode }: { progress: Progress;
           <p className="text-ink-3">These are the same in every mode, because every mode reads and writes the same record of what you know.</p>
         </div>
       )}
+      {picking && <ModePicker progress={progress} k={k} modes={shown} current={mode} info={MODE_INFO} isOff={isOff} onPick={pick} onClose={close} />}
     </div>
+  );
+}
+
+function Legend({ dot, n, label }: { dot: string; n: number; label: string }) {
+  return (
+    <span className="inline-flex items-center gap-1">
+      <span className={`h-2 w-2 rounded-full ${dot}`} />
+      <span className="num font-mono text-ink-2">{n}</span> {label}
+    </span>
   );
 }
 
