@@ -429,7 +429,7 @@ export default function App() {
     case 'glossary':
       return (
         <WithTabs tab="glossary" onTab={onTab}>
-          <Glossary progress={progress} initialQuery={screen.q} />
+          <Glossary progress={progress} initialQuery={screen.q} onOpenUnit={setOverlay} />
         </WithTabs>
       );
     case 'guide':
@@ -509,7 +509,7 @@ export default function App() {
       );
   }
   })();
-  const overlayFrom = screen.name === 'careers' || screen.name === 'guide' ? screen : null;
+  const overlayFrom = screen.name === 'careers' || screen.name === 'guide' || screen.name === 'glossary' ? screen : null;
   // Starting something from the sheet remembers this screen, so finishing or quitting comes back here.
   const fromOverlay = (f: () => void) => () => {
     setOrigin(overlayFrom);

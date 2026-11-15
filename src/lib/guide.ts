@@ -4,13 +4,15 @@
  * and aliases, unit and area names, career roles and a short list of help
  * topics, and a few sentence patterns read the intent ("what is", "teach me",
  * "I know", "where do I start"). Phase 3 content stays hidden until it opens.
+ *
+ * Matching needs every term's name, so it runs in the Worker (worker/terms.ts), the tests and
+ * `npm run dev`, never in the app: the app sends each message there (src/lib/guideApp.ts).
  */
-import careerData from '../data/careers.json';
-import { categories, categoryOfUnit, isPhase3Area, termById } from './content';
-import { phase3Open } from './phase3';
-import type { CareerMap, Progress } from './types';
+import { categories } from './content';
+import { careers, replyFor as replyWith } from './guideReply';
+import type { Progress } from './types';
 
-export const careers = careerData as CareerMap;
+export { careers, STARTERS } from './guideReply';
 
 /** What the learner seems to want: a definition, a lesson, a test, or no clear ask. */
 export type Intent = 'define' | 'teach' | 'know' | 'any';
@@ -422,30 +424,9 @@ function subject(t: string): string {
 // ---------------------------------------------------------------------------
 // Answering
 
-function phase3Unit(target: Target): string | null {
-  if (target.kind === 'term') {
-    const t = termById.get(target.id);
-    return t && isPhase3Area(categoryOfUnit(t.unit)?.id ?? '') ? t.unit : null;
-  }
-  if (target.kind === 'unit') return isPhase3Area(categoryOfUnit(target.id)?.id ?? '') ? target.id : null;
-  if (target.kind === 'area' && isPhase3Area(target.id)) return categories.find((c) => c.id === target.id)!.units[0].id;
-  return null;
-}
-
-/** The reply for one thing the learner named. */
+/** The reply for one thing the learner named, called by the name the matcher knows it by. */
 export function replyFor(target: Target, intent: Intent, p: Progress): Reply {
-  const locked = phase3Unit(target);
-  if (locked && !phase3Open(p)) return { kind: 'locked3', name: entryOf.get(KEY(target))?.label ?? '', unitId: locked };
-  switch (target.kind) {
-    case 'term':
-      return intent === 'teach' ? { kind: 'unit', unitId: termById.get(target.id)!.unit, intent, termId: target.id } : intent === 'know' ? { kind: 'area', categoryId: categoryOfUnit(termById.get(target.id)!.unit)!.id, intent } : { kind: 'term', termId: target.id, intent };
-    case 'unit':
-      return intent === 'know' ? { kind: 'area', categoryId: categoryOfUnit(target.id)!.id, intent } : { kind: 'unit', unitId: target.id, intent };
-    case 'area':
-      return { kind: 'area', categoryId: target.id, intent };
-    case 'role':
-      return { kind: 'role', roleId: target.id };
-  }
+  return replyWith(target, intent, p, entryOf.get(KEY(target))?.label ?? '');
 }
 
 function choose(matches: Match[], intent: Intent, p: Progress, query: string): Reply {
@@ -531,4 +512,3 @@ export function helpTopic(id: string): HelpTopic | undefined {
 }
 
 /** Ideas to show before the first message. */
-export const STARTERS = ['Where do I start?', 'What is theta?', 'Teach me order types', 'I already know options', 'Prepare me for quant interviews', 'How do I back up my progress?'];

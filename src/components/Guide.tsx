@@ -2,7 +2,9 @@ import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'rea
 import { areaOpen, canTakeTest, unitOpen } from '../lib/choose';
 import { areaSize, caseSummary, categories, categoryOfUnit, isPracticeUnit, metInUnit, practiceKind, termById, unitById, unitLeft, unitSize } from '../lib/content';
 import { drillPassed } from '../lib/drills';
-import { answer, careers, replyFor, STARTERS, type HelpAction, type Intent, type Reply, type Target } from '../lib/guide';
+import type { HelpAction, Intent, Reply, Target } from '../lib/guide';
+import { askGuide } from '../lib/guideApp';
+import { careers, replyFor, STARTERS } from '../lib/guideReply';
 import { todayStatus } from '../lib/lesson';
 import { KIND_LABEL } from '../lib/practice';
 import { firstName } from '../lib/profile';
@@ -53,11 +55,24 @@ export function Guide({ progress, today, log, onLog, onOpenUnit, onFocus, onTest
     const id = nextId();
     onLog([...log, { id, from: 'you', text: you }, { id: id + 1, from: 'guide', reply }]);
   };
+  // A message is read by the server, which knows every term; the reply comes back in a moment.
+  const [asking, setAsking] = useState(false);
+  const ask = async (q: string) => {
+    if (asking) return;
+    setAsking(true);
+    try {
+      say(q, await askGuide(q, progress));
+    } catch (err) {
+      say(q, { kind: 'text', text: err instanceof Error ? err.message : 'Something went wrong. Try again in a moment.' });
+    } finally {
+      setAsking(false);
+    }
+  };
   const send = (e?: FormEvent) => {
     e?.preventDefault();
     const q = text.trim();
     if (!q) return;
-    say(q, answer(q, progress));
+    void ask(q);
     setText('');
   };
   const act: Actions = {
@@ -88,7 +103,7 @@ export function Guide({ progress, today, log, onLog, onOpenUnit, onFocus, onTest
           {log.length === 0 && (
             <div className="mt-3 flex flex-wrap gap-2">
               {STARTERS.map((s) => (
-                <Chip key={s} onClick={() => say(s, answer(s, progress))}>
+                <Chip key={s} onClick={() => void ask(s)}>
                   {s}
                 </Chip>
               ))}
@@ -103,6 +118,11 @@ export function Guide({ progress, today, log, onLog, onOpenUnit, onFocus, onTest
           ) : (
             <Bubble key={m.id}>{m.reply && <ReplyView reply={m.reply} progress={progress} today={today} act={act} />}</Bubble>
           ),
+        )}
+        {asking && (
+          <Bubble>
+            <p className="text-ink-3">Looking that up…</p>
+          </Bubble>
         )}
         <div ref={end} className="scroll-mb-44" />
       </div>
