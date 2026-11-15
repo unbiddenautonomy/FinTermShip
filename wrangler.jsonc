@@ -25,6 +25,18 @@
       "database_id": "cbfac63f-79b0-4fcf-83ca-90541458b658"
     }
   ],
-  // Pull request builds run `wrangler preview`, which needs this block. Empty means previews use the settings above.
-  "previews": {}
+  // Pull request builds run `wrangler preview`, which reads only this block: settings above don't carry over.
+  // Previews get a database of their own, so testing a pull request never touches learners' accounts.
+  "previews": {
+    "vars": {
+      "OWNER_EMAIL": "workiket@gmail.com"
+    },
+    "d1_databases": [
+      {
+        "binding": "DB",
+        "database_name": "fintermship-preview",
+        "database_id": "dec99ed8-c1ec-440f-8c14-dd3bd1b5b62a"
+      }
+    ]
+  }
 }

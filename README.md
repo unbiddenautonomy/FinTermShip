@@ -130,6 +130,6 @@ The app is served by a Cloudflare Worker named `fintermship`. `wrangler.jsonc` t
 
 1. In the Cloudflare dashboard, go to **Workers & Pages**, then **Create**, then **Import a repository**, and pick this repository.
 2. Keep the defaults: Cloudflare reads `wrangler.jsonc`, so the build and deploy commands can stay as suggested (`npm run build`, `npx wrangler deploy`).
-3. Every push to `main` publishes a new version. Other branches and pull requests get a preview from `npx wrangler preview`, which needs the `previews` block in `wrangler.jsonc` (empty means it uses the same settings).
+3. Every push to `main` publishes a new version. Other branches and pull requests get a preview from `npx wrangler preview`, which reads the `previews` block in `wrangler.jsonc`. Previews use their own database, `fintermship-preview`, so their accounts and progress are separate from the live site's: sign up once there with the owner email to get the admin account.
 
 To check the config locally without publishing: `npx wrangler versions upload --dry-run`.
