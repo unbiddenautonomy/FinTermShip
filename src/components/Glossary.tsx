@@ -1,23 +1,43 @@
-import { useMemo, useState, type ReactNode } from 'react';
-import { areaSize, categories as allCategories, glossOrUnit, hasCard, isCore, isPhase3Area } from '../lib/content';
+import { useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from 'react';
+import { areaSize, categories as allCategories, getCardsVersion, glossOrUnit, hasCard, isCore, isPhase3Area, subscribeCards } from '../lib/content';
 import { phase3Open } from '../lib/phase3';
+import { SEARCH_MIN, searchAll } from '../lib/terms';
 import { areas } from '../lib/modes/status';
 import type { Progress, Term } from '../lib/types';
 import { ChevronDown, Search } from './icons';
-import { Pill, SpeakButton, StepDots, TermDetails } from './ui';
+import { Button, Pill, SpeakButton, StepDots, TermDetails } from './ui';
 import { useTermCards } from './useCards';
 
 type Filter = 'all' | 'met' | 'trouble';
 
-export function Glossary({ progress, initialQuery = '' }: { progress: Progress; initialQuery?: string }) {
+export function Glossary({ progress, initialQuery = '', onOpenUnit }: { progress: Progress; initialQuery?: string; onOpenUnit: (unitId: string) => void }) {
   // Drill-only areas have no terms to look up, and phase 3 stays hidden until it's open.
   const open3 = phase3Open(progress);
-  const categories = useMemo(() => allCategories.filter((c) => c.terms.length > 0 && (open3 || !isPhase3Area(c.id))), [open3]);
+  const categories = useMemo(() => allCategories.filter((c) => areaSize(c.id) > 0 && (open3 || !isPhase3Area(c.id))), [open3]);
+  // Terms arrive while the glossary is open (a search, a lesson's names): redraw with them.
+  const version = useSyncExternalStore(subscribeCards, getCardsVersion);
   const [query, setQuery] = useState(initialQuery);
   const [cat, setCat] = useState<string>('all');
   const [filter, setFilter] = useState<Filter>('all');
   const [open, setOpen] = useState<string | null>(null);
   const q = query.trim().toLowerCase();
+  // The app knows only the terms the learner has reached. Typing a name asks the server, which
+  // sends up to 8 matching names from the whole syllabus; they join the list below.
+  const [found, setFound] = useState<{ q: string; more: boolean; error?: string } | null>(null);
+  useEffect(() => {
+    if (q.replace(/[^a-z0-9]/g, '').length < SEARCH_MIN) return;
+    let live = true;
+    const t = setTimeout(() => {
+      searchAll(q)
+        .then((r) => live && setFound({ q, more: r.more }))
+        .catch((e: unknown) => live && setFound({ q, more: false, error: e instanceof Error ? e.message : 'Search is not available right now.' }));
+    }, 350);
+    return () => {
+      live = false;
+      clearTimeout(t);
+    };
+  }, [q]);
+  const searching = q.replace(/[^a-z0-9]/g, '').length >= SEARCH_MIN && found?.q !== q;
 
   const groups = useMemo(
     () =>
@@ -39,7 +59,8 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
             })
             .sort((a, b) => a.term.localeCompare(b.term)),
         })),
-    [categories, q, cat, filter, progress.terms],
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- `version` changes as terms arrive in the lists read here.
+    [categories, q, cat, filter, progress.terms, version],
   );
   // Each area is a titled section, shut until tapped. Searching, or picking one area, opens what matches.
   const [expanded, setExpanded] = useState<Set<string>>(() => new Set());
@@ -65,8 +86,9 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
       <div className="min-w-0">
       <div className="mb-4 flex items-baseline justify-between">
         <h1 className="text-2xl font-display font-semibold tracking-tight text-ink">Glossary</h1>
-        <span className="num text-sm font-semibold text-ink-3">{categories.reduce((n, c) => n + c.terms.length, 0)} terms</span>
+        <span className="num text-sm font-semibold text-ink-3">{categories.reduce((n, c) => n + areaSize(c.id), 0)} terms</span>
       </div>
+      <p className="-mt-2 mb-4 text-sm text-ink-3">Terms you've met or looked up are listed here. Search by name to find any other.</p>
 
       {/* Only this compact bar stays put; the term list scrolls with the whole page. The area chips scroll sideways on one row. */}
       <div className="sticky top-0 z-20 -mx-4 space-y-2 bg-bg/95 px-4 pb-2 pt-1 backdrop-blur lg:mx-0 lg:px-0">
@@ -78,7 +100,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
               id="glossary-search"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
-              placeholder="Search terms, aliases or meanings"
+              placeholder="Search any term by name"
               aria-label="Search terms"
               className="w-full bg-transparent text-base text-ink outline-none placeholder:text-ink-3"
             />
@@ -116,7 +138,11 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
         </div>
       </div>
 
-      {shown === 0 && <p className="mt-10 text-center text-ink-3">{filter === 'all' ? 'No terms match.' : filter === 'met' ? 'No terms met yet in this view.' : 'Nothing needs work here. Nice.'}</p>}
+      {q && q.replace(/[^a-z0-9]/g, '').length < SEARCH_MIN && <p className="mt-3 px-1 text-sm text-ink-3">Type {SEARCH_MIN} letters or more to search every term, not just the ones you've met.</p>}
+      {searching && <p className="mt-3 px-1 text-sm text-ink-3">Searching every term…</p>}
+      {found?.q === q && found.error && <p className="mt-3 px-1 text-sm font-semibold text-bad-ink">{found.error}</p>}
+      {found?.q === q && found.more && <p className="mt-3 px-1 text-sm text-ink-3">More terms match. Type more of the name to narrow it down.</p>}
+      {shown === 0 && !searching && <p className="mt-10 text-center text-ink-3">{filter === 'all' ? 'No terms match.' : filter === 'met' ? 'No terms met yet in this view.' : 'Nothing needs work here. Nice.'}</p>}
 
       {groups.map(({ cat: c, terms }) =>
         terms.length ? (
@@ -168,7 +194,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
                     </button>
                     {expanded && (
                       <div className="bg-sunken/40 px-4 pb-5 pt-3 lg:hidden">
-                        <TermBody term={t} progress={progress} />
+                        <TermBody term={t} progress={progress} onOpenUnit={onOpenUnit} />
                       </div>
                     )}
                   </li>
@@ -185,7 +211,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
         {openTerm ? (
           <>
             <h2 className="mb-4 text-2xl font-extrabold tracking-tight text-ink">{openTerm.term}</h2>
-            <TermBody term={openTerm} progress={progress} />
+            <TermBody term={openTerm} progress={progress} onOpenUnit={onOpenUnit} />
           </>
         ) : (
           <p className="py-16 text-center text-ink-3">Pick a term to see what it means, how it is used, and how well you know it.</p>
@@ -209,7 +235,7 @@ function Chip({ active, onClick, children }: { active: boolean; onClick: () => v
 }
 
 /** What a term card shows when opened: inline on a phone, in the side pane on a laptop. */
-function TermBody({ term: t, progress }: { term: Term; progress: Progress }) {
+function TermBody({ term: t, progress, onOpenUnit }: { term: Term; progress: Progress; onOpenUnit: (unitId: string) => void }) {
   const s = progress.terms[t.id];
   return (
     <div className="space-y-4">
@@ -223,6 +249,11 @@ function TermBody({ term: t, progress }: { term: Term; progress: Progress }) {
         </div>
       )}
       <TermDetails term={t} met={!!s} showExamples={3} />
+      {!s && (
+        <Button variant="secondary" className="w-full" onClick={() => onOpenUnit(t.unit)}>
+          Open its unit
+        </Button>
+      )}
       {s && (
         <div className="flex flex-wrap items-center gap-2 text-xs text-ink-3">
           <Pill tone={s.step >= 4 ? 'brand' : 'sky'}>Step {s.step} of 6</Pill>
