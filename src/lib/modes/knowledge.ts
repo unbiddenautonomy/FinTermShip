@@ -3,7 +3,7 @@
  * Desk and Finnections all read the same per-term record (Progress.terms) and write to it only through
  * recordAnswer, so what you know is the same whichever mode you open.
  */
-import { categories, isCore, isPhase3Area } from '../content';
+import { areaSize, categories, isCore, isPhase3Area } from '../content';
 import { addDays, daysBetween } from '../dates';
 import { phase3Open } from '../phase3';
 import { intervalFor, isDueOn, isKnownOn, KNOWN_STEP, MAX_STEP, recordPractice, review } from '../scheduler';
@@ -172,10 +172,16 @@ export function strength(s: TermState | undefined, today: string, core = false):
   return Math.max(STRENGTH_FLOOR, Math.round(held * Math.pow(2, -overdue / halfLife)));
 }
 
-/** Term ids the learner can reach now: everything outside phase 3, and phase 3 once it is open. */
+/** Known term ids the learner can reach now: everything outside phase 3, and phase 3 once it is open. Met terms are always known. */
 export function openTermIds(p: Progress): string[] {
   const open3 = phase3Open(p);
   return categories.filter((c) => open3 || !isPhase3Area(c.id)).flatMap((c) => c.terms.map((t) => t.id));
+}
+
+/** How many terms the learner can reach now, known or not. */
+export function openCount(p: Progress): number {
+  const open3 = phase3Open(p);
+  return categories.filter((c) => open3 || !isPhase3Area(c.id)).reduce((n, c) => n + areaSize(c.id), 0);
 }
 
 export interface Kpis {
@@ -196,6 +202,7 @@ export interface Kpis {
 /** The four shared numbers. Every mode shows exactly these, read from the same record. */
 export function kpis(p: Progress, today: string): Kpis {
   const open = openTermIds(p);
+  const reach = openCount(p);
   let known = 0;
   let due = 0;
   let met = 0;
@@ -210,12 +217,12 @@ export function kpis(p: Progress, today: string): Kpis {
   }
   return {
     known,
-    open: open.length,
+    open: reach,
     due,
     learning: met - known - due,
     strength: met ? Math.round((total / met) * 10) / 10 : 0,
     met,
-    coverage: open.length ? met / open.length : 0,
+    coverage: reach ? met / reach : 0,
   };
 }
 
@@ -223,7 +230,7 @@ export function kpis(p: Progress, today: string): Kpis {
 export function areaKpis(p: Progress, today: string) {
   const open3 = phase3Open(p);
   return categories
-    .filter((c) => c.terms.length > 0 && (open3 || !isPhase3Area(c.id)))
+    .filter((c) => areaSize(c.id) > 0 && (open3 || !isPhase3Area(c.id)))
     .map((c) => {
       let met = 0;
       let known = 0;
@@ -237,7 +244,7 @@ export function areaKpis(p: Progress, today: string) {
         else if (isKnownOn(s, today)) known++;
         total += strength(s, today, isCore(t.id));
       }
-      return { id: c.id, name: c.name, terms: c.terms.length, met, known, due, strength: met ? Math.round((total / met) * 10) / 10 : 0 };
+      return { id: c.id, name: c.name, terms: areaSize(c.id), met, known, due, strength: met ? Math.round((total / met) * 10) / 10 : 0 };
     });
 }
 

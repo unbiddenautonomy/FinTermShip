@@ -1,18 +1,18 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { areaCoreTermIds, canTakeTest, focusActive, focusQueue, unitOpen } from '../lib/choose';
-import { hasCard, isPhase3Area, isQuantArea, practiceKind, termById, unitById } from '../lib/content';
+import { areaCoreSize, canTakeTest, focusActive, focusLeft, unitOpen } from '../lib/choose';
+import { hasCard, isPhase3Area, isQuantArea, practiceKind, termById, unitById, unitSize } from '../lib/content';
 import { weakSpots, WEAK_MIN } from '../lib/weak';
 import { gameSpec } from '../lib/games';
 import { addDays, daysBetween } from '../lib/dates';
 import { todayStatus } from '../lib/lesson';
-import { PHASE3, phase3Open, reachableTermIds } from '../lib/phase3';
+import { PHASE3, phase3Open, reachableCount } from '../lib/phase3';
 import { KIND_LABEL, passRule, practiceAbout, recordLine, roundSize } from '../lib/practice';
 import { dayStats, isKnown } from '../lib/scheduler';
 import { comma, mocksReady, targetRole } from '../lib/profile';
 import { currentUnit, isDrill, track, unitDone, type PathRow } from '../lib/track';
 import type { Progress } from '../lib/types';
-import { Briefcase, Calculator, Check, Cross, Dice, Flame, Lock } from './icons';
+import { Briefcase, Calculator, Check, ChevronDown, Cross, Dice, Flame, Lock } from './icons';
 import { AboutYou } from './AboutYou';
 import { Phase3Gate } from './Phase3Gate';
 import { Bar, Button, Card, Pill, Ring, SectionTitle, StepDots } from './ui';
@@ -264,7 +264,7 @@ function pathRows(progress: Progress): Row[] {
   return track(progress).map((r, i) => {
     const met = r.terms.filter((t) => progress.terms[t.id]).length;
     const known = r.terms.filter((t) => isKnown(progress.terms[t.id])).length;
-    return { ...r, i, met, known, total: r.terms.length, open: unitOpen(progress, r.unit.id), drill: isDrill(r), done: unitDone(progress, r) };
+    return { ...r, i, met, known, total: unitSize(r.unit.id), open: unitOpen(progress, r.unit.id), drill: isDrill(r), done: unitDone(progress, r) };
   });
 }
 
@@ -280,14 +280,13 @@ function LearningPath({ progress, today, onOpen, gate }: { progress: Progress; t
   const currentIdx = currentIndex(progress, rows, today);
   const picked = currentIdx >= 0 && rows[currentIdx].unit.id === progress.focus;
   const done = rows.filter((r) => r.done).length;
-  const reachable = reachableTermIds(progress);
-  const metTotal = reachable.filter((id) => progress.terms[id]).length;
+  const reachable = reachableCount(progress);
 
   if (!full) {
     const shown = [rows[currentIdx], ...rows.filter((r) => !r.done && r.i !== currentIdx).slice(0, 2)].filter(Boolean);
     return (
       <section>
-        <SectionTitle aside={`${metTotal} of ${reachable.length} terms met`}>Your path</SectionTitle>
+        <SectionTitle aside={`${reachable.met} of ${reachable.total} terms met`}>Your path</SectionTitle>
         <p className="-mt-1 mb-3 px-1 text-sm text-ink-2">
           {done > 0 ? `${done} of ${rows.length} units done. ` : ''}Tap a unit to see what's in it, practise it, or do it next.
           {progress.settings.quantFirst ? ' Quant areas come first.' : ''}
@@ -341,35 +340,82 @@ function LearningPath({ progress, today, onOpen, gate }: { progress: Progress; t
       ];
 
   return (
-    <div className="space-y-6">
-      {sections.map((sec, n) => {
-        const secDone = sec.rows.filter((r) => r.done).length;
-        return (
-          <section key={sec.key}>
-            <SectionTitle aside={`${secDone} of ${sec.rows.length} units done`}>{sec.title}</SectionTitle>
-            <p className="-mt-1 mb-3 px-1 text-sm text-ink-2">{sec.note}</p>
-            {n === 0 && <Bar value={secDone} max={sec.rows.length} className="mb-4 h-1.5" label={`${sec.title} progress`} />}
-            {sec.key === 'p3' && !open3 && <div className="mb-4">{gate}</div>}
-            <ol>
-              {sec.rows.map((r, k) => (
-                <PathStop
-                  key={r.unit.id}
-                  r={r}
-                  progress={progress}
-                  current={r.i === currentIdx}
-                  picked={picked && r.i === currentIdx}
-                  last={k === sec.rows.length - 1}
-                  onOpen={onOpen}
-                />
-              ))}
-            </ol>
-          </section>
-        );
-      })}
+    <div className="space-y-3">
+      {sections.map((sec) => (
+        <PathSection key={sec.key} sec={sec} progress={progress} currentIdx={currentIdx} picked={picked} onOpen={onOpen} gate={sec.key === 'p3' && !open3 ? gate : null} />
+      ))}
       <Button variant="secondary" className="w-full" onClick={() => setFull(false)}>
         Show less
       </Button>
     </div>
+  );
+}
+
+/** Units a path section shows at a time; Show more adds as many again. */
+const UNITS_SHOWN = 15;
+
+/**
+ * One section of the full path: a title that opens it, then its units a page at a time. The section
+ * holding the learner's current unit starts open, with enough shown to include it.
+ */
+function PathSection({
+  sec,
+  progress,
+  currentIdx,
+  picked,
+  onOpen,
+  gate,
+}: {
+  sec: { key: string; title: string; note: string; rows: Row[] };
+  progress: Progress;
+  currentIdx: number;
+  picked: boolean;
+  onOpen: (unitId: string) => void;
+  gate: ReactNode;
+}) {
+  const here = sec.rows.findIndex((r) => r.i === currentIdx);
+  const [open, setOpen] = useState(here >= 0);
+  const [count, setCount] = useState(() => Math.max(UNITS_SHOWN, Math.ceil((here + 1) / UNITS_SHOWN) * UNITS_SHOWN));
+  const secDone = sec.rows.filter((r) => r.done).length;
+  const rows = sec.rows.slice(0, count);
+  const left = sec.rows.length - rows.length;
+  return (
+    <section id={`path-${sec.key}`} className="scroll-mt-4">
+      <button
+        type="button"
+        onClick={() => {
+          setOpen(!open);
+          if (!open) requestAnimationFrame(() => document.getElementById(`path-${sec.key}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
+        }}
+        aria-expanded={open}
+        className="w-full rounded-2xl border border-line bg-surface px-4 py-3 text-left shadow-card transition hover:bg-sunken/60"
+      >
+        <span className="flex items-baseline justify-between gap-3">
+          <span className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">{sec.title}</span>
+          <span className="flex items-center gap-2 text-xs font-semibold text-ink-3">
+            {secDone} of {sec.rows.length} units done
+            <ChevronDown className={`h-4 w-4 shrink-0 transition ${open ? 'rotate-180' : ''}`} />
+          </span>
+        </span>
+        <Bar value={secDone} max={sec.rows.length} className="mt-2 h-1.5" label={`${sec.title} progress`} />
+      </button>
+      {open && (
+        <div className="mt-3">
+          <p className="mb-3 px-1 text-sm text-ink-2">{sec.note}</p>
+          {gate && <div className="mb-4">{gate}</div>}
+          <ol>
+            {rows.map((r, k) => (
+              <PathStop key={r.unit.id} r={r} progress={progress} current={r.i === currentIdx} picked={picked && r.i === currentIdx} last={k === rows.length - 1} onOpen={onOpen} />
+            ))}
+          </ol>
+          {left > 0 && (
+            <Button variant="secondary" className="mt-1 w-full" onClick={() => setCount(count + UNITS_SHOWN)}>
+              Show {Math.min(left, UNITS_SHOWN)} more ({left} left)
+            </Button>
+          )}
+        </div>
+      )}
+    </section>
   );
 }
 
@@ -660,10 +706,12 @@ function UnitSheet({
   if (!r) return null;
   const area = r.category;
   const isCurrent = currentIndex(progress, rows, today) === r.i;
-  const picked = progress.focus === unitId && focusQueue(progress).length > 0;
+  const picked = progress.focus === unitId && focusLeft(progress) > 0;
   const unmetHere = r.total - r.met;
-  const before = Math.max(0, focusQueue(progress, unitId).length - unmetHere);
-  const coreCount = areaCoreTermIds(area.id).length;
+  const before = Math.max(0, focusLeft(progress, unitId) - unmetHere);
+  const coreCount = areaCoreSize(area.id);
+  // The app knows a term's name once it has been reached; the rest are only counted.
+  const unknown = r.total - r.terms.length;
   const attempt = progress.tests?.[area.id];
   const testReady = canTakeTest(progress, area.id, today);
   // Phase 3 stays closed until it's opened, so its term list stays hidden too.
@@ -740,6 +788,12 @@ function UnitSheet({
               </li>
             );
           })}
+          {unknown > 0 && (
+            <li className="px-4 py-2.5 text-sm font-semibold text-ink-3">
+              {r.terms.length ? `${unknown} more to learn` : `${unknown} term${unknown === 1 ? '' : 's'} to learn`}
+              {r.open ? '. Each one shows here once a lesson teaches it.' : '.'}
+            </li>
+          )}
         </ul>
       )}
     </Sheet>

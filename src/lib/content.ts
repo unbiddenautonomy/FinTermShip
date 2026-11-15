@@ -1,27 +1,106 @@
-import outline from '../data/outline.json';
-import { CARD_FIELDS, type Card, type Category, type PracticeKind, type TalkItem, type Term, type Unit, type WrittenClaim } from './types';
+import skeleton from '../data/skeleton.json';
+import { CARD_FIELDS, type Card, type Category, type PracticeKind, type Progress, type TalkItem, type Term, type TermStub, type Unit, type WrittenClaim } from './types';
 
 /**
- * The syllabus as the app ships it: areas, units and each term's name, from
- * src/data/outline.json. What a term means, its examples and its questions
- * come on its card, which the server sends once the learner reaches the term
- * (src/lib/cards.ts). Until then the term's text fields are empty and
- * `hasCard` is false.
+ * The syllabus as the app knows it. The app ships with a skeleton only
+ * (src/data/skeleton.json): areas and units, and how many terms each unit has.
+ * A term's name comes from the server once the learner reaches it (`addTerms`,
+ * from src/lib/terms.ts), and what it means, its examples and its questions on
+ * its card (src/lib/cards.ts). So the app's files never list the syllabus.
+ *
+ * The Worker and the tests load every term at once (src/lib/syllabus.ts), so the
+ * same code reads the whole syllabus there. Code the app runs must not need a
+ * term it hasn't been given: it counts with `unitSize` instead of listing terms.
  */
 const blankBody = () => ({ short: '', definition: '', examples: [] as string[], fill: '', wrong: [] as string[] });
 
-export const categories: Category[] = (outline.categories as unknown as Category[]).map((c) => ({ ...c, terms: c.terms.map((t) => ({ ...blankBody(), ...t }) as Term) }));
+export const categories: Category[] = (skeleton.categories as unknown as Omit<Category, 'terms'>[]).map((c) => ({ ...c, terms: [] }));
 
 export const termById = new Map<string, Term>();
 export const unitById = new Map<string, Unit & { categoryId: string }>();
 export const categoryOfTerm = new Map<string, Category>();
+/** Each unit's known terms, in teaching order. The path's rows share these lists. */
+const unitTerms = new Map<string, Term[]>();
+/** A term's place in its area, for keeping teaching order as terms arrive. */
+const place = new Map<string, number>();
 
 for (const cat of categories) {
-  for (const u of cat.units) unitById.set(u.id, { ...u, categoryId: cat.id });
-  for (const t of cat.terms) {
+  for (const u of cat.units) {
+    unitById.set(u.id, { ...u, categoryId: cat.id });
+    unitTerms.set(u.id, []);
+  }
+}
+
+/** How many terms a unit has, whether or not the app knows them yet. 0 for a drill, game or case. */
+export function unitSize(unitId: string): number {
+  return unitById.get(unitId)?.size ?? 0;
+}
+
+/** How many terms an area has, whether or not the app knows them yet. */
+export function areaSize(categoryId: string): number {
+  return categories.find((c) => c.id === categoryId)?.units.reduce((n, u) => n + (u.size ?? 0), 0) ?? 0;
+}
+
+/**
+ * How many of a unit's terms the learner has met. Every met term is known (the app is given the
+ * learner's met terms at sign-in), so this counts right in the app as on the server.
+ */
+export function metInUnit(p: Progress, unitId: string): number {
+  return (unitTerms.get(unitId) ?? []).filter((t) => p.terms[t.id]).length;
+}
+
+/** How many of a unit's terms are still to meet. */
+export function unitLeft(p: Progress, unitId: string): number {
+  return Math.max(0, unitSize(unitId) - metInUnit(p, unitId));
+}
+
+const byPlace = (a: Term, b: Term) => place.get(a.id)! - place.get(b.id)!;
+
+/**
+ * Learn these terms' names, units and mix-ups. A term already known keeps its card, and takes
+ * the new mix-ups (the server lists only terms the learner has reached, so they grow).
+ */
+export function addTerms(stubs: TermStub[]): void {
+  let changed = false;
+  const touched = new Set<Term[]>();
+  for (const s of stubs) {
+    const unit = unitById.get(s.unit);
+    if (!unit) continue;
+    const { n, ...fields } = s;
+    const old = termById.get(s.id);
+    if (old) {
+      old.confusables = fields.confusables;
+      if (fields.near) old.near = fields.near;
+      changed = true;
+      continue;
+    }
+    const t = { ...blankBody(), ...fields } as Term;
+    const cat = categories.find((c) => c.id === unit.categoryId)!;
+    place.set(t.id, n);
     termById.set(t.id, t);
     categoryOfTerm.set(t.id, cat);
+    cat.terms.push(t);
+    unitTerms.get(unit.id)!.push(t);
+    touched.add(cat.terms).add(unitTerms.get(unit.id)!);
+    changed = true;
   }
+  for (const list of touched) list.sort(byPlace);
+  if (changed) {
+    cardsVersion++;
+    for (const f of cardListeners) f();
+  }
+}
+
+/** Forget every term and card (signing in as someone else on this device). */
+export function clearTerms(): void {
+  clearCards();
+  termById.clear();
+  categoryOfTerm.clear();
+  place.clear();
+  for (const c of categories) c.terms.length = 0;
+  for (const list of unitTerms.values()) list.length = 0;
+  cardsVersion++;
+  for (const f of cardListeners) f();
 }
 
 /** Areas the quant switch opens and moves to the front of the path, in this order. */
@@ -143,7 +222,7 @@ export function talkTerms(i: TalkItem): string[] {
 }
 
 /** What a case's unit sheet shows before it starts: its setup (not for phase 3) and how many decisions it has. */
-export const caseSummary = new Map<string, { setup?: string; steps: number }>(Object.entries((outline as { cases: Record<string, { setup?: string; steps: number }> }).cases));
+export const caseSummary = new Map<string, { setup?: string; steps: number }>(Object.entries((skeleton as { cases: Record<string, { setup?: string; steps: number }> }).cases));
 
 export function isCore(termId: string): boolean {
   const t = termById.get(termId);
@@ -161,17 +240,24 @@ for (const pass of [1, 2, 3] as const) {
     if ((cat.phase === 3) !== (pass === 3)) continue;
     for (const unit of cat.units) {
       if (pass !== 3 && unit.core !== (pass === 1)) continue;
-      path.push({ unit, category: cat, pass, terms: cat.terms.filter((t) => t.unit === unit.id) });
+      path.push({ unit, category: cat, pass, terms: unitTerms.get(unit.id)! });
     }
   }
 }
 
-export const pathTermIds: string[] = path.flatMap((p) => p.terms.map((t) => t.id));
+/** Every known term in path order. In the app, only the terms the learner has been given. */
+export function pathTermIds(): string[] {
+  return path.flatMap((p) => p.terms.map((t) => t.id));
+}
 
-/** Terms of passes 1 and 2: everything a learner can reach without opening phase 3. */
-export const mainTermIds: string[] = path.filter((p) => p.pass !== 3).flatMap((p) => p.terms.map((t) => t.id));
+/** Known terms of passes 1 and 2: everything a learner can reach without opening phase 3. */
+export function mainTermIds(): string[] {
+  return path.filter((p) => p.pass !== 3).flatMap((p) => p.terms.map((t) => t.id));
+}
 
-export const coreTermIds: string[] = path.filter((p) => p.pass === 1).flatMap((p) => p.terms.map((t) => t.id));
+export function coreTermIds(): string[] {
+  return path.filter((p) => p.pass === 1).flatMap((p) => p.terms.map((t) => t.id));
+}
 
 /** A unit's term ids in teaching order. */
 export function termIdsOfUnit(unitId: string): string[] {

@@ -1,5 +1,5 @@
 /** Numbers for the Progress screen. Everything here is read from Progress; nothing is stored. */
-import { categories, isPhase3Area, practiceKind, unitById } from './content';
+import { areaSize, categories, isPhase3Area, practiceKind, unitById } from './content';
 import { addDays, daysBetween } from './dates';
 import { phase3Open } from './phase3';
 import { isKnown, isKnownOn } from './scheduler';
@@ -22,9 +22,9 @@ export interface AreaStat {
 export function areaStats(p: Progress, today?: string): AreaStat[] {
   const open3 = phase3Open(p);
   return categories
-    .filter((c) => c.terms.length > 0 && (open3 || !isPhase3Area(c.id)))
+    .filter((c) => areaSize(c.id) > 0 && (open3 || !isPhase3Area(c.id)))
     .map((c) => {
-      const s = { id: c.id, name: c.name, total: c.terms.length, met: 0, known: 0, right: 0, wrong: 0 };
+      const s = { id: c.id, name: c.name, total: areaSize(c.id), met: 0, known: 0, right: 0, wrong: 0 };
       for (const t of c.terms) {
         const st = p.terms[t.id];
         if (!st) continue;
