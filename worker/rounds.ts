@@ -1,17 +1,19 @@
 /**
- * Headline Desk and Finnections, dealt and marked here. The app picks which items a round uses
- * from rounds.json (ids, levels and terms only) and asks for them; it gets each item without
- * its answers. A headline comes as its head, dek and the lines to call, and a call is sent here
+ * Headline Desk and Finnections, picked, dealt and marked here. The app sends the learner's
+ * progress and gets a round picked from the items they can play (src/lib/modes/roundPick.ts),
+ * each item without its answers: the app never has the items, nor which terms they use. A headline comes as its head, dek and the lines to call, and a call is sent here
  * to be marked. A board comes as its sixteen tiles in a random order; each guess of four is
  * checked here, and the groups come back only once the board is over.
  */
 // Every term's name, before anything reads the syllabus.
 import '../src/lib/syllabus';
 import { content as cardContent } from './cards';
-import type { Board, BoardGroup, Headline } from '../src/lib/modes/rounds';
+import { pickRound, roundStatuses } from '../src/lib/modes/roundPick';
+import type { Board, BoardGroup, Headline, RoundMode, RoundStatus } from '../src/lib/modes/rounds';
+import { seededRng } from '../src/lib/questions';
+import { newProgress } from '../src/lib/scheduler';
+import type { Progress } from '../src/lib/types';
 
-const ROUND_SIZE = { headline: 3, finnections: 1 } as const;
-export type RoundMode = keyof typeof ROUND_SIZE;
 
 const built = (() => {
   const { packs } = cardContent();
@@ -58,10 +60,27 @@ function shuffled<T>(list: T[]): T[] {
   return out;
 }
 
-/** Deal the items the app picked, without their answers. Unknown ids, and phase 3 items before phase 3, are left out. */
-export function dealRound(user: RoundUser, mode: unknown, ids: unknown): { items: (DealtHeadline | DealtBoard)[] } | { error: string } {
+/** The progress the app sent, or a new one if it isn't readable. Only which terms are met, their due days and the mode's record are read. */
+function progressFrom(raw: unknown): Progress {
+  const p = raw as Progress | undefined;
+  if (!p || typeof p !== 'object' || !p.terms || typeof p.terms !== 'object') return newProgress();
+  const terms: Progress['terms'] = {};
+  for (const [id, s] of Object.entries(p.terms)) if (s && typeof s === 'object' && typeof (s as { due?: unknown }).due === 'string') terms[id] = s;
+  return { ...newProgress(), modes: p.modes && typeof p.modes === 'object' ? p.modes : {}, terms };
+}
+
+const hasPhase3 = (user: RoundUser) => !!(user.phase3 || user.admin);
+
+/** Whether each mode is open for this progress, and the highest level ready to play. Counts only: no item or term is named. */
+export function modeStatus(user: RoundUser, progress: unknown): Record<RoundMode, RoundStatus> {
+  return roundStatuses(progressFrom(progress), hasPhase3(user));
+}
+
+/** Pick a round for this progress and deal it, without its answers. */
+export function dealRound(user: RoundUser, mode: unknown, progress: unknown, today: unknown, seed: number): { items: (DealtHeadline | DealtBoard)[] } | { error: string } {
   if (!isMode(mode)) return { error: 'Unknown mode.' };
-  const wanted = [...new Set(Array.isArray(ids) ? ids : [])].slice(0, ROUND_SIZE[mode]);
+  if (typeof today !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(today)) return { error: 'Which day is it?' };
+  const wanted = pickRound(progressFrom(progress), mode, today, seededRng(seed), hasPhase3(user)).map((x) => x.id);
   const items: (DealtHeadline | DealtBoard)[] = [];
   for (const id of wanted) {
     const item = find(mode, id, user);

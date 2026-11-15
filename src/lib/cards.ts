@@ -10,6 +10,7 @@
  */
 import { applyCards, clearTerms, hasCard, termById } from './content';
 import { loadTerms, resetTermAsks } from './terms';
+import { resetRoundStatus } from './modes/roundApi';
 import type { Card } from './types';
 
 // ---------- Talking to the server ----------
@@ -68,6 +69,7 @@ export async function startCards(email: string): Promise<CardsStatus> {
     if (account) clearTerms();
     tried.clear();
     resetTermAsks();
+    resetRoundStatus();
     account = email;
   }
   forgetStoredCards();

@@ -4,9 +4,9 @@
  * units counts the pairs of terms across them that learners mix up (from the syllabus's
  * confusables), so the map shows real overlap without moving anything in the syllabus.
  */
-import metro from '../../data/modes/metro.json';
+import network from '../../data/modes/network.json';
 import { unitOpen } from '../../lib/choose';
-import { lines } from '../../lib/modes/plans';
+import { lines, namedTerms, stationCount } from '../../lib/modes/plans';
 import { areas, unitStatus } from '../../lib/modes/status';
 import type { Progress } from '../../lib/types';
 
@@ -25,10 +25,12 @@ interface Station {
   line: string;
   core: boolean;
   depot: boolean;
-  terms: string[];
+  /** The unit's stretch of its line's stops. */
+  from: number;
+  to: number;
 }
 
-const allLinks = metro.unitLinks as { a: string; b: string; n: number }[];
+const allLinks = network.unitLinks as { a: string; b: string; n: number }[];
 const lineOfUnit = new Map(lines.flatMap((l) => l.units.map((u) => [u.id, l.id] as const)));
 
 /**
@@ -84,7 +86,8 @@ rows.forEach((l, row) => {
       line: l.id,
       core: u.core,
       depot: !!first && 'depot' in first,
-      terms: l.stops.slice(u.from, u.to + 1).flatMap((s) => ('term' in s ? [s.term] : [])),
+      from: u.from,
+      to: u.to,
     });
   });
 });
@@ -140,7 +143,8 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
           })}
         </g>
         {[...stations].map(([id, s]) => {
-          const st = unitStatus(progress, id, s.terms, today);
+          const stops = lines.find((l) => l.id === s.line)!.stops.slice(s.from, s.to + 1);
+          const st = unitStatus(progress, id, namedTerms(stops), today, stationCount(stops));
           const c = colourOf(s.line);
           const hub = linked.has(id);
           const r = hub ? 6 : s.core ? 5 : 4;

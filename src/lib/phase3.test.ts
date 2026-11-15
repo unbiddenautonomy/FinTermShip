@@ -4,7 +4,8 @@ import { isPhase3Area, isPracticeUnit, mainTermIds, path, pathTermIds, termById,
 import { addDays } from './dates';
 import { DRILLS, recordDrill } from './drills';
 import { todayStatus } from './lesson';
-import { buildPhase3Test, canTakePhase3Test, PHASE3, PHASE3_PREREQS, PHASE3_TEST_SIZE, phase3Open, phase3UnitIds, reachableTermIds, withPhase3Key } from './phase3';
+import { canTakePhase3Test, PHASE3, PHASE3_TEST_SIZE, phase3Open, phase3UnitIds, reachableTermIds, withPhase3Key } from './phase3';
+import { buildPhase3Test, PHASE3_PREREQS } from './phase3prereqs';
 import { recordRound } from './practice';
 import { seededRng } from './questions';
 import { newProgress } from './scheduler';

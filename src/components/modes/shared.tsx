@@ -6,7 +6,7 @@ import { useEffect, type ReactNode } from 'react';
 import { hasCard, termById, unitById } from '../../lib/content';
 import { daysBetween } from '../../lib/dates';
 import { strength, type ModeId } from '../../lib/modes/knowledge';
-import { tickers } from '../../lib/modes/exchange';
+import { tickerOf } from '../../lib/modes/exchange';
 import { lineById } from '../../lib/modes/plans';
 import { areaOf, STATUS_LABEL, termStatus, type TermStatus } from '../../lib/modes/status';
 import { interchangesAt } from '../../lib/modes/transfer';
@@ -160,7 +160,7 @@ export function TermSheet({
             </div>
             <div>
               <dt className="text-[10px] font-extrabold uppercase tracking-[0.12em] text-ink-3">Ticker</dt>
-              <dd className="mt-1 font-mono font-semibold text-ink">{tickers[termId] ?? '–'}</dd>
+              <dd className="mt-1 font-mono font-semibold text-ink">{tickerOf(termId)}</dd>
             </div>
             <p className="col-span-3 border-t border-line pt-2 text-xs text-ink-3">
               {line && stop >= 0 && (

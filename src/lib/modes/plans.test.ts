@@ -46,7 +46,7 @@ describe('mode lesson plans', () => {
     const p = newProgress();
     const line = lineById.get('basics')!;
     const ride = buildRide(p, 'basics', 0, today, seededRng(3))!;
-    const order = line.stops.slice(ride.from, ride.to + 1).map((s) => ('term' in s ? s.term : ''));
+    const order = line.stops.slice(ride.from, ride.to + 1).map((s) => ('term' in s ? s.term! : ''));
     expect(ride.plan.newIds).toEqual(order);
     const intros = ride.plan.questions.filter((q) => q.kind === 'intro').map((q) => ('termId' in q ? q.termId : ''));
     expect(intros).toEqual(order);
@@ -69,7 +69,7 @@ describe('mode lesson plans', () => {
   it('goes on from the first unmet station, whatever is due further back', () => {
     expect(frontier(newProgress(), 'basics')).toBe(0);
     const line = lineById.get('basics')!;
-    const first = line.stops.slice(0, 3).map((s) => ('term' in s ? s.term : ''));
+    const first = line.stops.slice(0, 3).map((s) => ('term' in s ? s.term! : ''));
     const p = met(first, 3, addDays(today, 3));
     expect(frontier(p, 'basics')).toBe(3);
     // A due station behind the frontier doesn't move it: due stations get their own revisit.
@@ -80,7 +80,7 @@ describe('mode lesson plans', () => {
 
   it('never lets a ride skip ahead of the frontier on a line', () => {
     const line = lineById.get('basics')!;
-    const first = line.stops.slice(0, 3).map((s) => ('term' in s ? s.term : ''));
+    const first = line.stops.slice(0, 3).map((s) => ('term' in s ? s.term! : ''));
     const p = met(first, 3, addDays(today, 3));
     expect(canRideFrom(p, 'basics', 1)).toBe(true); // met: a revisit
     expect(canRideFrom(p, 'basics', 3)).toBe(true); // the frontier

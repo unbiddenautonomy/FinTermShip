@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import type { GuideEntry } from './components/Guide';
 import { Home, UnitSheets } from './components/Home';
 import type { LessonSummary } from './components/Lesson';
@@ -24,6 +24,8 @@ import { weakSpots } from './lib/weak';
 import { currentUnit } from './lib/track';
 import { landingMode, type ModeId } from './lib/modes/knowledge';
 import { isModeId, modesOn } from './lib/modes/ids';
+import { wantRoundStatus } from './lib/modes/roundApi';
+import { getRoundStatusVersion, subscribeRoundStatus } from './lib/modes/rounds';
 import { ModeAccessContext } from './components/modes/modeAccess';
 import { MODE_INFO, ModeBar } from './components/modes/ModeBar';
 import type { GameId, Progress } from './lib/types';
@@ -91,8 +93,8 @@ const HeadlineDesk = lazy(LOADERS.HeadlineDesk);
 const Finnections = lazy(LOADERS.Finnections);
 
 /**
- * Screens whose files carry content (the Lines map, Exchange tickers, the career map, the Guide's
- * replies) load only when the learner opens them. The rest is code, fetched ahead while Home shows.
+ * Screens whose files carry content (the career map, the Guide's replies) or that ask the server
+ * as they open load only when the learner opens them. The rest is code, fetched ahead while Home shows.
  */
 const ON_OPEN = new Set<keyof typeof LOADERS>(['Careers', 'Guide', 'CallIt', 'Exchange', 'TermLines', 'HeadlineDesk', 'Finnections']);
 function prefetchScreens() {
@@ -194,6 +196,13 @@ export default function App() {
   useEffect(() => {
     if (progress && cards.status === 'ready') wantTerms(progress);
   }, [progress, cards.status]);
+
+  // Whether Headline Desk and Finnections are open: the server says, as the met terms change.
+  useSyncExternalStore(subscribeRoundStatus, getRoundStatusVersion);
+  const roundsOn = canOpen('headline') || canOpen('finnections');
+  useEffect(() => {
+    if (progress && roundsOn && cards.status === 'ready') void wantRoundStatus(progress);
+  }, [progress, roundsOn, cards.status]);
 
   // Fetching cards for a lesson about to start, and anything that stopped one.
   // What is being fetched from the server before a screen opens, as the line to show.

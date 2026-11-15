@@ -698,32 +698,62 @@ describe('worker: Headline Desk and Finnections rounds', () => {
     return friend;
   }
 
-  it('deals headlines without their moves, terms or reason, three at most', async () => {
+  const day = '2026-11-15';
+  /** Progress with these terms met. */
+  const met = (ids: string[]) => ({ terms: Object.fromEntries(ids.map((id) => [id, { step: 2, due: '2026-11-30' }])), modes: {} });
+  const level1 = headlines.filter((h) => h.level === 1).slice(0, 5);
+  const board = boards.find((b) => b.level === 1)!;
+
+  it('says which modes are open for this progress, with counts only', async () => {
     const friend = await learner();
-    const r = await friend.call('POST', '/api/round', { mode: 'headline', ids: [...headlines.slice(0, 5).map((h) => h.id), 'nope'] });
+    const shut = await friend.call('POST', '/api/modes', { progress: met([]) });
+    expect(shut.data.status.headline).toMatchObject({ open: false, ready: 1 });
+    expect(shut.data.status.headline.gap).toBeGreaterThan(0);
+    const open = await friend.call('POST', '/api/modes', { progress: met(board.groups.flatMap((g) => g.terms)) });
+    expect(open.data.status.finnections).toMatchObject({ open: true, gap: 0 });
+    expect(Object.keys(open.data)).toEqual(['status']);
+  });
+
+  it('picks headlines from the met terms and deals them without their moves, terms or reason, three at most', async () => {
+    const friend = await learner();
+    const ids = level1.flatMap((h) => h.items.map((i) => i.term));
+    const r = await friend.call('POST', '/api/round', { mode: 'headline', progress: met(ids), today: day });
     expect(r.status).toBe(200);
     expect(r.data.items).toHaveLength(3);
     const text = JSON.stringify(r.data);
-    for (const h of headlines.slice(0, 3)) {
+    for (const d of r.data.items as { id: string }[]) {
+      const h = headlines.find((x) => x.id === d.id)!;
+      expect(h.items.every((i) => ids.includes(i.term))).toBe(true);
       expect(text).not.toContain(h.why);
       for (const i of h.items) expect(text).not.toContain(`"${i.term}"`);
     }
     expect(text).not.toMatch(/"move"/);
+    // Nothing met, nothing dealt.
+    expect((await friend.call('POST', '/api/round', { mode: 'headline', progress: met([]), today: day })).data.items).toEqual([]);
   });
 
-  it('marks a headline only once every line is called, and then gives the answers', async () => {
+  it('marks a dealt headline only once every line is called, and then gives the answers', async () => {
     const friend = await learner();
-    const h = headlines[0];
+    const r = await friend.call('POST', '/api/round', { mode: 'headline', progress: met(level1.flatMap((h) => h.items.map((i) => i.term))), today: day });
+    const h = headlines.find((x) => x.id === r.data.items[0].id)!;
     expect((await friend.call('POST', '/api/round/mark', { mode: 'headline', id: h.id, picks: ['up'] })).status).toBe(400);
-    const r = await friend.call('POST', '/api/round/mark', { mode: 'headline', id: h.id, picks: h.items.map(() => 'up') });
-    expect(r.data.headline).toEqual(h);
+    const out = await friend.call('POST', '/api/round/mark', { mode: 'headline', id: h.id, picks: h.items.map(() => 'up') });
+    expect(out.data.headline).toEqual(h);
+  });
+
+  it('never marks an item that was not dealt to the account: its answers name its terms', async () => {
+    const friend = await learner();
+    const h = headlines[headlines.length - 1];
+    expect((await friend.call('POST', '/api/round/mark', { mode: 'headline', id: h.id, picks: h.items.map(() => 'up') })).status).toBe(400);
+    expect((await friend.call('POST', '/api/round/mark', { mode: 'finnections', id: board.id, reveal: true })).status).toBe(400);
   });
 
   it('deals a board as shuffled tiles, checks each guess, and reveals the groups only when asked at the end', async () => {
     const friend = await learner();
-    const b = boards[0];
-    const r = await friend.call('POST', '/api/round', { mode: 'finnections', ids: [b.id] });
+    const b = board;
+    const r = await friend.call('POST', '/api/round', { mode: 'finnections', progress: met(b.groups.flatMap((g) => g.terms)), today: day });
     const dealt = r.data.items[0];
+    expect(dealt.id).toBe(b.id);
     expect([...dealt.tiles].sort()).toEqual(b.groups.flatMap((g) => g.terms).sort());
     expect(JSON.stringify(r.data)).not.toContain(b.groups[0].name);
     const hit = await friend.call('POST', '/api/round/mark', { mode: 'finnections', id: b.id, tiles: b.groups[1].terms });
@@ -737,7 +767,7 @@ describe('worker: Headline Desk and Finnections rounds', () => {
 
   it('keeps phase 3 rounds for accounts with phase 3', async () => {
     const friend = await learner();
-    const r = await friend.call('POST', '/api/round', { mode: 'finnections', ids: [p3Board.id] });
+    const r = await friend.call('POST', '/api/round', { mode: 'finnections', progress: met(p3Board.groups.flatMap((g) => g.terms)), today: day });
     expect(r.data.items).toEqual([]);
     expect((await friend.call('POST', '/api/round/mark', { mode: 'finnections', id: p3Board.id, reveal: true })).status).toBe(400);
   });
