@@ -44,3 +44,19 @@ export function wantTerms(p: Progress): void {
 export function resetTermAsks(): void {
   lastMissing = '';
 }
+
+/** Letters a search needs before it asks the server (worker/terms.ts, SEARCH_MIN). */
+export const SEARCH_MIN = 3;
+
+/**
+ * Find terms by name among all of them, not only the ones the app knows. The names that come
+ * back join what the app knows, so the glossary shows them. Resolves to whether more matched
+ * than came back.
+ */
+export async function searchAll(q: string): Promise<{ more: boolean }> {
+  if (q.replace(/[^a-z0-9]/gi, '').length < SEARCH_MIN) return { more: false };
+  // `npm run dev` already knows every term.
+  if (import.meta.env.DEV) return { more: false };
+  const out = await call<{ more?: boolean }>('search', { q });
+  return { more: !!out.more };
+}

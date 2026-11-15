@@ -7,6 +7,7 @@ import { addDays } from '../src/lib/dates';
 import type { Progress } from '../src/lib/types';
 import worker, { handleApi, hashPassword, inviteCode, verifyPassword, type D1Database, type Env } from './index';
 import { ASKS_PER_MINUTE, content, grant, MAX_IDS, NEW_PER_HOUR } from './cards';
+import { SEARCH_RESULTS, SEARCHES_PER_DAY } from './terms';
 import type { FermiItem } from '../src/lib/fermi';
 import type { Clip } from '../src/lib/meeting';
 import type { Strategy } from '../src/lib/backtest';
@@ -378,6 +379,33 @@ describe('worker: term cards', () => {
     expect(back.terms.length).toBe(mainIds.length);
     expect(back.reason).toMatch(/Phase 3/);
     expect((await new Client().call('POST', '/api/terms', {})).status).toBe(401);
+  });
+
+  it('finds any term by name, a few at a time, with phase 3 kept back and a daily limit', async () => {
+    const { friend, admin } = await friendWith();
+    const search = (q: string) => friend.call('POST', '/api/search', { q });
+    // Too short to page through the list.
+    expect((await search('ga')).data.terms).toEqual([]);
+    const gamma = await search('gamma');
+    const names = (gamma.data.terms as { term: string }[]).map((t) => t.term);
+    expect(names[0]).toBe('gamma');
+    expect(names.length).toBeLessThanOrEqual(SEARCH_RESULTS);
+    for (const t of gamma.data.terms as { definition?: string }[]) expect(t).not.toHaveProperty('definition');
+    // A common word matches more than one search gives: it says so.
+    expect((await search('rate')).data.more).toBe(true);
+    // Phase 3 terms stay hidden without phase 3.
+    const strategy = termById.get(strategyId)!.term;
+    expect(((await search(strategy)).data.terms as { id: string }[]).map((t) => t.id)).not.toContain(strategyId);
+    expect(((await admin.call('POST', '/api/search', { q: strategy })).data.terms as { id: string }[]).map((t) => t.id)).toContain(strategyId);
+    // The guide reads a message with every term known, and names the terms its answer shows.
+    const guide = await friend.call('POST', '/api/guide', { text: 'what is theta', progress: newProgress() });
+    expect(guide.data.reply).toEqual({ kind: 'term', termId: 'theta', intent: 'define' });
+    expect((guide.data.terms as { id: string }[]).map((t) => t.id)).toEqual(['theta']);
+    // A day's searches run out; the admin has no limit.
+    for (let i = 0; i < SEARCHES_PER_DAY; i++) await search('delta');
+    expect((await search('delta')).status).toBe(429);
+    expect((await friend.call('POST', '/api/guide', { text: 'what is delta' })).status).toBe(429);
+    expect((await admin.call('POST', '/api/search', { q: 'delta' })).status).toBe(200);
   });
 
   it('has no daily limit: only a ceiling per hour on new terms that no learner reaches', async () => {
