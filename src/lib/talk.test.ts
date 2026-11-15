@@ -12,7 +12,7 @@ const yesterday = '2026-11-03';
 /** A learner who has met the first `n` terms of the path. */
 function metFirst(n: number, day = yesterday): Progress {
   let p = newProgress();
-  for (const id of pathTermIds.slice(0, n)) p = graduate(introduce(p, id, day), id, day);
+  for (const id of pathTermIds().slice(0, n)) p = graduate(introduce(p, id, day), id, day);
   return p;
 }
 
@@ -22,7 +22,7 @@ describe('talk items', () => {
   it('cover all four formats and only use main-track terms', () => {
     const formats = new Set(talkItems.map((i) => i.format));
     expect([...formats].sort()).toEqual(['decode', 'misuse', 'reply', 'say']);
-    for (const i of talkItems) for (const id of talkTerms(i)) expect(mainTermIds, `${i.id} → ${id}`).toContain(id);
+    for (const i of talkItems) for (const id of talkTerms(i)) expect(mainTermIds(), `${i.id} → ${id}`).toContain(id);
   });
 
   it('keep the right option findable after shuffling', () => {
@@ -70,7 +70,7 @@ describe('talk items', () => {
 
   it('join practice rounds on a unit with an item', () => {
     const item = talkItems.find((i) => !i.also?.length && termById.get(i.term)?.unit === 'b1')!;
-    const unitTerms = pathTermIds.filter((id) => termById.get(id)?.unit === 'b1');
+    const unitTerms = pathTermIds().filter((id) => termById.get(id)?.unit === 'b1');
     let p = newProgress();
     for (const id of unitTerms) p = graduate(introduce(p, id, yesterday), id, yesterday);
     let seen = false;

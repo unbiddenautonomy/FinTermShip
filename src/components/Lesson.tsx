@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
-import { categoryOfTerm, termById, termName } from '../lib/content';
+import { categoryOfTerm, termById } from '../lib/content';
 import { applyTest, settleFocus } from '../lib/choose';
 import type { LessonPlan } from '../lib/lesson';
 import { tidyOption } from '../lib/questions';
@@ -286,7 +286,7 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
         {q.kind === 'term' && term && (
           <>
             <p className="mb-8 text-xl font-semibold leading-relaxed text-ink">{q.prompt}</p>
-            <Options q={q} labels={q.options.map(termName)} picked={picked} right={right} busy={marking} onPick={pick} />
+            <Options q={q} labels={q.options} picked={picked} right={right} busy={marking} onPick={pick} />
           </>
         )}
 
@@ -308,7 +308,7 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
                 ),
               )}
             </p>
-            <Options q={q} labels={q.options.map(termName)} picked={picked} right={right} busy={marking} onPick={pick} />
+            <Options q={q} labels={q.options} picked={picked} right={right} busy={marking} onPick={pick} />
           </>
         )}
 

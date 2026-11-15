@@ -43,15 +43,15 @@ describe('phase 3 on the track', () => {
     expect(path.slice(-rows.length)).toEqual(rows);
     expect(rows.every((r) => isPhase3Area(r.category.id) && !r.unit.core)).toBe(true);
     const strategyTerms = rows.flatMap((r) => r.terms.map((t) => t.id));
-    expect(strategyTerms.some((id) => mainTermIds.includes(id))).toBe(false);
-    expect(mainTermIds.length + strategyTerms.length).toBe(pathTermIds.length);
+    expect(strategyTerms.some((id) => mainTermIds().includes(id))).toBe(false);
+    expect(mainTermIds().length + strategyTerms.length).toBe(pathTermIds().length);
   });
 
   it('stays shut until both the password and the readiness test are done', () => {
     let p = newProgress();
     expect(unitOpen(p, 'y1')).toBe(false);
     // Finishing everything else, or the quant switch, doesn't open it.
-    p = passPractice(meet(p, mainTermIds), mainPractice);
+    p = passPractice(meet(p, mainTermIds()), mainPractice);
     p = { ...p, settings: { ...p.settings, quantFirst: true } };
     expect(unitOpen(p, 'y1')).toBe(false);
     // The test alone (somehow passed without the password) isn't enough, nor is the password alone.
@@ -81,7 +81,7 @@ describe('the readiness test', () => {
   it('draws 20 questions from what the strategies build on, all outside phase 3', () => {
     for (const id of PHASE3_PREREQS) {
       expect(termById.has(id), id).toBe(true);
-      expect(mainTermIds.includes(id), id).toBe(true);
+      expect(mainTermIds().includes(id), id).toBe(true);
     }
     for (let seed = 1; seed <= 20; seed++) {
       const plan = buildPhase3Test(seededRng(seed));
@@ -126,12 +126,12 @@ describe('learning phase 3', () => {
   });
 
   it('counts strategy terms as new work only once phase 3 is open', () => {
-    const done = passPractice(meet(newProgress(), mainTermIds), mainPractice);
+    const done = passPractice(meet(newProgress(), mainTermIds()), mainPractice);
     expect(todayStatus(done, today).newAvailable).toBe(0);
     expect(currentUnit(done, today)).toBeNull();
     const open = { ...done, phase3Key: true, unlocked: [PHASE3] };
-    expect(reachableTermIds(open)).toEqual(pathTermIds);
-    expect(todayStatus(open, today).newAvailable).toBe(pathTermIds.length - mainTermIds.length);
+    expect(reachableTermIds(open)).toEqual(pathTermIds());
+    expect(todayStatus(open, today).newAvailable).toBe(pathTermIds().length - mainTermIds().length);
     // With everything else done, the track carries on into phase 3.
     expect(currentUnit(open, today)).toBe(phase3UnitIds[0]);
   });

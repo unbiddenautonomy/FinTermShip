@@ -1,5 +1,5 @@
 import { useMemo, useState, type ReactNode } from 'react';
-import { categories as allCategories, glossOrUnit, hasCard, isCore, isPhase3Area } from '../lib/content';
+import { areaSize, categories as allCategories, glossOrUnit, hasCard, isCore, isPhase3Area } from '../lib/content';
 import { phase3Open } from '../lib/phase3';
 import { areas } from '../lib/modes/status';
 import type { Progress, Term } from '../lib/types';
@@ -132,7 +132,7 @@ export function Glossary({ progress, initialQuery = '' }: { progress: Progress; 
                 <span className="min-w-0 flex-1">
                   <span className="block truncate font-bold text-ink">{c.name}</span>
                   <span className="num block text-xs text-ink-3">
-                    {terms.filter((t) => progress.terms[t.id]).length} of {terms.length} met
+                    {terms.filter((t) => progress.terms[t.id]).length} of {areaSize(c.id)} met
                   </span>
                 </span>
                 <ChevronDown className={`h-4 w-4 shrink-0 text-ink-3 transition ${isOpen(c.id) ? 'rotate-180' : ''}`} />

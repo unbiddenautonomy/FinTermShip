@@ -89,7 +89,7 @@ describe('daily new terms', () => {
   /** A learner with `n` terms booked for review on `day`. */
   function booked(n: number, day: string): Progress {
     const p = newProgress();
-    for (const id of pathTermIds.slice(0, n)) {
+    for (const id of pathTermIds().slice(0, n)) {
       p.terms[id] = { step: 2, due: day, lapses: 0, trouble: false, seen: 2, correct: 2, wrong: 0, introduced: today };
     }
     return p;

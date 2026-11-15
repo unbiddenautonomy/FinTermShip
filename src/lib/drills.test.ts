@@ -171,7 +171,7 @@ describe('drills on the one track', () => {
     expect(drillUp(p, today)).toBe('k2');
     p = pass(pass(p, 'k2'), 'k3');
     expect(drillUp(p, today)).toBeNull();
-    expect(nextNewTermIds(p, 4, today)).toEqual(coreTermIds.filter((id) => !p.terms[id]).slice(0, 4));
+    expect(nextNewTermIds(p, 4, today)).toEqual(coreTermIds().filter((id) => !p.terms[id]).slice(0, 4));
   });
 
   it('counts a round as passed only with enough right inside the time', () => {

@@ -3,6 +3,8 @@
  * and each answer is marked by the server (worker/rounds.ts). `npm run dev` has no server, so
  * there the same code runs in the page, never in the production build.
  */
+import { addTerms } from '../content';
+import type { TermStub } from '../types';
 import type { DealtBoard, DealtHeadline, FoundGroup, Headline, RoundMode } from './rounds';
 
 export async function call<T>(path: string, body: unknown): Promise<T> {
@@ -19,9 +21,11 @@ export async function call<T>(path: string, body: unknown): Promise<T> {
   } catch {
     throw new Error('You seem to be offline. Try again when you are back online.');
   }
-  const data = (await res.json().catch(() => ({}))) as T & { error?: string };
+  const data = (await res.json().catch(() => ({}))) as T & { error?: string; terms?: TermStub[] };
   if (res.status === 401) throw new Error('Your session has ended. Reload the page to sign in again.');
   if (!res.ok) throw new Error(data.error ?? 'Something went wrong. Try again in a moment.');
+  // The names of the terms the reply shows: the app ships with none (worker/terms.ts).
+  if (Array.isArray(data.terms)) addTerms(data.terms);
   return data;
 }
 

@@ -7,6 +7,8 @@
  * Worker holds. A pick is marked by sending the token back, and only then do the right answer,
  * the reason and the term's card come. Nothing is remembered per question on the server.
  */
+// Every term's name, before anything reads the syllabus.
+import '../src/lib/syllabus';
 import { buildCards } from '../src/lib/cardData';
 import { buildPractice, buildTest } from '../src/lib/choose';
 import { applyCards, categories, talkById, termById } from '../src/lib/content';
@@ -35,9 +37,9 @@ interface Base {
 export type DealtQuestion =
   | { kind: 'intro'; termId: string }
   | (Base & { kind: 'meaning' | 'listen' })
-  /** Options are term ids. */
+  /** Options are term names. */
   | (Base & { kind: 'term'; prompt: string })
-  /** Options are term ids; `text` has ____ where the term goes, and `from` is the example it came from, if one did. */
+  /** Options are term names; `text` has ____ where the term goes, and `from` is the example it came from, if one did. */
   | (Base & { kind: 'fill'; text: string; from?: number })
   | (Base & { kind: 'calc' | 'tf'; prompt: string })
   | (Base & { kind: 'talk'; format: TalkFormat; who?: string; prompt?: string })
@@ -148,7 +150,9 @@ async function dealOne(key: CryptoKey, user: number, q: Question, rng: Rng, know
   const term = termById.get(q.termId)!;
   const sealed: Sealed = { u: user, a: q.answer, t: q.termId };
   let shown: DealtQuestion;
-  const base = { termId: q.termId, review: q.review, options: q.options, token: '' };
+  // Wrong options that are other terms go as their names: the app learns only the asked term's id.
+  const options = q.kind === 'term' || q.kind === 'fill' ? q.options.map((id) => termById.get(id)?.term ?? id) : q.options;
+  const base = { termId: q.termId, review: q.review, options, token: '' };
   switch (q.kind) {
     case 'meaning':
     case 'listen':

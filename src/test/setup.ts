@@ -1,3 +1,5 @@
+// Tests read the whole syllabus, as the Worker does: every term's name first, then every card.
+import '../lib/syllabus';
 // Tests run with every term card and pack loaded, as if the learner had reached the whole syllabus.
 // A test about cards arriving clears them first (clearCards) and loads what it needs.
 import { buildCards, buildPacks } from '../lib/cardData';

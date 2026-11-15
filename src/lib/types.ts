@@ -28,6 +28,12 @@ export interface Term {
   near?: string[];
 }
 
+/**
+ * What the app gets for a term once the learner reaches it, before its card: its name, its unit
+ * and its place in the area (`n`). Its mix-ups list only terms the learner has reached too.
+ */
+export type TermStub = Pick<Term, 'id' | 'term' | 'aliases' | 'said' | 'speak' | 'unit' | 'difficulty' | 'confusables' | 'near'> & { n: number };
+
 /** What a term card adds to the outline: everything the term teaches and asks. The app gets it from the server. */
 export const CARD_FIELDS = ['short', 'definition', 'examples', 'fill', 'wrong', 'note', 'formula', 'asOf', 'source', 'calcs', 'tf', 'reads'] as const;
 export type CardBody = Pick<Term, (typeof CARD_FIELDS)[number]>;
@@ -76,6 +82,8 @@ export interface Unit {
   game?: GameId;
   /** Market game units after the first: which level, from 2 to 5. */
   level?: 2 | 3 | 4 | 5;
+  /** How many terms the unit has (from the skeleton), so the app can count terms it hasn't been given. */
+  size?: number;
 }
 
 export type PracticeKind = 'drill' | 'game' | 'case';

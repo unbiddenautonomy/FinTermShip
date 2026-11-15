@@ -3,6 +3,8 @@
  * comes without its answers; each answer is sent back and marked, and only then does the right
  * answer and the reason come. The app never gets these packs whole.
  */
+// Every term's name, before anything reads the syllabus.
+import '../src/lib/syllabus';
 import { makeCase, newBacktestRound, STRATEGIES, type Strategy } from '../src/lib/backtest';
 import type { FermiItem } from '../src/lib/fermi';
 import { FERMI } from '../src/lib/fermi';

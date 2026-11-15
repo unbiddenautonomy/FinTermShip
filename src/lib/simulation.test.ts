@@ -97,7 +97,7 @@ function simulate(days: number, accuracy: number, seed: number, skipped: number[
       questions,
       minutes: Math.round((intros * INTRO_SECONDS + questions * QUESTION_SECONDS + drillQuestions * DRILL_SECONDS) / 60),
       met: states.length,
-      coreMet: coreTermIds.filter((id) => p.terms[id]).length,
+      coreMet: coreTermIds().filter((id) => p.terms[id]).length,
       known: states.filter(isKnown).length,
       dueLeft: dueTermIds(p, today).length,
     });
@@ -118,12 +118,12 @@ describe('ten weeks of daily use', () => {
   });
 
   it('finishes the core sweep before going deeper, and meets every term', () => {
-    const coreDone = days.find((d) => d.coreMet === coreTermIds.length)!;
+    const coreDone = days.find((d) => d.coreMet === coreTermIds().length)!;
     expect(coreDone).toBeDefined();
     // At 20 new terms a day the sweep takes about core terms ÷ 20 days.
-    expect(coreDone.day).toBeLessThanOrEqual(Math.ceil(coreTermIds.length / 20) + 1);
+    expect(coreDone.day).toBeLessThanOrEqual(Math.ceil(coreTermIds().length / 20) + 1);
     // Phase 3 stays shut without the password, so this learner meets every term outside it.
-    expect(days[days.length - 1].met).toBe(mainTermIds.length);
+    expect(days[days.length - 1].met).toBe(mainTermIds().length);
   });
 
   it('turns most terms into known terms by week 9 and never builds a backlog', () => {

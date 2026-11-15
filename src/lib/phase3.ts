@@ -3,7 +3,7 @@
  * open only when the learner has entered the password and passed the readiness
  * test, a check on the options, futures, risk and backtesting terms the strategies build on.
  */
-import { categories, isPhase3Area, mainTermIds, path, termById } from './content';
+import { categories, isPhase3Area, mainTermIds, metInUnit, path, termById, unitSize } from './content';
 import type { LessonPlan } from './lesson';
 import { calcQuestion, fillQuestion, shuffle, termQuestion, type Rng } from './questions';
 import { PHASE3_PREREQS } from './phase3prereqs';
@@ -36,9 +36,15 @@ export const phase3UnitIds: string[] = path.filter((r) => r.pass === 3).map((r) 
 
 export const phase3Names: string[] = categories.filter((c) => isPhase3Area(c.id)).map((c) => c.name);
 
-/** Terms a learner can still reach: phase 3's count only once it's open. */
+/** How many terms a learner can reach, and how many of those they've met: phase 3's only once it's open. */
+export function reachableCount(p: Progress): { total: number; met: number } {
+  const rows = phase3Open(p) ? path : path.filter((r) => r.pass !== 3);
+  return { total: rows.reduce((n, r) => n + unitSize(r.unit.id), 0), met: rows.reduce((n, r) => n + metInUnit(p, r.unit.id), 0) };
+}
+
+/** Terms a learner can reach: phase 3's only once it's open. Only the known ones: the Worker knows them all. */
 export function reachableTermIds(p: Progress): string[] {
-  return phase3Open(p) ? path.flatMap((r) => r.terms.map((t) => t.id)) : mainTermIds;
+  return phase3Open(p) ? path.flatMap((r) => r.terms.map((t) => t.id)) : mainTermIds();
 }
 
 /** 20 questions drawn from the prerequisites: pick the term, fill the gap, or a worked sum. */

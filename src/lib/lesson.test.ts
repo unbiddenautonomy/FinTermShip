@@ -13,8 +13,8 @@ describe('learning path', () => {
     expect(path.slice(0, firstPass2).every((p) => p.unit.core)).toBe(true);
     expect(path.slice(firstPass2).every((p) => !p.unit.core)).toBe(true);
     expect(path[0].category.id).toBe(categories[0].id);
-    expect(coreTermIds.length).toBeGreaterThan(40);
-    expect(new Set(pathTermIds).size).toBe(pathTermIds.length);
+    expect(coreTermIds().length).toBeGreaterThan(40);
+    expect(new Set(pathTermIds()).size).toBe(pathTermIds().length);
   });
 });
 
@@ -22,7 +22,7 @@ describe('lessons', () => {
   it('starts with 4 new terms, each introduced before it is asked', () => {
     const plan = buildLesson(newProgress(), today, seededRng(1))!;
     expect(plan.kind).toBe('new');
-    expect(plan.newIds).toEqual(pathTermIds.slice(0, 4));
+    expect(plan.newIds).toEqual(pathTermIds().slice(0, 4));
     const introduced = new Set<string>();
     for (const q of plan.questions) {
       if (q.kind === 'intro') introduced.add(q.termId);
@@ -39,7 +39,7 @@ describe('lessons', () => {
   it('respects the daily cap on new terms', () => {
     let p: Progress = newProgress();
     p = { ...p, settings: { ...p.settings, newPerDay: 4 } };
-    for (const id of pathTermIds.slice(0, 4)) p = graduate(introduce(p, id, today), id, today);
+    for (const id of pathTermIds().slice(0, 4)) p = graduate(introduce(p, id, today), id, today);
     expect(buildLesson(p, today, seededRng(2))).toBeNull();
     expect(buildLesson(p, today, seededRng(2), true)?.kind).toBe('new');
   });
@@ -47,7 +47,7 @@ describe('lessons', () => {
   it('clears reviews first when many are waiting', () => {
     let p = newProgress();
     const yesterday = '2026-11-03';
-    for (const id of pathTermIds.slice(0, 15)) p = graduate(introduce(p, id, yesterday), id, yesterday);
+    for (const id of pathTermIds().slice(0, 15)) p = graduate(introduce(p, id, yesterday), id, yesterday);
     const plan = buildLesson(p, today, seededRng(3))!;
     expect(plan.kind).toBe('review');
     expect(plan.reviewIds.length).toBe(12);
@@ -115,8 +115,8 @@ describe('worked sums and true or false', () => {
   });
 
   it('puts the Greeks and quant core into the first pass', () => {
-    for (const id of ['delta', 'gamma', 'theta', 'vega', 'sharpe-ratio', 'beta', 'var']) expect(coreTermIds).toContain(id);
-    for (const id of ['vanna', 'vomma', 'charm', 'p-value', 'overfitting']) expect(coreTermIds).not.toContain(id);
-    expect(pathTermIds).toContain('vanna');
+    for (const id of ['delta', 'gamma', 'theta', 'vega', 'sharpe-ratio', 'beta', 'var']) expect(coreTermIds()).toContain(id);
+    for (const id of ['vanna', 'vomma', 'charm', 'p-value', 'overfitting']) expect(coreTermIds()).not.toContain(id);
+    expect(pathTermIds()).toContain('vanna');
   });
 });
