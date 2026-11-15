@@ -2,17 +2,8 @@
  * Term Lines: the Transfer puzzle at an interchange. Two terms from different lines that
  * people mix up; the learner matches each to its meaning, then sees how they differ.
  */
-import metro from '../../data/modes/metro.json';
-import { hasCard, termById } from '../content';
+import { categoryOfTerm, getCardsVersion, hasCard, termById } from '../content';
 import { shuffle, tidyOption, type Rng } from '../questions';
-
-export interface Interchange {
-  a: string;
-  b: string;
-  both: boolean;
-}
-
-export const interchanges = metro.interchanges as Interchange[];
 
 export interface Transfer {
   termIds: [string, string];
@@ -36,7 +27,26 @@ export function transferPuzzle(a: string, b: string, rng: Rng): Transfer | null 
   };
 }
 
-/** Interchanges at a station: the terms on other lines that this term is confused with. */
+let builtAt = -1;
+let byTerm = new Map<string, string[]>();
+
+/**
+ * Interchanges at a station: the terms on other lines that this term is confused with, either
+ * way round. Worked out from the mix-ups of the terms the app knows, so a station only shows
+ * interchanges with terms the learner has reached.
+ */
 export function interchangesAt(termId: string): string[] {
-  return interchanges.filter((i) => i.a === termId || i.b === termId).map((i) => (i.a === termId ? i.b : i.a));
+  if (builtAt !== getCardsVersion()) {
+    const out = new Map<string, Set<string>>();
+    const add = (a: string, b: string) => (out.get(a) ?? out.set(a, new Set()).get(a)!).add(b);
+    for (const t of termById.values())
+      for (const o of t.confusables)
+        if (o !== t.id && termById.has(o) && categoryOfTerm.get(o) !== categoryOfTerm.get(t.id)) {
+          add(t.id, o);
+          add(o, t.id);
+        }
+    byTerm = new Map([...out].map(([k, v]) => [k, [...v].sort()]));
+    builtAt = getCardsVersion();
+  }
+  return byTerm.get(termId) ?? [];
 }

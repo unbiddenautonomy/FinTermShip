@@ -4,12 +4,12 @@
  * interchange wherever two terms on different lines are easily mixed up. The map is generated
  * from the syllabus, so no term is ever left off it.
  */
-import { useMemo, useState } from 'react';
+import { useMemo, useState, useSyncExternalStore } from 'react';
 import { unitOpen } from '../../lib/choose';
-import { termById, unitById } from '../../lib/content';
+import { getCardsVersion, subscribeCards, termById, unitById } from '../../lib/content';
 import { KIND_LABEL } from '../../lib/practice';
 import { areaKpis, type ModeId } from '../../lib/modes/knowledge';
-import { canRideFrom, dueStops, frontier, lines, lineById, REVISIT_MAX, rideRoute, RIDE_STOPS, type Line } from '../../lib/modes/plans';
+import { canRideFrom, dueStops, frontier, lines, lineById, namedTerms, REVISIT_MAX, rideRoute, RIDE_STOPS, stationCount, type Line, type Stop } from '../../lib/modes/plans';
 import { areaOf, areas, termStatus, unitStatus } from '../../lib/modes/status';
 import { interchangesAt } from '../../lib/modes/transfer';
 import type { Recipe } from '../../lib/session';
@@ -29,9 +29,23 @@ interface Props {
   onDepot: (unitId: string) => void;
 }
 
+/** A unit's stops as rows: each named station and depot on its own, and each run of stations not named yet as one row. */
+function runs(stops: Stop[], from: number): { stop: Stop; i: number; n: number }[] {
+  const out: { stop: Stop; i: number; n: number }[] = [];
+  stops.forEach((stop, k) => {
+    const last = out[out.length - 1];
+    const unnamed = 'term' in stop && !stop.term;
+    if (unnamed && last && 'term' in last.stop && !last.stop.term) last.n++;
+    else out.push({ stop, i: from + k, n: 1 });
+  });
+  return out;
+}
+
 const colourOf = (lineId: string) => areas[lineId]?.colour ?? 'rgb(var(--brand))';
 
 export function TermLines({ progress, today, area, onArea, onMode, onRun, onDepot }: Props) {
+  // Stations are named as their terms arrive from the server.
+  useSyncExternalStore(subscribeCards, getCardsVersion);
   const line = area ? lineById.get(area) : undefined;
   return line ? (
     <LineView line={line} progress={progress} today={today} onBack={() => onArea(null)} onMode={onMode} onRun={onRun} onDepot={onDepot} />
@@ -49,10 +63,10 @@ function Network({ progress, today, onLine, onMode }: { progress: Progress; toda
       <ul className="space-y-2">
         {lines.map((l) => {
           const colour = colourOf(l.id);
-          const terms = l.stops.filter((s) => 'term' in s).length;
+          const terms = stationCount(l.stops);
           const s = stats.get(l.id);
           const locked = l.units.every((u) => !unitOpen(progress, u.id));
-          const due = l.stops.filter((st) => 'term' in st && termStatus(progress, st.term, today) === 'due').length;
+          const due = namedTerms(l.stops).filter((id) => termStatus(progress, id, today) === 'due').length;
           return (
             <li key={l.id}>
               <button type="button" onClick={() => onLine(l.id)} className="w-full rounded-2xl border border-line bg-surface px-4 py-3 text-left shadow-card transition hover:bg-sunken">
@@ -73,8 +87,8 @@ function Network({ progress, today, onLine, onMode }: { progress: Progress; toda
                   <span className="relative flex w-full items-center justify-between">
                     {l.units.map((u) => {
                       const depot = l.stops[u.from] && 'depot' in l.stops[u.from];
-                      const ids = l.stops.slice(u.from, u.to + 1).flatMap((st) => ('term' in st ? [st.term] : []));
-                      const st = unitStatus(progress, u.id, ids, today);
+                      const stops = l.stops.slice(u.from, u.to + 1);
+                      const st = unitStatus(progress, u.id, namedTerms(stops), today, stationCount(stops));
                       return depot ? (
                         <span key={u.id} title={u.name} className={`h-3 w-3 rotate-45 border-2 ${st === 'locked' ? 'border-dashed opacity-60' : ''}`} style={{ borderColor: colour, background: st === 'known' || st === 'met' ? colour : 'rgb(var(--surface))' }} />
                       ) : (
@@ -122,11 +136,16 @@ function LineView({
   const ride = (from: number) => onRun({ build: 'ride', lineId: line.id, from });
   const revisit = () => onRun({ build: 'revisit', lineId: line.id });
   const stopOf = (termId: string) => line.stops.findIndex((s) => 'term' in s && s.term === termId);
-  const termAt = (i: number) => termById.get((line.stops[i] as { term: string }).term);
-  const terms = line.stops.filter((s) => 'term' in s).length;
-  const met = line.stops.filter((s) => 'term' in s && progress.terms[s.term]).length;
+  const termAt = (i: number) => {
+    const s = line.stops[i];
+    return s && 'term' in s && s.term ? termById.get(s.term) : undefined;
+  };
+  const unitAt = (i: number) => line.units.find((u) => i >= u.from && i <= u.to);
+  const terms = stationCount(line.stops);
+  const met = namedTerms(line.stops).filter((id) => progress.terms[id]).length;
   const allLocked = line.units.every((u) => !unitOpen(progress, u.id));
-  const waiting = line.stops.some((s) => 'term' in s && !progress.terms[s.term]);
+  const waiting = met < terms;
+  const fresh = preview ? preview.newIds.length + preview.unnamed : 0;
   // Units are titled sections, shut until tapped. The one the line goes on from starts open.
   const [openUnits, setOpenUnits] = useState<Set<string>>(() => new Set(line.units.filter((u) => here >= u.from && here <= u.to).map((u) => u.id)));
   const toggle = (id: string) => {
@@ -168,12 +187,9 @@ function LineView({
           <div className="min-w-0 flex-1 text-sm">
             {preview ? (
               <>
-                <p className="font-bold text-ink">Ride on from {termAt(here)?.term ?? 'here'}</p>
+                <p className="font-bold text-ink">{termAt(here) ? `Ride on from ${termAt(here)!.term}` : `Ride on into ${unitAt(here)?.name ?? 'the next stations'}`}</p>
                 <p className="text-ink-3">
-                  {[
-                    preview.newIds.length ? `${preview.newIds.length} new` : '',
-                    preview.to - preview.from + 1 - preview.newIds.length > 0 ? `${preview.to - preview.from + 1 - preview.newIds.length} met` : '',
-                  ]
+                  {[fresh ? `${fresh} new` : '', preview.metIds.length ? `${preview.metIds.length} met` : '']
                     .filter(Boolean)
                     .join(', ')}
                   {preview.endsAt && 'depot' in preview.endsAt ? ' · ends at a depot' : ''}
@@ -211,7 +227,8 @@ function LineView({
         {line.units.map((unit) => {
           const isOpen = openUnits.has(unit.id);
           const stops = line.stops.slice(unit.from, unit.to + 1);
-          const ids = stops.flatMap((st) => ('term' in st ? [st.term] : []));
+          const ids = namedTerms(stops);
+          const size = stationCount(stops);
           const depot = stops.length === 1 && 'depot' in stops[0];
           const unitMet = ids.filter((id) => progress.terms[id]).length;
           const unitDue = ids.filter((id) => termStatus(progress, id, today) === 'due').length;
@@ -224,7 +241,7 @@ function LineView({
                   {depot ? (
                     <span className="h-3.5 w-3.5 rotate-45 border-[3px]" style={{ borderColor: colour, background: progress.drills?.[unit.id]?.passed ? colour : 'rgb(var(--surface))' }} />
                   ) : (
-                    <TermDot status={unitStatus(progress, unit.id, ids, today)} colour={colour} size={unit.core ? 16 : 13} />
+                    <TermDot status={unitStatus(progress, unit.id, ids, today, size)} colour={colour} size={unit.core ? 16 : 13} />
                   )}
                 </span>
                 <span className="min-w-0 flex-1">
@@ -232,7 +249,7 @@ function LineView({
                   <span className="block text-xs text-ink-3">
                     {depot
                       ? `Depot · ${KIND_LABEL[(stops[0] as { kind: string }).kind as PracticeKind] ?? 'practice'}`
-                      : `${unitMet}/${ids.length} met${unit.core ? '' : ' · later'}`}
+                      : `${unitMet}/${size} met${unit.core ? '' : ' · later'}`}
                   </span>
                 </span>
                 {hasNext && <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}
@@ -242,8 +259,7 @@ function LineView({
               </button>
               {isOpen && (
                 <ol className="relative max-h-[60vh] overflow-y-auto border-t border-line px-1 py-1">
-                  {stops.map((stop, k) => {
-                    const i = unit.from + k;
+                  {runs(stops, unit.from).map(({ stop, i, n }) => {
                     const rail = (
                       <span className="absolute bottom-0 left-[13px] top-0 w-1" style={{ background: line.phase === 3 ? `repeating-linear-gradient(180deg, ${colour} 0 8px, transparent 8px 12px)` : colour }} aria-hidden="true" />
                     );
@@ -264,8 +280,25 @@ function LineView({
                         </li>
                       );
                     }
-                    const t = termById.get(stop.term);
-                    if (!t) return null;
+                    const t = stop.term ? termById.get(stop.term) : undefined;
+                    if (!t) {
+                      // Stations not met yet: the app learns their names as the learner reaches them.
+                      const next = here >= i && here < i + n;
+                      return (
+                        <li key={i} className="relative">
+                          {rail}
+                          <div className={`relative flex w-full items-center gap-3 rounded-xl py-1.5 ${next ? 'bg-sunken' : ''}`}>
+                            <span className="flex w-[30px] shrink-0 justify-center">
+                              <TermDot status={unitOpen(progress, unit.id) ? 'unmet' : 'locked'} colour={colour} size={14} />
+                            </span>
+                            <span className="min-w-0 flex-1 truncate text-ink-3">
+                              {n} station{n === 1 ? '' : 's'} not met yet
+                            </span>
+                            {next && <span className="mr-2 rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}
+                          </div>
+                        </li>
+                      );
+                    }
                     const status = termStatus(progress, t.id, today);
                     // One chip per other line, however many of its terms meet here.
                     const twinLines = [...new Map(interchangesAt(t.id).map((id) => [areaOf(id)?.id, id])).values()].filter((id) => areaOf(id)?.id !== line.id).slice(0, 3);
@@ -313,7 +346,7 @@ function LineView({
               </Button>
             ) : here >= 0 ? (
               <p className="text-sm text-ink-3 sm:col-span-2">
-                Stations are met in the order Path teaches them, so this one comes {stopOf(sheet) - here} stops after {termAt(here)?.term}, where the line goes on from.
+                Stations are met in the order Path teaches them, so this one comes {stopOf(sheet) - here} stops after {termAt(here)?.term ?? 'the next station'}, where the line goes on from.
               </p>
             ) : undefined
           }

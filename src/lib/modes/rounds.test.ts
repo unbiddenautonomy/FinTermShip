@@ -8,21 +8,8 @@ import { seededRng } from '../questions';
 import { graduate, introduce, newProgress } from '../scheduler';
 import type { Progress } from '../types';
 import { modeRecord } from './knowledge';
-import {
-  access,
-  finishRound,
-  levelState,
-  nextLevel,
-  pickRound,
-  playable,
-  recordBoard,
-  recordHeadline,
-  ROUND_INDEX,
-  ROUND_SIZE,
-  type Board,
-  type Headline,
-  type RoundMode,
-} from './rounds';
+import { pickRound, playable, ROUND_INDEX, roundStatus, serverLevel } from './roundPick';
+import { access, finishRound, levelState, nextLevel, recordBoard, recordHeadline, ROUND_SIZE, setRoundStatus, type Board, type Headline, type RoundMode } from './rounds';
 
 const today = '2026-11-13';
 const headlines = headlinesJson as Headline[];
@@ -79,7 +66,7 @@ describe('Headline Desk and Finnections content', () => {
 describe('when the modes open', () => {
   it('stay shut for a new learner, saying how many terms away they are', () => {
     for (const m of ['headline', 'finnections'] as const) {
-      const a = access(newProgress(), m);
+      const a = roundStatus(newProgress(), m);
       expect(a.open).toBe(false);
       expect(a.gap).toBeGreaterThan(0);
     }
@@ -89,14 +76,14 @@ describe('when the modes open', () => {
     const three = ROUND_INDEX.headline.filter((x) => x.level === 1).slice(0, 3);
     const two = learner(three.slice(0, 2).flatMap((x) => x.terms));
     if (playable(two, 'headline').filter((x) => x.level === 1).length < 3) {
-      expect(access(two, 'headline').open).toBe(false);
-      expect(access(two, 'headline').gap).toBeGreaterThan(0);
-      expect(access(two, 'headline').gap).toBeLessThanOrEqual(three[2].terms.length);
+      expect(roundStatus(two, 'headline').open).toBe(false);
+      expect(roundStatus(two, 'headline').gap).toBeGreaterThan(0);
+      expect(roundStatus(two, 'headline').gap).toBeLessThanOrEqual(three[2].terms.length);
     }
     const q = learner(three.flatMap((x) => x.terms));
-    expect(access(q, 'headline').open).toBe(true);
+    expect(roundStatus(q, 'headline').open).toBe(true);
     const board = ROUND_INDEX.finnections.find((x) => x.level === 1)!;
-    expect(access(learner(board.terms), 'finnections').open).toBe(true);
+    expect(roundStatus(learner(board.terms), 'finnections').open).toBe(true);
   });
 
   it('never deals an item with a term the learner has not met', () => {
@@ -106,14 +93,36 @@ describe('when the modes open', () => {
   });
 });
 
+describe('what the app knows', () => {
+  it('only what the server said: closed and unknown until then, then its level from the record', () => {
+    setRoundStatus(null);
+    expect(access('headline')).toEqual({ open: false, gap: 0, known: false });
+    const p = learner(termsOf('headline'));
+    setRoundStatus({ headline: roundStatus(p, 'headline') });
+    expect(access('headline')).toEqual({ open: true, gap: 0, known: true });
+    const q = { ...p, modes: { headline: { ...modeRecord(p, 'headline'), level: 3 } } };
+    expect(levelState(q, 'headline')).toEqual(serverLevel(q, 'headline'));
+    setRoundStatus(null);
+    expect(levelState(q, 'headline').level).toBe(1);
+  });
+
+  it('keeps phase 3 items for accounts with phase 3', () => {
+    const p = learner(termsOf('finnections'));
+    const with3 = playable(p, 'finnections');
+    const without = playable(p, 'finnections', false);
+    expect(without.length).toBeLessThan(with3.length);
+    expect(without.every((x) => !x.phase3)).toBe(true);
+  });
+});
+
 describe('levels', () => {
   const everything = (mode: RoundMode) => learner(termsOf(mode));
 
   it('start at 1 and only rise to a level with a full round to play', () => {
     const p = everything('headline');
-    expect(levelState(p, 'headline')).toMatchObject({ level: 1, good: 0, ready: 3 });
+    expect(serverLevel(p, 'headline')).toMatchObject({ level: 1, good: 0, ready: 3 });
     const onlyEasy = learner(termsOf('headline', 1));
-    expect(levelState(onlyEasy, 'headline').ready).toBeLessThan(3);
+    expect(serverLevel(onlyEasy, 'headline').ready).toBeLessThan(3);
   });
 
   it('move up after two good rounds in a row, and down after a bad one', () => {
@@ -132,7 +141,7 @@ describe('levels', () => {
     const first = pickRound(p, 'headline', today, seededRng(1));
     expect(first).toHaveLength(ROUND_SIZE.headline);
     expect(first.every((x) => x.level === 1)).toBe(true);
-    p = finishRound(p, 'headline', today, first.map((x) => x.id), 1);
+    p = finishRound(p, 'headline', today, first.map((x) => x.id), 1, serverLevel(p, 'headline'));
     const second = pickRound(p, 'headline', today, seededRng(1));
     expect(second.some((x) => first.some((f) => f.id === x.id))).toBe(false);
     // Level 3 with only one level 3 headline met: the rest of the round comes from below.
@@ -150,18 +159,18 @@ describe('levels', () => {
     const target = items.find((x) => x.terms.some((t) => items.filter((y) => y.terms.includes(t)).length === 1))!;
     const t = target.terms.find((id) => items.filter((y) => y.terms.includes(id)).length === 1)!;
     p = { ...p, terms: { ...p.terms, [t]: { ...p.terms[t], due: today } } };
-    p = finishRound(p, 'finnections', today, items.map((x) => x.id), 0.5);
+    p = finishRound(p, 'finnections', today, items.map((x) => x.id), 0.5, serverLevel(p, 'finnections'));
     expect(pickRound(p, 'finnections', today, seededRng(9))[0].id).toBe(target.id);
   });
 
   it('record the round: seen items, the level, and a session', () => {
     const p = everything('finnections');
-    let q = finishRound(p, 'finnections', today, ['f101'], 1);
-    q = finishRound(q, 'finnections', today, ['f102'], 1);
+    let q = finishRound(p, 'finnections', today, ['f101'], 1, serverLevel(p, 'finnections'));
+    q = finishRound(q, 'finnections', today, ['f102'], 1, serverLevel(q, 'finnections'));
     const r = modeRecord(q, 'finnections');
     expect(r.sessions).toBe(2);
     expect(r.seen).toEqual({ f101: today, f102: today });
-    expect(levelState(q, 'finnections').level).toBe(2);
+    expect(serverLevel(q, 'finnections').level).toBe(2);
   });
 });
 

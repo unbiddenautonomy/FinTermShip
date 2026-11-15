@@ -37,7 +37,7 @@ const INK = '#221d33';
 const name = (id: string) => termById.get(id)?.term ?? id;
 
 export function Finnections({ progress, today, onProgress, onMode }: Props) {
-  const open = access(progress, 'finnections').open;
+  const open = access('finnections').open;
   const [seed, setSeed] = useState(() => Date.now() % 2_147_483_647);
   const content = useDealtRound('finnections', progress, today, seed, open);
   const board = content.items[0];
@@ -162,9 +162,9 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
     </ModeFrame>
   );
 
-  if (!open) return frame(<NotYet progress={progress} mode="finnections" onMode={onMode} />);
+  if (!open) return frame(<NotYet mode="finnections" onMode={onMode} />);
   if (content.state === 'loading') return frame(<p className="py-16 text-center text-sm font-bold text-ink-3">Dealing the board…</p>);
-  if (content.state !== 'ready' || !board) return frame(<NotYet progress={progress} mode="finnections" error={content.state !== 'ready' ? content.state : 'No boards came through. Try again in a moment.'} onMode={onMode} onRetry={content.retry} />);
+  if (content.state !== 'ready' || !board) return frame(<NotYet mode="finnections" error={content.state !== 'ready' ? content.state : 'No boards came through. Try again in a moment.'} onMode={onMode} onRetry={content.retry} />);
 
   const foundNames = found.map((g) => g.name);
   const missed = done && all ? all.filter((g) => !foundNames.includes(g.name)) : [];
@@ -245,9 +245,9 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
             after={kpis(progress, today)}
             note="Each group you found counts like picking a meaning, so it can clear a due review. A group you missed brings its terms back tomorrow."
           />
-          <div className={`grid gap-3 ${canOpen('headline') && access(progress, 'headline').open ? 'grid-cols-2' : ''}`}>
+          <div className={`grid gap-3 ${canOpen('headline') && access('headline').open ? 'grid-cols-2' : ''}`}>
             <Button onClick={again}>Next board</Button>
-            {canOpen('headline') && access(progress, 'headline').open && (
+            {canOpen('headline') && access('headline').open && (
               <Button variant="secondary" onClick={() => onMode('headline')}>
                 Headline Desk
               </Button>

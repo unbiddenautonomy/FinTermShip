@@ -39,7 +39,7 @@ const RED = '#b3261e';
 const GREEN = '#1d6b45';
 
 export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
-  const open = access(progress, 'headline').open;
+  const open = access('headline').open;
   const [seed, setSeed] = useState(() => Date.now() % 2_147_483_647);
   const content = useDealtRound('headline', progress, today, seed, open);
   const round = content.items;
@@ -127,9 +127,9 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
     </ModeFrame>
   );
 
-  if (!open) return frame(<NotYet progress={progress} mode="headline" onMode={onMode} />);
+  if (!open) return frame(<NotYet mode="headline" onMode={onMode} />);
   if (content.state === 'loading') return frame(<p className="py-16 text-center text-sm font-bold text-ink-3">Getting today’s paper…</p>);
-  if (content.state !== 'ready' || !round.length) return frame(<NotYet progress={progress} mode="headline" error={content.state !== 'ready' ? content.state : 'No headlines came through. Try again in a moment.'} onMode={onMode} onRetry={content.retry} />);
+  if (content.state !== 'ready' || !round.length) return frame(<NotYet mode="headline" error={content.state !== 'ready' ? content.state : 'No headlines came through. Try again in a moment.'} onMode={onMode} onRetry={content.retry} />);
   // Once filed, the headline on the page is the marked one: each line's move and term, and why.
   const marked = current?.headline;
 
@@ -168,9 +168,9 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
             </details>
           ))}
         </section>
-        <div className={`grid gap-3 ${canOpen('finnections') && access(progress, 'finnections').open ? 'grid-cols-2' : ''}`}>
+        <div className={`grid gap-3 ${canOpen('finnections') && access('finnections').open ? 'grid-cols-2' : ''}`}>
           <Button onClick={again}>Next round</Button>
-          {canOpen('finnections') && access(progress, 'finnections').open && (
+          {canOpen('finnections') && access('finnections').open && (
             <Button variant="secondary" onClick={() => onMode('finnections')}>
               Play Finnections
             </Button>
