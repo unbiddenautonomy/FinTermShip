@@ -19,7 +19,7 @@ import { askGuide, askTerms, countSearch, searchTerms, withTerms } from './terms
 import { dealDeck, markCall } from './callit';
 import { dealPractice, markPractice } from './practice';
 import { buildSession, dealSession, dealSums, importKey, markAnswer, mockSumTerms, newKeyBytes, sessionTermIds } from './session';
-import { dealRound, markRound } from './rounds';
+import { dealRound, markRound, modeStatus } from './rounds';
 import { signInPage } from './signin';
 
 // ---------- The few Cloudflare types this file uses ----------
@@ -427,15 +427,21 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   }
 
   // ---------- Headline Desk and Finnections ----------
-  // A round is dealt without its answers, and each answer is marked here (worker/rounds.ts).
-  if (route === 'POST /api/round' || route === 'POST /api/round/mark') {
+  // A round is picked from the learner's progress and dealt without its answers, and each answer
+  // is marked here (worker/rounds.ts). The app never has the items, so it asks which modes are open.
+  if (route === 'POST /api/modes' || route === 'POST /api/round' || route === 'POST /api/round/mark') {
     if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
     const b = await body();
+    if (route === 'POST /api/modes') return json({ status: modeStatus(user, b.progress) });
     if (route === 'POST /api/round/mark') {
+      // Only an item dealt to this account can be marked: its answers name its terms.
+      const dealt = typeof b.id === 'string' && (await db.prepare('SELECT 1 FROM packs WHERE user_id = ? AND pack = ?').bind(user.id, `round:${b.id}`).first());
+      if (!dealt) return fail(400, 'That round is not available.');
       const out = markRound(user, b);
       return 'error' in out ? fail(400, String(out.error)) : json(withTerms(out));
     }
-    const out = dealRound(user, b.mode, b.ids);
+    const seed = crypto.getRandomValues(new Uint32Array(1))[0] % 2_147_483_647;
+    const out = dealRound(user, b.mode, b.progress, b.today, seed);
     if ('error' in out) return fail(400, out.error);
     // Recorded like packs, so the admin sees each account's rounds.
     if (out.items.length) await db.batch(out.items.map((x) => db.prepare('INSERT OR IGNORE INTO packs (user_id, pack, issued) VALUES (?, ?, ?)').bind(user.id, `round:${x.id}`, now)));

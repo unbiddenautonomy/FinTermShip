@@ -10,6 +10,8 @@ import { graduate, introduce, newProgress } from './scheduler';
 import { areaStats } from './stats';
 import { allStubs } from './syllabus';
 import { currentUnit, track, unitDone } from './track';
+import { frontier, lineById, lines, namedTerms, rideRoute, stationCount } from './modes/plans';
+import { interchangesAt } from './modes/transfer';
 import type { Progress } from './types';
 
 const today = '2026-11-13';
@@ -97,5 +99,28 @@ describe('the app with only the terms it has been given', () => {
     expect(termIdsOfUnit(unit)).toEqual(inUnit.slice(0, 3).map((s) => s.id));
     addTerms([{ ...inUnit[0], confusables: [inUnit[1].id] }]);
     expect(termById.get(inUnit[0].id)!.confusables).toEqual([inUnit[1].id]);
+  });
+
+  it('draws every station on Term Lines, naming only the terms it has been given', () => {
+    const everyStation = lines.map((l) => stationCount(l.stops));
+    const named = new Map(lines.map((l) => [l.id, namedTerms(l.stops)]));
+    clearTerms();
+    expect(lines.map((l) => stationCount(l.stops))).toEqual(everyStation);
+    expect(lines.flatMap((l) => namedTerms(l.stops))).toEqual([]);
+    // A new learner rides on from the first station without its name.
+    const p = newProgress();
+    expect(frontier(p, 'basics')).toBe(0);
+    const route = rideRoute(p, 'basics', 0)!;
+    expect(route.newIds).toEqual([]);
+    expect(route.unnamed).toBeGreaterThan(0);
+    // Given a few terms, each lands on its own station, and interchanges only join known terms.
+    const basics = named.get('basics')!.slice(0, 3);
+    addTerms(allStubs.filter((s) => basics.includes(s.id)));
+    const line = lineById.get('basics')!;
+    expect(basics.map((id) => line.stops.findIndex((s) => 'term' in s && s.term === id))).toEqual([0, 1, 2]);
+    for (const id of basics) for (const o of interchangesAt(id)) expect(termById.has(o)).toBe(true);
+    clearTerms();
+    addTerms(allStubs);
+    expect(new Map(lines.map((l) => [l.id, namedTerms(l.stops)]))).toEqual(named);
   });
 });

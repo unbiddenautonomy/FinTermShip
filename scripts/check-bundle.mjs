@@ -3,6 +3,9 @@
 // Fermi answers, backtest reports). Those come from the server, a learner's worth at a time
 // (worker/cards.ts), so a look at the app's files with Inspect never shows the syllabus.
 //
+// It also fails on the term list itself: any term id the games don't use by name
+// (scripts/bundle-terms.json), or more than a screenful of term names in the app's own words.
+//
 //   node scripts/check-bundle.mjs   (after vite build; reads dist/)
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -80,4 +83,27 @@ if (found.length) {
   for (const s of found.slice(0, 8)) console.error(`  ${s.where}: "${s.text}…"`);
   process.exit(1);
 }
-console.log(`Bundle check: none of ${samples.length} card and pack texts are in the ${files.length} built files.`);
+
+// The term list: ids as quoted strings, and multi-word names anywhere in the text.
+const raw = files.map((f) => readFileSync(f, 'utf8')).join('\n');
+const quoted = new Set([...raw.matchAll(/["'`]([a-z0-9][a-z0-9-]*)["'`]/g)].map((m) => m[1]));
+const allTerms = readdirSync(join(data, 'terms'))
+  .filter((f) => f.endsWith('.json'))
+  .flatMap((f) => JSON.parse(readFileSync(join(data, 'terms', f), 'utf8')).terms);
+const allowed = new Set(JSON.parse(readFileSync(join(root, 'scripts', 'bundle-terms.json'), 'utf8')).ids);
+const strayIds = allTerms.filter((t) => quoted.has(t.id) && !allowed.has(t.id)).map((t) => t.id);
+if (strayIds.length) {
+  console.error(`The app's bundle names ${strayIds.length} term ids it shouldn't: the app learns a term from the server once the learner reaches it. First few: ${strayIds.slice(0, 12).join(', ')}`);
+  console.error('If a game the learner plays really needs one by id, add it to scripts/bundle-terms.json.');
+  process.exit(1);
+}
+// Names show up in the app's own words (unit names, the career map, game screens), so a few are
+// fine. A list of them is not.
+const NAMES_MAX = 100;
+const lower = raw.toLowerCase();
+const names = allTerms.filter((t) => /\s/.test(t.term) && lower.includes(t.term.toLowerCase())).map((t) => t.term);
+if (names.length > NAMES_MAX) {
+  console.error(`The app's bundle holds ${names.length} term names (at most ${NAMES_MAX}), which looks like the term list. First few: ${names.slice(0, 12).join('; ')}`);
+  process.exit(1);
+}
+console.log(`Bundle check: none of ${samples.length} card and pack texts are in the ${files.length} built files, no term ids beyond the ${allowed.size} the games use, and ${names.length} term names in the app's own words.`);

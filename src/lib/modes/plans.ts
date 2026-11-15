@@ -3,9 +3,8 @@
  * way, but every question is one the syllabus already has, and every answer goes through
  * recordAnswer, so the shared record is the only thing that changes.
  */
-import metro from '../../data/modes/metro.json';
 import { unitOpen } from '../choose';
-import { categories, termById } from '../content';
+import { categories, subscribeCards, termById, unitById, unitSize } from '../content';
 import type { LessonPlan } from '../lesson';
 import { nextNewTermIds } from '../lesson';
 import { matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, type Rng } from '../questions';
@@ -13,7 +12,8 @@ import { dueTermIds, isDueOn } from '../scheduler';
 import type { Progress, Question, Term } from '../types';
 import { interchangesAt } from './transfer';
 
-type Stop = { term: string } | { depot: string; kind: string; game?: string };
+/** A station: a term (null until the app is given its name), or a depot for a drill, game or case. */
+export type Stop = { term: string | null; unit: string } | { depot: string; kind: string; game?: string };
 export interface Line {
   id: string;
   name: string;
@@ -22,8 +22,45 @@ export interface Line {
   units: { id: string; name: string; core: boolean; from: number; to: number }[];
   stops: Stop[];
 }
-export const lines = metro.lines as Line[];
+
+/**
+ * One line per area, built from the skeleton: the units in order, a depot for each practice
+ * unit and one station per term. A station's term is filled in once the app knows it, from the
+ * term's `stop` (src/lib/syllabus.ts works it out the same way), so the map has every station
+ * but names only the terms the learner has reached.
+ */
+export const lines: Line[] = categories.map((c) => {
+  const stops: Stop[] = [];
+  const units: Line['units'] = [];
+  for (const u of c.units) {
+    const from = stops.length;
+    if (u.kind && u.kind !== 'terms') stops.push({ depot: u.id, kind: u.kind, ...(u.game ? { game: u.game } : {}) });
+    else for (let k = 0; k < unitSize(u.id); k++) stops.push({ term: null, unit: u.id });
+    units.push({ id: u.id, name: u.name, core: !!u.core, from, to: stops.length - 1 });
+  }
+  return { id: c.id, name: c.name, order: c.order, ...(c.phase ? { phase: c.phase } : {}), units, stops };
+});
 export const lineById = new Map(lines.map((l) => [l.id, l]));
+
+function nameStations(): void {
+  for (const l of lines) for (const s of l.stops) if ('term' in s) s.term = null;
+  for (const t of termById.values()) {
+    const l = lineById.get(unitById.get(t.unit)?.categoryId ?? '');
+    const s = t.stop === undefined ? undefined : l?.stops[t.stop];
+    if (s && 'term' in s && s.unit === t.unit) s.term = t.id;
+  }
+}
+nameStations();
+subscribeCards(nameStations);
+
+/** The term ids a stretch of stops names (stations not named yet are left out). */
+export function namedTerms(stops: Stop[]): string[] {
+  return stops.flatMap((s) => ('term' in s && s.term ? [s.term] : []));
+}
+/** How many stations a stretch of stops has, named or not. */
+export function stationCount(stops: Stop[]): number {
+  return stops.filter((s) => 'term' in s).length;
+}
 
 const isDue = (p: Progress, id: string, today: string) => isDueOn(p.terms[id], today);
 
@@ -95,6 +132,8 @@ export interface RideRoute {
   from: number;
   to: number;
   newIds: string[];
+  /** New stations whose terms the app isn't given until the ride starts. */
+  unnamed: number;
   metIds: string[];
   /** Interchanges on the way with a met term on another line: [this line's term, the other]. */
   transfers: [string, string][];
@@ -108,18 +147,27 @@ export function rideRoute(p: Progress, lineId: string, from: number, maxStops = 
   if ('term' in (line.stops[from] ?? {}) && !canRideFrom(p, lineId, from)) return null;
   const fresh: string[] = [];
   const met: string[] = [];
+  let unnamed = 0;
   const transfers: [string, string][] = [];
   let i = from;
   let endsAt: Ride['endsAt'];
-  for (; i < line.stops.length && fresh.length + met.length < maxStops; i++) {
+  for (; i < line.stops.length && fresh.length + unnamed + met.length < maxStops; i++) {
     const stop = line.stops[i];
     if ('depot' in stop) {
       if (i === from) continue;
       endsAt = { depot: stop.depot };
       break;
     }
-    const t = termById.get(stop.term);
-    if (!t) continue;
+    const t = stop.term ? termById.get(stop.term) : undefined;
+    if (!t) {
+      // A station the app has no name for yet: never met, so new if its unit is open.
+      if (!unitOpen(p, stop.unit)) {
+        endsAt = { locked: stop.unit };
+        break;
+      }
+      unnamed++;
+      continue;
+    }
     if (p.terms[t.id]) met.push(t.id);
     else if (!unitOpen(p, t.unit)) {
       endsAt = { locked: t.unit };
@@ -128,9 +176,9 @@ export function rideRoute(p: Progress, lineId: string, from: number, maxStops = 
     const twin = interchangesAt(t.id).find((id) => p.terms[id]);
     if (twin && transfers.length < 2) transfers.push([t.id, twin]);
   }
-  if (!fresh.length && !met.length) return null;
+  if (!fresh.length && !unnamed && !met.length) return null;
   if (transfers.length && !endsAt) endsAt = { interchange: transfers[transfers.length - 1][1] };
-  return { from, to: i - 1, newIds: fresh, metIds: met, transfers, endsAt };
+  return { from, to: i - 1, newIds: fresh, unnamed, metIds: met, transfers, endsAt };
 }
 
 export function buildRide(p: Progress, lineId: string, from: number, today: string, rng: Rng, maxStops = RIDE_STOPS): Ride | null {
@@ -141,7 +189,7 @@ export function buildRide(p: Progress, lineId: string, from: number, today: stri
   const known = new Set([...Object.keys(p.terms), ...route.newIds]);
   const qs: Question[] = [];
   // Stops in order: a new station is taught, a met one is asked the way Path would ask it.
-  for (const t of line.stops.slice(from, route.to + 1).flatMap((s) => ('term' in s ? [termById.get(s.term)!] : []))) {
+  for (const t of namedTerms(line.stops.slice(from, route.to + 1)).map((id) => termById.get(id)!)) {
     if (route.newIds.includes(t.id)) qs.push({ kind: 'intro', termId: t.id }, meaningQuestion(t, rng));
     else if (route.metIds.includes(t.id)) qs.push({ ...reviewQuestion(t, Math.max(1, p.terms[t.id].step), rng, known), review: isDue(p, t.id, today) } as Question);
   }
@@ -162,10 +210,9 @@ export function buildRide(p: Progress, lineId: string, from: number, today: stri
 export function frontier(p: Progress, lineId: string): number {
   const line = lineById.get(lineId);
   if (!line) return -1;
-  const i = line.stops.findIndex((s) => 'term' in s && !p.terms[s.term]);
+  const i = line.stops.findIndex((s) => 'term' in s && (!s.term || !p.terms[s.term]));
   if (i < 0) return -1;
-  const t = termById.get((line.stops[i] as { term: string }).term);
-  return t && unitOpen(p, t.unit) ? i : -1;
+  return unitOpen(p, (line.stops[i] as { unit: string }).unit) ? i : -1;
 }
 
 /**
@@ -177,14 +224,14 @@ export function canRideFrom(p: Progress, lineId: string, stop: number): boolean 
   const line = lineById.get(lineId);
   const s = line?.stops[stop];
   if (!s || !('term' in s)) return false;
-  return !!p.terms[s.term] || stop === frontier(p, lineId);
+  return (!!s.term && !!p.terms[s.term]) || stop === frontier(p, lineId);
 }
 
 /** Due stations on a line, in line order. */
 export function dueStops(p: Progress, lineId: string, today: string): string[] {
   const line = lineById.get(lineId);
   if (!line) return [];
-  return line.stops.flatMap((s) => ('term' in s && isDue(p, s.term, today) ? [s.term] : []));
+  return namedTerms(line.stops).filter((id) => isDue(p, id, today));
 }
 
 /** Revisit a line: its due stations, up to REVISIT_MAX, each asked the way Path would ask it. */

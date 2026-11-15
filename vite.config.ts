@@ -17,9 +17,6 @@ export default defineConfig({
         // Term cards are not in the build at all: the server sends them.
         manualChunks(id) {
           if (id.includes('node_modules/react')) return 'react';
-          // The Lines map and the Exchange tickers are chunks of their own, loaded only when a screen that shows them opens.
-          if (id.includes('/src/data/modes/metro.json')) return 'map';
-          if (id.includes('/src/data/modes/tickers.json')) return 'tickers';
           if (id.includes('/src/data/careers.json')) return 'careers';
           if (id.includes('/src/data/modes/')) return 'modes';
           if (id.includes('/src/data/')) return 'content';
