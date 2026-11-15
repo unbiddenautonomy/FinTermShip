@@ -307,7 +307,7 @@ function LineView({
           onClose={() => setSheet(null)}
           onOpenTerm={setSheet}
           actions={
-            stopOf(sheet) < 0 || !unitOpen(progress, termById.get(sheet)!.unit) ? undefined : canRideFrom(progress, line.id, stopOf(sheet)) ? (
+            stopOf(sheet) < 0 || !termById.has(sheet) || !unitOpen(progress, termById.get(sheet)!.unit) ? undefined : canRideFrom(progress, line.id, stopOf(sheet)) ? (
               <Button onClick={() => ride(stopOf(sheet))} className="sm:col-span-2">
                 Ride from this station
               </Button>

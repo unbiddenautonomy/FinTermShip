@@ -22,7 +22,7 @@ export function useCards(account: AccountState): { status: CardsStatus; retry: (
     if (import.meta.env.DEV) {
       // `npm run dev` has no server: every card, straight from the syllabus files.
       void loadAllCardsForDev().then(done);
-    } else if (email) done(startCards(email));
+    } else if (email) void startCards(email).then(done);
     // Lessons and rounds come from the server as they start, so the app needs a connection.
     else if (kind === 'offline') done('offline');
     else if (kind === 'out') done('signed-out');

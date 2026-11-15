@@ -3,6 +3,8 @@
  * rest) and asks for claims about them; it gets each claim's text without whether it is true or
  * why. A call is sent back to be marked, and only then do the truth and the reason come.
  */
+// Every term's name, before anything reads the syllabus.
+import '../src/lib/syllabus';
 import { fullCategories } from '../src/lib/cardData';
 import { claimsFor, dealClaim, DECK_SIZE, type ClaimLookup } from '../src/lib/modes/claims';
 import type { Term } from '../src/lib/types';

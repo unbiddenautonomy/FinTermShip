@@ -4,6 +4,7 @@ import { Home, UnitSheets } from './components/Home';
 import type { LessonSummary } from './components/Lesson';
 import { useAccount } from './components/useAccount';
 import { useCards } from './components/useCards';
+import { wantTerms } from './lib/terms';
 import { CardsGate, CardsToast } from './components/CardsGate';
 import { useGameKeys, useSlashKey } from './components/useKeys';
 import { BookIcon, ChartIcon, ChatIcon, GearIcon, Logo, PathIcon } from './components/icons';
@@ -188,6 +189,11 @@ export default function App() {
     if (!canOpen(mode)) setMode('path');
     if (shownMode && !canOpen(shownMode)) setScreen({ name: 'home' });
   }, [account.kind, canOpen, mode, shownMode]);
+
+  // Met terms the app has no name for yet (progress synced from another device): ask for them.
+  useEffect(() => {
+    if (progress && cards.status === 'ready') wantTerms(progress);
+  }, [progress, cards.status]);
 
   // Fetching cards for a lesson about to start, and anything that stopped one.
   // What is being fetched from the server before a screen opens, as the line to show.

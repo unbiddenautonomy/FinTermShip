@@ -9,10 +9,13 @@
  *   an invite and becomes the admin, who invites everyone else.
  * Tables are created on first use, so there are no migrations to run.
  */
+// Every term's name, before anything reads the syllabus.
+import '../src/lib/syllabus';
 import { mergeProgress } from '../src/lib/sync';
 import type { Progress } from '../src/lib/types';
 import { ALWAYS_ON, isModeId, MODES } from '../src/lib/modes/ids';
 import { askCards, countAsk, grant } from './cards';
+import { askTerms, withTerms } from './terms';
 import { dealDeck, markCall } from './callit';
 import { dealPractice, markPractice } from './practice';
 import { buildSession, dealSession, dealSums, importKey, markAnswer, mockSumTerms, newKeyBytes, sessionTermIds } from './session';
@@ -398,6 +401,13 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   // Settings the admin sets for everyone.
   if (route === 'GET /api/site') return json({ modesOff: await modesOff(db) });
 
+  // ---------- Term names ----------
+  // The names of the terms this account has reached: the app ships with none (worker/terms.ts).
+  if (route === 'POST /api/terms') {
+    if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
+    return json(await askTerms(db, user, now));
+  }
+
   // ---------- Term cards ----------
   // One screen's worth at a time; there is no way to get everything given so far in one go.
   if (route === 'POST /api/cards') {
@@ -413,13 +423,13 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     const b = await body();
     if (route === 'POST /api/round/mark') {
       const out = markRound(user, b);
-      return 'error' in out ? fail(400, String(out.error)) : json(out);
+      return 'error' in out ? fail(400, String(out.error)) : json(withTerms(out));
     }
     const out = dealRound(user, b.mode, b.ids);
     if ('error' in out) return fail(400, out.error);
     // Recorded like packs, so the admin sees each account's rounds.
     if (out.items.length) await db.batch(out.items.map((x) => db.prepare('INSERT OR IGNORE INTO packs (user_id, pack, issued) VALUES (?, ?, ?)').bind(user.id, `round:${x.id}`, now)));
-    return json(out);
+    return json(withTerms(out));
   }
 
   // ---------- Call It ----------
@@ -449,7 +459,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     // Every term it asks about or teaches must be one this account may have, as for cards.
     const { refused, reason } = await grant(db, user, sessionTermIds(plan), now);
     if (refused.length) return fail(403, reason ?? 'Some of these terms are not available yet.');
-    return json(await dealSession(key, user.id, plan, b.progress as Progress, seed));
+    return json(withTerms(await dealSession(key, user.id, plan, b.progress as Progress, seed), Object.keys((b.progress as Progress).terms)));
   }
 
   // A mock round's worked sums, sealed the same way; the round is marked by /api/mark once it ends.
@@ -460,7 +470,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     if (!ids) return fail(400, 'Unknown round.');
     const { allowed } = await grant(db, user, ids, now);
     const seed = crypto.getRandomValues(new Uint32Array(1))[0] % 2_147_483_647;
-    return json({ sums: await dealSums(await markKey(db), user.id, allowed, seed) });
+    return json(withTerms({ sums: await dealSums(await markKey(db), user.id, allowed, seed) }));
   }
 
   // ---------- Desk cases, Fermi, the meeting game, backtest detective ----------
@@ -472,7 +482,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
     if ('error' in out) return fail(400, String(out.error));
     // Recorded like packs, so the admin sees what each account has opened.
     if (route === 'POST /api/practice') await db.prepare('INSERT OR IGNORE INTO packs (user_id, pack, issued) VALUES (?, ?, ?)').bind(user.id, b.kind === 'case' ? `case:${String(b.unit)}` : String(b.kind), now).run();
-    return json(out);
+    return json(withTerms(out));
   }
 
   // The password for the quant switch and phase 3: right once, and the account keeps both.

@@ -1,5 +1,5 @@
 import { focusActive, unitOpen } from './choose';
-import { isPracticeUnit, isQuantArea, path, QUANT_AREAS } from './content';
+import { isPracticeUnit, isQuantArea, path, QUANT_AREAS, unitLeft } from './content';
 import { drillBlocks, drillPassed } from './drills';
 import type { Progress } from './types';
 
@@ -24,7 +24,7 @@ export function isDrill(r: PathRow): boolean {
 }
 
 export function unitDone(p: Progress, r: PathRow): boolean {
-  return isDrill(r) ? drillPassed(p, r.unit.id) : r.terms.every((t) => p.terms[t.id]);
+  return isDrill(r) ? drillPassed(p, r.unit.id) : unitLeft(p, r.unit.id) === 0;
 }
 
 /**

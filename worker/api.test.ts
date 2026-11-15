@@ -2,7 +2,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { graduate, introduce, newProgress } from '../src/lib/scheduler';
-import { categories } from '../src/lib/content';
+import { categories, termById } from '../src/lib/content';
 import { addDays } from '../src/lib/dates';
 import type { Progress } from '../src/lib/types';
 import worker, { handleApi, hashPassword, inviteCode, verifyPassword, type D1Database, type Env } from './index';
@@ -354,6 +354,32 @@ describe('worker: term cards', () => {
     expect((await new Client().call('POST', '/api/cards', { ids: ['bid'] })).status).toBe(401);
   });
 
+  it('names only the terms an account has reached, and records the ones met only in its progress', async () => {
+    const { friend } = await friendWith();
+    expect((await friend.call('POST', '/api/terms', {})).data.terms).toEqual([]);
+    await meet(friend, ['bid', 'ask', 'not-a-term']);
+    const r = await friend.call('POST', '/api/terms', {});
+    const got = r.data.terms as { id: string; term: string; unit: string; confusables: string[]; definition?: string }[];
+    expect(got.map((t) => t.id).sort()).toEqual(['ask', 'bid']);
+    const bid = got.find((t) => t.id === 'bid')!;
+    expect(bid.term).toBe(termById.get('bid')!.term);
+    expect(bid.unit).toBe(termById.get('bid')!.unit);
+    expect(bid).not.toHaveProperty('definition');
+    // Mix-ups name only reached terms.
+    for (const x of bid.confusables) expect(['ask']).toContain(x);
+    // A lesson's terms are named from then on.
+    const lesson = await friend.call('POST', '/api/session', { recipe: { build: 'lesson', keepGoing: true, listen: false }, progress: newProgress(), today: '2026-11-14' });
+    const again = ((await friend.call('POST', '/api/terms', {})).data.terms as { id: string }[]).map((t) => t.id);
+    for (const id of lesson.data.plan.newIds as string[]) expect(again).toContain(id);
+    // Coming back with hundreds of met terms (from before terms were recorded) names them all at
+    // once, records them for the admin, and keeps phase 3 back.
+    await meet(friend, ids);
+    const back = (await friend.call('POST', '/api/terms', {})).data;
+    expect(back.terms.length).toBe(mainIds.length);
+    expect(back.reason).toMatch(/Phase 3/);
+    expect((await new Client().call('POST', '/api/terms', {})).status).toBe(401);
+  });
+
   it('has no daily limit: only a ceiling per hour on new terms that no learner reaches', async () => {
     const t0 = Date.UTC(2026, 11, 1, 9);
     await friendWith();
@@ -556,6 +582,11 @@ describe('worker: lessons built and marked on the server', () => {
     expect(text).not.toMatch(/"answer"|"why"|"blank"|"wrong"|"calcs"/);
     // The cards of the terms it teaches, without what their questions are made from.
     expect(Object.keys(cards).sort()).toEqual([...plan.newIds].sort());
+    // The names of the terms it shows, with mix-ups only among terms the learner has reached.
+    const named = new Map((r.data.terms as { id: string; term: string; confusables: string[] }[]).map((t) => [t.id, t]));
+    for (const q of plan.questions) for (const id of q.kind === 'match' ? q.termIds : [q.termId]) expect(named.get(id)?.term, id).toBe(termById.get(id)!.term);
+    const reached = new Set([...Object.keys(learner().terms), ...named.keys()]);
+    for (const t of named.values()) for (const x of t.confusables) expect(reached.has(x), `${t.id} → ${x}`).toBe(true);
     for (const c of Object.values(cards) as Record<string, unknown>[]) {
       expect(c.definition).toBeTruthy();
       for (const f of ['fill', 'wrong', 'calcs', 'tf', 'talk', 'claims']) expect(c).not.toHaveProperty(f);
@@ -565,7 +596,8 @@ describe('worker: lessons built and marked on the server', () => {
       expect(m.status).toBe(200);
       expect(m.data.answer).toBeGreaterThanOrEqual(0);
       expect(m.data.answer).toBeLessThan(q.options.length);
-      if (q.kind === 'term' || q.kind === 'fill') expect(q.options[m.data.answer]).toBe(q.termId);
+      // Term options go as names: the app learns only the asked term's id.
+      if (q.kind === 'term' || q.kind === 'fill') expect(q.options[m.data.answer]).toBe(termById.get(q.termId)!.term);
       if (q.kind === 'fill') expect(m.data.blank).toBeTruthy();
       if (q.kind === 'calc' || q.kind === 'talk') expect(m.data.why).toBeTruthy();
       expect(m.data.card.definition).toBeTruthy();

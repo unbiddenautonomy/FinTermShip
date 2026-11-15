@@ -1,6 +1,6 @@
 /**
  * Term cards: what each term means, its examples and its questions. The app
- * ships with term names only; this is the one place the rest lives.
+ * ships with no terms at all (names come from worker/terms.ts); this is where the rest lives.
  *
  * - The app gets a card only for a term the learner has reached, and only the
  *   part that teaches it (TEACH_FIELDS): what it means, examples, notes. What
@@ -24,6 +24,8 @@
  * They stay here, and one round at a time is dealt without its answers
  * (worker/practice.ts, worker/rounds.ts, worker/callit.ts).
  */
+// Every term's name, before anything reads the syllabus.
+import '../src/lib/syllabus';
 import { buildCards, buildPacks, fullCategories } from '../src/lib/cardData';
 import { TEACH_FIELDS, type Card } from '../src/lib/types';
 
@@ -148,7 +150,7 @@ async function givenBefore(db: CardsDb, userId: number, ids: string[]): Promise<
  * with phase 3, and at most NEW_PER_HOUR it has never had before in any hour. Terms it has had
  * before are always allowed. What is allowed is recorded as given.
  */
-export async function grant(db: CardsDb, user: CardsUser, ids: string[], now: number): Promise<{ allowed: string[]; refused: string[]; reason?: string }> {
+export async function grant(db: CardsDb, user: CardsUser, ids: string[], now: number, ceiling = true): Promise<{ allowed: string[]; refused: string[]; reason?: string }> {
   const { cards, phase3 } = content();
   const wanted = [...new Set(ids)].filter((id) => cards.has(id));
   const given = await givenBefore(db, user.id, wanted);
@@ -163,7 +165,7 @@ export async function grant(db: CardsDb, user: CardsUser, ids: string[], now: nu
   }
   const fresh = open.filter((id) => !given.has(id));
   let issued = fresh;
-  if (!user.admin && fresh.length) {
+  if (ceiling && !user.admin && fresh.length) {
     const recent = await db.prepare('SELECT COUNT(*) AS n FROM cards WHERE user_id = ? AND issued > ?').bind(user.id, now - HOUR).first<{ n: number }>();
     const room = Math.max(0, NEW_PER_HOUR - (recent?.n ?? 0));
     issued = fresh.slice(0, room);
