@@ -27,17 +27,19 @@ export function LevelMeter({ progress, mode }: { progress: Progress; mode: Round
 }
 
 /** Shown in place of a round when the mode isn't open yet, or its content couldn't load. */
-export function NotYet({ progress, mode, error, onMode, onRetry }: { progress: Progress; mode: RoundMode; error?: string; onMode: (m: ModeId) => void; onRetry?: () => void }) {
-  const a = access(progress, mode);
+export function NotYet({ mode, error, onMode, onRetry }: { mode: RoundMode; error?: string; onMode: (m: ModeId) => void; onRetry?: () => void }) {
+  const a = access(mode);
   return (
     <div className="rounded-3xl border border-dashed border-line px-6 py-10 text-center">
-      <p className="font-display text-xl font-semibold text-ink">{error ? 'This didn’t load' : 'Not open yet'}</p>
+      <p className="font-display text-xl font-semibold text-ink">{error ? 'This didn’t load' : a.known ? 'Not open yet' : 'One moment'}</p>
       <p className="mx-auto mt-2 max-w-sm text-sm leading-relaxed text-ink-2">
-        {error ?? `Every round only uses terms you have met. Meet ${a.gap} more term${a.gap === 1 ? '' : 's'} in Path or Lines and the first round is ready.`}
+        {error ?? (a.known ? `Every round only uses terms you have met. Meet ${a.gap} more term${a.gap === 1 ? '' : 's'} in Path or Lines and the first round is ready.` : 'Checking which rounds you can play…')}
       </p>
-      <div className="mt-6 flex flex-wrap justify-center gap-3">
-        {error && onRetry ? <Button onClick={onRetry}>Try again</Button> : <Button onClick={() => onMode('path')}>Go to Path</Button>}
-      </div>
+      {(error || a.known) && (
+        <div className="mt-6 flex flex-wrap justify-center gap-3">
+          {error && onRetry ? <Button onClick={onRetry}>Try again</Button> : <Button onClick={() => onMode('path')}>Go to Path</Button>}
+        </div>
+      )}
     </div>
   );
 }

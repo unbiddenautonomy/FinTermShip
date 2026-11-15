@@ -4,14 +4,15 @@
  * there the same code runs in the page, never in the production build.
  */
 import { addTerms } from '../content';
-import type { TermStub } from '../types';
-import type { DealtBoard, DealtHeadline, FoundGroup, Headline, RoundMode } from './rounds';
+import type { Progress, TermStub } from '../types';
+import { setRoundStatus, type DealtBoard, type DealtHeadline, type FoundGroup, type Headline, type RoundMode, type RoundStatus } from './rounds';
 
 export async function call<T>(path: string, body: unknown): Promise<T> {
-  if (import.meta.env.DEV && path.startsWith('round')) {
-    const { dealRound, markRound } = await import('../../../worker/rounds');
+  if (import.meta.env.DEV && (path.startsWith('round') || path === 'modes')) {
+    const { dealRound, markRound, modeStatus } = await import('../../../worker/rounds');
     const b = body as Record<string, unknown>;
-    const out = path === 'round' ? dealRound({ admin: 1, phase3: 1 }, b.mode, b.ids) : markRound({ admin: 1, phase3: 1 }, b);
+    const dev = { admin: 1, phase3: 1 };
+    const out = path === 'modes' ? { status: modeStatus(dev, b.progress) } : path === 'round' ? dealRound(dev, b.mode, b.progress, b.today, Date.now() % 2_147_483_647) : markRound(dev, b);
     if ('error' in out) throw new Error(String(out.error));
     return out as T;
   }
@@ -29,11 +30,48 @@ export async function call<T>(path: string, body: unknown): Promise<T> {
   return data;
 }
 
-/** Deal the items picked for a round. */
-export async function dealRound(mode: 'headline', ids: string[]): Promise<DealtHeadline[]>;
-export async function dealRound(mode: 'finnections', ids: string[]): Promise<DealtBoard[]>;
-export async function dealRound(mode: RoundMode, ids: string[]): Promise<(DealtHeadline | DealtBoard)[]> {
-  return (await call<{ items: (DealtHeadline | DealtBoard)[] }>('round', { mode, ids })).items;
+/** A round picked by the server for this progress, dealt without its answers. */
+export async function dealRound(mode: 'headline', progress: Progress, today: string): Promise<DealtHeadline[]>;
+export async function dealRound(mode: 'finnections', progress: Progress, today: string): Promise<DealtBoard[]>;
+export async function dealRound(mode: RoundMode, progress: Progress, today: string): Promise<(DealtHeadline | DealtBoard)[]> {
+  return (await call<{ items: (DealtHeadline | DealtBoard)[] }>('round', { mode, progress, today })).items;
+}
+
+// Which modes are open depends only on which terms are met: ask again when that changes.
+let statusFor = '';
+let statusAsk: Promise<void> | null = null;
+const metKey = (p: Progress) => {
+  const ids = Object.keys(p.terms).sort();
+  let h = 0;
+  for (const id of ids) for (let i = 0; i < id.length; i++) h = (h * 31 + id.charCodeAt(i)) | 0;
+  return `${ids.length}:${h}`;
+};
+
+/**
+ * Ask the server whether Headline Desk and Finnections are open for this progress, and which
+ * levels are ready. Does nothing while the met terms are the ones last asked about.
+ */
+export function wantRoundStatus(p: Progress): Promise<void> {
+  const key = metKey(p);
+  if (key === statusFor && statusAsk) return statusAsk;
+  statusFor = key;
+  // Only which terms are met matters, so only that is sent.
+  const met = Object.fromEntries(Object.keys(p.terms).map((id) => [id, { due: p.terms[id].due }]));
+  statusAsk = call<{ status: Record<RoundMode, RoundStatus> }>('modes', { progress: { terms: met } }).then(
+    (r) => setRoundStatus(r.status),
+    () => {
+      // Try again next time progress changes.
+      statusFor = '';
+    },
+  );
+  return statusAsk;
+}
+
+/** Forget what the server said (signing in as someone else on this device). */
+export function resetRoundStatus(): void {
+  statusFor = '';
+  statusAsk = null;
+  setRoundStatus(null);
 }
 
 /** Mark a headline's calls: the whole headline comes back, with each line's move and term and the reason. */

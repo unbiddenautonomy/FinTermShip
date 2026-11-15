@@ -7,7 +7,7 @@ import { buildLesson, type LessonPlan } from './lesson';
 import { MOCKS, newMock } from './mock';
 import { buildDeck, claimsFor } from './modes/claims';
 import { buildDefend, buildListing, buildRally, buildRevisit, buildRide, lines } from './modes/plans';
-import { buildPhase3Test } from './phase3';
+import { buildPhase3Test } from './phase3prereqs';
 import { definitionNames, seededRng } from './questions';
 import { dueTermIds, graduate, introduce, newProgress } from './scheduler';
 import { CARD_FIELDS, type Card, type Progress } from './types';

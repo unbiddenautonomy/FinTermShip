@@ -23,8 +23,11 @@ interface Gate {
   gap: number;
 }
 
-export function gateOf(p: Progress, m: ModeId): Gate {
-  return isRoundMode(m) ? access(p, m) : { open: true, gap: 0 };
+export function gateOf(m: ModeId): Gate {
+  if (!isRoundMode(m)) return { open: true, gap: 0 };
+  // Until the server has said, the mode can be opened: its screen waits for the answer.
+  const a = access(m);
+  return a.known ? a : { open: true, gap: 0 };
 }
 
 /** One live line per mode, read from the shared record. */
@@ -42,7 +45,8 @@ export function statOf(p: Progress, m: ModeId, k: Kpis): string {
       return `Index ${(k.strength * k.coverage * 10).toFixed(1)}`;
     case 'headline':
     case 'finnections': {
-      const g = gateOf(p, m);
+      if (!access(m).known) return 'Checking…';
+      const g = gateOf(m);
       return g.open ? `Level ${levelState(p, m).level}` : `${g.gap} term${g.gap === 1 ? '' : 's'} to go`;
     }
   }
@@ -140,7 +144,7 @@ export function ModePicker({
         <ul className="grid grid-cols-2 gap-3 px-4 pb-6 sm:gap-4 sm:px-7 sm:pb-7 lg:grid-cols-3">
           {modes.map((m, i) => {
             const look = MODE_LOOK[m];
-            const gate = gateOf(progress, m);
+            const gate = gateOf(m);
             const here = m === current;
             const { label, blurb, icon: Icon } = info[m];
             const stat = statOf(progress, m, k);

@@ -4,13 +4,13 @@
  * market needs to show movement: the index once a day for the chart, and every price at the
  * latest visit (and the latest visit on an earlier day), so each stock's change is real.
  */
-import tickerData from '../../data/modes/tickers.json';
 import { categoryOfTerm, isCore, termById } from '../content';
 import { isDueOn, isKnownOn } from '../scheduler';
 import type { Progress } from '../types';
 import { modeRecord, openTermIds, strength, type Marks } from './knowledge';
 
-export const tickers = tickerData as Record<string, string>;
+/** A term's ticker: it comes with the term's name, once the learner has reached it. */
+export const tickerOf = (termId: string): string => termById.get(termId)?.ticker ?? '–';
 
 /** The index runs to this when every open term is held at full price. */
 export const INDEX_FULL = 1000;
@@ -46,7 +46,7 @@ export function quote(p: Progress, termId: string, today: string, base = baselin
   const before = base?.prices[termId];
   return {
     termId,
-    ticker: tickers[termId],
+    ticker: tickerOf(termId),
     sector: categoryOfTerm.get(termId)!.id,
     price,
     change: base && before !== undefined ? price - before : 0,

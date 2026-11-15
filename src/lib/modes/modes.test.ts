@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import metro from '../../data/modes/metro.json';
+import tickerData from '../../data/modes/tickers.json';
+import network from '../../data/modes/network.json';
 import { categories, termById } from '../content';
 import { addDays } from '../dates';
 import { seededRng } from '../questions';
@@ -9,9 +10,10 @@ import type { Progress } from '../types';
 import type { WrittenClaim } from '../types';
 import claimsJson from '../../data/modes/claims.json';
 import { buildDeck, claimsFor } from './claims';
-import { marketIndex, quote, snapshotCurrent, snapshotIndex, tickers, watchlist } from './exchange';
+import { marketIndex, quote, snapshotCurrent, snapshotIndex, watchlist } from './exchange';
 import { kpis, landingMode, MIN_HALF_LIFE, recordAnswer, strength, STRENGTH_FLOOR, type ModeId } from './knowledge';
-import { interchanges, transferPuzzle } from './transfer';
+import { interchangesAt, transferPuzzle } from './transfer';
+import { lines } from './plans';
 import { modesOn } from './ids';
 
 const writtenClaims = claimsJson as WrittenClaim[];
@@ -233,7 +235,7 @@ describe('Call It claims', () => {
 });
 
 describe('Term Lines map', () => {
-  const lines = metro.lines;
+  const interchanges = allTerms.flatMap((t) => interchangesAt(t.id).filter((o) => t.id < o).map((o) => ({ a: t.id, b: o })));
 
   it('puts every term on exactly one line, in the order Path teaches it', () => {
     const stations = lines.flatMap((l) => l.stops.filter((s) => 'term' in s).map((s) => (s as { term: string }).term));
@@ -282,6 +284,16 @@ describe('Term Lines map', () => {
     expect([...seen].sort()).toEqual([...withTerms].sort());
   });
 
+  it('draws the network map from the interchanges, unit by unit', () => {
+    const unitOf = new Map(allTerms.map((t) => [t.id, t.unit]));
+    const links = new Map<string, number>();
+    for (const i of interchanges) {
+      const [x, y] = [unitOf.get(i.a)!, unitOf.get(i.b)!].sort();
+      links.set(`${x}|${y}`, (links.get(`${x}|${y}`) ?? 0) + 1);
+    }
+    expect(network.unitLinks.map((l) => [`${l.a}|${l.b}`, l.n])).toEqual([...links].sort(([a], [b]) => (a < b ? -1 : 1)));
+  });
+
   it('builds a transfer puzzle whose answers match the right glosses', () => {
     const i = interchanges[0];
     const t = transferPuzzle(i.a, i.b, seededRng(3))!;
@@ -291,7 +303,9 @@ describe('Term Lines map', () => {
 
 describe('Recall Exchange', () => {
   it('gives every term a unique ticker', () => {
+    const tickers = tickerData as Record<string, string>;
     for (const t of allTerms) expect(tickers[t.id], t.id).toBeTruthy();
+    for (const t of allTerms) expect(termById.get(t.id)!.ticker, t.id).toBe(tickers[t.id]);
     expect(new Set(Object.values(tickers)).size).toBe(Object.keys(tickers).length);
   });
 

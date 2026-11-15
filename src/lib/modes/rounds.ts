@@ -10,12 +10,12 @@
  * - A round takes unseen items first, then ones with a term due for review, then the ones seen
  *   longest ago. If the level is short of items, the rest come from the levels below.
  *
- * The app ships only rounds.json: each item's id, level and terms. It picks a round's items from
- * that and the server deals them without their answers, then marks each answer
- * (src/lib/modes/roundApi.ts, worker/rounds.ts).
+ * The app ships none of the content, nor which terms each item uses. The server picks each round
+ * from the learner's progress (src/lib/modes/roundPick.ts) and deals it without its answers,
+ * then marks each answer (src/lib/modes/roundApi.ts, worker/rounds.ts). It also tells the app
+ * whether each mode is open and which levels are ready (`setRoundStatus`), so the app can show
+ * them without knowing the items.
  */
-import index from '../../data/modes/rounds.json';
-import { shuffle, type Rng } from '../questions';
 import { finishModeSession, modeRecord, recordAnswer } from './knowledge';
 import type { ModeId } from './ids';
 import type { Progress } from '../types';
@@ -48,15 +48,6 @@ export type RoundMode = Extract<ModeId, 'headline' | 'finnections'>;
 export const ROUND_MODES: RoundMode[] = ['headline', 'finnections'];
 export const isRoundMode = (m: ModeId): m is RoundMode => m === 'headline' || m === 'finnections';
 
-export interface IndexItem {
-  id: string;
-  level: number;
-  terms: string[];
-}
-
-const read = (rows: (string | number)[][]): IndexItem[] => rows.map(([id, level, ...terms]) => ({ id: String(id), level: Number(level), terms: terms.map(String) }));
-export const ROUND_INDEX: Record<RoundMode, IndexItem[]> = { headline: read(index.headline), finnections: read(index.finnections) };
-
 /** Items in one round. */
 export const ROUND_SIZE: Record<RoundMode, number> = { headline: 3, finnections: 1 };
 export const LEVELS = [1, 2, 3] as const;
@@ -84,35 +75,15 @@ export interface DealtBoard {
 /** A group as the server gives it back, with its place in the board's order (for its colour). */
 export type FoundGroup = BoardGroup & { order: number };
 
-/** Items the learner can play: every term met. */
-export function playable(p: Progress, mode: RoundMode): IndexItem[] {
-  return ROUND_INDEX[mode].filter((x) => x.terms.every((t) => p.terms[t]));
-}
-
-/** Levels with a full round to play. Level 1 is always listed; it may have nothing in it yet. */
-function levelsReady(items: IndexItem[], mode: RoundMode): number[] {
-  return LEVELS.filter((l) => l === 1 || items.filter((x) => x.level === l).length >= ROUND_SIZE[mode]);
-}
-
 export interface Access {
   open: boolean;
   /** When closed: the fewest terms still to meet before a full level 1 round can be played. */
   gap: number;
 }
 
-/** Whether a mode is open yet, and if not, how far off it is. */
-export function access(p: Progress, mode: RoundMode): Access {
-  const need = ROUND_SIZE[mode];
-  const ready = playable(p, mode).filter((x) => x.level === 1).length;
-  if (ready >= need) return { open: true, gap: 0 };
-  // The closest level 1 items, counting terms they share once.
-  const missing = ROUND_INDEX[mode]
-    .filter((x) => x.level === 1)
-    .map((x) => x.terms.filter((t) => !p.terms[t]))
-    .sort((a, b) => a.length - b.length);
-  const set = new Set<string>();
-  for (const m of missing.slice(0, need)) for (const t of m) set.add(t);
-  return { open: false, gap: set.size };
+/** What the server says about a mode for this learner: whether it is open, and the highest level with a full round to play. */
+export interface RoundStatus extends Access {
+  ready: number;
 }
 
 export interface LevelState {
@@ -124,26 +95,39 @@ export interface LevelState {
   ready: number;
 }
 
-export function levelState(p: Progress, mode: RoundMode): LevelState {
+/** The level a learner plays at: the one they earned, but no higher than the levels ready to play. */
+export function levelFrom(p: Progress, mode: RoundMode, ready: number): LevelState {
   const r = modeRecord(p, mode);
-  const ready = Math.max(...levelsReady(playable(p, mode), mode));
   const earned = Math.min(MAX_LEVEL, Math.max(1, r.level ?? 1));
   return { level: Math.min(earned, ready), good: r.good ?? 0, ready };
 }
 
-/** The items for one round at the current level, best first. */
-export function pickRound(p: Progress, mode: RoundMode, today: string, rng: Rng): IndexItem[] {
-  const { level } = levelState(p, mode);
-  const seen = modeRecord(p, mode).seen ?? {};
-  const items = playable(p, mode);
-  const rank = (xs: IndexItem[]) =>
-    shuffle(xs, rng)
-      .map((x) => ({ x, unseen: seen[x.id] ? 1 : 0, due: x.terms.some((t) => p.terms[t].due <= today) ? 0 : 1, last: seen[x.id] ?? '' }))
-      .sort((a, b) => a.unseen - b.unseen || a.due - b.due || (a.last < b.last ? -1 : a.last > b.last ? 1 : 0))
-      .map((r) => r.x);
-  const out: IndexItem[] = [];
-  for (let l = level; l >= 1 && out.length < ROUND_SIZE[mode]; l--) out.push(...rank(items.filter((x) => x.level === l)).slice(0, ROUND_SIZE[mode] - out.length));
-  return out;
+// ---------- What the server last said (the app's copy) ----------
+
+const status: Partial<Record<RoundMode, RoundStatus>> = {};
+let statusVersion = 0;
+const statusListeners = new Set<() => void>();
+
+export function setRoundStatus(next: Partial<Record<RoundMode, RoundStatus>> | null): void {
+  for (const m of ROUND_MODES) delete status[m];
+  Object.assign(status, next ?? {});
+  statusVersion++;
+  for (const f of statusListeners) f();
+}
+export function subscribeRoundStatus(f: () => void): () => void {
+  statusListeners.add(f);
+  return () => statusListeners.delete(f);
+}
+export const getRoundStatusVersion = () => statusVersion;
+
+/** Whether a mode is open yet, and if not, how far off it is. `known` is false until the server has said. */
+export function access(mode: RoundMode): Access & { known: boolean } {
+  const s = status[mode];
+  return s ? { open: s.open, gap: s.gap, known: true } : { open: false, gap: 0, known: false };
+}
+
+export function levelState(p: Progress, mode: RoundMode): LevelState {
+  return levelFrom(p, mode, status[mode]?.ready ?? 1);
 }
 
 /** The level after a round with this score (0 to 1). */
@@ -160,8 +144,7 @@ export function nextLevel(state: LevelState, score: number): { level: number; go
  * Close a round: mark its items seen today, move the level, and count the session. Answers are
  * recorded as they are given, through recordAnswer, like every other mode.
  */
-export function finishRound(p: Progress, mode: RoundMode, today: string, ids: string[], score: number): Progress {
-  const state = levelState(p, mode);
+export function finishRound(p: Progress, mode: RoundMode, today: string, ids: string[], score: number, state = levelState(p, mode)): Progress {
   const { level, good } = nextLevel(state, score);
   const seen = { ...(modeRecord(p, mode).seen ?? {}) };
   for (const id of ids) seen[id] = today;
