@@ -5,6 +5,8 @@
  * to be marked. A board comes as its sixteen tiles in a random order; each guess of four is
  * checked here, and the groups come back only once the board is over.
  */
+// Every term's name, before anything reads the syllabus.
+import '../src/lib/syllabus';
 import { content as cardContent } from './cards';
 import type { Board, BoardGroup, Headline } from '../src/lib/modes/rounds';
 

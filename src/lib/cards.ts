@@ -1,5 +1,5 @@
 /**
- * Term cards from the server. The app ships with names only (the outline); a
+ * Term cards from the server. The app ships with no term names (src/data/skeleton.json); a
  * term's meaning, examples and questions arrive on its card. The app asks for a
  * card only when the learner does something that shows it: starts a lesson,
  * opens a term, deals a round (worker/cards.ts). There is no download of
@@ -8,7 +8,8 @@
  * Desk cases, games and modes never come whole: the server deals one round
  * at a time without its answers (src/lib/modes/roundApi.ts).
  */
-import { applyCards, clearCards, hasCard, termById } from './content';
+import { applyCards, clearTerms, hasCard, termById } from './content';
+import { loadTerms, resetTermAsks } from './terms';
 import type { Card } from './types';
 
 // ---------- Talking to the server ----------
@@ -57,19 +58,22 @@ function apply(from: { cards: Record<string, Card> }) {
 export type CardsStatus = 'loading' | 'ready' | 'offline' | 'signed-out' | 'error';
 
 /**
- * Start a signed-in session: nothing is fetched until the learner does
- * something. Signing in as someone else drops the last account's cards from
- * memory, and any cards an older version of the app kept on this device are
- * deleted.
+ * Start a signed-in session: fetch the names of the terms this account has reached (the path
+ * and its counts need them), and nothing else until the learner does something. Signing in as
+ * someone else drops the last account's terms and cards from memory, and any cards an older
+ * version of the app kept on this device are deleted.
  */
-export function startCards(email: string): CardsStatus {
+export async function startCards(email: string): Promise<CardsStatus> {
   if (account !== email) {
-    if (account) clearCards();
+    if (account) clearTerms();
     tried.clear();
+    resetTermAsks();
     account = email;
   }
   forgetStoredCards();
-  return 'ready';
+  const failed = await loadTerms();
+  if (!failed) return 'ready';
+  return /offline/i.test(failed) ? 'offline' : 'error';
 }
 
 /** Delete what earlier versions of the app kept on the device (IndexedDB and the last account's email). */
@@ -92,6 +96,7 @@ function forgetStoredCards() {
 /** Every card at once, for `npm run dev`, which has no server. Never part of the production build. */
 export async function loadAllCardsForDev(): Promise<CardsStatus> {
   if (import.meta.env.DEV) {
+    await import('./syllabus');
     const { buildCards } = await import('./cardData');
     applyCards(Object.fromEntries(buildCards()));
     return 'ready';

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import { areaOpen, canTakeTest, unitOpen } from '../lib/choose';
-import { caseSummary, categories, categoryOfUnit, isPracticeUnit, practiceKind, termById, termIdsOfUnit, unitById } from '../lib/content';
+import { areaSize, caseSummary, categories, categoryOfUnit, isPracticeUnit, metInUnit, practiceKind, termById, unitById, unitLeft, unitSize } from '../lib/content';
 import { drillPassed } from '../lib/drills';
 import { answer, careers, replyFor, STARTERS, type HelpAction, type Intent, type Reply, type Target } from '../lib/guide';
 import { todayStatus } from '../lib/lesson';
@@ -195,8 +195,7 @@ function unitSummary(p: Progress, unitId: string): string {
     const size = kind === 'case' ? `${caseSummary.get(unitId)?.steps ?? 0} decisions, ` : '';
     return `A ${KIND_LABEL[kind]}, ${size}${passed ? 'passed' : 'not passed yet'}`;
   }
-  const ids = termIdsOfUnit(unitId);
-  return `${ids.length} terms, ${ids.filter((id) => p.terms[id]).length} met`;
+  return `${unitSize(unitId)} terms, ${metInUnit(p, unitId)} met`;
 }
 
 function ReplyView({ reply, progress: p, today, act }: { reply: Reply; progress: Progress; today: string; act: Actions }) {
@@ -355,7 +354,7 @@ function TermView({ termId, p, today, act }: { termId: string; p: Progress; toda
 function UnitView({ unitId, termId, p, today, act }: { unitId: string; termId?: string; p: Progress; today: string; act: Actions }) {
   const unit = unitById.get(unitId)!;
   const open = unitOpen(p, unitId);
-  const done = isPracticeUnit(unitId) ? drillPassed(p, unitId) : termIdsOfUnit(unitId).every((id) => p.terms[id]);
+  const done = isPracticeUnit(unitId) ? drillPassed(p, unitId) : unitLeft(p, unitId) === 0;
   const next = currentUnit(p, today) === unitId;
   return (
     <>
@@ -396,7 +395,7 @@ function AreaView({ categoryId, intent, p, today, act }: { categoryId: string; i
     <>
       <p className="text-lg font-extrabold text-ink">{area.name}</p>
       <p className="text-sm text-ink-3">
-        {area.units.length} units{area.terms.length ? `, ${area.terms.length} terms, ${met} met` : ''}
+        {area.units.length} units{areaSize(area.id) ? `, ${areaSize(area.id)} terms, ${met} met` : ''}
       </p>
       {intent === 'know' && (
         <p className="mt-2">
@@ -404,7 +403,7 @@ function AreaView({ categoryId, intent, p, today, act }: { categoryId: string; i
             ? 'Its advanced units are already open, so pick any unit below.'
             : testable
               ? 'Take its test to skip ahead: one question on each core term, and 80% opens its advanced units. Terms you get right count as learned.'
-              : area.terms.length === 0
+              : areaSize(area.id) === 0
                 ? 'This area has no test. Its units open as you pass its core drills.'
                 : "You've tried its test today. You can try again tomorrow."}
         </p>
