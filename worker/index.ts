@@ -15,7 +15,7 @@ import { mergeProgress } from '../src/lib/sync';
 import type { Progress } from '../src/lib/types';
 import { ALWAYS_ON, isModeId, MODES } from '../src/lib/modes/ids';
 import { askCards, countAsk, grant } from './cards';
-import { askTerms, withTerms } from './terms';
+import { askGuide, askTerms, countSearch, searchTerms, withTerms } from './terms';
 import { dealDeck, markCall } from './callit';
 import { dealPractice, markPractice } from './practice';
 import { buildSession, dealSession, dealSums, importKey, markAnswer, mockSumTerms, newKeyBytes, sessionTermIds } from './session';
@@ -92,6 +92,8 @@ const SCHEMA = [
   `CREATE TABLE IF NOT EXISTS site (key TEXT PRIMARY KEY, value TEXT NOT NULL)`,
   // The cases and game content (packs) each account has been given.
   `CREATE TABLE IF NOT EXISTS packs (user_id INTEGER NOT NULL, pack TEXT NOT NULL, issued INTEGER NOT NULL, PRIMARY KEY (user_id, pack))`,
+  // Searches and guide questions per account per day (worker/terms.ts): the way to a term not yet reached.
+  `CREATE TABLE IF NOT EXISTS searches (user_id INTEGER NOT NULL, day INTEGER NOT NULL, n INTEGER NOT NULL, PRIMARY KEY (user_id, day))`,
   // Wrong tries at the unlock password, per account.
   `CREATE TABLE IF NOT EXISTS unlock_tries (user_id INTEGER PRIMARY KEY, fails INTEGER NOT NULL, locked_until INTEGER NOT NULL)`,
 ];
@@ -406,6 +408,14 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   if (route === 'POST /api/terms') {
     if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
     return json(await askTerms(db, user, now));
+  }
+
+  // Finding a term by name, and the Guide's answers: the only ways to a term not yet reached.
+  if (route === 'POST /api/search' || route === 'POST /api/guide') {
+    if (!(await countAsk(db, user, now))) return fail(429, 'That is a lot of requests at once. Wait a minute and try again.');
+    if (!(await countSearch(db, user, now))) return fail(429, 'That is a lot of searching for one day. Try again tomorrow.');
+    const b = await body();
+    return json(route === 'POST /api/search' ? searchTerms(user, b.q) : askGuide(user, b.text, b.progress));
   }
 
   // ---------- Term cards ----------
