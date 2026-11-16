@@ -12,6 +12,8 @@ import { areaOf, termStatus } from '../../lib/modes/status';
 import { seededRng } from '../../lib/questions';
 import { finishLesson } from '../../lib/scheduler';
 import type { Progress } from '../../lib/types';
+import { buzz, reducedMotion, useCountUp } from '../../lib/motion';
+import { Confetti } from '../Confetti';
 import { Check, Cross, Flame } from '../icons';
 import { Button } from '../ui';
 import { KpiDelta } from './KpiDelta';
@@ -29,7 +31,13 @@ interface Props {
 type Dealt = { termId: string; text: string };
 type Call = { claim: Dealt & { truth: boolean; why: string }; said: boolean; right: boolean };
 
+/** How far a card must be dragged to count as a call. */
 const FLICK = 90;
+/** Or how fast it must be moving when let go (px per ms), having moved at least a little. */
+const FLING = 0.55;
+const NUDGE = 24;
+/** How long a called card takes to be thrown off the table before the next is dealt. */
+const TOSS_MS = 260;
 
 export function CallIt({ progress, today, onProgress, onMode }: Props) {
   const [seed, setSeed] = useState(() => Date.now() % 2_147_483_647);
@@ -45,7 +53,15 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   const [done, setDone] = useState(false);
   const [sheet, setSheet] = useState<string | null>(null);
   const [drag, setDrag] = useState(0);
+  const [held, setHeld] = useState(false);
+  /** The side a call went to, held while the server marks it so the card stays lit that way. */
+  const [pending, setPending] = useState<boolean | null>(null);
+  /** The called card is being thrown off to this side; the next is dealt once it's gone. */
+  const [leaving, setLeaving] = useState<-1 | 1 | null>(null);
   const dragFrom = useRef<number | null>(null);
+  /** Recent pointer positions, to tell how fast the card was moving when let go. */
+  const trail = useRef<{ x: number; t: number }[]>([]);
+  const pastFlick = useRef(false);
   const shownAt = useRef(Date.now());
   const startKpis = useRef<Kpis>(kpis(progress, today));
   const progressRef = useRef(progress);
@@ -74,6 +90,7 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   useEffect(() => {
     shownAt.current = Date.now();
     setDrag(0);
+    setLeaving(null);
   }, [index, seed, dealt]);
 
   const call = useCallback(
@@ -81,7 +98,10 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
       if (!card || answered || done || marking) return;
       const ms = Date.now() - shownAt.current;
       setMarking(true);
+      setPending(said);
       setCallError(null);
+      // The card springs back to the middle while the call is marked, then flips to show the answer.
+      setDrag(0);
       let answer: { truth: boolean; why: string };
       try {
         answer = await markCall(card.termId, card.text);
@@ -91,6 +111,7 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
         return;
       } finally {
         setMarking(false);
+        setPending(null);
       }
       const right = said === answer.truth;
       const p = recordAnswer(progressRef.current, { termId: card.termId, correct: right, ms, evidence: 'weak', mode: 'callit' }, today);
@@ -99,13 +120,11 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
       const r = right ? run + 1 : 0;
       setRun(r);
       setBestRun((b) => Math.max(b, r));
-      setDrag(said ? 400 : -400);
     },
     [card, answered, done, marking, run, today, onProgress],
   );
 
-  const next = useCallback(() => {
-    if (!answered) return;
+  const advance = useCallback(() => {
     if (index + 1 < deck.length) {
       setIndex(index + 1);
       return;
@@ -116,7 +135,18 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
     p = finishModeSession(p, 'callit', today, { bestRun });
     onProgress(p);
     setDone(true);
-  }, [answered, index, deck.length, calls, bestRun, today, onProgress]);
+  }, [index, deck.length, calls, bestRun, today, onProgress]);
+
+  /** Throw the called card off the table, toward the side it was called, then deal the next. */
+  const next = useCallback(() => {
+    if (!answered || leaving) return;
+    if (reducedMotion()) {
+      advance();
+      return;
+    }
+    setLeaving(calls[index]?.said ? 1 : -1);
+    setTimeout(advance, TOSS_MS);
+  }, [answered, leaving, advance, calls, index]);
 
   const again = () => {
     startKpis.current = kpis(progressRef.current, today);
@@ -205,10 +235,7 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
       <div className="space-y-5">
         <div className="rounded-3xl border border-line bg-surface p-6 text-center shadow-card">
           <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">Deck done</p>
-          <p className="num mt-2 font-mono text-5xl font-semibold text-ink">
-            {right}
-            <span className="text-2xl text-ink-3">/{deck.length}</span>
-          </p>
+          <DeckScore right={right} total={deck.length} />
           <p className="mt-2 text-sm text-ink-2">
             Best run this deck: <b className="num">{bestRun}</b>
             {record.bestRun && bestRun >= record.bestRun ? ' · your best yet' : ''}
@@ -247,8 +274,23 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   const term = termById.get(card.termId)!;
   const area = areaOf(card.termId);
   const colour = area?.colour ?? 'rgb(var(--brand))';
-  const tilt = answered ? 0 : drag / 14;
-  const lean = !answered && Math.abs(drag) > 30 ? (drag > 0 ? 'true' : 'false') : null;
+  const tilt = answered ? 0 : drag / 16;
+  const lean = answered ? null : pending !== null ? (pending ? 'true' : 'false') : Math.abs(drag) > 30 ? (drag > 0 ? 'true' : 'false') : null;
+  // How strongly the TRUE / FALSE stamp shows while dragging: faint at first, full by the flick point.
+  const leanStrength = pending !== null ? 1 : Math.min(1, Math.max(0, (Math.abs(drag) - 30) / (FLICK - 30)));
+  const flip = answered ? (last!.said ? 180 : -180) : 0;
+  const edge = lean === 'true' ? 'rgb(var(--good-strong))' : lean === 'false' ? 'rgb(var(--bad-strong))' : 'rgb(var(--ink))';
+  const face = 'relative min-w-0 rounded-xl border-2 bg-surface [backface-visibility:hidden] [grid-area:1/1] [-webkit-backface-visibility:hidden]';
+  const release = (x: number) => {
+    // Speed over the last ~80ms of the drag, so a quick flick counts even if it was short.
+    const now = performance.now();
+    const recent = trail.current.filter((s) => now - s.t < 80);
+    const first = recent[0];
+    const v = first && now > first.t ? (x - first.x) / (now - first.t) : 0;
+    if (drag > FLICK || (drag > NUDGE && v > FLING)) void call(true);
+    else if (drag < -FLICK || (drag < -NUDGE && v < -FLING)) void call(false);
+    else setDrag(0);
+  };
 
   return frame(
     <div className="space-y-4">
@@ -265,7 +307,7 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
         {/* One tick per card: ink for a right call, red for a wrong one. */}
         <div className="mt-2 flex gap-1" role="progressbar" aria-label="Deck progress" aria-valuemin={0} aria-valuemax={deck.length} aria-valuenow={calls.length}>
           {deck.map((_, i) => (
-            <span key={i} className={`h-1.5 flex-1 rounded-sm ${i < calls.length ? (calls[i].right ? 'bg-ink' : 'bg-bad-strong') : i === index ? 'bg-ink/30' : 'bg-ink/10'}`} />
+            <span key={i} className={`h-1.5 flex-1 origin-left rounded-sm ${i < calls.length ? `animate-grow ${calls[i].right ? 'bg-ink' : 'bg-bad-strong'}` : i === index ? 'bg-ink/30' : 'bg-ink/10'}`} />
           ))}
         </div>
       </div>
@@ -274,46 +316,67 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
       <div className="relative -mx-4 px-6 py-8 sm:mx-0 sm:rounded-2xl" style={{ backgroundImage: 'radial-gradient(rgb(var(--ink) / 0.13) 1px, transparent 1.2px)', backgroundSize: '14px 14px' }}>
         {index + 1 < deck.length && <div className="absolute inset-x-8 bottom-6 top-10 rotate-[2.5deg] rounded-xl border-2 border-ink bg-surface" style={{ boxShadow: `6px 6px 0 ${colour}` }} aria-hidden="true" />}
         {index + 2 < deck.length && <div className="absolute inset-x-7 bottom-7 top-9 -rotate-[2deg] rounded-xl border-2 border-ink bg-surface" aria-hidden="true" />}
+        {/* Two layers: the outer one follows the finger and is thrown off when done; the inner one flips over to the answer. */}
         <div
           key={index}
-          className={`relative min-h-[19rem] touch-pan-y select-none rounded-xl border-2 bg-surface ${answered ? '' : 'animate-pop cursor-grab active:cursor-grabbing'}`}
+          className={`relative touch-pan-y select-none ${answered ? '' : `animate-deal ${held ? 'cursor-grabbing' : 'cursor-grab'}`}`}
           style={{
-            borderColor: lean === 'true' ? 'rgb(var(--good-strong))' : lean === 'false' ? 'rgb(var(--bad-strong))' : 'rgb(var(--ink))',
-            boxShadow: `8px 8px 0 ${colour}`,
-            transform: answered ? 'rotateY(0deg)' : `translateX(${drag}px) rotate(${tilt}deg)`,
-            transition: dragFrom.current === null ? 'transform 220ms cubic-bezier(0.2,0.8,0.2,1), border-color 150ms' : 'none',
+            perspective: '1400px',
+            transformOrigin: '50% 90%',
+            transform: leaving ? `translateX(${leaving * 135}%) rotate(${leaving * 14}deg)` : `translateX(${answered ? 0 : drag}px) rotate(${tilt}deg)`,
+            opacity: leaving ? 0 : 1,
+            transition: held
+              ? 'none'
+              : leaving
+                ? `transform ${TOSS_MS}ms cubic-bezier(0.5, 0, 0.75, 0), opacity ${TOSS_MS}ms ease-in`
+                : 'transform 480ms cubic-bezier(0.34, 1.56, 0.64, 1)',
           }}
           onPointerDown={(e) => {
-            if (answered) return;
+            if (answered || marking) return;
             dragFrom.current = e.clientX;
+            trail.current = [{ x: e.clientX, t: performance.now() }];
+            pastFlick.current = false;
+            setHeld(true);
             (e.target as HTMLElement).setPointerCapture?.(e.pointerId);
           }}
           onPointerMove={(e) => {
             if (dragFrom.current === null) return;
-            setDrag(e.clientX - dragFrom.current);
+            const d = e.clientX - dragFrom.current;
+            trail.current = [...trail.current.slice(-6), { x: e.clientX, t: performance.now() }];
+            // A small tick on the phone as the card passes the point where letting go makes the call.
+            const past = Math.abs(d) > FLICK;
+            if (past !== pastFlick.current) {
+              pastFlick.current = past;
+              if (past) buzz();
+            }
+            setDrag(d);
           }}
-          onPointerUp={() => {
+          onPointerUp={(e) => {
             if (dragFrom.current === null) return;
             dragFrom.current = null;
-            if (drag > FLICK) void call(true);
-            else if (drag < -FLICK) void call(false);
-            else setDrag(0);
+            setHeld(false);
+            release(e.clientX);
           }}
           onPointerCancel={() => {
             dragFrom.current = null;
+            setHeld(false);
             setDrag(0);
           }}
         >
-          <div className="flex min-h-[19rem] flex-col gap-4 p-6">
-            <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-ink-3">
-              <TermDot status={termStatus(progress, card.termId, today)} colour={colour} size={11} />
-              <span className="font-semibold" style={{ color: colour }}>
-                {area?.code}
-              </span>
-              <span className="truncate">{area?.name}</span>
-            </p>
-            {!answered ? (
-              <>
+          <div
+            className="grid grid-cols-1 [transform-style:preserve-3d]"
+            style={{ transform: `rotateY(${flip}deg)`, transition: 'transform 640ms cubic-bezier(0.3, 1.25, 0.5, 1)' }}
+          >
+            {/* The front: the claim. */}
+            <div className={face} style={{ borderColor: edge, boxShadow: `8px 8px 0 ${colour}`, transition: 'border-color 150ms' }} aria-hidden={answered}>
+              <div className="flex min-h-[19rem] flex-col gap-4 p-6">
+                <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-ink-3">
+                  <TermDot status={termStatus(progress, card.termId, today)} colour={colour} size={11} />
+                  <span className="font-semibold" style={{ color: colour }}>
+                    {area?.code}
+                  </span>
+                  <span className="truncate">{area?.name}</span>
+                </p>
                 <p className="my-auto text-[26px] font-extrabold leading-[1.15] tracking-tight text-ink">
                   <Marked text={card.text} term={term.term} colour={colour} />
                 </p>
@@ -322,30 +385,50 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
                   <span>flick</span>
                   <span>true →</span>
                 </p>
-              </>
-            ) : (
-              <div className="animate-pop space-y-3">
-                <p className={`flex items-center gap-2 text-xl font-extrabold ${last!.right ? 'text-good-ink' : 'text-bad-ink'}`}>
-                  <span className={`flex h-8 w-8 items-center justify-center rounded-full text-white ${last!.right ? 'bg-good' : 'bg-bad'}`}>
-                    {last!.right ? <Check className="h-4 w-4" /> : <Cross className="h-4 w-4" />}
-                  </span>
-                  {last!.right ? 'Right call' : 'Wrong call'}: it's {last!.claim.truth ? 'true' : 'false'}
-                </p>
-                <p className="text-sm italic text-ink-3">“{card.text}”</p>
-                <p className="leading-relaxed text-ink-2">{last!.claim.why}</p>
-                <button type="button" onClick={() => setSheet(card.termId)} className="text-sm font-extrabold text-sky-ink">
-                  Open {term.term}
-                </button>
               </div>
-            )}
+              {/* On the edge trailing the drag, so it stays on screen as the card goes over the side. */}
+              {lean && (
+                <span
+                  className={`absolute top-12 rounded-lg border-2 bg-surface/90 px-2 py-0.5 text-sm font-extrabold uppercase tracking-wider ${lean === 'true' ? 'left-5 border-good text-good-ink' : 'right-5 border-bad text-bad-ink'}`}
+                  style={{ opacity: 0.35 + 0.65 * leanStrength, transform: `scale(${0.85 + 0.15 * leanStrength}) rotate(${lean === 'true' ? -6 : 6}deg)` }}
+                >
+                  {lean}
+                </span>
+              )}
+            </div>
+            {/* The back: the verdict, turned the right way round once the card has flipped. */}
+            <div className={face} style={{ borderColor: 'rgb(var(--ink))', boxShadow: `8px 8px 0 ${colour}`, transform: 'rotateY(180deg)' }} aria-hidden={!answered}>
+              {answered && (
+                <div className="flex min-h-[19rem] flex-col gap-3 p-6">
+                  <p className="flex items-center gap-2 pr-20 font-mono text-xs uppercase tracking-[0.14em] text-ink-3">
+                    <TermDot status={termStatus(progress, card.termId, today)} colour={colour} size={11} />
+                    <span className="font-semibold" style={{ color: colour }}>
+                      {area?.code}
+                    </span>
+                    <span className="truncate">{area?.name}</span>
+                  </p>
+                  <p className={`flex items-center gap-2 pr-16 text-xl font-extrabold ${last!.right ? 'text-good-ink' : 'text-bad-ink'}`}>
+                    <span className={`flex h-8 w-8 shrink-0 animate-pop-in items-center justify-center rounded-full text-white [animation-delay:260ms] ${last!.right ? 'bg-good' : 'bg-bad'}`}>
+                      {last!.right ? <Check className="h-4 w-4" /> : <Cross className="h-4 w-4" />}
+                    </span>
+                    {last!.right ? 'Right call' : 'Wrong call'}: it's {last!.claim.truth ? 'true' : 'false'}
+                  </p>
+                  <p className="text-sm italic text-ink-3">“{card.text}”</p>
+                  <p className="leading-relaxed text-ink-2">{last!.claim.why}</p>
+                  <button type="button" onClick={() => setSheet(card.termId)} className="mt-auto self-start text-sm font-extrabold text-sky-ink">
+                    Open {term.term}
+                  </button>
+                  {/* The truth, stamped on the card as it lands. */}
+                  <span
+                    className={`absolute right-5 top-5 animate-stamp rounded-lg border-[3px] px-2 py-0.5 font-mono text-sm font-extrabold uppercase tracking-wider ${last!.claim.truth ? 'border-good-strong text-good-ink' : 'border-bad-strong text-bad-ink'}`}
+                    aria-hidden="true"
+                  >
+                    {last!.claim.truth ? 'True' : 'False'}
+                  </span>
+                </div>
+              )}
+            </div>
           </div>
-          {lean && (
-            <span
-              className={`absolute top-5 rounded-lg border-2 px-2 py-0.5 text-sm font-extrabold uppercase tracking-wider ${lean === 'true' ? 'right-5 border-good text-good-ink' : 'left-5 border-bad text-bad-ink'}`}
-            >
-              {lean}
-            </span>
-          )}
         </div>
       </div>
 
@@ -382,6 +465,18 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
       )}
       <p className="hidden text-center text-xs text-ink-3 sm:block">Drag the card, or press ← for false and → for true.</p>
     </div>,
+  );
+}
+
+/** The deck's score, counting up as it shows, with confetti for a clean deck. */
+function DeckScore({ right, total }: { right: number; total: number }) {
+  const shown = useCountUp(right, 600);
+  return (
+    <p className="num relative mt-2 font-mono text-5xl font-semibold text-ink">
+      {right === total && <Confetti />}
+      {shown}
+      <span className="text-2xl text-ink-3">/{total}</span>
+    </p>
   );
 }
 

@@ -1,4 +1,4 @@
-import type { ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 import { categoryOfTerm, hasCard, unitById } from '../lib/content';
 import { canSpeak, speakTerm } from '../lib/speech';
 import type { Term } from '../lib/types';
@@ -52,7 +52,22 @@ const barFill: Record<Tone, string> = {
   ink: 'bg-ink-3',
 };
 
-export function Bar({ value, max, className = 'h-2', tone = 'brand', label }: { value: number; max: number; className?: string; tone?: Tone; label?: string }) {
+export function Bar({
+  value,
+  max,
+  className = 'h-2',
+  tone = 'brand',
+  label,
+  lively = false,
+}: {
+  value: number;
+  max: number;
+  className?: string;
+  tone?: Tone;
+  label?: string;
+  /** Springs forward a little past each step and settles, with a sheen along the top: for a lesson's progress. */
+  lively?: boolean;
+}) {
   const pct = max > 0 ? Math.min(100, Math.round((value / max) * 100)) : 0;
   return (
     <div
@@ -63,7 +78,12 @@ export function Bar({ value, max, className = 'h-2', tone = 'brand', label }: { 
       aria-valuemax={max}
       aria-label={label}
     >
-      <div className={`h-full rounded-full ${barFill[tone]} transition-[width] duration-500 ease-out`} style={{ width: `${pct}%` }} />
+      <div
+        className={`relative h-full rounded-full ${barFill[tone]} transition-[width] ${lively ? 'duration-700 ease-spring-soft' : 'duration-500 ease-out'}`}
+        style={{ width: `${pct}%` }}
+      >
+        {lively && pct > 0 && <span className="absolute inset-x-2 top-[3px] h-[3px] rounded-full bg-white/35" aria-hidden="true" />}
+      </div>
     </div>
   );
 }
@@ -98,7 +118,13 @@ export function Ring({
 }) {
   const r = (size - stroke) / 2;
   const c = 2 * Math.PI * r;
-  const pct = max > 0 ? Math.min(1, value / max) : 0;
+  const target = max > 0 ? Math.min(1, value / max) : 0;
+  // Starts empty and sweeps to its value once it is on screen.
+  const [pct, setPct] = useState(0);
+  useEffect(() => {
+    const raf = requestAnimationFrame(() => setPct(target));
+    return () => cancelAnimationFrame(raf);
+  }, [target]);
   return (
     <div className="relative inline-flex shrink-0 items-center justify-center" style={{ width: size, height: size }} role="img" aria-label={label}>
       <svg width={size} height={size} className="-rotate-90" aria-hidden="true">
@@ -113,7 +139,7 @@ export function Ring({
           strokeDasharray={c}
           strokeDashoffset={c * (1 - pct)}
           className={`${ringStroke[tone]} transition-[stroke-dashoffset] duration-700 ease-out`}
-          style={{ opacity: pct === 0 ? 0 : 1 }}
+          style={{ opacity: target === 0 ? 0 : 1 }}
         />
       </svg>
       <div className="absolute inset-0 flex items-center justify-center">{children}</div>
