@@ -33,13 +33,29 @@ export function areaCoreDrillIds(categoryId: string): string[] {
 /**
  * An area's advanced units open once all its core terms are met and its core
  * drills and games passed, once its test is passed, or (for quant areas) with the quant switch.
- * Phase 3 areas open only with the password and the readiness test.
+ * Phase 3 areas open only with the password and the readiness test. The admin's `openAll` opens every area.
  */
 export function areaOpen(p: Progress, categoryId: string): boolean {
+  if (p.settings?.openAll) return true;
   if (isPhase3Area(categoryId)) return phase3Open(p);
   if (p.unlocked?.includes(categoryId)) return true;
   if (p.settings.quantFirst && isQuantArea(categoryId)) return true;
   return coreRows(categoryId).every((r) => unitLeft(p, r.unit.id) === 0) && areaCoreDrillIds(categoryId).every((id) => drillPassed(p, id));
+}
+
+/**
+ * Progress as this account should see it. The admin starts with everything open (`openAll`)
+ * and keeps whatever they set after that; on any other account the switch is taken off,
+ * so it can't come over from a backup or another browser.
+ */
+export function withAccountView(p: Progress, admin: boolean): Progress {
+  if (admin && p.settings.openAll === undefined) return { ...p, settings: { ...p.settings, openAll: true } };
+  if (!admin && p.settings.openAll !== undefined) {
+    const settings = { ...p.settings };
+    delete settings.openAll;
+    return { ...p, settings };
+  }
+  return p;
 }
 
 /** Core units are always open; advanced units follow their area. */

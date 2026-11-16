@@ -13,8 +13,9 @@ export const PHASE3_TEST_SIZE = 20;
 
 /** What the test asks about, and the test itself, are in phase3prereqs.ts: the server builds it, so the app never lists them. */
 
-/** Phase 3 is open once the password was entered and the readiness test passed. */
+/** Phase 3 is open once the password was entered and the readiness test passed, or for the admin's `openAll`. */
 export function phase3Open(p: Progress): boolean {
+  if (p.settings?.openAll) return true;
   return !!p.phase3Key && !!p.unlocked?.includes(PHASE3);
 }
 
