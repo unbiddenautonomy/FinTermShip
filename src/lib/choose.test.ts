@@ -1,5 +1,7 @@
 import { describe, expect, it } from 'vitest';
-import { applyTest, areaCoreTermIds, buildPractice, buildTest, canTakeTest, focusQueue, settleFocus, TEST_PASS, unitOpen, withFocus } from './choose';
+import { applyTest, areaCoreTermIds, buildPractice, buildTest, canTakeTest, focusQueue, settleFocus, TEST_PASS, unitOpen, withAccountView, withFocus } from './choose';
+import { path } from './content';
+import { phase3Open } from './phase3';
 import { termIdsOfUnit } from './content';
 import { buildLesson, nextNewTermIds } from './lesson';
 import { seededRng } from './questions';
@@ -14,6 +16,25 @@ function meet(p: Progress, ids: string[]): Progress {
 }
 
 describe('locks', () => {
+  it('opens every unit and phase 3 for the admin by default, and lets them switch it off', () => {
+    const fresh = newProgress();
+    expect(unitOpen(fresh, 'o3')).toBe(false);
+    const admin = withAccountView(fresh, true);
+    expect(admin.settings.openAll).toBe(true);
+    for (const r of path) expect(unitOpen(admin, r.unit.id)).toBe(true);
+    expect(phase3Open(admin)).toBe(true);
+    // Their own choice stands: switched off, they see the path as a learner does.
+    const off = { ...admin, settings: { ...admin.settings, openAll: false } };
+    expect(withAccountView(off, true)).toBe(off);
+    expect(unitOpen(off, 'o3')).toBe(false);
+    // Nobody else keeps the switch.
+    const learner = withAccountView(admin, false);
+    expect(learner.settings).not.toHaveProperty('openAll');
+    expect(unitOpen(learner, 'o3')).toBe(false);
+    expect(phase3Open(learner)).toBe(false);
+    expect(withAccountView(fresh, false)).toBe(fresh);
+  });
+
   it('keeps core units open and advanced units locked until the area core is met', () => {
     let p = newProgress();
     expect(unitOpen(p, 'o1')).toBe(true);
