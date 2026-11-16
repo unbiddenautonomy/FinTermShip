@@ -149,6 +149,8 @@ export interface Settings {
   voice: boolean;
   /** Quant areas open and first on the path. Turned on with the password. */
   quantFirst?: boolean;
+  /** The admin's own view: every area, advanced unit and phase 3 open. On for the admin by default; only the admin account keeps it. */
+  openAll?: boolean;
   /** What to call the learner, used lightly in greetings. */
   name?: string;
   /** The career map role the learner is preparing for. */

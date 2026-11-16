@@ -76,8 +76,12 @@ export async function reachedTerms(db: CardsDb, user: CardsUser, now: number): P
   return { ids, reason };
 }
 
-/** The names of every term this account has reached, for the path, the glossary and the counts. */
+/**
+ * The names of every term this account has reached, for the path, the glossary and the counts.
+ * The admin gets every name, so a unit they open (Settings, Open everything) shows its terms.
+ */
 export async function askTerms(db: CardsDb, user: CardsUser, now: number): Promise<{ terms: TermStub[]; reason?: string }> {
+  if (user.admin) return { terms: [...allStubs] };
   const { ids, reason } = await reachedTerms(db, user, now);
   return { terms: stubsFor(ids, ids), ...(reason ? { reason } : {}) };
 }

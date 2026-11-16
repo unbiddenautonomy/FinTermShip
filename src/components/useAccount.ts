@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { ApiError, fetchAccount, fetchSite, pullProgress, pushProgress, type AccountState, type Site } from '../lib/account';
+import { withAccountView } from '../lib/choose';
 import { withPhase3Key } from '../lib/phase3';
 import { mergeProgress, sameProgress } from '../lib/sync';
 import type { Progress } from '../lib/types';
@@ -131,6 +132,14 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
   useEffect(() => {
     if (phase3 && progress && !progress.phase3Key) update(withPhase3Key(progress));
   }, [phase3, progress, update]);
+
+  // The admin sees every unit open unless they switch that off in Settings; no other account keeps the switch.
+  const admin = account.kind === 'in' ? account.me.admin : null;
+  useEffect(() => {
+    if (admin === null || !progress) return;
+    const next = withAccountView(progress, admin);
+    if (next !== progress) update(next);
+  }, [admin, progress, update]);
 
   const signedOut = useCallback(() => {
     pulled.current = false;

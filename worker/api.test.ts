@@ -2,7 +2,7 @@
 import { DatabaseSync } from 'node:sqlite';
 import { beforeEach, describe, expect, it } from 'vitest';
 import { graduate, introduce, newProgress } from '../src/lib/scheduler';
-import { categories, termById } from '../src/lib/content';
+import { categories, path, termById } from '../src/lib/content';
 import { addDays } from '../src/lib/dates';
 import type { Progress } from '../src/lib/types';
 import worker, { handleApi, hashPassword, inviteCode, verifyPassword, type D1Database, type Env } from './index';
@@ -379,6 +379,22 @@ describe('worker: term cards', () => {
     expect(back.terms.length).toBe(mainIds.length);
     expect(back.reason).toMatch(/Phase 3/);
     expect((await new Client().call('POST', '/api/terms', {})).status).toBe(401);
+  });
+
+  it('names every term for the admin, phase 3 included, and builds them a lesson in a unit a learner would find locked', async () => {
+    const { admin, friend } = await friendWith();
+    const got = ((await admin.call('POST', '/api/terms', {})).data.terms as { id: string }[]).map((t) => t.id).sort();
+    expect(got).toEqual([...ids].sort());
+    expect((await friend.call('POST', '/api/terms', {})).data.terms).toEqual([]);
+    // The first phase 3 unit: locked for a learner until the password and the readiness test.
+    const first = path.find((r) => r.pass === 3)!.unit.id;
+    const open = { ...newProgress(), focus: first };
+    open.settings = { ...open.settings, openAll: true };
+    const lesson = await admin.call('POST', '/api/session', { recipe: { build: 'lesson', keepGoing: true, listen: false }, progress: open, today: '2026-11-14' });
+    expect(lesson.status).toBe(200);
+    const taught = lesson.data.plan.newIds as string[];
+    expect(taught.length).toBeGreaterThan(0);
+    for (const id of taught) expect(phase3.has(id)).toBe(true);
   });
 
   it('finds any term by name, a few at a time, with phase 3 kept back and a daily limit', async () => {
