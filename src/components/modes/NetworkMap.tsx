@@ -11,13 +11,13 @@ import { areas, unitStatus } from '../../lib/modes/status';
 import type { Progress } from '../../lib/types';
 
 /** Links with at least this many mixed-up pairs are drawn; every interchange is still listed on each line. */
-const MAP_MIN_LINK = 4;
+const MAP_MIN_LINK = 6;
 
 const W = 360;
-const LEFT = 48;
+const LEFT = 10;
 const RIGHT = 14;
-const ROW = 40;
-const TOP = 22;
+const ROW = 46;
+const TOP = 30;
 
 interface Station {
   x: number;
@@ -74,7 +74,7 @@ const stations = new Map<string, Station>();
 rows.forEach((l, row) => {
   const y = TOP + row * ROW;
   const n = l.units.length;
-  const from = LEFT + 8;
+  const from = LEFT + 4;
   const span = W - RIGHT - 4 - from;
   // Stations sit in the middle of equal slots, nudged a little by row so stations on different lines rarely stack exactly.
   const nudge = ((row * 7) % 5) - 2;
@@ -94,7 +94,6 @@ rows.forEach((l, row) => {
 
 const links = allLinks.filter((k) => k.n >= MAP_MIN_LINK && stations.has(k.a) && stations.has(k.b));
 const linked = new Set(links.flatMap((k) => [k.a, k.b]));
-const MAP_LINKS = { drawn: links.length, all: allLinks.length };
 
 /** A transit-style connector: straight down (or up) the map, then a 45° run into the other station. */
 function connector(a: Station, b: Station): string {
@@ -108,12 +107,12 @@ function connector(a: Station, b: Station): string {
 const colourOf = (id: string) => areas[id]?.colour ?? '#777';
 
 export function NetworkMap({ progress, today, onLine }: { progress: Progress; today: string; onLine: (id: string) => void }) {
-  const H = TOP + rows.length * ROW - ROW / 2 + 6;
+  const H = TOP + rows.length * ROW - ROW / 2 + 2;
   return (
     <figure className="-mx-4 overflow-hidden border-y-2 border-[#111] bg-white text-[#111] sm:mx-0 sm:rounded-xl sm:border-2">
       <figcaption className="flex items-baseline justify-between bg-[#111] px-4 py-2 text-white">
         <span className="text-sm font-extrabold tracking-wide">Network map</span>
-        <span className="text-xs text-white/70">{MAP_LINKS.drawn} busiest interchanges</span>
+        <span className="text-xs text-white/70">Tap a line to ride it</span>
       </figcaption>
       <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-label="Every area as a metro line, with interchanges where terms on two lines are easily mixed up">
         {rows.map((l, row) => {
@@ -122,10 +121,6 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
           return (
             <g key={l.id} opacity={locked ? 0.4 : 1}>
               <line x1={LEFT} x2={W - RIGHT} y1={y} y2={y} stroke={colourOf(l.id)} strokeWidth={6} strokeLinecap="round" strokeDasharray={l.phase === 3 && locked ? '10 6' : undefined} />
-              <rect x={4} y={y - 9} width={38} height={18} rx={3} fill={colourOf(l.id)} />
-              <text x={23} y={y + 4} textAnchor="middle" fontSize={11} fontWeight={700} fill="#fff" fontFamily="JetBrains Mono, monospace">
-                {areas[l.id]?.code}
-              </text>
             </g>
           );
         })}
@@ -137,7 +132,7 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
             return (
               <g key={`${k.a}|${k.b}`}>
                 <path d={d} stroke="#fff" strokeWidth={width + 4} />
-                <path d={d} stroke="#111" strokeWidth={width} strokeOpacity={0.55} />
+                <path d={d} stroke="#111" strokeWidth={width} strokeOpacity={0.45} />
               </g>
             );
           })}
@@ -152,9 +147,19 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
           return (
             <g key={id}>
               {st === 'due' && <circle cx={s.x} cy={s.y} r={r + 3.5} fill="none" stroke="#D4932F" strokeWidth={2.5} />}
-              <circle cx={s.x} cy={s.y} r={r} fill={st === 'met' || st === 'due' ? c : '#fff'} stroke={st === 'locked' ? '#A3A3A3' : hub ? '#111' : c} strokeWidth={hub ? 3 : 2.5} strokeDasharray={st === 'locked' ? '2 2' : undefined} />
-              {st === 'known' && <circle cx={s.x} cy={s.y} r={r - 3} fill={c} />}
+              <circle cx={s.x} cy={s.y} r={r} fill={st === 'met' || st === 'due' || st === 'known' ? c : '#fff'} stroke={st === 'locked' ? '#A3A3A3' : hub ? '#111' : c} strokeWidth={hub ? 3 : 2.5} strokeDasharray={st === 'locked' ? '2 2' : undefined} />
+              {st === 'known' && <path d={`M${s.x - r * 0.45},${s.y + r * 0.05} l${r * 0.3},${r * 0.32} l${r * 0.6},${r * -0.66}`} fill="none" stroke="#fff" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />}
             </g>
+          );
+        })}
+        {/* Each line is named in words above its left end, with a halo so links passing under stay readable. */}
+        {rows.map((l, row) => {
+          const locked = l.units.every((u) => !unitOpen(progress, u.id));
+          return (
+            <text key={l.id} x={LEFT - 2} y={TOP + row * ROW - 9} fontSize={11} fontWeight={800} fill={colourOf(l.id)} stroke="#fff" strokeWidth={3} paintOrder="stroke" strokeLinejoin="round" opacity={locked ? 0.6 : 1}>
+              {areas[l.id]?.short ?? l.name}
+              {locked && <tspan fill="#777" fontWeight={600}> · locked</tspan>}
+            </text>
           );
         })}
         {rows.map((l, row) => (
@@ -163,9 +168,6 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
           </rect>
         ))}
       </svg>
-      <p className="border-t border-[#ddd] px-4 py-2.5 text-xs leading-relaxed text-[#555]">
-        One station per unit, in the order Path teaches them. Black rings are interchanges: a grey link joins units whose terms are easily mixed up. Tap a line to ride it; its page lists every interchange.
-      </p>
     </figure>
   );
 }

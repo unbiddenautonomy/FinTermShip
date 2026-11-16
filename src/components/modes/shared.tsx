@@ -31,12 +31,18 @@ export function TermDot({ status, colour, size = 14, className = '' }: { status:
       : status === 'met'
         ? { background: colour }
       : status === 'known'
-        ? { background: `radial-gradient(circle, rgb(var(--surface)) 0 34%, ${colour} 36%)` }
+        ? { background: colour }
         : { background: 'rgb(var(--surface))' };
   return (
     <span className={`relative inline-block shrink-0 ${className}`} style={{ width: size, height: size }} aria-hidden="true">
       {status === 'due' && <span className="absolute inset-0 animate-ping rounded-full opacity-60" style={{ background: colour }} />}
       <span className={`relative block rounded-full ${status === 'locked' ? 'border-dashed opacity-60' : ''}`} style={{ ...base, ...fill }} />
+      {/* Known is filled like Learning, with a tick, so it never reads as an empty station. */}
+      {status === 'known' && (
+        <svg viewBox="0 0 12 12" className="absolute inset-0 h-full w-full" fill="none" stroke="#fff" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">
+          <path d="M3.4 6.2 5.2 8l3.4-3.8" />
+        </svg>
+      )}
     </span>
   );
 }
@@ -130,9 +136,7 @@ export function TermSheet({
           <div className="flex items-start gap-3">
             <div className="min-w-0 flex-1">
               <p className="flex flex-wrap items-center gap-x-2 text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">
-                <span className="rounded px-1.5 py-0.5 font-mono text-white" style={{ background: colour }}>
-                  {area?.code}
-                </span>
+                <span className="h-2.5 w-2.5 rounded-full" style={{ background: colour }} aria-hidden="true" />
                 {area?.name}
               </p>
               <h2 id="sheet-title" className="mt-1 font-display text-[28px] font-semibold leading-tight tracking-tight text-ink">
@@ -165,7 +169,7 @@ export function TermSheet({
             <p className="col-span-3 border-t border-line pt-2 text-xs text-ink-3">
               {line && stop >= 0 && (
                 <>
-                  Station {stop + 1} of {line.stops.length} on the {area?.code} line, in {unit?.name}.{' '}
+                  Station {stop + 1} of {line.stops.length} on the {area?.short} line, in {unit?.name}.{' '}
                 </>
               )}
               {dueIn !== null && (dueIn <= 0 ? 'Review due today.' : `Next review in ${dueIn} day${dueIn === 1 ? '' : 's'}.`)}

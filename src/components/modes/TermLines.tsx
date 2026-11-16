@@ -4,20 +4,20 @@
  * interchange wherever two terms on different lines are easily mixed up. The map is generated
  * from the syllabus, so no term is ever left off it.
  */
-import { useMemo, useState, useSyncExternalStore } from 'react';
+import { useMemo, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { unitOpen } from '../../lib/choose';
 import { getCardsVersion, subscribeCards, termById, unitById } from '../../lib/content';
 import { KIND_LABEL } from '../../lib/practice';
 import { areaKpis, type ModeId } from '../../lib/modes/knowledge';
 import { canRideFrom, dueStops, frontier, lines, lineById, namedTerms, REVISIT_MAX, rideRoute, RIDE_STOPS, stationCount, type Line, type Stop } from '../../lib/modes/plans';
-import { areaOf, areas, termStatus, unitStatus } from '../../lib/modes/status';
+import { areaOf, areas, STATUS_LABEL, termStatus, unitStatus, type TermStatus } from '../../lib/modes/status';
 import { interchangesAt } from '../../lib/modes/transfer';
 import type { Recipe } from '../../lib/session';
 import type { PracticeKind, Progress } from '../../lib/types';
 import { ArrowLeft, ChevronDown, Lock } from '../icons';
 import { Button } from '../ui';
 import { NetworkMap } from './NetworkMap';
-import { DotKey, ModeFrame, TermDot, TermSheet } from './shared';
+import { ModeFrame, TermDot, TermSheet } from './shared';
 
 interface Props {
   progress: Progress;
@@ -59,7 +59,7 @@ function Network({ progress, today, onLine, onMode }: { progress: Progress; toda
   return (
     <ModeFrame progress={progress} today={today} mode="lines" onMode={onMode} title="Term Lines">
       <NetworkMap progress={progress} today={today} onLine={onLine} />
-      <DotKey />
+      <LinesKey />
       <ul className="space-y-2">
         {lines.map((l) => {
           const colour = colourOf(l.id);
@@ -71,9 +71,7 @@ function Network({ progress, today, onLine, onMode }: { progress: Progress; toda
             <li key={l.id}>
               <button type="button" onClick={() => onLine(l.id)} className="w-full rounded-2xl border border-line bg-surface px-4 py-3 text-left shadow-card transition hover:bg-sunken">
                 <div className="flex items-center gap-2">
-                  <span className="rounded px-1.5 py-0.5 font-mono text-xs font-semibold text-white" style={{ background: colour }}>
-                    {areas[l.id]?.code}
-                  </span>
+                  <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: colour }} aria-hidden="true" />
                   <span className="min-w-0 flex-1 font-bold leading-tight text-ink">{l.name}</span>
                   {locked && <Lock className="h-4 w-4 text-ink-3" />}
                   {due > 0 && <span className="num rounded-full bg-amber-soft px-2 py-0.5 font-mono text-xs font-semibold text-amber-ink">{due} due</span>}
@@ -104,9 +102,6 @@ function Network({ progress, today, onLine, onMode }: { progress: Progress; toda
           );
         })}
       </ul>
-      <p className="px-1 text-xs leading-relaxed text-ink-3">
-        Large stations are the core units Path teaches first. Diamonds are depots: a drill, game or desk case. Dashed lines open after the phase 3 test.
-      </p>
     </ModeFrame>
   );
 }
@@ -170,9 +165,7 @@ function LineView({
           <button type="button" onClick={onBack} className="-ml-2 rounded-xl p-1.5 text-ink-3 hover:bg-sunken" aria-label="All lines">
             <ArrowLeft className="h-5 w-5" />
           </button>
-          <span className="rounded px-1.5 py-0.5 font-mono text-base font-semibold text-white" style={{ background: colour }}>
-            {areas[line.id]?.code}
-          </span>
+          <span className="h-3.5 w-3.5 shrink-0 rounded-full" style={{ background: colour }} aria-hidden="true" />
           <span className="min-w-0">{line.name}</span>
         </span>
       }
@@ -222,6 +215,8 @@ function LineView({
           </div>
         )}
       </div>
+
+      <LinesKey compact colour={colour} />
 
       <div className="space-y-2">
         {line.units.map((unit) => {
@@ -301,7 +296,7 @@ function LineView({
                     }
                     const status = termStatus(progress, t.id, today);
                     // One chip per other line, however many of its terms meet here.
-                    const twinLines = [...new Map(interchangesAt(t.id).map((id) => [areaOf(id)?.id, id])).values()].filter((id) => areaOf(id)?.id !== line.id).slice(0, 3);
+                    const twinLines = [...new Map(interchangesAt(t.id).map((id) => [areaOf(id)?.id, id])).values()].filter((id) => areaOf(id)?.id !== line.id).slice(0, 2);
                     return (
                       <li key={i} className="relative">
                         {rail}
@@ -315,8 +310,9 @@ function LineView({
                             {twinLines.map((id) => {
                               const a = areaOf(id);
                               return (
-                                <span key={id} title={`Interchange with the ${a?.name} line`} className="rounded px-1 font-mono text-[10px] font-semibold text-white" style={{ background: a?.colour }}>
-                                  {a?.code}
+                                <span key={id} title={`Easily mixed up with ${termById.get(id)?.term ?? 'a term'} on the ${a?.name} line`} className="inline-flex max-w-[7.5rem] items-center gap-1 rounded-full border px-1.5 py-px text-[11px] font-bold text-ink-2" style={{ borderColor: a?.colour }}>
+                                  <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: a?.colour }} aria-hidden="true" />
+                                  <span className="truncate">{a?.short}</span>
                                 </span>
                               );
                             })}
@@ -353,5 +349,90 @@ function LineView({
         />
       )}
     </ModeFrame>
+  );
+}
+
+const STATES: TermStatus[] = ['locked', 'unmet', 'met', 'due', 'known'];
+
+function KeyItem({ glyph, children }: { glyph: ReactNode; children: ReactNode }) {
+  return (
+    <li className="flex items-center gap-2.5">
+      <span className="flex w-7 shrink-0 justify-center">{glyph}</span>
+      <span className="min-w-0">{children}</span>
+    </li>
+  );
+}
+
+/** The key to Term Lines: what each station, shape and line means. The line page shows only the station states and the interchange chip. */
+function LinesKey({ compact = false, colour = 'rgb(var(--brand))' }: { compact?: boolean; colour?: string }) {
+  const states = (
+    <ul className={compact ? 'flex flex-wrap gap-x-4 gap-y-1.5' : 'space-y-1.5'}>
+      {STATES.map((s) =>
+        compact ? (
+          <li key={s} className="inline-flex items-center gap-1.5">
+            <TermDot status={s} colour={colour} size={12} />
+            {STATUS_LABEL[s]}
+          </li>
+        ) : (
+          <KeyItem key={s} glyph={<TermDot status={s} colour={colour} size={14} />}>
+            {STATUS_LABEL[s]}
+          </KeyItem>
+        ),
+      )}
+    </ul>
+  );
+  if (compact)
+    return (
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-2xl border border-line bg-surface px-4 py-2.5 text-xs font-bold text-ink-3">
+        {states}
+        <span className="inline-flex items-center gap-1.5">
+          <span className="inline-flex items-center gap-1 rounded-full border border-ink-3 px-1.5 py-px text-[11px] text-ink-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-ink-3" />
+            Line
+          </span>
+          Often mixed up with a term on that line
+        </span>
+      </div>
+    );
+  const rail = (dashed: boolean) => (
+    <svg viewBox="0 0 28 8" className="h-2 w-7" aria-hidden="true">
+      <line x1={2} x2={26} y1={4} y2={4} stroke={colour} strokeWidth={5} strokeLinecap="round" strokeDasharray={dashed ? '6 4' : undefined} />
+    </svg>
+  );
+  return (
+    <section className="rounded-2xl border border-line bg-surface p-4 text-sm text-ink-2 shadow-card" aria-label="Map key">
+      <h2 className="mb-3 text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">How to read the map</h2>
+      <div className="grid gap-x-6 gap-y-4 sm:grid-cols-3">
+        <div>
+          <h3 className="mb-1.5 text-xs font-bold text-ink-3">Station colour: how well you know it</h3>
+          {states}
+        </div>
+        <div>
+          <h3 className="mb-1.5 text-xs font-bold text-ink-3">Station shape</h3>
+          <ul className="space-y-1.5">
+            <KeyItem glyph={<TermDot status="met" colour={colour} size={16} />}>Big circle: a core unit, taught first</KeyItem>
+            <KeyItem glyph={<TermDot status="met" colour={colour} size={11} />}>Small circle: a later unit</KeyItem>
+            <KeyItem glyph={<span className="block h-3 w-3 rotate-45 border-[2.5px]" style={{ borderColor: colour }} />}>Diamond: a drill, game or desk case</KeyItem>
+            <KeyItem glyph={<span className="block h-4 w-4 rounded-full border-[3px] border-[#111] bg-white" />}>Black ring: has terms often mixed up with another line</KeyItem>
+          </ul>
+        </div>
+        <div>
+          <h3 className="mb-1.5 text-xs font-bold text-ink-3">Lines</h3>
+          <ul className="space-y-1.5">
+            <KeyItem glyph={rail(false)}>One area, units in the order Path teaches them</KeyItem>
+            <KeyItem
+              glyph={
+                <svg viewBox="0 0 28 16" className="h-4 w-7" aria-hidden="true">
+                  <path d="M6,2 L6,6 L22,14" fill="none" stroke="#111" strokeOpacity={0.45} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
+                </svg>
+              }
+            >
+              Grey link: two units whose terms get mixed up a lot
+            </KeyItem>
+            <KeyItem glyph={rail(true)}>Dashed: opens after the phase 3 test</KeyItem>
+          </ul>
+        </div>
+      </div>
+    </section>
   );
 }
