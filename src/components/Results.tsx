@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import { categories, termName, unitById } from '../lib/content';
 import { clock, DRILLS } from '../lib/drills';
+import { useCountUp } from '../lib/motion';
 import { PHASE3, PHASE3_TEST_SIZE } from '../lib/phase3';
+import { Confetti } from './Confetti';
 import { Bolt, Flame, Target } from './icons';
 import type { LessonSummary } from './Lesson';
 import { Button, Card, Ring } from './ui';
@@ -78,16 +80,23 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', homeL
             : `${summary.newIds.length} new term${summary.newIds.length === 1 ? '' : 's'} learned.`;
   const good = round ? round.passed : drill ? drill.passed : pct >= 80;
   const practiceId = drill?.unitId ?? round?.unitId;
+  // Confetti only for the moments worth it: a perfect lesson, a test passed, or a drill, game or case passed for the first time.
+  const celebrate = round ? round.passed && round.firstPass : drill ? drill.passed && drill.firstPass : test ? test.passed : summary.firstTryTotal > 0 && pct === 100;
+  const shownPct = useCountUp(pct);
+  const shownXp = useCountUp(summary.xp, 600, 350);
   const scoreLabel = round?.score ?? (round?.kind === 'game' ? { label: 'checks met', short: 'Checks' } : { label: 'best calls', short: 'Calls' });
   return (
     <div className="mx-auto flex min-h-[100dvh] max-w-xl lg:max-w-2xl animate-pop flex-col px-4 pb-8 pt-12">
       <div className="flex flex-col items-center text-center">
+        <div className="relative">
+        {celebrate && <Confetti />}
         <Ring value={pct} max={100} size={148} stroke={12} tone={good ? 'good' : 'amber'} label={round ? `${summary.firstTryCorrect} of ${summary.firstTryTotal}` : test || drill ? `${pct}% right` : `${pct}% right first time`}>
           <div className="leading-none">
-            <p className="num text-4xl font-extrabold text-ink">{round ? `${summary.firstTryCorrect}/${summary.firstTryTotal}` : `${pct}%`}</p>
+            <p className="num text-4xl font-extrabold text-ink">{round ? `${summary.firstTryCorrect}/${summary.firstTryTotal}` : `${shownPct}%`}</p>
             <p className="mt-1.5 text-xs font-bold text-ink-3">{round ? scoreLabel.label : test ? 'score' : drill ? 'right' : 'first try'}</p>
           </div>
         </Ring>
+        </div>
         <h1 className="mt-6 text-3xl font-display font-semibold tracking-tight text-ink">
           {title}
           {name && good ? `, ${name}` : ''}
@@ -97,7 +106,7 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', homeL
       </div>
 
       <div className="mt-8 grid grid-cols-3 gap-3">
-        <Stat icon={<Bolt className="h-4 w-4" />} tone="text-sky-ink bg-sky-soft" label="XP" value={`+${summary.xp}`} />
+        <Stat icon={<Bolt className="h-4 w-4" />} tone="text-sky-ink bg-sky-soft" label="XP" value={`+${shownXp}`} />
         {round ? (
           <Stat icon={<Flame className="h-4 w-4" />} tone="text-amber-ink bg-amber-soft" label={round.stat.label} value={round.stat.value} />
         ) : drill ? (

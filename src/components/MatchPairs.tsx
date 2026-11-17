@@ -16,6 +16,8 @@ export function MatchPairs({ termIds, right, check, onDone }: Props) {
   /** Matched pairs: term index to meaning index. */
   const [matched, setMatched] = useState<Map<number, number>>(new Map());
   const [flash, setFlash] = useState<{ l: number; r: number } | null>(null);
+  /** The pair just matched: it glows green and swells for a moment before it greys out. */
+  const [hit, setHit] = useState<{ l: number; r: number } | null>(null);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const mistakes = useRef<Record<string, number>>({});
@@ -36,8 +38,11 @@ export function MatchPairs({ termIds, right, check, onDone }: Props) {
     setBusy(true);
     setError(null);
     try {
-      if (await check(l, r)) setMatched((m) => new Map(m).set(l, r));
-      else {
+      if (await check(l, r)) {
+        setMatched((m) => new Map(m).set(l, r));
+        setHit({ l, r });
+        setTimeout(() => setHit((h) => (h?.l === l ? null : h)), 520);
+      } else {
         const id = termIds[l];
         mistakes.current[id] = (mistakes.current[id] ?? 0) + 1;
         setFlash({ l, r });
@@ -56,6 +61,7 @@ export function MatchPairs({ termIds, right, check, onDone }: Props) {
   const sel = 'border-sky bg-sky-soft text-sky-ink';
   const ok = 'border-transparent bg-sunken text-ink-3/60';
   const bad = 'animate-shake border-bad bg-bad-soft text-bad-ink';
+  const glow = 'animate-bump-halo border-good bg-good-soft text-good-ink';
 
   return (
     <div>
@@ -63,7 +69,7 @@ export function MatchPairs({ termIds, right, check, onDone }: Props) {
         <div className="space-y-3">
           {termIds.map((id, i) => {
             const done = matched.has(i);
-            const style = done ? ok : flash?.l === i ? bad : left === i ? sel : idle;
+            const style = hit?.l === i ? glow : done ? ok : flash?.l === i ? bad : left === i ? sel : idle;
             return (
               <button key={id} type="button" disabled={done} onClick={() => setLeft(i)} className={`${base} ${style}`} aria-pressed={left === i}>
                 {termById.get(id)?.term}
@@ -74,7 +80,7 @@ export function MatchPairs({ termIds, right, check, onDone }: Props) {
         <div className="space-y-3">
           {right.map((text, r) => {
             const done = taken.has(r);
-            const style = done ? ok : flash?.r === r ? bad : idle;
+            const style = hit?.r === r ? glow : done ? ok : flash?.r === r ? bad : idle;
             return (
               <button key={r} type="button" disabled={done || left === null || busy} onClick={() => void pickRight(r)} className={`${base} ${style} font-semibold`}>
                 {text}

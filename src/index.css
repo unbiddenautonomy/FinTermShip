@@ -142,6 +142,11 @@ body {
   }
 }
 
+/* A Call It card dragged or thrown off the table goes past the side of the page; this keeps the page from scrolling sideways when it does. */
+body {
+  overflow-x: clip;
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,

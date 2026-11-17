@@ -253,17 +253,18 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
         >
           <Cross className="h-6 w-6" />
         </button>
-        <Bar value={index + (answered ? 1 : 0)} max={items.length} className="h-3" label="Lesson progress" />
+        <Bar value={index + (answered ? 1 : 0)} max={items.length} className="h-3" label="Lesson progress" lively />
         <span
           className={`num inline-flex w-12 shrink-0 items-center justify-end gap-0.5 text-sm font-extrabold transition ${stats.run >= 2 ? 'text-amber' : 'text-transparent'}`}
           aria-label={stats.run >= 2 ? `${stats.run} in a row` : undefined}
         >
-          <Flame className="h-4 w-4" />
+          {/* Keyed on the run, so the flame flares each time it grows. */}
+          <Flame key={stats.run} className={`h-4 w-4 ${stats.run >= 2 ? 'animate-flare' : ''}`} />
           {stats.run}
         </span>
       </header>
 
-      <main key={index} className="mx-auto flex w-full max-w-xl lg:max-w-2xl flex-1 animate-pop flex-col px-4 pb-56 pt-4">
+      <main key={index} className="mx-auto flex w-full max-w-xl lg:max-w-2xl flex-1 animate-enter flex-col px-4 pb-56 pt-4">
         <div className="mb-5 flex flex-wrap items-center gap-2">
           <Pill tone={label.tone} icon={label.icon}>
             {label.text}
@@ -299,7 +300,7 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
                 ) : (
                   <span key={i}>
                     <span
-                      className={`${/^[,.;:!?)]/.test(part) ? 'ml-1' : 'mx-1'} inline-block min-w-[5rem] rounded-lg border-b-[3px] px-2 text-center font-extrabold ${answered ? 'border-good bg-good-soft text-good-ink' : 'border-ink-3 bg-sunken'}`}
+                      className={`${/^[,.;:!?)]/.test(part) ? 'ml-1' : 'mx-1'} inline-block min-w-[5rem] rounded-lg border-b-[3px] px-2 text-center font-extrabold ${answered ? 'animate-drop border-good bg-good-soft text-good-ink' : 'border-ink-3 bg-sunken'}`}
                     >
                       {answered ? (marked.blank ?? term.term) : ' '}
                     </span>
@@ -398,7 +399,7 @@ function Feedback({ q, marked, term, correct, retryQueued, onNext }: { q: PickQu
     >
       <div className="mx-auto max-w-xl lg:max-w-2xl space-y-3">
         <div className="flex items-center gap-3">
-          <span className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white ${correct ? 'bg-good' : 'bg-bad'}`}>
+          <span className={`flex h-9 w-9 shrink-0 animate-pop-in items-center justify-center rounded-full text-white [animation-delay:120ms] ${correct ? 'bg-good' : 'bg-bad'}`}>
             {correct ? <Check className="h-5 w-5" /> : <Cross className="h-5 w-5" />}
           </span>
           <p className={`text-xl font-extrabold ${correct ? 'text-good-ink' : 'text-bad-ink'}`}>{headline}</p>
@@ -538,7 +539,8 @@ function Options({
         let style = 'border-line bg-surface text-ink shadow-press-line hover:bg-sunken/60 active:translate-y-[1px] active:shadow-none';
         let badge = 'border-line text-ink-3';
         if (done && i === right) {
-          style = 'border-good bg-good-soft text-good-ink';
+          // A right pick swells with a soft ring; after a miss the right answer just turns green.
+          style = `border-good bg-good-soft text-good-ink ${i === picked ? 'animate-bump-halo' : ''}`;
           badge = 'border-good bg-good text-white';
         } else if (done && i === picked) {
           style = 'animate-shake border-bad bg-bad-soft text-bad-ink';
