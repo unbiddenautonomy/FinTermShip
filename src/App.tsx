@@ -596,11 +596,11 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
           <p>Indian markets, trading and quant terms, a few minutes a day.</p>
         </div>
       </aside>
-      <div className="lg:pl-60">
+      <main className="lg:pl-60">
         <ErrorBoundary>
           <Suspense fallback={<Spinner />}>{children}</Suspense>
         </ErrorBoundary>
-      </div>
+      </main>
       <nav className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/90 pt-2 backdrop-blur-md lg:hidden" aria-label="Main">
         <div className="mx-auto grid max-w-xl grid-cols-5">
           {TABS.map(({ id, label, icon: Icon }) => {

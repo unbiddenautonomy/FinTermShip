@@ -11,7 +11,8 @@
   --line: 224 219 206;
   --ink: 20 34 28;
   --ink-2: 58 70 63;
-  --ink-3: 114 122 112;
+  /* 4.5:1 or better on the card, sunken and page backgrounds, down to 10px text. */
+  --ink-3: 98 106 96;
   --brand: 24 78 57;
   --brand-strong: 12 50 36;
   --brand-soft: 230 238 232;
@@ -112,7 +113,7 @@
   --line: 229 229 229;
   --ink: 45 48 46;
   --ink-2: 82 88 85;
-  --ink-3: 135 140 137;
+  --ink-3: 106 112 108;
   --brand-soft: 232 242 236;
 }
 

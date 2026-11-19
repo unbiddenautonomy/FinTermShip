@@ -80,6 +80,8 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
 
   return (
     <div className="mx-auto flex max-w-xl flex-col gap-6 px-4 pb-32 pt-5 lg:grid lg:max-w-6xl lg:grid-flow-row-dense lg:grid-cols-[minmax(0,1fr)_23rem] lg:items-start lg:gap-x-10 lg:px-8 lg:pb-12 lg:pt-8">
+      {/* The wordmark is a picture; this is the page's heading, for anyone listening to it. */}
+      <h1 className="sr-only">Learn</h1>
 
       {showInstallHint && (
         <div className="rounded-2xl border border-amber/40 bg-amber-soft px-4 py-3 text-sm leading-relaxed text-amber-ink lg:col-span-2">
@@ -87,8 +89,9 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
         </div>
       )}
 
+      {/* After the day's card on a phone: the first thing a new learner should see is Start lesson. */}
       {!progress.settings.aboutAsked && (
-        <Card className="space-y-3 lg:col-span-2">
+        <Card className="order-2 space-y-3 lg:order-none lg:col-span-2">
           <div>
             <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">About you</p>
             <p className="mt-1 text-sm leading-relaxed text-ink-2">Two optional questions, so the app can greet you and point you at the right interview practice.</p>
@@ -249,6 +252,7 @@ function WeekStrip({ progress, today }: { progress: Progress; today: string }) {
             <span className={`text-[11px] font-bold ${isToday ? 'text-ink' : 'text-ink-3'}`}>{letter}</span>
             <span
               className={`flex h-6 w-6 items-center justify-center rounded-full ${done ? 'bg-amber text-white' : isToday ? 'border-2 border-dashed border-amber/60' : 'bg-line/70'}`}
+              role="img"
               aria-label={`${d}${done ? ', practised' : ''}`}
             >
               {done && <Flame className="h-3.5 w-3.5" />}
@@ -446,9 +450,9 @@ function PathStop({
 }) {
   const kind = practiceKind(r.unit.id);
   const KindIcon = kind ? KIND_ICON[kind] : Calculator;
-  const label = kind
-    ? `${r.unit.name}, ${KIND_LABEL[kind]}, ${r.category.name}: ${recordLine(progress, r.unit.id)}${r.open ? '' : ', locked'}`
-    : `${r.unit.name}, ${r.category.name}: ${r.met} of ${r.total} met${r.open ? '' : ', locked'}`;
+  // The row reads out as what it shows, with the kind and the lock said rather than drawn.
+  const stat = r.drill ? recordLine(progress, r.unit.id) : `${r.met}/${r.total} met${r.known ? ` · ${r.known} known` : ''}`;
+  const said = [kind ? KIND_LABEL[kind] : '', r.open ? '' : 'locked'].filter(Boolean).join(', ');
   return (
     <li className="relative flex gap-4 pb-3">
       {!last && <span className={`absolute left-[23px] top-12 h-[calc(100%-36px)] w-0.5 ${r.done ? 'bg-brand/40' : 'bg-line'}`} aria-hidden="true" />}
@@ -476,9 +480,9 @@ function PathStop({
       <button
         type="button"
         onClick={() => onOpen(r.unit.id)}
-        aria-label={label}
         className={`min-w-0 flex-1 rounded-2xl border px-4 py-3 text-left transition hover:border-brand/50 active:scale-[0.99] ${current ? 'border-brand/50 bg-brand-soft/50' : 'border-line bg-surface'}`}
       >
+        {said && <span className="sr-only">{said}. </span>}
         <span className="flex items-center gap-2">
           <span className={`min-w-0 flex-1 truncate font-bold ${r.open ? 'text-ink' : 'text-ink-2'}`}>{r.unit.name}</span>
           {current && <Pill tone="brand">{picked ? 'Your pick' : 'Up next'}</Pill>}
@@ -486,7 +490,7 @@ function PathStop({
         <span className="mt-0.5 flex items-center justify-between gap-2 text-xs text-ink-3">
           <span className="truncate">{r.category.name}</span>
           <span className="num shrink-0 font-semibold">
-            {r.drill ? recordLine(progress, r.unit.id) : `${r.met}/${r.total} met${r.known ? ` · ${r.known} known` : ''}`}
+            {stat}
           </span>
         </span>
       </button>

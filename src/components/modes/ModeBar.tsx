@@ -53,20 +53,23 @@ export function ModeBar({ progress, today, mode, onMode }: { progress: Progress;
   const share = (n: number) => (k.met ? (n / k.met) * 100 : 0);
   return (
     <div className="space-y-3">
-      <div className="grid gap-3 lg:grid-cols-[17.5rem_minmax(0,1fr)]">
+      {/* Nothing met yet means four zeros and a flat bar, which pushes the day's card off the screen. */}
+      <div className={`grid gap-3 ${k.met ? 'lg:grid-cols-[17.5rem_minmax(0,1fr)]' : ''}`}>
         {/* min-w-0 on both rows: without it the mode name and the four numbers set a floor
             wider than a phone, and body's overflow clip cuts the right-hand edge off. */}
         <div className="flex min-w-0 items-center gap-2 lg:items-stretch">
           <ModeSwitch mode={mode} info={MODE_INFO[mode]} stat={statOf(progress, mode, k)} onOpen={() => setPicking(true)} />
           <span className="flex shrink-0 flex-col items-end gap-1 lg:hidden">{badges}</span>
         </div>
+        {k.met > 0 && (
         <button
           type="button"
           onClick={() => setHelp((h) => !h)}
           aria-expanded={help}
-          aria-label="What these numbers mean"
           className="block w-full min-w-0 rounded-2xl border border-line bg-surface px-4 pb-3 pt-2.5 text-left shadow-card transition hover:border-brand/30"
         >
+          {/* Said before the numbers, rather than instead of them, so the button reads as what it is. */}
+          <span className="sr-only">What these numbers mean. </span>
           <span className="grid grid-cols-[repeat(4,minmax(0,1fr))_auto] items-end gap-2">
             <Kpi label="Known" value={`${k.known}`} sub={`/${k.open}`} />
             <Kpi label="Due" value={`${k.due}`} tone={k.due > 0 ? 'text-amber-ink' : undefined} />
@@ -91,6 +94,7 @@ export function ModeBar({ progress, today, mode, onMode }: { progress: Progress;
             <span className="ml-auto hidden sm:inline">of {k.met} met</span>
           </span>
         </button>
+        )}
       </div>
       {help && (
         <div className="animate-pop space-y-2 rounded-2xl bg-sunken px-4 py-3 text-sm leading-relaxed text-ink-2">

@@ -56,7 +56,7 @@ export function ProgressScreen({ progress, today, onWeak }: { progress: Progress
               <ul className="divide-y divide-line">
                 {(allBests ? bests : bests.slice(0, 6)).map((b) => (
                   <li key={b.unitId} className="flex items-center gap-3 py-2 text-sm">
-                    <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${b.passed ? 'bg-good-soft text-good-ink' : 'bg-sunken text-ink-3'}`} aria-label={b.passed ? 'Passed' : 'Not passed yet'}>
+                    <span className={`flex h-6 w-6 shrink-0 items-center justify-center rounded-full ${b.passed ? 'bg-good-soft text-good-ink' : 'bg-sunken text-ink-3'}`} role="img" aria-label={b.passed ? 'Passed' : 'Not passed yet'}>
                       {b.passed ? <Check className="h-3.5 w-3.5" /> : <span className="h-1.5 w-1.5 rounded-full bg-current" />}
                     </span>
                     <span className="min-w-0 flex-1">
