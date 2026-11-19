@@ -32,6 +32,7 @@ What it has now:
 - Phase 3, trading strategies, at the end of the track: options and futures strategies (spreads, ratio spreads, butterflies, volatility and dispersion trades, payoffs and costs, hedging with futures), then arbitrage (exchange, ETF, merger, triangular and statistical), HFT, MFT and LFT (holding periods, alpha decay, capacity, speed), and systematic strategies (trend following, mean reversion, pairs and cointegration, volatility targeting, Kelly sizing, event-driven trades). It opens only with the password and a 20-question readiness test on options, futures, risk and backtesting (16 to pass). Once open, picking a strategy unit keeps you on the strategies until they're done.
 - New terms slow down before reviews pile up: a day's new terms stop once any of the next four days' reviews would pass the daily cap of 80.
 - A 7-step spaced repetition ladder (1, 3, 7, 16, 35, 120 days; core terms 20% sooner).
+- Every screen has an address (`/progress`, `/lines`, `/glossary?q=skew`, `/careers?unit=z4`), so Back and Forward move between screens, a refresh lands where you were, and a screen can be shared as a link. A lesson, drill, game or case is dealt by the server from a seed, so it has no address to return to: Back leaves it, and reloading starts afresh (`src/components/route.ts`).
 - Progress saved in the browser (IndexedDB), with backup export and import.
 - Speaker buttons using the browser's built-in voice (Indian English when available).
 
@@ -130,7 +131,7 @@ Run it locally with a throwaway database: `npx wrangler dev` with a copy of `wra
 
 ## Deploy to Cloudflare
 
-The app is served by a Cloudflare Worker named `fintermship`. `wrangler.jsonc` tells Cloudflare to run `npm run build` and serve `dist/` as static files, sending unknown paths to `index.html`. The Worker runs first for every request (`run_worker_first`), so it guards the app's files as well as `/api/`.
+The app is served by a Cloudflare Worker named `fintermship`. `wrangler.jsonc` tells Cloudflare to run `npm run build` and serve `dist/` as static files, sending unknown paths to `index.html`, which is what gives every screen its own address. The Worker runs first for every request (`run_worker_first`), so it guards the app's files as well as `/api/`.
 
 1. In the Cloudflare dashboard, go to **Workers & Pages**, then **Create**, then **Import a repository**, and pick this repository.
 2. Keep the defaults: Cloudflare reads `wrangler.jsonc`, so the build and deploy commands can stay as suggested (`npm run build`, `npx wrangler deploy`).

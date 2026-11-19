@@ -1,7 +1,6 @@
 import { lazy, Suspense, useCallback, useEffect, useMemo, useRef, useState, useSyncExternalStore, type ReactNode } from 'react';
 import type { GuideEntry } from './components/Guide';
 import { Home, UnitSheets } from './components/Home';
-import type { LessonSummary } from './components/Lesson';
 import { useAccount } from './components/useAccount';
 import { useCards } from './components/useCards';
 import { wantTerms } from './lib/terms';
@@ -29,6 +28,8 @@ import { getRoundStatusVersion, subscribeRoundStatus } from './lib/modes/rounds'
 import { ModeAccessContext } from './components/modes/modeAccess';
 import { MODE_INFO, ModeBar } from './components/modes/ModeBar';
 import { ErrorBoundary } from './components/ErrorBoundary';
+import { placeAt, type Place, type Screen, type Tab } from './components/route';
+import { useHistory } from './components/useHistory';
 import type { GameId, Progress } from './lib/types';
 
 // Everything but Home loads on demand, then quietly in the background once Home is up.
@@ -106,8 +107,6 @@ function Spinner() {
   return <div className="flex min-h-[60dvh] items-center justify-center text-sm font-bold text-ink-3">Loading…</div>;
 }
 
-type Tab = 'home' | 'progress' | 'guide' | 'glossary' | 'settings';
-
 const GAME_SCREENS: Record<GameId, typeof MarketGame> = {
   market: MarketGame,
   payoff: PayoffGame,
@@ -124,15 +123,6 @@ const GAME_SCREENS: Record<GameId, typeof MarketGame> = {
   vwap: VwapGame,
   readbook: ReadBookGame,
 };
-
-type Screen =
-  | { name: Tab; sheet?: string; q?: string }
-  | { name: 'careers' }
-  | { name: 'mock'; round: string }
-  | { name: Exclude<ModeId, 'path'> }
-  | { name: 'lesson'; plan: DealtPlan; seed: number; mode?: Exclude<ModeId, 'path'> }
-  | { name: 'drill' | 'game' | 'case'; unitId: string; seed: number }
-  | { name: 'results'; summary: LessonSummary };
 
 function isIosBrowser(): boolean {
   const ua = navigator.userAgent;
@@ -157,12 +147,43 @@ export default function App() {
   const [area, setArea] = useState<string | null>(null);
   const originY = useRef(0);
   const restoreY = useRef<number | null>(null);
+  /** Set when a screen and its unit sheet were both named by the address, so the sheet survives the change. */
+  const keepOverlay = useRef(false);
+  /** The screen showing now, for the handlers below, which are made once. */
+  const showing = useRef(screen.name);
+  showing.current = screen.name;
   const saveChain = useRef<Promise<void>>(Promise.resolve());
+
+  /**
+   * Go where an address says: on opening the app, and on Back and Forward. The learner didn't
+   * reach this screen from another one, so there is nowhere for a lesson to return to.
+   */
+  const goTo = useCallback((to: Place, y: number) => {
+    // The scroll and the sheet are settled by the effect that watches the screen's name, which
+    // only runs when that name changes. A move within one screen settles them here instead.
+    const sameScreen = to.screen.name === showing.current;
+    keepOverlay.current = !sameScreen && to.overlay !== null;
+    if (!sameScreen && y) restoreY.current = y;
+    setScreen(to.screen);
+    setOverlay(to.overlay);
+    setOrigin(null);
+    // Home is Path, so the Learn tab goes back to Path rather than the mode that was left behind.
+    if (isModeId(to.screen.name)) setMode(to.screen.name);
+    else if (to.screen.name === 'home') setMode('path');
+  }, []);
 
   useEffect(() => {
     loadProgress().then((p) => {
       setProgress(p);
-      // Open in the learner's chosen mode; Path (Home) unless they picked another in Settings.
+      // The address wins: a shared or reloaded link opens its own screen. The bare root names no
+      // screen in particular, so it still opens the learner's chosen mode, Path (Home) unless
+      // they picked another in Settings.
+      const url = window.location.pathname + window.location.search;
+      const at = url === '/' ? null : placeAt(url);
+      if (at) {
+        goTo(at, 0);
+        return;
+      }
       const m = landingMode(p);
       setMode(m);
       if (m !== 'path') setScreen({ name: m });
@@ -171,6 +192,8 @@ export default function App() {
     // Roll "today" over if the app stays open past midnight.
     const t = setInterval(() => setToday(dayKey()), 60_000);
     return () => clearInterval(t);
+    // Once, as the app opens. `goTo` is made once too.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const update = useCallback((p: Progress) => {
@@ -214,9 +237,19 @@ export default function App() {
     const y = restoreY.current;
     restoreY.current = null;
     window.scrollTo(0, 0);
-    // Coming back to the career map or the guide: return to the same spot, once it has drawn.
-    if (y) requestAnimationFrame(() => window.scrollTo(0, y));
-    setOverlay(null);
+    // Coming back to a screen: return to the same spot. A screen arrives as its own file and may
+    // fetch as it draws, so keep trying for about half a second until the page is long enough.
+    if (y) {
+      let tries = 30;
+      const settle = () => {
+        if (document.documentElement.scrollHeight - window.innerHeight >= y) window.scrollTo(0, y);
+        else if (tries-- > 0) requestAnimationFrame(settle);
+      };
+      requestAnimationFrame(settle);
+    }
+    // A sheet named by the address arrives with its screen, so it isn't one left over from the last.
+    if (keepOverlay.current) keepOverlay.current = false;
+    else setOverlay(null);
   }, [screen.name]);
 
   // Once Home is showing, fetch the other screens while the learner reads it.
@@ -242,6 +275,17 @@ export default function App() {
     requestAnimationFrame(focus);
   }, [tabScreen]);
   useSlashKey(toSearch);
+
+  // Leaving a lesson, drill, game or results goes back to where it was started from.
+  const back = useCallback(() => {
+    if (origin) restoreY.current = originY.current;
+    setScreen(origin ?? { name: 'home' });
+    setOrigin(null);
+  }, [origin]);
+
+  // The address bar and the browser's Back button, both ways (src/components/useHistory.ts).
+  const place = useMemo<Place | null>(() => (progress ? { screen, overlay } : null), [progress, screen, overlay]);
+  useHistory(place, goTo, back);
 
   if (!progress || cards.status !== 'ready') {
     return <CardsGate status={progress ? cards.status : 'loading'} onRetry={cards.retry} />;
@@ -270,12 +314,6 @@ export default function App() {
     const ready = await prepare(recipe);
     if (ready) setScreen({ name: 'lesson', ...ready });
     else setOrigin(null);
-  };
-  // Leaving a lesson, drill, game or results goes back to where it was started from.
-  const back = () => {
-    if (origin) restoreY.current = originY.current;
-    setScreen(origin ?? { name: 'home' });
-    setOrigin(null);
   };
   /**
    * Drills, games and desk cases each have their own screen. A desk case, and a
@@ -510,7 +548,8 @@ export default function App() {
             onPhase3Key={() => update(withPhase3Key(progress))}
             onOpenSettings={() => setScreen({ name: 'settings' })}
             onOpenCareers={() => setScreen({ name: 'careers' })}
-            initialSheet={screen.name === 'home' ? screen.sheet : undefined}
+            sheet={screen.name === 'home' ? (screen.sheet ?? null) : null}
+            onSheet={(unitId) => setScreen({ name: 'home', ...(unitId ? { sheet: unitId } : {}) })}
             showInstallHint={isIosBrowser()}
             onProgress={update}
             signedIn={account.kind === 'in'}
