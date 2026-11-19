@@ -19,8 +19,22 @@ function cachedSite(): Site {
   }
 }
 
-/** Wait this long after the last change before sending progress, so a lesson sends once, not on every answer. */
-const PUSH_DELAY = 2500;
+/**
+ * Wait this long after the last change before sending progress. At 2.5 seconds a lesson sent
+ * the whole record once per answer; answers come closer together than this, so mid-lesson
+ * states now stay on the device, where they are saved as they happen. A finished lesson or
+ * round doesn't wait at all (`sessionEnded`), and anything outstanding goes up as soon as the
+ * app is put in the background.
+ */
+const PUSH_DELAY = 12_000;
+
+/** A lesson, game, case or mode round just closed, so this is worth sending at once. */
+function sessionEnded(before: Progress | null, after: Progress): boolean {
+  if (!before || before === after) return false;
+  const lessons = (p: Progress) => Object.values(p.days).reduce((n, d) => n + d.lessons, 0);
+  const rounds = (p: Progress) => Object.values(p.modes ?? {}).reduce((n, m) => n + m.sessions, 0);
+  return lessons(after) > lessons(before) || rounds(after) > rounds(before);
+}
 
 /**
  * The signed-in account and progress sync. Progress is saved in the browser as
@@ -93,6 +107,12 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
           const merged = mergeProgress(local, server);
           if (!sameProgress(merged, local)) update(merged);
           latest.current = merged;
+          // Nothing of ours is missing there, so there is nothing to send back.
+          if (sameProgress(merged, server)) {
+            lastSent.current = server;
+            setSync({ state: 'ok', at: Date.now() });
+            return;
+          }
         }
         return push();
       })
@@ -102,10 +122,13 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
       });
   }, [signedIn, loaded, update, push, failed]);
 
-  // After each change, send once things go quiet.
+  // After each change, send once things go quiet; a finished session goes straight away.
+  const sent = useRef<Progress | null>(null);
   useEffect(() => {
-    if (!signedIn || !pulled.current) return;
-    const t = setTimeout(push, PUSH_DELAY);
+    if (!signedIn || !pulled.current || !progress) return;
+    const ended = sessionEnded(sent.current, progress);
+    sent.current = progress;
+    const t = setTimeout(push, ended ? 0 : PUSH_DELAY);
     return () => clearTimeout(t);
   }, [progress, signedIn, push]);
 

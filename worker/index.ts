@@ -11,7 +11,8 @@
  */
 // Every term's name, before anything reads the syllabus.
 import '../src/lib/syllabus';
-import { mergeProgress } from '../src/lib/sync';
+import { PACKED_HEADER } from '../src/lib/post';
+import { mergeProgress, sameProgress } from '../src/lib/sync';
 import type { Progress } from '../src/lib/types';
 import { ALWAYS_ON, isModeId, MODES } from '../src/lib/modes/ids';
 import { askCards, countAsk, grant } from './cards';
@@ -70,6 +71,39 @@ const MAX_FAILS = 8;
 const LOCK_MINUTES = 15;
 const PBKDF2_ROUNDS = 100_000;
 const MAX_PROGRESS_BYTES = 1_500_000;
+
+/**
+ * The text of a request body, unpacking it when the app sent it gzipped (src/lib/post.ts).
+ * Null when it is bigger than `max`, counted after unpacking so a tiny packed body can't
+ * blow up here.
+ */
+async function bodyText(request: Request, max: number): Promise<string | null> {
+  if (request.headers.get(PACKED_HEADER) !== 'gzip') {
+    const text = await request.text();
+    return text.length > max ? null : text;
+  }
+  if (!request.body) return null;
+  const reader = request.body.pipeThrough(new DecompressionStream('gzip')).getReader();
+  const chunks: Uint8Array[] = [];
+  let size = 0;
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    size += value.byteLength;
+    if (size > max) {
+      await reader.cancel();
+      return null;
+    }
+    chunks.push(value);
+  }
+  const all = new Uint8Array(size);
+  let at = 0;
+  for (const c of chunks) {
+    all.set(c, at);
+    at += c.byteLength;
+  }
+  return new TextDecoder().decode(all);
+}
 const COOKIE = 'fts_session';
 /**
  * The password that opens the quant switch and phase 3, as a salted PBKDF2
@@ -302,9 +336,13 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   await ensureSchema(db);
   const secure = url.protocol === 'https:';
 
+  /** The request's JSON text, unpacked when the app packed it, and never larger than the cap. */
+  const text = () => bodyText(request, MAX_PROGRESS_BYTES);
+
   const body = async (): Promise<Record<string, unknown>> => {
     try {
-      const b = await request.json();
+      const raw = await text();
+      const b = raw === null ? null : (JSON.parse(raw) as unknown);
       return b && typeof b === 'object' ? (b as Record<string, unknown>) : {};
     } catch {
       return {};
@@ -526,11 +564,11 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   }
 
   if (route === 'PUT /api/progress') {
-    const text = await request.text();
-    if (text.length > MAX_PROGRESS_BYTES) return fail(413, 'Progress is too large to sync.');
+    const raw = await text();
+    if (raw === null) return fail(413, 'Progress is too large to sync.');
     let incoming: unknown;
     try {
-      incoming = JSON.parse(text).progress;
+      incoming = (JSON.parse(raw) as { progress?: unknown }).progress;
     } catch {
       return fail(400, 'Send progress as JSON.');
     }
@@ -541,6 +579,8 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
       .prepare('INSERT INTO progress (user_id, data, updated) VALUES (?, ?, ?) ON CONFLICT(user_id) DO UPDATE SET data = excluded.data, updated = excluded.updated')
       .bind(user.id, JSON.stringify(merged), now)
       .run();
+    // The app already holds what it sent: send the merge back only when it adds something.
+    if (sameProgress(merged, incoming)) return json({ same: true, updated: now });
     return json({ progress: merged, updated: now });
   }
 
