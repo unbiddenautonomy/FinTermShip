@@ -65,6 +65,48 @@ describe('progress sync: merging two devices', () => {
     expect(sameProgress(mergeProgress(m, phone), { ...m, settings: phone.settings })).toBe(true);
   });
 
+  it('keeps the level, the run of good rounds and the days items were played', () => {
+    const played: Progress = {
+      ...phone,
+      modes: {
+        headline: { sessions: 6, answers: 40, right: 33, last: '2026-11-17', level: 3, good: 1, seen: { h1: '2026-11-17', h2: '2026-11-12' } },
+        finnections: { sessions: 2, answers: 8, right: 6, last: '2026-11-16', level: 2, good: 0, seen: { b1: '2026-11-16' } },
+      },
+    };
+    const old: Progress = {
+      ...laptop,
+      modes: { headline: { sessions: 4, answers: 20, right: 15, last: '2026-11-14', level: 1, good: 0, seen: { h1: '2026-11-10', h3: '2026-11-14' } } },
+    };
+    const m = mergeProgress(old, played).modes!;
+    // The level follows the copy that played last, and a day an item was played is never forgotten.
+    expect(m.headline).toMatchObject({ sessions: 6, answers: 40, level: 3, good: 1 });
+    expect(m.headline!.seen).toEqual({ h1: '2026-11-17', h2: '2026-11-12', h3: '2026-11-14' });
+    expect(m.finnections!.level).toBe(2);
+    // And it is the same whichever device syncs first.
+    const settings = phone.settings;
+    expect(sameProgress({ ...mergeProgress(played, old), settings }, { ...mergeProgress(old, played), settings })).toBe(true);
+  });
+
+  it('lets a pick, a name or a target be cleared', () => {
+    const picked: Progress = { ...phone, focus: 'o3', settings: { ...phone.settings, name: 'Asha', target: 'trader' } };
+    const cleared: Progress = { ...picked, focus: null, settings: { ...picked.settings, name: '', target: '' } };
+    const m = mergeProgress(picked, cleared);
+    expect(m.focus).toBeNull();
+    expect(m.settings.name).toBe('');
+    expect(m.settings.target).toBe('');
+  });
+
+  it('does not let practice on a stale device undo a newer review', () => {
+    const reviewed = { ...t(4, '2026-11-25'), step: 4 };
+    // The other device answered the same term twice in practice: more answers, but the ladder never moved.
+    const practised = { ...t(4, '2026-11-11'), step: 3, seen: 6, correct: 6 };
+    const m = mergeProgress({ ...phone, terms: { delta: practised } }, { ...laptop, terms: { delta: reviewed } });
+    expect(m.terms.delta).toEqual(reviewed);
+    // A lapse is a move too, so the copy that lapsed wins even though its next date is sooner.
+    const lapsed = { ...reviewed, step: 2, due: '2026-11-12', lapses: 1 };
+    expect(mergeProgress({ ...phone, terms: { delta: reviewed } }, { ...laptop, terms: { delta: lapsed } }).terms.delta).toEqual(lapsed);
+  });
+
   it('lets a reset or restored backup win over older progress from any device', () => {
     const reset: Progress = { ...newProgress(), epoch: 1_700_000_000_000 };
     expect(mergeProgress(phone, reset)).toBe(reset);

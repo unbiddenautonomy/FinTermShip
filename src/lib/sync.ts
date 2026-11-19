@@ -22,9 +22,15 @@ const later = (x: string | null | undefined, y: string | null | undefined) => ((
 const max = (x: number | undefined, y: number | undefined) => (x === undefined ? y : y === undefined ? x : Math.max(x, y));
 const min = (x: number | undefined, y: number | undefined) => (x === undefined ? y : y === undefined ? x : Math.min(x, y));
 
+/**
+ * The copy further along the ladder. A lapse only ever adds one, and every other review books
+ * the next date later, so those two say which copy reviewed last. The number of answers can't:
+ * practice raises it without moving the ladder, so a stale device would win on it.
+ */
 function term(x: TermState, y: TermState): TermState {
-  if (x.seen !== y.seen) return x.seen > y.seen ? x : y;
-  return x.due >= y.due ? x : y;
+  if (x.lapses !== y.lapses) return x.lapses > y.lapses ? x : y;
+  if (x.due !== y.due) return x.due > y.due ? x : y;
+  return x.seen >= y.seen ? x : y;
 }
 
 function day(x: DayStats, y: DayStats): DayStats {
@@ -80,7 +86,7 @@ export function mergeProgress(a: Progress, b: Progress): Progress {
   return out;
 }
 
-/** Per-mode records from two devices: counts and records take the larger, and the index history keeps every day (the higher reading if both have one), so the merge is order-free. */
+/** Per-mode records from two devices: counts and records take the larger, the index history keeps every day (the higher reading if both have one) and the days items were played keep the later day, so the merge is order-free. */
 function mergeModes(a: ModeRecords, b: ModeRecords): ModeRecords {
   const out: ModeRecords = {};
   for (const id of new Set([...Object.keys(a), ...Object.keys(b)]) as Set<ModeId>) {
@@ -105,9 +111,30 @@ function mergeModes(a: ModeRecords, b: ModeRecords): ModeRecords {
     if (marks) r.marks = marks;
     const prevMarks = laterMarks(x.prevMarks, y.prevMarks);
     if (prevMarks) r.prevMarks = prevMarks;
+    if (x.seen || y.seen) r.seen = byKey(x.seen, y.seen, (m, n) => (m >= n ? m : n));
+    const { level, good } = levelOf(x, y);
+    if (level !== undefined) r.level = level;
+    if (good !== undefined) r.good = good;
     out[id] = r;
   }
   return out;
+}
+
+/**
+ * The level Headline Desk and Finnections play at, and the run of good rounds towards the next.
+ * They follow the copy that played most recently, because a round can move the level either way;
+ * on the same day the further-along copy wins, so the merge is order-free. A copy from before
+ * levels were kept has none, and the one that has a level is used.
+ */
+function levelOf(x: ModeRecord, y: ModeRecord): Pick<ModeRecord, 'level' | 'good'> {
+  if (x.level === undefined || y.level === undefined) {
+    const held = x.level === undefined ? y : x;
+    return { level: held.level, good: held.good };
+  }
+  const xDay = x.last ?? '';
+  const yDay = y.last ?? '';
+  const fresh = xDay !== yDay ? (xDay > yDay ? x : y) : x.level !== y.level ? (x.level > y.level ? x : y) : (x.good ?? 0) >= (y.good ?? 0) ? x : y;
+  return { level: fresh.level, good: fresh.good };
 }
 
 /** The later of two price snapshots; on the same day, a fixed pick so the merge is order-free. */
