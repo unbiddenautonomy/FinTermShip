@@ -33,8 +33,9 @@ interface Props {
   onPhase3Key: () => void;
   onOpenSettings: () => void;
   onOpenCareers: () => void;
-  /** A unit sheet to open straight away, e.g. when coming from the career map. */
-  initialSheet?: string;
+  /** The unit sheet open over this screen, if any. App holds it so the address bar and Back can reach it. */
+  sheet: string | null;
+  onSheet: (unitId: string | null) => void;
   showInstallHint: boolean;
   /** Saves a change made on this screen, such as the About you card. */
   onProgress: (p: Progress) => void;
@@ -44,8 +45,7 @@ interface Props {
 
 type Row = PathRow & { i: number; met: number; known: number; total: number; open: boolean; drill: boolean; done: boolean };
 
-export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, onTest, onDrill, onPhase3Key, onOpenSettings, onOpenCareers, initialSheet, showInstallHint, onProgress, signedIn }: Props) {
-  const [sheet, setSheet] = useState<string | null>(initialSheet ?? null);
+export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, onTest, onDrill, onPhase3Key, onOpenSettings, onOpenCareers, sheet, onSheet, showInstallHint, onProgress, signedIn }: Props) {
   const picked = focusActive(progress) && progress.focus ? unitById.get(progress.focus) : undefined;
   const status = todayStatus(progress, today);
   const todayStats = dayStats(progress, today);
@@ -151,7 +151,7 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
           unitId={sheet}
           progress={progress}
           today={today}
-          onClose={() => setSheet(null)}
+          onClose={() => onSheet(null)}
           onPractice={onPractice}
           onDrill={onDrill}
           onFocus={(id) => {
@@ -232,7 +232,7 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
       </aside>
 
       <div className="order-2 min-w-0 lg:order-none lg:col-start-1">
-        <LearningPath progress={progress} today={today} onOpen={setSheet} gate={gate} />
+        <LearningPath progress={progress} today={today} onOpen={onSheet} gate={gate} />
       </div>
     </div>
   );
