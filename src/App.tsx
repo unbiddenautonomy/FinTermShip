@@ -149,7 +149,28 @@ export default function App() {
   const restoreY = useRef<number | null>(null);
   /** Set when a screen and its unit sheet were both named by the address, so the sheet survives the change. */
   const keepOverlay = useRef(false);
+  /** The screen showing now, for the handlers below, which are made once. */
+  const showing = useRef(screen.name);
+  showing.current = screen.name;
   const saveChain = useRef<Promise<void>>(Promise.resolve());
+
+  /**
+   * Go where an address says: on opening the app, and on Back and Forward. The learner didn't
+   * reach this screen from another one, so there is nowhere for a lesson to return to.
+   */
+  const goTo = useCallback((to: Place, y: number) => {
+    // The scroll and the sheet are settled by the effect that watches the screen's name, which
+    // only runs when that name changes. A move within one screen settles them here instead.
+    const sameScreen = to.screen.name === showing.current;
+    keepOverlay.current = !sameScreen && to.overlay !== null;
+    if (!sameScreen && y) restoreY.current = y;
+    setScreen(to.screen);
+    setOverlay(to.overlay);
+    setOrigin(null);
+    // Home is Path, so the Learn tab goes back to Path rather than the mode that was left behind.
+    if (isModeId(to.screen.name)) setMode(to.screen.name);
+    else if (to.screen.name === 'home') setMode('path');
+  }, []);
 
   useEffect(() => {
     loadProgress().then((p) => {
@@ -160,9 +181,7 @@ export default function App() {
       const url = window.location.pathname + window.location.search;
       const at = url === '/' ? null : placeAt(url);
       if (at) {
-        setScreen(at.screen);
-        setOverlay(at.overlay);
-        if (isModeId(at.screen.name)) setMode(at.screen.name);
+        goTo(at, 0);
         return;
       }
       const m = landingMode(p);
@@ -173,6 +192,8 @@ export default function App() {
     // Roll "today" over if the app stays open past midnight.
     const t = setInterval(() => setToday(dayKey()), 60_000);
     return () => clearInterval(t);
+    // Once, as the app opens. `goTo` is made once too.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const update = useCallback((p: Progress) => {
@@ -264,15 +285,6 @@ export default function App() {
 
   // The address bar and the browser's Back button, both ways (src/components/useHistory.ts).
   const place = useMemo<Place | null>(() => (progress ? { screen, overlay } : null), [progress, screen, overlay]);
-  const goTo = useCallback((to: Place, y: number) => {
-    keepOverlay.current = to.overlay !== null;
-    if (y) restoreY.current = y;
-    setScreen(to.screen);
-    setOverlay(to.overlay);
-    // Home is Path, so the Learn tab goes back to Path rather than the mode that was left behind.
-    if (isModeId(to.screen.name)) setMode(to.screen.name);
-    else if (to.screen.name === 'home') setMode('path');
-  }, []);
   useHistory(place, goTo, back);
 
   if (!progress || cards.status !== 'ready') {

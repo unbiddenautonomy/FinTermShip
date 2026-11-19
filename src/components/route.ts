@@ -75,12 +75,16 @@ export function pathOf(place: Place): string {
  * dealt screen the learner has reloaded). The caller then opens the learner's usual first screen.
  */
 export function placeAt(url: string): Place | null {
-  let parsed: URL;
   try {
-    parsed = new URL(url, 'http://localhost');
+    return read(url);
   } catch {
+    // An address that can't be read at all, such as a half-written escape in a round's name.
     return null;
   }
+}
+
+function read(url: string): Place | null {
+  const parsed = new URL(url, 'http://localhost');
   const parts = parsed.pathname.split('/').filter(Boolean);
   const unit = parsed.searchParams.get('unit');
   const q = parsed.searchParams.get('q');

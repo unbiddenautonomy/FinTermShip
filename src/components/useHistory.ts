@@ -24,6 +24,8 @@ export function useHistory(place: Place | null, go: (place: Place, y: number) =>
    * would be too late: the new screen has already been put at the top by then.
    */
   const scrolled = useRef(0);
+  /** The address a lesson was started from, so leaving it can drop the entry it took. */
+  const dealtFrom = useRef<string | null>(null);
   useEffect(() => {
     const onScroll = () => {
       scrolled.current = window.scrollY;
@@ -36,6 +38,7 @@ export function useHistory(place: Place | null, go: (place: Place, y: number) =>
     if (!place) return;
     const path = pathOf(place);
     const at = here();
+    if (isDealtPath(path) && !isDealtPath(at)) dealtFrom.current = at;
     // The first screen takes the entry the app was opened on, so Back still leaves the app.
     if (!started.current) {
       started.current = true;
@@ -43,9 +46,24 @@ export function useHistory(place: Place | null, go: (place: Place, y: number) =>
       return;
     }
     if (at === path) return;
-    // A lesson's address can't be returned to, so leaving one writes over its entry rather than
-    // adding another. Without that, Back out of a lesson would only ever land on the lesson again.
-    if (isDealtPath(at) || sameEntry(at, path)) {
+    // A lesson's address can't be returned to, so its entry is given up rather than kept. Going
+    // back to the screen it was started from drops that entry; anywhere else writes over it, so
+    // Back can't land on the lesson again either way.
+    if (isDealtPath(at)) {
+      // A lesson into its own results stays on the one entry.
+      if (isDealtPath(path)) {
+        window.history.replaceState(window.history.state, '', path);
+        return;
+      }
+      const from = dealtFrom.current;
+      dealtFrom.current = null;
+      // Back to the screen the lesson was started from: give the entry up, so one Back press
+      // from there moves. Anywhere else writes over it, so Back can't land on the lesson again.
+      if (from === path) window.history.back();
+      else window.history.replaceState(window.history.state, '', path);
+      return;
+    }
+    if (sameEntry(at, path)) {
       window.history.replaceState(window.history.state, '', path);
       return;
     }

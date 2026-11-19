@@ -65,6 +65,14 @@ describe('addresses for screens', () => {
     expect(placeAt('/guide?unit=x4')).toEqual(at({ name: 'guide' }, 'x4'));
   });
 
+  it('turns down an address it cannot read rather than throwing', () => {
+    // A half-written escape in a round's name reaches this on a Back press and on opening the app.
+    expect(placeAt('/mock/%zz')).toBeNull();
+    expect(placeAt('/mock/%')).toBeNull();
+    // A garbled query is harmless, so the screen still opens.
+    expect(placeAt('/glossary?q=%E0%A4')?.screen.name).toBe('glossary');
+  });
+
   it('writes over the last entry only when the same screen and sheet are showing', () => {
     // Typing in the glossary's search box shouldn't fill the history with one entry a letter.
     expect(sameEntry('/glossary?q=sk', '/glossary?q=skew')).toBe(true);
