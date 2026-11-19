@@ -15,7 +15,7 @@ export function LevelMeter({ progress, mode }: { progress: Progress; mode: Round
       <span className="inline-flex items-center gap-1.5">
         <span className="num font-mono text-base text-ink">{s.level}</span>
         {!top && (
-          <span className="flex gap-0.5" aria-label={`${s.good} of ${RISE_AFTER} good rounds towards level ${s.level + 1}`}>
+          <span role="img" className="flex gap-0.5" aria-label={`${s.good} of ${RISE_AFTER} good rounds towards level ${s.level + 1}`}>
             {Array.from({ length: RISE_AFTER }, (_, i) => (
               <span key={i} className={`h-1.5 w-3 rounded-sm ${i < s.good ? 'bg-good' : 'bg-ink/15'}`} />
             ))}

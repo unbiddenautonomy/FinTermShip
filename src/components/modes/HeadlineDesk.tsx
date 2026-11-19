@@ -197,7 +197,7 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
         <p className="mt-2 font-display text-[17px] italic leading-snug" style={{ color: '#3d3d3d' }}>
           {h.dek}
         </p>
-        <p className="mb-2 mt-5 text-[11px] font-extrabold uppercase tracking-[0.14em] opacity-60">{current ? 'The calls' : 'Call each one'}</p>
+        <p className="mb-2 mt-5 text-[11px] font-extrabold uppercase tracking-[0.14em] text-ink-3">{current ? 'The calls' : 'Call each one'}</p>
         <ul className="space-y-2">
           {h.items.map((it, i) => {
             const answer = marked?.items[i];
