@@ -45,6 +45,12 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
   const [account, setAccount] = useState<AccountState>({ kind: 'loading' });
   const [sync, setSync] = useState<SyncStatus>({ state: 'idle' });
   const [site, setSiteState] = useState<Site>(cachedSite);
+  /**
+   * Whether the progress on this device is the whole picture: the server's copy has been folded
+   * in, the attempt failed, or there is no account to fetch one from. Until then a brand-new
+   * device holds an empty record, which says nothing about what the learner has set or done.
+   */
+  const [synced, setSynced] = useState(false);
   const setSite = useCallback((s: Site) => {
     setSiteState(s);
     try {
@@ -104,6 +110,12 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
     }
   }, [update, failed]);
 
+  // Signed out, offline, or no accounts on this deployment: nothing is coming, so this device's
+  // own record is already the whole picture. Signed in, the fetch below settles it either way.
+  useEffect(() => {
+    if (account.kind !== 'loading' && account.kind !== 'in') setSynced(true);
+  }, [account.kind]);
+
   // On sign-in (or opening the app signed in): fold in the server's copy, then send the result.
   const signedIn = account.kind === 'in';
   const loaded = progress !== null;
@@ -131,7 +143,9 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
       .catch((e) => {
         pulled.current = false;
         failed(e);
-      });
+      })
+      // Whether it arrived or not, this is as complete as the record is going to get for now.
+      .finally(() => setSynced(true));
   }, [signedIn, loaded, update, push, failed]);
 
   // After each change, send once things go quiet; a finished session goes straight away.
@@ -179,9 +193,10 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
   const signedOut = useCallback(() => {
     pulled.current = false;
     lastSent.current = null;
+    setSynced(true);
     setAccount({ kind: 'out' });
     setSync({ state: 'idle' });
   }, []);
 
-  return { account, setAccount, sync, syncNow: push, signedOut, site, setSite };
+  return { account, setAccount, sync, synced, syncNow: push, signedOut, site, setSite };
 }
