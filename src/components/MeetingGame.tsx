@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { glossOrUnit, termById } from '../lib/content';
 import { clipSpeech, MEETING, MEETING_QUESTIONS, meetingPassed, SETTINGS, type Clip } from '../lib/meeting';
-import { markPractice } from '../lib/modes/roundApi';
+import { markMessage, markPractice } from '../lib/modes/roundApi';
 import { finishGame } from '../lib/practice';
 import { canSpeak, speak } from '../lib/speech';
 import { Choices, GameFrame, Verdict, type GameProps } from './GameFrame';
@@ -31,6 +31,7 @@ export function MeetingGame(props: GameProps) {
 
 function MeetingRound({ unitId, progress, today, onProgress, onFinish, onQuit, items }: GameProps & { items: { clip: DealtClip; questions: { q: string; options: string[] }[] }[] }) {
   const [marking, setMarking] = useState(false);
+  const [markError, setMarkError] = useState<string | null>(null);
   const [clipIndex, setClipIndex] = useState(0);
   const [qIndex, setQIndex] = useState(0);
   const [shown, setShown] = useState(1);
@@ -56,12 +57,14 @@ function MeetingRound({ unitId, progress, today, onProgress, onFinish, onQuit, i
   const answer = async (picked: number | null) => {
     if (answers.length > flat || marking) return;
     setMarking(true);
+    setMarkError(null);
     try {
       const m = await markPractice<{ answer: string; why: string }>({ kind: 'meeting', id: clip.id, q: qIndex });
       const right = question.options.indexOf(m.answer);
       setAnswers((a) => (a.length > flat ? a : [...a, { picked, right: picked === right, answer: right, why: m.why }]));
-    } catch {
-      // Not marked: the question stays open to answer again.
+    } catch (e) {
+      // Not marked: the question stays open to answer again, and the learner is told why.
+      setMarkError(markMessage(e));
     } finally {
       setMarking(false);
     }
@@ -153,6 +156,7 @@ function MeetingRound({ unitId, progress, today, onProgress, onFinish, onQuit, i
       tone="violet"
       started={answers.length > 0 || clipIndex > 0}
       onQuit={onQuit}
+      error={markError}
       rules={
         <>
           <p>

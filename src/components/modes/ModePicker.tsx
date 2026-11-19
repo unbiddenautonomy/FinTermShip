@@ -62,9 +62,9 @@ export function ModeSwitch({ mode, info, stat, onOpen }: { mode: ModeId; info: M
       onClick={onOpen}
       aria-haspopup="dialog"
       aria-label={`Mode: ${info.label}. Change mode`}
-      className="group flex h-full w-full min-w-0 items-center gap-3 rounded-2xl border border-line bg-surface p-2 pr-3 text-left shadow-card transition hover:-translate-y-0.5 hover:shadow-[0_6px_18px_-8px_rgb(20_40_30/0.35)] active:translate-y-0"
+      className="group flex h-full w-full min-w-0 items-center gap-2.5 rounded-2xl border border-line bg-surface p-2 pr-2.5 text-left sm:gap-3 sm:pr-3 shadow-card transition hover:-translate-y-0.5 hover:shadow-[0_6px_18px_-8px_rgb(20_40_30/0.35)] active:translate-y-0"
     >
-      <span className="relative grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl" style={{ background: look.tile, color: look.ink }}>
+      <span className="relative grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-xl sm:h-12 sm:w-12" style={{ background: look.tile, color: look.ink }}>
         <span className="absolute inset-0 opacity-40 [&_svg]:h-full [&_svg]:w-full" aria-hidden="true">
           {MODE_ART[mode]}
         </span>
@@ -77,8 +77,9 @@ export function ModeSwitch({ mode, info, stat, onOpen }: { mode: ModeId; info: M
         <span className="block truncate font-display text-xl font-semibold leading-tight text-ink">{info.label}</span>
         <span className="block truncate text-xs font-semibold text-ink-3">{stat}</span>
       </span>
-      <span className="flex shrink-0 items-center gap-1 rounded-full bg-sunken px-2.5 py-1 text-xs font-extrabold text-ink-2 transition group-hover:bg-brand group-hover:text-white">
-        Switch
+      {/* On a narrow phone the word gives way to the chevron, so the mode's name has room to show in full. */}
+      <span className="flex shrink-0 items-center gap-1 rounded-full bg-sunken px-2 py-1 text-xs font-extrabold text-ink-2 transition group-hover:bg-brand group-hover:text-white sm:px-2.5">
+        <span className="hidden sm:inline">Switch</span>
         <ChevronDown className="h-3.5 w-3.5" />
       </span>
     </button>

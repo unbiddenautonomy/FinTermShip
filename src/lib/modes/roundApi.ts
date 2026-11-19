@@ -130,3 +130,6 @@ export async function markPractice<T>(body: Record<string, unknown>): Promise<T>
   }
   return call<T>('practice/mark', body);
 }
+
+/** What to show the learner when a pick could not be marked. */
+export const markMessage = (e: unknown): string => (e instanceof Error && e.message ? e.message : 'That did not go through. Try again in a moment.');

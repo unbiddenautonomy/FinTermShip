@@ -1,13 +1,13 @@
 import { useRef, useState } from 'react';
 import { settleFocus } from '../lib/choose';
 import { categoryOfUnit, termName, unitById } from '../lib/content';
-import { markPractice } from '../lib/modes/roundApi';
+import { markMessage, markPractice } from '../lib/modes/roundApi';
 import { casePassMark, passRule, recordRound } from '../lib/practice';
 import { finishLesson } from '../lib/scheduler';
 import type { CaseStep, DeskCase as Story, Progress } from '../lib/types';
 import { Briefcase, Check, Cross } from './icons';
 import type { LessonSummary } from './Lesson';
-import { Bar, Button, ConfirmDialog, Pill } from './ui';
+import { Bar, Button, ConfirmDialog, MarkNotice, Pill } from './ui';
 import { PracticeWait, usePractice } from './usePractice';
 
 interface Props {
@@ -34,6 +34,7 @@ function CaseRound({ unitId, progress, today, onProgress, onFinish, onQuit, stor
   // Each step's options gain which is best and why once a pick is marked.
   const [steps, setSteps] = useState<CaseStep[]>(() => story.steps.map((s) => ({ ...s, options: s.options.map((text) => ({ text, why: '' })) })));
   const [marking, setMarking] = useState(false);
+  const [markError, setMarkError] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
   const [picks, setPicks] = useState<number[]>([]);
   const [confirmQuit, setConfirmQuit] = useState(false);
@@ -82,13 +83,15 @@ function CaseRound({ unitId, progress, today, onProgress, onFinish, onQuit, stor
   const pick = async (i: number) => {
     if (answered || marking) return;
     setMarking(true);
+    setMarkError(null);
     try {
       const m = await markPractice<{ options: CaseStep['options'] }>({ kind: 'case', unit: unitId, step: index });
       const byText = new Map(m.options.map((o) => [o.text, o]));
       setSteps((all) => all.map((s, k) => (k === index ? { ...s, options: s.options.map((o) => byText.get(o.text) ?? o) } : s)));
       setPicks((p) => [...p.slice(0, index), i]);
-    } catch {
-      // Not marked: the step stays open to pick again.
+    } catch (e) {
+      // Not marked: the step stays open to pick again, and the learner is told why.
+      setMarkError(markMessage(e));
     } finally {
       setMarking(false);
     }
@@ -168,6 +171,8 @@ function CaseRound({ unitId, progress, today, onProgress, onFinish, onQuit, stor
               );
             })}
           </div>
+
+          <MarkNotice message={markError} />
 
           {answered && (
             <div className="mt-4 space-y-3" role="status">

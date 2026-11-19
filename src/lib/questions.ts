@@ -130,9 +130,17 @@ export function promptFor(term: Term): string {
     }
   }
   for (const n of names.sort((a, b) => b.length - a.length)) {
-    text = text.replace(new RegExp(escapeRegExp(n), 'gi'), '____');
+    text = text.replace(wordRe(n), '$1____');
   }
   return text;
+}
+
+/**
+ * The whole word a name sits in, so a prompt reads "at ____ meetings", never "at ____holder
+ * meetings" with the answer still half on the page. Written without lookbehind for older Safari.
+ */
+function wordRe(name: string): RegExp {
+  return new RegExp(`(^|[^\\w-])([\\w-]*${escapeRegExp(name)}[\\w-]*)`, 'gi');
 }
 
 /** Pick the term: read the definition, choose the term (options are term ids). */

@@ -1,12 +1,11 @@
 import { useRef, useState } from 'react';
 import { BACKTEST, BACKTEST_POINTS, backtestPassed, FLAWS, SLOTS, type BacktestCase, type Flaw } from '../lib/backtest';
 import { glossOrUnit, termById } from '../lib/content';
-import { markPractice } from '../lib/modes/roundApi';
+import { markMessage, markPractice } from '../lib/modes/roundApi';
 import { finishGame } from '../lib/practice';
 import { Choices, GameFrame, Verdict, type GameProps } from './GameFrame';
 import { Search } from './icons';
 import { PracticeWait, usePractice } from './usePractice';
-
 interface Answer {
   line: number;
   name: number | null;
@@ -37,6 +36,7 @@ function BacktestRound({ unitId, progress, today, onProgress, onFinish, onQuit, 
     dealt.map((d) => ({ strategy: { id: d.id, title: d.title, about: d.about }, case: d.case, lines: d.lines, stats: d.stats, names: d.names, answer: -1, flaw: d.names[0], why: '' })),
   );
   const [marking, setMarking] = useState(false);
+  const [markError, setMarkError] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
   const [answers, setAnswers] = useState<Answer[]>([]);
   const finished = useRef(false);
@@ -51,12 +51,14 @@ function BacktestRound({ unitId, progress, today, onProgress, onFinish, onQuit, 
   const pickLine = async (i: number) => {
     if (a || marking) return;
     setMarking(true);
+    setMarkError(null);
     try {
       const m = await markPractice<{ answer: number; flaw: Flaw; why: string }>({ kind: 'backtest', id: c.strategy.id, case: c.case });
       setCases((all) => all.map((x, k) => (k === index ? { ...x, ...m } : x)));
       setAnswers((all) => (all.length > index ? all : [...all, { line: i, name: null }]));
-    } catch {
-      // Not marked: the report stays open to pick again.
+    } catch (e) {
+      // Not marked: the report stays open to pick again, and the learner is told why.
+      setMarkError(markMessage(e));
     } finally {
       setMarking(false);
     }
@@ -130,6 +132,7 @@ function BacktestRound({ unitId, progress, today, onProgress, onFinish, onQuit, 
       tone="sky"
       started={answers.length > 0 || index > 0}
       onQuit={onQuit}
+      error={markError}
       rules={
         <>
           <p>

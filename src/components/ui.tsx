@@ -328,3 +328,16 @@ export function Stepper({ label, value, onDown, onUp }: { label: string; value: 
     </div>
   );
 }
+
+/**
+ * A pick the server couldn't mark leaves a line saying so. Without it the tap looks ignored,
+ * which is what a dropped connection in the middle of a game used to feel like.
+ */
+export function MarkNotice({ message }: { message: string | null }) {
+  if (!message) return null;
+  return (
+    <p role="alert" className="mt-4 text-center text-sm font-bold text-bad-ink">
+      {message}
+    </p>
+  );
+}

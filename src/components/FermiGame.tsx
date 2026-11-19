@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { bigNumber, DIAL, FERMI, fermiHit, offText, type FermiItem } from '../lib/fermi';
-import { markPractice } from '../lib/modes/roundApi';
+import { markMessage, markPractice } from '../lib/modes/roundApi';
 import { finishGame } from '../lib/practice';
 import { GameFrame, Verdict, type GameProps } from './GameFrame';
 import { PracticeWait, usePractice } from './usePractice';
@@ -23,6 +23,7 @@ function FermiRound({ unitId, progress, today, onProgress, onFinish, onQuit, dea
   // Each question gains its answer, how and source once its guess is marked.
   const [items, setItems] = useState<FermiItem[]>(() => dealt.map((d) => ({ ...d, answer: 0, how: '' })));
   const [marking, setMarking] = useState(false);
+  const [markError, setMarkError] = useState<string | null>(null);
   const [index, setIndex] = useState(0);
   const [dial, setDial] = useState(START);
   const [left, setLeft] = useState(FERMI.seconds);
@@ -35,12 +36,14 @@ function FermiRound({ unitId, progress, today, onProgress, onFinish, onQuit, dea
   const lock = async (timedOut = false) => {
     if (answers.length > index || marking) return;
     setMarking(true);
+    setMarkError(null);
     try {
       const full = { ...item, ...(await markPractice<Omit<FermiItem, 'id' | 'q'>>({ kind: 'fermi', id: item.id, guess })) };
       setItems((all) => all.map((x, i) => (i === index ? full : x)));
       setAnswers((a) => (a.length > index ? a : [...a, { guess, hit: fermiHit(guess, full.answer), timedOut }]));
-    } catch {
-      // Not marked: the guess stays open, and the learner can lock it again.
+    } catch (e) {
+      // Not marked: the guess stays open to lock again, and the learner is told why.
+      setMarkError(markMessage(e));
     } finally {
       setMarking(false);
     }
@@ -127,6 +130,7 @@ function FermiRound({ unitId, progress, today, onProgress, onFinish, onQuit, dea
       tone="brand"
       started={index > 0 || dial !== START || locked}
       onQuit={onQuit}
+      error={markError}
       rules={
         <>
           <p>
