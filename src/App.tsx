@@ -176,17 +176,10 @@ export default function App() {
     loadProgress().then((p) => {
       setProgress(p);
       // The address wins: a shared or reloaded link opens its own screen. The bare root names no
-      // screen in particular, so it still opens the learner's chosen mode, Path (Home) unless
-      // they picked another in Settings.
+      // screen in particular, so the effect below opens the learner's chosen mode there.
       const url = window.location.pathname + window.location.search;
       const at = url === '/' ? null : placeAt(url);
-      if (at) {
-        goTo(at, 0);
-        return;
-      }
-      const m = landingMode(p);
-      setMode(m);
-      if (m !== 'path') setScreen({ name: m });
+      if (at) goTo(at, 0);
     });
     requestPersistence().then(setPersisted);
     // Roll "today" over if the app stays open past midnight.
@@ -202,7 +195,7 @@ export default function App() {
     saveChain.current = saveChain.current.then(() => saveProgress(p));
   }, []);
 
-  const { account, setAccount, sync, syncNow, signedOut, site, setSite } = useAccount(progress, update);
+  const { account, setAccount, sync, synced, syncNow, signedOut, site, setSite } = useAccount(progress, update);
   // Modes the admin switched off for everyone are hidden from learners; the admin keeps them, to test.
   const isAdmin = account.kind === 'in' && account.me.admin;
   const access = useMemo(() => ({ off: site.modesOff, admin: isAdmin, setOff: (modesOff: string[]) => setSite({ modesOff }) }), [site.modesOff, isAdmin, setSite]);
@@ -215,6 +208,22 @@ export default function App() {
     if (!canOpen(mode)) setMode('path');
     if (shownMode && !canOpen(shownMode)) setScreen({ name: 'home' });
   }, [account.kind, canOpen, mode, shownMode]);
+
+  /**
+   * Open in the mode the learner chose in Settings, Path (Home) unless they picked another.
+   * It waits for the server's copy, because on a device the learner has just signed in on,
+   * this device's own record is empty and knows nothing of what they chose. Only at the bare
+   * root: any other address names its own screen, and once the learner has moved it is too late.
+   */
+  const landed = useRef(false);
+  useEffect(() => {
+    if (landed.current || !progress || !synced) return;
+    landed.current = true;
+    if (showing.current !== 'home' || window.location.pathname + window.location.search !== '/') return;
+    const m = landingMode(progress);
+    setMode(m);
+    if (m !== 'path') setScreen({ name: m });
+  }, [progress, synced]);
 
   // Met terms the app has no name for yet (progress synced from another device): ask for them.
   useEffect(() => {
