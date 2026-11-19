@@ -3,7 +3,6 @@ import { addDays } from './dates';
 import {
   currentStreak,
   dueTermIds,
-  fastLimit,
   finishLesson,
   graduate,
   intervalFor,
@@ -11,7 +10,6 @@ import {
   MAX_REVIEWS_PER_DAY,
   newLeftToday,
   newProgress,
-  SUM_MS,
   peakLoadAhead,
   review,
   tomorrowLoad,
@@ -49,38 +47,22 @@ describe('reviews', () => {
   const start = graduate(introduce(newProgress(), 'bid', today), 'bid', today);
   const tomorrow = addDays(today, 1);
 
-  it('moves up a step on a fast correct answer', () => {
-    const p = review(start, 'bid', true, 3000, tomorrow, false);
+  // Only right and wrong move the ladder: how long an answer took says more about the question than the learner.
+  it('moves up a step on a correct answer, however long it took', () => {
+    const p = review(start, 'bid', true, tomorrow, false);
     expect(p.terms.bid.step).toBe(2);
     expect(p.terms.bid.due).toBe(addDays(tomorrow, 3));
   });
 
-  it('keeps the step on a slow correct answer', () => {
-    const p = review(start, 'bid', true, 15000, tomorrow, false);
-    expect(p.terms.bid.step).toBe(1);
-    expect(p.terms.bid.due).toBe(addDays(tomorrow, 1));
-  });
-
-  it('gives a long question the time it takes to read', () => {
-    // Forty words is an ordinary pick-the-term question: eleven seconds of reading before any thinking.
-    const long = fastLimit(40);
-    expect(long).toBeGreaterThan(15_000);
-    expect(review(start, 'bid', true, 14_000, tomorrow, false, long).terms.bid.step).toBe(2);
-    // The same answer is still slow for a question with nothing to read.
-    expect(review(start, 'bid', true, 14_000, tomorrow, false, fastLimit(2)).terms.bid.step).toBe(1);
-    // A worked sum gets time for the sum on top of reading it.
-    expect(fastLimit(24, SUM_MS)).toBeGreaterThan(fastLimit(24) + 7_000);
-  });
-
   it('drops two steps on a wrong answer, never below 1, and flags trouble after 3 misses', () => {
     let p = start;
-    for (let i = 0; i < 4; i++) p = review(p, 'bid', true, 1000, tomorrow, false);
+    for (let i = 0; i < 4; i++) p = review(p, 'bid', true, tomorrow, false);
     expect(p.terms.bid.step).toBe(5);
-    p = review(p, 'bid', false, 1000, tomorrow, false);
+    p = review(p, 'bid', false, tomorrow, false);
     expect(p.terms.bid.step).toBe(3);
     expect(p.terms.bid.due).toBe(addDays(tomorrow, 1));
-    p = review(p, 'bid', false, 1000, tomorrow, false);
-    p = review(p, 'bid', false, 1000, tomorrow, false);
+    p = review(p, 'bid', false, tomorrow, false);
+    p = review(p, 'bid', false, tomorrow, false);
     expect(p.terms.bid.step).toBe(1);
     expect(p.terms.bid.trouble).toBe(true);
   });
@@ -90,7 +72,7 @@ describe('reviews', () => {
     let day = tomorrow;
     const seen = [day];
     for (let i = 0; i < 5; i++) {
-      p = review(p, 'bid', true, 1000, day, false);
+      p = review(p, 'bid', true, day, false);
       day = p.terms.bid.due;
       seen.push(day);
     }

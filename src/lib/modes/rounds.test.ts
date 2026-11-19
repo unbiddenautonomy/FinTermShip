@@ -181,7 +181,7 @@ describe('answers go to the shared record', () => {
 
   it('a headline called fully right counts as a review of each due term', () => {
     const p = learner(h.items.map((i) => i.term), 2, today);
-    const q = recordHeadline(p, h, right, 3000, today);
+    const q = recordHeadline(p, h, right, today);
     for (const i of h.items) expect(q.terms[i.term].step).toBe(3);
     expect(modeRecord(q, 'headline').answers).toBe(h.items.length);
   });
@@ -189,7 +189,7 @@ describe('answers go to the shared record', () => {
   it('a partly wrong headline is only true/false calls: the misses come back tomorrow, nothing steps up', () => {
     const p = learner(h.items.map((i) => i.term), 2, addDays(today, 6));
     const picks = right.map((m, i) => (i === 0 ? flip(m) : m));
-    const q = recordHeadline(p, h, picks, 3000, today);
+    const q = recordHeadline(p, h, picks, today);
     expect(q.terms[h.items[0].term]).toMatchObject({ step: 2, due: addDays(today, 1) });
     for (const i of h.items.slice(1)) expect(q.terms[i.term]).toMatchObject({ step: 2, due: addDays(today, 6) });
   });
@@ -197,11 +197,11 @@ describe('answers go to the shared record', () => {
   it('a board: found groups are reviews, the free last group is practice, missed groups come back tomorrow', () => {
     const b = boards[0];
     const p = learner(b.groups.flatMap((g) => g.terms), 2, today);
-    const won = recordBoard(p, b, b.groups.map((g) => g.name), true, 2000, today);
+    const won = recordBoard(p, b, b.groups.map((g) => g.name), true, today);
     for (const g of b.groups.slice(0, 3)) for (const t of g.terms) expect(won.terms[t].step).toBe(3);
     for (const t of b.groups[3].terms) expect(won.terms[t].step).toBe(2);
     const later = learner(b.groups.flatMap((g) => g.terms), 2, addDays(today, 6));
-    const lost = recordBoard(later, b, [b.groups[0].name], false, 2000, today);
+    const lost = recordBoard(later, b, [b.groups[0].name], false, today);
     for (const t of b.groups[1].terms) expect(lost.terms[t]).toMatchObject({ step: 2, due: addDays(today, 1) });
     expect(modeRecord(lost, 'finnections').answers).toBe(16);
   });

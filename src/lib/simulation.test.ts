@@ -5,7 +5,7 @@ import { DRILLS, recordDrill } from './drills';
 import { recordRound } from './practice';
 import { buildLesson, drillUp } from './lesson';
 import { promptFor, seededRng } from './questions';
-import { MAX_REVIEWS_PER_DAY, SUM_MS, dueTermIds, fastLimit, finishLesson, graduate, introduce, isKnown, newProgress, recordPractice, review, wordCount } from './scheduler';
+import { MAX_REVIEWS_PER_DAY, dueTermIds, finishLesson, graduate, introduce, isKnown, newProgress, recordPractice, review } from './scheduler';
 import type { Progress, ScoredQuestion } from './types';
 
 /** Rough timings for the minutes estimate: reading an intro card, a match round. */
@@ -14,13 +14,15 @@ const MATCH_SECONDS = 25;
 /** A drill question is typed against the clock. */
 const DRILL_SECONDS = 15;
 /**
- * This learner reads a little slower than the pace the speed rule allows for, and takes a moment
- * to choose. Answers are timed from what is on the screen, so a question that takes longer to
- * read is given longer: a flat time would hide the thing this simulation is here to catch.
+ * This learner's pace, used only for the minutes a day's work takes: time to read what is on
+ * the screen, a moment to choose, and longer for a sum. Nothing here feeds the schedule.
  */
 const LEARNER_WPM = 200;
 const THINK_MS = 3_500;
 const SUM_THINK_MS = 7_000;
+
+/** Words in a piece of text, for the reading time. */
+const wordCount = (text: string): number => (text.trim() ? text.trim().split(/\s+/).length : 0);
 
 /**
  * Roughly what the learner has to read: the question's own words and its options. Pick-the-term
@@ -118,7 +120,7 @@ function simulate(days: number, accuracy: number, seed: number, skipped: number[
         const ms = answerMs(q, words);
         seconds += ms / 1000;
         if (q.review) {
-          p = review(p, q.termId, correct, ms, today, isCore(q.termId), fastLimit(words, q.kind === 'calc' ? SUM_MS : 0));
+          p = review(p, q.termId, correct, today, isCore(q.termId));
           reviews++;
         } else p = recordPractice(p, q.termId, correct);
         if (!correct) {

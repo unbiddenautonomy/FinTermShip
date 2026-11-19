@@ -361,7 +361,7 @@ export const HELP: HelpTopic[] = [
     id: 'reviews',
     strong: false,
     match: /\b(reviews?|spaced repetition|come back|comes back|forget|forgetting|how often|schedule|ladder|steps?)\b/,
-    text: 'Each term climbs a ladder of 6 steps. A quick right answer moves it up and pushes its next review out: 1, 3, 7, 16, 35, then 120 days. Core terms come back 20% sooner. A wrong answer drops it 2 steps and brings it back tomorrow.',
+    text: 'Each term climbs a ladder of 6 steps. A right answer moves it up and pushes its next review out: 1, 3, 7, 16, 35, then 120 days, and there is no clock on it. Core terms come back 20% sooner. A wrong answer drops it 2 steps and brings it back tomorrow.',
   },
   {
     id: 'tests',

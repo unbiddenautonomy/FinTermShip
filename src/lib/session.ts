@@ -8,7 +8,6 @@
 import type { DealtPlan, DealtQuestion } from '../../worker/session';
 import { applyCards } from './content';
 import { call } from './modes/roundApi';
-import { wordCount } from './scheduler';
 import type { Sum } from './mock';
 import type { Card, Progress } from './types';
 
@@ -27,12 +26,6 @@ export type Recipe =
   | { build: 'listing' }
   | { build: 'revisit'; lineId: string }
   | { build: 'ride'; lineId: string; from: number };
-
-/** What the learner has to read before they can answer: the question and its options. */
-export function questionWords(q: PickQuestion): number {
-  const prompt = q.kind === 'fill' ? q.text : 'prompt' in q ? (q.prompt ?? '') : '';
-  return wordCount(prompt) + wordCount(q.options.join(' '));
-}
 
 /** What a pick's mark gives back. */
 export interface Marked {

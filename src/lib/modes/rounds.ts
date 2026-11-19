@@ -17,8 +17,6 @@
  * them without knowing the items.
  */
 import { finishModeSession, modeRecord, recordAnswer } from './knowledge';
-import { termById } from '../content';
-import { CHOOSE_MS, fastLimit, wordCount } from '../scheduler';
 import type { ModeId } from './ids';
 import type { Progress } from '../types';
 
@@ -159,14 +157,12 @@ export function finishRound(p: Progress, mode: RoundMode, today: string, ids: st
  * false call (weak evidence): a right one is practice, and a wrong one brings its term back
  * tomorrow. A term on two lines counts once, right only if both are.
  */
-export function recordHeadline(p: Progress, h: Headline, picks: ('up' | 'down')[], ms: number, today: string): Progress {
+export function recordHeadline(p: Progress, h: Headline, picks: ('up' | 'down')[], today: string): Progress {
   const all = h.items.every((it, i) => picks[i] === it.move);
   const byTerm = new Map<string, boolean>();
   h.items.forEach((it, i) => byTerm.set(it.term, (byTerm.get(it.term) ?? true) && picks[i] === it.move));
-  // `ms` covers the whole headline, so a confident answer is reading it and calling each line.
-  const limit = fastLimit(wordCount(`${h.head} ${h.dek} ${h.items.map((it) => it.label).join(' ')}`), CHOOSE_MS * (h.items.length - 1));
   let out = p;
-  for (const [termId, correct] of byTerm) out = recordAnswer(out, { termId, correct, ms, limit, evidence: all ? 'medium' : 'weak', mode: 'headline' }, today);
+  for (const [termId, correct] of byTerm) out = recordAnswer(out, { termId, correct, evidence: all ? 'medium' : 'weak', mode: 'headline' }, today);
   return out;
 }
 
@@ -175,15 +171,13 @@ export function recordHeadline(p: Progress, h: Headline, picks: ('up' | 'down')[
  * terms. The last group, left over once three are found, is practice. A group they couldn't
  * find is a wrong call (weak): those terms come back tomorrow without losing their step.
  */
-export function recordBoard(p: Progress, b: Board, found: string[], lastFree: boolean, ms: number, today: string): Progress {
-  // `ms` is the round's time over its sixteen tiles, so the limit is taking the board in, a tile at a time.
-  const limit = fastLimit(wordCount(b.groups.flatMap((g) => g.terms.map((id) => termById.get(id)?.term ?? '')).join(' ')), CHOOSE_MS);
+export function recordBoard(p: Progress, b: Board, found: string[], lastFree: boolean, today: string): Progress {
   let out = p;
   b.groups.forEach((g) => {
     const got = found.includes(g.name);
     const free = got && lastFree && found[found.length - 1] === g.name;
     for (const termId of g.terms)
-      out = recordAnswer(out, { termId, correct: got, ms, limit, evidence: got ? 'medium' : 'weak', mode: 'finnections', practice: free || undefined }, today);
+      out = recordAnswer(out, { termId, correct: got, evidence: got ? 'medium' : 'weak', mode: 'finnections', practice: free || undefined }, today);
   });
   return out;
 }
