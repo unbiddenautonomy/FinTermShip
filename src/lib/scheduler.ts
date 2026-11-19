@@ -7,10 +7,27 @@ export const MAX_STEP = INTERVALS.length - 1;
 export const KNOWN_STEP = 4;
 /** Core terms come back 20% sooner. */
 export const CORE_FACTOR = 0.8;
-/** An answer faster than this (with no hint) counts as confident. */
-export const FAST_MS = 10_000;
+/** Time to choose, once the question has been read: inside this, a right answer is a confident one. */
+export const CHOOSE_MS = 6_000;
+/** Reading pace used to work out how long a question takes to take in. */
+export const READ_WPM = 220;
+/** Time a worked sum takes on top of reading it. */
+export const SUM_MS = 8_000;
+
 export const TROUBLE_LAPSES = 3;
 export const MAX_REVIEWS_PER_DAY = 80;
+
+/** Words in a piece of text, for working out how long it takes to read. */
+export const wordCount = (text: string): number => (text.trim() ? text.trim().split(/\s+/).length : 0);
+
+/**
+ * How long a confident answer takes: time to read what is on the screen, plus a few seconds to
+ * choose, plus anything else the question asks for (a sum). A flat limit held back anyone
+ * reading at an ordinary pace, because the longest formats are the ones used at the higher steps.
+ */
+export function fastLimit(words = 0, extra = 0): number {
+  return CHOOSE_MS + Math.round((words / READ_WPM) * 60_000) + extra;
+}
 
 export function intervalFor(step: number, core: boolean): number {
   const base = INTERVALS[Math.max(0, Math.min(step, MAX_STEP))];
@@ -90,6 +107,8 @@ export function review(
   ms: number,
   today: string,
   core: boolean,
+  /** What a confident answer takes for this question; the caller works it out with fastLimit. */
+  limit: number = fastLimit(),
 ): Progress {
   const s = p.terms[termId];
   if (!s) return p;
@@ -97,7 +116,7 @@ export function review(
   let lapses = s.lapses;
   let due: string;
   if (correct) {
-    if (ms < FAST_MS || step === 0) step = Math.min(MAX_STEP, step + 1);
+    if (ms < limit || step === 0) step = Math.min(MAX_STEP, step + 1);
     due = addDays(today, Math.max(1, intervalFor(step, core)));
   } else {
     step = Math.max(1, step - 2);

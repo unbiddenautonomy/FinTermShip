@@ -3,13 +3,14 @@ import { categoryOfTerm, termById } from '../lib/content';
 import { applyTest, settleFocus } from '../lib/choose';
 import type { LessonPlan } from '../lib/lesson';
 import { tidyOption } from '../lib/questions';
-import { markPair, markPick, type DealtPlan, type DealtQuestion, type Marked, type PickQuestion } from '../lib/session';
+import { markPair, markPick, questionWords, type DealtPlan, type DealtQuestion, type Marked, type PickQuestion } from '../lib/session';
 import { evidenceOf, finishModeSession, recordAnswer, type ModeId } from '../lib/modes/knowledge';
-import { finishLesson, graduate, introduce } from '../lib/scheduler';
+import { fastLimit, finishLesson, graduate, introduce, SUM_MS } from '../lib/scheduler';
 import { speak } from '../lib/speech';
 import type { Progress, TalkFormat, Term } from '../lib/types';
 import { Calculator, ChatIcon, Check, Cross, Flame, Pairs, Quote, Scale, Speaker, Sparkle, Target } from './icons';
 import { MatchPairs } from './MatchPairs';
+import { useVisibleClock } from './useVisibleClock';
 import { Bar, Button, ConfirmDialog, Pill, SpeakButton, TermDetails, type Tone } from './ui';
 
 export interface LessonSummary {
@@ -86,7 +87,8 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
   const [stats, setStats] = useState({ firstTryCorrect: 0, firstTryTotal: 0, reviewsCorrect: 0, run: 0, bestRun: 0 });
   const [missed, setMissed] = useState<string[]>([]);
   const [confirmQuit, setConfirmQuit] = useState(false);
-  const shownAt = useRef(Date.now());
+  /** Time on this question, with any time the app spent in the background left out. */
+  const clock = useVisibleClock();
   /** Area tests: terms answered right, scored at the end. */
   const testRight = useRef(new Set<string>());
   const isTest = plan.kind === 'test';
@@ -98,7 +100,7 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
   const q = item?.q;
 
   useEffect(() => {
-    shownAt.current = Date.now();
+    clock.restart();
     if (q?.kind === 'intro') onProgress(introduce(progressRef.current, q.termId, today));
     // Only when the question changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -159,7 +161,7 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
     async (choice: number) => {
       if (!q || q.kind === 'intro' || q.kind === 'match' || picked !== null || marking) return;
       if (choice < 0 || choice >= q.options.length) return;
-      const ms = Date.now() - shownAt.current;
+      const ms = clock.elapsed();
       // The server marks the pick: the right answer is not in the page until now.
       setMarking(true);
       setMarkError(null);
@@ -185,7 +187,9 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
       // Every mode, Path included, records through the same rule: the first answer on a due term
       // is its review. A term being taught here, a retry and a chosen practice round are practice.
       const practice = item.retry || plan.kind === 'practice' || plan.newIds.includes(q.termId);
-      onProgress(recordAnswer(progressRef.current, { termId: q.termId, correct, ms, evidence: evidenceOf(q.kind), mode: mode ?? 'path', practice }, today));
+      // A confident answer is one given in the time it takes to read this question and choose.
+      const limit = fastLimit(questionWords(q), q.kind === 'calc' ? SUM_MS : 0);
+      onProgress(recordAnswer(progressRef.current, { termId: q.termId, correct, ms, limit, evidence: evidenceOf(q.kind), mode: mode ?? 'path', practice }, today));
       if (!correct) {
         setMissed((m) => (m.includes(q.termId) ? m : [...m, q.termId]));
         // One retry per question, at the end of the lesson.
@@ -193,14 +197,14 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
         if (!item.retry && again) setItems((list) => [...list, { q: again, retry: true }]);
       }
     },
-    [q, item, picked, marking, today, isTest, onProgress, score, mode, plan],
+    [q, item, picked, marking, today, isTest, onProgress, score, mode, plan, clock],
   );
 
   const matchDone = useCallback(
     (mistakes: Record<string, number>) => {
       if (!q || q.kind !== 'match') return;
       let p = progressRef.current;
-      const ms = Date.now() - shownAt.current;
+      const ms = clock.elapsed();
       // A match round is practice: once one pair is placed the others narrow down, so it can't stand as a review.
       for (const id of q.termIds) p = recordAnswer(p, { termId: id, correct: !mistakes[id], ms, evidence: 'medium', mode: mode ?? 'path', practice: true }, today);
       onProgress(p);
@@ -209,7 +213,7 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
       if (wrongIds.length) setMissed((m) => [...m, ...wrongIds.filter((id) => !m.includes(id))]);
       next();
     },
-    [q, item, onProgress, next, score, mode, today],
+    [q, item, onProgress, next, score, mode, today, clock],
   );
 
   useEffect(() => {
@@ -221,6 +225,8 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
         return;
       }
       if (q.kind === 'match') return;
+      // A browser or system shortcut (Ctrl+F, Cmd+1) is not an answer.
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (picked === null) {
         if (['1', '2', '3', '4'].includes(e.key)) void answer(Number(e.key) - 1);
         else if (q.kind === 'tf' && (e.key === 't' || e.key === 'f')) void answer(q.options.indexOf(e.key === 't' ? 'True' : 'False'));
