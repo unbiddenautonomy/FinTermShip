@@ -58,6 +58,8 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
   const pulled = useRef(false);
   const lastSent = useRef<Progress | null>(null);
   const busy = useRef(false);
+  /** Something changed while a push was out, so send again once it comes back. */
+  const again = useRef(false);
 
   useEffect(() => {
     fetchAccount().then(setAccount);
@@ -72,23 +74,33 @@ export function useAccount(progress: Progress | null, update: (p: Progress) => v
   }, []);
 
   const push = useCallback(async () => {
-    const p = latest.current;
-    if (!p || !pulled.current || busy.current) return;
-    if (lastSent.current && sameProgress(lastSent.current, p)) return;
+    // One push at a time. A second ask while it is out is noted and sent when it lands, so a
+    // finished lesson can't be dropped just because the last change was still being sent.
+    if (busy.current) {
+      again.current = true;
+      return;
+    }
     busy.current = true;
-    setSync({ state: 'syncing' });
     try {
-      const server = await pushProgress(p);
-      lastSent.current = server;
-      // Changes made while the request was out stay; anything new from other devices joins them.
-      const now = latest.current ?? p;
-      const merged = mergeProgress(server, now);
-      if (!sameProgress(merged, now)) update(merged);
-      setSync({ state: 'ok', at: Date.now() });
+      do {
+        again.current = false;
+        const p = latest.current;
+        if (!p || !pulled.current) break;
+        if (lastSent.current && sameProgress(lastSent.current, p)) break;
+        setSync({ state: 'syncing' });
+        const server = await pushProgress(p);
+        lastSent.current = server;
+        // Changes made while the request was out stay; anything new from other devices joins them.
+        const now = latest.current ?? p;
+        const merged = mergeProgress(server, now);
+        if (!sameProgress(merged, now)) update(merged);
+        setSync({ state: 'ok', at: Date.now() });
+      } while (again.current);
     } catch (e) {
       failed(e);
     } finally {
       busy.current = false;
+      again.current = false;
     }
   }, [update, failed]);
 

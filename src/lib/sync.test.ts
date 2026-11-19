@@ -96,15 +96,46 @@ describe('progress sync: merging two devices', () => {
     expect(m.settings.target).toBe('');
   });
 
+  /** Merge a single term from both sides, both ways round, and check the answer doesn't depend on the order. */
+  const mergeTerm = (x: TermState, y: TermState): TermState => {
+    const one = mergeProgress({ ...phone, terms: { delta: x } }, { ...laptop, terms: { delta: y } }).terms.delta;
+    expect(mergeProgress({ ...laptop, terms: { delta: y } }, { ...phone, terms: { delta: x } }).terms.delta).toEqual(one);
+    return one;
+  };
+
   it('does not let practice on a stale device undo a newer review', () => {
-    const reviewed = { ...t(4, '2026-11-25'), step: 4 };
-    // The other device answered the same term twice in practice: more answers, but the ladder never moved.
-    const practised = { ...t(4, '2026-11-11'), step: 3, seen: 6, correct: 6 };
-    const m = mergeProgress({ ...phone, terms: { delta: practised } }, { ...laptop, terms: { delta: reviewed } });
-    expect(m.terms.delta).toEqual(reviewed);
-    // A lapse is a move too, so the copy that lapsed wins even though its next date is sooner.
-    const lapsed = { ...reviewed, step: 2, due: '2026-11-12', lapses: 1 };
-    expect(mergeProgress({ ...phone, terms: { delta: reviewed } }, { ...laptop, terms: { delta: lapsed } }).terms.delta).toEqual(lapsed);
+    const reviewed = { ...t(4, '2026-11-25'), step: 4, moves: 4 };
+    // The other device answered the same term twice in practice: more answers, but the schedule never moved.
+    const practised = { ...t(4, '2026-11-11'), step: 3, seen: 6, correct: 6, moves: 3 };
+    expect(mergeTerm(practised, reviewed)).toEqual(reviewed);
+    // The same with copies saved before moves were counted, where the ladder has to say it.
+    const unmoved = (x: TermState): TermState => {
+      const copy = { ...x };
+      delete copy.moves;
+      return copy;
+    };
+    expect(mergeTerm(unmoved(practised), unmoved(reviewed))).toEqual(unmoved(reviewed));
+  });
+
+  it('keeps every review a device made, not the one with the longest wait', () => {
+    // Four reviews on the laptop beat one old lapse on the phone, which the lapse count alone would have won.
+    const lapsedOnce = { ...t(2, '2026-11-20'), step: 2, lapses: 1, moves: 1 };
+    const fourReviews = { ...t(6, '2027-05-20'), step: 6, moves: 5 };
+    expect(mergeTerm(lapsedOnce, fourReviews)).toEqual(fourReviews);
+  });
+
+  it('keeps a missed true-or-false call that pulled a term back to tomorrow', () => {
+    // A wrong weak call leaves the step alone and brings the term back tomorrow: an earlier date,
+    // so only the move count says this copy is the newer one.
+    const untouched = { ...t(5, '2026-12-01'), step: 5, moves: 4 };
+    const flagged = { ...untouched, due: '2026-11-12', seen: 6, wrong: 1, moves: 5 };
+    expect(mergeTerm(untouched, flagged)).toEqual(flagged);
+  });
+
+  it('keeps a lapse over a clean review when two devices both moved a term', () => {
+    const climbed = { ...t(5, '2026-11-25'), step: 5, moves: 4 };
+    const lapsed = { ...t(5, '2026-11-12'), step: 3, lapses: 1, moves: 4 };
+    expect(mergeTerm(climbed, lapsed)).toEqual(lapsed);
   });
 
   it('lets a reset or restored backup win over older progress from any device', () => {

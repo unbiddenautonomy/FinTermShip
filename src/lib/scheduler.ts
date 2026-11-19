@@ -73,7 +73,7 @@ export function recordPractice(p: Progress, termId: string, correct: boolean): P
 export function graduate(p: Progress, termId: string, today: string): Progress {
   const s = p.terms[termId];
   if (!s || s.step !== 0) return p;
-  const next = { ...s, step: 1, due: addDays(today, 1) };
+  const next = { ...s, step: 1, due: addDays(today, 1), moves: (s.moves ?? 0) + 1 };
   return { ...p, terms: { ...p.terms, [termId]: next } };
 }
 
@@ -103,6 +103,7 @@ export function review(p: Progress, termId: string, correct: boolean, today: str
     step,
     due,
     lapses,
+    moves: (s.moves ?? 0) + 1,
     trouble: s.trouble || lapses >= TROUBLE_LAPSES,
     seen: s.seen + 1,
     correct: s.correct + (correct ? 1 : 0),

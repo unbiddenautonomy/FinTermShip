@@ -597,7 +597,7 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
         </div>
       </aside>
       <main className="lg:pl-60">
-        <ErrorBoundary>
+        <ErrorBoundary resetKey={tab}>
           <Suspense fallback={<Spinner />}>{children}</Suspense>
         </ErrorBoundary>
       </main>

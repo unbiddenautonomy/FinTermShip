@@ -11,6 +11,7 @@ import {
   newLeftToday,
   newProgress,
   peakLoadAhead,
+  recordPractice,
   review,
   tomorrowLoad,
 } from './scheduler';
@@ -46,6 +47,16 @@ describe('a new term', () => {
 describe('reviews', () => {
   const start = graduate(introduce(newProgress(), 'bid', today), 'bid', today);
   const tomorrow = addDays(today, 1);
+
+  it('counts every move of the schedule, so the merge can tell which device is further along', () => {
+    // A new term has no count until something moves it; finishing its first lesson is the first move.
+    expect(introduce(newProgress(), 'bid', today).terms.bid.moves).toBeUndefined();
+    expect(start.terms.bid.moves).toBe(1);
+    expect(review(start, 'bid', true, tomorrow, false).terms.bid.moves).toBe(2);
+    expect(review(start, 'bid', false, tomorrow, false).terms.bid.moves).toBe(2);
+    // Practice leaves the schedule alone, so it leaves the count alone too.
+    expect(recordPractice(start, 'bid', true).terms.bid.moves).toBe(1);
+  });
 
   // Only right and wrong move the ladder: how long an answer took says more about the question than the learner.
   it('moves up a step on a correct answer, however long it took', () => {

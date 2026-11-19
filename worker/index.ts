@@ -74,27 +74,36 @@ const MAX_PROGRESS_BYTES = 1_500_000;
 
 /**
  * The text of a request body, unpacking it when the app sent it gzipped (src/lib/post.ts).
- * Null when it is bigger than `max`, counted after unpacking so a tiny packed body can't
- * blow up here.
+ * 'large' once it passes `max`, counted after unpacking so a tiny packed body can't blow up
+ * here, and 'unreadable' when there is no body or the packing is corrupt, which is a bad
+ * request rather than a fault here.
  */
-async function bodyText(request: Request, max: number): Promise<string | null> {
+type Body = { text: string } | { error: 'large' | 'unreadable' };
+
+async function bodyText(request: Request, max: number): Promise<Body> {
   if (request.headers.get(PACKED_HEADER) !== 'gzip') {
     const text = await request.text();
-    return text.length > max ? null : text;
+    return text.length > max ? { error: 'large' } : { text };
   }
-  if (!request.body) return null;
+  if (!request.body) return { error: 'unreadable' };
   const reader = request.body.pipeThrough(new DecompressionStream('gzip')).getReader();
   const chunks: Uint8Array[] = [];
   let size = 0;
-  for (;;) {
-    const { done, value } = await reader.read();
-    if (done) break;
-    size += value.byteLength;
-    if (size > max) {
-      await reader.cancel();
-      return null;
+  try {
+    for (;;) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      size += value.byteLength;
+      if (size > max) {
+        await reader.cancel();
+        return { error: 'large' };
+      }
+      chunks.push(value);
     }
-    chunks.push(value);
+  } catch {
+    // A body that doesn't unpack: the sender's problem, not a crash here.
+    await reader.cancel().catch(() => undefined);
+    return { error: 'unreadable' };
   }
   const all = new Uint8Array(size);
   let at = 0;
@@ -102,7 +111,7 @@ async function bodyText(request: Request, max: number): Promise<string | null> {
     all.set(c, at);
     at += c.byteLength;
   }
-  return new TextDecoder().decode(all);
+  return { text: new TextDecoder().decode(all) };
 }
 const COOKIE = 'fts_session';
 /**
@@ -342,7 +351,7 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
   const body = async (): Promise<Record<string, unknown>> => {
     try {
       const raw = await text();
-      const b = raw === null ? null : (JSON.parse(raw) as unknown);
+      const b = 'text' in raw ? (JSON.parse(raw.text) as unknown) : null;
       return b && typeof b === 'object' ? (b as Record<string, unknown>) : {};
     } catch {
       return {};
@@ -565,10 +574,10 @@ export async function handleApi(request: Request, env: Env, now = Date.now()): P
 
   if (route === 'PUT /api/progress') {
     const raw = await text();
-    if (raw === null) return fail(413, 'Progress is too large to sync.');
+    if ('error' in raw) return raw.error === 'large' ? fail(413, 'Progress is too large to sync.') : fail(400, 'Send progress as JSON.');
     let incoming: unknown;
     try {
-      incoming = (JSON.parse(raw) as { progress?: unknown }).progress;
+      incoming = (JSON.parse(raw.text) as { progress?: unknown }).progress;
     } catch {
       return fail(400, 'Send progress as JSON.');
     }

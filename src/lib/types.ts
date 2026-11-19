@@ -142,6 +142,14 @@ export interface TermState {
   lapses: number;
   trouble: boolean;
   introduced: string;
+  /**
+   * How many times this term's schedule has been moved: a first lesson finished, a review
+   * applied, or a missed true-or-false call pulling it back to tomorrow. Practice doesn't count,
+   * because it leaves the schedule alone. It only ever goes up, so the merge uses it to tell
+   * which device is further along (`src/lib/sync.ts`). Left out until the first move, and a copy
+   * saved before it existed has none, which counts as 0.
+   */
+  moves?: number;
 }
 
 export interface Settings {

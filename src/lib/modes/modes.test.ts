@@ -90,6 +90,9 @@ describe('one answer, one memory, whatever the mode', () => {
     const wrong = recordAnswer(p, { termId: 'bid', correct: false, evidence: 'weak', mode: 'callit' }, today);
     expect(wrong.terms.bid.step).toBe(4);
     expect(wrong.terms.bid.due).toBe(addDays(today, 1));
+    // The pull counts as a move, so another device's untouched copy can't merge the flag away.
+    expect(wrong.terms.bid.moves).toBe((p.terms.bid.moves ?? 0) + 1);
+    expect(right.terms.bid.moves).toBe(p.terms.bid.moves);
     // A due term stays due for a proper review, whatever the call.
     const due = learner(ids, 3, today);
     for (const correct of [true, false]) {

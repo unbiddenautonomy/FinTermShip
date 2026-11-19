@@ -6,7 +6,7 @@ import { Button } from './ui';
  * Home arrives as its own file, so a dropped connection mid-download used to take the whole app
  * down. Reloading fetches the file again, and the learner's progress is saved on this device.
  */
-export class ErrorBoundary extends Component<{ children: ReactNode }, { failed: boolean }> {
+export class ErrorBoundary extends Component<{ children: ReactNode; resetKey?: string }, { failed: boolean }> {
   state = { failed: false };
 
   static getDerivedStateFromError() {
@@ -15,6 +15,11 @@ export class ErrorBoundary extends Component<{ children: ReactNode }, { failed: 
 
   componentDidCatch(error: Error, info: ErrorInfo) {
     console.error('Screen failed:', error, info.componentStack);
+  }
+
+  /** Moving to another screen tries again: one screen that failed shouldn't hold the others. */
+  componentDidUpdate(prev: { resetKey?: string }) {
+    if (this.state.failed && prev.resetKey !== this.props.resetKey) this.setState({ failed: false });
   }
 
   render() {

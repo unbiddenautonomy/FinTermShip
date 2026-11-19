@@ -211,14 +211,14 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!q || confirmQuit) return;
+      // A browser or system shortcut (Ctrl+F, Cmd+1, Cmd+Space) is not an answer.
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (q.kind === 'intro' && (e.key === 'Enter' || e.key === ' ')) {
         e.preventDefault();
         next();
         return;
       }
       if (q.kind === 'match') return;
-      // A browser or system shortcut (Ctrl+F, Cmd+1) is not an answer.
-      if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (picked === null) {
         if (['1', '2', '3', '4'].includes(e.key)) void answer(Number(e.key) - 1);
         else if (q.kind === 'tf' && (e.key === 't' || e.key === 'f')) void answer(q.options.indexOf(e.key === 't' ? 'True' : 'False'));

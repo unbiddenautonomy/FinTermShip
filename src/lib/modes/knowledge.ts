@@ -112,7 +112,8 @@ export function recordAnswer(p: Progress, a: Answer, today: string): Progress {
     // losing its step, so one unlucky call can't undo what the learner has shown.
     out = recordPractice(p, a.termId, a.correct);
     const tomorrow = addDays(today, 1);
-    if (!a.correct && s.due > tomorrow) out = { ...out, terms: { ...out.terms, [a.termId]: { ...out.terms[a.termId], due: tomorrow } } };
+    if (!a.correct && s.due > tomorrow)
+      out = { ...out, terms: { ...out.terms, [a.termId]: { ...out.terms[a.termId], due: tomorrow, moves: (s.moves ?? 0) + 1 } } };
   } else if (!a.practice && isDueOn(s, today)) {
     const core = isCore(a.termId);
     out = review(p, a.termId, a.correct, today, core);

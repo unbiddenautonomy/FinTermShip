@@ -236,6 +236,30 @@ describe('worker: progress sync', () => {
     expect((await phone.call('PUT', '/api/progress', { progress: { nope: 1 } })).status).toBe(400);
     expect((await new Client().call('GET', '/api/progress')).status).toBe(401);
   });
+
+  it('takes a gzipped body, and answers a broken one with a bad request rather than a fault', async () => {
+    const c = new Client();
+    await c.call('POST', '/api/signup', { email: 'owner@example.com', password: 'longenough' });
+    const put = (body: BodyInit | null) =>
+      worker.fetch(
+        new Request(ORIGIN + '/api/progress', {
+          method: 'PUT',
+          headers: { origin: ORIGIN, cookie: c.cookie, 'content-type': 'application/json', 'content-encoding': 'identity', 'x-packed': 'gzip' },
+          body,
+          // @ts-expect-error -- a streamed body needs this in undici, and the types don't carry it.
+          duplex: 'half',
+        }),
+        env,
+      );
+    const gzip = (text: string) => new Blob([text]).stream().pipeThrough(new CompressionStream('gzip'));
+    const ok = await put(await new Response(gzip(JSON.stringify({ progress: { ...newProgress(), xp: 70 } }))).blob());
+    expect(ok.status).toBe(200);
+    expect((await c.call('GET', '/api/progress')).data.progress.xp).toBe(70);
+    // Not gzip at all, though it says it is.
+    expect((await put('this is not gzip')).status).toBe(400);
+    // Nothing in the body.
+    expect((await put(null)).status).toBe(400);
+  });
 });
 
 describe('worker: the app is for signed-in sessions only', () => {

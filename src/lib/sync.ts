@@ -23,14 +23,24 @@ const max = (x: number | undefined, y: number | undefined) => (x === undefined ?
 const min = (x: number | undefined, y: number | undefined) => (x === undefined ? y : y === undefined ? x : Math.min(x, y));
 
 /**
- * The copy further along the ladder. A lapse only ever adds one, and every other review books
- * the next date later, so those two say which copy reviewed last. The number of answers can't:
- * practice raises it without moving the ladder, so a stale device would win on it.
+ * The copy further along. `moves` counts the times a term's schedule has been moved and only
+ * ever goes up, so more moves means more of the learner's work. Nothing else can stand in for
+ * it: practice raises the number of answers without moving the schedule, a lapse pulls the next
+ * date earlier rather than later, and the step goes both ways.
+ *
+ * Copies with the same count either agree or were both moved while the devices were apart, and
+ * a copy saved before `moves` existed has none, counted as 0. Both fall back to the same tests:
+ * a lapse wins, because being asked again is the safe way to be wrong; then the later next date,
+ * which means more steps climbed; then more answers. The last test keeps the merge order-free.
  */
 function term(x: TermState, y: TermState): TermState {
+  const mx = x.moves ?? 0;
+  const my = y.moves ?? 0;
+  if (mx !== my) return mx > my ? x : y;
   if (x.lapses !== y.lapses) return x.lapses > y.lapses ? x : y;
   if (x.due !== y.due) return x.due > y.due ? x : y;
-  return x.seen >= y.seen ? x : y;
+  if (x.seen !== y.seen) return x.seen > y.seen ? x : y;
+  return stable(x) >= stable(y) ? x : y;
 }
 
 function day(x: DayStats, y: DayStats): DayStats {
