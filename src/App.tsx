@@ -28,6 +28,7 @@ import { wantRoundStatus } from './lib/modes/roundApi';
 import { getRoundStatusVersion, subscribeRoundStatus } from './lib/modes/rounds';
 import { ModeAccessContext } from './components/modes/modeAccess';
 import { MODE_INFO, ModeBar } from './components/modes/ModeBar';
+import { ErrorBoundary } from './components/ErrorBoundary';
 import type { GameId, Progress } from './lib/types';
 
 // Everything but Home loads on demand, then quietly in the background once Home is up.
@@ -527,6 +528,7 @@ export default function App() {
   };
   return (
     <ModeAccessContext.Provider value={access}>
+    <ErrorBoundary>
     <Suspense fallback={<Spinner />}>
       {body}
       {overlay && overlayFrom && (
@@ -544,6 +546,7 @@ export default function App() {
       )}
       <CardsToast fetching={fetching} notice={notice} onClose={() => setNotice(null)} />
     </Suspense>
+    </ErrorBoundary>
     </ModeAccessContext.Provider>
   );
 }
@@ -593,9 +596,11 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
           <p>Indian markets, trading and quant terms, a few minutes a day.</p>
         </div>
       </aside>
-      <div className="lg:pl-60">
-        <Suspense fallback={<Spinner />}>{children}</Suspense>
-      </div>
+      <main className="lg:pl-60">
+        <ErrorBoundary resetKey={tab}>
+          <Suspense fallback={<Spinner />}>{children}</Suspense>
+        </ErrorBoundary>
+      </main>
       <nav className="pb-safe fixed inset-x-0 bottom-0 z-30 border-t border-line bg-surface/90 pt-2 backdrop-blur-md lg:hidden" aria-label="Main">
         <div className="mx-auto grid max-w-xl grid-cols-5">
           {TABS.map(({ id, label, icon: Icon }) => {

@@ -84,7 +84,6 @@ function withMode(p: Progress, mode: ModeId, change: (r: ModeRecord) => ModeReco
 export interface Answer {
   termId: string;
   correct: boolean;
-  ms: number;
   evidence: Evidence;
   mode: ModeId;
   /**
@@ -113,10 +112,11 @@ export function recordAnswer(p: Progress, a: Answer, today: string): Progress {
     // losing its step, so one unlucky call can't undo what the learner has shown.
     out = recordPractice(p, a.termId, a.correct);
     const tomorrow = addDays(today, 1);
-    if (!a.correct && s.due > tomorrow) out = { ...out, terms: { ...out.terms, [a.termId]: { ...out.terms[a.termId], due: tomorrow } } };
+    if (!a.correct && s.due > tomorrow)
+      out = { ...out, terms: { ...out.terms, [a.termId]: { ...out.terms[a.termId], due: tomorrow, moves: (s.moves ?? 0) + 1 } } };
   } else if (!a.practice && isDueOn(s, today)) {
     const core = isCore(a.termId);
-    out = review(p, a.termId, a.correct, a.ms, today, core);
+    out = review(p, a.termId, a.correct, today, core);
     const next = out.terms[a.termId];
     if (a.correct && a.evidence !== 'strong' && s.step < KNOWN_STEP && next.step >= KNOWN_STEP) {
       const step = KNOWN_STEP - 1;

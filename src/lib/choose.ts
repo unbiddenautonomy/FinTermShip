@@ -121,12 +121,9 @@ export function settleFocus(p: Progress): Progress {
   return withFocus(p, (inPhase3 && nextPhase3Unit(p)) || null);
 }
 
-/** Set or clear the picked unit. */
+/** Set or clear the picked unit. A cleared pick is kept as null: dropping the key would let the other copy's pick win the next merge. */
 export function withFocus(p: Progress, unitId: string | null): Progress {
-  const next = { ...p };
-  if (unitId) next.focus = unitId;
-  else delete next.focus;
-  return next;
+  return { ...p, focus: unitId };
 }
 
 function termsOf(ids: string[]): Term[] {

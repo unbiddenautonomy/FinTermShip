@@ -126,7 +126,14 @@ export function Ring({
     return () => cancelAnimationFrame(raf);
   }, [target]);
   return (
-    <div className="relative inline-flex shrink-0 items-center justify-center" style={{ width: size, height: size }} role="img" aria-label={label}>
+    <div
+      className="relative inline-flex shrink-0 items-center justify-center"
+      style={{ width: size, height: size }}
+      // Without a label there is nothing to announce: the row beside it already says the same.
+      role={label ? 'img' : undefined}
+      aria-label={label}
+      aria-hidden={label ? undefined : true}
+    >
       <svg width={size} height={size} className="-rotate-90" aria-hidden="true">
         <circle cx={size / 2} cy={size / 2} r={r} fill="none" strokeWidth={stroke} className="stroke-sunken" />
         <circle
@@ -326,5 +333,18 @@ export function Stepper({ label, value, onDown, onUp }: { label: string; value: 
         +
       </button>
     </div>
+  );
+}
+
+/**
+ * A pick the server couldn't mark leaves a line saying so. Without it the tap looks ignored,
+ * which is what a dropped connection in the middle of a game used to feel like.
+ */
+export function MarkNotice({ message }: { message: string | null }) {
+  if (!message) return null;
+  return (
+    <p role="alert" className="mt-4 text-center text-sm font-bold text-bad-ink">
+      {message}
+    </p>
   );
 }

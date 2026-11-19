@@ -86,7 +86,6 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
   const [stats, setStats] = useState({ firstTryCorrect: 0, firstTryTotal: 0, reviewsCorrect: 0, run: 0, bestRun: 0 });
   const [missed, setMissed] = useState<string[]>([]);
   const [confirmQuit, setConfirmQuit] = useState(false);
-  const shownAt = useRef(Date.now());
   /** Area tests: terms answered right, scored at the end. */
   const testRight = useRef(new Set<string>());
   const isTest = plan.kind === 'test';
@@ -98,7 +97,6 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
   const q = item?.q;
 
   useEffect(() => {
-    shownAt.current = Date.now();
     if (q?.kind === 'intro') onProgress(introduce(progressRef.current, q.termId, today));
     // Only when the question changes.
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -159,7 +157,6 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
     async (choice: number) => {
       if (!q || q.kind === 'intro' || q.kind === 'match' || picked !== null || marking) return;
       if (choice < 0 || choice >= q.options.length) return;
-      const ms = Date.now() - shownAt.current;
       // The server marks the pick: the right answer is not in the page until now.
       setMarking(true);
       setMarkError(null);
@@ -185,7 +182,7 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
       // Every mode, Path included, records through the same rule: the first answer on a due term
       // is its review. A term being taught here, a retry and a chosen practice round are practice.
       const practice = item.retry || plan.kind === 'practice' || plan.newIds.includes(q.termId);
-      onProgress(recordAnswer(progressRef.current, { termId: q.termId, correct, ms, evidence: evidenceOf(q.kind), mode: mode ?? 'path', practice }, today));
+      onProgress(recordAnswer(progressRef.current, { termId: q.termId, correct, evidence: evidenceOf(q.kind), mode: mode ?? 'path', practice }, today));
       if (!correct) {
         setMissed((m) => (m.includes(q.termId) ? m : [...m, q.termId]));
         // One retry per question, at the end of the lesson.
@@ -200,9 +197,8 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
     (mistakes: Record<string, number>) => {
       if (!q || q.kind !== 'match') return;
       let p = progressRef.current;
-      const ms = Date.now() - shownAt.current;
       // A match round is practice: once one pair is placed the others narrow down, so it can't stand as a review.
-      for (const id of q.termIds) p = recordAnswer(p, { termId: id, correct: !mistakes[id], ms, evidence: 'medium', mode: mode ?? 'path', practice: true }, today);
+      for (const id of q.termIds) p = recordAnswer(p, { termId: id, correct: !mistakes[id], evidence: 'medium', mode: mode ?? 'path', practice: true }, today);
       onProgress(p);
       const wrongIds = Object.keys(mistakes).filter((id) => mistakes[id] > 0);
       score(wrongIds.length === 0, item.retry, false);
@@ -215,6 +211,8 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
       if (!q || confirmQuit) return;
+      // A browser or system shortcut (Ctrl+F, Cmd+1, Cmd+Space) is not an answer.
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
       if (q.kind === 'intro' && (e.key === 'Enter' || e.key === ' ')) {
         e.preventDefault();
         next();

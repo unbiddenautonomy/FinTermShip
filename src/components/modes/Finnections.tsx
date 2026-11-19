@@ -53,7 +53,6 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
   const [wrong, setWrong] = useState<string[]>([]);
   const [done, setDone] = useState<{ before: number; after: number; good: number; won: boolean } | null>(null);
   const [sheet, setSheet] = useState<string | null>(null);
-  const startedAt = useRef(Date.now());
   const startKpis = useRef<Kpis>(kpis(progress, today));
   const progressRef = useRef(progress);
   progressRef.current = progress;
@@ -69,14 +68,12 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
     setMistakes(0);
     setNote(null);
     setDone(null);
-    startedAt.current = Date.now();
   }, [board, seed]);
 
   /** End the board: get every group, record their terms, count the round, and move the level. */
   const end = useCallback(
     async (foundNames: string[], lastFree: boolean, misses: number, known?: FoundGroup[]) => {
       if (!board) return;
-      const ms = Math.round((Date.now() - startedAt.current) / 16);
       let groups: FoundGroup[];
       try {
         groups = known ?? (await revealBoard(board.id));
@@ -86,7 +83,7 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
       }
       setAll(groups);
       setFound(foundNames.map((n) => groups.find((g) => g.name === n)!));
-      let p = recordBoard(progressRef.current, { id: board.id, level: board.level, groups }, foundNames, lastFree, ms, today);
+      let p = recordBoard(progressRef.current, { id: board.id, level: board.level, groups }, foundNames, lastFree, today);
       const score = boardScore(foundNames.length);
       const before = levelState(p, 'finnections').level;
       p = finishLesson(p, today, 10 + (score === 1 && misses === 0 ? 5 : 0));

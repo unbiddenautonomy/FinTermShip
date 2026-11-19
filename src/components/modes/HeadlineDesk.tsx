@@ -51,7 +51,6 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
   const [filed, setFiled] = useState<Filed[]>([]);
   const [done, setDone] = useState<{ before: number; after: number; good: number; score: number } | null>(null);
   const [sheet, setSheet] = useState<string | null>(null);
-  const shownAt = useRef(Date.now());
   const startKpis = useRef<Kpis>(kpis(progress, today));
   const progressRef = useRef(progress);
   progressRef.current = progress;
@@ -62,7 +61,6 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
   const ready = !!h && h.items.every((_, i) => picks[i]);
 
   useEffect(() => {
-    shownAt.current = Date.now();
     setPicks([]);
     setFileError(null);
   }, [index, seed]);
@@ -70,12 +68,11 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
   const file = useCallback(async () => {
     if (!h || current || !ready || filing) return;
     const ps = picks as Move[];
-    const ms = Date.now() - shownAt.current;
     setFiling(true);
     setFileError(null);
     try {
       const full = await markHeadline(h.id, ps);
-      onProgress(recordHeadline(progressRef.current, full, ps, ms, today));
+      onProgress(recordHeadline(progressRef.current, full, ps, today));
       setFiled((f) => [...f, { headline: full, picks: ps, right: full.items.filter((it, i) => ps[i] === it.move).length }]);
     } catch (e) {
       setFileError(e instanceof Error ? e.message : 'That call didn’t go through. Try again.');

@@ -130,9 +130,20 @@ export function promptFor(term: Term): string {
     }
   }
   for (const n of names.sort((a, b) => b.length - a.length)) {
-    text = text.replace(new RegExp(escapeRegExp(n), 'gi'), '____');
+    text = text.replace(wordRe(n), '$1$2____');
   }
   return text;
+}
+
+/**
+ * A name and whatever is stuck to the end of it, so a prompt reads "at ____ meetings", never
+ * "at ____holder meetings" with the answer still half on the page. Anything in front of the name
+ * inside the same word stays, because it usually turns the meaning around: "sub-investment grade"
+ * and "unexpected losses" become "sub-____" and "Un____", which are still true of the sentence.
+ * Written without lookbehind for older Safari.
+ */
+function wordRe(name: string): RegExp {
+  return new RegExp(`(^|[^\\w-])([\\w-]*?)(${escapeRegExp(name)}[\\w-]*)`, 'gi');
 }
 
 /** Pick the term: read the definition, choose the term (options are term ids). */

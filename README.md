@@ -4,13 +4,17 @@ A Duolingo-style web app for learning and remembering trading and market terms, 
 
 What it has now:
 
-- 653 terms in 11 categories (plus 60 in phase 3), each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks. They include the Indian F&O screen (CE and PE, option writers, long and short build-up, max pain, IV rank, participant-wise OI, delivery percentage) and the numbers a PM asks about a strategy (hit rate, profit factor, expectancy, Calmar, IC, gross and net exposure, PnL attribution, markouts). About 110 of them are phrases heard in meetings and on desks, in nine short units: research reviews ("it's just beta", "too many knobs"), signal research, PM and risk meetings ("de-gross", "pain trade"), managing a trade, F&O and vol desk talk ("put base", "skew is bid") and execution chatter ("pay up", "bips versus arrival").
+- 864 terms in 15 areas (plus 99 in two phase 3 areas), each with a definition, desk-style examples, a fill-in sentence and hand-written wrong options, plus worked sums and true-or-false checks. They include the Indian F&O screen (CE and PE, option writers, long and short build-up, max pain, IV rank, participant-wise OI, delivery percentage) and the numbers a PM asks about a strategy (hit rate, profit factor, expectancy, Calmar, IC, gross and net exposure, PnL attribution, markouts). About 130 of them are phrases heard in meetings and on desks, in eleven short units: research reviews ("it's just beta", "too many knobs"), signal research, PM and risk meetings ("de-gross", "pain trade"), managing a trade, F&O and vol desk talk ("put base", "skew is bid") and execution chatter ("pay up", "bips versus arrival").
 - Lessons that go past definitions: besides picking meanings, filling gaps and working sums, learners decode a dense desk line, say a plain sentence the way a trader would, pick the strongest reply to a PM or risk manager, spot a term used wrongly, and hear terms said aloud (CE, bips, PCR) and pick what they mean. 72 talk items so far, each tied to the terms it needs, so a learner only sees one once they've met those terms.
 - 6 timed drills (mental maths, percentages and basis points, probability, expected value, Bayes, counting), with typed answers and questions generated fresh every round.
-- 10 games, each with a pass mark checked by simulating thousands of plays:
-  - Make a market: quote a bid and ask on the total of three dice while traders, some of whom know the next die, deal with you.
+- 14 games, each with a pass mark checked by simulating thousands of plays:
+  - Make a market, in five levels: quote a bid and ask on the total of three dice while traders, some of whom know the next die, deal with you, then on cards, then through a headline that moves the fair value, then against big orders that run the price, then against a rival market maker.
   - Payoff builder: buy and sell calls, puts and futures until your payoff matches the target, from single options up to condors and parity trades.
   - Greeks PnL: a book's delta, gamma, vega and theta in rupees, then a move in spot, IV and time; call the PnL, then see how it splits.
+  - Expiry day: three expiry days running a short at-the-money Nifty straddle, checked six times a day. Follow the desk's playbook (stop at half the premium, buy wings before an event, hedge delta, don't chase it after 14:30) and settle what's left at 15:30.
+  - Risk desk: you are the risk manager for a long-short book with a futures hedge. Approve or reject trade requests against gross, net, single-stock, VaR and margin limits, and name the limit a rejected trade breaks.
+  - Read the book: quick reads of a stock's screen. Call the next tick from the order book and the last trades, say whether a queued bid fills before the price moves, and read markouts after a fill. The tick is drawn from the real odds, so the call is what's scored.
+  - Beat VWAP: buy a client's order by 15:30 against the day's VWAP, picking what share of each slice's volume to take. Buying faster costs more and pushes the price, there is a cap you can't go over, and one slice brings a surprise.
   - Guess the number: correlation from a scatter, annual vol from a price chart, and which return series has fat tails.
   - Fermi estimates: a minute to estimate a size or a count, scored in powers of ten, with sourced answers for the facts.
   - Morning meeting: short clips from a morning meeting, a research review, a risk call, the F&O and execution desks, broker calls and event days (48 in all), each with two questions on what the people meant.
@@ -18,7 +22,7 @@ What it has now:
   - Signal lab: grids of in-sample Sharpe ratios over 25 settings of a signal. Bin the noise, and take the middle of a real edge rather than a lucky lone peak; then see every setting's true Sharpe. Plus how high luck reaches after many tries (the idea behind the deflated Sharpe ratio) and how fast an edge decays.
   - Kelly betting (phase 3): size bets on three biased coins, one with no edge, judged on your sizing rather than your luck.
   - Pairs trader (phase 3): trade the z-score of three pairs week by week, entering at ±2, closing near 0 and stopping at ±4. One pair breaks partway through, and each call is judged against the rules from the position you hold.
-- 7 desk cases (a short straddle into the Budget, working a big buy order, cash-futures arbitrage, and in phase 3 an iron condor through expiry week, hedging a portfolio before the Budget, a pairs trade that breaks, and taking a trend system from backtest to live), each a short story of linked decisions with the reasoning behind every option.
+- 9 desk cases (a short straddle into the Budget, working a big buy order, cash-futures arbitrage, and in phase 3 an iron condor through expiry week, hedging a portfolio before the Budget, an index inclusion trade, a pairs trade that breaks, taking a trend system from backtest to live, and quoting into a heavy bid), each a short story of linked decisions with the reasoning behind every option.
 - Rates, macro and the rupee (RBI policy, liquidity, government bonds, USDINR), bond maths (yield, duration, PV01), and SEBI's current algo and F&O rules, each dated and sourced.
 - A career map: the main quant and trading jobs and the usual interview rounds, each linked to the units that prepare for it.
 - A guide chat with no AI model. It answers from the app's own content: what a term means (typos allowed, and contract names such as NIFTY 24500 PE), the difference between two terms, which unit teaches a topic, an area test if you already know it, where to start, which units prepare for a role, and how the app works. From its answers you can pick a unit to learn next, open it, or take a test. Phase 3 stays hidden until it opens, and it never gives out the password.
@@ -101,7 +105,7 @@ Opening Inspect on the app shows what the browser was sent. So the browser is se
 - Lessons, practice and weak-spot rounds, area tests, the phase 3 test, and the Lines and Exchange rounds are built by the Worker (`worker/session.ts`). The app sends which kind it wants and the learner's progress, and gets each question without its answer, plus the cards of the terms the lesson teaches. Every question carries a token: its answer and reason, sealed with a key only the Worker holds (kept in the `site` table). A pick is marked by sending the token back, and only then do the right answer, the reason and the term's card come. A match is checked one pair at a time. Every term a session asks about must be one the account may have, under the same rules as cards. A mock round's worked sums are dealt sealed the same way, and marked when the round ends.
 - Until a met term's card arrives, its sheet says it is being fetched.
 
-What is on screen is always in the browser, and an answer is there once the learner has given theirs. The games that make their rounds in code (the drills, market making, payoffs and the rest) ship their rules with the app. The app's progress is the learner's own record, so a script could claim terms it hasn't met and have lessons built on them; the hourly ceiling on new terms keeps that to about 300 terms an hour, and the admin sees it. The outline (term names, units, the Lines map) still ships with the app; the last step moves it to the Worker too.
+What is on screen is always in the browser, and an answer is there once the learner has given theirs. The games that make their rounds in code (the drills, market making, payoffs and the rest) ship their rules with the app. The app's progress is the learner's own record, so a script could claim terms it hasn't met and have lessons built on them; the hourly ceiling on new terms keeps that to about 300 terms an hour, and the admin sees it. The outline (term names, units, the Lines map) stays on the Worker: the app ships only the skeleton, and `scripts/check-bundle.mjs` fails the build if more than 100 term names turn up in `dist/`.
 
 ## Accounts and sync
 
@@ -120,13 +124,13 @@ To set it up once, in the Cloudflare dashboard:
    "d1_databases": [{ "binding": "DB", "database_name": "fintermship", "database_id": "<the ID>" }]
    ```
 2. **Workers & Pages → fintermship → Settings → Variables and secrets → Add**: type **Secret**, name `ADMIN_EMAIL`, value your email. Secrets stay put across deploys.
-3. After the next deploy, open Settings, pick **Have an invite? Create your account**, and sign up with that email and no code.
+3. After the next deploy, open the sign-in page, pick **I have an invite**, and sign up with that email and no code.
 
 Run it locally with a throwaway database: `npx wrangler dev` with a copy of `wrangler.jsonc` that has any `database_id` and a `vars` entry for `ADMIN_EMAIL`. `worker/api.test.ts` runs the API against SQLite in the tests.
 
 ## Deploy to Cloudflare
 
-The app is served by a Cloudflare Worker named `fintermship`. `wrangler.jsonc` tells Cloudflare to run `npm run build` and serve `dist/` as static files, sending unknown paths to `index.html`; only `/api/` reaches the Worker's code.
+The app is served by a Cloudflare Worker named `fintermship`. `wrangler.jsonc` tells Cloudflare to run `npm run build` and serve `dist/` as static files, sending unknown paths to `index.html`. The Worker runs first for every request (`run_worker_first`), so it guards the app's files as well as `/api/`.
 
 1. In the Cloudflare dashboard, go to **Workers & Pages**, then **Create**, then **Import a repository**, and pick this repository.
 2. Keep the defaults: Cloudflare reads `wrangler.jsonc`, so the build and deploy commands can stay as suggested (`npm run build`, `npx wrangler deploy`).

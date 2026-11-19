@@ -62,7 +62,6 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   /** Recent pointer positions, to tell how fast the card was moving when let go. */
   const trail = useRef<{ x: number; t: number }[]>([]);
   const pastFlick = useRef(false);
-  const shownAt = useRef(Date.now());
   const startKpis = useRef<Kpis>(kpis(progress, today));
   const progressRef = useRef(progress);
   progressRef.current = progress;
@@ -88,7 +87,6 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   }, [seed, today]);
 
   useEffect(() => {
-    shownAt.current = Date.now();
     setDrag(0);
     setLeaving(null);
   }, [index, seed, dealt]);
@@ -96,7 +94,6 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   const call = useCallback(
     async (said: boolean) => {
       if (!card || answered || done || marking) return;
-      const ms = Date.now() - shownAt.current;
       setMarking(true);
       setPending(said);
       setCallError(null);
@@ -114,7 +111,7 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
         setPending(null);
       }
       const right = said === answer.truth;
-      const p = recordAnswer(progressRef.current, { termId: card.termId, correct: right, ms, evidence: 'weak', mode: 'callit' }, today);
+      const p = recordAnswer(progressRef.current, { termId: card.termId, correct: right, evidence: 'weak', mode: 'callit' }, today);
       onProgress(p);
       setCalls((c) => [...c, { claim: { ...card, ...answer }, said, right }]);
       const r = right ? run + 1 : 0;

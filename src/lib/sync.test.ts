@@ -65,6 +65,79 @@ describe('progress sync: merging two devices', () => {
     expect(sameProgress(mergeProgress(m, phone), { ...m, settings: phone.settings })).toBe(true);
   });
 
+  it('keeps the level, the run of good rounds and the days items were played', () => {
+    const played: Progress = {
+      ...phone,
+      modes: {
+        headline: { sessions: 6, answers: 40, right: 33, last: '2026-11-17', level: 3, good: 1, seen: { h1: '2026-11-17', h2: '2026-11-12' } },
+        finnections: { sessions: 2, answers: 8, right: 6, last: '2026-11-16', level: 2, good: 0, seen: { b1: '2026-11-16' } },
+      },
+    };
+    const old: Progress = {
+      ...laptop,
+      modes: { headline: { sessions: 4, answers: 20, right: 15, last: '2026-11-14', level: 1, good: 0, seen: { h1: '2026-11-10', h3: '2026-11-14' } } },
+    };
+    const m = mergeProgress(old, played).modes!;
+    // The level follows the copy that played last, and a day an item was played is never forgotten.
+    expect(m.headline).toMatchObject({ sessions: 6, answers: 40, level: 3, good: 1 });
+    expect(m.headline!.seen).toEqual({ h1: '2026-11-17', h2: '2026-11-12', h3: '2026-11-14' });
+    expect(m.finnections!.level).toBe(2);
+    // And it is the same whichever device syncs first.
+    const settings = phone.settings;
+    expect(sameProgress({ ...mergeProgress(played, old), settings }, { ...mergeProgress(old, played), settings })).toBe(true);
+  });
+
+  it('lets a pick, a name or a target be cleared', () => {
+    const picked: Progress = { ...phone, focus: 'o3', settings: { ...phone.settings, name: 'Asha', target: 'trader' } };
+    const cleared: Progress = { ...picked, focus: null, settings: { ...picked.settings, name: '', target: '' } };
+    const m = mergeProgress(picked, cleared);
+    expect(m.focus).toBeNull();
+    expect(m.settings.name).toBe('');
+    expect(m.settings.target).toBe('');
+  });
+
+  /** Merge a single term from both sides, both ways round, and check the answer doesn't depend on the order. */
+  const mergeTerm = (x: TermState, y: TermState): TermState => {
+    const one = mergeProgress({ ...phone, terms: { delta: x } }, { ...laptop, terms: { delta: y } }).terms.delta;
+    expect(mergeProgress({ ...laptop, terms: { delta: y } }, { ...phone, terms: { delta: x } }).terms.delta).toEqual(one);
+    return one;
+  };
+
+  it('does not let practice on a stale device undo a newer review', () => {
+    const reviewed = { ...t(4, '2026-11-25'), step: 4, moves: 4 };
+    // The other device answered the same term twice in practice: more answers, but the schedule never moved.
+    const practised = { ...t(4, '2026-11-11'), step: 3, seen: 6, correct: 6, moves: 3 };
+    expect(mergeTerm(practised, reviewed)).toEqual(reviewed);
+    // The same with copies saved before moves were counted, where the ladder has to say it.
+    const unmoved = (x: TermState): TermState => {
+      const copy = { ...x };
+      delete copy.moves;
+      return copy;
+    };
+    expect(mergeTerm(unmoved(practised), unmoved(reviewed))).toEqual(unmoved(reviewed));
+  });
+
+  it('keeps every review a device made, not the one with the longest wait', () => {
+    // Four reviews on the laptop beat one old lapse on the phone, which the lapse count alone would have won.
+    const lapsedOnce = { ...t(2, '2026-11-20'), step: 2, lapses: 1, moves: 1 };
+    const fourReviews = { ...t(6, '2027-05-20'), step: 6, moves: 5 };
+    expect(mergeTerm(lapsedOnce, fourReviews)).toEqual(fourReviews);
+  });
+
+  it('keeps a missed true-or-false call that pulled a term back to tomorrow', () => {
+    // A wrong weak call leaves the step alone and brings the term back tomorrow: an earlier date,
+    // so only the move count says this copy is the newer one.
+    const untouched = { ...t(5, '2026-12-01'), step: 5, moves: 4 };
+    const flagged = { ...untouched, due: '2026-11-12', seen: 6, wrong: 1, moves: 5 };
+    expect(mergeTerm(untouched, flagged)).toEqual(flagged);
+  });
+
+  it('keeps a lapse over a clean review when two devices both moved a term', () => {
+    const climbed = { ...t(5, '2026-11-25'), step: 5, moves: 4 };
+    const lapsed = { ...t(5, '2026-11-12'), step: 3, lapses: 1, moves: 4 };
+    expect(mergeTerm(climbed, lapsed)).toEqual(lapsed);
+  });
+
   it('lets a reset or restored backup win over older progress from any device', () => {
     const reset: Progress = { ...newProgress(), epoch: 1_700_000_000_000 };
     expect(mergeProgress(phone, reset)).toBe(reset);

@@ -1,18 +1,54 @@
 import { describe, expect, it } from 'vitest';
-import { coreTermIds, isCore, mainTermIds } from './content';
+import { coreTermIds, isCore, mainTermIds, talkById, termById } from './content';
 import { addDays } from './dates';
 import { DRILLS, recordDrill } from './drills';
 import { recordRound } from './practice';
 import { buildLesson, drillUp } from './lesson';
-import { seededRng } from './questions';
+import { promptFor, seededRng } from './questions';
 import { MAX_REVIEWS_PER_DAY, dueTermIds, finishLesson, graduate, introduce, isKnown, newProgress, recordPractice, review } from './scheduler';
-import type { Progress } from './types';
+import type { Progress, ScoredQuestion } from './types';
 
-/** Rough timings for the minutes estimate: reading an intro card, answering a question. */
+/** Rough timings for the minutes estimate: reading an intro card, a match round. */
 const INTRO_SECONDS = 20;
-const QUESTION_SECONDS = 9;
+const MATCH_SECONDS = 25;
 /** A drill question is typed against the clock. */
 const DRILL_SECONDS = 15;
+/**
+ * This learner's pace, used only for the minutes a day's work takes: time to read what is on
+ * the screen, a moment to choose, and longer for a sum. Nothing here feeds the schedule.
+ */
+const LEARNER_WPM = 200;
+const THINK_MS = 3_500;
+const SUM_THINK_MS = 7_000;
+
+/** Words in a piece of text, for the reading time. */
+const wordCount = (text: string): number => (text.trim() ? text.trim().split(/\s+/).length : 0);
+
+/**
+ * Roughly what the learner has to read: the question's own words and its options. Pick-the-term
+ * and fill-the-gap show a sentence about as long as the definition with the term blanked out,
+ * which is what the server sends.
+ */
+function onScreen(q: ScoredQuestion): number {
+  const t = termById.get(q.termId);
+  const options = q.options.map((o) => termById.get(o)?.term ?? o).join(' ');
+  const prompt =
+    q.kind === 'calc' || q.kind === 'tf'
+      ? q.prompt
+      : q.kind === 'talk'
+        ? (talkById.get(q.itemId)?.prompt ?? '')
+        : q.kind === 'meaning' || q.kind === 'listen'
+          ? (t?.term ?? '')
+          : t
+            ? promptFor(t)
+            : '';
+  return wordCount(`${prompt} ${options}`);
+}
+
+/** How long this learner takes to answer: reading it, then choosing, plus time for a sum. */
+function answerMs(q: ScoredQuestion, words: number): number {
+  return Math.round((words / LEARNER_WPM) * 60_000) + THINK_MS + (q.kind === 'calc' ? SUM_THINK_MS : 0);
+}
 
 interface Day {
   day: number;
@@ -46,6 +82,8 @@ function simulate(days: number, accuracy: number, seed: number, skipped: number[
     let questions = 0;
     let intros = 0;
     let drillQuestions = 0;
+    /** Time spent answering, from each question's own length. */
+    let seconds = 0;
     for (let guard = 0; guard < 60 && !skipped.includes(d + 1); guard++) {
       // On the one track a drill, game or case comes up in turn; this learner passes it first time.
       const drill = drillUp(p, today);
@@ -74,14 +112,21 @@ function simulate(days: number, accuracy: number, seed: number, skipped: number[
         questions++;
         if (q.kind === 'match') {
           for (const id of q.termIds) p = recordPractice(p, id, rng() < accuracy);
+          seconds += MATCH_SECONDS;
           continue;
         }
         const correct = rng() < accuracy;
+        const words = onScreen(q);
+        const ms = answerMs(q, words);
+        seconds += ms / 1000;
         if (q.review) {
-          p = review(p, q.termId, correct, 6000, today, isCore(q.termId));
+          p = review(p, q.termId, correct, today, isCore(q.termId));
           reviews++;
         } else p = recordPractice(p, q.termId, correct);
-        if (!correct) questions++;
+        if (!correct) {
+          questions++;
+          seconds += ms / 1000;
+        }
       }
       for (const id of plan.newIds) p = graduate(p, id, today);
       newTerms += plan.newIds.length;
@@ -95,7 +140,7 @@ function simulate(days: number, accuracy: number, seed: number, skipped: number[
       newTerms,
       reviews,
       questions,
-      minutes: Math.round((intros * INTRO_SECONDS + questions * QUESTION_SECONDS + drillQuestions * DRILL_SECONDS) / 60),
+      minutes: Math.round((intros * INTRO_SECONDS + seconds + drillQuestions * DRILL_SECONDS) / 60),
       met: states.length,
       coreMet: coreTermIds().filter((id) => p.terms[id]).length,
       known: states.filter(isKnown).length,
@@ -112,8 +157,9 @@ describe('ten weeks of daily use', () => {
     for (const d of days) {
       expect(d.newTerms).toBeLessThanOrEqual(20);
       expect(d.reviews).toBeLessThanOrEqual(MAX_REVIEWS_PER_DAY);
-      // The busiest days, when a full 20 new terms meet a full load of reviews, run a little over 40 minutes, and a game or case can come on top.
-      expect(d.minutes).toBeLessThanOrEqual(50);
+      // Timed from each question's own length, the day's median is about 40 minutes and the
+      // busiest days, when a full 20 new terms meet a full load of reviews, run to about an hour.
+      expect(d.minutes).toBeLessThanOrEqual(65);
     }
   });
 
@@ -149,8 +195,8 @@ describe('coming back after a week away', () => {
     const back = days.slice(15);
     for (const d of back) {
       expect(d.reviews).toBeLessThanOrEqual(MAX_REVIEWS_PER_DAY);
-      // The busiest days, when a full 20 new terms meet a full load of reviews, run a little over 40 minutes.
-      expect(d.minutes).toBeLessThanOrEqual(45);
+      // A catch-up day runs to about an hour at this learner's reading pace.
+      expect(d.minutes).toBeLessThanOrEqual(65);
       if (d.dueLeft > 0) expect(d.newTerms).toBeLessThan(20);
     }
     const cleared = back.find((d) => d.dueLeft === 0)!;

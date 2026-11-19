@@ -28,7 +28,8 @@ export function AboutYou({
   const [target, setTarget] = useState(s.target ?? '');
   const [saved, setSaved] = useState(false);
   const save = () => {
-    const settings = { ...s, aboutAsked: true, name: cleanName(name) || undefined, target: target || undefined, interviewDate: undefined };
+    // Empty, not missing: JSON drops a missing key, and the old name would come back on the next sync.
+    const settings = { ...s, aboutAsked: true, name: cleanName(name), target };
     onSave({ ...progress, settings });
     setSaved(true);
   };

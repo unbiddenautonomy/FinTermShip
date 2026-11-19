@@ -86,7 +86,7 @@ describe('picking a unit', () => {
     p = meet(p, termIdsOfUnit('d1').slice(0, -1));
     expect(settleFocus(p).focus).toBe('d1');
     p = meet(p, termIdsOfUnit('d1'));
-    expect(settleFocus(p).focus).toBeUndefined();
+    expect(settleFocus(p).focus).toBeFalsy();
   });
 });
 

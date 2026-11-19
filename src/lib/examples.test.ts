@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 import { termById } from './content';
-import { distractorTerms, exampleFills, fillQuestion, retryQuestion, reviewQuestion, seededRng } from './questions';
+import { distractorTerms, exampleFills, fillQuestion, promptFor, retryQuestion, reviewQuestion, seededRng } from './questions';
 import type { Term } from './types';
 
 const base = termById.get('stop-loss')!;
@@ -86,5 +86,22 @@ describe('example sentences as fill questions', () => {
     const plain = fillQuestion(t, seededRng(2));
     const again = retryQuestion(plain, seededRng(3));
     expect(again.kind === 'fill' && again.context).toBeTruthy();
+  });
+});
+
+describe('the definition shown with a term blanked out', () => {
+  it('takes the rest of the word a name starts, so the answer is never half on the page', () => {
+    for (const t of termById.values()) {
+      const shown = promptFor(t);
+      // "____holder meetings" would leave the answer readable.
+      expect(/____[\w-]/.test(shown), `${t.id}: ${shown}`).toBe(false);
+    }
+  });
+
+  it('keeps what comes before a name inside the same word, which usually turns the meaning around', () => {
+    // "Below that it is sub-investment grade" must not become "Below that it is ____".
+    expect(promptFor(termById.get('investment-grade')!)).toContain('Below that it is sub-____');
+    // "Unexpected losses, above this, are what capital is for" is false of "expected loss".
+    expect(promptFor(termById.get('expected-loss')!)).toContain('Un____, above this');
   });
 });

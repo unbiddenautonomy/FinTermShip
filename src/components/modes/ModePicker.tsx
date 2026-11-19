@@ -61,10 +61,9 @@ export function ModeSwitch({ mode, info, stat, onOpen }: { mode: ModeId; info: M
       type="button"
       onClick={onOpen}
       aria-haspopup="dialog"
-      aria-label={`Mode: ${info.label}. Change mode`}
-      className="group flex h-full w-full min-w-0 items-center gap-3 rounded-2xl border border-line bg-surface p-2 pr-3 text-left shadow-card transition hover:-translate-y-0.5 hover:shadow-[0_6px_18px_-8px_rgb(20_40_30/0.35)] active:translate-y-0"
+      className="group flex h-full w-full min-w-0 items-center gap-2.5 rounded-2xl border border-line bg-surface p-2 pr-2.5 text-left sm:gap-3 sm:pr-3 shadow-card transition hover:-translate-y-0.5 hover:shadow-[0_6px_18px_-8px_rgb(20_40_30/0.35)] active:translate-y-0"
     >
-      <span className="relative grid h-12 w-12 shrink-0 place-items-center overflow-hidden rounded-xl" style={{ background: look.tile, color: look.ink }}>
+      <span className="relative grid h-11 w-11 shrink-0 place-items-center overflow-hidden rounded-xl sm:h-12 sm:w-12" style={{ background: look.tile, color: look.ink }}>
         <span className="absolute inset-0 opacity-40 [&_svg]:h-full [&_svg]:w-full" aria-hidden="true">
           {MODE_ART[mode]}
         </span>
@@ -77,8 +76,10 @@ export function ModeSwitch({ mode, info, stat, onOpen }: { mode: ModeId; info: M
         <span className="block truncate font-display text-xl font-semibold leading-tight text-ink">{info.label}</span>
         <span className="block truncate text-xs font-semibold text-ink-3">{stat}</span>
       </span>
-      <span className="flex shrink-0 items-center gap-1 rounded-full bg-sunken px-2.5 py-1 text-xs font-extrabold text-ink-2 transition group-hover:bg-brand group-hover:text-white">
-        Switch
+      {/* On a narrow phone the word gives way to the chevron, so the mode's name has room to show
+          in full; it stays in the button's name, which is what the whole button reads out as. */}
+      <span className="flex shrink-0 items-center gap-1 rounded-full bg-sunken px-2 py-1 text-xs font-extrabold text-ink-2 transition group-hover:bg-brand group-hover:text-white sm:px-2.5">
+        <span className="sr-only sm:not-sr-only">Switch</span>
         <ChevronDown className="h-3.5 w-3.5" />
       </span>
     </button>
@@ -106,10 +107,26 @@ export function ModePicker({
   onClose: () => void;
 }) {
   const first = useRef<HTMLButtonElement>(null);
+  const sheet = useRef<HTMLDivElement>(null);
+  // Read through a ref: the picker sets focus up once, and a redraw must not pull focus back.
+  const live = useRef({ modes, onClose, onPick });
+  live.current = { modes, onClose, onPick };
   useEffect(() => {
+    const opener = document.activeElement as HTMLElement | null;
     first.current?.focus();
     const onKey = (e: KeyboardEvent) => {
+      const { modes, onClose, onPick } = live.current;
       if (e.key === 'Escape') return onClose();
+      if (e.key === 'Tab') {
+        // Keep the keyboard inside the picker: behind it is the page the learner is choosing from.
+        const inside = [...(sheet.current?.querySelectorAll<HTMLElement>('button:not([disabled])') ?? [])];
+        if (!inside.length) return;
+        e.preventDefault();
+        const at = inside.indexOf(document.activeElement as HTMLElement);
+        const step = e.shiftKey ? -1 : 1;
+        inside[(at + step + inside.length) % inside.length].focus();
+        return;
+      }
       const n = Number(e.key);
       if (n >= 1 && n <= modes.length) {
         e.preventDefault();
@@ -124,12 +141,14 @@ export function ModePicker({
     return () => {
       window.removeEventListener('keydown', onKey, true);
       document.body.style.overflow = overflow;
+      // Back to the button that opened it, so the keyboard carries on from where it was.
+      opener?.focus?.();
     };
-  }, [modes, onClose, onPick]);
+  }, []);
 
   return (
     <div className="fixed inset-0 z-50 flex items-end justify-center bg-[#0B1410]/55 backdrop-blur-sm animate-fade sm:items-center sm:p-6" role="dialog" aria-modal="true" aria-labelledby="mode-picker-title" onClick={onClose}>
-      <div className="max-h-[92dvh] w-full max-w-4xl animate-sheet overflow-y-auto rounded-t-[28px] bg-bg shadow-sheet sm:animate-pop sm:rounded-[28px]" onClick={(e) => e.stopPropagation()}>
+      <div ref={sheet} className="max-h-[92dvh] w-full max-w-4xl animate-sheet overflow-y-auto rounded-t-[28px] bg-bg shadow-sheet sm:animate-pop sm:rounded-[28px]" onClick={(e) => e.stopPropagation()}>
         <div className="sticky top-0 z-10 flex items-start justify-between gap-3 bg-bg/95 px-5 pb-3 pt-5 backdrop-blur sm:px-7 sm:pt-6">
           <div>
             <h2 id="mode-picker-title" className="font-display text-[28px] font-semibold leading-tight tracking-tight text-ink">
@@ -181,7 +200,7 @@ export function ModePicker({
                       <kbd className="ml-auto hidden rounded border border-line bg-sunken px-1.5 font-mono text-[11px] font-bold text-ink-3 lg:inline">{i + 1}</kbd>
                       {isOff(m) && <span className="rounded bg-ink px-1 text-[9px] font-extrabold uppercase leading-4 tracking-wider text-bg">off</span>}
                     </span>
-                    <span className="mt-0.5 line-clamp-2 hidden text-sm leading-snug text-ink-3 sm:block">{blurb}</span>
+                    <span className="mt-0.5 line-clamp-2 block text-[12.5px] leading-snug text-ink-3 sm:text-sm">{blurb}</span>
                     {gate.open ? (
                       <span className="mt-2 inline-flex items-center gap-1.5 rounded-full px-2 py-0.5 text-xs font-extrabold" style={{ background: `${look.accent}1F`, color: look.accent }}>
                         <span className="h-1.5 w-1.5 rounded-full" style={{ background: 'currentColor' }} />

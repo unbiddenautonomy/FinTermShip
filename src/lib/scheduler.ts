@@ -7,8 +7,7 @@ export const MAX_STEP = INTERVALS.length - 1;
 export const KNOWN_STEP = 4;
 /** Core terms come back 20% sooner. */
 export const CORE_FACTOR = 0.8;
-/** An answer faster than this (with no hint) counts as confident. */
-export const FAST_MS = 10_000;
+
 export const TROUBLE_LAPSES = 3;
 export const MAX_REVIEWS_PER_DAY = 80;
 
@@ -74,30 +73,25 @@ export function recordPractice(p: Progress, termId: string, correct: boolean): P
 export function graduate(p: Progress, termId: string, today: string): Progress {
   const s = p.terms[termId];
   if (!s || s.step !== 0) return p;
-  const next = { ...s, step: 1, due: addDays(today, 1) };
+  const next = { ...s, step: 1, due: addDays(today, 1), moves: (s.moves ?? 0) + 1 };
   return { ...p, terms: { ...p.terms, [termId]: next } };
 }
 
 /**
  * Apply a scheduled review answer.
- * Fast and correct: up one step. Slow correct: same step, rescheduled.
+ * Correct: up one step, however long it took. How fast an answer came says more about the
+ * question than about the learner, and the longest formats sit at the higher steps, so timing
+ * it held people back for reading.
  * Wrong: down two steps (never below 1) and back tomorrow.
  */
-export function review(
-  p: Progress,
-  termId: string,
-  correct: boolean,
-  ms: number,
-  today: string,
-  core: boolean,
-): Progress {
+export function review(p: Progress, termId: string, correct: boolean, today: string, core: boolean): Progress {
   const s = p.terms[termId];
   if (!s) return p;
   let step = s.step;
   let lapses = s.lapses;
   let due: string;
   if (correct) {
-    if (ms < FAST_MS || step === 0) step = Math.min(MAX_STEP, step + 1);
+    step = Math.min(MAX_STEP, step + 1);
     due = addDays(today, Math.max(1, intervalFor(step, core)));
   } else {
     step = Math.max(1, step - 2);
@@ -109,6 +103,7 @@ export function review(
     step,
     due,
     lapses,
+    moves: (s.moves ?? 0) + 1,
     trouble: s.trouble || lapses >= TROUBLE_LAPSES,
     seen: s.seen + 1,
     correct: s.correct + (correct ? 1 : 0),

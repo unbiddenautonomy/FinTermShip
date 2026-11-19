@@ -4,6 +4,7 @@
  * there the same code runs in the page, never in the production build.
  */
 import { addTerms } from '../content';
+import { packJson } from '../post';
 import type { Progress, TermStub } from '../types';
 import { setRoundStatus, type DealtBoard, type DealtHeadline, type FoundGroup, type Headline, type RoundMode, type RoundStatus } from './rounds';
 
@@ -18,7 +19,8 @@ export async function call<T>(path: string, body: unknown): Promise<T> {
   }
   let res: Response;
   try {
-    res = await fetch(`/api/${path}`, { method: 'POST', credentials: 'same-origin', headers: { 'content-type': 'application/json' }, body: JSON.stringify(body) });
+    const sent = await packJson(body);
+    res = await fetch(`/api/${path}`, { method: 'POST', credentials: 'same-origin', headers: sent.headers, body: sent.body });
   } catch {
     throw new Error('You seem to be offline. Try again when you are back online.');
   }
@@ -130,3 +132,6 @@ export async function markPractice<T>(body: Record<string, unknown>): Promise<T>
   }
   return call<T>('practice/mark', body);
 }
+
+/** What to show the learner when a pick could not be marked. */
+export const markMessage = (e: unknown): string => (e instanceof Error && e.message ? e.message : 'That did not go through. Try again in a moment.');

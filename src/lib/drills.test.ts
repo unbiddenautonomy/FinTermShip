@@ -209,7 +209,7 @@ describe('drills on the one track', () => {
     p = settleFocus(p);
     expect(p.focus).toBe('k3');
     p = settleFocus(pass(p, 'k3'));
-    expect(p.focus).toBeUndefined();
+    expect(p.focus).toBeFalsy();
     expect(drillUp(p, today)).toBeNull();
   });
 });

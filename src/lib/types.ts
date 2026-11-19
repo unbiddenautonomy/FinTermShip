@@ -142,6 +142,14 @@ export interface TermState {
   lapses: number;
   trouble: boolean;
   introduced: string;
+  /**
+   * How many times this term's schedule has been moved: a first lesson finished, a review
+   * applied, or a missed true-or-false call pulling it back to tomorrow. Practice doesn't count,
+   * because it leaves the schedule alone. It only ever goes up, so the merge uses it to tell
+   * which device is further along (`src/lib/sync.ts`). Left out until the first move, and a copy
+   * saved before it existed has none, which counts as 0.
+   */
+  moves?: number;
 }
 
 export interface Settings {
@@ -155,8 +163,6 @@ export interface Settings {
   name?: string;
   /** The career map role the learner is preparing for. */
   target?: string;
-  /** The day of an upcoming interview (YYYY-MM-DD), for the countdown on the home screen. */
-  interviewDate?: string;
   /** The "About you" card was answered or skipped, so it stops showing on the home screen. */
   aboutAsked?: boolean;
   /** The mode the app opens in. Path when unset. */
@@ -179,8 +185,8 @@ export interface Progress {
   lastActiveDay: string | null;
   days: Record<string, DayStats>;
   lastBackup: string | null;
-  /** A unit the learner picked to learn next, ahead of the usual order. */
-  focus?: string;
+  /** A unit the learner picked to learn next, ahead of the usual order. Null once un-picked: a missing key would let the old pick come back on the next sync. */
+  focus?: string | null;
   /** Areas whose advanced units were opened by passing the area test. */
   unlocked?: string[];
   /** Latest area test attempt, by area id. */

@@ -34,33 +34,33 @@ describe('one answer, one memory, whatever the mode', () => {
 
   it('a term that is not due only gets practice: the ladder does not move', () => {
     const p = learner(ids, 2, addDays(today, 3));
-    const q = recordAnswer(p, { termId: 'theta', correct: true, ms: 2000, evidence: 'strong', mode: 'callit' }, today);
+    const q = recordAnswer(p, { termId: 'theta', correct: true, evidence: 'strong', mode: 'callit' }, today);
     expect(q.terms.theta.step).toBe(2);
     expect(q.terms.theta.correct).toBe(p.terms.theta.correct + 1);
   });
 
   it('a due term gets a review, and a second answer the same day is only practice', () => {
     const p = learner(ids, 2, today);
-    const once = recordAnswer(p, { termId: 'theta', correct: true, ms: 2000, evidence: 'strong', mode: 'lines' }, today);
+    const once = recordAnswer(p, { termId: 'theta', correct: true, evidence: 'strong', mode: 'lines' }, today);
     expect(once.terms.theta.step).toBe(3);
-    const twice = recordAnswer(once, { termId: 'theta', correct: true, ms: 2000, evidence: 'strong', mode: 'exchange' }, today);
+    const twice = recordAnswer(once, { termId: 'theta', correct: true, evidence: 'strong', mode: 'exchange' }, today);
     expect(twice.terms.theta.step).toBe(3);
   });
 
   it('weak evidence never steps a term up, and only strong evidence reaches Known', () => {
     const p = learner(ids, KNOWN_STEP - 1, today);
-    const weak = recordAnswer(p, { termId: 'delta', correct: true, ms: 1000, evidence: 'weak', mode: 'callit' }, today);
+    const weak = recordAnswer(p, { termId: 'delta', correct: true, evidence: 'weak', mode: 'callit' }, today);
     expect(weak.terms.delta.step).toBe(KNOWN_STEP - 1);
-    const medium = recordAnswer(p, { termId: 'delta', correct: true, ms: 1000, evidence: 'medium', mode: 'lines' }, today);
+    const medium = recordAnswer(p, { termId: 'delta', correct: true, evidence: 'medium', mode: 'lines' }, today);
     expect(medium.terms.delta.step).toBe(KNOWN_STEP - 1);
-    const strong = recordAnswer(p, { termId: 'delta', correct: true, ms: 1000, evidence: 'strong', mode: 'exchange' }, today);
+    const strong = recordAnswer(p, { termId: 'delta', correct: true, evidence: 'strong', mode: 'exchange' }, today);
     expect(strong.terms.delta.step).toBe(KNOWN_STEP);
   });
 
   it('the same answers through different modes leave the same knowledge and the same KPIs', () => {
     const p = learner(ids, 2, today);
     const run = (mode: ModeId) =>
-      ids.reduce((acc, id, i) => recordAnswer(acc, { termId: id, correct: i % 3 !== 0, ms: 3000, evidence: 'strong', mode }, today), p);
+      ids.reduce((acc, id, i) => recordAnswer(acc, { termId: id, correct: i % 3 !== 0, evidence: 'strong', mode }, today), p);
     const a = run('callit');
     const b = run('exchange');
     const c = run('path');
@@ -77,7 +77,7 @@ describe('one answer, one memory, whatever the mode', () => {
   it('wrong answers drop a term and bring it back tomorrow in every mode', () => {
     const p = learner(ids, 4, today);
     for (const mode of ['path', 'lines', 'exchange'] as ModeId[]) {
-      const q = recordAnswer(p, { termId: 'bid', correct: false, ms: 1000, evidence: 'strong', mode }, today);
+      const q = recordAnswer(p, { termId: 'bid', correct: false, evidence: 'strong', mode }, today);
       expect(q.terms.bid.step).toBe(2);
       expect(q.terms.bid.due).toBe(addDays(today, 1));
     }
@@ -85,15 +85,18 @@ describe('one answer, one memory, whatever the mode', () => {
 
   it('a true/false call never moves the ladder: right is practice, wrong brings the term back tomorrow', () => {
     const p = learner(ids, 4, addDays(today, 10));
-    const right = recordAnswer(p, { termId: 'bid', correct: true, ms: 1000, evidence: 'weak', mode: 'callit' }, today);
+    const right = recordAnswer(p, { termId: 'bid', correct: true, evidence: 'weak', mode: 'callit' }, today);
     expect({ ...right.terms.bid, seen: 0, correct: 0 }).toEqual({ ...p.terms.bid, seen: 0, correct: 0 });
-    const wrong = recordAnswer(p, { termId: 'bid', correct: false, ms: 1000, evidence: 'weak', mode: 'callit' }, today);
+    const wrong = recordAnswer(p, { termId: 'bid', correct: false, evidence: 'weak', mode: 'callit' }, today);
     expect(wrong.terms.bid.step).toBe(4);
     expect(wrong.terms.bid.due).toBe(addDays(today, 1));
+    // The pull counts as a move, so another device's untouched copy can't merge the flag away.
+    expect(wrong.terms.bid.moves).toBe((p.terms.bid.moves ?? 0) + 1);
+    expect(right.terms.bid.moves).toBe(p.terms.bid.moves);
     // A due term stays due for a proper review, whatever the call.
     const due = learner(ids, 3, today);
     for (const correct of [true, false]) {
-      const q = recordAnswer(due, { termId: 'bid', correct, ms: 1000, evidence: 'weak', mode: 'callit' }, today);
+      const q = recordAnswer(due, { termId: 'bid', correct, evidence: 'weak', mode: 'callit' }, today);
       expect(q.terms.bid.step).toBe(3);
       expect(q.terms.bid.due).toBe(today);
     }
@@ -323,8 +326,8 @@ describe('Recall Exchange', () => {
 
   it('shows a right review as a rise and a wrong one as a fall, against the last visit', () => {
     const p = snapshotIndex(learner(['bid', 'ask'], 2, today), addDays(today, -1));
-    const up = recordAnswer(p, { termId: 'bid', correct: true, ms: 2000, evidence: 'strong', mode: 'exchange' }, today);
-    const down = recordAnswer(p, { termId: 'ask', correct: false, ms: 2000, evidence: 'strong', mode: 'exchange' }, today);
+    const up = recordAnswer(p, { termId: 'bid', correct: true, evidence: 'strong', mode: 'exchange' }, today);
+    const down = recordAnswer(p, { termId: 'ask', correct: false, evidence: 'strong', mode: 'exchange' }, today);
     expect(quote(up, 'bid', today)!.change).toBeGreaterThan(0);
     expect(quote(down, 'ask', today)!.change).toBeLessThan(0);
     // With no earlier visit there is nothing to compare with.
@@ -374,7 +377,7 @@ describe('answer sources', () => {
     p = graduate(introduce(p, 'bid', '2026-01-01'), 'bid', '2026-01-01');
     p = recordPractice(p, 'bid', true);
     p = recordPractice(p, 'bid', false);
-    p = recordAnswer(p, { termId: 'bid', correct: true, ms: 3000, evidence: 'weak', mode: 'callit' }, '2026-01-05');
+    p = recordAnswer(p, { termId: 'bid', correct: true, evidence: 'weak', mode: 'callit' }, '2026-01-05');
     const s = Object.fromEntries(answerSources(p).map((x) => [x.mode, x]));
     expect(s.callit.answers).toBe(1);
     expect(s.path.answers).toBe(2);

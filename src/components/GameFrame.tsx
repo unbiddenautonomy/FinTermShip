@@ -4,7 +4,7 @@ import { passRule } from '../lib/practice';
 import type { Progress } from '../lib/types';
 import { Cross } from './icons';
 import type { LessonSummary } from './Lesson';
-import { Bar, ConfirmDialog, Pill, type Tone } from './ui';
+import { Bar, ConfirmDialog, MarkNotice, Pill, type Tone } from './ui';
 
 /** Props every game screen takes from the app. */
 export interface GameProps {
@@ -32,6 +32,7 @@ export function GameFrame({
   rules,
   started,
   onQuit,
+  error,
   children,
 }: {
   unitId: string;
@@ -44,6 +45,8 @@ export function GameFrame({
   /** Once the learner has made a move, the rules fold away. */
   started: boolean;
   onQuit: () => void;
+  /** Set when the server couldn't mark the last pick, so the learner knows the tap didn't land. */
+  error?: string | null;
   children: ReactNode;
 }) {
   const [confirmQuit, setConfirmQuit] = useState(false);
@@ -85,6 +88,8 @@ export function GameFrame({
         )}
 
         {children}
+
+        <MarkNotice message={error ?? null} />
 
         <p className="mt-auto pt-4 text-center text-xs text-ink-3">
           {categoryOfUnit(unitId)?.name} · {passRule(unitId)}

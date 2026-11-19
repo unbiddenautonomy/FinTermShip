@@ -102,7 +102,7 @@ describe('the readiness test', () => {
     // Terms answered right count as learned, as in an area test.
     expect(p.terms[PHASE3_PREREQS[0]]?.step).toBe(3);
     const failed = passTest(withPhase3Key(newProgress()), 15);
-    expect(failed.focus).toBeUndefined();
+    expect(failed.focus).toBeFalsy();
   });
 
   it('leaves an existing pick alone', () => {
@@ -123,7 +123,7 @@ describe('learning phase 3', () => {
       p = settleFocus(p);
     }
     expect(seen).toEqual(phase3UnitIds);
-    expect(p.focus).toBeUndefined();
+    expect(p.focus).toBeFalsy();
   });
 
   it('counts strategy terms as new work only once phase 3 is open', () => {

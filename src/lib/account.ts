@@ -3,6 +3,7 @@
  * Progress is always saved in the browser first; a signed-in account also
  * sends it to the server, which merges it with what other devices sent.
  */
+import { packJson } from './post';
 import { normalise } from './storage';
 import type { Progress } from './types';
 
@@ -62,12 +63,13 @@ export class ApiError extends Error {
 
 async function api<T>(method: string, path: string, body?: unknown): Promise<T> {
   let res: Response;
+  const sent = body === undefined ? null : await packJson(body);
   try {
     res = await fetch(`/api/${path}`, {
       method,
       credentials: 'same-origin',
-      headers: body === undefined ? {} : { 'content-type': 'application/json' },
-      body: body === undefined ? undefined : JSON.stringify(body),
+      headers: sent ? sent.headers : {},
+      body: sent ? sent.body : undefined,
     });
   } catch {
     throw new ApiError(0, 'You seem to be offline. Progress is still saved on this device.');
@@ -99,9 +101,13 @@ export const changePassword = (current: string, next: string) => api<{ user: Me 
 export const unlock = (password: string) => api<{ user: Me }>('POST', 'unlock', { password }).then((r) => r.user);
 
 /** Send this device's progress; get back the merge of every device's. */
+/**
+ * Send this device's progress and get back what the server holds. When the merge added nothing
+ * the server says so instead of sending the whole thing back, and what we sent is what it holds.
+ */
 export async function pushProgress(p: Progress): Promise<Progress> {
-  const { progress } = await api<{ progress: Progress }>('PUT', 'progress', { progress: p });
-  return normalise(progress);
+  const { progress, same } = await api<{ progress?: Progress; same?: boolean }>('PUT', 'progress', { progress: p });
+  return same || !progress ? p : normalise(progress);
 }
 export async function pullProgress(): Promise<Progress | null> {
   const { progress } = await api<{ progress: Progress | null }>('GET', 'progress');
