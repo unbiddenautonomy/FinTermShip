@@ -125,7 +125,7 @@ export function Exchange({ progress, today, area, onArea, onProgress, onMode, on
         <div className="flex gap-2 overflow-x-auto border-y border-[#22302A] px-4 py-2.5">
           <Chip active={!area} onClick={() => onArea(null)} label="ALL" value={index.toFixed(0)} />
           {sectors.map((s) => (
-            <Chip key={s.id} active={area === s.id} colour={areas[s.id]?.colour} onClick={() => onArea(area === s.id ? null : s.id)} label={areas[s.id]?.code ?? s.id} value={marketIndex(progress, today, s.id).toFixed(0)} title={`${s.name}: ${s.met} of ${s.terms} listed, average price ${s.strength}`} />
+            <Chip key={s.id} active={area === s.id} colour={areas[s.id]?.colour} onClick={() => onArea(area === s.id ? null : s.id)} label={areas[s.id]?.short ?? s.name} value={marketIndex(progress, today, s.id).toFixed(0)} title={`${s.name}: ${s.met} of ${s.terms} listed, average price ${s.strength}`} />
           ))}
         </div>
 

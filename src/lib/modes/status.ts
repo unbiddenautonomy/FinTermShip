@@ -30,9 +30,7 @@ export const STATUS_LABEL: Record<TermStatus, string> = {
 
 export interface Area {
   colour: string;
-  /** A three-letter ticker, for the Exchange and Call It. */
-  code: string;
-  /** A short readable name, for line labels on Term Lines. */
+  /** A short readable name, for line labels on Term Lines and the Exchange's sector chips. */
   short: string;
 }
 export const areas = areaData as Record<string, Area>;
@@ -40,7 +38,7 @@ export const areas = areaData as Record<string, Area>;
 export function areaOf(termId: string): (Area & { id: string; name: string }) | undefined {
   const c = categoryOfTerm.get(termId);
   if (!c) return undefined;
-  return { id: c.id, name: c.name, ...(areas[c.id] ?? { colour: '#888888', code: c.id.slice(0, 3).toUpperCase(), short: c.name }) };
+  return { id: c.id, name: c.name, ...(areas[c.id] ?? { colour: '#888888', short: c.name }) };
 }
 
 /**

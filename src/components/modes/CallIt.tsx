@@ -373,10 +373,9 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
               <div className="flex min-h-[19rem] flex-col gap-4 p-6">
                 <p className="flex items-center gap-2 font-mono text-xs uppercase tracking-[0.14em] text-ink-3">
                   <TermDot status={termStatus(progress, card.termId, today)} colour={colour} size={11} />
-                  <span className="font-semibold" style={{ color: colour }}>
-                    {area?.code}
+                  <span className="truncate font-semibold" style={{ color: colour }}>
+                    {area?.name}
                   </span>
-                  <span className="truncate">{area?.name}</span>
                 </p>
                 <p className="my-auto text-[26px] font-extrabold leading-[1.15] tracking-tight text-ink">
                   <Marked text={card.text} term={term.term} colour={colour} />
@@ -403,10 +402,9 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
                 <div className="flex min-h-[19rem] flex-col gap-3 p-6">
                   <p className="flex items-center gap-2 pr-20 font-mono text-xs uppercase tracking-[0.14em] text-ink-3">
                     <TermDot status={termStatus(progress, card.termId, today)} colour={colour} size={11} />
-                    <span className="font-semibold" style={{ color: colour }}>
-                      {area?.code}
+                    <span className="truncate font-semibold" style={{ color: colour }}>
+                      {area?.name}
                     </span>
-                    <span className="truncate">{area?.name}</span>
                   </p>
                   <p className={`flex items-center gap-2 pr-16 text-xl font-extrabold ${last!.right ? 'text-good-ink' : 'text-bad-ink'}`}>
                     <span className={`flex h-8 w-8 shrink-0 animate-pop-in items-center justify-center rounded-full text-white [animation-delay:260ms] ${last!.right ? 'bg-good' : 'bg-bad'}`}>
