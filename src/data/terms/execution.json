@@ -94,6 +94,9 @@
         "iceberg-order",
         "partial-fill"
       ],
+      "overlaps": [
+        "clip"
+      ],
       "wrong": [
         "An order placed on a minor's account",
         "An order for a subsidiary's shares",
@@ -1247,6 +1250,9 @@
         "child-order",
         "size",
         "iceberg-order"
+      ],
+      "overlaps": [
+        "child-order"
       ],
       "wrong": [
         "Short video of the trading screen",

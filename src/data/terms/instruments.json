@@ -705,7 +705,7 @@
       ],
       "calcs": [
         {
-          "q": "A one-year bond with no coupon repays ₹100 and costs ₹94. Roughly what's its yield to maturity?",
+          "q": "A one-year bond with no coupon repays ₹100 and costs ₹94. What's its yield to maturity, to one decimal place?",
           "options": [
             "6.4%",
             "6%",

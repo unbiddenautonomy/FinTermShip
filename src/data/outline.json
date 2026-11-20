@@ -480,7 +480,8 @@
       "volume"
      ],
      "overlaps": [
-      "annualised-volatility"
+      "annualised-volatility",
+      "standard-deviation"
      ]
     },
     {
@@ -1131,6 +1132,9 @@
       "time-value-of-money",
       "fair-value",
       "face-value"
+     ],
+     "overlaps": [
+      "dcf"
      ],
      "near": [
       "futures-contract",
@@ -2640,6 +2644,9 @@
       "position",
       "auto-square-off"
      ],
+     "overlaps": [
+      "unwind"
+     ],
      "near": [
       "mis",
       "margin-call",
@@ -4055,6 +4062,9 @@
       "gamma-scalping",
       "hedge"
      ],
+     "overlaps": [
+      "gamma-scalping"
+     ],
      "near": [
       "underlying",
       "delta"
@@ -4640,6 +4650,9 @@
       "delta-hedging",
       "short-gamma",
       "realised-volatility"
+     ],
+     "overlaps": [
+      "delta-hedging"
      ],
      "near": [
       "option",
@@ -5594,6 +5607,10 @@
       "theta",
       "short-gamma"
      ],
+     "overlaps": [
+      "expiry-day-option-selling",
+      "short-vol-programme"
+     ],
      "near": [
       "option",
       "theta",
@@ -6351,6 +6368,9 @@
       "annualised-volatility",
       "volatility"
      ],
+     "overlaps": [
+      "volatility"
+     ],
      "near": [
       "variance",
       "normal-distribution",
@@ -6685,6 +6705,9 @@
       "fat-tails",
       "standard-deviation"
      ],
+     "overlaps": [
+      "fat-tails"
+     ],
      "near": [
       "normal-distribution"
      ]
@@ -6702,6 +6725,10 @@
       "kurtosis",
       "skewness",
       "expected-shortfall"
+     ],
+     "overlaps": [
+      "kurtosis",
+      "tail-risk"
      ],
      "near": [
       "normal-distribution",
@@ -8149,6 +8176,9 @@
       "high-conviction",
       "scale-in"
      ],
+     "overlaps": [
+      "double-down"
+     ],
      "near": [
       "high-conviction"
      ]
@@ -8503,6 +8533,9 @@
       "black-swan",
       "expected-shortfall"
      ],
+     "overlaps": [
+      "fat-tails"
+     ],
      "near": [
       "normal-distribution",
       "fat-tails"
@@ -8606,6 +8639,9 @@
       "mean-reversion",
       "martingale"
      ],
+     "overlaps": [
+      "brownian-motion"
+     ],
      "near": [
       "brownian-motion",
       "autoregressive-model",
@@ -8626,6 +8662,10 @@
       "random-walk",
       "geometric-brownian-motion",
       "normal-distribution"
+     ],
+     "overlaps": [
+      "random-walk",
+      "geometric-brownian-motion"
      ],
      "near": [
       "variance",
@@ -8650,6 +8690,9 @@
       "brownian-motion",
       "lognormal-distribution",
       "black-scholes"
+     ],
+     "overlaps": [
+      "brownian-motion"
      ],
      "near": [
       "brownian-motion",
@@ -10176,7 +10219,8 @@
      ],
      "overlaps": [
       "take-some-off",
-      "profit-booking"
+      "profit-booking",
+      "scale-out"
      ]
     },
     {
@@ -10191,6 +10235,9 @@
       "square-off",
       "trim",
       "short-covering"
+     ],
+     "overlaps": [
+      "square-off"
      ],
      "near": [
       "principal-trade"
@@ -10209,6 +10256,9 @@
       "short-selling",
       "unwind",
       "short"
+     ],
+     "overlaps": [
+      "short-squeeze"
      ]
     },
     {
@@ -10408,7 +10458,8 @@
      ],
      "overlaps": [
       "trim",
-      "profit-booking"
+      "profit-booking",
+      "scale-out"
      ]
     },
     {
@@ -10478,7 +10529,8 @@
       "size-up"
      ],
      "overlaps": [
-      "average-down"
+      "average-down",
+      "size-up"
      ],
      "near": [
       "youre-done"
@@ -10510,6 +10562,10 @@
      "difficulty": 1,
      "confusables": [
       "scale-in",
+      "take-some-off",
+      "trim"
+     ],
+     "overlaps": [
       "take-some-off",
       "trim"
      ]
@@ -10648,6 +10704,9 @@
       "rally",
       "risk-on"
      ],
+     "overlaps": [
+      "rally"
+     ],
      "near": [
       "buy-the-dip",
       "melt-up",
@@ -10689,7 +10748,8 @@
       "sell-off"
      ],
      "overlaps": [
-      "broad-based-rally"
+      "broad-based-rally",
+      "bull-market"
      ],
      "near": [
       "bear-market",
@@ -10852,6 +10912,9 @@
       "risk-off",
       "bull-market",
       "fomo"
+     ],
+     "overlaps": [
+      "risk-appetite"
      ]
     },
     {
@@ -10974,6 +11037,9 @@
       "short-covering",
       "rally",
       "crowded-trade"
+     ],
+     "overlaps": [
+      "short-covering"
      ]
     },
     {
@@ -11267,6 +11333,9 @@
      "confusables": [
       "risk-on",
       "fomo"
+     ],
+     "overlaps": [
+      "risk-on"
      ]
     },
     {
@@ -12054,7 +12123,8 @@
       "mibor"
      ],
      "overlaps": [
-      "call-rate"
+      "call-rate",
+      "mibor"
      ],
      "near": [
       "repo-rate",
@@ -12073,6 +12143,9 @@
       "wacr",
       "overnight-indexed-swap",
       "call-rate"
+     ],
+     "overlaps": [
+      "wacr"
      ],
      "near": [
       "overnight-indexed-swap"
@@ -13192,6 +13265,9 @@
       "exceptional-items",
       "pat",
       "earnings-quality"
+     ],
+     "overlaps": [
+      "exceptional-items"
      ]
     },
     {
@@ -13207,6 +13283,9 @@
       "other-income",
       "pat",
       "earnings-quality"
+     ],
+     "overlaps": [
+      "other-income"
      ],
      "near": [
       "pat",
@@ -13404,6 +13483,9 @@
       "earnings-quality",
       "working-capital"
      ],
+     "overlaps": [
+      "earnings-quality"
+     ],
      "near": [
       "pat",
       "operating-cash-flow",
@@ -13420,6 +13502,9 @@
       "cash-conversion",
       "exceptional-items",
       "other-income"
+     ],
+     "overlaps": [
+      "cash-conversion"
      ],
      "near": [
       "exceptional-items",
@@ -13482,6 +13567,9 @@
       "present-value",
       "valuation",
       "multiple"
+     ],
+     "overlaps": [
+      "present-value"
      ],
      "near": [
       "free-cash-flow",
@@ -13651,6 +13739,9 @@
       "revenue-growth",
       "guidance"
      ],
+     "overlaps": [
+      "order-inflow"
+     ],
      "near": [
       "revenue-growth"
      ]
@@ -13750,6 +13841,9 @@
       "order-backlog",
       "total-contract-value",
       "revenue-growth"
+     ],
+     "overlaps": [
+      "total-contract-value"
      ],
      "near": [
       "order-backlog"
@@ -15126,6 +15220,9 @@
       "iceberg-order",
       "partial-fill"
      ],
+     "overlaps": [
+      "clip"
+     ],
      "near": [
       "parent-order",
       "twap",
@@ -15767,6 +15864,9 @@
       "size",
       "iceberg-order"
      ],
+     "overlaps": [
+      "child-order"
+     ],
      "near": [
       "child-order"
      ]
@@ -16183,6 +16283,9 @@
       "collar",
       "synthetic-long",
       "volatility-skew"
+     ],
+     "overlaps": [
+      "skew-trade"
      ]
     },
     {
@@ -16285,6 +16388,9 @@
       "long-volatility",
       "iron-condor",
       "gamma-scalping"
+     ],
+     "overlaps": [
+      "short-vol-programme"
      ]
     },
     {
@@ -16589,6 +16695,9 @@
       "risk-reversal",
       "volatility-skew",
       "volatility-arbitrage"
+     ],
+     "overlaps": [
+      "risk-reversal"
      ]
     },
     {
@@ -16636,6 +16745,10 @@
       "short-volatility",
       "variance-risk-premium",
       "sell-premium"
+     ],
+     "overlaps": [
+      "sell-premium",
+      "short-volatility"
      ],
      "near": [
       "tail-hedge"
@@ -16805,6 +16918,9 @@
       "sell-premium",
       "gamma-blast",
       "zero-day-option"
+     ],
+     "overlaps": [
+      "sell-premium"
      ]
     },
     {

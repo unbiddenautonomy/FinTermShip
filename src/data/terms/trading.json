@@ -492,6 +492,9 @@
         "position",
         "auto-square-off"
       ],
+      "overlaps": [
+        "unwind"
+      ],
       "wrong": [
         "Double a position at a better price",
         "Move shares from one demat account to another",

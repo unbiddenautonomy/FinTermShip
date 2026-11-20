@@ -72,7 +72,7 @@
       "id": "ebitda-margin",
       "term": "EBITDA margin",
       "unit": "n1",
-      "short": "Operating profit as a share of sales",
+      "short": "Profit before interest, tax and D&A, over sales",
       "definition": "EBITDA divided by revenue: how many paise of operating profit, before interest, tax, depreciation and amortisation, a company keeps from each rupee of sales. It shows pricing power and cost control, and is compared across quarters and with peers in the same industry.",
       "examples": [
         "EBITDA margin expanded 200 bps as raw material costs fell.",
@@ -245,6 +245,9 @@
         "pat",
         "earnings-quality"
       ],
+      "overlaps": [
+        "exceptional-items"
+      ],
       "wrong": [
         "Revenue from the main product",
         "Money raised from issuing shares",
@@ -272,6 +275,9 @@
         "other-income",
         "pat",
         "earnings-quality"
+      ],
+      "overlaps": [
+        "other-income"
       ],
       "wrong": [
         "A gain from the main business",
@@ -683,6 +689,9 @@
         "earnings-quality",
         "working-capital"
       ],
+      "overlaps": [
+        "earnings-quality"
+      ],
       "wrong": [
         "How fast inventory sells",
         "How much profit is paid as dividends",
@@ -710,6 +719,9 @@
         "cash-conversion",
         "exceptional-items",
         "other-income"
+      ],
+      "overlaps": [
+        "cash-conversion"
       ],
       "wrong": [
         "How much earnings grew this year",
@@ -843,6 +855,9 @@
         "present-value",
         "valuation",
         "multiple"
+      ],
+      "overlaps": [
+        "present-value"
       ],
       "wrong": [
         "Valuing a company at a multiple of peers' earnings",
@@ -1208,6 +1223,9 @@
         "revenue-growth",
         "guidance"
       ],
+      "overlaps": [
+        "order-inflow"
+      ],
       "wrong": [
         "Revenue booked this quarter",
         "Market value of the company",
@@ -1412,6 +1430,9 @@
         "order-backlog",
         "total-contract-value",
         "revenue-growth"
+      ],
+      "overlaps": [
+        "total-contract-value"
       ],
       "wrong": [
         "Orders still to be executed",

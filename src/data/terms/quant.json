@@ -145,6 +145,9 @@
         "annualised-volatility",
         "volatility"
       ],
+      "overlaps": [
+        "volatility"
+      ],
       "wrong": [
         "Average of all the returns",
         "Gap between the highest and lowest return",
@@ -845,6 +848,9 @@
         "fat-tails",
         "standard-deviation"
       ],
+      "overlaps": [
+        "fat-tails"
+      ],
       "wrong": [
         "How lopsided returns are to one side",
         "Average size of daily returns",
@@ -873,6 +879,10 @@
         "kurtosis",
         "skewness",
         "expected-shortfall"
+      ],
+      "overlaps": [
+        "kurtosis",
+        "tail-risk"
       ],
       "wrong": [
         "A wide gap between bid and ask",
@@ -3538,6 +3548,9 @@
         "high-conviction",
         "scale-in"
       ],
+      "overlaps": [
+        "double-down"
+      ],
       "wrong": [
         "Judge how big a company is",
         "Cut a position in half",
@@ -3607,7 +3620,7 @@
           "options": [
             "1:3",
             "1:2",
-            "3:1",
+            "1:1",
             "1:4"
           ],
           "answer": 0,
@@ -4210,6 +4223,9 @@
         "black-swan",
         "expected-shortfall"
       ],
+      "overlaps": [
+        "fat-tails"
+      ],
       "wrong": [
         "Risk in the last hour of trading",
         "Risk that a trend runs on too long",
@@ -4391,6 +4407,9 @@
         "mean-reversion",
         "martingale"
       ],
+      "overlaps": [
+        "brownian-motion"
+      ],
       "wrong": [
         "A price that always returns to its average",
         "A trend that keeps going in one direction",
@@ -4422,6 +4441,10 @@
         "geometric-brownian-motion",
         "normal-distribution"
       ],
+      "overlaps": [
+        "random-walk",
+        "geometric-brownian-motion"
+      ],
       "wrong": [
         "A price model that never moves below its start",
         "A process that is pulled back to its mean",
@@ -4449,6 +4472,9 @@
         "brownian-motion",
         "lognormal-distribution",
         "black-scholes"
+      ],
+      "overlaps": [
+        "brownian-motion"
       ],
       "wrong": [
         "A model where prices move by fixed rupee steps",

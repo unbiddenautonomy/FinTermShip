@@ -294,6 +294,9 @@
         "synthetic-long",
         "volatility-skew"
       ],
+      "overlaps": [
+        "skew-trade"
+      ],
       "wrong": [
         "Own the stock, buy a put, sell a call",
         "Buy a call and a put at one strike",
@@ -533,6 +536,9 @@
         "long-volatility",
         "iron-condor",
         "gamma-scalping"
+      ],
+      "overlaps": [
+        "short-vol-programme"
       ],
       "wrong": [
         "Earns when moves are bigger than priced",
@@ -940,7 +946,7 @@
       ],
       "tf": [
         {
-          "s": "On expiry day an out-of-the-money option's price reacts less to the underlying than it did a week earlier.",
+          "s": "On expiry day a near-the-money option's price reacts less to a small move in the underlying than it did a week earlier.",
           "a": false,
           "why": "Close to expiry, near-the-money options have their highest gamma, so a small move can multiply or wipe out the premium."
         }
@@ -1270,6 +1276,9 @@
         "volatility-skew",
         "volatility-arbitrage"
       ],
+      "overlaps": [
+        "risk-reversal"
+      ],
       "wrong": [
         "Buying both puts and calls before an event",
         "Selling the front month and buying the back month",
@@ -1392,6 +1401,10 @@
         "short-volatility",
         "variance-risk-premium",
         "sell-premium"
+      ],
+      "overlaps": [
+        "sell-premium",
+        "short-volatility"
       ],
       "wrong": [
         "A plan to buy options before every event",
@@ -1805,6 +1818,9 @@
         "sell-premium",
         "gamma-blast",
         "zero-day-option"
+      ],
+      "overlaps": [
+        "sell-premium"
       ],
       "wrong": [
         "Buying options on expiry day for a gamma blast",

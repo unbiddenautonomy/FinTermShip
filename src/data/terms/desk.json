@@ -866,7 +866,7 @@
           "q": "A stock is 8% of the benchmark and 11% of your fund. How overweight are you?",
           "options": [
             "3 percentage points",
-            "3%",
+            "19 percentage points",
             "37.5%",
             "11 percentage points"
           ],
@@ -1236,7 +1236,8 @@
       ],
       "overlaps": [
         "take-some-off",
-        "profit-booking"
+        "profit-booking",
+        "scale-out"
       ],
       "wrong": [
         "Sell the whole position",
@@ -1278,6 +1279,9 @@
         "trim",
         "short-covering"
       ],
+      "overlaps": [
+        "square-off"
+      ],
       "wrong": [
         "Open a new position",
         "Take a break from trading",
@@ -1305,6 +1309,9 @@
         "short-selling",
         "unwind",
         "short"
+      ],
+      "overlaps": [
+        "short-squeeze"
       ],
       "wrong": [
         "Selling more shares short",
@@ -1677,7 +1684,8 @@
       ],
       "overlaps": [
         "trim",
-        "profit-booking"
+        "profit-booking",
+        "scale-out"
       ],
       "wrong": [
         "Add more to a winning position",
@@ -1828,7 +1836,8 @@
         "size-up"
       ],
       "overlaps": [
-        "average-down"
+        "average-down",
+        "size-up"
       ],
       "wrong": [
         "Cut a position in half",
@@ -1883,6 +1892,10 @@
       "fill": "The trader sold a third at each of three targets instead of all at once: she chose to ____.",
       "confusables": [
         "scale-in",
+        "take-some-off",
+        "trim"
+      ],
+      "overlaps": [
         "take-some-off",
         "trim"
       ],

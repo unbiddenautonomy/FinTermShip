@@ -56,6 +56,9 @@
         "rally",
         "risk-on"
       ],
+      "overlaps": [
+        "rally"
+      ],
       "wrong": [
         "A market where only large companies trade",
         "A single day of strong gains",
@@ -90,15 +93,15 @@
       ],
       "calcs": [
         {
-          "q": "An index falls from 30,000 to 24,000. How big is the fall, and what does the rule of thumb call it?",
+          "q": "An index falls from 30,000 to 22,500. How big is the fall, and what does the rule of thumb call it?",
           "options": [
-            "20%, a bear market",
-            "20%, a correction",
-            "6%, a correction",
-            "25%, a crash"
+            "25%, a bear market",
+            "25%, a correction",
+            "7.5%, a correction",
+            "33%, a bear market"
           ],
           "answer": 0,
-          "why": "(30,000 − 24,000) ÷ 30,000 = 20%, the usual line for a bear market."
+          "why": "(30,000 − 22,500) ÷ 30,000 = 25%, past the usual 20% line for a bear market."
         }
       ],
       "difficulty": 1
@@ -125,7 +128,8 @@
         "sell-off"
       ],
       "overlaps": [
-        "broad-based-rally"
+        "broad-based-rally",
+        "bull-market"
       ],
       "wrong": [
         "A protest outside the stock exchange",
@@ -418,6 +422,9 @@
         "bull-market",
         "fomo"
       ],
+      "overlaps": [
+        "risk-appetite"
+      ],
       "wrong": [
         "A rule that allows more leverage",
         "A switch that turns on trading",
@@ -646,6 +653,9 @@
         "short-covering",
         "rally",
         "crowded-trade"
+      ],
+      "overlaps": [
+        "short-covering"
       ],
       "wrong": [
         "A cut in the margin allowed for shorts",
@@ -1254,6 +1264,9 @@
       "confusables": [
         "risk-on",
         "fomo"
+      ],
+      "overlaps": [
+        "risk-on"
       ],
       "wrong": [
         "The maximum loss SEBI allows a trader",

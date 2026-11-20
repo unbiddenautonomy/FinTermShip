@@ -800,6 +800,9 @@
         "gamma-scalping",
         "hedge"
       ],
+      "overlaps": [
+        "gamma-scalping"
+      ],
       "wrong": [
         "Buying more options as they fall",
         "Selling options to collect time decay",
@@ -1732,6 +1735,9 @@
         "delta-hedging",
         "short-gamma",
         "realised-volatility"
+      ],
+      "overlaps": [
+        "delta-hedging"
       ],
       "wrong": [
         "Selling options and hoping nothing moves",
@@ -3277,6 +3283,10 @@
         "option-writer",
         "theta",
         "short-gamma"
+      ],
+      "overlaps": [
+        "expiry-day-option-selling",
+        "short-vol-programme"
       ],
       "wrong": [
         "Selling shares above book value",

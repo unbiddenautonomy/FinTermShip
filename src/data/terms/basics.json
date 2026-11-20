@@ -522,7 +522,7 @@
         "future"
       ],
       "unit": "b2",
-      "short": "Deal to trade at a set price on a set date",
+      "short": "Exchange-traded deal at a set price and date",
       "definition": "An exchange-traded agreement to buy or sell an asset at a price fixed today, on a set date in the future. Both sides are bound, gains and losses are settled every day, and you put up only margin, not the full value.",
       "examples": [
         "Reliance futures are trading 15 rupees above the share price.",
@@ -542,7 +542,7 @@
       ],
       "tf": [
         {
-          "s": "Both the buyer and the seller of a futures contract must complete the trade.",
+          "s": "Both the buyer and the seller of a futures contract are bound by it until they close it or it expires.",
           "a": true,
           "why": "Neither side can walk away, which is what sets a future apart from a right to buy."
         }
@@ -899,7 +899,8 @@
         "volume"
       ],
       "overlaps": [
-        "annualised-volatility"
+        "annualised-volatility",
+        "standard-deviation"
       ],
       "wrong": [
         "How many shares trade in a day",
@@ -2000,6 +2001,9 @@
         "fair-value",
         "face-value"
       ],
+      "overlaps": [
+        "dcf"
+      ],
       "wrong": [
         "The price an asset trades at right now",
         "The amount printed on a bond or share",
@@ -2164,7 +2168,7 @@
       ],
       "wrong": [
         "A fund whose manager picks stocks to beat the index",
-        "A fund traded on the exchange through the day",
+        "A fund that holds only government bonds",
         "A futures contract on the Nifty"
       ],
       "difficulty": 1,

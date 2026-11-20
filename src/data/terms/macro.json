@@ -1022,7 +1022,7 @@
       ],
       "calcs": [
         {
-          "q": "A 364-day T-bill is sold at ₹94 and repays ₹100. Roughly what does it yield?",
+          "q": "A 364-day T-bill is sold at ₹94 and repays ₹100. What does it yield, to one decimal place?",
           "options": [
             "6.4%",
             "6%",
@@ -1083,7 +1083,8 @@
         "mibor"
       ],
       "overlaps": [
-        "call-rate"
+        "call-rate",
+        "mibor"
       ],
       "wrong": [
         "The rate the RBI pays on reverse repo",
@@ -1115,6 +1116,9 @@
         "wacr",
         "overnight-indexed-swap",
         "call-rate"
+      ],
+      "overlaps": [
+        "wacr"
       ],
       "wrong": [
         "The RBI's policy repo rate",
