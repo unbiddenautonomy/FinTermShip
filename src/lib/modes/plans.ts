@@ -8,7 +8,7 @@ import { categories, subscribeCards, termById, unitById, unitSize } from '../con
 import type { LessonPlan } from '../lesson';
 import { nextNewTermIds } from '../lesson';
 import { matchQuestion, meaningQuestion, reviewQuestion, shuffle, termQuestion, type Rng } from '../questions';
-import { dueTermIds, isDueOn } from '../scheduler';
+import { dueTermIds, isDone, isDueOn } from '../scheduler';
 import type { Progress, Question, Term } from '../types';
 import { interchangesAt } from './transfer';
 
@@ -168,6 +168,8 @@ export function rideRoute(p: Progress, lineId: string, from: number, maxStops = 
       unnamed++;
       continue;
     }
+    // A done easy term is passed by: it never comes back (src/lib/easy.ts).
+    if (isDone(p.terms[t.id])) continue;
     if (p.terms[t.id]) met.push(t.id);
     else if (!unitOpen(p, t.unit)) {
       endsAt = { locked: t.unit };

@@ -3,10 +3,11 @@
  * Desk and Finnections all read the same per-term record (Progress.terms) and write to it only through
  * recordAnswer, so what you know is the same whichever mode you open.
  */
-import { areaSize, categories, isCore, isPhase3Area } from '../content';
+import { areaSize, categories, isCore, isEasy, isPhase3Area } from '../content';
+import { afterEasyReview } from '../easy';
 import { addDays, daysBetween } from '../dates';
 import { phase3Open } from '../phase3';
-import { intervalFor, isDueOn, isKnownOn, KNOWN_STEP, MAX_STEP, recordPractice, review } from '../scheduler';
+import { intervalFor, isDone, isDueOn, isKnownOn, KNOWN_STEP, MAX_STEP, recordPractice, review } from '../scheduler';
 import type { Progress, Question, TermState } from '../types';
 
 import { MODES, type ModeId } from './ids';
@@ -112,13 +113,16 @@ export function recordAnswer(p: Progress, a: Answer, today: string): Progress {
     // losing its step, so one unlucky call can't undo what the learner has shown.
     out = recordPractice(p, a.termId, a.correct);
     const tomorrow = addDays(today, 1);
-    if (!a.correct && s.due > tomorrow)
+    if (!a.correct && s.due > tomorrow && !isDone(s))
       out = { ...out, terms: { ...out.terms, [a.termId]: { ...out.terms[a.termId], due: tomorrow, moves: (s.moves ?? 0) + 1 } } };
   } else if (!a.practice && isDueOn(s, today)) {
     const core = isCore(a.termId);
     out = review(p, a.termId, a.correct, today, core);
     const next = out.terms[a.termId];
-    if (a.correct && a.evidence !== 'strong' && s.step < KNOWN_STEP && next.step >= KNOWN_STEP) {
+    if (isEasy(a.termId)) {
+      // An easy term gets EASY_REVIEWS reviews, right or wrong, and is then done (src/lib/easy.ts).
+      out = afterEasyReview(out, a.termId, today);
+    } else if (a.correct && a.evidence !== 'strong' && s.step < KNOWN_STEP && next.step >= KNOWN_STEP) {
       const step = KNOWN_STEP - 1;
       out = { ...out, terms: { ...out.terms, [a.termId]: { ...next, step, due: addDays(today, Math.max(1, intervalFor(step, core))) } } };
     }

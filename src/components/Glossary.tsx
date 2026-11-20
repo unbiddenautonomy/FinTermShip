@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, useSyncExternalStore, type ReactNode } from 'react';
 import { areaSize, categories as allCategories, getCardsVersion, glossOrUnit, hasCard, isCore, isPhase3Area, subscribeCards } from '../lib/content';
 import { phase3Open } from '../lib/phase3';
+import { isDone } from '../lib/scheduler';
 import { SEARCH_MIN, searchAll } from '../lib/terms';
 import { areas } from '../lib/modes/status';
 import type { Progress, Term } from '../lib/types';
@@ -259,7 +260,7 @@ function TermBody({ term: t, progress, onOpenUnit }: { term: Term; progress: Pro
           <Pill tone={s.step >= 4 ? 'brand' : 'sky'}>Step {s.step} of 6</Pill>
           {s.trouble && <Pill tone="bad">Trouble term</Pill>}
           <span>
-            Next review {s.due} · {s.correct} right, {s.wrong} wrong
+            {isDone(s) ? 'An everyday term you know: it won’t come back for review' : `Next review ${s.due}`} · {s.correct} right, {s.wrong} wrong
           </span>
         </div>
       )}

@@ -47,6 +47,7 @@
      "id": "bid",
      "term": "bid",
      "unit": "b1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "ask",
@@ -64,6 +65,7 @@
       "offer"
      ],
      "unit": "b1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "bid",
@@ -123,6 +125,7 @@
      "id": "volume",
      "term": "volume",
      "unit": "b1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "liquidity",
@@ -136,6 +139,7 @@
      "id": "lakh",
      "term": "lakh",
      "unit": "b1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "crore",
@@ -147,6 +151,7 @@
      "id": "crore",
      "term": "crore",
      "unit": "b1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "lakh",
@@ -162,6 +167,7 @@
       "mcap"
      ],
      "unit": "b1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "book-value",
@@ -185,6 +191,7 @@
      "said": "bips (for bps)",
      "speak": "basis point",
      "unit": "b1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "percentage-point",
@@ -204,6 +211,7 @@
       "pp"
      ],
      "unit": "b1",
+     "easy": true,
      "difficulty": 2,
      "confusables": [
       "basis-point"
@@ -213,6 +221,7 @@
      "id": "position",
      "term": "position",
      "unit": "b2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "exposure",
@@ -240,6 +249,7 @@
      "id": "long",
      "term": "long",
      "unit": "b2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "short",
@@ -300,6 +310,7 @@
      "id": "short",
      "term": "short",
      "unit": "b2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "long",
@@ -321,6 +332,7 @@
      "said": "P and L",
      "speak": "P and L",
      "unit": "b2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "realised-pnl",
@@ -343,6 +355,7 @@
      ],
      "speak": "realised P and L",
      "unit": "b2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "unrealised-pnl",
@@ -366,6 +379,7 @@
      ],
      "speak": "unrealised P and L",
      "unit": "b2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "realised-pnl",
@@ -445,6 +459,7 @@
      "id": "return",
      "term": "return",
      "unit": "b6",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "total-return",
@@ -498,6 +513,7 @@
       "vol"
      ],
      "unit": "b6",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "liquidity",
@@ -512,6 +528,7 @@
      "id": "dividend",
      "term": "dividend",
      "unit": "b6",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "dividend-yield",
@@ -543,6 +560,7 @@
      "id": "total-return",
      "term": "total return",
      "unit": "b6",
+     "easy": true,
      "difficulty": 2,
      "confusables": [
       "return",
@@ -563,6 +581,7 @@
       "par value"
      ],
      "unit": "b3",
+     "easy": true,
      "difficulty": 2,
      "confusables": [
       "book-value",
@@ -614,6 +633,7 @@
      "id": "premium",
      "term": "premium",
      "unit": "b3",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "discount",
@@ -632,6 +652,7 @@
      "id": "discount",
      "term": "discount",
      "unit": "b3",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "premium",
@@ -646,6 +667,7 @@
      "id": "upside",
      "term": "upside",
      "unit": "b3",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "return",
@@ -794,6 +816,7 @@
       "results"
      ],
      "unit": "b4",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "ebitda",
@@ -875,6 +898,7 @@
      "id": "hedge",
      "term": "hedge",
      "unit": "b5",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "short",
@@ -895,6 +919,7 @@
      "id": "diversification",
      "term": "diversification",
      "unit": "b5",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "hedge",
@@ -913,6 +938,7 @@
      "id": "portfolio",
      "term": "portfolio",
      "unit": "b5",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "position",
@@ -932,6 +958,7 @@
      "id": "benchmark",
      "term": "benchmark",
      "unit": "b5",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "outperform",
@@ -950,6 +977,7 @@
      "id": "outperform",
      "term": "outperform",
      "unit": "b5",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "underperform",
@@ -965,6 +993,7 @@
      "id": "underperform",
      "term": "underperform",
      "unit": "b5",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "outperform",
@@ -1035,6 +1064,7 @@
       "stock"
      ],
      "unit": "b7",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "bond",
@@ -1071,6 +1101,7 @@
       "exchange"
      ],
      "unit": "b7",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "nse",
@@ -1094,6 +1125,7 @@
       "market index"
      ],
      "unit": "b7",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "nifty-50",
@@ -1135,6 +1167,7 @@
      "id": "interest-rate",
      "term": "interest rate",
      "unit": "b7",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "repo-rate",
@@ -1154,6 +1187,7 @@
       "compound interest"
      ],
      "unit": "b7",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "cagr",
@@ -1210,6 +1244,7 @@
      "id": "inflation",
      "term": "inflation",
      "unit": "b7",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "cpi-inflation",
@@ -1248,6 +1283,7 @@
       "exchange-traded fund"
      ],
      "unit": "b7",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "index-fund",
@@ -1267,6 +1303,7 @@
      "id": "index-fund",
      "term": "index fund",
      "unit": "b7",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "etf",
@@ -1330,6 +1367,7 @@
      "said": "N S E",
      "speak": "N S E",
      "unit": "i1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "bse",
@@ -1353,6 +1391,7 @@
      "said": "B S E",
      "speak": "B S E",
      "unit": "i1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "nse",
@@ -1446,6 +1485,7 @@
      ],
      "said": "nif-tee fifty",
      "unit": "i1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "sensex",
@@ -1465,6 +1505,7 @@
      "term": "Sensex",
      "said": "sen-sex",
      "unit": "i1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "nifty-50",
@@ -1496,6 +1537,7 @@
      "id": "large-cap",
      "term": "large cap",
      "unit": "i1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "mid-cap",
@@ -1510,6 +1552,7 @@
      "id": "mid-cap",
      "term": "mid cap",
      "unit": "i1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "large-cap",
@@ -1523,6 +1566,7 @@
      "id": "small-cap",
      "term": "small cap",
      "unit": "i1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "large-cap",
@@ -1538,6 +1582,7 @@
      "said": "see-bee",
      "speak": "see bee",
      "unit": "i2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "rbi",
@@ -1559,6 +1604,7 @@
      "said": "R B I",
      "speak": "R B I",
      "unit": "i2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "sebi"
@@ -1571,6 +1617,7 @@
       "broker"
      ],
      "unit": "i2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "dp",
@@ -1612,6 +1659,7 @@
      "term": "demat account",
      "said": "dee-mat",
      "unit": "i2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "trading-account",
@@ -1652,6 +1700,7 @@
      "id": "trading-account",
      "term": "trading account",
      "unit": "i2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "demat-account",
@@ -1782,6 +1831,7 @@
       "retail"
      ],
      "unit": "i3",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "hni",
@@ -1818,6 +1868,7 @@
       "MF"
      ],
      "unit": "i3",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "amc",
@@ -1848,6 +1899,7 @@
      "said": "sip",
      "speak": "S I P",
      "unit": "i3",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "mutual-fund",
@@ -11054,6 +11106,7 @@
       "bullish"
      ],
      "unit": "c1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "bear-market",
@@ -11076,6 +11129,7 @@
       "bearish"
      ],
      "unit": "c1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "bull-market",
@@ -11097,6 +11151,7 @@
       "rallying"
      ],
      "unit": "c1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "bull-market",
@@ -11122,6 +11177,7 @@
       "sell off"
      ],
      "unit": "c1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "correction",
@@ -11158,6 +11214,7 @@
       "market crash"
      ],
      "unit": "c1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "correction",
@@ -11182,6 +11239,7 @@
       "lifetime high"
      ],
      "unit": "c1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "52-week-high",
@@ -11197,6 +11255,7 @@
       "52-week range"
      ],
      "unit": "c1",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "all-time-high",
@@ -11299,6 +11358,7 @@
       "profit taking"
      ],
      "unit": "c2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "realised-pnl",
@@ -11318,6 +11378,7 @@
       "panic"
      ],
      "unit": "c2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "capitulation",
@@ -11355,6 +11416,7 @@
      "said": "fomo",
      "speak": "fomo",
      "unit": "c2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "melt-up",
@@ -11372,6 +11434,7 @@
       "buying the dip"
      ],
      "unit": "c2",
+     "easy": true,
      "difficulty": 1,
      "confusables": [
       "falling-knife",

@@ -8,7 +8,7 @@
  * Every deck is split evenly between true and false so guessing can't win.
  */
 import { hasCard, termById, writtenByTerm } from '../content';
-import { dueTermIds } from '../scheduler';
+import { dueTermIds, isDone } from '../scheduler';
 import { shuffle, tidyOption, type Rng } from '../questions';
 import { isWeak } from '../weak';
 import type { Progress, Term, WrittenClaim } from '../types';
@@ -92,7 +92,8 @@ export const DECK_SIZE = 12;
  * Their cards may not be here yet; `deckWants` says what to fetch first.
  */
 export function deckTermIds(p: Progress, today: string, rng: Rng, size: number): string[] {
-  const met = Object.keys(p.terms).filter((id) => termById.has(id) && p.terms[id].step > 0);
+  // Done easy terms stay out: they never come back (src/lib/easy.ts).
+  const met = Object.keys(p.terms).filter((id) => termById.has(id) && p.terms[id].step > 0 && !isDone(p.terms[id]));
   if (met.length < 4) return [];
   const due = new Set(dueTermIds(p, today));
   const weak = new Set(met.filter((id) => isWeak(p.terms[id])));

@@ -14,6 +14,7 @@ import { gameOf } from './lib/games';
 import { withPhase3Key } from './lib/phase3';
 import { asIfAllMet, withoutAssumed } from './lib/openAll';
 import { dayKey } from './lib/dates';
+import { EASY_QUIZ, skipEasyQuiz, wantsEasyQuiz } from './lib/easy';
 import { drillUp, todayStatus } from './lib/lesson';
 import { startSession, type DealtPlan, type Recipe } from './lib/session';
 import { canSpeak } from './lib/speech';
@@ -320,12 +321,12 @@ export default function App() {
    * Ask the server to build a session (worker/session.ts): it comes without its answers, with the
    * cards of the terms it teaches. Null when there is nothing to do, or it could not be built.
    */
-  const prepare = async (recipe: Recipe): Promise<{ plan: DealtPlan; seed: number } | null> => {
+  const prepare = async (recipe: Recipe, sayIfEmpty = true): Promise<{ plan: DealtPlan; seed: number } | null> => {
     setFetching('Getting your terms…');
     try {
       // Practice and Term Lines rounds see every term as met while everything is open; lessons, tests and the Exchange see the learner's own.
       const plan = await startSession(recipe, SEES_ALL.has(recipe.build) && view ? view : progress, today);
-      if (!plan) setNotice('There is nothing to practise here right now.');
+      if (!plan && sayIfEmpty) setNotice('There is nothing to practise here right now.');
       return plan ? { plan, seed: Date.now() % 2_147_483_647 } : null;
     } catch (e) {
       setNotice(e instanceof Error ? e.message : 'Something went wrong. Try again in a moment.');
@@ -364,6 +365,19 @@ export default function App() {
   const practiseWeak = () => void run({ build: 'weak' });
   const practise = (unitId: string) => void run({ build: 'practice', unitId });
   const takeTest = (categoryId: string) => void run({ build: 'test', categoryId });
+  // The easy-terms quiz, a round at a time. Nothing left to ask means it is done.
+  const takeEasyQuiz = async () => {
+    if (fetching) return;
+    const ready = await prepare({ build: 'easy' }, false);
+    if (ready) setScreen({ name: 'lesson', ...ready });
+    else {
+      // Every everyday term has been asked: the quiz is done.
+      update(skipEasyQuiz(progress, today));
+      setOrigin(null);
+      setScreen({ name: 'home' });
+      setNotice('That’s every everyday term checked.');
+    }
+  };
   const pick = (unitId: string | null) => update(withFocus(progress, unitId));
   const goMode = (want: ModeId) => {
     const m = canOpen(want) ? want : 'path';
@@ -471,16 +485,18 @@ export default function App() {
       const stuck = last && !last.passed && currentUnit(progress, today) === last.unitId;
       // Started from Lines or the Exchange: the way on is back to that mode, not Path's next lesson.
       const fromMode = origin && (origin.name === 'lines' || origin.name === 'exchange' || origin.name === 'callit') ? origin.name : null;
+      // A round of the easy-terms quiz leads on to the next one, until it is done.
+      const quizOn = screen.summary.test?.categoryId === EASY_QUIZ && wantsEasyQuiz(progress);
       return (
         <Results
           summary={screen.summary}
           name={firstName(progress)}
           weakLeft={weakSpots(progress).length}
-          canContinue={!fromMode && (s.due > 0 || s.newLeft > 0 || !!s.drill)}
+          canContinue={quizOn || (!fromMode && (s.due > 0 || s.newLeft > 0 || !!s.drill))}
           homeLabel={fromMode ? `Back to ${MODE_INFO[fromMode].label}` : undefined}
-          nextLabel={nextDrill && nextDrill === last?.unitId ? 'Try again' : nextDrill ? `Next: a ${KIND_LABEL[practiceKind(nextDrill) ?? 'drill']}` : 'Next lesson'}
+          nextLabel={quizOn ? 'Next round' : nextDrill && nextDrill === last?.unitId ? 'Try again' : nextDrill ? `Next: a ${KIND_LABEL[practiceKind(nextDrill) ?? 'drill']}` : 'Next lesson'}
           onHome={back}
-          onNext={() => start(false)}
+          onNext={() => (quizOn ? void takeEasyQuiz() : start(false))}
           onSnooze={
             stuck
               ? () => {
@@ -570,6 +586,7 @@ export default function App() {
             onWeak={practiseWeak}
             onFocus={pick}
             onTest={takeTest}
+            onEasyQuiz={() => void takeEasyQuiz()}
             onDrill={(id) => void drill(id)}
             onPhase3Key={() => update(withPhase3Key(progress))}
             onOpenSettings={() => setScreen({ name: 'settings' })}

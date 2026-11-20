@@ -43,6 +43,7 @@
         "bullish"
       ],
       "unit": "c1",
+      "easy": true,
       "short": "A long, broad rise in prices",
       "definition": "A long period in which prices rise broadly and investors are confident. A common rule of thumb is a rise of 20% or more from a recent low.",
       "examples": [
@@ -73,6 +74,7 @@
         "bearish"
       ],
       "unit": "c1",
+      "easy": true,
       "short": "A long, deep fall in prices",
       "definition": "A long period of falling prices and gloomy sentiment. A common rule of thumb is a fall of 20% or more from a recent peak.",
       "examples": [
@@ -114,6 +116,7 @@
         "rallying"
       ],
       "unit": "c1",
+      "easy": true,
       "short": "A strong rise in prices",
       "definition": "A period of strong, sustained buying that pushes prices up, over days or weeks. Rallies can happen inside a bull or a bear market.",
       "examples": [
@@ -148,6 +151,7 @@
         "sell off"
       ],
       "unit": "c1",
+      "easy": true,
       "short": "A sharp wave of selling",
       "definition": "A quick, heavy bout of selling that pushes prices down, often set off by bad news or fear.",
       "examples": [
@@ -219,6 +223,7 @@
         "market crash"
       ],
       "unit": "c1",
+      "easy": true,
       "short": "A sudden, very steep fall",
       "definition": "A sudden, very steep fall in prices over a day or a few days, usually driven by panic. Unlike a correction, it happens fast.",
       "examples": [
@@ -252,6 +257,7 @@
         "lifetime high"
       ],
       "unit": "c1",
+      "easy": true,
       "short": "The highest price ever reached",
       "definition": "The highest level a stock or index has ever traded at. Above it there's no one sitting on old losses waiting to sell.",
       "examples": [
@@ -293,6 +299,7 @@
         "52-week range"
       ],
       "unit": "c1",
+      "easy": true,
       "short": "Highest price in the past year",
       "definition": "The highest price of the last 52 weeks. Its twin, the 52-week low, is the lowest. Both are shown on every quote screen and used as a quick sense of where a stock sits.",
       "examples": [
@@ -307,7 +314,7 @@
       ],
       "wrong": [
         "The highest price in a single week",
-        "The yearly high of the whole index",
+        "The highest price since the stock listed",
         "The analyst's target for next year"
       ],
       "calcs": [
@@ -477,6 +484,7 @@
         "profit taking"
       ],
       "unit": "c2",
+      "easy": true,
       "short": "Selling to lock in gains after a rise",
       "definition": "Selling after a rise to lock in gains, which can pull prices back even when there's no bad news. Indian market reports often blame a dip on it.",
       "examples": [
@@ -509,6 +517,7 @@
         "panic"
       ],
       "unit": "c2",
+      "easy": true,
       "short": "Selling in fear, at almost any price",
       "definition": "Heavy selling driven by fear rather than analysis, where investors dump holdings at almost any price to get out.",
       "examples": [
@@ -569,6 +578,7 @@
       "said": "fomo",
       "speak": "fomo",
       "unit": "c2",
+      "easy": true,
       "short": "Buying for fear of missing out",
       "definition": "Fear of missing out: buying because prices are rising and others seem to be making money, rather than because of a careful view on value.",
       "examples": [
@@ -596,6 +606,7 @@
         "buying the dip"
       ],
       "unit": "c2",
+      "easy": true,
       "short": "Buying after a fall, expecting a recovery",
       "definition": "Buying after a price falls, on the view that the longer rise will resume. It works in bull markets and can hurt badly in bear markets.",
       "examples": [

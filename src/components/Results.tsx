@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { categories, termName, unitById } from '../lib/content';
 import { clock, DRILLS } from '../lib/drills';
 import { useCountUp } from '../lib/motion';
+import { EASY_QUIZ } from '../lib/easy';
 import { PHASE3, PHASE3_TEST_SIZE } from '../lib/phase3';
 import { Confetti } from './Confetti';
 import { Bolt, Flame, Target } from './icons';
@@ -31,6 +32,7 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', homeL
   const drill = summary.drill;
   const round = summary.round;
   const spec = drill ? DRILLS[drill.unitId] : undefined;
+  const easy = test?.categoryId === EASY_QUIZ;
   const area = test ? categories.find((c) => c.id === test.categoryId)?.name ?? 'this area' : '';
   const title = round
     ? round.passed
@@ -46,6 +48,10 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', homeL
         ? 'Drill passed'
         : 'Passed again'
       : 'Not yet'
+    : easy
+      ? test!.passed
+        ? 'Quiz done'
+        : 'Round done'
     : test
       ? test.passed
         ? 'Test passed'
@@ -61,6 +67,8 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', homeL
       ? drill.passed
         ? `${drill.right} of ${drill.total} right in ${clock(drill.ms)}. ${drill.firstPass ? 'The path moves on.' : `Best time: ${clock(drill.bestMs ?? drill.ms)}.`}`
         : `${drill.right} of ${drill.total} right in ${clock(drill.ms)}. To pass: ${spec.passRight} right in under ${clock(spec.targetSec * 1000)}.`
+      : easy
+        ? `You already knew ${test!.right} of ${test!.total}. ${test!.passed ? 'That’s every everyday term checked.' : 'The next round is ready when you are.'}`
       : test?.categoryId === PHASE3
         ? test.passed
           ? 'Phase 3 is open. Its first unit is now your pick, so your next lesson starts the strategies.'
@@ -124,7 +132,15 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', homeL
           <p className="mt-3 text-sm text-ink-3">They come back for review tomorrow.</p>
         </Card>
       )}
-      {test && test.credited > 0 && (
+      {easy && test!.credited > 0 && (
+        <Card className="mt-4">
+          <p className="text-sm font-extrabold text-ink">
+            {test!.credited} term{test!.credited === 1 ? '' : 's'} you know already
+          </p>
+          <p className="mt-1 text-sm text-ink-3">They won't come up in lessons, reviews or practice. They stay in the glossary.</p>
+        </Card>
+      )}
+      {test && !easy && test.credited > 0 && (
         <Card className="mt-4">
           <p className="text-sm font-extrabold text-ink">
             {test.credited} term{test.credited === 1 ? '' : 's'} counted as learned
@@ -136,7 +152,7 @@ export function Results({ summary, canContinue, nextLabel = 'Next lesson', homeL
         <Card className="mt-4">
           <p className="mb-3 text-sm font-extrabold text-ink">{test ? 'Still to learn' : 'Terms to watch'}</p>
           <Chips ids={summary.missedIds} tone="bg-bad-soft text-bad-ink" />
-          <p className="mt-3 text-sm text-ink-3">{test ? 'These stay on your path and are taught as usual.' : 'Missed terms come back sooner.'}</p>
+          <p className="mt-3 text-sm text-ink-3">{easy ? 'These are taught as usual, then come back for just two reviews.' : test ? 'These stay on your path and are taught as usual.' : 'Missed terms come back sooner.'}</p>
         </Card>
       )}
       {drill && drill.missed.length > 0 && (

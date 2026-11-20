@@ -19,6 +19,8 @@ export type PickQuestion = Exclude<DealtQuestion, { kind: 'intro' } | { kind: 'm
 export type Recipe =
   | { build: 'lesson'; keepGoing: boolean; listen: boolean }
   | { build: 'weak' }
+  /** The next round of the easy-terms quiz (src/lib/easy.ts). */
+  | { build: 'easy' }
   | { build: 'practice'; unitId: string }
   | { build: 'test'; categoryId: string }
   | { build: 'defend'; termIds: string[] }

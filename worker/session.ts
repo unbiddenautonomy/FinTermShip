@@ -12,6 +12,7 @@ import '../src/lib/syllabus';
 import { buildCards } from '../src/lib/cardData';
 import { buildPractice, buildTest } from '../src/lib/choose';
 import { applyCards, categories, talkById, termById } from '../src/lib/content';
+import { buildEasyQuiz } from '../src/lib/easy';
 import { buildLesson, type LessonPlan } from '../src/lib/lesson';
 import { buildDefend, buildListing, buildRally, buildRevisit, buildRide, DEFEND_MAX } from '../src/lib/modes/plans';
 import { PHASE3 } from '../src/lib/phase3';
@@ -107,6 +108,7 @@ type Builder = (p: Progress, r: Record<string, unknown>, today: string, rng: Rng
 const BUILDERS: Record<string, Builder> = {
   lesson: (p, r, today, rng) => buildLesson(p, today, rng, r.keepGoing === true, { listen: r.listen === true }),
   weak: (p, _r, _today, rng) => buildWeakSpots(p, rng),
+  easy: (p, _r, _today, rng) => buildEasyQuiz(p, rng),
   practice: (p, r, _today, rng) => buildPractice(p, str(r.unitId), rng),
   test: (_p, r, _today, rng) => (r.categoryId === PHASE3 ? buildPhase3Test(rng) : buildTest(str(r.categoryId), rng)),
   defend: (p, r, today, rng) => buildDefend(p, strs(r.termIds).slice(0, DEFEND_MAX), today, rng),
