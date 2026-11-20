@@ -145,6 +145,9 @@
         "annualised-volatility",
         "volatility"
       ],
+      "overlaps": [
+        "volatility"
+      ],
       "wrong": [
         "Average of all the returns",
         "Gap between the highest and lowest return",
@@ -188,6 +191,9 @@
       "confusables": [
         "standard-deviation",
         "covariance"
+      ],
+      "alsoFits": [
+        "annualised-volatility"
       ],
       "wrong": [
         "Average distance from the highest value",
@@ -272,6 +278,10 @@
         "standard-deviation",
         "volatility"
       ],
+      "overlaps": [
+        "volatility",
+        "realised-volatility"
+      ],
       "wrong": [
         "Total price change over the year",
         "Average daily price change times 252",
@@ -334,13 +344,16 @@
       "definition": "Return above the risk-free rate divided by the volatility of returns. It shows how much return a strategy earned for each unit of risk it took.",
       "examples": [
         "It makes 30% a year, but the Sharpe is under 0.8, so it's mostly just riding risk.",
-        "Risk ranks the strategies by Sharpe ratio, not by raw return.",
+        "Risk ranks the strategies by Sharpe ratio, excess return per unit of volatility, not by raw return.",
         "The client asked why the adviser keeps quoting her fund's Sharpe ratio: it shows return per unit of risk."
       ],
       "fill": "Fund A made 18% with 20% vol and fund B 14% with 8% vol; with a 6% risk-free rate, B has the better ____.",
       "confusables": [
         "sortino-ratio",
         "information-ratio",
+        "risk-adjusted-return"
+      ],
+      "overlaps": [
         "risk-adjusted-return"
       ],
       "wrong": [
@@ -449,7 +462,7 @@
       "examples": [
         "Great returns, but a 45% max drawdown means most clients would have quit halfway.",
         "The client asked how much the fund fell at its worst: the maximum drawdown was 32% in 2020.",
-        "Risk cuts a strategy's size once it loses half its backtested maximum drawdown."
+        "Risk cuts a strategy's size once its live fall from the peak reaches half its backtested maximum drawdown."
       ],
       "fill": "The NAV fell from ₹150 to ₹105 before it recovered, so the fund's ____ was 30%.",
       "confusables": [
@@ -496,6 +509,9 @@
         "alpha",
         "correlation",
         "systematic-risk"
+      ],
+      "overlaps": [
+        "just-beta"
       ],
       "wrong": [
         "Return beyond what the market explains",
@@ -597,11 +613,14 @@
         "Risk checks the correlation between our two biggest bets before adding to either.",
         "The client asked why gold helps her portfolio: its correlation with stocks is low."
       ],
-      "fill": "Two stocks with a ____ of 0.9 give you very little diversification.",
+      "fill": "A ____ of −1 means two stocks always move in exactly opposite directions.",
       "confusables": [
         "covariance",
         "beta",
         "r-squared"
+      ],
+      "overlaps": [
+        "information-coefficient"
       ],
       "wrong": [
         "How much one stock moves per 1% in the other",
@@ -692,6 +711,9 @@
         "fat-tails",
         "stress-test"
       ],
+      "alsoFits": [
+        "kurtosis"
+      ],
       "wrong": [
         "Loss level passed on 5% of days",
         "Shortfall in a margin account",
@@ -732,6 +754,9 @@
         "information-ratio",
         "benchmark",
         "standard-deviation"
+      ],
+      "alsoFits": [
+        "var"
       ],
       "wrong": [
         "Return above the benchmark",
@@ -805,6 +830,9 @@
         "fat-tails",
         "volatility-skew"
       ],
+      "alsoFits": [
+        "kurtosis"
+      ],
       "wrong": [
         "How fat the tails of returns are",
         "How spread out returns are around the average",
@@ -836,6 +864,9 @@
         "fat-tails",
         "standard-deviation"
       ],
+      "overlaps": [
+        "fat-tails"
+      ],
       "wrong": [
         "How lopsided returns are to one side",
         "Average size of daily returns",
@@ -864,6 +895,10 @@
         "kurtosis",
         "skewness",
         "expected-shortfall"
+      ],
+      "overlaps": [
+        "kurtosis",
+        "tail-risk"
       ],
       "wrong": [
         "A wide gap between bid and ask",
@@ -923,6 +958,12 @@
         "alpha",
         "total-return"
       ],
+      "overlaps": [
+        "sharpe-ratio"
+      ],
+      "alsoFits": [
+        "information-ratio"
+      ],
       "wrong": [
         "Return after fees and taxes",
         "Return after inflation",
@@ -944,6 +985,9 @@
       "fill": "Holding 15 days of average volume in one small cap leaves the fund carrying serious ____.",
       "confusables": [
         "liquidity",
+        "idiosyncratic-risk"
+      ],
+      "alsoFits": [
         "idiosyncratic-risk"
       ],
       "wrong": [
@@ -1055,9 +1099,12 @@
         "The quant builds the covariance matrix from three years of daily returns.",
         "Risk asked why the covariance between our two books jumped in the sell-off."
       ],
-      "fill": "Risk models use a ____ matrix built from every pair of stocks to work out portfolio volatility.",
+      "fill": "Risk models use a ____ matrix, in squared return units, built from every pair of stocks to work out portfolio variance.",
       "confusables": [
         "correlation",
+        "variance"
+      ],
+      "alsoFits": [
         "variance"
       ],
       "wrong": [
@@ -1093,9 +1140,9 @@
       "examples": [
         "The signal's t-stat is 1.4, which isn't enough to trade on.",
         "Risk won't fund a signal whose t-statistic is below 3, given how many we test.",
-        "The quant reports the t-statistic next to every backtest result."
+        "The quant divides each backtest's mean return by its standard error and reports the t-statistic."
       ],
-      "fill": "With a ____ of 3.1, the factor's return is unlikely to be just noise.",
+      "fill": "The factor's average return is 3.1 times its standard error, a ____ of 3.1, so it is unlikely to be noise.",
       "confusables": [
         "p-value",
         "z-score",
@@ -1388,6 +1435,14 @@
         "smart-beta",
         "systematic-risk"
       ],
+      "overlaps": [
+        "value-factor",
+        "momentum-factor",
+        "size-factor",
+        "quality-factor",
+        "low-volatility-factor",
+        "smart-beta"
+      ],
       "wrong": [
         "One company's own special news",
         "A broker's fee for a trade",
@@ -1416,6 +1471,9 @@
         "beta",
         "exposure"
       ],
+      "overlaps": [
+        "exposure"
+      ],
       "wrong": [
         "Total money invested in one stock",
         "Share of a fund held by foreigners",
@@ -1430,8 +1488,8 @@
       "short": "Cheap stocks tending to beat expensive ones",
       "definition": "The tendency of cheap stocks, on measures such as low price-to-book or price-to-earnings, to beat expensive ones over long periods, though with long dry spells.",
       "examples": [
-        "PSU banks and utilities rallied hard; it was a big year for the value factor.",
-        "The analyst thinks the value factor will do well if rates stay high.",
+        "Low price-to-book PSU banks rallied hard; it was a big year for the value factor.",
+        "The analyst thinks the value factor of cheap, low price-to-book stocks will do well if rates stay high.",
         "Risk noticed the fund's returns track the value factor, so its edge is mostly buying cheap stocks."
       ],
       "fill": "Low price-to-book stocks beat pricey growth stocks this year, a strong run for the ____.",
@@ -1439,6 +1497,9 @@
         "quality-factor",
         "momentum-factor",
         "pb-ratio"
+      ],
+      "overlaps": [
+        "factor"
       ],
       "wrong": [
         "Recent winners tending to keep winning",
@@ -1466,6 +1527,11 @@
         "value-factor",
         "low-volatility-factor",
         "autocorrelation"
+      ],
+      "overlaps": [
+        "factor",
+        "pead",
+        "trend-following"
       ],
       "wrong": [
         "Cheap stocks tending to beat expensive ones",
@@ -1502,6 +1568,9 @@
         "small-cap",
         "liquidity-risk"
       ],
+      "overlaps": [
+        "factor"
+      ],
       "wrong": [
         "Cheap stocks tending to beat expensive ones",
         "Bigger trades getting better prices",
@@ -1527,6 +1596,9 @@
       "confusables": [
         "value-factor",
         "low-volatility-factor"
+      ],
+      "overlaps": [
+        "factor"
       ],
       "wrong": [
         "Recent winners tending to keep winning",
@@ -1555,6 +1627,9 @@
         "quality-factor",
         "beta",
         "volatility"
+      ],
+      "overlaps": [
+        "factor"
       ],
       "wrong": [
         "High-risk stocks always paying more",
@@ -1636,11 +1711,19 @@
         "The client asked whether her smart beta fund is active or passive: it follows fixed rules, so it's passive.",
         "Risk checks that the smart beta index's rules don't pile into a few sectors."
       ],
-      "fill": "An ETF tracking the Nifty100 Low Volatility 30 instead of the plain Nifty 100 is a ____ product.",
+      "fill": "An ETF that picks stocks by fixed rules on value, quality and momentum, instead of by market value, is a ____ fund.",
       "confusables": [
         "factor",
         "benchmark",
         "mutual-fund"
+      ],
+      "overlaps": [
+        "factor"
+      ],
+      "alsoFits": [
+        "value-factor",
+        "low-volatility-factor",
+        "momentum-factor"
       ],
       "wrong": [
         "An index chosen by an AI model",
@@ -1664,6 +1747,9 @@
       "confusables": [
         "beta",
         "alpha",
+        "cost-of-equity"
+      ],
+      "overlaps": [
         "cost-of-equity"
       ],
       "wrong": [
@@ -1769,7 +1855,7 @@
         "Risk suspects overfitting when a strategy has more rules than years of data.",
         "The client asked why the trading course's strategy failed for her: overfitting to old data."
       ],
-      "fill": "The strategy had 15 tuned settings and a perfect backtest, then lost money live: classic ____.",
+      "fill": "The strategy's 15 settings were tuned so tightly to past data that it learned the noise, then lost money live: classic ____.",
       "confusables": [
         "data-snooping",
         "look-ahead-bias",
@@ -1808,6 +1894,9 @@
         "survivorship-bias",
         "data-snooping",
         "overfitting"
+      ],
+      "overlaps": [
+        "data-leakage"
       ],
       "wrong": [
         "Using only stocks that still exist today",
@@ -1885,6 +1974,9 @@
         "overfitting",
         "p-value",
         "out-of-sample"
+      ],
+      "alsoFits": [
+        "overfitting"
       ],
       "wrong": [
         "Using data you wouldn't have had then",
@@ -2189,7 +2281,7 @@
       "definition": "The average amount a strategy expects to make per trade: the hit rate times the average win, minus the loss rate times the average loss. It has to stay clearly positive after costs.",
       "examples": [
         "Expectancy is ₹350 a trade but costs are ₹300, so the edge is thin.",
-        "We'd take a lower hit rate if it lifts the expectancy.",
+        "We'd take a lower hit rate if it lifts the expectancy, the average rupee profit per trade.",
         "Risk funds a strategy only if its expectancy stays positive after costs."
       ],
       "fill": "A strategy wins half the time, making ₹3,000 on winners and losing ₹2,000 on losers, so its ____ is ₹500 a trade.",
@@ -2197,6 +2289,9 @@
         "hit-rate",
         "payoff-ratio",
         "profit-factor"
+      ],
+      "overlaps": [
+        "expected-value"
       ],
       "wrong": [
         "Share of trades that make money",
@@ -2234,7 +2329,7 @@
         "The MAE on that trade was ₹4 lakh even though it closed in profit.",
         "Risk uses each trade's maximum adverse excursion to set sensible stops."
       ],
-      "fill": "A trade bought at ₹500 fell to ₹470 before closing at ₹530, so its ____ was ₹30 a share.",
+      "fill": "A trade bought at ₹500 rose to ₹520, fell to ₹470 and closed at ₹540, so its ____ was ₹30 a share.",
       "confusables": [
         "max-favourable-excursion",
         "max-drawdown",
@@ -2263,7 +2358,7 @@
         "That trade had an MFE of ₹2 lakh and still closed as a loss.",
         "The quant compares maximum favourable excursion with the final profit to judge the exits."
       ],
-      "fill": "A short sold at ₹800 dropped to ₹740 before being bought back at ₹770, so its ____ was ₹60 a share.",
+      "fill": "A short sold at ₹800 dropped to ₹740 before being bought back at ₹770; its best open profit at any point, the ____, was ₹60 a share.",
       "confusables": [
         "max-adverse-excursion",
         "profit-target",
@@ -2365,6 +2460,9 @@
         "hit-rate",
         "leverage"
       ],
+      "overlaps": [
+        "exposure"
+      ],
       "wrong": [
         "How long the average trade is held",
         "Share of trades that make money",
@@ -2386,13 +2484,21 @@
       "examples": [
         "The rank IC is 0.04 at one day and close to zero by day five, so it has to be traded fast.",
         "The IC is decent but unstable: it flips sign in most quarters.",
-        "Risk asks how stable the information coefficient is from year to year."
+        "Risk asks how stable the signal's information coefficient, its correlation with next month's returns, is from year to year."
       ],
       "fill": "Across 500 stocks, the signal's scores had a correlation of 0.04 with next month's returns, so its ____ is 0.04.",
       "confusables": [
         "correlation",
         "information-ratio",
         "r-squared"
+      ],
+      "overlaps": [
+        "correlation"
+      ],
+      "alsoFits": [
+        "net-exposure",
+        "gross-exposure",
+        "deflated-sharpe-ratio"
       ],
       "wrong": [
         "Excess return over the index per unit of tracking error",
@@ -2540,6 +2646,9 @@
         "leverage",
         "margin"
       ],
+      "alsoFits": [
+        "leverage"
+      ],
       "wrong": [
         "Longs minus shorts",
         "Total value of the fund's cash",
@@ -2683,6 +2792,9 @@
         "alpha",
         "systematic-risk"
       ],
+      "overlaps": [
+        "beta"
+      ],
       "wrong": [
         "Returns from picking the right stocks",
         "Returns too small to be worth trading",
@@ -2709,9 +2821,9 @@
       "examples": [
         "Your earnings-strength signal has a 0.8 correlation with 12-month momentum; it's a factor in disguise.",
         "Check the exposures first. A lot of new alphas turn out to be a value tilt in disguise.",
-        "Risk asked the quant to prove the new signal isn't a factor in disguise."
+        "Risk asked the quant to prove the new signal isn't a factor in disguise, just value and momentum repackaged."
       ],
-      "fill": "The new signal's returns line up almost perfectly with the momentum factor's, so it's really ____.",
+      "fill": "Regressed on the standard factors, the new signal turned out to be mostly value and momentum under another name: ____.",
       "confusables": [
         "factor-exposure",
         "momentum-factor",
@@ -2907,6 +3019,9 @@
         "sanity-check",
         "notional"
       ],
+      "alsoFits": [
+        "sanity-check"
+      ],
       "wrong": [
         "Exact figure from a full model",
         "Number written down to hide it",
@@ -2953,7 +3068,7 @@
       "short": "Start from a reason, then test it",
       "definition": "The rule that a signal needs a reason to work, such as a risk premium, a behavioural bias or a forced flow, before you test it. Testing thousands of ideas with no reason behind them finds patterns by chance.",
       "examples": [
-        "Hypothesis first: why would anyone leave this money on the table?",
+        "Before we test it, we go hypothesis first: why would anyone leave this money on the table?",
         "The PM's first question on any new alpha is the economic rationale, not the Sharpe.",
         "The PM insists on hypothesis first, so every signal must come with a reason it should work."
       ],
@@ -3018,13 +3133,16 @@
       "examples": [
         "Twelve Budget days is a small sample; don't size up on that pattern.",
         "That's 25 trades. Small sample, so show me the t-stat before we get excited.",
-        "The analyst won't trust the pattern: with only eight results days, the small sample could be luck."
+        "The analyst won't trust a pattern built on the small sample of eight results days; it could be luck."
       ],
       "fill": "The strategy won 7 of its 10 trades, but with a ____ like that, the win rate could be luck.",
       "confusables": [
         "statistical-significance",
         "t-statistic",
         "p-value"
+      ],
+      "alsoFits": [
+        "its-noise"
       ],
       "wrong": [
         "Data taken from a short time zone",
@@ -3126,7 +3244,7 @@
       ],
       "unit": "q10",
       "short": "Ranks assets against each other on a date",
-      "definition": "A signal that compares many assets at the same moment, such as ranking all Nifty 500 stocks by their 12-month return and buying the top. It bets on relative performance, so it is often traded long-short.",
+      "definition": "A signal that compares many assets at the same moment, such as ranking all Nifty 500 stocks by their sales growth and buying the top. It bets on relative performance, so it is often traded long-short.",
       "examples": [
         "Cross-sectional momentum buys this month's winners against its losers, whatever the market does.",
         "On a cross-sectional signal a market crash matters less; what matters is which stocks fall more.",
@@ -3137,6 +3255,9 @@
         "time-series-signal",
         "momentum-factor",
         "neutralisation"
+      ],
+      "alsoFits": [
+        "long-short-spread"
       ],
       "wrong": [
         "Compares an asset with its own past",
@@ -3236,6 +3357,12 @@
         "point-in-time-data",
         "information-leakage"
       ],
+      "overlaps": [
+        "look-ahead-bias"
+      ],
+      "alsoFits": [
+        "information-leakage"
+      ],
       "wrong": [
         "Losing data in a server crash",
         "Orders leaking to other brokers",
@@ -3262,6 +3389,9 @@
       "confusables": [
         "information-coefficient",
         "look-ahead-bias",
+        "return"
+      ],
+      "overlaps": [
         "return"
       ],
       "wrong": [
@@ -3489,6 +3619,9 @@
         "high-conviction",
         "scale-in"
       ],
+      "overlaps": [
+        "double-down"
+      ],
       "wrong": [
         "Judge how big a company is",
         "Cut a position in half",
@@ -3558,7 +3691,7 @@
           "options": [
             "1:3",
             "1:2",
-            "3:1",
+            "1:1",
             "1:4"
           ],
           "answer": 0,
@@ -3612,17 +3745,23 @@
       ],
       "unit": "q11",
       "short": "Cut longs and shorts together",
-      "definition": "To shrink a long-short book's gross exposure by cutting both the longs and the shorts, so the net stays about the same. Funds de-gross when volatility or crowding rises.",
+      "definition": "To shrink a long-short book's gross exposure by cutting both the longs and the shorts, so gross falls a lot while the net changes little. Funds de-gross when volatility or crowding rises.",
       "examples": [
         "Crowded shorts are squeezing; let's de-gross by a third and keep the net flat.",
         "Prime brokers saw funds de-gross across the board last week.",
         "Risk told the fund to de-gross by a quarter when the shorts started squeezing."
       ],
-      "fill": "The fund cut both its longs and its shorts by a third and kept its net exposure the same: it chose to ____.",
+      "fill": "The fund cut ₹30 crore from its longs and ₹30 crore from its shorts, so gross fell by ₹60 crore and the net didn't change: it chose to ____.",
       "confusables": [
         "gross-exposure",
         "de-risking",
         "net-exposure"
+      ],
+      "overlaps": [
+        "de-risking"
+      ],
+      "alsoFits": [
+        "size-up"
       ],
       "wrong": [
         "Sell only the longs to go net short",
@@ -3660,15 +3799,18 @@
         "If you don't want to sell your best longs, bring the net down with an index short.",
         "The PM decided to bring the net down before the election by selling index futures."
       ],
-      "fill": "Worried about a fall, the PM sold Nifty futures so the book went from 50% net long to 20%: she chose to ____.",
+      "fill": "Worried about a fall, the PM chose to ____ from 50% to 20% by selling Nifty futures.",
       "confusables": [
         "net-exposure",
         "de-gross",
         "hedge"
       ],
+      "alsoFits": [
+        "hedge"
+      ],
       "wrong": [
         "Lower the fund's fees after costs",
-        "Cut longs and shorts by the same share",
+        "Add to longs to raise market exposure",
         "Reduce the profit after tax"
       ],
       "difficulty": 2
@@ -3730,6 +3872,9 @@
         "beta",
         "delta-neutral"
       ],
+      "alsoFits": [
+        "dollar-neutral"
+      ],
       "wrong": [
         "Same money on the long and short sides",
         "Holding only stocks with zero beta",
@@ -3771,6 +3916,9 @@
         "drawdown-budget",
         "tracking-error"
       ],
+      "overlaps": [
+        "drawdown-budget"
+      ],
       "wrong": [
         "Money set aside for the risk team's pay",
         "Total margin blocked at the broker",
@@ -3798,6 +3946,9 @@
         "max-drawdown",
         "risk-budget",
         "daily-loss-limit"
+      ],
+      "overlaps": [
+        "risk-budget"
       ],
       "wrong": [
         "Money kept aside to repay loans",
@@ -3975,6 +4126,9 @@
         "concentration-risk",
         "limit-breach"
       ],
+      "overlaps": [
+        "mwpl"
+      ],
       "wrong": [
         "Price at which a stop-loss order fires",
         "Margin a broker blocks per lot",
@@ -4023,7 +4177,7 @@
       "definition": "The loss the book would take in a defined extreme scenario, such as the Nifty falling 10% in a day, a repeat of March 2020, or volatility doubling. Limits are often set on stress loss as well as VaR, since VaR ignores the worst days.",
       "examples": [
         "Stress loss on a 15% gap down is ₹18 crore against a limit of ₹20 crore.",
-        "VaR looks small because the book is short options, but the stress loss on a vol spike is huge.",
+        "VaR looks small because the book is short options, but the stress loss in the vol-doubling scenario is ₹12 crore.",
         "The board asked for the stress loss on a 2008-style crash before approving the new fund."
       ],
       "fill": "If the Nifty fell 10% overnight and India VIX doubled, the book would lose ₹8 crore: that's its ____ in that scenario.",
@@ -4031,6 +4185,9 @@
         "stress-test",
         "var",
         "expected-shortfall"
+      ],
+      "alsoFits": [
+        "gap-risk"
       ],
       "wrong": [
         "Average daily loss over the last year",
@@ -4067,6 +4224,10 @@
         "stop-loss",
         "drawdown-budget",
         "kill-switch"
+      ],
+      "alsoFits": [
+        "stop-loss",
+        "position-limit"
       ],
       "wrong": [
         "Most a stock can fall in one day",
@@ -4148,15 +4309,20 @@
       "short": "Risk of rare, very large losses",
       "definition": "The risk of rare, extreme moves far out in the tails of the return distribution, such as a 10% one-day fall. Market returns have fat tails, so these happen more often than a normal distribution predicts.",
       "examples": [
-        "Selling far OTM puts makes money most months, but the tail risk can take a year's profit in a day.",
+        "Selling far OTM puts makes money most months, but the tail risk of a rare crash can take a year's profit in a day.",
         "We buy cheap puts every month as a tail-risk hedge.",
-        "The client asked why her fund buys cheap puts every month: to cover tail risk."
+        "The client asked why her fund buys cheap far OTM puts every month: to cover tail risk from a rare crash."
       ],
       "fill": "Short option books earn steady premium but carry ____: a rare crash can wipe out years of gains.",
       "confusables": [
         "fat-tails",
         "black-swan",
         "expected-shortfall"
+      ],
+      "overlaps": [
+        "fat-tails",
+        "jump-to-default",
+        "gap-risk"
       ],
       "wrong": [
         "Risk in the last hour of trading",
@@ -4249,6 +4415,9 @@
         "event-risk",
         "gap-risk"
       ],
+      "overlaps": [
+        "flat"
+      ],
       "wrong": [
         "Buy before a known event to profit",
         "Keep positions the same size all week",
@@ -4271,11 +4440,14 @@
         "Holding short options over a weekend carries gap risk that intraday stops can't cover.",
         "The client asked why her stop-loss didn't save her: gap risk, as the stock opened 15% lower."
       ],
-      "fill": "The stock closed at ₹1,000 and opened at ₹900 after bad results, so the stop at ₹980 filled near ₹900: that's ____.",
+      "fill": "A stop at ₹980 is no help if the stock opens at ₹900 after bad results; the risk of the price jumping past your stop is ____.",
       "confusables": [
         "gap-down",
         "stop-loss",
         "event-risk"
+      ],
+      "overlaps": [
+        "tail-risk"
       ],
       "wrong": [
         "Gap between the bid and the offer",
@@ -4289,7 +4461,10 @@
           "why": "The stop fires at the open, at whatever price is there, which can be far below the stop."
         }
       ],
-      "difficulty": 1
+      "difficulty": 1,
+      "alsoFits": [
+        "event-risk"
+      ]
     },
     {
       "id": "dry-powder",
@@ -4336,6 +4511,10 @@
         "mean-reversion",
         "martingale"
       ],
+      "overlaps": [
+        "brownian-motion",
+        "martingale"
+      ],
       "wrong": [
         "A price that always returns to its average",
         "A trend that keeps going in one direction",
@@ -4367,6 +4546,13 @@
         "geometric-brownian-motion",
         "normal-distribution"
       ],
+      "overlaps": [
+        "random-walk",
+        "geometric-brownian-motion"
+      ],
+      "alsoFits": [
+        "white-noise"
+      ],
       "wrong": [
         "A price model that never moves below its start",
         "A process that is pulled back to its mean",
@@ -4394,6 +4580,13 @@
         "brownian-motion",
         "lognormal-distribution",
         "black-scholes"
+      ],
+      "overlaps": [
+        "brownian-motion",
+        "lognormal-distribution"
+      ],
+      "alsoFits": [
+        "random-walk"
       ],
       "wrong": [
         "A model where prices move by fixed rupee steps",
@@ -4520,6 +4713,9 @@
         "geometric-brownian-motion",
         "skewness"
       ],
+      "overlaps": [
+        "geometric-brownian-motion"
+      ],
       "wrong": [
         "A bell curve that can go below zero",
         "A distribution where every outcome is equally likely",
@@ -4554,6 +4750,9 @@
         "variance",
         "ito-lemma"
       ],
+      "alsoFits": [
+        "variance"
+      ],
       "wrong": [
         "The average of all price moves",
         "The largest move in a period",
@@ -4577,6 +4776,9 @@
         "random-walk",
         "risk-neutral-probability",
         "gamblers-ruin"
+      ],
+      "overlaps": [
+        "random-walk"
       ],
       "wrong": [
         "A process that always drifts upward",
@@ -4707,7 +4909,7 @@
         "Vasicek is just an Ornstein-Uhlenbeck process for the short rate.",
         "If θ is near zero, the OU process barely mean-reverts and the pair isn't worth trading."
       ],
-      "fill": "dx = θ(μ − x) dt + σ dW, a path pulled back towards μ, is the ____.",
+      "fill": "dx = θ(μ − x) dt + σ dW, a path pulled back towards μ, is the equation of the ____.",
       "confusables": [
         "mean-reversion",
         "half-life",
@@ -4745,7 +4947,7 @@
       "examples": [
         "After a change of measure, the stock drifts at the risk-free rate in the pricer.",
         "Girsanov lets you swap μ for r by a change of measure without touching σ.",
-        "The real-world view matters for the trade; the change of measure matters for the price."
+        "The real-world drift matters for the trade; after the change of measure to risk-neutral odds, only the risk-free rate matters for the price."
       ],
       "fill": "Moving from real-world to risk-neutral probabilities, so the drift becomes r, is a ____.",
       "confusables": [
@@ -4779,6 +4981,9 @@
         "kelly-criterion",
         "martingale",
         "expectancy"
+      ],
+      "alsoFits": [
+        "volatility-drag"
       ],
       "wrong": [
         "Losing on a trade you were sure of",
@@ -4843,6 +5048,9 @@
         "monte-carlo-simulation",
         "standard-deviation",
         "antithetic-variates"
+      ],
+      "alsoFits": [
+        "standard-deviation"
       ],
       "wrong": [
         "The bias from using the wrong model",
@@ -4929,6 +5137,11 @@
         "barrier-option",
         "asian-option"
       ],
+      "overlaps": [
+        "barrier-option",
+        "asian-option",
+        "european-option"
+      ],
       "wrong": [
         "An option that can be exercised any day",
         "An option on a futures contract",
@@ -4947,10 +5160,16 @@
         "Dealers hedging barrier options can push the spot towards or away from the level.",
         "Near the barrier, the delta of a barrier option swings wildly."
       ],
-      "fill": "A call that dies the moment the price touches ₹900 is a knock-out ____.",
+      "fill": "An option that dies the moment the price touches ₹900 is a knock-out ____.",
       "confusables": [
         "path-dependent-option",
         "asian-option",
+        "call-option"
+      ],
+      "overlaps": [
+        "path-dependent-option"
+      ],
+      "alsoFits": [
         "call-option"
       ],
       "wrong": [
@@ -4975,6 +5194,10 @@
       "confusables": [
         "path-dependent-option",
         "barrier-option",
+        "european-option"
+      ],
+      "overlaps": [
+        "path-dependent-option",
         "european-option"
       ],
       "wrong": [
@@ -5277,6 +5500,14 @@
         "volatility-clustering",
         "realised-volatility"
       ],
+      "overlaps": [
+        "ewma-volatility"
+      ],
+      "alsoFits": [
+        "regression-to-the-mean",
+        "ornstein-uhlenbeck",
+        "range-based-volatility"
+      ],
       "wrong": [
         "A model that assumes volatility never changes",
         "A way to price options from the smile",
@@ -5318,6 +5549,9 @@
         "realised-volatility",
         "volatility-clustering"
       ],
+      "overlaps": [
+        "garch"
+      ],
       "wrong": [
         "Volatility implied by option prices",
         "The average of the last 20 closing prices",
@@ -5345,6 +5579,9 @@
         "india-vix",
         "leverage"
       ],
+      "alsoFits": [
+        "volatility-skew"
+      ],
       "wrong": [
         "Borrowing to buy more shares",
         "A company taking on more debt",
@@ -5368,6 +5605,9 @@
         "realised-volatility",
         "ewma-volatility",
         "implied-volatility"
+      ],
+      "overlaps": [
+        "realised-volatility"
       ],
       "wrong": [
         "Volatility read from option prices",
@@ -5396,6 +5636,9 @@
         "monte-carlo-simulation",
         "small-sample"
       ],
+      "overlaps": [
+        "block-bootstrap"
+      ],
       "wrong": [
         "Restarting a model after a crash",
         "Adding more data from a different market",
@@ -5419,6 +5662,12 @@
         "bootstrap",
         "walk-forward",
         "volatility-clustering"
+      ],
+      "overlaps": [
+        "bootstrap"
+      ],
+      "alsoFits": [
+        "newey-west-standard-errors"
       ],
       "wrong": [
         "Testing the strategy one year at a time",
@@ -5489,11 +5738,14 @@
         "Use robust errors: heteroskedasticity makes the plain t-stat too big.",
         "The residual plot fans out to the right, a sign of heteroskedasticity."
       ],
-      "fill": "Regression errors that are small in calm years and huge in crisis years show ____.",
+      "fill": "Regression errors that are small for large caps and huge for small caps show ____.",
       "confusables": [
         "newey-west-standard-errors",
         "volatility-clustering",
         "residual"
+      ],
+      "alsoFits": [
+        "volatility-clustering"
       ],
       "wrong": [
         "Data from many different markets",
@@ -5514,13 +5766,17 @@
       "examples": [
         "With overlapping 20-day returns, the plain t-stat was 6; with Newey-West standard errors it's 2.1.",
         "Always report Newey-West standard errors for a predictive regression on overlapping data.",
-        "The referee asked for Newey-West standard errors before believing the result."
+        "The returns overlap, so the referee asked for Newey-West standard errors, which correct the standard errors for the overlap, before believing the t-stat."
       ],
       "fill": "With overlapping monthly returns sampled daily, use ____ or the t-statistic will be far too high.",
       "confusables": [
         "t-statistic",
         "heteroskedasticity",
         "autocorrelation"
+      ],
+      "alsoFits": [
+        "block-bootstrap",
+        "bootstrap"
       ],
       "wrong": [
         "Errors from a model fitted out of sample",
@@ -5549,6 +5805,9 @@
         "just-beta",
         "multicollinearity"
       ],
+      "alsoFits": [
+        "factor-in-disguise"
+      ],
       "wrong": [
         "Bias from removing outliers",
         "Bias from data that has been revised",
@@ -5573,6 +5832,9 @@
         "survivorship-bias",
         "small-sample"
       ],
+      "alsoFits": [
+        "mean-reversion"
+      ],
       "wrong": [
         "Prices falling back to a moving average",
         "A company's earnings growing slower over time",
@@ -5596,6 +5858,9 @@
         "expectancy",
         "hit-rate",
         "mean-reversion"
+      ],
+      "overlaps": [
+        "expectancy"
       ],
       "wrong": [
         "The most likely single outcome",
@@ -5819,6 +6084,9 @@
         "law-of-large-numbers",
         "normal-distribution",
         "fat-tails"
+      ],
+      "alsoFits": [
+        "confidence-interval"
       ],
       "wrong": [
         "Prices always follow a normal distribution",

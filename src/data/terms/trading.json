@@ -46,6 +46,17 @@
         "limit-order",
         "sl-m-order"
       ],
+      "overlaps": [
+        "order",
+        "aggressive-order",
+        "hit-the-bid",
+        "lift-the-offer",
+        "ioc"
+      ],
+      "alsoFits": [
+        "stop-loss",
+        "trailing-stop-loss"
+      ],
       "wrong": [
         "An order that fills only at your chosen price or better",
         "An order placed after the market closes",
@@ -79,6 +90,21 @@
         "market-order",
         "trigger-price",
         "sl-order"
+      ],
+      "overlaps": [
+        "order",
+        "join-the-bid",
+        "passive-order"
+      ],
+      "alsoFits": [
+        "stop-loss",
+        "sl-m-order",
+        "trailing-stop-loss",
+        "day-order",
+        "gtc",
+        "bracket-order",
+        "amo",
+        "gtt"
       ],
       "wrong": [
         "An order that fills straight away at any price",
@@ -126,6 +152,10 @@
         "partial-fill",
         "open-order"
       ],
+      "overlaps": [
+        "partial-fill",
+        "youre-done"
+      ],
       "wrong": [
         "An order still waiting in the queue",
         "Money added to your trading account",
@@ -145,13 +175,16 @@
       "examples": [
         "Check your open orders before you log off; an old limit could fill on a sudden drop.",
         "Risk cancels every open order at the close so nothing fills overnight by surprise.",
-        "The client forgot an open order from last week, and it filled on today's dip."
+        "The client forgot her open order to buy at ₹480 from this morning, and it filled on the afternoon dip."
       ],
       "fill": "Your limit to buy at 480 is still waiting with the stock at 495, so it shows as an ____.",
       "confusables": [
         "fill",
         "partial-fill",
         "limit-order"
+      ],
+      "overlaps": [
+        "residual"
       ],
       "wrong": [
         "A position you still hold",
@@ -182,6 +215,9 @@
       "confusables": [
         "fill",
         "open-order"
+      ],
+      "overlaps": [
+        "fill"
       ],
       "wrong": [
         "An order cancelled by the broker",
@@ -223,6 +259,12 @@
         "trigger-price",
         "profit-target",
         "sl-order"
+      ],
+      "overlaps": [
+        "sl-order",
+        "sl-m-order",
+        "trailing-stop-loss",
+        "trigger-price"
       ],
       "wrong": [
         "The price at which you plan to take profit",
@@ -268,6 +310,9 @@
         "limit-order",
         "sl-order"
       ],
+      "overlaps": [
+        "stop-loss"
+      ],
       "wrong": [
         "The price at which the order must fill",
         "The day's opening price",
@@ -304,6 +349,9 @@
         "sl-m-order",
         "trigger-price",
         "limit-order"
+      ],
+      "overlaps": [
+        "stop-loss"
       ],
       "wrong": [
         "A stop order that becomes a market order",
@@ -348,6 +396,12 @@
         "market-order",
         "trigger-price"
       ],
+      "overlaps": [
+        "stop-loss"
+      ],
+      "alsoFits": [
+        "trailing-stop-loss"
+      ],
       "wrong": [
         "A stop order that becomes a limit order",
         "An order to buy at the day's lowest price",
@@ -377,13 +431,16 @@
       "definition": "The price at which you plan to close a winning trade and lock in the gain. Traders set it alongside the stop-loss, so the trade has a planned exit either way.",
       "examples": [
         "Buying Tata Motors at 700, target 760, stop 680.",
-        "The analyst's profit target is ₹1,250, about 15% above today's price.",
+        "The trader's profit target is ₹1,250, where she'll book the gain, about 15% above her entry.",
         "Risk asks traders to write down a stop and a profit target before they enter."
       ],
       "fill": "Before entering, write down your stop-loss and your ____, the price where you'll take the gain.",
       "confusables": [
         "stop-loss",
         "trigger-price"
+      ],
+      "alsoFits": [
+        "limit-order"
       ],
       "wrong": [
         "The minimum profit a broker requires",
@@ -425,6 +482,9 @@
         "stop-loss",
         "profit-target"
       ],
+      "overlaps": [
+        "stop-loss"
+      ],
       "wrong": [
         "A stop-loss placed far below the price",
         "A stop that moves down when the price falls",
@@ -465,6 +525,9 @@
         "position",
         "auto-square-off"
       ],
+      "overlaps": [
+        "unwind"
+      ],
       "wrong": [
         "Double a position at a better price",
         "Move shares from one demat account to another",
@@ -490,14 +553,17 @@
       "definition": "A trade that's opened and squared off within the same trading day, so nothing is held overnight and no shares move into or out of your demat account.",
       "examples": [
         "Pure intraday today; I'll be flat well before the close.",
-        "The client's intraday trade made ₹2,000, but brokerage and taxes took ₹400 of it.",
-        "Risk caps each trader's loss on any intraday trade at ₹5 lakh."
+        "The client's intraday trade, bought at 10 am and sold by 2 pm, made ₹2,000, but brokerage and taxes took ₹400 of it.",
+        "Risk caps each trader's loss on any intraday trade, which must be flat by the close, at ₹5 lakh."
       ],
       "fill": "Buying at 10 am and selling at 2 pm the same day is an ____.",
       "confusables": [
         "delivery-trade",
         "mis",
         "square-off"
+      ],
+      "alsoFits": [
+        "mis"
       ],
       "wrong": [
         "A trade held for more than one day",
@@ -525,6 +591,9 @@
         "intraday",
         "cnc",
         "demat-account"
+      ],
+      "overlaps": [
+        "cnc"
       ],
       "wrong": [
         "A trade closed the same day",
@@ -561,6 +630,15 @@
         "cnc",
         "nrml",
         "auto-square-off"
+      ],
+      "overlaps": [
+        "cover-order"
+      ],
+      "alsoFits": [
+        "bracket-order",
+        "short-selling",
+        "btst",
+        "market-order"
       ],
       "wrong": [
         "A product for holding shares in your demat",
@@ -638,6 +716,9 @@
         "nrml",
         "delivery-trade"
       ],
+      "overlaps": [
+        "delivery-trade"
+      ],
       "wrong": [
         "An intraday product with 5× leverage",
         "A product for carrying futures overnight",
@@ -673,6 +754,9 @@
         "intraday",
         "square-off"
       ],
+      "alsoFits": [
+        "mtf"
+      ],
       "wrong": [
         "Pay for shares a day late",
         "Roll an unfilled order to the next day",
@@ -698,6 +782,10 @@
         "mis",
         "cnc",
         "margin"
+      ],
+      "alsoFits": [
+        "carry-forward",
+        "delivery-trade"
       ],
       "wrong": [
         "An intraday product squared off by the broker",
@@ -726,6 +814,9 @@
       "confusables": [
         "cnc",
         "mis",
+        "leverage"
+      ],
+      "overlaps": [
         "leverage"
       ],
       "wrong": [
@@ -765,6 +856,16 @@
         "gtt",
         "gtc"
       ],
+      "alsoFits": [
+        "iceberg-order",
+        "bracket-order",
+        "cover-order",
+        "limit-order",
+        "open-order",
+        "sl-order",
+        "sl-m-order",
+        "stop-loss"
+      ],
       "wrong": [
         "An order that must fill instantly or cancel",
         "An order valid for a whole year",
@@ -793,6 +894,12 @@
         "day-order",
         "partial-fill",
         "market-order"
+      ],
+      "overlaps": [
+        "market-order"
+      ],
+      "alsoFits": [
+        "iceberg-order"
       ],
       "wrong": [
         "Valid until the end of the day",
@@ -871,6 +978,10 @@
         "trigger-price",
         "amo"
       ],
+      "overlaps": [
+        "gtc",
+        "oco"
+      ],
       "wrong": [
         "An order valid until today's close",
         "An order placed after market hours",
@@ -909,6 +1020,9 @@
         "gtt",
         "day-order"
       ],
+      "overlaps": [
+        "gtt"
+      ],
       "wrong": [
         "Valid only until today's close",
         "Fill instantly or cancel",
@@ -940,6 +1054,10 @@
         "bracket-order",
         "profit-target"
       ],
+      "overlaps": [
+        "gtt",
+        "bracket-order"
+      ],
       "wrong": [
         "One order split into many small pieces",
         "Two buy orders at different prices",
@@ -967,6 +1085,10 @@
         "mis",
         "sl-m-order"
       ],
+      "overlaps": [
+        "bracket-order",
+        "mis"
+      ],
       "wrong": [
         "An order to buy back shares you sold short",
         "A delivery order paid in full",
@@ -993,6 +1115,13 @@
         "cover-order",
         "oco",
         "profit-target"
+      ],
+      "overlaps": [
+        "cover-order",
+        "oco"
+      ],
+      "alsoFits": [
+        "gtt"
       ],
       "wrong": [
         "An order with a stop-loss but no target",
@@ -1032,6 +1161,10 @@
       "confusables": [
         "basket-order",
         "freeze-quantity"
+      ],
+      "overlaps": [
+        "disclosed-quantity",
+        "hidden-liquidity"
       ],
       "wrong": [
         "An order placed far below the market price",
@@ -1088,6 +1221,9 @@
         "exposure-margin",
         "peak-margin",
         "margin"
+      ],
+      "alsoFits": [
+        "margin-shortfall"
       ],
       "wrong": [
         "An extra buffer on top of the main margin",
@@ -1218,6 +1354,9 @@
         "margin-call",
         "peak-margin"
       ],
+      "alsoFits": [
+        "margin-call"
+      ],
       "wrong": [
         "Profit that is lower than expected",
         "Selling shares you don't own",
@@ -1308,6 +1447,13 @@
         "margin-call",
         "futures-contract"
       ],
+      "overlaps": [
+        "mtm"
+      ],
+      "alsoFits": [
+        "margin-shortfall",
+        "margin-call"
+      ],
       "wrong": [
         "Paying for shares on T+1",
         "Settling options only at the end of their life",
@@ -1376,6 +1522,9 @@
         "freeze-quantity",
         "notional",
         "futures-contract"
+      ],
+      "alsoFits": [
+        "notional"
       ],
       "wrong": [
         "The minimum number of shares in a delivery trade",
@@ -1552,6 +1701,9 @@
       "confusables": [
         "fo-ban",
         "freeze-quantity"
+      ],
+      "overlaps": [
+        "position-limit"
       ],
       "wrong": [
         "The most one client may hold in a stock",
@@ -1740,7 +1892,7 @@
       "wrong": [
         "Buy today, sell next week",
         "A trade squared off the same day",
-        "Buying at the close and selling at the next day's close"
+        "Buying shares with a loan from the broker"
       ],
       "difficulty": 2
     }

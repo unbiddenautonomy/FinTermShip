@@ -121,9 +121,9 @@
           "ipo",
           "gmp",
           "asba",
-          "anchor-investor"
+          "listing-gains"
         ],
-        "why": "Words you meet when a company first lists: the issue, the grey-market premium, how you apply, and the big early investors."
+        "why": "Words you meet when a company first lists: the issue, the grey-market premium, how you apply, and the gain on the first day."
       },
       {
         "name": "Corporate actions",
@@ -208,7 +208,7 @@
         "why": "Numbers that summarise the market: three stock indices and the volatility index."
       },
       {
-        "name": "Accounts",
+        "name": "Holding your shares",
         "terms": [
           "demat-account",
           "dp",
@@ -405,7 +405,7 @@
         "name": "Sector KPIs",
         "terms": [
           "net-interest-margin",
-          "gross-npa",
+          "casa-ratio",
           "arpu",
           "same-store-sales-growth"
         ],
@@ -604,12 +604,12 @@
       {
         "name": "RBI tools",
         "terms": [
-          "sdf",
-          "msf",
           "omo",
-          "crr"
+          "crr",
+          "slr",
+          "rbi-intervention"
         ],
-        "why": "Tools the RBI uses to add money to banks or drain it from them."
+        "why": "Tools the RBI uses to steer how much money banks have: reserve rules, buying and selling bonds, and dealing in dollars."
       },
       {
         "name": "Govt borrowing",
@@ -665,7 +665,7 @@
           "mwcb",
           "asm"
         ],
-        "why": "Rules that stop or slow trading when prices move too far or a stock looks risky."
+        "why": "Limits and watchlists that halt trading or tighten its rules when prices move too far or a stock looks risky."
       },
       {
         "name": "Taxes and costs",
@@ -682,10 +682,10 @@
         "terms": [
           "pre-open",
           "closing-auction",
-          "muhurat-trading",
+          "periodic-call-auction",
           "evening-session"
         ],
-        "why": "Trading sessions outside the normal day: before the open, at the close, on Diwali, and at night on MCX."
+        "why": "Ways of trading outside the normal continuous market: before the open, at the close, in hourly auctions for illiquid stocks, and at night on MCX."
       }
     ]
   },
@@ -786,7 +786,7 @@
     "level": 1,
     "groups": [
       {
-        "name": "Counting money",
+        "name": "Units",
         "terms": [
           "lakh",
           "crore",
@@ -927,11 +927,11 @@
         "name": "Greeks",
         "terms": [
           "delta",
-          "gamma",
+          "rho",
           "theta",
           "vega"
         ],
-        "why": "The first-order Greeks: each one is a sensitivity of the option's price."
+        "why": "The first-order Greeks: how the option's price reacts to the share price, time, volatility and interest rates."
       },
       {
         "name": "Higher-order",
@@ -987,7 +987,7 @@
           "max-pain",
           "oi-shifting"
         ],
-        "why": "Levels traders read off an option chain."
+        "why": "Levels traders read strike by strike off an option chain: the put base, the call wall, max pain and the strikes writers are moving to."
       },
       {
         "name": "Sellers' talk",
@@ -1003,11 +1003,11 @@
         "name": "Expiry day",
         "terms": [
           "gamma-blast",
-          "nine-twenty-straddle",
+          "zero-day-option",
           "hero-zero",
           "pin-risk"
         ],
-        "why": "Things that happen or get talked about on expiry day."
+        "why": "What happens to options in the last hours before expiry: sharp gamma moves, options that expire today, cheap options going to zero or multiplying, and the risk of the price settling right at your strike."
       }
     ]
   },
@@ -1154,7 +1154,7 @@
     "level": 2,
     "groups": [
       {
-        "name": "Abuse",
+        "name": "Faking activity",
         "terms": [
           "spoofing",
           "layering",
@@ -1233,11 +1233,11 @@
         "name": "Shocks",
         "terms": [
           "black-swan",
-          "flash-crash",
+          "crash",
           "contagion",
           "liquidity-crunch"
         ],
-        "why": "Sudden events that break markets."
+        "why": "Sudden events that break markets: the surprise, the steep fall, the panic spreading, and cash drying up."
       }
     ]
   },
@@ -1317,9 +1317,9 @@
           "vwap",
           "twap",
           "arrival-price",
-          "implementation-shortfall"
+          "decision-price"
         ],
-        "why": "Benchmarks for judging a trade, and the gap between the paper trade and the real one."
+        "why": "Benchmark prices for judging a trade: the volume-weighted average, the time-weighted average, the price when the order arrived, and the price when the fund decided."
       },
       {
         "name": "Order desk talk",
@@ -1467,7 +1467,7 @@
           "demat-account",
           "trading-account"
         ],
-        "why": "Who you deal with to buy shares, and the accounts you need."
+        "why": "The broker you trade through, and the accounts you open with it."
       }
     ]
   },
@@ -1480,7 +1480,7 @@
         "terms": [
           "bull-market",
           "rally",
-          "breakout",
+          "broad-based-rally",
           "melt-up"
         ],
         "why": "Words for a rising market."
@@ -1506,7 +1506,7 @@
         "why": "Price levels traders watch on a chart."
       },
       {
-        "name": "Price action",
+        "name": "Gaps and stretched prices",
         "terms": [
           "gap-up",
           "gap-down",
@@ -1603,7 +1603,7 @@
           "eps",
           "nav",
           "face-value",
-          "dividend"
+          "ltp"
         ],
         "why": "Each one is a rupee amount per share or per fund unit."
       }
@@ -1801,9 +1801,9 @@
         "name": "Wait",
         "terms": [
           "limit-order",
-          "gtt",
           "gtc",
-          "amo"
+          "amo",
+          "day-order"
         ],
         "why": "Orders that wait for your price or a later time."
       },
@@ -1895,9 +1895,9 @@
           "spread-widening",
           "rating-watch",
           "segregated-portfolio",
-          "covenant"
+          "distressed-debt"
         ],
-        "why": "Signs that a bond or loan is in trouble, and what funds and lenders do about it."
+        "why": "Signs that a bond or loan is in trouble: spreads blowing out, a rating under review, a fund ring-fencing a bad bond, and debt trading far below face value."
       },
       {
         "name": "Banks",
@@ -1940,7 +1940,7 @@
         "terms": [
           "research-analyst",
           "sales-trader",
-          "dealer",
+          "stockbroker",
           "investment-bank"
         ],
         "why": "Firms and people who sell services and ideas to funds."
@@ -1961,9 +1961,9 @@
           "custodian",
           "clearing-corporation",
           "depository",
-          "stockbroker"
+          "stock-exchange"
         ],
-        "why": "The plumbing that holds securities and gets trades settled."
+        "why": "The plumbing that matches trades, settles them and holds the securities."
       },
       {
         "name": "Styles",
@@ -1989,7 +1989,7 @@
           "cpi-inflation",
           "fiscal-deficit"
         ],
-        "why": "Economic data released by the government."
+        "why": "India's own economic numbers: growth, factory activity, prices and the government's budget gap."
       },
       {
         "name": "Global cues",
@@ -2017,9 +2017,9 @@
           "usdinr",
           "ndf",
           "forex-reserves",
-          "current-account-deficit"
+          "forward-premium"
         ],
-        "why": "Words about the rupee, its offshore market, the RBI's dollars, and the trade gap."
+        "why": "Words about the rupee: its price, its offshore market, the RBI's dollars, and the cost of buying dollars forward."
       }
     ]
   },
@@ -2032,10 +2032,10 @@
         "terms": [
           "sharpe-ratio",
           "sortino-ratio",
-          "information-ratio",
+          "deflated-sharpe-ratio",
           "calmar-ratio"
         ],
-        "why": "Return per unit of risk, each with a different measure of risk."
+        "why": "Return per unit of risk: Sharpe and its deflated version use volatility, Sortino only downside swings, Calmar the worst drawdown."
       },
       {
         "name": "Downside-only",
@@ -2076,12 +2076,12 @@
       {
         "name": "Want a move",
         "terms": [
-          "straddle",
-          "strangle",
+          "backspread",
+          "hero-zero",
           "gamma-scalping",
           "long-volatility"
         ],
-        "why": "Positions that make money if the market moves a lot."
+        "why": "Positions that make money if the market moves a lot: more options bought than sold, cheap far-out options, trading a long-gamma hedge, and owning volatility."
       },
       {
         "name": "Want stillness",

@@ -56,6 +56,12 @@
         "bse",
         "sebi"
       ],
+      "overlaps": [
+        "stock-exchange"
+      ],
+      "alsoFits": [
+        "fno"
+      ],
       "wrong": [
         "India's securities market regulator",
         "The older Mumbai exchange that runs the Sensex",
@@ -230,6 +236,9 @@
         "sensex",
         "bank-nifty"
       ],
+      "overlaps": [
+        "stock-index"
+      ],
       "wrong": [
         "BSE's index of 30 large companies",
         "An index of the biggest bank stocks",
@@ -295,8 +304,8 @@
       "definition": "In India, the 100 largest listed companies by full market cap, under the classification that SEBI, the market regulator, sets for mutual funds. AMFI updates the list every six months.",
       "examples": [
         "Large caps held up better than small caps in the sell-off.",
-        "The client's large cap fund holds names like Reliance, HDFC Bank and Infosys.",
-        "Risk prefers large cap stocks for big positions because they can be sold quickly."
+        "The client's large cap fund can only hold the top 100 companies by market cap, such as Reliance and Infosys.",
+        "Risk prefers large cap stocks, the top 100 by market cap, for big positions because they can be sold quickly."
       ],
       "fill": "Under SEBI's rules, the 100 biggest companies by market cap are called ____ stocks.",
       "confusables": [
@@ -320,13 +329,20 @@
       "definition": "In India, companies ranked 101st to 250th by full market cap, under the same SEBI classification.",
       "examples": [
         "Mid caps have rallied 40% this year.",
-        "The analyst thinks mid cap valuations have run ahead of earnings.",
-        "The client's mid cap fund fell more than the Nifty in the correction."
+        "The analyst thinks valuations of companies ranked 101 to 250, the mid cap segment, have run ahead of earnings.",
+        "The client's mid cap fund, which holds companies ranked 101 to 250, fell more than the Nifty in the correction."
       ],
       "fill": "A company ranked 180th by market cap is classed as a ____.",
       "confusables": [
         "large-cap",
         "small-cap"
+      ],
+      "alsoFits": [
+        "nifty-50",
+        "sensex",
+        "bank-nifty",
+        "small-cap",
+        "large-cap"
       ],
       "wrong": [
         "The 100 largest companies",
@@ -436,6 +452,11 @@
         "dp",
         "nse"
       ],
+      "overlaps": [
+        "sell-side",
+        "discount-broker",
+        "dp"
+      ],
       "wrong": [
         "The person who sets a stock's price",
         "A bank that lends to companies",
@@ -504,12 +525,16 @@
       "definition": "A depository participant: a broker or bank registered with a depository that opens and services your demat account.",
       "examples": [
         "Your broker is also your DP, so it charges a DP fee when you sell.",
-        "The client was surprised by a DP charge on her contract note when she sold.",
+        "The client paid a flat DP charge of about ₹15 for each stock that left her demat account, however many shares she sold.",
         "To move shares to another broker, you ask your DP to transfer them."
       ],
       "fill": "When you sell shares from your demat account, your ____ charges a small fee for the debit.",
       "confusables": [
         "depository",
+        "stockbroker"
+      ],
+      "overlaps": [
+        "discount-broker",
         "stockbroker"
       ],
       "wrong": [
@@ -556,11 +581,14 @@
       "examples": [
         "The clearing corporation becomes the buyer to every seller and the seller to every buyer.",
         "If the other side of your trade defaults, the clearing corporation still pays you.",
-        "Risk keeps track of the margin the clearing corporation demands each day."
+        "Risk keeps track of the margin the clearing corporation collects from every broker each day."
       ],
       "fill": "If the other side of your trade defaults, the ____ still makes sure you are paid.",
       "confusables": [
         "depository",
+        "nse"
+      ],
+      "alsoFits": [
         "nse"
       ],
       "wrong": [
@@ -619,6 +647,9 @@
       "fill": "Every contract note shows ____, the tax charged on the trade itself.",
       "confusables": [
         "contract-note"
+      ],
+      "overlaps": [
+        "stamp-duty"
       ],
       "wrong": [
         "Tax on capital gains, paid when you file returns",
@@ -703,6 +734,9 @@
         "fpi",
         "retail-investor"
       ],
+      "overlaps": [
+        "buy-side"
+      ],
       "wrong": [
         "Foreign funds investing in India",
         "Individual investors trading online",
@@ -718,8 +752,8 @@
         "retail"
       ],
       "unit": "i3",
-      "short": "Individual investor",
-      "definition": "An individual investing their own money, as opposed to an institution. In Indian IPOs, the retail category covers individuals applying for up to ₹2 lakh.",
+      "short": "Small individual investor",
+      "definition": "An individual investing small sums of their own money, as opposed to an institution or a wealthy investor. In Indian IPOs, the retail category covers individuals applying for up to ₹2 lakh.",
       "examples": [
         "The retail portion was subscribed 20 times.",
         "SEBI's study found that most retail investors in F&O lose money.",
@@ -752,7 +786,7 @@
       "short": "Wealthy individual investor",
       "definition": "A high net worth individual. In Indian IPOs, individuals applying for more than ₹2 lakh fall in the non-institutional (NII) category, often called the HNI portion.",
       "examples": [
-        "HNI demand drove the IPO's subscription.",
+        "HNI demand, from individuals bidding over ₹2 lakh each, drove the IPO's subscription.",
         "The HNI portion of the IPO was subscribed 80 times, much of it with borrowed money.",
         "The PMS is aimed at HNI clients who can invest ₹50 lakh or more."
       ],
@@ -760,6 +794,12 @@
       "confusables": [
         "retail-investor",
         "dii"
+      ],
+      "alsoFits": [
+        "mutual-fund",
+        "retail-investor",
+        "dii",
+        "fpi"
       ],
       "wrong": [
         "A highly leveraged trader",
@@ -782,13 +822,19 @@
       "examples": [
         "Mutual funds now own a record share of Indian equities.",
         "The client's mutual fund charges 0.5% a year in its direct plan.",
-        "The analyst says steady mutual fund buying is why mid caps stay expensive."
+        "The analyst says steady SIP money flowing into mutual fund schemes is why mid caps stay expensive."
       ],
-      "fill": "Rather than pick stocks herself, she invests through an equity ____.",
+      "fill": "Rather than pick stocks herself, she buys units of an equity ____ run by an AMC.",
       "confusables": [
         "amc",
         "sip",
         "nav"
+      ],
+      "overlaps": [
+        "etf",
+        "index-fund",
+        "credit-risk-fund",
+        "arbitrage-fund"
       ],
       "wrong": [
         "A loan shared between two banks",
@@ -1060,6 +1106,9 @@
         "circuit-limit",
         "mwcb"
       ],
+      "overlaps": [
+        "t2t-segment"
+      ],
       "wrong": [
         "A SEBI ban on a company's promoters",
         "An automatic sell mode for margin calls",
@@ -1085,6 +1134,9 @@
       "confusables": [
         "muhurat-trading",
         "mwcb"
+      ],
+      "overlaps": [
+        "call-auction"
       ],
       "wrong": [
         "A session open only to institutions",
@@ -1115,6 +1167,9 @@
       "confusables": [
         "pre-open",
         "muhurat-trading"
+      ],
+      "overlaps": [
+        "call-auction"
       ],
       "wrong": [
         "A session where shares delisted from the exchange are sold",
@@ -1171,6 +1226,9 @@
       "confusables": [
         "bulk-deal",
         "ofs"
+      ],
+      "alsoFits": [
+        "bulk-deal"
       ],
       "wrong": [
         "Total trades by one client above 0.5% of a company's shares in a day",
@@ -1256,6 +1314,9 @@
         "listing-gains",
         "premium"
       ],
+      "overlaps": [
+        "premium"
+      ],
       "wrong": [
         "An official premium set by SEBI",
         "The fee paid to IPO bankers",
@@ -1274,7 +1335,7 @@
         "The client sold on day one to lock in listing gains of 30%.",
         "Risk notes that listing gains have shrunk as more IPOs crowd the market."
       ],
-      "fill": "The IPO was priced at ₹300 and opened at ₹420, giving 40% ____.",
+      "fill": "She bought IPO shares at ₹300 and sold them on the first day at ₹420, booking 40% ____.",
       "confusables": [
         "gmp",
         "premium"
@@ -1302,7 +1363,7 @@
         "The promoter will sell 2% through an OFS on Thursday, with retail bidding on Friday.",
         "The client asked how to bid in the OFS: through her broker, much like a normal order."
       ],
-      "fill": "In an ____, the money goes to the selling shareholders, not to the company.",
+      "fill": "When the government sells existing shares through a special exchange window with a separate retail day, it is an ____.",
       "confusables": [
         "ipo",
         "qip",
@@ -1387,6 +1448,9 @@
         "rights-issue",
         "dividend"
       ],
+      "overlaps": [
+        "corporate-action"
+      ],
       "wrong": [
         "New shares sold to holders at a discount",
         "A special dividend paid in cash",
@@ -1432,6 +1496,12 @@
         "bonus-issue",
         "face-value"
       ],
+      "overlaps": [
+        "corporate-action"
+      ],
+      "alsoFits": [
+        "ipo"
+      ],
       "wrong": [
         "Splitting a company into two after a demerger",
         "Free shares issued from reserves",
@@ -1475,6 +1545,9 @@
       "confusables": [
         "t-plus-1",
         "dividend"
+      ],
+      "overlaps": [
+        "ex-date"
       ],
       "wrong": [
         "The date the dividend is paid",
@@ -1526,6 +1599,10 @@
         "stock-split",
         "adjusted-prices"
       ],
+      "overlaps": [
+        "bonus-issue",
+        "stock-split"
+      ],
       "wrong": [
         "A trade by the company's promoters",
         "A change in the company's credit rating",
@@ -1555,6 +1632,9 @@
       "confusables": [
         "ltcg",
         "stt",
+        "realised-pnl"
+      ],
+      "overlaps": [
         "realised-pnl"
       ],
       "wrong": [
@@ -1655,6 +1735,9 @@
         "record-date",
         "dividend",
         "bonus-issue"
+      ],
+      "overlaps": [
+        "record-date"
       ],
       "wrong": [
         "The day the dividend is paid into your bank",
@@ -1888,6 +1971,10 @@
         "sip",
         "return"
       ],
+      "overlaps": [
+        "cagr",
+        "return"
+      ],
       "wrong": [
         "The return on a single lump sum held for several years",
         "The total percentage gain, ignoring time",
@@ -1919,6 +2006,9 @@
         "contract-note",
         "explicit-costs"
       ],
+      "overlaps": [
+        "explicit-costs"
+      ],
       "wrong": [
         "The tax collected on each trade",
         "The interest charged on margin funding",
@@ -1947,6 +2037,10 @@
         "brokerage",
         "dp"
       ],
+      "overlaps": [
+        "stockbroker",
+        "dp"
+      ],
       "wrong": [
         "A broker who trades with the firm's own money",
         "A broker that only deals in mutual funds",
@@ -1973,6 +2067,9 @@
         "stt",
         "brokerage",
         "contract-note"
+      ],
+      "overlaps": [
+        "stt"
       ],
       "wrong": [
         "Tax on capital gains when you sell",

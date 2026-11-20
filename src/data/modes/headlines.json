@@ -677,7 +677,7 @@
         "term": "rbi-intervention"
       },
       {
-        "label": "The rupee, for now",
+        "label": "The rupee, compared with no intervention",
         "move": "up",
         "term": "rbi-intervention"
       }
@@ -1425,7 +1425,7 @@
         "term": "buyback"
       },
       {
-        "label": "EPS after the buyback",
+        "label": "EPS, if profit stays the same",
         "move": "up",
         "term": "eps"
       },

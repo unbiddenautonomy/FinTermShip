@@ -78,6 +78,7 @@ const outline = {
         unit: t.unit,
         difficulty: t.difficulty,
         confusables: t.confusables,
+        ...(t.overlaps?.length ? { overlaps: t.overlaps } : {}),
         ...(n.length ? { near: n } : {}),
       };
     }),
