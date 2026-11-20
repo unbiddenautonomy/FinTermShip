@@ -65,13 +65,14 @@ export function definitionNames(x: Term, y: Term): boolean {
  *
  * Terms that overlap with this one (a general term and a kind of it, or two names for
  * nearly the same thing) are always left out: the definition or sentence fits them too,
- * so both would be right. With `loose`, close terms (confusables either way) are left
+ * so both would be right. So are the terms in `alsoFits`, which a reviewer found would fit one of
+ * the term's sentences too. With `loose`, close terms (confusables either way) are left
  * out as well. Example sentences were written to show the term in use, not to tell it
  * apart from its near twins, so a near twin might fit the blank just as well.
  */
 export function distractorTerms(term: Term, count: number, rng: Rng, known?: Set<string>, loose = false): Term[] {
   const picked: Term[] = [];
-  const seen = new Set([term.id, ...(term.overlaps ?? []), ...(loose ? closeTo(term) : [])]);
+  const seen = new Set([term.id, ...(term.overlaps ?? []), ...(term.alsoFits ?? []), ...(loose ? closeTo(term) : [])]);
   const add = (t: Term | undefined, knownOnly: boolean) => {
     if (!t || seen.has(t.id) || picked.length >= count) return;
     if (knownOnly && known && !known.has(t.id)) return;

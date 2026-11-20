@@ -103,6 +103,11 @@
         "call-option",
         "put-option"
       ],
+      "alsoFits": [
+        "straddle",
+        "strangle",
+        "bull-call-spread"
+      ],
       "wrong": [
         "Obligation to buy or sell at a set price on a set date",
         "Share that pays a fixed dividend",
@@ -162,6 +167,9 @@
         "option-premium",
         "underlying",
         "at-the-money"
+      ],
+      "alsoFits": [
+        "implied-volatility"
       ],
       "wrong": [
         "Price you pay to buy the option",
@@ -279,6 +287,10 @@
         "strike-price",
         "intrinsic-value",
         "time-value"
+      ],
+      "alsoFits": [
+        "call-option",
+        "put-option"
       ],
       "wrong": [
         "Strike price of the option",
@@ -496,7 +508,7 @@
         "The client asked why the option at the money has the most time value: its outcome is the most uncertain.",
         "Risk notes that options at the money carry the most gamma near expiry."
       ],
-      "fill": "With Nifty at 24,010, the 24,000 strike is the option that is ____.",
+      "fill": "With Nifty at 24,000, the 24,000 strike is the option that is ____.",
       "confusables": [
         "in-the-money",
         "out-of-the-money",
@@ -528,6 +540,12 @@
         "delta",
         "vega",
         "gamma"
+      ],
+      "alsoFits": [
+        "short-gamma",
+        "delta",
+        "gamma",
+        "vega"
       ],
       "wrong": [
         "Options listed on the Athens exchange",
@@ -648,7 +666,7 @@
         "Θ"
       ],
       "unit": "o2",
-      "short": "Value lost as each day passes",
+      "short": "Change in option price as one day passes",
       "definition": "How much an option's price changes as one day passes, all else equal. Long options usually have negative theta: they lose a little value every day.",
       "examples": [
         "We're short options, so theta pays us about ₹2 lakh a day if nothing moves.",
@@ -710,7 +728,8 @@
         "vega"
       ],
       "overlaps": [
-        "atm-iv"
+        "atm-iv",
+        "india-vix"
       ],
       "wrong": [
         "How much the price actually moved last month",
@@ -735,6 +754,9 @@
         "theta",
         "implied-volatility",
         "vomma"
+      ],
+      "alsoFits": [
+        "short-gamma"
       ],
       "wrong": [
         "Change in option price as one day passes",
@@ -801,7 +823,11 @@
         "hedge"
       ],
       "overlaps": [
-        "gamma-scalping"
+        "gamma-scalping",
+        "hedge"
+      ],
+      "alsoFits": [
+        "short-gamma"
       ],
       "wrong": [
         "Buying more options as they fall",
@@ -840,6 +866,12 @@
         "gamma",
         "short-gamma"
       ],
+      "overlaps": [
+        "non-directional"
+      ],
+      "alsoFits": [
+        "short-gamma"
+      ],
       "wrong": [
         "Position with no options in it",
         "Position that cannot lose money",
@@ -856,9 +888,6 @@
     {
       "id": "short-gamma",
       "term": "short gamma",
-      "aliases": [
-        "long gamma"
-      ],
       "unit": "o2",
       "short": "Hurt by big moves either way",
       "definition": "A position, usually from selling options, that loses on big moves in either direction and must hedge by buying high and selling low. Long gamma is the opposite and gains from big moves.",
@@ -906,6 +935,9 @@
         "implied-volatility",
         "put-call-parity"
       ],
+      "alsoFits": [
+        "volatility-surface"
+      ],
       "wrong": [
         "Rule for splitting profits between partners",
         "Model for valuing a company's shares from dividends",
@@ -940,6 +972,10 @@
         "annualised-volatility",
         "india-vix"
       ],
+      "overlaps": [
+        "annualised-volatility",
+        "range-based-volatility"
+      ],
       "wrong": [
         "Volatility implied by option prices",
         "Exchange's estimate of next month's moves",
@@ -951,8 +987,8 @@
       "id": "volatility-skew",
       "term": "volatility skew",
       "unit": "o3",
-      "short": "Implied vol differs across strikes",
-      "definition": "The pattern of implied volatility across strikes for one expiry. On equity indices, out-of-the-money puts usually carry higher IV than calls, because investors pay up for crash protection.",
+      "short": "Implied vol higher on one side of the strikes",
+      "definition": "Implied volatility that is higher on one side of the strikes than the other, for one expiry. On equity indices, out-of-the-money puts usually carry higher IV than calls, because investors pay up for crash protection.",
       "examples": [
         "Put skew steepened as everyone bought downside before the budget.",
         "The client asked why puts cost more than calls the same distance away: volatility skew.",
@@ -986,6 +1022,9 @@
       "confusables": [
         "volatility-skew",
         "vol-term-structure"
+      ],
+      "alsoFits": [
+        "volatility-surface"
       ],
       "wrong": [
         "Implied vol rising steadily with expiry",
@@ -1041,6 +1080,9 @@
         "implied-volatility",
         "theta"
       ],
+      "alsoFits": [
+        "theta"
+      ],
       "wrong": [
         "Sharp rise in implied vol before an event",
         "Fall in open interest at expiry",
@@ -1075,6 +1117,9 @@
         "implied-volatility",
         "realised-volatility"
       ],
+      "overlaps": [
+        "implied-volatility"
+      ],
       "wrong": [
         "Index of the most traded Nifty options",
         "NSE's measure of last month's actual price swings",
@@ -1104,12 +1149,15 @@
       "examples": [
         "The puts look cheap against the calls; put-call parity says someone will arb that.",
         "The quant uses put-call parity to check that the desk's option prices make sense together.",
-        "Risk asked why the synthetic was cheaper than the future: dividends, which put-call parity must allow for."
+        "Risk asked why the synthetic was priced below spot plus interest: expected dividends, which put-call parity must allow for."
       ],
       "fill": "If calls get too expensive against puts of the same strike, arbitrageurs restore ____.",
       "confusables": [
         "black-scholes",
         "intrinsic-value"
+      ],
+      "alsoFits": [
+        "volatility-surface"
       ],
       "wrong": [
         "Rule that calls and puts always cost the same",
@@ -1143,9 +1191,13 @@
         "The quant sorts every option by moneyness before comparing their implied vols.",
         "Risk groups the book by moneyness to see how much sits in far strikes."
       ],
-      "fill": "To compare options across strikes, traders describe their ____, such as 95% of spot or 25 delta.",
+      "fill": "How far an option is in or out of the money, measured as strike divided by spot or by delta, is its ____.",
       "confusables": [
         "at-the-money",
+        "delta",
+        "strike-price"
+      ],
+      "alsoFits": [
         "delta",
         "strike-price"
       ],
@@ -1176,6 +1228,9 @@
         "volume",
         "put-call-ratio"
       ],
+      "overlaps": [
+        "participant-wise-oi"
+      ],
       "wrong": [
         "Number of contracts traded today",
         "Interest charged on margin loans",
@@ -1202,6 +1257,9 @@
       "confusables": [
         "open-interest",
         "india-vix"
+      ],
+      "alsoFits": [
+        "volatility-skew"
       ],
       "wrong": [
         "Price of a put divided by price of a call",
@@ -1321,7 +1379,7 @@
       "definition": "How much an option's delta changes as one day passes, all else equal. Over a weekend or close to expiry it can shift hedges noticeably.",
       "examples": [
         "Monday's hedge was off because charm shrank our OTM deltas over the weekend.",
-        "Risk asked why the Monday hedge was off: charm had changed the deltas over the weekend.",
+        "Over the weekend, charm shrinks OTM deltas, so risk tweaks Friday's hedges.",
         "The quant adjusts the hedge for charm near expiry, when deltas drift fastest."
       ],
       "fill": "Even with the market flat, out-of-the-money deltas shrink each day because of ____.",
@@ -1488,6 +1546,9 @@
         "leverage",
         "gamma"
       ],
+      "overlaps": [
+        "leverage"
+      ],
       "wrong": [
         "Points the option moves per 1-point move in the underlying",
         "Change in delta per 1% move",
@@ -1556,7 +1617,9 @@
         "put-option"
       ],
       "overlaps": [
-        "put-option"
+        "put-option",
+        "hedge",
+        "tail-hedge"
       ],
       "wrong": [
         "Owning a stock and selling a call on it",
@@ -1576,7 +1639,7 @@
         "Risk caps the desk's short straddle size into results, since the stock can gap either way.",
         "The client asked why the straddle she bought lost money: the stock moved, but less than priced."
       ],
-      "fill": "Expecting a big move after results but unsure of the direction, she bought a ____.",
+      "fill": "Expecting a big move after results but unsure of the direction, she bought the 24,000 call and the 24,000 put: a ____.",
       "confusables": [
         "strangle",
         "iron-condor",
@@ -1584,7 +1647,8 @@
       ],
       "overlaps": [
         "results-straddle",
-        "nine-twenty-straddle"
+        "nine-twenty-straddle",
+        "atm-straddle-price"
       ],
       "wrong": [
         "Call and put at different out-of-the-money strikes",
@@ -1673,7 +1737,7 @@
       "id": "iron-condor",
       "term": "iron condor",
       "unit": "o5",
-      "short": "Range bet with capped losses",
+      "short": "Short strangle with bought wings",
       "definition": "Selling an out-of-the-money put spread and an out-of-the-money call spread together. It earns premium if the market stays in a range, and the bought wings cap the loss.",
       "examples": [
         "We run weekly iron condors when VIX is high and the range is clear.",
@@ -1684,6 +1748,12 @@
       "confusables": [
         "strangle",
         "straddle"
+      ],
+      "overlaps": [
+        "short-volatility"
+      ],
+      "alsoFits": [
+        "strangle"
       ],
       "wrong": [
         "Buying a straddle with extra calls",
@@ -1711,6 +1781,9 @@
         "vol-term-structure",
         "bull-call-spread",
         "theta"
+      ],
+      "overlaps": [
+        "term-structure-trade"
       ],
       "wrong": [
         "Same expiry, different strikes",
@@ -1792,6 +1865,11 @@
         "american-option",
         "call-option",
         "expiry"
+      ],
+      "overlaps": [
+        "ce-option",
+        "asian-option",
+        "path-dependent-option"
       ],
       "wrong": [
         "Exercisable on any day up to expiry",
@@ -2085,6 +2163,10 @@
         "conversion",
         "bull-call-spread"
       ],
+      "alsoFits": [
+        "conversion",
+        "reverse-conversion"
+      ],
       "wrong": [
         "Option trade that profits if the price stays in a range",
         "Long call and long put at the same strike",
@@ -2171,7 +2253,8 @@
         "rule-of-16"
       ],
       "overlaps": [
-        "atm-straddle-price"
+        "atm-straddle-price",
+        "results-straddle"
       ],
       "wrong": [
         "Price move after an analyst upgrade",
@@ -2213,6 +2296,9 @@
       "confusables": [
         "pe-option",
         "option-chain",
+        "european-option"
+      ],
+      "overlaps": [
         "european-option"
       ],
       "wrong": [
@@ -2435,7 +2521,7 @@
       "examples": [
         "Weekly ATM IV is 13 against 11 last week, so straddles got pricier into the data.",
         "ATM vol is bid but the wings are flat, so it's the event, not crash fear.",
-        "Risk tracks ATM IV every morning as the cleanest read of the market's fear."
+        "Risk tracks ATM IV, the vol of the strike nearest spot, every morning as the cleanest read of the market's fear."
       ],
       "fill": "The strike nearest the spot trades at 12.5 vol and the wings at 15, so this expiry's ____ is 12.5.",
       "confusables": [
@@ -2837,7 +2923,7 @@
         "FIIs are still selling, so I'd treat it as sell on rise until the trend changes.",
         "The strategist says sell on rise until FIIs stop selling."
       ],
-      "fill": "In a downtrend the desk shorts every bounce into resistance, treating it as a ____ market.",
+      "fill": "In this downtrend the desk's motto is ____: short every bounce into resistance.",
       "confusables": [
         "buy-the-dip",
         "trending-market",
@@ -2871,6 +2957,12 @@
         "intraday",
         "carry-forward",
         "nrml"
+      ],
+      "overlaps": [
+        "swing-trading"
+      ],
+      "alsoFits": [
+        "carry-forward"
       ],
       "wrong": [
         "A trade closed before the market shuts",
@@ -2923,7 +3015,7 @@
         "Buying a far OTM option as a hedge cut the margin blocked by more than half.",
         "The client asked why her margin blocked doubled overnight: the exchange raised its margin rates."
       ],
-      "fill": "Selling a Nifty futures lot left part of his funds as ____ until he closed the trade.",
+      "fill": "Selling a Nifty futures lot tied up his SPAN and exposure margin together, and his broker app showed the total as ____.",
       "confusables": [
         "margin",
         "span-margin",
@@ -2931,6 +3023,9 @@
       ],
       "overlaps": [
         "margin"
+      ],
+      "alsoFits": [
+        "span-margin"
       ],
       "wrong": [
         "Margin the exchange refuses to accept",
@@ -2962,7 +3057,8 @@
         "atm-iv"
       ],
       "overlaps": [
-        "implied-move"
+        "implied-move",
+        "straddle"
       ],
       "wrong": [
         "Price of the call alone at the money",
@@ -3005,6 +3101,9 @@
         "option-writer",
         "covered-call",
         "buy-wings"
+      ],
+      "overlaps": [
+        "sell-premium"
       ],
       "wrong": [
         "Selling shares you don't own",
@@ -3070,6 +3169,9 @@
         "rollover",
         "delta-hedging",
         "unwind"
+      ],
+      "alsoFits": [
+        "rollover"
       ],
       "wrong": [
         "The exchange changing lot sizes",
@@ -3161,6 +3263,10 @@
       "overlaps": [
         "out-of-the-money"
       ],
+      "alsoFits": [
+        "hero-zero",
+        "deep-itm"
+      ],
       "wrong": [
         "Strike far inside the price",
         "Option that expires far in the future",
@@ -3213,11 +3319,15 @@
         "Vol is offered across the curve as the market grinds higher.",
         "Risk notes vol is offered after the policy, so long straddles are losing value fast."
       ],
-      "fill": "After the event passed, everyone sold options and IV slid all day: ____.",
+      "fill": "In a calm, grinding market, sellers kept hitting option bids and IV drifted lower all day: ____.",
       "confusables": [
         "offered",
         "iv-crush",
         "skew-bid"
+      ],
+      "alsoFits": [
+        "vol-cheap",
+        "sell-premium"
       ],
       "wrong": [
         "A broker is offering cheaper options",
@@ -3274,7 +3384,7 @@
       "short": "Writing options to earn time decay",
       "definition": "Indian desk talk for writing options, usually straddles, strangles or credit spreads, to collect the premium and earn theta as it decays. It wins small and often, and loses big in sharp moves.",
       "examples": [
-        "We're selling premium this week; the Nifty's been stuck in a 300-point range.",
+        "For us, selling premium has paid well this month; the Nifty's been stuck in a 300-point range.",
         "Premium sellers love a quiet week; one big move takes back a month of gains.",
         "Risk allows selling premium into big events only through spreads, so no short option is left naked."
       ],
@@ -3286,7 +3396,9 @@
       ],
       "overlaps": [
         "expiry-day-option-selling",
-        "short-vol-programme"
+        "short-vol-programme",
+        "naked-selling",
+        "non-directional"
       ],
       "wrong": [
         "Selling shares above book value",
@@ -3306,14 +3418,21 @@
       "short": "Doesn't depend on which way the market goes",
       "definition": "A trade whose profit doesn't depend on whether the market goes up or down, only on how much it moves or on time passing. A short straddle bets on a quiet market; a long straddle on a big move either way.",
       "examples": [
-        "I'm non-directional this week: short strangle, delta-hedged daily.",
+        "I'm non-directional this week: short strangle, delta-hedged daily, so I don't care which way it goes.",
         "Non-directional doesn't mean riskless. A short straddle loses either way on a big move.",
-        "The client asked how her non-directional strategy lost money: the market moved too far either way."
+        "The client asked how her non-directional strategy lost money when she never bet on up or down: the market moved too far either way."
       ],
       "fill": "A delta-neutral short strangle that earns from time decay, not from the market's direction, is a ____ trade.",
       "confusables": [
         "delta-neutral",
         "straddle",
+        "strangle"
+      ],
+      "overlaps": [
+        "delta-neutral",
+        "sell-premium"
+      ],
+      "alsoFits": [
         "strangle"
       ],
       "wrong": [
@@ -3331,7 +3450,7 @@
       "definition": "When the option buyer uses their right: to buy the underlying at the strike (call) or sell it (put). On NSE, options in the money at expiry are exercised automatically. Index options settle in cash, and stock options settle by physical delivery.",
       "examples": [
         "The 22,000 call expired in the money, so it was exercised and paid out the difference in cash.",
-        "Exercise of stock options means taking delivery of the shares, so keep the money ready.",
+        "Exercise of a stock call means taking delivery of the shares, so keep the money ready.",
         "Indian options can be exercised only at expiry: they are European."
       ],
       "fill": "At expiry, NSE will automatically ____ every in-the-money option on the buyer's behalf.",
@@ -3369,6 +3488,9 @@
       "confusables": [
         "exercise",
         "option-writer",
+        "pin-risk"
+      ],
+      "alsoFits": [
         "pin-risk"
       ],
       "wrong": [

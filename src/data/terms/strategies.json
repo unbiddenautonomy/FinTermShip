@@ -81,6 +81,9 @@
         "bear-call-spread",
         "bull-call-spread"
       ],
+      "alsoFits": [
+        "ratio-spread"
+      ],
       "wrong": [
         "Sell a put, buy a lower put",
         "Sell a call, buy a higher call",
@@ -129,6 +132,9 @@
         "bear-call-spread",
         "bull-call-spread"
       ],
+      "alsoFits": [
+        "ratio-spread"
+      ],
       "wrong": [
         "Buy a put, sell a lower put",
         "Sell a call, buy a higher call",
@@ -172,6 +178,10 @@
         "bull-call-spread",
         "bull-put-spread",
         "covered-call"
+      ],
+      "alsoFits": [
+        "ratio-spread",
+        "diagonal-spread"
       ],
       "wrong": [
         "Buy a call, sell a higher call",
@@ -256,6 +266,9 @@
         "ratio-spread",
         "bull-call-spread",
         "straddle"
+      ],
+      "overlaps": [
+        "short-put-ladder"
       ],
       "wrong": [
         "Buy one, sell more further out",
@@ -394,7 +407,8 @@
         "broken-wing-butterfly"
       ],
       "overlaps": [
-        "broken-wing-butterfly"
+        "broken-wing-butterfly",
+        "curve-butterfly"
       ],
       "wrong": [
         "Buy one, sell one higher",
@@ -510,6 +524,9 @@
         "vega",
         "gamma"
       ],
+      "overlaps": [
+        "variance-swap"
+      ],
       "wrong": [
         "Gains when the market stays calm",
         "Gains when the price trends up",
@@ -525,7 +542,7 @@
       ],
       "unit": "y2",
       "short": "Earns when moves are smaller than priced",
-      "definition": "A position that earns when the market moves less than implied volatility priced, such as selling straddles, strangles or iron condors. It collects theta but is short gamma and vega, so a sudden move or a jump in IV can wipe out months of gains.",
+      "definition": "Being positioned to earn when the market moves less than implied volatility priced, usually by selling straddles or strangles. It collects theta but is short gamma and vega, so a sudden move or a jump in IV can wipe out months of gains.",
       "examples": [
         "The fund's short-vol book made money for 11 months and gave most of it back in one gap down.",
         "Risk limits short volatility in the book, because it loses most in a crash.",
@@ -538,7 +555,8 @@
         "gamma-scalping"
       ],
       "overlaps": [
-        "short-vol-programme"
+        "short-vol-programme",
+        "iron-condor"
       ],
       "wrong": [
         "Earns when moves are bigger than priced",
@@ -601,7 +619,7 @@
       "examples": [
         "Our forecast says 18% and the market prices 14%, so the vol arb desk is buying straddles and hedging daily.",
         "Risk reviews the volatility arbitrage book's vol forecasts every week.",
-        "The client asked how a fund makes money from options without guessing direction: volatility arbitrage."
+        "The client asked how a fund makes money from options without guessing direction: volatility arbitrage, trading implied vol against its own forecast."
       ],
       "fill": "Buying options when implied vol looks cheap against your forecast and selling them when it looks dear, hedging delta each time, is ____.",
       "confusables": [
@@ -658,7 +676,7 @@
       "definition": "A chart of a position's profit or loss at expiry against the underlying's price. It shows the breakevens, the maximum profit and the maximum loss at a glance.",
       "examples": [
         "Draw the payoff before you trade it: I want to see where this loses money.",
-        "The client asked to see the payoff diagram before agreeing to the strategy.",
+        "The client asked to see the payoff diagram, the P&L drawn at every expiry price, before agreeing to the strategy.",
         "Risk reads the payoff diagram for every new structure to find where it loses most."
       ],
       "fill": "Before placing the iron condor, she drew its ____: one line of profit and loss at expiry for every Nifty level from 23,000 to 25,000.",
@@ -735,9 +753,12 @@
         "breakeven",
         "net-credit"
       ],
+      "overlaps": [
+        "net-debit"
+      ],
       "wrong": [
         "The most a position can make",
-        "Premium paid to open a position",
+        "Loss that triggers the broker's square-off",
         "Margin blocked by the broker"
       ],
       "calcs": [
@@ -771,6 +792,9 @@
         "net-credit",
         "max-loss",
         "breakeven"
+      ],
+      "overlaps": [
+        "max-loss"
       ],
       "wrong": [
         "Premium received to open a position",
@@ -1279,6 +1303,9 @@
       "overlaps": [
         "risk-reversal"
       ],
+      "alsoFits": [
+        "short-vol-programme"
+      ],
       "wrong": [
         "Buying both puts and calls before an event",
         "Selling the front month and buying the back month",
@@ -1310,6 +1337,12 @@
         "vol-term-structure",
         "futures-calendar-spread"
       ],
+      "overlaps": [
+        "calendar-spread"
+      ],
+      "alsoFits": [
+        "skew-trade"
+      ],
       "wrong": [
         "A trade on put vol against call vol",
         "Buying a bond and selling a longer bond",
@@ -1333,6 +1366,9 @@
         "protective-put",
         "tail-risk",
         "black-swan"
+      ],
+      "overlaps": [
+        "protective-put"
       ],
       "wrong": [
         "Selling far out-of-the-money puts for income",
@@ -1371,6 +1407,9 @@
         "long-volatility",
         "realised-volatility"
       ],
+      "overlaps": [
+        "long-volatility"
+      ],
       "wrong": [
         "A swap of fixed for floating interest",
         "A futures contract on India VIX",
@@ -1394,7 +1433,7 @@
       "examples": [
         "Our short-vol programme sells weekly Nifty strangles, hedges delta twice a day and caps vega at ₹20 lakh.",
         "The short-vol programme made money 46 weeks out of 52, and gave back five months in the flash crash.",
-        "Risk wants every short-vol programme paired with a tail hedge."
+        "Risk wants every short-vol programme that sells weekly strangles paired with a tail hedge."
       ],
       "fill": "The desk sells delta-hedged strangles every week, sized to a vega limit, to earn the volatility premium: a ____.",
       "confusables": [
@@ -1455,7 +1494,7 @@
       "term": "short put ladder",
       "unit": "y7",
       "short": "Short a put, buy two lower puts",
-      "definition": "Selling one put and buying two lower-strike puts, often for close to zero cost. It loses a little if the market drifts down to the lower strikes and makes money if the market falls hard, so it is a cheap bet on a crash.",
+      "definition": "Selling one put and buying one put at each of two lower strikes, often for close to zero cost. It loses most if the market ends between the two lower strikes and makes money if the market falls far below the lowest one.",
       "examples": [
         "Instead of buying puts outright, he did a short put ladder: sold the 24,000, bought the 23,500 and 23,000 for almost nothing.",
         "The short put ladder's worst case is a slow grind to 23,500; it pays in a crash.",
@@ -1466,6 +1505,13 @@
         "backspread",
         "ratio-spread",
         "bear-put-spread"
+      ],
+      "overlaps": [
+        "backspread"
+      ],
+      "alsoFits": [
+        "ratio-spread",
+        "tail-hedge"
       ],
       "wrong": [
         "Buying one put and selling two lower puts",
@@ -1489,6 +1535,9 @@
       "confusables": [
         "rebalance",
         "index-inclusion",
+        "event-driven"
+      ],
+      "overlaps": [
         "event-driven"
       ],
       "wrong": [
@@ -1517,6 +1566,9 @@
       ],
       "overlaps": [
         "bond-index-inclusion"
+      ],
+      "alsoFits": [
+        "index-rebalancing-trade"
       ],
       "wrong": [
         "A stock leaving an index after falling",
@@ -1558,6 +1610,9 @@
         "momentum-factor",
         "event-driven"
       ],
+      "overlaps": [
+        "momentum-factor"
+      ],
       "wrong": [
         "The price fall just before results come out",
         "A drop in implied volatility after results",
@@ -1583,7 +1638,8 @@
         "iv-crush"
       ],
       "overlaps": [
-        "straddle"
+        "straddle",
+        "implied-move"
       ],
       "wrong": [
         "Buying the stock and a put before results",
@@ -1659,6 +1715,9 @@
         "bulk-deal",
         "ofs"
       ],
+      "alsoFits": [
+        "block-deal"
+      ],
       "wrong": [
         "Buying a block of options at once",
         "Selling shares when a stock hits its upper circuit",
@@ -1683,6 +1742,9 @@
         "futures-fair-value",
         "etf-arbitrage"
       ],
+      "overlaps": [
+        "cash-and-carry-arbitrage"
+      ],
       "wrong": [
         "Buying the index on one exchange and selling on another",
         "Trading Nifty options against Bank Nifty options",
@@ -1697,15 +1759,18 @@
       "short": "Trading the futures basis around dividends",
       "definition": "A trade on how futures price an upcoming dividend. A stock future should sit below the cash price plus carry by the expected dividend; if the market misjudges the dividend, traders take cash against futures and profit when the dividend is announced or paid.",
       "examples": [
-        "The futures price a ₹20 dividend, but we expect ₹35, so the dividend basis trade is to buy futures and sell cash.",
+        "The stock's futures price a ₹20 dividend per share, but we expect ₹35, so the dividend basis trade is to sell futures and buy the shares.",
         "A surprise special dividend blew up everyone short the dividend basis trade.",
         "The dividend basis trade is small per share, so the desk runs it across many stocks at once."
       ],
-      "fill": "Futures priced a ₹20 dividend while the desk expected ₹35, so it bought futures against cash: a ____.",
+      "fill": "Futures priced a ₹20 dividend while the desk expected ₹35, so it sold futures and bought cash: a ____.",
       "confusables": [
         "basis",
         "cost-of-carry",
         "futures-fair-value"
+      ],
+      "alsoFits": [
+        "index-arbitrage"
       ],
       "wrong": [
         "Buying high-dividend stocks for income",
@@ -1771,6 +1836,9 @@
         "mean-reversion",
         "range-bound"
       ],
+      "overlaps": [
+        "mean-reversion"
+      ],
       "wrong": [
         "Buying stocks that trade above their VWAP",
         "An execution algo that tracks VWAP",
@@ -1794,6 +1862,9 @@
         "positional",
         "intraday",
         "btst"
+      ],
+      "overlaps": [
+        "positional"
       ],
       "wrong": [
         "Trading only in the first hour",

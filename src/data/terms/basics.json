@@ -178,11 +178,14 @@
         "HDFC Bank has deep liquidity; you can trade large size without much impact.",
         "The client asked about liquidity: how quickly can they get their money out of the fund?"
       ],
-      "fill": "Thin ____ means even a modest order can push the price sharply.",
+      "fill": "With deep ____, you can sell ₹50 crore of a stock without moving its price much.",
       "confusables": [
         "volume",
         "volatility",
         "spread"
+      ],
+      "alsoFits": [
+        "bid"
       ],
       "wrong": [
         "The cash a company holds on its balance sheet",
@@ -207,6 +210,9 @@
       "confusables": [
         "liquidity",
         "market-cap"
+      ],
+      "alsoFits": [
+        "spread"
       ],
       "wrong": [
         "The total value of all shares of a company",
@@ -434,16 +440,26 @@
         "Close out the position before expiry.",
         "Risk asked for every position over ₹10 crore to be listed with its stop."
       ],
-      "fill": "We bought 50,000 shares over three days to build our ____.",
+      "fill": "After three days of buying, our ____ in Infosys is long 50,000 shares.",
       "confusables": [
         "exposure",
         "portfolio",
         "long"
       ],
+      "overlaps": [
+        "long",
+        "portfolio",
+        "exposure"
+      ],
+      "alsoFits": [
+        "futures-contract",
+        "order",
+        "short"
+      ],
       "wrong": [
         "A stock's rank in an index",
         "The price at which you plan to sell",
-        "Your place in the order queue"
+        "The fee for holding a trade overnight"
       ],
       "difficulty": 1
     },
@@ -464,7 +480,11 @@
         "position"
       ],
       "overlaps": [
-        "long-and-wrong"
+        "long-and-wrong",
+        "position"
+      ],
+      "alsoFits": [
+        "short"
       ],
       "wrong": [
         "Holding a stock for more than a year",
@@ -493,6 +513,9 @@
       ],
       "overlaps": [
         "margin-blocked"
+      ],
+      "alsoFits": [
+        "leverage"
       ],
       "wrong": [
         "The broker's profit on each trade",
@@ -606,7 +629,7 @@
       "short": "Profit or loss made",
       "definition": "Profit and loss: how much money a trade, book or fund has made or lost.",
       "examples": [
-        "What's the P&L on the Bank Nifty trade?",
+        "What's the P&L on the Bank Nifty trade: are we up or down?",
         "The desk's P&L was down ₹2 crore on the day.",
         "The client's quarterly report shows P&L by stock, so they can see what worked."
       ],
@@ -619,7 +642,13 @@
       "overlaps": [
         "realised-pnl",
         "unrealised-pnl",
-        "income-statement"
+        "income-statement",
+        "mtm",
+        "return"
+      ],
+      "alsoFits": [
+        "notional",
+        "margin"
       ],
       "wrong": [
         "Price and liquidity",
@@ -650,7 +679,9 @@
         "pnl"
       ],
       "overlaps": [
-        "pnl"
+        "pnl",
+        "profit-booking",
+        "stcg"
       ],
       "wrong": [
         "Profit you expect to make by the end of the year",
@@ -681,7 +712,8 @@
         "pnl"
       ],
       "overlaps": [
-        "pnl"
+        "pnl",
+        "mtm"
       ],
       "wrong": [
         "Profit that has been paid out as a dividend",
@@ -711,13 +743,15 @@
         "Futures are settled mark-to-market every day, so losses are paid in cash daily.",
         "Risk runs MTM on the whole book at 3:30 and flags anything down more than 2%."
       ],
-      "fill": "Futures positions are ____ every day, and any losses are taken from your margin.",
+      "fill": "Futures positions are valued ____ every day, and any losses are taken from your margin.",
       "confusables": [
         "unrealised-pnl",
         "realised-pnl"
       ],
       "overlaps": [
-        "mtm-settlement"
+        "mtm-settlement",
+        "pnl",
+        "unrealised-pnl"
       ],
       "wrong": [
         "Valuing positions at the price you bought them",
@@ -745,6 +779,9 @@
         "leverage",
         "exposure",
         "market-cap"
+      ],
+      "overlaps": [
+        "exposure"
       ],
       "wrong": [
         "The cash you deposit with your broker",
@@ -783,6 +820,11 @@
         "exposure",
         "hedge"
       ],
+      "overlaps": [
+        "debt-to-equity",
+        "lambda",
+        "mtf"
+      ],
       "wrong": [
         "Spreading money across many stocks to reduce risk",
         "Negotiating lower brokerage with your broker",
@@ -810,7 +852,7 @@
       "short": "Gain or loss as a percentage",
       "definition": "The gain or loss on an investment, usually shown as a percentage of the amount invested.",
       "examples": [
-        "The fund's one-year return is 18%.",
+        "The fund's one-year return is 18%, beating its benchmark.",
         "The client compared the fund's return with a fixed deposit and asked why it was lower this year.",
         "Risk judges each desk on profit per unit of risk, not on raw return."
       ],
@@ -824,7 +866,13 @@
         "total-return",
         "cagr",
         "real-return",
-        "forward-returns"
+        "forward-returns",
+        "pnl",
+        "xirr"
+      ],
+      "alsoFits": [
+        "volatility",
+        "realised-pnl"
       ],
       "wrong": [
         "Cash a company pays back through buybacks",
@@ -856,7 +904,8 @@
         "total-return"
       ],
       "overlaps": [
-        "return"
+        "return",
+        "xirr"
       ],
       "wrong": [
         "The total return over the whole period",
@@ -1077,7 +1126,10 @@
         "face-value"
       ],
       "overlaps": [
-        "valuation"
+        "valuation",
+        "present-value",
+        "target-price",
+        "microprice"
       ],
       "wrong": [
         "The price agreed between two friends",
@@ -1172,7 +1224,7 @@
       "short": "Profit per share",
       "definition": "Earnings per share: a company's net profit divided by its number of shares.",
       "examples": [
-        "EPS grew 18% year on year.",
+        "EPS grew 18% year on year, so profit per share hit a record.",
         "The analyst raised her EPS estimate for next year by 6% after the margin beat.",
         "The client asked why the stock fell when EPS rose: it rose less than expected."
       ],
@@ -1181,6 +1233,10 @@
         "pe-ratio",
         "earnings",
         "dividend"
+      ],
+      "alsoFits": [
+        "enterprise-value",
+        "valuation"
       ],
       "wrong": [
         "Expected price of the share next year",
@@ -1212,6 +1268,10 @@
         "eps",
         "pb-ratio",
         "multiple"
+      ],
+      "overlaps": [
+        "multiple",
+        "valuation"
       ],
       "wrong": [
         "Profit divided by revenue",
@@ -1250,10 +1310,14 @@
         "The analyst compares banks on P/B ratio because their earnings swing with bad loans.",
         "Risk noticed the fund holds mostly stocks with a high P/B ratio, which is a growth tilt."
       ],
-      "fill": "Banks are often valued on ____, since their assets are mostly loans carried close to book value.",
+      "fill": "A bank priced at ₹240 a share, with book value of ₹200 a share, trades at a ____ of 1.2.",
       "confusables": [
         "pe-ratio",
         "book-value"
+      ],
+      "overlaps": [
+        "multiple",
+        "valuation"
       ],
       "wrong": [
         "Price divided by earnings per share",
@@ -1283,6 +1347,9 @@
         "market-cap",
         "ebitda",
         "book-value"
+      ],
+      "overlaps": [
+        "valuation"
       ],
       "wrong": [
         "Market cap minus debt",
@@ -1323,6 +1390,9 @@
         "eps",
         "earnings"
       ],
+      "overlaps": [
+        "earnings"
+      ],
       "wrong": [
         "Profit after all expenses and taxes",
         "Total revenue before costs",
@@ -1350,7 +1420,9 @@
         "valuation"
       ],
       "overlaps": [
-        "valuation"
+        "valuation",
+        "pe-ratio",
+        "pb-ratio"
       ],
       "wrong": [
         "The number of times a stock has split",
@@ -1380,7 +1452,8 @@
         "eps"
       ],
       "overlaps": [
-        "pat"
+        "pat",
+        "ebitda"
       ],
       "wrong": [
         "A company's total sales",
@@ -1435,6 +1508,9 @@
       "overlaps": [
         "the-street"
       ],
+      "alsoFits": [
+        "guidance"
+      ],
       "wrong": [
         "A company's own forecast",
         "Agreement among board members",
@@ -1460,7 +1536,10 @@
       ],
       "overlaps": [
         "multiple",
-        "fair-value"
+        "fair-value",
+        "pe-ratio",
+        "pb-ratio",
+        "enterprise-value"
       ],
       "wrong": [
         "The number of shares a company issues",
@@ -1480,10 +1559,14 @@
         "Risk wants a hedge on the bank exposure before the RBI policy.",
         "The client asked whether gold is a good hedge against a falling rupee."
       ],
-      "fill": "To protect the portfolio from a market fall without selling stocks, the PM put on a ____ with index futures.",
+      "fill": "To protect the portfolio from a market fall without selling stocks, the PM bought Nifty puts as a ____.",
       "confusables": [
         "short",
         "diversification"
+      ],
+      "overlaps": [
+        "delta-hedging",
+        "protective-put"
       ],
       "wrong": [
         "A bet that magnifies gains",
@@ -1508,6 +1591,9 @@
         "hedge",
         "portfolio",
         "asset-class"
+      ],
+      "overlaps": [
+        "risk-parity"
       ],
       "wrong": [
         "Buying more of a stock as it falls",
@@ -1540,6 +1626,9 @@
         "exposure",
         "asset-class"
       ],
+      "overlaps": [
+        "position"
+      ],
       "wrong": [
         "A single large holding",
         "A folder of company reports",
@@ -1563,6 +1652,9 @@
         "outperform",
         "portfolio"
       ],
+      "overlaps": [
+        "stock-index"
+      ],
       "wrong": [
         "The minimum investment for a fund",
         "The highest price a stock reached this year",
@@ -1585,6 +1677,9 @@
       "confusables": [
         "underperform",
         "benchmark"
+      ],
+      "alsoFits": [
+        "hedge"
       ],
       "wrong": [
         "To trade more often than others",
@@ -1634,7 +1729,10 @@
         "leverage"
       ],
       "overlaps": [
-        "factor-exposure"
+        "factor-exposure",
+        "notional",
+        "time-in-market",
+        "position"
       ],
       "wrong": [
         "Publicity a company gets in the media",
@@ -1804,7 +1902,8 @@
         "portfolio"
       ],
       "overlaps": [
-        "nifty-50"
+        "nifty-50",
+        "benchmark"
       ],
       "wrong": [
         "The average price of every share listed in India",
@@ -2002,7 +2101,8 @@
         "face-value"
       ],
       "overlaps": [
-        "dcf"
+        "dcf",
+        "fair-value"
       ],
       "wrong": [
         "The price an asset trades at right now",
@@ -2135,6 +2235,9 @@
         "mutual-fund",
         "nav"
       ],
+      "overlaps": [
+        "mutual-fund"
+      ],
       "wrong": [
         "A fund you buy and sell only with the AMC, once a day at NAV",
         "A basket of stocks you pick yourself",
@@ -2165,6 +2268,9 @@
         "etf",
         "mutual-fund",
         "tracking-error"
+      ],
+      "overlaps": [
+        "mutual-fund"
       ],
       "wrong": [
         "A fund whose manager picks stocks to beat the index",

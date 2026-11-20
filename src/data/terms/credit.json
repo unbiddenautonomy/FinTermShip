@@ -37,6 +37,9 @@
         "default",
         "liquidity-risk"
       ],
+      "overlaps": [
+        "probability-of-default"
+      ],
       "wrong": [
         "The risk that rates rise and bond prices fall",
         "The risk that you can't sell a bond quickly",
@@ -55,8 +58,13 @@
         "The fund cut duration to reduce interest-rate risk before the RBI meeting.",
         "Short-term papers have little interest-rate risk."
       ],
-      "fill": "A 10-year government bond falling 4% after rates jump 0.6% shows its ____.",
+      "fill": "A G-sec has almost no credit risk, but it still carries ____, because its price falls when rates rise.",
       "confusables": [
+        "credit-risk",
+        "modified-duration"
+      ],
+      "alsoFits": [
+        "probability-of-default",
         "credit-risk",
         "modified-duration"
       ],
@@ -226,6 +234,9 @@
         "recovery-rate",
         "credit-rating"
       ],
+      "overlaps": [
+        "credit-risk"
+      ],
       "wrong": [
         "The chance its shares fall 10%",
         "The chance a bond is called early",
@@ -269,13 +280,16 @@
       "examples": [
         "With 40% recovery, the loss given default is 60%.",
         "Collateral cuts the loss given default, not the chance of default.",
-        "Banks estimate loss given default for every loan book."
+        "Banks estimate loss given default for every loan book: the share of each loan they expect to lose once a borrower has defaulted."
       ],
       "fill": "One minus the recovery rate is the ____.",
       "confusables": [
         "recovery-rate",
         "expected-loss",
         "probability-of-default"
+      ],
+      "alsoFits": [
+        "expected-loss"
       ],
       "wrong": [
         "The chance of a default",
@@ -303,6 +317,9 @@
         "bond",
         "commercial-paper",
         "spread-over-gsec"
+      ],
+      "overlaps": [
+        "bond"
       ],
       "wrong": [
         "A share with a fixed dividend",
@@ -357,6 +374,9 @@
         "mutual-fund",
         "credit-risk",
         "segregated-portfolio"
+      ],
+      "overlaps": [
+        "mutual-fund"
       ],
       "wrong": [
         "A fund that invests in shares of banks",
@@ -520,6 +540,9 @@
         "distressed-debt",
         "credit-risk"
       ],
+      "overlaps": [
+        "distressed-debt"
+      ],
       "wrong": [
         "A government bond with a long maturity",
         "A bond with a coupon that rises over time",
@@ -547,6 +570,9 @@
         "recovery-rate",
         "default"
       ],
+      "overlaps": [
+        "high-yield-bond"
+      ],
       "wrong": [
         "Bonds that pay no coupon",
         "Bonds bought back by the issuer",
@@ -571,6 +597,12 @@
         "tail-risk",
         "default"
       ],
+      "overlaps": [
+        "tail-risk"
+      ],
+      "alsoFits": [
+        "gap-risk"
+      ],
       "wrong": [
         "A slow widening of credit spreads",
         "A rating moving up a notch",
@@ -587,7 +619,7 @@
       "examples": [
         "After the default, spread widening hit even AAA NBFC paper.",
         "Spread widening in high yield often comes before an equity correction.",
-        "The fund lost money on spread widening even though G-sec yields fell."
+        "The fund lost money on spread widening across its AAA bonds, even though G-sec yields fell."
       ],
       "fill": "Corporate bond yields rising faster than G-sec yields is ____.",
       "confusables": [
@@ -598,7 +630,7 @@
       "wrong": [
         "The yield curve getting steeper",
         "A bond's coupon being raised",
-        "The gap between bid and ask growing"
+        "The RBI's policy rate being cut"
       ],
       "difficulty": 2,
       "reads": {

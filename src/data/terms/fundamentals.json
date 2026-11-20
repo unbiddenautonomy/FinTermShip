@@ -57,6 +57,9 @@
         "earnings",
         "same-store-sales-growth"
       ],
+      "overlaps": [
+        "yoy-growth"
+      ],
       "wrong": [
         "Profit as a share of sales",
         "Cash left after capex",
@@ -161,6 +164,9 @@
         "revenue-growth",
         "cagr"
       ],
+      "overlaps": [
+        "revenue-growth"
+      ],
       "wrong": [
         "Comparing with the previous quarter",
         "The average growth over five years",
@@ -179,7 +185,7 @@
       "short": "Compared with the previous quarter",
       "definition": "Growth measured against the quarter just before. It shows the latest direction faster than year-on-year, but seasonal businesses can swing a lot between quarters, so read it alongside year-on-year growth.",
       "examples": [
-        "Quarter-on-quarter growth turned positive, the first sign of recovery.",
+        "Sales rose against the June quarter for the first time in a year: quarter-on-quarter growth has turned positive.",
         "IT services firms are judged on quarter-on-quarter dollar revenue growth.",
         "Don't panic on a quarter-on-quarter drop for a retailer: Q4 always follows the festive quarter."
       ],
@@ -270,7 +276,7 @@
         "Adjusted for exceptional items, profit grew 12%.",
         "Exceptional items every quarter aren't exceptional any more."
       ],
-      "fill": "A one-time ₹500 crore gain from selling a subsidiary is reported as an ____.",
+      "fill": "A one-time ₹500 crore gain from selling a subsidiary is reported among the ____.",
       "confusables": [
         "other-income",
         "pat",
@@ -403,7 +409,7 @@
       "short": "Cash tied up in stock and dues from customers",
       "definition": "Current assets minus current liabilities: money stuck in inventory and receivables, less what the company owes suppliers. Growing businesses need more of it, which uses cash. A sudden jump can mean customers are paying late or stock isn't selling.",
       "examples": [
-        "Working capital rose by ₹400 crore, eating most of the year's profit.",
+        "Working capital rose by ₹400 crore as customers paid late, soaking up most of the year's cash.",
         "FMCG companies run negative working capital: suppliers fund them.",
         "Infrastructure firms often have heavy working capital tied up in government dues."
       ],
@@ -433,7 +439,7 @@
       "examples": [
         "Receivable days jumped from 60 to 95: are they booking sales they can't collect?",
         "Government contractors have long receivable days.",
-        "Falling receivable days helped cash flow beat profit."
+        "Falling receivable days, as customers paid faster, helped cash flow beat profit."
       ],
       "fill": "Receivables of ₹250 crore on yearly sales of ₹1,000 crore mean about 91 ____.",
       "confusables": [
@@ -478,11 +484,14 @@
       "examples": [
         "Inventory days rose to 120; demand isn't keeping up with production.",
         "Auto dealers are sitting on 50 inventory days, so expect festive discounts.",
-        "Lower inventory days freed up ₹200 crore of cash."
+        "Lower inventory days, with goods selling faster, freed up ₹200 crore of cash."
       ],
       "fill": "Stock of ₹200 crore against yearly cost of goods of ₹1,200 crore is about 61 ____.",
       "confusables": [
         "receivable-days",
+        "working-capital"
+      ],
+      "alsoFits": [
         "working-capital"
       ],
       "wrong": [
@@ -512,6 +521,9 @@
         "interest-coverage",
         "leverage",
         "covenant"
+      ],
+      "overlaps": [
+        "leverage"
       ],
       "wrong": [
         "Profit divided by sales",
@@ -681,7 +693,7 @@
       "examples": [
         "Cash conversion of 95% says the profits are real.",
         "Cash conversion fell to 40% as receivables ballooned.",
-        "The analyst prefers the company with lower growth but better cash conversion."
+        "The analyst prefers the company with lower growth but better cash conversion: its profit actually turns into cash."
       ],
       "fill": "Operating cash flow divided by EBITDA measures ____.",
       "confusables": [
@@ -722,6 +734,10 @@
       ],
       "overlaps": [
         "cash-conversion"
+      ],
+      "alsoFits": [
+        "roce",
+        "roe"
       ],
       "wrong": [
         "How much earnings grew this year",
@@ -767,7 +783,7 @@
       "examples": [
         "At a PEG ratio of 0.8 the stock isn't as expensive as its 40x P/E suggests.",
         "A PEG ratio above 3 means you're paying a lot for the growth.",
-        "Growth forecasts are uncertain, so the PEG ratio is only a rough guide."
+        "Growth forecasts are uncertain, and the PEG ratio divides the P/E by them, so treat it as a rough guide."
       ],
       "fill": "A P/E of 30 with expected earnings growth of 20% a year gives a ____ of 1.5.",
       "confusables": [
@@ -813,6 +829,10 @@
       "confusables": [
         "enterprise-value",
         "pe-ratio",
+        "ebitda"
+      ],
+      "alsoFits": [
+        "enterprise-value",
         "ebitda"
       ],
       "wrong": [
@@ -978,6 +998,9 @@
         "roe",
         "capm"
       ],
+      "overlaps": [
+        "capm"
+      ],
       "wrong": [
         "The interest rate the company pays on its loans",
         "The dividend the company paid last year",
@@ -996,7 +1019,7 @@
       "id": "net-interest-margin",
       "term": "net interest margin",
       "unit": "n4",
-      "short": "A bank's lending rate minus its funding cost",
+      "short": "Interest earned minus paid, over a bank's assets",
       "definition": "Net interest income (interest earned minus interest paid) as a percentage of interest-earning assets. It is a bank's core profitability measure. It usually widens early in a rate-hiking cycle when loans reprice faster than deposits, and narrows when rates fall.",
       "examples": [
         "Net interest margin fell 15 bps as deposit costs caught up.",
@@ -1008,6 +1031,9 @@
         "casa-ratio",
         "ebitda-margin",
         "repo-rate"
+      ],
+      "alsoFits": [
+        "gross-npa"
       ],
       "wrong": [
         "The interest rate on fixed deposits",
@@ -1131,6 +1157,9 @@
         "revenue-growth",
         "arpu"
       ],
+      "alsoFits": [
+        "order-backlog"
+      ],
       "wrong": [
         "Total sales growth including new stores",
         "Growth in the number of stores",
@@ -1162,6 +1191,9 @@
         "revenue-growth",
         "guidance"
       ],
+      "overlaps": [
+        "total-contract-value"
+      ],
       "wrong": [
         "The queue of buy orders at the exchange",
         "Unpaid bills from customers",
@@ -1169,8 +1201,7 @@
       ],
       "difficulty": 2,
       "aliases": [
-        "order book (company)",
-        "order inflow"
+        "order book (company)"
       ],
       "reads": {
         "up": "A growing backlog and strong order inflow mean visible future revenue: capital goods and defence stocks often rally on it.",
@@ -1191,6 +1222,9 @@
       "fill": "An IT firm losing 18 of every 100 employees over a year has an 18% ____.",
       "confusables": [
         "ebitda-margin"
+      ],
+      "alsoFits": [
+        "total-contract-value"
       ],
       "wrong": [
         "Growth in the number of clients",
@@ -1224,7 +1258,13 @@
         "guidance"
       ],
       "overlaps": [
-        "order-inflow"
+        "order-inflow",
+        "order-backlog"
+      ],
+      "alsoFits": [
+        "arpu",
+        "same-store-sales-growth",
+        "net-interest-margin"
       ],
       "wrong": [
         "Revenue booked this quarter",
@@ -1309,10 +1349,13 @@
         "Management commentary turned cautious on rural demand for the first time in a year.",
         "Track the commentary across calls; promises that keep slipping are a warning."
       ],
-      "fill": "The CEO saying 'demand is picking up in the second half' on the call is ____.",
+      "fill": "The CEO's remarks on the call that rural demand still feels cautious are ____.",
       "confusables": [
         "guidance",
         "earnings-call",
+        "mdna"
+      ],
+      "overlaps": [
         "mdna"
       ],
       "wrong": [
@@ -1403,6 +1446,10 @@
         "consensus",
         "earnings-miss"
       ],
+      "overlaps": [
+        "earnings-beat",
+        "earnings-miss"
+      ],
       "wrong": [
         "The change in the share price on results day",
         "Growth against the same quarter last year",
@@ -1433,6 +1480,9 @@
       ],
       "overlaps": [
         "total-contract-value"
+      ],
+      "alsoFits": [
+        "management-commentary"
       ],
       "wrong": [
         "Orders still to be executed",
@@ -1466,6 +1516,9 @@
         "notes-to-accounts",
         "investor-presentation"
       ],
+      "alsoFits": [
+        "related-party-transactions"
+      ],
       "wrong": [
         "A quarter's results filing",
         "A broker's initiation report",
@@ -1489,6 +1542,9 @@
         "management-commentary",
         "annual-report",
         "guidance"
+      ],
+      "overlaps": [
+        "management-commentary"
       ],
       "wrong": [
         "The auditor's opinion on the accounts",
@@ -1517,6 +1573,9 @@
         "annual-report",
         "contingent-liabilities",
         "earnings-quality"
+      ],
+      "alsoFits": [
+        "balance-sheet"
       ],
       "wrong": [
         "The chairman's letter to shareholders",
@@ -1570,7 +1629,7 @@
       "definition": "Obligations that may become real depending on an event: tax disputes, legal claims, guarantees given for other companies' loans. They sit in the notes, not in the balance sheet. A large figure compared with net worth means one bad ruling could wipe out years of profit.",
       "examples": [
         "Contingent liabilities from tax disputes were 60% of net worth.",
-        "The company had guaranteed a group firm's loan, so it showed up in contingent liabilities.",
+        "The company had guaranteed a group firm's loan, so it sat in contingent liabilities: nothing is owed unless that firm defaults.",
         "The stock fell when a court ruling turned a contingent liability into a real one."
       ],
       "fill": "A pending tax demand the company is fighting in court is one of its ____.",
@@ -1578,6 +1637,9 @@
         "notes-to-accounts",
         "debt-to-equity",
         "exceptional-items"
+      ],
+      "alsoFits": [
+        "notes-to-accounts"
       ],
       "wrong": [
         "Loans already on the balance sheet",
@@ -1598,7 +1660,7 @@
       "definition": "An auditor's report that says the accounts are fair except for specific matters it could not verify or disagrees with. It is more serious than an 'emphasis of matter', which only draws attention to something. A qualification on cash, receivables or related parties is a major warning.",
       "examples": [
         "The auditor gave a qualified audit opinion on ₹800 crore of receivables it couldn't verify.",
-        "The stock fell 15% after the qualified audit opinion was filed.",
+        "The stock fell 15% after the auditors would not fully sign off on receivables, issuing their qualified audit opinion.",
         "Read the auditor's report first; a qualified audit opinion changes everything else."
       ],
       "fill": "An auditor saying the accounts are fair 'except for' a matter it couldn't verify is a ____.",
@@ -1764,6 +1826,10 @@
         "ebitda-margin",
         "operating-margin",
         "net-interest-margin"
+      ],
+      "alsoFits": [
+        "ebitda-margin",
+        "operating-margin"
       ],
       "wrong": [
         "Profit after every cost, interest and tax",

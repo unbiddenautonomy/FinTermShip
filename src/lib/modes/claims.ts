@@ -57,7 +57,10 @@ export function claimsFor(term: Term, truth: boolean, look: ClaimLookup = inApp)
       // Skip a parent concept named inside the term ("long" in "long and wrong"): its gloss can be partly true.
       const [x, y] = [term.term.toLowerCase(), other.term.toLowerCase()];
       if (x.includes(y) || y.includes(x)) continue;
-      out.push({ termId: term.id, text: `${term.term}: ${tidyOption(other.short)}.`, truth, why: `That describes ${other.term}. ${term.term}: ${gloss}.`, source: 'swap' });
+      const text = `${term.term}: ${tidyOption(other.short)}.`;
+      // A wrong gloss written word for word like a confusable's would deal the same card twice.
+      if (out.some((c) => c.text.toLowerCase() === text.toLowerCase())) continue;
+      out.push({ termId: term.id, text, truth, why: `That describes ${other.term}. ${term.term}: ${gloss}.`, source: 'swap' });
     }
   for (const c of term.calcs ?? []) {
     if (truth) out.push({ termId: term.id, text: `${c.q} Answer: ${c.options[c.answer]}.`, truth, why: c.why, source: 'number' });

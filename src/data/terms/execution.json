@@ -113,13 +113,19 @@
       "examples": [
         "The PM wants the close as the execution benchmark, so we'll do most of it in the closing auction.",
         "The client asked how we judge a good fill: against an agreed execution benchmark such as VWAP.",
-        "Risk wants the execution benchmark set before the order starts, not picked afterwards."
+        "Risk wants the execution benchmark, the price the fill is judged against, set before the order starts."
       ],
       "fill": "Before we start, agree the ____: are we measured against the arrival price, VWAP or the close?",
       "confusables": [
         "vwap",
         "arrival-price",
         "target-price"
+      ],
+      "overlaps": [
+        "vwap",
+        "arrival-price",
+        "twap",
+        "decision-price"
       ],
       "wrong": [
         "Index a fund's returns are compared with",
@@ -137,13 +143,16 @@
       "examples": [
         "We bought at 1,503 against an arrival price of 1,500, so 20 bp of cost.",
         "The dealer notes the arrival price the moment the order lands on the desk.",
-        "The PM judges the desk against arrival price, because that's when she wanted to trade."
+        "The PM judges the desk against arrival price, because the desk can't control moves before the order reached it."
       ],
       "fill": "The stock's mid was 820 when the order hit the algo, so 820 is the ____.",
       "confusables": [
         "decision-price",
         "vwap",
         "ltp"
+      ],
+      "overlaps": [
+        "execution-benchmark"
       ],
       "wrong": [
         "Price of the first fill",
@@ -182,6 +191,9 @@
         "delay-cost",
         "trigger-price"
       ],
+      "overlaps": [
+        "execution-benchmark"
+      ],
       "wrong": [
         "Price an analyst's model says the stock is worth",
         "Price at which a stop-loss triggers",
@@ -201,7 +213,7 @@
       "short": "Average traded price, weighted by volume",
       "definition": "The average price of all trades over a period, each weighted by its size. Buying below the day's VWAP, or selling above it, is a common sign of a good fill, though it says little when your own order is a big part of the volume.",
       "examples": [
-        "We bought 3 lakh shares at 2 bp better than VWAP.",
+        "We bought 3 lakh shares at 2 bp better than VWAP, the day's volume-weighted average.",
         "The client asked whether beating VWAP means she got a good price.",
         "Risk warns that beating VWAP is easy when your own buying pushed it up."
       ],
@@ -212,7 +224,8 @@
         "mid-price"
       ],
       "overlaps": [
-        "average-price"
+        "average-price",
+        "execution-benchmark"
       ],
       "wrong": [
         "Average of the day's high and low",
@@ -264,6 +277,9 @@
         "arrival-price",
         "mid-price"
       ],
+      "overlaps": [
+        "execution-benchmark"
+      ],
       "wrong": [
         "Average price weighted by trade size",
         "Price at the middle of the trading day",
@@ -300,6 +316,10 @@
         "arrival-price",
         "opportunity-cost",
         "tracking-error"
+      ],
+      "overlaps": [
+        "implicit-costs",
+        "bips-vs-arrival"
       ],
       "wrong": [
         "Margin shortfall at the end of the day",
@@ -345,6 +365,9 @@
         "volume",
         "market-impact"
       ],
+      "overlaps": [
+        "max-participation"
+      ],
       "wrong": [
         "Share of a company owned by the promoter",
         "Share of trades done by retail investors",
@@ -382,6 +405,9 @@
         "stt",
         "haircut"
       ],
+      "overlaps": [
+        "brokerage"
+      ],
       "wrong": [
         "Costs from the spread and your own price impact",
         "Tax on the profit from a trade",
@@ -397,7 +423,7 @@
       "definition": "Trading costs that never appear on a bill but show up in your fill prices: the spread, market impact, delay and missed trades. For large orders they usually dwarf the explicit costs.",
       "examples": [
         "The broker is cheap on commission, but its implicit costs are awful.",
-        "TCA shows our implicit costs doubled on expiry days.",
+        "TCA shows our implicit costs, the spread and impact hidden in our fills, doubled on expiry days.",
         "The client asked what implicit costs are: the spread and the price move your own order causes."
       ],
       "fill": "Nobody bills you for the spread or your own price impact, but you pay for them through worse fills. They're ____.",
@@ -405,6 +431,9 @@
         "explicit-costs",
         "stt",
         "haircut"
+      ],
+      "overlaps": [
+        "implementation-shortfall"
       ],
       "wrong": [
         "Fees printed on the contract note",
@@ -432,6 +461,13 @@
         "algo-trading",
         "smart-order-routing",
         "black-box-algo"
+      ],
+      "overlaps": [
+        "algo-trading",
+        "vwap-algo",
+        "twap-algo",
+        "pov-algo",
+        "arrival-price-algo"
       ],
       "wrong": [
         "Algo that decides which stocks to buy",
@@ -466,6 +502,12 @@
         "pov-algo",
         "vwap"
       ],
+      "overlaps": [
+        "execution-algo"
+      ],
+      "alsoFits": [
+        "twap"
+      ],
       "wrong": [
         "Trades the same amount every few minutes",
         "Trades a fixed share of live volume",
@@ -491,6 +533,9 @@
         "vwap-algo",
         "pov-algo",
         "twap"
+      ],
+      "overlaps": [
+        "execution-algo"
       ],
       "wrong": [
         "Trades in step with the usual volume pattern",
@@ -521,6 +566,9 @@
         "participation-rate",
         "vwap-algo",
         "twap-algo"
+      ],
+      "overlaps": [
+        "execution-algo"
       ],
       "wrong": [
         "Trades equal amounts at even intervals",
@@ -569,6 +617,9 @@
         "vwap-algo",
         "pov-algo",
         "urgency"
+      ],
+      "overlaps": [
+        "execution-algo"
       ],
       "wrong": [
         "Trades equal amounts at even intervals",
@@ -708,7 +759,7 @@
       "short": "The price move your own trading causes",
       "definition": "How far your own buying or selling pushes the price over the whole life of an order. Unlike impact cost, which is read off the order book for one instant sweep, it includes how other traders react while you keep trading.",
       "examples": [
-        "The spread was 2 bp, but market impact on the full order was 25 bp.",
+        "The spread was 2 bp, but market impact, our own buying pushing the price up, cost 25 bp on the full order.",
         "The quant estimates market impact from the order's size against daily volume.",
         "The client asked why her big sell order pushed the price down: market impact."
       ],
@@ -717,6 +768,11 @@
         "impact-cost",
         "price-discovery",
         "short-squeeze"
+      ],
+      "overlaps": [
+        "impact-cost",
+        "temporary-impact",
+        "permanent-impact"
       ],
       "wrong": [
         "How news about a company moves its stock",
@@ -749,6 +805,10 @@
         "market-impact",
         "adverse-selection"
       ],
+      "overlaps": [
+        "market-impact",
+        "post-trade-reversion"
+      ],
       "wrong": [
         "Price move that stays after you stop",
         "Price move caused by a news headline",
@@ -763,7 +823,7 @@
       "short": "Price move that stays after you stop",
       "definition": "The part of your market impact that stays after you finish, because other traders read your buying or selling as news about what the stock is worth.",
       "examples": [
-        "There's a big buyer in the name, so most of that move is permanent impact.",
+        "There's a big buyer in the name, so most of that move is permanent impact and won't come back.",
         "The quant says permanent impact is a sign the market thinks our trade carried information.",
         "The PM doesn't mind that permanent impact kept the price up after she finished; her buying was a real signal."
       ],
@@ -772,6 +832,12 @@
         "temporary-impact",
         "market-impact",
         "adverse-selection"
+      ],
+      "overlaps": [
+        "market-impact"
+      ],
+      "alsoFits": [
+        "information-leakage"
       ],
       "wrong": [
         "Price push that fades once you stop",
@@ -800,8 +866,12 @@
         "rule-of-16",
         "participation-rate"
       ],
+      "alsoFits": [
+        "tca",
+        "almgren-chriss"
+      ],
       "wrong": [
-        "Volatility grows with the square root of time",
+        "Impact halves each time order size doubles",
         "Impact grows in a straight line with order size",
         "Returns fall as the square of fund size"
       ],
@@ -951,6 +1021,9 @@
         "correction",
         "profit-booking"
       ],
+      "overlaps": [
+        "temporary-impact"
+      ],
       "wrong": [
         "A stock's bounce after a sharp fall",
         "Reversing a trade booked by mistake",
@@ -1006,6 +1079,9 @@
         "fill",
         "participation-rate"
       ],
+      "alsoFits": [
+        "partial-fill"
+      ],
       "wrong": [
         "Share of the day's volume you traded",
         "Share of trades that made money",
@@ -1048,6 +1124,9 @@
         "well-bid",
         "iceberg-order"
       ],
+      "overlaps": [
+        "offered"
+      ],
       "wrong": [
         "Waiting for the price to fall to buy",
         "Trading on credit from the broker",
@@ -1076,6 +1155,9 @@
         "hit-the-bid",
         "limit-order"
       ],
+      "overlaps": [
+        "limit-order"
+      ],
       "wrong": [
         "Buy straight away at the best offer",
         "Sell to the highest bidder right now",
@@ -1097,13 +1179,16 @@
       "examples": [
         "Improve the bid by a tick; there are 50,000 shares ahead of us at 612.",
         "If the offer side's thin, improve the offer and you'll probably get hit.",
-        "Risk is fine if we improve the bid by a tick, but not by ten."
+        "Risk is fine if we improve the bid by a tick and rest there first in the queue, but not by ten."
       ],
       "fill": "The best bid had a long queue, so he bid one tick higher to ____ and get filled first.",
       "confusables": [
         "join-the-bid",
         "best-bid-offer",
         "lift-the-offer"
+      ],
+      "alsoFits": [
+        "pay-up"
       ],
       "wrong": [
         "Raise the bid to the offer and buy",
@@ -1135,7 +1220,8 @@
       ],
       "overlaps": [
         "lift-the-offer",
-        "hit-the-bid"
+        "hit-the-bid",
+        "pay-up"
       ],
       "wrong": [
         "Place your order inside the spread",
@@ -1164,6 +1250,12 @@
         "lift-the-offer",
         "slippage",
         "urgency"
+      ],
+      "overlaps": [
+        "cross-the-spread"
+      ],
+      "alsoFits": [
+        "lift-the-offer"
       ],
       "wrong": [
         "Settle the trade with the clearing house",
@@ -1252,7 +1344,8 @@
         "iceberg-order"
       ],
       "overlaps": [
-        "child-order"
+        "child-order",
+        "size"
       ],
       "wrong": [
         "Short video of the trading screen",
@@ -1283,6 +1376,9 @@
         "indicative-price",
         "axe",
         "natural"
+      ],
+      "overlaps": [
+        "axe"
       ],
       "wrong": [
         "A firm order that must be filled",
@@ -1369,6 +1465,9 @@
         "percent-done",
         "open-order"
       ],
+      "overlaps": [
+        "open-order"
+      ],
       "wrong": [
         "The broker's fee after rebates",
         "Fee left to pay after a trade",
@@ -1417,7 +1516,7 @@
       "definition": "An order the client gives with discretion: the trader can choose when and at what price to trade, and isn't held to any particular fill. The opposite is a held order, which must be executed straight away.",
       "examples": [
         "It's not held, so I'll wait for the opening swings to settle before I start.",
-        "The client gave us 5 lakh not held, with a limit of 1,250.",
+        "The client gave us 5 lakh not held, to work at our discretion within a limit of 1,250.",
         "The client asked what not held means: the dealer chooses when and at what price to trade, within her limit."
       ],
       "fill": "Because the order was ____, the broker waited for the spread to tighten instead of buying at once.",
@@ -1425,6 +1524,9 @@
         "working-an-order",
         "market-order",
         "urgency"
+      ],
+      "alsoFits": [
+        "over-the-day"
       ],
       "wrong": [
         "Order the exchange has rejected",
@@ -1535,10 +1637,16 @@
         "The algo was 8 bps worse than arrival but 2 bps better than VWAP.",
         "Risk reports each dealer's average bips versus arrival every month."
       ],
-      "fill": "Arrival price ₹500, average buy price ₹501: the desk reports the cost as 20 ____.",
+      "fill": "Scoring a fill against the mid when the order reached the desk, in basis points, gives the ____.",
       "confusables": [
         "arrival-price",
         "implementation-shortfall",
+        "basis-point"
+      ],
+      "overlaps": [
+        "implementation-shortfall"
+      ],
+      "alsoFits": [
         "basis-point"
       ],
       "wrong": [
@@ -1574,7 +1682,7 @@
       "definition": "The price of all the fills on an order, weighted by how many shares each fill was. It is what the client pays or receives, and what gets compared with benchmarks like VWAP and arrival.",
       "examples": [
         "Average price on the buy is 2,431.40 against a VWAP of 2,433.",
-        "Send the client the average price and the percent done every hour.",
+        "Send the client the average price she's paying so far and the percent done every hour.",
         "The client asked why her contract note showed one average price for 12 fills."
       ],
       "fill": "Buying 3,000 shares at ₹100 and 1,000 at ₹104 gives an ____ of ₹101.",
@@ -1589,7 +1697,7 @@
       "wrong": [
         "Middle of the day's high and low",
         "Average of the bid and the offer",
-        "The market's average price for the day"
+        "Price of the first fill on the order"
       ],
       "calcs": [
         {
@@ -1627,6 +1735,12 @@
         "participation-rate",
         "pov-algo",
         "days-to-liquidate"
+      ],
+      "overlaps": [
+        "participation-rate"
+      ],
+      "alsoFits": [
+        "pov-algo"
       ],
       "wrong": [
         "Most shares one client may hold",

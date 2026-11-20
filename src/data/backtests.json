@@ -5,11 +5,11 @@
     "about": "Buy Nifty 50 stocks that open 3% or more below yesterday's close, and sell them at 3:15 the same day.",
     "lines": {
       "universe": "Nifty 50 stocks as the index stood on each day, including ones later dropped",
-      "data": "One-minute bars from NSE, adjusted for splits and bonuses, with bad prints filtered out",
+      "data": "One-minute bars and best bid and offer from NSE, adjusted for splits and bonuses, with bad prints filtered out",
       "trading": "Buys at 9:20, once the gap is known, at the 9:20 offer",
       "costs": "Brokerage, STT, exchange fees, stamp duty and GST, plus 5 bps slippage each way",
       "testing": "Rule taken as it is from a 2015 paper and run once on 2016–2024, with no tuning",
-      "result": "1,240 trades over nine years, each held for hours, so market moves barely matter"
+      "result": "1,240 trades over nine years, judged against the Nifty's move over the same hours"
     },
     "cases": [
       {
@@ -408,7 +408,7 @@
     "lines": {
       "universe": "Every Budget and RBI policy day since 2016, none left out",
       "data": "Option quotes at the close: the bid and the ask, not last trades",
-      "trading": "Buys at the 3:15 offer the day before; sells at the bid the day after",
+      "trading": "Buys at the closing offer the day before; sells at the closing bid the day after",
       "costs": "Brokerage, STT, fees and GST, plus the full bid-ask spread",
       "testing": "Rule fixed in advance; there are no settings to tune",
       "result": "62 events over nine years, the losing ones shown too"
@@ -463,12 +463,12 @@
   {
     "id": "sector-rotation",
     "title": "Sector rotation",
-    "about": "Each month, hold the three Nifty sector indices with the best six-month returns, through index funds and ETFs.",
+    "about": "Each month, hold the three Nifty sector indices with the best six-month returns, through a basket of each index's stocks.",
     "lines": {
       "universe": "Only the Nifty sector indices that existed and traded on each date",
       "data": "Total-return indices, so dividends are counted",
       "trading": "Ranks on the month-end close; switches at the next day's close",
-      "costs": "ETF spreads, brokerage and tax on each switch",
+      "costs": "Spreads, brokerage and tax on each switch",
       "testing": "Six-month lookback set before looking; tested once on 2008–2024",
       "result": "Judged against Nifty, which it tracks with a beta of 1.0"
     },
@@ -552,17 +552,6 @@
           "sharpe": 1.2,
           "annual": 24,
           "drawdown": 27
-        }
-      },
-      {
-        "flaw": "small",
-        "slot": "result",
-        "line": "Ten yearly picks in ten years, judged against the index",
-        "why": "One decision a year gives just ten data points. That's far too few to tell skill from a lucky run.",
-        "stats": {
-          "sharpe": 3.2,
-          "annual": 51,
-          "drawdown": 5
         }
       },
       {

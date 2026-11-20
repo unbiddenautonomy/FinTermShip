@@ -129,7 +129,9 @@
       ],
       "overlaps": [
         "broad-based-rally",
-        "bull-market"
+        "bull-market",
+        "melt-up",
+        "short-squeeze"
       ],
       "wrong": [
         "A protest outside the stock exchange",
@@ -160,7 +162,11 @@
         "panic-selling"
       ],
       "overlaps": [
-        "panic-selling"
+        "panic-selling",
+        "crash"
+      ],
+      "alsoFits": [
+        "bear-market"
       ],
       "wrong": [
         "An offer for sale by promoters",
@@ -227,7 +233,8 @@
         "flash-crash"
       ],
       "overlaps": [
-        "flash-crash"
+        "flash-crash",
+        "sell-off"
       ],
       "wrong": [
         "A fall in trading volumes",
@@ -450,7 +457,11 @@
         "sell-off"
       ],
       "overlaps": [
-        "flight-to-safety"
+        "flight-to-safety",
+        "de-risking"
+      ],
+      "alsoFits": [
+        "panic-selling"
       ],
       "wrong": [
         "Switching off a trading algorithm",
@@ -481,7 +492,8 @@
       ],
       "overlaps": [
         "trim",
-        "take-some-off"
+        "take-some-off",
+        "realised-pnl"
       ],
       "wrong": [
         "Recording profits in the company's books",
@@ -511,7 +523,8 @@
         "crash"
       ],
       "overlaps": [
-        "sell-off"
+        "sell-off",
+        "capitulation"
       ],
       "wrong": [
         "Selling a stock you don't own",
@@ -536,6 +549,9 @@
         "panic-selling",
         "crash",
         "dead-cat-bounce"
+      ],
+      "overlaps": [
+        "panic-selling"
       ],
       "wrong": [
         "A company admitting to fraud",
@@ -593,6 +609,9 @@
         "dead-cat-bounce",
         "support"
       ],
+      "overlaps": [
+        "average-down"
+      ],
       "wrong": [
         "Buy only at the day's lowest price",
         "Buy a stock just before its dividend",
@@ -617,6 +636,9 @@
         "short-covering",
         "capitulation"
       ],
+      "alsoFits": [
+        "short-squeeze"
+      ],
       "wrong": [
         "A stock delisted from the exchange",
         "A recovery to an all-time high",
@@ -624,7 +646,7 @@
       ],
       "calcs": [
         {
-          "q": "A stock falls from 500 to 300, then bounces to 330. How big is the bounce?",
+          "q": "A stock falls from 500 to 300, then bounces to 330. By what percent did it rise from its low of 300?",
           "options": [
             "10%",
             "30%",
@@ -655,7 +677,8 @@
         "crowded-trade"
       ],
       "overlaps": [
-        "short-covering"
+        "short-covering",
+        "rally"
       ],
       "wrong": [
         "A cut in the margin allowed for shorts",
@@ -796,7 +819,7 @@
         "Our trend system makes most of its money in a trending market and bleeds in a range.",
         "Risk lets the momentum book run bigger in a trending market."
       ],
-      "fill": "Each rise beats the last high and each dip stops above the last low: a ____.",
+      "fill": "Whether prices rise or fall, they keep moving steadily one way instead of chopping in a range: a ____.",
       "confusables": [
         "range-bound",
         "bull-market"
@@ -828,6 +851,9 @@
         "range-bound",
         "stopped-out",
         "dead-cat-bounce"
+      ],
+      "overlaps": [
+        "flash-crash"
       ],
       "wrong": [
         "A cut in brokerage fees",
@@ -986,6 +1012,9 @@
         "dead-cat-bounce",
         "crash"
       ],
+      "overlaps": [
+        "flash-crash"
+      ],
       "wrong": [
         "A slow recovery over many years",
         "A recovery led by one stock",
@@ -1026,7 +1055,9 @@
         "whipsaw"
       ],
       "overlaps": [
-        "crash"
+        "crash",
+        "whipsaw",
+        "v-shaped-recovery"
       ],
       "wrong": [
         "A crash in the exchange's computer systems",
@@ -1054,6 +1085,9 @@
         "advance-decline-ratio",
         "broad-based-rally"
       ],
+      "overlaps": [
+        "advance-decline-ratio"
+      ],
       "wrong": [
         "The number of stocks listed on an exchange",
         "The range between a day's high and low",
@@ -1080,6 +1114,9 @@
       "confusables": [
         "market-breadth",
         "put-call-ratio"
+      ],
+      "overlaps": [
+        "market-breadth"
       ],
       "wrong": [
         "The ratio of buy orders to sell orders",
@@ -1260,7 +1297,7 @@
         "The strategist says risk appetite is fading: SME IPOs are now struggling to fill.",
         "Risk's job is to set the firm's risk appetite and stick to it in good times too."
       ],
-      "fill": "When IPOs are flooded with bids and small caps soar, ____ is high.",
+      "fill": "When investors are willing to take on more risk than usual, ____ is strong.",
       "confusables": [
         "risk-on",
         "fomo"
@@ -1328,6 +1365,9 @@
         "fomo",
         "overbought"
       ],
+      "overlaps": [
+        "melt-up"
+      ],
       "wrong": [
         "A small company with few shares",
         "A pause after a rally",
@@ -1354,6 +1394,10 @@
         "bubble",
         "fomo",
         "rally"
+      ],
+      "overlaps": [
+        "rally",
+        "bubble"
       ],
       "wrong": [
         "A slow fall in prices",
@@ -1536,6 +1580,11 @@
         "trim",
         "unwind"
       ],
+      "overlaps": [
+        "risk-off",
+        "trim",
+        "de-gross"
+      ],
       "wrong": [
         "Buying insurance for a building",
         "Removing a stock from surveillance",
@@ -1563,6 +1612,9 @@
         "short-build-up",
         "short-covering",
         "long-unwinding"
+      ],
+      "alsoFits": [
+        "rally"
       ],
       "wrong": [
         "Price up and open interest down",
@@ -1599,6 +1651,10 @@
         "long-unwinding",
         "short-selling"
       ],
+      "alsoFits": [
+        "sell-off",
+        "crowded-trade"
+      ],
       "wrong": [
         "Price down and open interest down",
         "Price up and open interest up",
@@ -1625,6 +1681,10 @@
         "short-build-up",
         "unwind",
         "long-build-up"
+      ],
+      "alsoFits": [
+        "unwind",
+        "profit-booking"
       ],
       "wrong": [
         "Price up and open interest down",
@@ -1711,6 +1771,9 @@
         "open-interest",
         "fpi",
         "fund-flows"
+      ],
+      "overlaps": [
+        "open-interest"
       ],
       "wrong": [
         "Daily list of the biggest single trades in a stock",

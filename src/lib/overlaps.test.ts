@@ -52,4 +52,26 @@ describe('overlapping terms (P&L and realised P&L, PAT and earnings)', () => {
       }
     }
   });
+
+  it('never offer a term listed under alsoFits as a wrong option', () => {
+    const listed = [...termById.values()].filter((t) => t.alsoFits?.length);
+    expect(listed.length).toBeGreaterThan(0);
+    for (const t of listed) {
+      const bad = new Set(t.alsoFits);
+      for (let seed = 1; seed <= 40; seed++) {
+        for (const q of [termQuestion(t, seededRng(seed)), fillQuestion(t, seededRng(seed)), fillQuestion(t, seededRng(seed), false, undefined, true)]) {
+          const hit = optionsOf(q).filter((o) => bad.has(o));
+          expect(hit, `${q.kind} for ${t.id} offers ${hit.join(', ')}`).toEqual([]);
+          expect(optionsOf(q).length, `${q.kind} for ${t.id}`).toBe(4);
+        }
+      }
+    }
+  });
+
+  it("don't deal the same false Call It card twice", () => {
+    for (const t of termById.values()) {
+      const texts = claimsFor(t, false).map((c) => c.text.toLowerCase());
+      expect(new Set(texts).size, t.id).toBe(texts.length);
+    }
+  });
 });

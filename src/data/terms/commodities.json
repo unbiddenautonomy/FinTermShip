@@ -103,7 +103,7 @@
       "short": "Copper, zinc, aluminium, lead and nickel",
       "definition": "Industrial metals such as copper, aluminium, zinc, lead and nickel, as opposed to precious metals. Their prices follow global demand, especially from China, and the London Metal Exchange benchmark. Copper in particular is read as a gauge of the world economy.",
       "examples": [
-        "Base metals fell after weak Chinese factory data.",
+        "Copper and zinc fell after weak Chinese factory data, dragging base metals lower.",
         "MCX copper follows the LME price, converted into rupees.",
         "Metal stocks like Hindalco often move with base metals overnight."
       ],
@@ -254,6 +254,9 @@
         "cost-of-carry",
         "convenience-yield",
         "contango"
+      ],
+      "alsoFits": [
+        "cost-of-carry"
       ],
       "wrong": [
         "The brokerage paid on a futures trade",

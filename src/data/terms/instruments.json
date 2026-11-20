@@ -422,7 +422,9 @@
         "basis"
       ],
       "overlaps": [
-        "arbitrage"
+        "arbitrage",
+        "arbitrage-fund",
+        "index-arbitrage"
       ],
       "wrong": [
         "Buying futures and selling the stock",
@@ -494,6 +496,10 @@
         "cash-and-carry-arbitrage",
         "mutual-fund",
         "hedge-fund"
+      ],
+      "overlaps": [
+        "mutual-fund",
+        "cash-and-carry-arbitrage"
       ],
       "wrong": [
         "Fund that bets on mergers going through",
@@ -621,7 +627,9 @@
         "g-sec"
       ],
       "overlaps": [
-        "zero-coupon-bond"
+        "zero-coupon-bond",
+        "ncd",
+        "g-sec"
       ],
       "wrong": [
         "A share that makes you part-owner of a company",
@@ -969,7 +977,8 @@
         "coupon"
       ],
       "overlaps": [
-        "bond"
+        "bond",
+        "t-bill"
       ],
       "wrong": [
         "A bond that pays a floating coupon",

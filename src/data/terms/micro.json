@@ -102,6 +102,9 @@
         "open-order",
         "best-bid-offer"
       ],
+      "overlaps": [
+        "market-depth"
+      ],
       "wrong": [
         "A register of a company's shareholders",
         "A broker's record of commissions",
@@ -159,6 +162,9 @@
         "order-book",
         "liquidity",
         "thin-market"
+      ],
+      "overlaps": [
+        "order-book"
       ],
       "wrong": [
         "How far a stock has fallen from its high",
@@ -325,6 +331,9 @@
         "limit-order",
         "market-maker"
       ],
+      "overlaps": [
+        "limit-order"
+      ],
       "wrong": [
         "An order that never gets cancelled",
         "An order placed by an index fund",
@@ -354,7 +363,8 @@
         "lift-the-offer"
       ],
       "overlaps": [
-        "market-order"
+        "market-order",
+        "lift-the-offer"
       ],
       "wrong": [
         "An order bigger than the freeze limit",
@@ -376,7 +386,7 @@
       "examples": [
         "It's a thin market in that small cap; a ₹20 lakh order moved it 3%.",
         "Risk caps our size in any thin market at two days' volume.",
-        "The client asked why her stop filled so far below: the thin market had few bids near her price."
+        "The client asked why her stop filled so far below: the stock barely trades, and in that thin market there were few bids near her price."
       ],
       "fill": "Only a few hundred shares bid and offered, with a 1% spread: a ____.",
       "confusables": [
@@ -436,6 +446,10 @@
         "adverse-selection",
         "spread"
       ],
+      "alsoFits": [
+        "algo-trading",
+        "hft"
+      ],
       "wrong": [
         "A company that builds stock exchanges",
         "An investor who moves markets with big trades",
@@ -472,6 +486,12 @@
         "informed-trader",
         "market-maker",
         "toxic-flow"
+      ],
+      "overlaps": [
+        "toxic-flow"
+      ],
+      "alsoFits": [
+        "latency"
       ],
       "wrong": [
         "Picking the wrong stocks for a fund",
@@ -549,7 +569,9 @@
         "algo-id"
       ],
       "overlaps": [
-        "hft"
+        "hft",
+        "execution-algo",
+        "smart-order-routing"
       ],
       "wrong": [
         "Trading only during the auction sessions",
@@ -582,7 +604,8 @@
         "co-location"
       ],
       "overlaps": [
-        "algo-trading"
+        "algo-trading",
+        "latency-arbitrage"
       ],
       "wrong": [
         "Trading many different stocks in one day",
@@ -626,13 +649,16 @@
       "definition": "Renting space for your servers inside the exchange's data centre, so orders travel the shortest possible distance and latency is lowest.",
       "examples": [
         "Without co-location, you can't compete with the market makers on speed.",
-        "Risk tests the kill switch on the co-location servers every morning.",
+        "Risk tests the kill switch every morning on the co-location servers we rent inside the exchange.",
         "The client asked whether she can get co-location; it's costly and meant for trading firms."
       ],
       "fill": "To shave microseconds off every order, a firm puts its servers in the exchange's building: ____.",
       "confusables": [
         "latency",
         "hft"
+      ],
+      "alsoFits": [
+        "algo-trading"
       ],
       "wrong": [
         "Two companies sharing an office",
@@ -699,7 +725,8 @@
         "liquidity"
       ],
       "overlaps": [
-        "slippage"
+        "slippage",
+        "market-impact"
       ],
       "wrong": [
         "The effect of news on a company",
@@ -740,7 +767,8 @@
       ],
       "overlaps": [
         "periodic-call-auction",
-        "pre-open"
+        "pre-open",
+        "closing-auction"
       ],
       "wrong": [
         "A phone call where a broker auctions shares",
@@ -803,6 +831,9 @@
         "delivery-trade",
         "circuit-limit"
       ],
+      "overlaps": [
+        "asm"
+      ],
       "wrong": [
         "A segment for trades between two brokers",
         "The segment for block deals",
@@ -838,6 +869,10 @@
         "iceberg-order",
         "hidden-liquidity",
         "market-depth"
+      ],
+      "overlaps": [
+        "iceberg-order",
+        "hidden-liquidity"
       ],
       "wrong": [
         "The shareholding a promoter must report",
@@ -1183,6 +1218,9 @@
         "circular-trading",
         "bubble"
       ],
+      "alsoFits": [
+        "wash-trade"
+      ],
       "wrong": [
         "Buying a stock after a fall and selling after a rise",
         "A company issuing shares then buying them back",
@@ -1368,6 +1406,9 @@
         "fragmentation",
         "algo-trading"
       ],
+      "overlaps": [
+        "algo-trading"
+      ],
       "wrong": [
         "A path for delivering share certificates",
         "A broker's customer service menu",
@@ -1392,6 +1433,9 @@
         "informed-trader",
         "flow"
       ],
+      "overlaps": [
+        "adverse-selection"
+      ],
       "wrong": [
         "Trading in polluting companies",
         "Orders placed with abusive language",
@@ -1415,6 +1459,12 @@
         "latency",
         "hft",
         "co-location"
+      ],
+      "overlaps": [
+        "hft"
+      ],
+      "alsoFits": [
+        "toxic-flow"
       ],
       "wrong": [
         "Buying in one city and selling in another",
@@ -1443,6 +1493,10 @@
         "iceberg-order",
         "dark-pool"
       ],
+      "overlaps": [
+        "iceberg-order",
+        "disclosed-quantity"
+      ],
       "wrong": [
         "Cash a company keeps off its books",
         "Money in dormant demat accounts",
@@ -1463,7 +1517,7 @@
       "examples": [
         "Our one-second markouts on that venue are minus half a tick, so the flow there is toxic.",
         "The fills look cheap, but the markouts say the price runs away right after.",
-        "Risk reviews markout charts each week to see which venues hurt our fills."
+        "Risk reviews one-minute markout charts each week to see which venues hurt our fills."
       ],
       "fill": "We bought at ₹100.00 and ten seconds later the mid was ₹99.95, so our ten-second ____ was −5 paise.",
       "confusables": [
