@@ -13,7 +13,7 @@ import { finishLesson } from '../../lib/scheduler';
 import type { Progress } from '../../lib/types';
 import { Button } from '../ui';
 import { KpiDelta } from './KpiDelta';
-import { useModeAccess } from './modeAccess';
+import { useModeAccess, useOwnProgress } from './modeAccess';
 import { LevelMeter, NotYet } from './roundKit';
 import { useDealtRound } from './useRoundContent';
 import { ModeFrame, TermSheet } from './shared';
@@ -51,7 +51,11 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
   const [filed, setFiled] = useState<Filed[]>([]);
   const [done, setDone] = useState<{ before: number; after: number; good: number; score: number } | null>(null);
   const [sheet, setSheet] = useState<string | null>(null);
-  const startKpis = useRef<Kpis>(kpis(progress, today));
+  // The numbers are the learner's own, even while every term counts as met here (Open everything).
+  const own = useOwnProgress(progress);
+  const ownRef = useRef(own);
+  ownRef.current = own;
+  const startKpis = useRef<Kpis>(kpis(own, today));
   const progressRef = useRef(progress);
   progressRef.current = progress;
   const { canOpen } = useModeAccess();
@@ -99,7 +103,7 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
   }, [current, index, round.length, filed, today, onProgress]);
 
   const again = () => {
-    startKpis.current = kpis(progressRef.current, today);
+    startKpis.current = kpis(ownRef.current, today);
     setSeed((s) => s + 1);
     setIndex(0);
     setFiled([]);
@@ -148,7 +152,7 @@ export function HeadlineDesk({ progress, today, onProgress, onMode }: Props) {
         </div>
         <KpiDelta
           before={startKpis.current}
-          after={kpis(progress, today)}
+          after={kpis(own, today)}
           note="A headline called fully right counts like picking a meaning: it can clear a due review. A line called wrong brings its term back tomorrow."
         />
         <section className="space-y-2">

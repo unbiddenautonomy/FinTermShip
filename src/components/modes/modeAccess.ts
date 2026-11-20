@@ -4,6 +4,7 @@
  */
 import { createContext, useContext } from 'react';
 import { MODES, modesOn, type ModeId } from '../../lib/modes/ids';
+import type { Progress } from '../../lib/types';
 
 export interface ModeAccess {
   /** Modes switched off for everyone. */
@@ -20,4 +21,14 @@ export function useModeAccess() {
   const a = useContext(ModeAccessContext);
   const shown: ModeId[] = a.admin ? MODES : modesOn(a.off);
   return { shown, isOff: (m: ModeId) => a.off.includes(m), canOpen: (m: ModeId) => shown.includes(m), ...a };
+}
+
+/**
+ * The learner's own progress, when a mode is handed the one where every term counts as met
+ * (Open everything, src/lib/openAll.ts). The mode's numbers (Known, Due, Strength, Coverage) come from this one.
+ */
+export const OwnProgressContext = createContext<Progress | null>(null);
+
+export function useOwnProgress(shown: Progress): Progress {
+  return useContext(OwnProgressContext) ?? shown;
 }

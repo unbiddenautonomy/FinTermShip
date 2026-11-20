@@ -712,6 +712,8 @@ function UnitSheet({
   const isCurrent = currentIndex(progress, rows, today) === r.i;
   const picked = progress.focus === unitId && focusLeft(progress) > 0;
   const unmetHere = r.total - r.met;
+  // With Open everything on, a practice round takes any of the unit's terms, met or not (src/lib/openAll.ts).
+  const practisable = progress.settings.openAll ? r.terms.length : r.met;
   const before = Math.max(0, focusLeft(progress, unitId) - unmetHere);
   const coreCount = areaCoreSize(area.id);
   // The app knows a term's name once it has been reached; the rest are only counted.
@@ -747,9 +749,9 @@ function UnitSheet({
             </>
           )}
           {r.open && unmetHere > 0 && isCurrent && !picked && <p className="px-1 text-center text-sm text-ink-2">This is next on your path.</p>}
-          {r.met >= 2 && (
+          {practisable >= 2 && (
             <Button variant={r.open && unmetHere > 0 && !isCurrent ? 'secondary' : 'primary'} className="w-full" onClick={onPractice}>
-              Practise these ({Math.min(r.met, 8)} terms)
+              Practise these ({Math.min(practisable, 8)} terms)
             </Button>
           )}
           {picked && (

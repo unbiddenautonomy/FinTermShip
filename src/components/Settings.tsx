@@ -163,7 +163,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
           <Row>
             <div className="min-w-0 flex-1">
               <p className="font-bold text-ink">Open everything</p>
-              <p className="text-sm text-ink-3">Every area, advanced unit and phase 3 open, with no password or tests. Switch off to see the path as a learner does.</p>
+              <p className="text-sm text-ink-3">Every area, advanced unit and phase 3 open, with no password or tests, and every term counts as learnt in the modes and practice rounds. Lessons still teach new terms, and your Exchange and counts stay your own. Switch off to see the app as a learner does.</p>
             </div>
             <Toggle checked={!!s.openAll} onChange={(v) => onChange({ ...progress, settings: { ...s, openAll: v } })} label="Open everything" />
           </Row>
