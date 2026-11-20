@@ -208,6 +208,9 @@
         "arrival-price",
         "mid-price"
       ],
+      "overlaps": [
+        "average-price"
+      ],
       "wrong": [
         "Average of the day's high and low",
         "Simple average of prices taken every minute",
@@ -1127,6 +1130,10 @@
         "hit-the-bid",
         "spread"
       ],
+      "overlaps": [
+        "lift-the-offer",
+        "hit-the-bid"
+      ],
       "wrong": [
         "Place your order inside the spread",
         "Wait at the bid for a seller",
@@ -1569,6 +1576,9 @@
         "vwap",
         "fill",
         "arrival-price"
+      ],
+      "overlaps": [
+        "vwap"
       ],
       "wrong": [
         "Middle of the day's high and low",

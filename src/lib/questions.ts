@@ -49,7 +49,7 @@ function closeTo(term: Term): Set<string> {
       }
     }
   }
-  return new Set([...(confusedWith.get(term.id) ?? []), ...(term.near ?? [])]);
+  return new Set([...(confusedWith.get(term.id) ?? []), ...(term.near ?? []), ...(term.overlaps ?? [])]);
 }
 
 /** Whether y's definition or gloss names x, plurals included. Exported for the outline's check. */
@@ -63,13 +63,15 @@ export function definitionNames(x: Term, y: Term): boolean {
  * met, plus this lesson's new ones), known terms come first at each level, so a
  * newcomer is not shown names they have never seen.
  *
- * With `loose`, close terms (confusables either way) are left out. Example sentences
- * were written to show the term in use, not to tell it apart from its near twins,
- * so a near twin might fit the blank just as well.
+ * Terms that overlap with this one (a general term and a kind of it, or two names for
+ * nearly the same thing) are always left out: the definition or sentence fits them too,
+ * so both would be right. With `loose`, close terms (confusables either way) are left
+ * out as well. Example sentences were written to show the term in use, not to tell it
+ * apart from its near twins, so a near twin might fit the blank just as well.
  */
 export function distractorTerms(term: Term, count: number, rng: Rng, known?: Set<string>, loose = false): Term[] {
   const picked: Term[] = [];
-  const seen = new Set([term.id, ...(loose ? closeTo(term) : [])]);
+  const seen = new Set([term.id, ...(term.overlaps ?? []), ...(loose ? closeTo(term) : [])]);
   const add = (t: Term | undefined, knownOnly: boolean) => {
     if (!t || seen.has(t.id) || picked.length >= count) return;
     if (knownOnly && known && !known.has(t.id)) return;

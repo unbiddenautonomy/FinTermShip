@@ -604,12 +604,12 @@
       {
         "name": "RBI tools",
         "terms": [
-          "sdf",
-          "msf",
           "omo",
-          "crr"
+          "crr",
+          "slr",
+          "rbi-intervention"
         ],
-        "why": "Tools the RBI uses to add money to banks or drain it from them."
+        "why": "Tools the RBI uses to steer how much money banks have: reserve rules, buying and selling bonds, and dealing in dollars."
       },
       {
         "name": "Govt borrowing",
@@ -1801,9 +1801,9 @@
         "name": "Wait",
         "terms": [
           "limit-order",
-          "gtt",
           "gtc",
-          "amo"
+          "amo",
+          "day-order"
         ],
         "why": "Orders that wait for your price or a later time."
       },
@@ -1940,7 +1940,7 @@
         "terms": [
           "research-analyst",
           "sales-trader",
-          "dealer",
+          "stockbroker",
           "investment-bank"
         ],
         "why": "Firms and people who sell services and ideas to funds."
@@ -1961,9 +1961,9 @@
           "custodian",
           "clearing-corporation",
           "depository",
-          "stockbroker"
+          "stock-exchange"
         ],
-        "why": "The plumbing that holds securities and gets trades settled."
+        "why": "The plumbing that matches trades, settles them and holds the securities."
       },
       {
         "name": "Styles",
@@ -2032,10 +2032,10 @@
         "terms": [
           "sharpe-ratio",
           "sortino-ratio",
-          "information-ratio",
+          "deflated-sharpe-ratio",
           "calmar-ratio"
         ],
-        "why": "Return per unit of risk, each with a different measure of risk."
+        "why": "Return per unit of risk: Sharpe and its deflated version use volatility, Sortino only downside swings, Calmar the worst drawdown."
       },
       {
         "name": "Downside-only",

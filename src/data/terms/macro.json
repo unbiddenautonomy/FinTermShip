@@ -267,6 +267,9 @@
         "repo-rate",
         "return"
       ],
+      "overlaps": [
+        "inflation"
+      ],
       "wrong": [
         "Rise in the prices factories pay for raw materials",
         "Growth in the economy's total output",
@@ -757,6 +760,9 @@
         "sdf",
         "system-liquidity"
       ],
+      "overlaps": [
+        "wacr"
+      ],
       "wrong": [
         "Price of a call option",
         "Rate the RBI charges for emergency loans",
@@ -967,6 +973,9 @@
         "sdl",
         "omo"
       ],
+      "overlaps": [
+        "t-bill"
+      ],
       "wrong": [
         "A share in a government-owned company",
         "A fixed deposit with a public sector bank",
@@ -1002,6 +1011,9 @@
         "g-sec",
         "sdl",
         "risk-free-rate"
+      ],
+      "overlaps": [
+        "g-sec"
       ],
       "wrong": [
         "A bill of exchange between two companies",
@@ -1069,6 +1081,9 @@
         "call-rate",
         "repo-rate",
         "mibor"
+      ],
+      "overlaps": [
+        "call-rate"
       ],
       "wrong": [
         "The rate the RBI pays on reverse repo",
@@ -1154,6 +1169,9 @@
         "mibor",
         "swap-spread",
         "repo-rate"
+      ],
+      "overlaps": [
+        "interest-rate-swap"
       ],
       "wrong": [
         "A bond whose coupon resets every night",
@@ -1404,6 +1422,9 @@
         "index-inclusion",
         "fpi"
       ],
+      "overlaps": [
+        "index-inclusion"
+      ],
       "wrong": [
         "A stock joining the Nifty 50",
         "The RBI buying bonds in the market",
@@ -1587,6 +1608,9 @@
       "confusables": [
         "cpi-inflation",
         "inflation-target",
+        "inflation"
+      ],
+      "overlaps": [
         "inflation"
       ],
       "wrong": [

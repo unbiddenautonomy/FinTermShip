@@ -12,6 +12,13 @@ export interface Term {
   examples: string[];
   fill: string;
   confusables: string[];
+  /**
+   * Terms that fit this term's definition or fill sentence too, such as a general term and a kind of
+   * it (P&L and realised P&L) or two names for nearly the same thing (PAT and earnings). They are
+   * never offered as each other's wrong option, nor swapped into each other's Call It claims.
+   * Listed both ways round.
+   */
+  overlaps?: string[];
   wrong: string[];
   note?: string;
   formula?: string;
@@ -36,7 +43,7 @@ export interface Term {
  * What the app gets for a term once the learner reaches it, before its card: its name, its unit
  * and its place in the area (`n`). Its mix-ups list only terms the learner has reached too.
  */
-export type TermStub = Pick<Term, 'id' | 'term' | 'aliases' | 'said' | 'speak' | 'unit' | 'difficulty' | 'confusables' | 'near' | 'stop' | 'ticker'> & { n: number };
+export type TermStub = Pick<Term, 'id' | 'term' | 'aliases' | 'said' | 'speak' | 'unit' | 'difficulty' | 'confusables' | 'overlaps' | 'near' | 'stop' | 'ticker'> & { n: number };
 
 /** What a term card adds to the outline: everything the term teaches and asks. The app gets it from the server. */
 export const CARD_FIELDS = ['short', 'definition', 'examples', 'fill', 'wrong', 'note', 'formula', 'asOf', 'source', 'calcs', 'tf', 'reads'] as const;

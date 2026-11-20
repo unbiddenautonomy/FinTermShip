@@ -124,6 +124,9 @@
         "short-squeeze",
         "sell-off"
       ],
+      "overlaps": [
+        "broad-based-rally"
+      ],
       "wrong": [
         "A protest outside the stock exchange",
         "A slow drift lower in prices",
@@ -150,6 +153,9 @@
       "confusables": [
         "correction",
         "crash",
+        "panic-selling"
+      ],
+      "overlaps": [
         "panic-selling"
       ],
       "wrong": [
@@ -214,6 +220,9 @@
       "confusables": [
         "correction",
         "bear-market",
+        "flash-crash"
+      ],
+      "overlaps": [
         "flash-crash"
       ],
       "wrong": [
@@ -325,6 +334,9 @@
         "breakout",
         "stop-loss"
       ],
+      "overlaps": [
+        "put-base"
+      ],
       "wrong": [
         "A price fixed by the exchange",
         "A broker's helpdesk",
@@ -351,6 +363,9 @@
         "support",
         "breakout",
         "all-time-high"
+      ],
+      "overlaps": [
+        "call-wall"
       ],
       "wrong": [
         "A cap set by the exchange",
@@ -427,6 +442,9 @@
         "flight-to-safety",
         "sell-off"
       ],
+      "overlaps": [
+        "flight-to-safety"
+      ],
       "wrong": [
         "Switching off a trading algorithm",
         "A market holiday",
@@ -454,6 +472,10 @@
         "sell-off",
         "trim"
       ],
+      "overlaps": [
+        "trim",
+        "take-some-off"
+      ],
       "wrong": [
         "Recording profits in the company's books",
         "A broker's fee on profitable trades",
@@ -480,6 +502,9 @@
         "capitulation",
         "sell-off",
         "crash"
+      ],
+      "overlaps": [
+        "sell-off"
       ],
       "wrong": [
         "Selling a stock you don't own",
@@ -672,6 +697,9 @@
         "risk-off",
         "sell-off"
       ],
+      "overlaps": [
+        "risk-off"
+      ],
       "wrong": [
         "Moving money out of India",
         "Buying airline shares",
@@ -706,6 +734,9 @@
         "consolidation",
         "trending-market"
       ],
+      "overlaps": [
+        "consolidation"
+      ],
       "wrong": [
         "Limited by a circuit band",
         "Allowed to trade only in lots",
@@ -728,6 +759,9 @@
       "confusables": [
         "range-bound",
         "breakout"
+      ],
+      "overlaps": [
+        "range-bound"
       ],
       "wrong": [
         "Two companies merging",
@@ -981,6 +1015,9 @@
         "crash",
         "whipsaw"
       ],
+      "overlaps": [
+        "crash"
+      ],
       "wrong": [
         "A crash in the exchange's computer systems",
         "A slow fall over a week",
@@ -1073,6 +1110,9 @@
         "market-breadth",
         "rally",
         "sector-rotation"
+      ],
+      "overlaps": [
+        "rally"
       ],
       "wrong": [
         "A rally in only the largest stocks",
@@ -1243,6 +1283,9 @@
       "confusables": [
         "fpi",
         "dii",
+        "flow"
+      ],
+      "overlaps": [
         "flow"
       ],
       "wrong": [

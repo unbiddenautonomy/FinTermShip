@@ -176,6 +176,9 @@
         "basis",
         "cost-of-carry"
       ],
+      "overlaps": [
+        "super-contango"
+      ],
       "wrong": [
         "Futures below spot, later months lower",
         "Futures exactly equal to spot",
@@ -418,6 +421,9 @@
         "arbitrage-fund",
         "basis"
       ],
+      "overlaps": [
+        "arbitrage"
+      ],
       "wrong": [
         "Buying futures and selling the stock",
         "Holding a stock bought with borrowed money",
@@ -613,6 +619,9 @@
         "coupon",
         "dividend",
         "g-sec"
+      ],
+      "overlaps": [
+        "zero-coupon-bond"
       ],
       "wrong": [
         "A share that makes you part-owner of a company",
@@ -919,6 +928,9 @@
         "basis",
         "risk-off"
       ],
+      "overlaps": [
+        "spread-over-gsec"
+      ],
       "wrong": [
         "Gap between a bond's bid and ask prices",
         "Gap between the coupon and the yield",
@@ -955,6 +967,9 @@
         "bond",
         "t-bill",
         "coupon"
+      ],
+      "overlaps": [
+        "bond"
       ],
       "wrong": [
         "A bond that pays a floating coupon",
@@ -1079,6 +1094,9 @@
         "overnight-indexed-swap",
         "swap-spread",
         "credit-default-swap"
+      ],
+      "overlaps": [
+        "overnight-indexed-swap"
       ],
       "wrong": [
         "A loan swapped from one bank to another",

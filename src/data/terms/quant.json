@@ -272,6 +272,9 @@
         "standard-deviation",
         "volatility"
       ],
+      "overlaps": [
+        "volatility"
+      ],
       "wrong": [
         "Total price change over the year",
         "Average daily price change times 252",
@@ -341,6 +344,9 @@
       "confusables": [
         "sortino-ratio",
         "information-ratio",
+        "risk-adjusted-return"
+      ],
+      "overlaps": [
         "risk-adjusted-return"
       ],
       "wrong": [
@@ -496,6 +502,9 @@
         "alpha",
         "correlation",
         "systematic-risk"
+      ],
+      "overlaps": [
+        "just-beta"
       ],
       "wrong": [
         "Return beyond what the market explains",
@@ -922,6 +931,9 @@
         "sharpe-ratio",
         "alpha",
         "total-return"
+      ],
+      "overlaps": [
+        "sharpe-ratio"
       ],
       "wrong": [
         "Return after fees and taxes",
@@ -1388,6 +1400,13 @@
         "smart-beta",
         "systematic-risk"
       ],
+      "overlaps": [
+        "value-factor",
+        "momentum-factor",
+        "size-factor",
+        "quality-factor",
+        "low-volatility-factor"
+      ],
       "wrong": [
         "One company's own special news",
         "A broker's fee for a trade",
@@ -1416,6 +1435,9 @@
         "beta",
         "exposure"
       ],
+      "overlaps": [
+        "exposure"
+      ],
       "wrong": [
         "Total money invested in one stock",
         "Share of a fund held by foreigners",
@@ -1439,6 +1461,9 @@
         "quality-factor",
         "momentum-factor",
         "pb-ratio"
+      ],
+      "overlaps": [
+        "factor"
       ],
       "wrong": [
         "Recent winners tending to keep winning",
@@ -1466,6 +1491,9 @@
         "value-factor",
         "low-volatility-factor",
         "autocorrelation"
+      ],
+      "overlaps": [
+        "factor"
       ],
       "wrong": [
         "Cheap stocks tending to beat expensive ones",
@@ -1502,6 +1530,9 @@
         "small-cap",
         "liquidity-risk"
       ],
+      "overlaps": [
+        "factor"
+      ],
       "wrong": [
         "Cheap stocks tending to beat expensive ones",
         "Bigger trades getting better prices",
@@ -1527,6 +1558,9 @@
       "confusables": [
         "value-factor",
         "low-volatility-factor"
+      ],
+      "overlaps": [
+        "factor"
       ],
       "wrong": [
         "Recent winners tending to keep winning",
@@ -1555,6 +1589,9 @@
         "quality-factor",
         "beta",
         "volatility"
+      ],
+      "overlaps": [
+        "factor"
       ],
       "wrong": [
         "High-risk stocks always paying more",
@@ -1808,6 +1845,9 @@
         "survivorship-bias",
         "data-snooping",
         "overfitting"
+      ],
+      "overlaps": [
+        "data-leakage"
       ],
       "wrong": [
         "Using only stocks that still exist today",
@@ -2683,6 +2723,9 @@
         "alpha",
         "systematic-risk"
       ],
+      "overlaps": [
+        "beta"
+      ],
       "wrong": [
         "Returns from picking the right stocks",
         "Returns too small to be worth trading",
@@ -3236,6 +3279,9 @@
         "point-in-time-data",
         "information-leakage"
       ],
+      "overlaps": [
+        "look-ahead-bias"
+      ],
       "wrong": [
         "Losing data in a server crash",
         "Orders leaking to other brokers",
@@ -3262,6 +3308,9 @@
       "confusables": [
         "information-coefficient",
         "look-ahead-bias",
+        "return"
+      ],
+      "overlaps": [
         "return"
       ],
       "wrong": [
@@ -3975,6 +4024,9 @@
         "concentration-risk",
         "limit-breach"
       ],
+      "overlaps": [
+        "mwpl"
+      ],
       "wrong": [
         "Price at which a stop-loss order fires",
         "Margin a broker blocks per lot",
@@ -4248,6 +4300,9 @@
         "flat",
         "event-risk",
         "gap-risk"
+      ],
+      "overlaps": [
+        "flat"
       ],
       "wrong": [
         "Buy before a known event to profit",
@@ -5396,6 +5451,9 @@
         "monte-carlo-simulation",
         "small-sample"
       ],
+      "overlaps": [
+        "block-bootstrap"
+      ],
       "wrong": [
         "Restarting a model after a crash",
         "Adding more data from a different market",
@@ -5419,6 +5477,9 @@
         "bootstrap",
         "walk-forward",
         "volatility-clustering"
+      ],
+      "overlaps": [
+        "bootstrap"
       ],
       "wrong": [
         "Testing the strategy one year at a time",

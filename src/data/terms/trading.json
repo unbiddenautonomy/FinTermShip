@@ -46,6 +46,10 @@
         "limit-order",
         "sl-m-order"
       ],
+      "overlaps": [
+        "order",
+        "aggressive-order"
+      ],
       "wrong": [
         "An order that fills only at your chosen price or better",
         "An order placed after the market closes",
@@ -79,6 +83,9 @@
         "market-order",
         "trigger-price",
         "sl-order"
+      ],
+      "overlaps": [
+        "order"
       ],
       "wrong": [
         "An order that fills straight away at any price",
@@ -125,6 +132,9 @@
       "confusables": [
         "partial-fill",
         "open-order"
+      ],
+      "overlaps": [
+        "partial-fill"
       ],
       "wrong": [
         "An order still waiting in the queue",
@@ -183,6 +193,9 @@
         "fill",
         "open-order"
       ],
+      "overlaps": [
+        "fill"
+      ],
       "wrong": [
         "An order cancelled by the broker",
         "Paying only part of the margin",
@@ -223,6 +236,11 @@
         "trigger-price",
         "profit-target",
         "sl-order"
+      ],
+      "overlaps": [
+        "sl-order",
+        "sl-m-order",
+        "trailing-stop-loss"
       ],
       "wrong": [
         "The price at which you plan to take profit",
@@ -305,6 +323,9 @@
         "trigger-price",
         "limit-order"
       ],
+      "overlaps": [
+        "stop-loss"
+      ],
       "wrong": [
         "A stop order that becomes a market order",
         "An order valid until you cancel it",
@@ -347,6 +368,9 @@
         "sl-order",
         "market-order",
         "trigger-price"
+      ],
+      "overlaps": [
+        "stop-loss"
       ],
       "wrong": [
         "A stop order that becomes a limit order",
@@ -424,6 +448,9 @@
       "confusables": [
         "stop-loss",
         "profit-target"
+      ],
+      "overlaps": [
+        "stop-loss"
       ],
       "wrong": [
         "A stop-loss placed far below the price",
@@ -525,6 +552,9 @@
         "intraday",
         "cnc",
         "demat-account"
+      ],
+      "overlaps": [
+        "cnc"
       ],
       "wrong": [
         "A trade closed the same day",
@@ -636,6 +666,9 @@
       "confusables": [
         "mis",
         "nrml",
+        "delivery-trade"
+      ],
+      "overlaps": [
         "delivery-trade"
       ],
       "wrong": [
@@ -871,6 +904,9 @@
         "trigger-price",
         "amo"
       ],
+      "overlaps": [
+        "gtc"
+      ],
       "wrong": [
         "An order valid until today's close",
         "An order placed after market hours",
@@ -908,6 +944,9 @@
       "confusables": [
         "gtt",
         "day-order"
+      ],
+      "overlaps": [
+        "gtt"
       ],
       "wrong": [
         "Valid only until today's close",
@@ -967,6 +1006,9 @@
         "mis",
         "sl-m-order"
       ],
+      "overlaps": [
+        "bracket-order"
+      ],
       "wrong": [
         "An order to buy back shares you sold short",
         "A delivery order paid in full",
@@ -993,6 +1035,9 @@
         "cover-order",
         "oco",
         "profit-target"
+      ],
+      "overlaps": [
+        "cover-order"
       ],
       "wrong": [
         "An order with a stop-loss but no target",
@@ -1308,6 +1353,9 @@
         "margin-call",
         "futures-contract"
       ],
+      "overlaps": [
+        "mtm"
+      ],
       "wrong": [
         "Paying for shares on T+1",
         "Settling options only at the end of their life",
@@ -1553,6 +1601,9 @@
         "fo-ban",
         "freeze-quantity"
       ],
+      "overlaps": [
+        "position-limit"
+      ],
       "wrong": [
         "The most one client may hold in a stock",
         "The largest single order allowed",
@@ -1740,7 +1791,7 @@
       "wrong": [
         "Buy today, sell next week",
         "A trade squared off the same day",
-        "Buying at the close and selling at the next day's close"
+        "Buying shares with a loan from the broker"
       ],
       "difficulty": 2
     }

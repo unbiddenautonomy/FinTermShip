@@ -112,6 +112,9 @@
         "triangular-arbitrage",
         "leg-risk"
       ],
+      "overlaps": [
+        "arbitrage"
+      ],
       "wrong": [
         "Same index, futures against stocks",
         "Same company, two share classes",

@@ -56,6 +56,9 @@
         "bid",
         "market-order"
       ],
+      "overlaps": [
+        "cross-the-spread"
+      ],
       "wrong": [
         "Raise your buying price to attract sellers",
         "Place a buy order below the market",
@@ -96,6 +99,9 @@
         "hit-the-bid",
         "ask",
         "market-order"
+      ],
+      "overlaps": [
+        "cross-the-spread"
       ],
       "wrong": [
         "Sell at the highest bid",
@@ -288,6 +294,9 @@
         "axe",
         "volume"
       ],
+      "overlaps": [
+        "fund-flows"
+      ],
       "wrong": [
         "The cash a company makes from operations",
         "The speed of the exchange's systems",
@@ -338,6 +347,9 @@
         "square-off",
         "position",
         "long"
+      ],
+      "overlaps": [
+        "flat-into-event"
       ],
       "wrong": [
         "Holding a position with no gain or loss yet",
@@ -1222,6 +1234,10 @@
         "unwind",
         "realised-pnl"
       ],
+      "overlaps": [
+        "take-some-off",
+        "profit-booking"
+      ],
       "wrong": [
         "Sell the whole position",
         "Cut a stock's target price",
@@ -1515,6 +1531,9 @@
         "sell-side",
         "bse"
       ],
+      "overlaps": [
+        "consensus"
+      ],
       "wrong": [
         "A list of brokers approved by SEBI",
         "The open-outcry floor of the NSE",
@@ -1625,6 +1644,9 @@
         "long",
         "stopped-out"
       ],
+      "overlaps": [
+        "long"
+      ],
       "wrong": [
         "Holding a stock for too many years",
         "Using the wrong order type",
@@ -1652,6 +1674,10 @@
         "profit-booking",
         "trim",
         "realised-pnl"
+      ],
+      "overlaps": [
+        "trim",
+        "profit-booking"
       ],
       "wrong": [
         "Add more to a winning position",
@@ -1751,6 +1777,9 @@
         "buy-the-dip",
         "falling-knife"
       ],
+      "overlaps": [
+        "double-down"
+      ],
       "wrong": [
         "Sell some shares to cut the average",
         "Buy more as the price rises",
@@ -1797,6 +1826,9 @@
         "average-down",
         "revenge-trading",
         "size-up"
+      ],
+      "overlaps": [
+        "average-down"
       ],
       "wrong": [
         "Cut a position in half",

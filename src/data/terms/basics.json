@@ -463,6 +463,9 @@
         "short",
         "position"
       ],
+      "overlaps": [
+        "long-and-wrong"
+      ],
       "wrong": [
         "Holding a stock for more than a year",
         "Betting that a price will fall",
@@ -487,6 +490,9 @@
         "leverage",
         "notional",
         "margin-call"
+      ],
+      "overlaps": [
+        "margin-blocked"
       ],
       "wrong": [
         "The broker's profit on each trade",
@@ -610,6 +616,11 @@
         "unrealised-pnl",
         "return"
       ],
+      "overlaps": [
+        "realised-pnl",
+        "unrealised-pnl",
+        "income-statement"
+      ],
       "wrong": [
         "Price and liquidity",
         "A statement of what a company owns and owes",
@@ -638,6 +649,9 @@
         "mtm",
         "pnl"
       ],
+      "overlaps": [
+        "pnl"
+      ],
       "wrong": [
         "Profit you expect to make by the end of the year",
         "Profit on open positions at today's prices",
@@ -664,6 +678,9 @@
       "fill": "The stock rallied, but we haven't sold, so the gain is still ____ and could vanish tomorrow.",
       "confusables": [
         "realised-pnl",
+        "pnl"
+      ],
+      "overlaps": [
         "pnl"
       ],
       "wrong": [
@@ -698,6 +715,9 @@
       "confusables": [
         "unrealised-pnl",
         "realised-pnl"
+      ],
+      "overlaps": [
+        "mtm-settlement"
       ],
       "wrong": [
         "Valuing positions at the price you bought them",
@@ -800,6 +820,12 @@
         "cagr",
         "pnl"
       ],
+      "overlaps": [
+        "total-return",
+        "cagr",
+        "real-return",
+        "forward-returns"
+      ],
       "wrong": [
         "Cash a company pays back through buybacks",
         "Getting your money back when an order is cancelled",
@@ -828,6 +854,9 @@
       "confusables": [
         "return",
         "total-return"
+      ],
+      "overlaps": [
+        "return"
       ],
       "wrong": [
         "The total return over the whole period",
@@ -868,6 +897,9 @@
       "confusables": [
         "liquidity",
         "volume"
+      ],
+      "overlaps": [
+        "annualised-volatility"
       ],
       "wrong": [
         "How many shares trade in a day",
@@ -952,6 +984,9 @@
       "confusables": [
         "return",
         "cagr"
+      ],
+      "overlaps": [
+        "return"
       ],
       "wrong": [
         "Return from the price change alone",
@@ -1040,6 +1075,9 @@
         "market-cap",
         "face-value"
       ],
+      "overlaps": [
+        "valuation"
+      ],
       "wrong": [
         "The price agreed between two friends",
         "A price fixed by SEBI for every IPO",
@@ -1062,6 +1100,10 @@
       "confusables": [
         "discount",
         "fair-value"
+      ],
+      "overlaps": [
+        "domestic-premium",
+        "gmp"
       ],
       "wrong": [
         "The fee paid to a broker",
@@ -1306,6 +1348,9 @@
         "pe-ratio",
         "valuation"
       ],
+      "overlaps": [
+        "valuation"
+      ],
       "wrong": [
         "The number of times a stock has split",
         "How many times a share has doubled",
@@ -1332,6 +1377,9 @@
         "ebitda",
         "guidance",
         "eps"
+      ],
+      "overlaps": [
+        "pat"
       ],
       "wrong": [
         "A company's total sales",
@@ -1383,6 +1431,9 @@
         "guidance",
         "earnings"
       ],
+      "overlaps": [
+        "the-street"
+      ],
       "wrong": [
         "A company's own forecast",
         "Agreement among board members",
@@ -1403,6 +1454,10 @@
       ],
       "fill": "After a 60% rally, many investors worry that the stock's ____ is no longer cheap.",
       "confusables": [
+        "multiple",
+        "fair-value"
+      ],
+      "overlaps": [
         "multiple",
         "fair-value"
       ],
@@ -1577,6 +1632,9 @@
         "notional",
         "leverage"
       ],
+      "overlaps": [
+        "factor-exposure"
+      ],
       "wrong": [
         "Publicity a company gets in the media",
         "The total fees a fund charges",
@@ -1623,6 +1681,9 @@
         "return",
         "inflation",
         "total-return"
+      ],
+      "overlaps": [
+        "return"
       ],
       "wrong": [
         "Return after tax",
@@ -1703,6 +1764,9 @@
         "stockbroker",
         "clearing-corporation"
       ],
+      "overlaps": [
+        "nse"
+      ],
       "wrong": [
         "The firm that holds your shares in electronic form",
         "The broker who places orders for you",
@@ -1738,6 +1802,9 @@
         "benchmark",
         "portfolio"
       ],
+      "overlaps": [
+        "nifty-50"
+      ],
       "wrong": [
         "The average price of every share listed in India",
         "A fund you can buy that holds the top 50 stocks",
@@ -1766,6 +1833,10 @@
       "fill": "You send your broker an ____ to buy 100 shares; until it fills, nothing has traded.",
       "confusables": [
         "fill",
+        "market-order",
+        "limit-order"
+      ],
+      "overlaps": [
         "market-order",
         "limit-order"
       ],
@@ -1974,6 +2045,10 @@
         "interest-rate",
         "return"
       ],
+      "overlaps": [
+        "core-inflation",
+        "cpi-inflation"
+      ],
       "wrong": [
         "A rise in the stock market over a year",
         "A rise in interest rates",
@@ -2017,6 +2092,10 @@
         "exchange-arbitrage",
         "cash-and-carry-arbitrage",
         "hedge"
+      ],
+      "overlaps": [
+        "exchange-arbitrage",
+        "cash-and-carry-arbitrage"
       ],
       "wrong": [
         "Betting that a price will rise",

@@ -56,6 +56,9 @@
         "bse",
         "sebi"
       ],
+      "overlaps": [
+        "stock-exchange"
+      ],
       "wrong": [
         "India's securities market regulator",
         "The older Mumbai exchange that runs the Sensex",
@@ -229,6 +232,9 @@
       "confusables": [
         "sensex",
         "bank-nifty"
+      ],
+      "overlaps": [
+        "stock-index"
       ],
       "wrong": [
         "BSE's index of 30 large companies",
@@ -1086,6 +1092,9 @@
         "muhurat-trading",
         "mwcb"
       ],
+      "overlaps": [
+        "call-auction"
+      ],
       "wrong": [
         "A session open only to institutions",
         "After-hours trading at the closing price",
@@ -1254,6 +1263,9 @@
       "fill": "Before listing, traders watch the unofficial ____ to guess the listing price.",
       "confusables": [
         "listing-gains",
+        "premium"
+      ],
+      "overlaps": [
         "premium"
       ],
       "wrong": [

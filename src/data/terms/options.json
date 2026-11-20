@@ -99,6 +99,10 @@
         "put-option",
         "underlying"
       ],
+      "overlaps": [
+        "call-option",
+        "put-option"
+      ],
       "wrong": [
         "Obligation to buy or sell at a set price on a set date",
         "Share that pays a fixed dividend",
@@ -186,6 +190,9 @@
         "strike-price",
         "option"
       ],
+      "overlaps": [
+        "option"
+      ],
       "wrong": [
         "Right to sell at the strike",
         "Obligation to buy at the strike",
@@ -231,6 +238,10 @@
         "call-option",
         "protective-put",
         "option"
+      ],
+      "overlaps": [
+        "option",
+        "protective-put"
       ],
       "wrong": [
         "Right to buy at the strike",
@@ -416,6 +427,9 @@
         "at-the-money",
         "intrinsic-value"
       ],
+      "overlaps": [
+        "deep-itm"
+      ],
       "wrong": [
         "Call with its strike above the underlying price",
         "Option that has made a profit for its buyer",
@@ -456,6 +470,9 @@
         "in-the-money",
         "at-the-money",
         "time-value"
+      ],
+      "overlaps": [
+        "far-otm"
       ],
       "wrong": [
         "Call with its strike below the underlying price",
@@ -691,6 +708,9 @@
         "realised-volatility",
         "india-vix",
         "vega"
+      ],
+      "overlaps": [
+        "atm-iv"
       ],
       "wrong": [
         "How much the price actually moved last month",
@@ -1532,6 +1552,9 @@
         "hedge",
         "put-option"
       ],
+      "overlaps": [
+        "put-option"
+      ],
       "wrong": [
         "Owning a stock and selling a call on it",
         "Selling a put to collect premium",
@@ -1555,6 +1578,10 @@
         "strangle",
         "iron-condor",
         "delta-neutral"
+      ],
+      "overlaps": [
+        "results-straddle",
+        "nine-twenty-straddle"
       ],
       "wrong": [
         "Call and put at different out-of-the-money strikes",
@@ -2137,6 +2164,9 @@
         "implied-volatility",
         "rule-of-16"
       ],
+      "overlaps": [
+        "atm-straddle-price"
+      ],
       "wrong": [
         "Price move after an analyst upgrade",
         "Gap between the open and the previous close",
@@ -2282,6 +2312,9 @@
         "option-premium",
         "short-gamma"
       ],
+      "overlaps": [
+        "trapped-writers"
+      ],
       "wrong": [
         "Buyer who pays the premium for the right",
         "Broker who records option trades for clients",
@@ -2403,6 +2436,9 @@
         "implied-volatility",
         "india-vix",
         "volatility-skew"
+      ],
+      "overlaps": [
+        "implied-volatility"
       ],
       "wrong": [
         "Average implied vol across all strikes on the chain",
@@ -2527,6 +2563,9 @@
         "gamma-blast",
         "theta"
       ],
+      "overlaps": [
+        "gamma-blast"
+      ],
       "wrong": [
         "Selling ATM options to collect premium",
         "Buying deep ITM options as a hedge",
@@ -2563,6 +2602,9 @@
         "short-covering",
         "trapped-longs"
       ],
+      "overlaps": [
+        "option-writer"
+      ],
       "wrong": [
         "Buyers stuck after a failed breakout",
         "Option sellers who can't get margin",
@@ -2590,6 +2632,9 @@
         "call-wall",
         "support",
         "open-interest"
+      ],
+      "overlaps": [
+        "support"
       ],
       "wrong": [
         "Lowest premium a put can trade at",
@@ -2626,6 +2671,9 @@
         "put-base",
         "resistance",
         "max-pain"
+      ],
+      "overlaps": [
+        "resistance"
       ],
       "wrong": [
         "Strike with the most put open interest",
@@ -2682,6 +2730,9 @@
       "confusables": [
         "gamma",
         "short-gamma",
+        "hero-zero"
+      ],
+      "overlaps": [
         "hero-zero"
       ],
       "wrong": [
@@ -2747,6 +2798,9 @@
         "straddle",
         "theta",
         "short-gamma"
+      ],
+      "overlaps": [
+        "straddle"
       ],
       "wrong": [
         "Buy a straddle before 9:20 results",
@@ -2869,6 +2923,9 @@
         "span-margin",
         "exposure-margin"
       ],
+      "overlaps": [
+        "margin"
+      ],
       "wrong": [
         "Margin the exchange refuses to accept",
         "Money a broker lends you to buy stocks",
@@ -2897,6 +2954,9 @@
         "implied-move",
         "straddle",
         "atm-iv"
+      ],
+      "overlaps": [
+        "implied-move"
       ],
       "wrong": [
         "Price of the call alone at the money",
@@ -3060,6 +3120,9 @@
         "intrinsic-value",
         "delta"
       ],
+      "overlaps": [
+        "in-the-money"
+      ],
       "wrong": [
         "Strike far away on the losing side",
         "Option whose strike equals the price",
@@ -3088,6 +3151,9 @@
         "out-of-the-money",
         "hero-zero",
         "tail-risk"
+      ],
+      "overlaps": [
+        "out-of-the-money"
       ],
       "wrong": [
         "Strike far inside the price",

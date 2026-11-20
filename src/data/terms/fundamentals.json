@@ -126,6 +126,9 @@
         "earnings",
         "ebitda-margin"
       ],
+      "overlaps": [
+        "earnings"
+      ],
       "wrong": [
         "Sales before any costs",
         "Profit before interest and tax",
@@ -1634,6 +1637,9 @@
       "confusables": [
         "balance-sheet",
         "cash-flow-statement",
+        "pnl"
+      ],
+      "overlaps": [
         "pnl"
       ],
       "wrong": [

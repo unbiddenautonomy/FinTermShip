@@ -178,6 +178,9 @@
         "yield-to-maturity",
         "g-sec"
       ],
+      "overlaps": [
+        "credit-spread"
+      ],
       "wrong": [
         "The gap between the bond's coupon and its yield",
         "The bid-ask spread on a corporate bond",

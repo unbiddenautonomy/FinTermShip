@@ -390,6 +390,9 @@
         "ratio-spread",
         "broken-wing-butterfly"
       ],
+      "overlaps": [
+        "broken-wing-butterfly"
+      ],
       "wrong": [
         "Buy one, sell one higher",
         "Sell a call and a put at one strike",
@@ -466,6 +469,9 @@
         "butterfly-spread",
         "iron-butterfly",
         "ratio-spread"
+      ],
+      "overlaps": [
+        "butterfly-spread"
       ],
       "wrong": [
         "Butterfly with evenly spaced wings",
@@ -895,6 +901,9 @@
         "calendar-spread-benefit",
         "exposure-margin",
         "max-loss"
+      ],
+      "overlaps": [
+        "calendar-spread-benefit"
       ],
       "wrong": [
         "Extra margin charged on expiry day",
@@ -1493,6 +1502,9 @@
         "free-float",
         "nifty-50"
       ],
+      "overlaps": [
+        "bond-index-inclusion"
+      ],
       "wrong": [
         "A stock leaving an index after falling",
         "Listing a company's shares on the exchange",
@@ -1556,6 +1568,9 @@
         "straddle",
         "implied-move",
         "iv-crush"
+      ],
+      "overlaps": [
+        "straddle"
       ],
       "wrong": [
         "Buying the stock and a put before results",
