@@ -46,7 +46,7 @@
       "short": "Rate at which the RBI lends to banks",
       "definition": "The rate at which the RBI lends to banks for short periods, against government bonds as collateral. It's the rate the Monetary Policy Committee votes on: raised to cool inflation, cut to support growth. Other short-term rates move around it.",
       "examples": [
-        "The RBI raised the repo rate by 25 bp in October 2026, to 5.50%.",
+        "The RBI raised the repo rate by 25 bp to fight inflation.",
         "The client asked why her home loan EMI went up: her bank's rate is linked to the repo rate.",
         "Risk runs the bond book through a 50 bp jump in the repo rate every week."
       ],
@@ -267,6 +267,10 @@
         "repo-rate",
         "return"
       ],
+      "overlaps": [
+        "inflation",
+        "core-inflation"
+      ],
       "wrong": [
         "Rise in the prices factories pay for raw materials",
         "Growth in the economy's total output",
@@ -458,7 +462,7 @@
         "The importer's treasury buys currency futures each month to fix the rupee cost of its bills.",
         "The client asked if she can hedge her son's US tuition fees with currency futures on NSE."
       ],
-      "fill": "An importer locks in the rupee cost of next month's dollar payment by buying $1,000 lots on NSE. They're trading ____.",
+      "fill": "Exchange-traded contracts on NSE and BSE that fix an exchange rate for a later date, such as the $1,000 USDINR lot, are ____.",
       "confusables": [
         "ndf",
         "forward-premium",
@@ -613,6 +617,9 @@
         "cost-of-carry",
         "crowded-trade"
       ],
+      "overlaps": [
+        "cross-asset-carry"
+      ],
       "wrong": [
         "Buying a stock and holding it for years",
         "Rolling futures from one month to the next",
@@ -756,6 +763,10 @@
         "repo-rate",
         "sdf",
         "system-liquidity"
+      ],
+      "overlaps": [
+        "wacr",
+        "mibor"
       ],
       "wrong": [
         "Price of a call option",
@@ -967,6 +978,10 @@
         "sdl",
         "omo"
       ],
+      "overlaps": [
+        "t-bill",
+        "bond"
+      ],
       "wrong": [
         "A share in a government-owned company",
         "A fixed deposit with a public sector bank",
@@ -1003,6 +1018,10 @@
         "sdl",
         "risk-free-rate"
       ],
+      "overlaps": [
+        "g-sec",
+        "zero-coupon-bond"
+      ],
       "wrong": [
         "A bill of exchange between two companies",
         "A bond that pays a coupon every quarter",
@@ -1010,7 +1029,7 @@
       ],
       "calcs": [
         {
-          "q": "A 364-day T-bill is sold at ₹94 and repays ₹100. Roughly what does it yield?",
+          "q": "A 364-day T-bill is sold at ₹94 and repays ₹100. What does it yield, to one decimal place?",
           "options": [
             "6.4%",
             "6%",
@@ -1060,14 +1079,18 @@
       "short": "Average overnight interbank call rate",
       "definition": "The weighted average call rate: the average rate at which banks lend to each other overnight in the uncollateralised call money market, weighted by volume. It is the RBI's operating target, so the RBI uses its liquidity tools to keep it close to the repo rate.",
       "examples": [
-        "WACR has drifted above the repo rate, so liquidity is tight.",
+        "WACR, the RBI's operating target, has drifted above the repo rate, so liquidity is tight.",
         "The RBI's job is to keep WACR near the policy repo rate.",
-        "WACR fell towards the SDF rate as surplus liquidity piled up."
+        "Call money got cheap: WACR fell towards the SDF rate as surplus liquidity piled up."
       ],
       "fill": "The RBI targets the ____, the volume-weighted overnight rate banks charge each other.",
       "confusables": [
         "call-rate",
         "repo-rate",
+        "mibor"
+      ],
+      "overlaps": [
+        "call-rate",
         "mibor"
       ],
       "wrong": [
@@ -1101,6 +1124,13 @@
         "overnight-indexed-swap",
         "call-rate"
       ],
+      "overlaps": [
+        "wacr",
+        "call-rate"
+      ],
+      "alsoFits": [
+        "treps"
+      ],
       "wrong": [
         "The RBI's policy repo rate",
         "The yield on a 91-day T-bill",
@@ -1119,7 +1149,7 @@
       "definition": "Tri-party repo dealing and settlement, run by CCIL: overnight lending against government securities, with CCIL as the central counterparty. It is the biggest overnight money market in India, used by banks, mutual funds and others to park or borrow cash.",
       "examples": [
         "Liquid funds park spare cash in TREPS overnight.",
-        "TREPS rates spiked at quarter-end as banks hoarded cash.",
+        "Collateralised TREPS rates on CCIL spiked at quarter-end as banks hoarded cash.",
         "Because it is collateralised, TREPS usually trades a little below the call rate."
       ],
       "fill": "Mutual funds lend cash overnight against G-secs through CCIL in ____.",
@@ -1154,6 +1184,9 @@
         "mibor",
         "swap-spread",
         "repo-rate"
+      ],
+      "overlaps": [
+        "interest-rate-swap"
       ],
       "wrong": [
         "A bond whose coupon resets every night",
@@ -1302,6 +1335,9 @@
         "flattener",
         "butterfly-spread"
       ],
+      "overlaps": [
+        "butterfly-spread"
+      ],
       "wrong": [
         "An option strategy with three strikes",
         "A bet that all yields rise together",
@@ -1319,7 +1355,7 @@
       "short": "Swap rate minus government bond yield",
       "definition": "The difference between an interest rate swap rate (in India, the OIS) and the government bond yield of the same maturity. It moves with bank liquidity, bond supply and foreign flows. Traders bet on it widening or narrowing without taking a view on rates.",
       "examples": [
-        "The five-year swap spread turned negative as banks bought bonds hand over fist.",
+        "The five-year swap spread moved up towards zero as banks bought G-secs hand over fist and pushed their yields down against OIS.",
         "Heavy government borrowing pushed bond yields above OIS, moving the swap spread.",
         "Foreign banks trade the swap spread rather than outright duration."
       ],
@@ -1328,6 +1364,11 @@
         "overnight-indexed-swap",
         "spread-over-gsec",
         "basis"
+      ],
+      "alsoFits": [
+        "spread-over-gsec",
+        "term-premium",
+        "curve-butterfly"
       ],
       "wrong": [
         "The gap between two corporate bond yields",
@@ -1403,6 +1444,9 @@
         "fully-accessible-route",
         "index-inclusion",
         "fpi"
+      ],
+      "overlaps": [
+        "index-inclusion"
       ],
       "wrong": [
         "A stock joining the Nifty 50",
@@ -1552,7 +1596,7 @@
       "definition": "The central government's annual statement of spending, taxes and borrowing, presented by the Finance Minister in Parliament, usually on 1 February. In an election year an interim Budget comes in February and the full one after the new government forms, as in July 2024. For markets it sets the fiscal deficit target and borrowing, and it can change STT, capital gains tax and duties on whole sectors, so it is one of the year's biggest event days.",
       "examples": [
         "The Union Budget raised STT on F&O, and broker stocks fell.",
-        "Option IVs climb into the Union Budget and crush the day after.",
+        "Option IVs climb into the Union Budget each February and crush the day after.",
         "Infrastructure stocks rallied on the higher capex in the Union Budget."
       ],
       "fill": "The yearly statement, usually presented on 1 February, that sets taxes, spending and the borrowing plan is the ____.",
@@ -1588,6 +1632,10 @@
         "cpi-inflation",
         "inflation-target",
         "inflation"
+      ],
+      "overlaps": [
+        "inflation",
+        "cpi-inflation"
       ],
       "wrong": [
         "Inflation in wholesale prices",

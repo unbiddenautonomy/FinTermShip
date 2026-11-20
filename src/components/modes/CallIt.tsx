@@ -317,10 +317,11 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
       <div className="relative -mx-4 px-6 py-8 sm:mx-0 sm:rounded-2xl" style={{ backgroundImage: 'radial-gradient(rgb(var(--ink) / 0.13) 1px, transparent 1.2px)', backgroundSize: '14px 14px' }}>
         {index + 1 < deck.length && <div className="absolute inset-x-8 bottom-6 top-10 rotate-[2.5deg] rounded-xl border-2 border-ink bg-surface" style={{ boxShadow: `6px 6px 0 ${colour}` }} aria-hidden="true" />}
         {index + 2 < deck.length && <div className="absolute inset-x-7 bottom-7 top-9 -rotate-[2deg] rounded-xl border-2 border-ink bg-surface" aria-hidden="true" />}
-        {/* Two layers: the outer one follows the finger and is thrown off when done; the inner one flips over to the answer. */}
+        {/* Two layers: the outer one follows the finger and is thrown off when done; the inner one flips over to the answer.
+            Text can't be selected while the card can be dragged, but can once the answer shows, so it can be copied. */}
         <div
           key={index}
-          className={`relative touch-pan-y select-none ${answered ? '' : `animate-deal ${held ? 'cursor-grabbing' : 'cursor-grab'}`}`}
+          className={`relative ${answered ? 'select-text' : `touch-pan-y select-none animate-deal ${held ? 'cursor-grabbing' : 'cursor-grab'}`}`}
           style={{
             perspective: '1400px',
             transformOrigin: '50% 90%',

@@ -1395,9 +1395,9 @@
   {
     "id": "long-only-fund-claim-1",
     "term": "long-only-fund",
-    "s": "A long-only fund can make money only when its holdings rise.",
+    "s": "A long-only fund can't make money from falling prices.",
     "a": true,
-    "why": "It can't short, so it gains only from rising prices."
+    "why": "It can't short, so a fall in prices can only hurt it."
   },
   {
     "id": "custodian-claim-1",

@@ -176,6 +176,9 @@
         "basis",
         "cost-of-carry"
       ],
+      "overlaps": [
+        "super-contango"
+      ],
       "wrong": [
         "Futures below spot, later months lower",
         "Futures exactly equal to spot",
@@ -418,6 +421,11 @@
         "arbitrage-fund",
         "basis"
       ],
+      "overlaps": [
+        "arbitrage",
+        "arbitrage-fund",
+        "index-arbitrage"
+      ],
       "wrong": [
         "Buying futures and selling the stock",
         "Holding a stock bought with borrowed money",
@@ -488,6 +496,10 @@
         "cash-and-carry-arbitrage",
         "mutual-fund",
         "hedge-fund"
+      ],
+      "overlaps": [
+        "mutual-fund",
+        "cash-and-carry-arbitrage"
       ],
       "wrong": [
         "Fund that bets on mergers going through",
@@ -614,6 +626,11 @@
         "dividend",
         "g-sec"
       ],
+      "overlaps": [
+        "zero-coupon-bond",
+        "ncd",
+        "g-sec"
+      ],
       "wrong": [
         "A share that makes you part-owner of a company",
         "A contract to buy an asset on a future date",
@@ -696,7 +713,7 @@
       ],
       "calcs": [
         {
-          "q": "A one-year bond with no coupon repays ₹100 and costs ₹94. Roughly what's its yield to maturity?",
+          "q": "A one-year bond with no coupon repays ₹100 and costs ₹94. What's its yield to maturity, to one decimal place?",
           "options": [
             "6.4%",
             "6%",
@@ -919,6 +936,9 @@
         "basis",
         "risk-off"
       ],
+      "overlaps": [
+        "spread-over-gsec"
+      ],
       "wrong": [
         "Gap between a bond's bid and ask prices",
         "Gap between the coupon and the yield",
@@ -955,6 +975,10 @@
         "bond",
         "t-bill",
         "coupon"
+      ],
+      "overlaps": [
+        "bond",
+        "t-bill"
       ],
       "wrong": [
         "A bond that pays a floating coupon",
@@ -1079,6 +1103,9 @@
         "overnight-indexed-swap",
         "swap-spread",
         "credit-default-swap"
+      ],
+      "overlaps": [
+        "overnight-indexed-swap"
       ],
       "wrong": [
         "A loan swapped from one bank to another",

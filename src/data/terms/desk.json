@@ -56,6 +56,10 @@
         "bid",
         "market-order"
       ],
+      "overlaps": [
+        "cross-the-spread",
+        "market-order"
+      ],
       "wrong": [
         "Raise your buying price to attract sellers",
         "Place a buy order below the market",
@@ -96,6 +100,11 @@
         "hit-the-bid",
         "ask",
         "market-order"
+      ],
+      "overlaps": [
+        "cross-the-spread",
+        "market-order",
+        "aggressive-order"
       ],
       "wrong": [
         "Sell at the highest bid",
@@ -178,6 +187,9 @@
         "notional",
         "liquidity"
       ],
+      "overlaps": [
+        "clip"
+      ],
       "wrong": [
         "The market value of a whole company",
         "The gap between the bid and the offer",
@@ -206,6 +218,9 @@
         "iceberg-order",
         "flow"
       ],
+      "overlaps": [
+        "scale-in"
+      ],
       "wrong": [
         "Placing one market order for the whole amount",
         "Checking an order for mistakes before sending it",
@@ -227,7 +242,7 @@
         "The analyst saw a big print at the close and checked the bulk deal data that evening.",
         "Risk wants every large print in our stocks flagged, in case a big holder is selling."
       ],
-      "fill": "A single trade of 10 lakh shares flashing across the screen is a big ____.",
+      "fill": "Any trade that shows up on the tape, whatever its size, is a ____.",
       "confusables": [
         "fill",
         "block-deal",
@@ -264,7 +279,7 @@
       "wrong": [
         "A chart setting that colours rising prices green",
         "A credit rating shown in colour",
-        "Gamma's sensitivity to time"
+        "A broker's fee for research calls"
       ],
       "difficulty": 2
     },
@@ -287,6 +302,9 @@
         "market-color",
         "axe",
         "volume"
+      ],
+      "overlaps": [
+        "fund-flows"
       ],
       "wrong": [
         "The cash a company makes from operations",
@@ -315,6 +333,9 @@
         "market-color",
         "size"
       ],
+      "overlaps": [
+        "ioi"
+      ],
       "wrong": [
         "A cut in a stock's target price",
         "A sudden fall in a stock",
@@ -339,14 +360,17 @@
         "position",
         "long"
       ],
+      "overlaps": [
+        "flat-into-event"
+      ],
       "wrong": [
-        "Holding a position with no gain or loss yet",
-        "Trading a stock whose price hasn't moved",
+        "Holding only large-cap stocks",
+        "Trading without any borrowed money",
         "Holding equal amounts of two stocks"
       ],
       "tf": [
         {
-          "s": "Being flat means your trade so far today has made no profit or loss.",
+          "s": "Being flat means you still hold a position, just with no profit or loss on it yet.",
           "a": false,
           "why": "Flat means you hold no position. You may already have booked a profit or a loss."
         }
@@ -373,8 +397,12 @@
         "exposure",
         "pnl"
       ],
+      "alsoFits": [
+        "pnl",
+        "position"
+      ],
       "wrong": [
-        "A company's net worth per share",
+        "The fee a desk pays for research",
         "A file of client orders waiting to be sent",
         "The exchange's record of daily prices"
       ],
@@ -399,6 +427,11 @@
         "sell-side",
         "fund-manager",
         "dii"
+      ],
+      "overlaps": [
+        "dii",
+        "hedge-fund",
+        "long-only-fund"
       ],
       "wrong": [
         "Brokers that execute orders for clients",
@@ -427,10 +460,15 @@
         "stockbroker",
         "investment-bank"
       ],
+      "overlaps": [
+        "stockbroker",
+        "investment-bank",
+        "the-street"
+      ],
       "wrong": [
         "Investors who are selling a stock",
         "Fund houses that manage savings",
-        "The side of the order book with offers"
+        "A rule that limits short selling"
       ],
       "difficulty": 1
     },
@@ -504,7 +542,7 @@
         "The PM rates each sales trader on how useful their market color is.",
         "Risk asked the sales trader not to share our client's order with other clients."
       ],
-      "fill": "Fund dealers call their ____ at the broker to place orders and hear what others are doing.",
+      "fill": "Fund dealers call the broker's ____, who takes their orders, passes them to the trading desk and shares market color.",
       "confusables": [
         "dealer",
         "research-analyst",
@@ -537,6 +575,10 @@
         "sales-trader",
         "stockbroker"
       ],
+      "alsoFits": [
+        "stockbroker",
+        "research-analyst"
+      ],
       "wrong": [
         "A company that sells cars and bikes",
         "The person who decides what a fund should buy",
@@ -564,6 +606,9 @@
         "sell-side",
         "stockbroker",
         "ipo"
+      ],
+      "overlaps": [
+        "sell-side"
       ],
       "wrong": [
         "A bank that invests depositors' savings in shares",
@@ -593,6 +638,9 @@
         "book",
         "dealer"
       ],
+      "overlaps": [
+        "principal-trade"
+      ],
       "wrong": [
         "Trading on behalf of retail clients",
         "Buying property shares",
@@ -615,6 +663,9 @@
       "confusables": [
         "long-only-fund",
         "mutual-fund",
+        "buy-side"
+      ],
+      "overlaps": [
         "buy-side"
       ],
       "wrong": [
@@ -647,6 +698,9 @@
         "buy-side",
         "long"
       ],
+      "overlaps": [
+        "buy-side"
+      ],
       "wrong": [
         "A fund that holds stocks for at least a year",
         "A fund that invests only in long bonds",
@@ -670,6 +724,9 @@
         "depository",
         "clearing-corporation",
         "fpi"
+      ],
+      "alsoFits": [
+        "depository"
       ],
       "wrong": [
         "The broker who places the fund's orders",
@@ -721,7 +778,7 @@
       "examples": [
         "Rating cut to reduce from add; the valuation has run ahead.",
         "The analyst's stock rating moved from buy to hold after the rally.",
-        "Risk ignores the stock rating when sizing positions; it looks at liquidity and volatility."
+        "Risk ignores the analyst's stock rating, buy or sell, when sizing positions; it looks at liquidity and volatility."
       ],
       "fill": "Moving a stock from hold to buy changes its ____.",
       "confusables": [
@@ -757,8 +814,14 @@
         "upside",
         "fair-value"
       ],
+      "overlaps": [
+        "fair-value"
+      ],
+      "alsoFits": [
+        "re-rating"
+      ],
       "wrong": [
-        "The price where a trader takes profit",
+        "The price at which a company buys back shares",
         "The highest price in the last year",
         "The price set for an IPO"
       ],
@@ -851,10 +914,10 @@
       ],
       "calcs": [
         {
-          "q": "A stock is 8% of the benchmark and 11% of your fund. How overweight are you?",
+          "q": "A stock is 8% of the benchmark and 11% of your fund. By how many percentage points are you overweight?",
           "options": [
             "3 percentage points",
-            "3%",
+            "19 percentage points",
             "37.5%",
             "11 percentage points"
           ],
@@ -919,6 +982,10 @@
         "earnings",
         "research-analyst"
       ],
+      "alsoFits": [
+        "guidance",
+        "earnings"
+      ],
       "wrong": [
         "A broker's call to collect margin",
         "The day results are announced",
@@ -945,6 +1012,9 @@
         "earnings-miss",
         "consensus",
         "guidance"
+      ],
+      "overlaps": [
+        "earnings-surprise"
       ],
       "wrong": [
         "Results that match last year's",
@@ -986,6 +1056,9 @@
         "consensus",
         "guidance"
       ],
+      "overlaps": [
+        "earnings-surprise"
+      ],
       "wrong": [
         "A late filing of results",
         "Profit lower than last year",
@@ -1017,8 +1090,7 @@
       "id": "re-rating",
       "term": "re-rating",
       "aliases": [
-        "rerating",
-        "de-rating"
+        "rerating"
       ],
       "unit": "d3",
       "short": "Market paying a higher multiple",
@@ -1103,9 +1175,12 @@
         "ask",
         "flow"
       ],
+      "overlaps": [
+        "leaning-on-offer"
+      ],
       "wrong": [
-        "Available in an IPO",
-        "On sale through an OFS",
+        "Suspended from trading",
+        "Quoted by only one broker",
         "Quoted with a two-way price"
       ],
       "difficulty": 2
@@ -1128,6 +1203,9 @@
       "fill": "If you keep raising your bid as the stock runs from 400 to 420, you ____ it.",
       "confusables": [
         "lift-the-offer",
+        "fade"
+      ],
+      "alsoFits": [
         "fade"
       ],
       "wrong": [
@@ -1222,6 +1300,12 @@
         "unwind",
         "realised-pnl"
       ],
+      "overlaps": [
+        "take-some-off",
+        "profit-booking",
+        "scale-out",
+        "de-risking"
+      ],
       "wrong": [
         "Sell the whole position",
         "Cut a stock's target price",
@@ -1262,6 +1346,10 @@
         "trim",
         "short-covering"
       ],
+      "overlaps": [
+        "square-off",
+        "short-covering"
+      ],
       "wrong": [
         "Open a new position",
         "Take a break from trading",
@@ -1289,6 +1377,10 @@
         "short-selling",
         "unwind",
         "short"
+      ],
+      "overlaps": [
+        "short-squeeze",
+        "unwind"
       ],
       "wrong": [
         "Selling more shares short",
@@ -1352,10 +1444,13 @@
         "Risk approves every principal trade above ₹50 crore, since the firm takes the stock on its book.",
         "The client asked why the broker's price was below the screen: in a principal trade, the broker takes the risk."
       ],
-      "fill": "The broker bought the whole block itself at 2% below market, a ____, and took on the risk.",
+      "fill": "The broker bought the client's ₹8 crore of shares itself, at 2% below market, and took on the risk: a ____.",
       "confusables": [
         "agency-trade",
         "block-deal",
+        "prop-trading"
+      ],
+      "overlaps": [
         "prop-trading"
       ],
       "wrong": [
@@ -1424,6 +1519,9 @@
         "fill",
         "firm-price"
       ],
+      "overlaps": [
+        "fill"
+      ],
       "wrong": [
         "You've used up your trading limit",
         "Your account is closed",
@@ -1452,11 +1550,14 @@
         "The PM wants the broker's firm price on the 5 lakh shares before the close.",
         "Risk treats a firm price as a commitment, so dealers can't walk away from it."
       ],
-      "fill": "If you can say 'done' and the trade is fixed, the broker gave you a ____.",
+      "fill": "The broker will sell you 5 lakh shares at 412 the moment you say 'done': that's a ____.",
       "confusables": [
         "indicative-price",
         "two-way-price",
         "youre-done"
+      ],
+      "alsoFits": [
+        "two-way-price"
       ],
       "wrong": [
         "A price fixed by the exchange for the day",
@@ -1489,7 +1590,7 @@
       ],
       "wrong": [
         "The price an index shows",
-        "The price in the pre-open session",
+        "A price guaranteed for the whole day",
         "A price set by SEBI"
       ],
       "difficulty": 2
@@ -1514,6 +1615,10 @@
         "consensus",
         "sell-side",
         "bse"
+      ],
+      "overlaps": [
+        "consensus",
+        "sell-side"
       ],
       "wrong": [
         "A list of brokers approved by SEBI",
@@ -1625,6 +1730,9 @@
         "long",
         "stopped-out"
       ],
+      "overlaps": [
+        "long"
+      ],
       "wrong": [
         "Holding a stock for too many years",
         "Using the wrong order type",
@@ -1652,6 +1760,11 @@
         "profit-booking",
         "trim",
         "realised-pnl"
+      ],
+      "overlaps": [
+        "trim",
+        "profit-booking",
+        "scale-out"
       ],
       "wrong": [
         "Add more to a winning position",
@@ -1751,6 +1864,13 @@
         "buy-the-dip",
         "falling-knife"
       ],
+      "overlaps": [
+        "double-down",
+        "buy-the-dip"
+      ],
+      "alsoFits": [
+        "scale-in"
+      ],
       "wrong": [
         "Sell some shares to cut the average",
         "Buy more as the price rises",
@@ -1798,6 +1918,11 @@
         "revenge-trading",
         "size-up"
       ],
+      "overlaps": [
+        "average-down",
+        "size-up",
+        "revenge-trading"
+      ],
       "wrong": [
         "Cut a position in half",
         "Hedge both sides of a trade",
@@ -1825,6 +1950,10 @@
         "scale-out",
         "average-down",
         "working-an-order"
+      ],
+      "overlaps": [
+        "working-an-order",
+        "pyramiding"
       ],
       "wrong": [
         "Buy the whole position in one order",
@@ -1854,6 +1983,10 @@
         "take-some-off",
         "trim"
       ],
+      "overlaps": [
+        "take-some-off",
+        "trim"
+      ],
       "wrong": [
         "Build a position in steps",
         "Exit everything in one order",
@@ -1872,7 +2005,7 @@
       "short": "At what price will you admit you're wrong?",
       "definition": "A PM's or risk manager's question before any trade: at what price does the idea stop working, so you get out? A trade with no stop, or a stop moved further away as it loses, is a warning sign.",
       "examples": [
-        "Love the idea. Where's your stop?",
+        "Love the idea. One question before you buy: where's your stop?",
         "You said your stop was 1,450. It's 1,420 now; why are we still long?",
         "Risk asks every trader the same question before a new position: where's your stop?"
       ],
@@ -1910,6 +2043,9 @@
         "scale-in",
         "let-winners-run"
       ],
+      "overlaps": [
+        "scale-in"
+      ],
       "wrong": [
         "Adding to a loser as its price falls",
         "Selling in steps as the price rises",
@@ -1937,6 +2073,9 @@
         "overtrading",
         "double-down",
         "fomo"
+      ],
+      "overlaps": [
+        "double-down"
       ],
       "wrong": [
         "Trading against a rival desk",

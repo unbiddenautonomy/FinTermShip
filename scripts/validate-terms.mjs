@@ -51,6 +51,7 @@ for (const file of files) {
     allTerms.set(key, t.id);
   }
 }
+const byId = new Map(categories.flatMap((c) => c.terms.map((t) => [t.id, t])));
 for (const cat of categories) {
   for (const u of cat.units) {
     const count = cat.terms.filter((t) => t.unit === u.id).length;
@@ -68,6 +69,20 @@ for (const cat of categories) {
       if (!allIds.has(c)) errors.push(`${cat.id} > ${t.id}: confusable "${c}" is not a known term id`);
       if (c === t.id) errors.push(`${cat.id} > ${t.id}: lists itself as confusable`);
     }
+    // Overlaps: terms that fit this one's definition too, so they're never each other's wrong option.
+    for (const o of t.overlaps || []) {
+      if (!allIds.has(o)) errors.push(`${cat.id} > ${t.id}: overlap "${o}" is not a known term id`);
+      else if (o === t.id) errors.push(`${cat.id} > ${t.id}: lists itself as an overlap`);
+      else if (!(byId.get(o).overlaps || []).includes(t.id)) errors.push(`${cat.id} > ${t.id}: overlaps "${o}", but "${o}" doesn't list it back`);
+    }
+    if (new Set(t.overlaps || []).size !== (t.overlaps || []).length) errors.push(`${cat.id} > ${t.id}: an overlap is listed twice`);
+    // Also fits: terms that would fit one of this term's sentences, so they're never offered as its wrong option.
+    for (const o of t.alsoFits || []) {
+      if (!allIds.has(o)) errors.push(`${cat.id} > ${t.id}: alsoFits "${o}" is not a known term id`);
+      else if (o === t.id) errors.push(`${cat.id} > ${t.id}: lists itself in alsoFits`);
+      else if ((t.overlaps || []).includes(o)) errors.push(`${cat.id} > ${t.id}: "${o}" is already an overlap, so it needn't be in alsoFits`);
+    }
+    if (new Set(t.alsoFits || []).size !== (t.alsoFits || []).length) errors.push(`${cat.id} > ${t.id}: an alsoFits term is listed twice`);
   }
   // Phase 3 areas sit after everything else and open as a whole, so none of their units is core.
   if (cat.phase !== undefined && cat.phase !== 3) errors.push(`${cat.id}: phase must be 3 when set`);

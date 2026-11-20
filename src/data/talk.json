@@ -931,7 +931,7 @@
       "The stock fell 50 basis points, from ₹100 to ₹50.",
       "The repo rate was cut by 25 basis points, from 5.50% to 5.25%.",
       "Spreads widened by 10 bips after the downgrade.",
-      "A 1% move in a yield is 100 basis points."
+      "A 1 percentage point move in a yield is 100 basis points."
     ],
     "why": "A fall from ₹100 to ₹50 is 50%, or 5,000 basis points. A basis point is a hundredth of a percentage point."
   },

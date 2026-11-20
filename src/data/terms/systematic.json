@@ -76,7 +76,7 @@
       "definition": "The idea that the same thing should trade at the same price everywhere, once costs are counted. Arbitrage is what enforces it: when prices drift apart, traders buy where it's cheap and sell where it's dear until the gap closes.",
       "examples": [
         "The futures can't stay ₹50 over fair value for long; the law of one price says someone will sell them and buy the stocks.",
-        "The analyst says the law of one price is why the ETF trades so close to its holdings.",
+        "The analyst says the law of one price is why gold costs about the same in Mumbai and Dubai once costs are counted.",
         "The client asked why a stock costs the same on NSE and BSE: the law of one price, enforced by arbitrage."
       ],
       "fill": "Arbitrage traders are what enforce the ____: if the same bond is cheaper in one place, they buy it there and sell it where it's dear.",
@@ -111,6 +111,12 @@
         "etf-arbitrage",
         "triangular-arbitrage",
         "leg-risk"
+      ],
+      "overlaps": [
+        "arbitrage"
+      ],
+      "alsoFits": [
+        "pairs-trading"
       ],
       "wrong": [
         "Same index, futures against stocks",
@@ -209,6 +215,9 @@
         "exchange-arbitrage",
         "event-risk"
       ],
+      "overlaps": [
+        "event-driven"
+      ],
       "wrong": [
         "Same stock on two exchanges",
         "ETF price against its basket",
@@ -244,7 +253,7 @@
       "definition": "Trading three currency pairs when one cross rate doesn't match the rate implied by the other two, such as EUR/INR against EUR/USD and USD/INR. Banks' systems close such gaps almost at once.",
       "examples": [
         "EUR/INR was a few paise off the cross for a moment, and the bank's triangular arb engine took it.",
-        "Risk asked how the triangular arbitrage engine handles a quote that turns out to be stale.",
+        "Risk asked how the EUR/USD/INR triangular arbitrage engine handles a quote that turns out to be stale.",
         "The analyst says triangular arbitrage keeps the rupee crosses lined up within a few paise."
       ],
       "fill": "With USD/INR at 88.00 and EUR/USD at 1.1600, EUR/INR should be 102.08. Quoted at 102.40, the desk sold euros for rupees and bought them back through dollars: ____.",
@@ -605,6 +614,9 @@
         "mean-reversion",
         "breakout"
       ],
+      "overlaps": [
+        "momentum-factor"
+      ],
       "wrong": [
         "Bet stretched prices snap back",
         "Long one stock, short a close cousin",
@@ -636,6 +648,9 @@
         "momentum-factor",
         "breakout"
       ],
+      "overlaps": [
+        "vwap-reversion"
+      ],
       "wrong": [
         "Ride each market's own trend",
         "Buy what has risen most this year",
@@ -666,6 +681,9 @@
         "cointegration",
         "market-neutral",
         "merger-arbitrage"
+      ],
+      "overlaps": [
+        "market-neutral"
       ],
       "wrong": [
         "Ride each market's own trend",
@@ -703,6 +721,9 @@
         "correlation",
         "stationarity",
         "half-life"
+      ],
+      "alsoFits": [
+        "mean-reversion"
       ],
       "wrong": [
         "Daily returns that move together",
@@ -761,6 +782,9 @@
         "pairs-trading",
         "hedge",
         "trend-following"
+      ],
+      "overlaps": [
+        "pairs-trading"
       ],
       "wrong": [
         "Fully hedged against every risk",
@@ -876,6 +900,10 @@
         "merger-arbitrage",
         "mean-reversion"
       ],
+      "overlaps": [
+        "index-rebalancing-trade",
+        "merger-arbitrage"
+      ],
       "wrong": [
         "Ride each market's own trend",
         "Same stock on two exchanges",
@@ -978,7 +1006,7 @@
       "short": "More size on one side of the book",
       "definition": "How much more size is resting on the bid than on the offer, or the other way round, often measured at the best price as (bid − ask) ÷ (bid + ask). A strong imbalance predicts the direction of the next tick, and short-term signals use it.",
       "examples": [
-        "Order-book imbalance is +0.6: three times as much on the bid, so the next tick probably goes up.",
+        "The order-book imbalance is +0.5: three times as much on the bid, so the next tick probably goes up.",
         "The HFT's short-term model is mostly order-book imbalance and trade flow.",
         "Imbalance flips fast when someone pulls a big order, so treat it as a seconds signal."
       ],
@@ -1025,6 +1053,9 @@
         "order-book-imbalance",
         "fair-value"
       ],
+      "overlaps": [
+        "fair-value"
+      ],
       "wrong": [
         "The smallest price step allowed",
         "A price quoted for very small orders",
@@ -1061,6 +1092,9 @@
         "volatility-targeting",
         "diversification",
         "risk-budget"
+      ],
+      "overlaps": [
+        "diversification"
       ],
       "wrong": [
         "Holding the same amount of money in each asset",
@@ -1123,6 +1157,9 @@
         "roll-yield",
         "trend-following"
       ],
+      "overlaps": [
+        "carry-trade"
+      ],
       "wrong": [
         "Holding positions overnight to the next day",
         "Paying a broker to carry a position forward",
@@ -1162,7 +1199,7 @@
       "definition": "Markowitz's method of picking portfolio weights that give the highest expected return for a level of risk, using expected returns, volatilities and correlations. It is very sensitive to the return estimates, so practitioners shrink inputs and add constraints.",
       "examples": [
         "Unconstrained mean-variance optimisation put 70% in one stock; we capped names at 5%.",
-        "Small changes to expected returns flipped the mean-variance optimisation completely.",
+        "Small changes to expected returns completely flipped the weights from mean-variance optimisation.",
         "Most desks use mean-variance optimisation with shrunk covariances and turnover limits."
       ],
       "fill": "Feeding expected returns, vols and correlations into Markowitz's model to find the best weights is ____.",

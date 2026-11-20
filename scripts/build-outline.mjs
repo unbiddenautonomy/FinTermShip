@@ -81,6 +81,7 @@ const outline = {
         ...(t.easy ? { easy: true } : {}),
         difficulty: t.difficulty,
         confusables: t.confusables,
+        ...(t.overlaps?.length ? { overlaps: t.overlaps } : {}),
         ...(n.length ? { near: n } : {}),
       };
     }),

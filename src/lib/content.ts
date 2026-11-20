@@ -70,6 +70,7 @@ export function addTerms(stubs: TermStub[]): void {
     const old = termById.get(s.id);
     if (old) {
       old.confusables = fields.confusables;
+      if (fields.overlaps) old.overlaps = fields.overlaps;
       if (fields.near) old.near = fields.near;
       if (fields.easy) old.easy = true;
       changed = true;

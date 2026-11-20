@@ -23,7 +23,8 @@ export function stubsFor(ids: Iterable<string>, reached: Set<string>): TermStub[
   for (const id of new Set(ids)) {
     const s = stubById.get(id);
     if (!s) continue;
-    out.push({ ...s, confusables: s.confusables.filter((x) => reached.has(x)), ...(s.near ? { near: s.near.filter((x) => reached.has(x)) } : {}) });
+    const only = (ids: string[]) => ids.filter((x) => reached.has(x));
+    out.push({ ...s, confusables: only(s.confusables), ...(s.overlaps ? { overlaps: only(s.overlaps) } : {}), ...(s.near ? { near: only(s.near) } : {}) });
   }
   return out;
 }
