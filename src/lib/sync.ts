@@ -93,6 +93,11 @@ export function mergeProgress(a: Progress, b: Progress): Progress {
       return { ...best, tries: Math.max(x.tries, y.tries) };
     });
   if (a.modes || b.modes) out.modes = mergeModes(a.modes ?? {}, b.modes ?? {});
+  if (a.easyQuiz || b.easyQuiz) {
+    // Terms missed on either device stay missed, and the quiz is done once either finished or skipped it.
+    const done = later(a.easyQuiz?.done, b.easyQuiz?.done);
+    out.easyQuiz = { missed: union(a.easyQuiz?.missed, b.easyQuiz?.missed), ...(done ? { done } : {}) };
+  }
   return out;
 }
 

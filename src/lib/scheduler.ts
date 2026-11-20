@@ -209,6 +209,19 @@ export function currentStreak(p: Progress, today: string): number {
   return daysBetween(p.lastActiveDay, today) <= 1 ? p.streak : 0;
 }
 
+/** How far off a done easy term's next date is: far enough that it is never due. */
+export const DONE_DAYS = 3650;
+
+/** An easy term that is done: known at the top step, never due again (src/lib/easy.ts). */
+export function isDone(s: TermState | undefined): boolean {
+  return !!s && s.easy === 0;
+}
+
+/** Mark an easy term done: the top step, a date years away, and one more move so a sync keeps it. */
+export function markDone(s: TermState, today: string): TermState {
+  return { ...s, step: MAX_STEP, due: addDays(today, DONE_DAYS), easy: 0, moves: (s.moves ?? 0) + 1 };
+}
+
 export function isKnown(s: TermState | undefined): boolean {
   return !!s && s.step >= KNOWN_STEP;
 }

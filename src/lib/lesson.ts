@@ -2,7 +2,7 @@ import { focusQueue } from './choose';
 import { isPracticeUnit, termById } from './content';
 import { reachableCount } from './phase3';
 import { calcQuestion, fillQuestion, listenQuestion, matchQuestion, meaningQuestion, reviewQuestion, shuffle, talkAbout, talkQuestion, termQuestion, tfQuestion, type Rng } from './questions';
-import { dayStats, dueTermIds, newLeftToday, reviewsLeftToday } from './scheduler';
+import { dayStats, dueTermIds, isDone, newLeftToday, reviewsLeftToday } from './scheduler';
 import { canSpeak } from './speech';
 import { currentUnit, trackTermIds } from './track';
 import type { Progress, Question, Term } from './types';
@@ -144,7 +144,7 @@ function newLessonQuestions(p: Progress, newIds: string[], reviewIds: string[], 
   for (const id of [...reviewIds, ...Object.keys(p.terms)]) {
     if (pool.length >= 5) break;
     const t = termById.get(id);
-    if (t && !pool.some((x) => x.id === t.id)) pool.push(t);
+    if (t && !pool.some((x) => x.id === t.id) && !isDone(p.terms[id])) pool.push(t);
   }
   if (pool.length >= 4) qs.push(matchQuestion(pool, rng));
   takeReview();

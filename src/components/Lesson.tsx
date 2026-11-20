@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState, type ReactNode } from 'react';
 import { categoryOfTerm, termById } from '../lib/content';
 import { applyTest, settleFocus } from '../lib/choose';
+import { applyEasyQuiz, EASY_QUIZ, EASY_ROUND, wantsEasyQuiz } from '../lib/easy';
 import type { LessonPlan } from '../lib/lesson';
 import { tidyOption } from '../lib/questions';
 import { markPair, markPick, type DealtPlan, type DealtQuestion, type Marked, type PickQuestion } from '../lib/session';
@@ -106,7 +107,13 @@ export function Lesson({ plan, progress, today, onProgress, onFinish, onQuit, mo
     let p = progressRef.current;
     for (const id of plan.newIds) p = graduate(p, id, today);
     let test: LessonSummary['test'];
-    if (isTest && plan.categoryId) {
+    if (isTest && plan.categoryId === EASY_QUIZ) {
+      const right = [...testRight.current];
+      const asked = plan.questions.flatMap((x) => ('termId' in x ? [x.termId] : []));
+      // A short round is the last: nothing was left to fill it.
+      p = applyEasyQuiz(p, asked, right, today, plan.questions.length < EASY_ROUND);
+      test = { categoryId: EASY_QUIZ, right: right.length, total: plan.questions.length, passed: !wantsEasyQuiz(p), credited: right.length };
+    } else if (isTest && plan.categoryId) {
       const right = [...testRight.current];
       const before = p;
       p = applyTest(p, plan.categoryId, right, plan.questions.length, today);

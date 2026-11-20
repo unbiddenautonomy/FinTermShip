@@ -71,6 +71,7 @@ export function addTerms(stubs: TermStub[]): void {
     if (old) {
       old.confusables = fields.confusables;
       if (fields.near) old.near = fields.near;
+      if (fields.easy) old.easy = true;
       changed = true;
       continue;
     }
@@ -223,6 +224,14 @@ export function talkTerms(i: TalkItem): string[] {
 
 /** What a case's unit sheet shows before it starts: its setup (not for phase 3) and how many decisions it has. */
 export const caseSummary = new Map<string, { setup?: string; steps: number }>(Object.entries((skeleton as { cases: Record<string, { setup?: string; steps: number }> }).cases));
+
+/** How many everyday terms the easy-terms quiz checks (src/lib/easy.ts). */
+export const EASY_TERM_COUNT: number = (skeleton as { easyTerms?: number }).easyTerms ?? 0;
+
+/** An everyday term: one the easy-terms quiz checks, and that never comes back for long. */
+export function isEasy(termId: string): boolean {
+  return !!termById.get(termId)?.easy;
+}
 
 export function isCore(termId: string): boolean {
   const t = termById.get(termId);

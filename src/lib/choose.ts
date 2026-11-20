@@ -3,6 +3,7 @@ import { addDays } from './dates';
 import { drillPassed } from './drills';
 import type { LessonPlan } from './lesson';
 import { PHASE3, phase3Open, phase3UnitIds } from './phase3';
+import { isDone } from './scheduler';
 import { calcQuestion, fillQuestion, matchQuestion, meaningQuestion, shuffle, talkAbout, talkQuestion, termQuestion, tfQuestion, type Rng } from './questions';
 import type { Progress, Question, Term, TermState } from './types';
 
@@ -135,7 +136,8 @@ function termsOf(ids: string[]): Term[] {
  * practice, so the review schedule does not move.
  */
 export function buildPractice(p: Progress, unitId: string, rng: Rng): LessonPlan | null {
-  const met = termIdsOfUnit(unitId).filter((id) => p.terms[id]);
+  // Done easy terms stay out: they never come back (src/lib/easy.ts).
+  const met = termIdsOfUnit(unitId).filter((id) => p.terms[id] && !isDone(p.terms[id]));
   if (met.length < 2) return null;
   const weakest = shuffle(met, rng)
     .sort((a, b) => p.terms[a].step - p.terms[b].step || p.terms[b].lapses - p.terms[a].lapses)

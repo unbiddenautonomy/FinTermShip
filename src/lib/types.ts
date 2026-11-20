@@ -7,6 +7,12 @@ export interface Term {
   /** Text handed to text-to-speech when the written term reads badly. */
   speak?: string;
   unit: string;
+  /**
+   * An everyday term (lakh, crore, P&L, NSE...). The easy-terms quiz checks these before the first
+   * lesson: one answered right there never comes back. Missed or skipped, it is taught as usual,
+   * comes back for EASY_REVIEWS reviews, and is then done (src/lib/easy.ts).
+   */
+  easy?: boolean;
   short: string;
   definition: string;
   examples: string[];
@@ -36,7 +42,7 @@ export interface Term {
  * What the app gets for a term once the learner reaches it, before its card: its name, its unit
  * and its place in the area (`n`). Its mix-ups list only terms the learner has reached too.
  */
-export type TermStub = Pick<Term, 'id' | 'term' | 'aliases' | 'said' | 'speak' | 'unit' | 'difficulty' | 'confusables' | 'near' | 'stop' | 'ticker'> & { n: number };
+export type TermStub = Pick<Term, 'id' | 'term' | 'aliases' | 'said' | 'speak' | 'unit' | 'easy' | 'difficulty' | 'confusables' | 'near' | 'stop' | 'ticker'> & { n: number };
 
 /** What a term card adds to the outline: everything the term teaches and asks. The app gets it from the server. */
 export const CARD_FIELDS = ['short', 'definition', 'examples', 'fill', 'wrong', 'note', 'formula', 'asOf', 'source', 'calcs', 'tf', 'reads'] as const;
@@ -150,6 +156,11 @@ export interface TermState {
    * saved before it existed has none, which counts as 0.
    */
   moves?: number;
+  /**
+   * Easy terms only: reviews left before the term is done. Missing counts as EASY_REVIEWS. 0 means
+   * done: the term sits known at the top step and is never due again (src/lib/easy.ts).
+   */
+  easy?: number;
 }
 
 export interface Settings {
@@ -201,8 +212,17 @@ export interface Progress {
   mocks?: Record<string, { best: number; total: number; date: string; tries: number }>;
   /** Per-mode records (sessions, answers, Call It's best run, the Exchange index history). Never part of the shared KPIs. */
   modes?: import('./modes/knowledge').ModeRecords;
+  /** The easy-terms quiz: terms missed in it so far, and the day it was finished or skipped. */
+  easyQuiz?: EasyQuiz;
   /** When progress was last reset or replaced from a backup (ms). Sync keeps the newest start over the merge. */
   epoch?: number;
+}
+
+export interface EasyQuiz {
+  /** Easy terms answered wrong in the quiz, so its next round doesn't ask them again. */
+  missed: string[];
+  /** The day the quiz was finished or skipped. It isn't offered again after that. */
+  done?: string;
 }
 
 export interface DrillRecord {

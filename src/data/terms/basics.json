@@ -44,6 +44,7 @@
       "id": "bid",
       "term": "bid",
       "unit": "b1",
+      "easy": true,
       "short": "Highest price a buyer will pay",
       "definition": "The highest price a buyer is currently willing to pay for a security.",
       "examples": [
@@ -79,6 +80,7 @@
         "offer"
       ],
       "unit": "b1",
+      "easy": true,
       "short": "Lowest price a seller will take",
       "definition": "The lowest price a seller is currently willing to accept. Also called the offer.",
       "examples": [
@@ -196,6 +198,7 @@
       "id": "volume",
       "term": "volume",
       "unit": "b1",
+      "easy": true,
       "short": "Number of shares traded",
       "definition": "The number of shares or contracts traded in a period, usually a day.",
       "examples": [
@@ -220,6 +223,7 @@
       "id": "lakh",
       "term": "lakh",
       "unit": "b1",
+      "easy": true,
       "short": "1,00,000 (one hundred thousand)",
       "definition": "Indian unit for one hundred thousand, written 1,00,000. Ten lakh make one million.",
       "examples": [
@@ -257,6 +261,7 @@
       "id": "crore",
       "term": "crore",
       "unit": "b1",
+      "easy": true,
       "short": "1,00,00,000 (ten million)",
       "definition": "Indian unit for ten million, written 1,00,00,000. 100 crore make one billion.",
       "examples": [
@@ -299,6 +304,7 @@
         "mcap"
       ],
       "unit": "b1",
+      "easy": true,
       "short": "Share price × shares outstanding",
       "definition": "The total market value of a company's shares: share price times the number of shares outstanding.",
       "examples": [
@@ -344,6 +350,7 @@
       "said": "bips (for bps)",
       "speak": "basis point",
       "unit": "b1",
+      "easy": true,
       "short": "One hundredth of a percent (0.01%)",
       "definition": "One hundredth of one percent (0.01%). Used for interest rates, spreads, costs and small returns.",
       "examples": [
@@ -385,6 +392,7 @@
         "pp"
       ],
       "unit": "b1",
+      "easy": true,
       "short": "Plain difference between two percentages",
       "definition": "The plain difference between two percentages. A move from 10% to 12% is 2 percentage points, even though it is a 20% increase.",
       "examples": [
@@ -427,6 +435,7 @@
       "id": "position",
       "term": "position",
       "unit": "b2",
+      "easy": true,
       "short": "What you currently hold",
       "definition": "The amount of a security you hold, long or short.",
       "examples": [
@@ -451,6 +460,7 @@
       "id": "long",
       "term": "long",
       "unit": "b2",
+      "easy": true,
       "short": "Own it; gain if price rises",
       "definition": "Holding a position that gains when the price rises, usually by owning the security.",
       "examples": [
@@ -560,6 +570,7 @@
       "id": "short",
       "term": "short",
       "unit": "b2",
+      "easy": true,
       "short": "Positioned to gain if price falls",
       "definition": "A position that gains when the price falls, usually by selling futures or selling shares you have borrowed.",
       "examples": [
@@ -597,6 +608,7 @@
       "said": "P and L",
       "speak": "P and L",
       "unit": "b2",
+      "easy": true,
       "short": "Profit or loss made",
       "definition": "Profit and loss: how much money a trade, book or fund has made or lost.",
       "examples": [
@@ -625,6 +637,7 @@
       ],
       "speak": "realised P and L",
       "unit": "b2",
+      "easy": true,
       "short": "Profit locked in by closing",
       "definition": "Profit or loss on positions you have already closed. It is final.",
       "examples": [
@@ -654,6 +667,7 @@
       ],
       "speak": "unrealised P and L",
       "unit": "b2",
+      "easy": true,
       "short": "Gain or loss on open positions",
       "definition": "Profit or loss on positions you still hold, valued at current prices. It keeps changing until you close the position.",
       "examples": [
@@ -787,6 +801,7 @@
       "id": "return",
       "term": "return",
       "unit": "b6",
+      "easy": true,
       "short": "Gain or loss as a percentage",
       "definition": "The gain or loss on an investment, usually shown as a percentage of the amount invested.",
       "examples": [
@@ -857,6 +872,7 @@
         "vol"
       ],
       "unit": "b6",
+      "easy": true,
       "short": "How much prices swing",
       "definition": "How much and how fast a price moves up and down. Higher volatility means bigger swings and more risk.",
       "examples": [
@@ -880,6 +896,7 @@
       "id": "dividend",
       "term": "dividend",
       "unit": "b6",
+      "easy": true,
       "short": "Cash paid to shareholders",
       "definition": "A payment a company makes to its shareholders out of profits, usually in cash.",
       "examples": [
@@ -941,6 +958,7 @@
       "id": "total-return",
       "term": "total return",
       "unit": "b6",
+      "easy": true,
       "short": "Price change plus dividends",
       "definition": "The full return on an investment, including both price change and income such as dividends, assuming the income is reinvested.",
       "examples": [
@@ -980,6 +998,7 @@
         "par value"
       ],
       "unit": "b3",
+      "easy": true,
       "short": "Nominal value printed on a share",
       "definition": "The nominal value of a share set by the company, such as ₹1, ₹2 or ₹10. It has little to do with the market price, but Indian companies often announce dividends as a percentage of it.",
       "examples": [
@@ -1051,6 +1070,7 @@
       "id": "premium",
       "term": "premium",
       "unit": "b3",
+      "easy": true,
       "short": "Trading above a reference value",
       "definition": "Trading above a reference value, such as fair value, NAV, the issue price or the price in another market. The opposite of a discount.",
       "examples": [
@@ -1075,6 +1095,7 @@
       "id": "discount",
       "term": "discount",
       "unit": "b3",
+      "easy": true,
       "short": "Trading below a reference value",
       "definition": "Trading below a reference value, such as NAV, fair value or the price in another market. The opposite of a premium.",
       "examples": [
@@ -1098,6 +1119,7 @@
       "id": "upside",
       "term": "upside",
       "unit": "b3",
+      "easy": true,
       "short": "Potential rise from here",
       "definition": "How much a price could rise from here, usually to an analyst's target. Downside is the potential fall.",
       "examples": [
@@ -1320,6 +1342,7 @@
         "results"
       ],
       "unit": "b4",
+      "easy": true,
       "short": "A company's profit",
       "definition": "A company's profit, usually net profit, reported every quarter. Results season is when most companies report.",
       "examples": [
@@ -1417,6 +1440,7 @@
       "id": "hedge",
       "term": "hedge",
       "unit": "b5",
+      "easy": true,
       "short": "Position that offsets risk",
       "definition": "A position taken to reduce the risk of another position, such as selling Nifty futures against a stock portfolio.",
       "examples": [
@@ -1440,6 +1464,7 @@
       "id": "diversification",
       "term": "diversification",
       "unit": "b5",
+      "easy": true,
       "short": "Spreading risk across holdings",
       "definition": "Spreading money across different stocks, sectors or assets so that one bad outcome doesn't sink the portfolio.",
       "examples": [
@@ -1471,6 +1496,7 @@
       "id": "portfolio",
       "term": "portfolio",
       "unit": "b5",
+      "easy": true,
       "short": "All the holdings of an investor or fund",
       "definition": "The full set of investments held by a person or a fund.",
       "examples": [
@@ -1495,6 +1521,7 @@
       "id": "benchmark",
       "term": "benchmark",
       "unit": "b5",
+      "easy": true,
       "short": "Index a fund is measured against",
       "definition": "The index or yardstick a fund's performance is compared with, such as the Nifty 50 for a large-cap fund.",
       "examples": [
@@ -1518,6 +1545,7 @@
       "id": "outperform",
       "term": "outperform",
       "unit": "b5",
+      "easy": true,
       "short": "Do better than a comparison",
       "definition": "To deliver a higher return than a benchmark or peers. As an analyst rating, it means the stock is expected to beat the market.",
       "examples": [
@@ -1541,6 +1569,7 @@
       "id": "underperform",
       "term": "underperform",
       "unit": "b5",
+      "easy": true,
       "short": "Do worse than a comparison",
       "definition": "To deliver a lower return than a benchmark or peers, even if the return itself is positive.",
       "examples": [
@@ -1656,6 +1685,7 @@
         "stock"
       ],
       "unit": "b7",
+      "easy": true,
       "short": "One unit of ownership in a company",
       "definition": "One unit of ownership in a company. Holding shares gives you a slice of its profits (through dividends and a rising price) and usually a vote at shareholder meetings. In India, \"share\", \"stock\" and \"equity\" are used almost interchangeably.",
       "examples": [
@@ -1690,6 +1720,7 @@
         "exchange"
       ],
       "unit": "b7",
+      "easy": true,
       "short": "Regulated marketplace where shares trade",
       "definition": "A regulated marketplace that matches buy and sell orders for shares and other securities and publishes the prices. India's two main ones are NSE and BSE.",
       "examples": [
@@ -1725,6 +1756,7 @@
         "market index"
       ],
       "unit": "b7",
+      "easy": true,
       "short": "One number tracking a basket of stocks",
       "definition": "A single number that tracks the combined price of a chosen basket of stocks, so you can see how that part of the market is doing. Nifty 50 and Sensex are the best known in India; most are weighted by free-float market cap.",
       "examples": [
@@ -1787,6 +1819,7 @@
       "id": "interest-rate",
       "term": "interest rate",
       "unit": "b7",
+      "easy": true,
       "short": "Yearly cost of borrowing, as a percent",
       "definition": "The price of money: what a borrower pays a lender each year, as a percentage of the amount borrowed. Higher rates make loans dearer and safe savings more attractive, which tends to weigh on share prices.",
       "examples": [
@@ -1834,6 +1867,7 @@
         "compound interest"
       ],
       "unit": "b7",
+      "easy": true,
       "short": "Earning returns on earlier returns",
       "definition": "Earning returns not just on what you put in but on the returns already earned, so growth speeds up over time. ₹100 growing 10% a year becomes ₹110, then ₹121, not ₹120.",
       "examples": [
@@ -1961,6 +1995,7 @@
       "id": "inflation",
       "term": "inflation",
       "unit": "b7",
+      "easy": true,
       "short": "Rise in the general level of prices",
       "definition": "The rise in the general level of prices over time, which shrinks what each rupee buys. Your real return is roughly your return minus inflation. India's main measure is CPI inflation, which RBI targets.",
       "examples": [
@@ -2039,6 +2074,7 @@
         "exchange-traded fund"
       ],
       "unit": "b7",
+      "easy": true,
       "short": "Fund that trades on the exchange like a share",
       "definition": "A fund, usually tracking an index, whose units are listed and traded on the exchange through the day like a share. You need a demat account to hold it, and its market price can drift slightly from its NAV.",
       "examples": [
@@ -2070,6 +2106,7 @@
       "id": "index-fund",
       "term": "index fund",
       "unit": "b7",
+      "easy": true,
       "short": "Mutual fund that copies an index",
       "definition": "A mutual fund that holds the same stocks as an index in the same weights, aiming to match its return rather than beat it. You buy and redeem units with the fund house at the day's NAV; no demat account is needed.",
       "examples": [

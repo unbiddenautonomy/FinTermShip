@@ -44,6 +44,7 @@
       "said": "N S E",
       "speak": "N S E",
       "unit": "i1",
+      "easy": true,
       "short": "India's largest stock exchange",
       "definition": "The National Stock Exchange of India, based in Mumbai. It is India's largest exchange by trading volume and runs the Nifty indices.",
       "examples": [
@@ -72,6 +73,7 @@
       "said": "B S E",
       "speak": "B S E",
       "unit": "i1",
+      "easy": true,
       "short": "Asia's oldest exchange; runs the Sensex",
       "definition": "BSE Ltd, formerly the Bombay Stock Exchange, founded in 1875 and the oldest stock exchange in Asia. Its flagship index is the Sensex.",
       "examples": [
@@ -218,6 +220,7 @@
       ],
       "said": "nif-tee fifty",
       "unit": "i1",
+      "easy": true,
       "short": "NSE index of 50 large companies",
       "definition": "NSE's benchmark index of 50 large, liquid Indian companies, weighted by free-float market cap.",
       "examples": [
@@ -242,6 +245,7 @@
       "term": "Sensex",
       "said": "sen-sex",
       "unit": "i1",
+      "easy": true,
       "short": "BSE index of 30 large companies",
       "definition": "BSE's benchmark index of 30 large, well-established companies. It is India's oldest stock index, with a base year of 1978–79.",
       "examples": [
@@ -291,6 +295,7 @@
       "id": "large-cap",
       "term": "large cap",
       "unit": "i1",
+      "easy": true,
       "short": "Top 100 companies by market cap",
       "definition": "In India, the 100 largest listed companies by full market cap, under the classification that SEBI, the market regulator, sets for mutual funds. AMFI updates the list every six months.",
       "examples": [
@@ -316,6 +321,7 @@
       "id": "mid-cap",
       "term": "mid cap",
       "unit": "i1",
+      "easy": true,
       "short": "Companies ranked 101 to 250",
       "definition": "In India, companies ranked 101st to 250th by full market cap, under the same SEBI classification.",
       "examples": [
@@ -341,6 +347,7 @@
       "id": "small-cap",
       "term": "small cap",
       "unit": "i1",
+      "easy": true,
       "short": "Companies ranked 251 and below",
       "definition": "In India, companies ranked 251st and below by full market cap. They tend to be more volatile and less liquid.",
       "examples": [
@@ -371,6 +378,7 @@
       "said": "see-bee",
       "speak": "see bee",
       "unit": "i2",
+      "easy": true,
       "short": "India's securities market regulator",
       "definition": "The Securities and Exchange Board of India, which regulates stock exchanges, brokers, mutual funds and listed companies.",
       "examples": [
@@ -399,6 +407,7 @@
       "said": "R B I",
       "speak": "R B I",
       "unit": "i2",
+      "easy": true,
       "short": "India's central bank",
       "definition": "The Reserve Bank of India, the central bank. It sets the repo rate, manages the rupee and regulates banks.",
       "examples": [
@@ -424,6 +433,7 @@
         "broker"
       ],
       "unit": "i2",
+      "easy": true,
       "short": "Firm that places your trades",
       "definition": "A firm registered with SEBI and a member of an exchange, which places orders on the exchange for its clients.",
       "examples": [
@@ -471,6 +481,7 @@
       "term": "demat account",
       "said": "dee-mat",
       "unit": "i2",
+      "easy": true,
       "short": "Electronic account that holds your shares",
       "definition": "An account that holds shares and other securities in electronic (dematerialised) form, opened through a depository participant.",
       "examples": [
@@ -523,6 +534,7 @@
       "id": "trading-account",
       "term": "trading account",
       "unit": "i2",
+      "easy": true,
       "short": "Broker account used to place orders",
       "definition": "The account with your broker that you use to place buy and sell orders. It is linked to your demat account, which holds shares, and your bank account, which holds money.",
       "examples": [
@@ -718,6 +730,7 @@
         "retail"
       ],
       "unit": "i3",
+      "easy": true,
       "short": "Individual investor",
       "definition": "An individual investing their own money, as opposed to an institution. In Indian IPOs, the retail category covers individuals applying for up to ₹2 lakh.",
       "examples": [
@@ -777,6 +790,7 @@
         "MF"
       ],
       "unit": "i3",
+      "easy": true,
       "short": "Pooled fund run by an AMC",
       "definition": "A fund that pools money from many investors and invests it under a stated mandate. It is run by an asset management company and regulated by SEBI.",
       "examples": [
@@ -806,6 +820,7 @@
       "said": "sip",
       "speak": "S I P",
       "unit": "i3",
+      "easy": true,
       "short": "Fixed regular investment into a fund",
       "definition": "A systematic investment plan: investing a fixed amount in a mutual fund at regular intervals, usually monthly. Monthly SIP inflows are a major support for Indian markets.",
       "examples": [

@@ -5,6 +5,7 @@
 import { useEffect, type ReactNode } from 'react';
 import { hasCard, termById, unitById } from '../../lib/content';
 import { daysBetween } from '../../lib/dates';
+import { isDone } from '../../lib/scheduler';
 import { strength, type ModeId } from '../../lib/modes/knowledge';
 import { tickerOf } from '../../lib/modes/exchange';
 import { lineById } from '../../lib/modes/plans';
@@ -174,7 +175,7 @@ export function TermSheet({
                   Station {stop + 1} of {line.stops.length} on the {area?.short} line, in {unit?.name}.{' '}
                 </>
               )}
-              {dueIn !== null && (dueIn <= 0 ? 'Review due today.' : `Next review in ${dueIn} day${dueIn === 1 ? '' : 's'}.`)}
+              {isDone(st) ? 'An everyday term you know: it won’t come back for review.' : dueIn !== null && (dueIn <= 0 ? 'Review due today.' : `Next review in ${dueIn} day${dueIn === 1 ? '' : 's'}.`)}
               {st && ` Answered ${st.correct} right, ${st.wrong} wrong.`}
             </p>
           </dl>

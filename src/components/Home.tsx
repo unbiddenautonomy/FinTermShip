@@ -1,14 +1,15 @@
 import { useEffect, useState, type ReactNode } from 'react';
 import { createPortal } from 'react-dom';
 import { areaCoreSize, canTakeTest, focusActive, focusLeft, unitOpen } from '../lib/choose';
-import { hasCard, isPhase3Area, isQuantArea, practiceKind, termById, unitById, unitSize } from '../lib/content';
+import { EASY_TERM_COUNT, hasCard, isPhase3Area, isQuantArea, practiceKind, termById, unitById, unitSize } from '../lib/content';
 import { weakSpots, WEAK_MIN } from '../lib/weak';
 import { gameSpec } from '../lib/games';
 import { addDays, daysBetween } from '../lib/dates';
 import { todayStatus } from '../lib/lesson';
 import { PHASE3, phase3Open, reachableCount } from '../lib/phase3';
 import { KIND_LABEL, passRule, practiceAbout, recordLine, roundSize } from '../lib/practice';
-import { dayStats, isKnown } from '../lib/scheduler';
+import { dayStats, isDone, isKnown } from '../lib/scheduler';
+import { skipEasyQuiz, wantsEasyQuiz } from '../lib/easy';
 import { comma, mocksReady, targetRole } from '../lib/profile';
 import { currentUnit, isDrill, track, unitDone, type PathRow } from '../lib/track';
 import type { Progress } from '../lib/types';
@@ -28,6 +29,8 @@ interface Props {
   onFocus: (unitId: string | null) => void;
   /** An area test, or the phase 3 readiness test (PHASE3). */
   onTest: (categoryId: string) => void;
+  /** The next round of the easy-terms quiz. */
+  onEasyQuiz: () => void;
   onDrill: (unitId: string) => void;
   /** The password was entered for phase 3. */
   onPhase3Key: () => void;
@@ -45,7 +48,7 @@ interface Props {
 
 type Row = PathRow & { i: number; met: number; known: number; total: number; open: boolean; drill: boolean; done: boolean };
 
-export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, onTest, onDrill, onPhase3Key, onOpenSettings, onOpenCareers, sheet, onSheet, showInstallHint, onProgress, signedIn }: Props) {
+export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, onTest, onEasyQuiz, onDrill, onPhase3Key, onOpenSettings, onOpenCareers, sheet, onSheet, showInstallHint, onProgress, signedIn }: Props) {
   const picked = focusActive(progress) && progress.focus ? unitById.get(progress.focus) : undefined;
   const status = todayStatus(progress, today);
   const todayStats = dayStats(progress, today);
@@ -55,6 +58,10 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
   const backupDue = !signedIn && metCount >= 20 && (!progress.lastBackup || daysBetween(progress.lastBackup, today) >= 7);
   const practisedToday = todayStats.lessons > 0;
   const gate = <Phase3Gate progress={progress} today={today} onKey={onPhase3Key} onTest={() => onTest(PHASE3)} />;
+  // The easy-terms quiz comes before the first lesson; a learner who had already started gets it once, beside the path.
+  const quiz = EASY_TERM_COUNT > 0 && wantsEasyQuiz(progress);
+  const quizFirst = quiz && metCount === 0 && !progress.easyQuiz;
+  const easyQuiz = <EasyQuizOffer progress={progress} onTake={onEasyQuiz} onSkip={() => onProgress(skipEasyQuiz(progress, today))} />;
 
   const you = comma(progress);
   const headline = !hasWork
@@ -132,7 +139,9 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
 
         <WeekStrip progress={progress} today={today} />
 
-        {hasWork ? (
+        {quizFirst ? (
+          easyQuiz
+        ) : hasWork ? (
           <Button onClick={() => onStart(false)} className="w-full text-base">
             {practisedToday ? 'Continue' : 'Start lesson'}
           </Button>
@@ -145,6 +154,8 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
         )}
       </Card>
 
+
+      {quiz && !quizFirst && <Card className="order-1 lg:order-none">{easyQuiz}</Card>}
 
       {sheet && (
         <UnitSheets
@@ -803,5 +814,37 @@ function UnitSheet({
         </ul>
       )}
     </Sheet>
+  );
+}
+
+/**
+ * The easy-terms quiz offer (src/lib/easy.ts): a round of quick questions on everyday terms, or a
+ * skip. Either way it is offered only until the quiz is finished or skipped.
+ */
+function EasyQuizOffer({ progress, onTake, onSkip }: { progress: Progress; onTake: () => void; onSkip: () => void }) {
+  const missed = progress.easyQuiz?.missed.length ?? 0;
+  const checked = Math.min(EASY_TERM_COUNT, Object.values(progress.terms).filter(isDone).length + missed);
+  const started = checked > 0 && !!progress.easyQuiz;
+  return (
+    <div className="space-y-3">
+      <div>
+        <p className="text-xs font-extrabold uppercase tracking-[0.12em] text-sky-ink">Know the basics already?</p>
+        <p className="mt-1 text-sm leading-relaxed text-ink-2">
+          {started
+            ? `${checked} of ${EASY_TERM_COUNT} everyday terms checked. `
+            : `A quick quiz on ${EASY_TERM_COUNT} everyday terms, such as lakh, crore and P&L, in rounds of about 20. `}
+          Any you get right won't come up again. Any you miss are taught, then come back just twice.
+        </p>
+      </div>
+      {started && <Bar value={checked} max={EASY_TERM_COUNT} className="h-2" label="Everyday terms checked" />}
+      <div className="grid grid-cols-2 gap-3">
+        <Button onClick={onTake} className="w-full">
+          {started ? 'Next round' : 'Take the quiz'}
+        </Button>
+        <Button variant="secondary" onClick={onSkip} className="w-full">
+          Skip it
+        </Button>
+      </div>
+    </div>
   );
 }

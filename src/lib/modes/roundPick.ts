@@ -8,6 +8,7 @@ import boards from '../../data/modes/finnections.json';
 import { categoryOfTerm } from '../content';
 import { shuffle, type Rng } from '../questions';
 import type { Progress } from '../types';
+import { isDone } from '../scheduler';
 import { modeRecord } from './knowledge';
 import { LEVELS, levelFrom, ROUND_MODES, ROUND_SIZE, type Board, type Headline, type LevelState, type RoundMode, type RoundStatus } from './rounds';
 
@@ -70,8 +71,9 @@ export function pickRound(p: Progress, mode: RoundMode, today: string, rng: Rng,
   const items = playable(p, mode, phase3);
   const rank = (xs: IndexItem[]) =>
     shuffle(xs, rng)
-      .map((x) => ({ x, unseen: seen[x.id] ? 1 : 0, due: x.terms.some((t) => p.terms[t].due <= today) ? 0 : 1, last: seen[x.id] ?? '' }))
-      .sort((a, b) => a.unseen - b.unseen || a.due - b.due || (a.last < b.last ? -1 : a.last > b.last ? 1 : 0))
+      .map((x) => ({ x, done: x.terms.filter((t) => isDone(p.terms[t])).length, unseen: seen[x.id] ? 1 : 0, due: x.terms.some((t) => p.terms[t].due <= today) ? 0 : 1, last: seen[x.id] ?? '' }))
+      // Items built on done easy terms go last, so those terms come up only when nothing else can fill the round.
+      .sort((a, b) => a.done - b.done || a.unseen - b.unseen || a.due - b.due || (a.last < b.last ? -1 : a.last > b.last ? 1 : 0))
       .map((r) => r.x);
   const out: IndexItem[] = [];
   for (let l = level; l >= 1 && out.length < ROUND_SIZE[mode]; l--) out.push(...rank(items.filter((x) => x.level === l)).slice(0, ROUND_SIZE[mode] - out.length));
