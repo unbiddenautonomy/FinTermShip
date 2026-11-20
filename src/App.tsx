@@ -9,9 +9,10 @@ import { useGameKeys, useSlashKey } from './components/useKeys';
 import { BookIcon, ChartIcon, ChatIcon, GearIcon, Logo, PathIcon } from './components/icons';
 import { withFocus } from './lib/choose';
 import { snoozeDrill } from './lib/drills';
-import { practiceKind } from './lib/content';
+import { getCardsVersion, practiceKind } from './lib/content';
 import { gameOf } from './lib/games';
 import { withPhase3Key } from './lib/phase3';
+import { asIfAllMet, withoutAssumed } from './lib/openAll';
 import { dayKey } from './lib/dates';
 import { drillUp, todayStatus } from './lib/lesson';
 import { startSession, type DealtPlan, type Recipe } from './lib/session';
@@ -25,7 +26,7 @@ import { landingMode, type ModeId } from './lib/modes/knowledge';
 import { isModeId, modesOn } from './lib/modes/ids';
 import { wantRoundStatus } from './lib/modes/roundApi';
 import { getRoundStatusVersion, subscribeRoundStatus } from './lib/modes/rounds';
-import { ModeAccessContext } from './components/modes/modeAccess';
+import { ModeAccessContext, OwnProgressContext } from './components/modes/modeAccess';
 import { MODE_INFO, ModeBar } from './components/modes/ModeBar';
 import { ErrorBoundary } from './components/ErrorBoundary';
 import { placeAt, type Place, type Screen, type Tab } from './components/route';
@@ -33,6 +34,9 @@ import { useHistory } from './components/useHistory';
 import type { GameId, Progress } from './lib/types';
 
 // Everything but Home loads on demand, then quietly in the background once Home is up.
+/** Sessions that see every term as met while Open everything is on (src/lib/openAll.ts). */
+const SEES_ALL = new Set<Recipe['build']>(['practice', 'ride', 'revisit']);
+
 const LOADERS = {
   Careers: () => import('./components/Careers').then((m) => ({ default: m.Careers })),
   MockRound: () => import('./components/MockRound').then((m) => ({ default: m.MockRound })),
@@ -195,6 +199,18 @@ export default function App() {
     saveChain.current = saveChain.current.then(() => saveProgress(p));
   }, []);
 
+  /**
+   * Progress as the modes see it: with Open everything on, every term counts as met
+   * (src/lib/openAll.ts). What a mode hands back loses those assumed terms before it is saved.
+   */
+  const own = useRef(progress);
+  own.current = progress;
+  const termsKnown = getCardsVersion();
+  // Again as term names arrive: the admin's come after sign-in, and the view needs every one.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const view = useMemo(() => (progress ? asIfAllMet(progress, today) : null), [progress, today, termsKnown]);
+  const updateView = useCallback((p: Progress) => update(own.current ? withoutAssumed(p, own.current) : p), [update]);
+
   const { account, setAccount, sync, synced, syncNow, signedOut, site, setSite } = useAccount(progress, update);
   // Modes the admin switched off for everyone are hidden from learners; the admin keeps them, to test.
   const isAdmin = account.kind === 'in' && account.me.admin;
@@ -234,8 +250,8 @@ export default function App() {
   useSyncExternalStore(subscribeRoundStatus, getRoundStatusVersion);
   const roundsOn = canOpen('headline') || canOpen('finnections');
   useEffect(() => {
-    if (progress && roundsOn && cards.status === 'ready') void wantRoundStatus(progress);
-  }, [progress, roundsOn, cards.status]);
+    if (view && roundsOn && cards.status === 'ready') void wantRoundStatus(view);
+  }, [view, roundsOn, cards.status]);
 
   // Fetching cards for a lesson about to start, and anything that stopped one.
   // What is being fetched from the server before a screen opens, as the line to show.
@@ -307,7 +323,8 @@ export default function App() {
   const prepare = async (recipe: Recipe): Promise<{ plan: DealtPlan; seed: number } | null> => {
     setFetching('Getting your terms…');
     try {
-      const plan = await startSession(recipe, progress, today);
+      // Practice and Term Lines rounds see every term as met while everything is open; lessons, tests and the Exchange see the learner's own.
+      const plan = await startSession(recipe, SEES_ALL.has(recipe.build) && view ? view : progress, today);
       if (!plan) setNotice('There is nothing to practise here right now.');
       return plan ? { plan, seed: Date.now() % 2_147_483_647 } : null;
     } catch (e) {
@@ -391,13 +408,13 @@ export default function App() {
     case 'lines':
       return (
         <WithTabs tab="home" onTab={onTab}>
-          <TermLines progress={progress} today={today} area={area} onArea={setArea} onMode={goMode} onRun={runIn('lines')} onDepot={depot} />
+          <TermLines progress={view!} today={today} area={area} onArea={setArea} onMode={goMode} onRun={runIn('lines')} onDepot={depot} />
         </WithTabs>
       );
     case 'callit':
       return (
         <WithTabs tab="home" onTab={onTab}>
-          <CallIt progress={progress} today={today} onProgress={update} onMode={goMode} />
+          <CallIt progress={view!} today={today} onProgress={updateView} onMode={goMode} />
         </WithTabs>
       );
     case 'exchange':
@@ -409,13 +426,13 @@ export default function App() {
     case 'headline':
       return (
         <WithTabs tab="home" onTab={onTab}>
-          <HeadlineDesk progress={progress} today={today} onProgress={update} onMode={goMode} />
+          <HeadlineDesk progress={view!} today={today} onProgress={updateView} onMode={goMode} />
         </WithTabs>
       );
     case 'finnections':
       return (
         <WithTabs tab="home" onTab={onTab}>
-          <Finnections progress={progress} today={today} onProgress={update} onMode={goMode} />
+          <Finnections progress={view!} today={today} onProgress={updateView} onMode={goMode} />
         </WithTabs>
       );
     case 'drill':
@@ -576,25 +593,27 @@ export default function App() {
   };
   return (
     <ModeAccessContext.Provider value={access}>
-    <ErrorBoundary>
-    <Suspense fallback={<Spinner />}>
-      {body}
-      {overlay && overlayFrom && (
-        <UnitSheets
-          unitId={overlay}
-          progress={progress}
-          today={today}
-          onClose={() => setOverlay(null)}
-          onPractice={(id) => fromOverlay(() => practise(id))()}
-          onDrill={(id) => fromOverlay(() => drillFrom(id))()}
-          onFocus={pick}
-          onTest={(id) => fromOverlay(() => takeTest(id))()}
-          onPhase3Key={() => update(withPhase3Key(progress))}
-        />
-      )}
-      <CardsToast fetching={fetching} notice={notice} onClose={() => setNotice(null)} />
-    </Suspense>
-    </ErrorBoundary>
+      <OwnProgressContext.Provider value={progress}>
+      <ErrorBoundary>
+      <Suspense fallback={<Spinner />}>
+        {body}
+        {overlay && overlayFrom && (
+          <UnitSheets
+            unitId={overlay}
+            progress={progress}
+            today={today}
+            onClose={() => setOverlay(null)}
+            onPractice={(id) => fromOverlay(() => practise(id))()}
+            onDrill={(id) => fromOverlay(() => drillFrom(id))()}
+            onFocus={pick}
+            onTest={(id) => fromOverlay(() => takeTest(id))()}
+            onPhase3Key={() => update(withPhase3Key(progress))}
+          />
+        )}
+        <CardsToast fetching={fetching} notice={notice} onClose={() => setNotice(null)} />
+      </Suspense>
+      </ErrorBoundary>
+      </OwnProgressContext.Provider>
     </ModeAccessContext.Provider>
   );
 }

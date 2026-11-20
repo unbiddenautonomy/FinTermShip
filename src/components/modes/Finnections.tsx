@@ -14,7 +14,7 @@ import { finishLesson } from '../../lib/scheduler';
 import type { Progress } from '../../lib/types';
 import { Button } from '../ui';
 import { KpiDelta } from './KpiDelta';
-import { useModeAccess } from './modeAccess';
+import { useModeAccess, useOwnProgress } from './modeAccess';
 import { LevelMeter, NotYet } from './roundKit';
 import { useDealtRound } from './useRoundContent';
 import { ModeFrame, TermSheet } from './shared';
@@ -53,7 +53,11 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
   const [wrong, setWrong] = useState<string[]>([]);
   const [done, setDone] = useState<{ before: number; after: number; good: number; won: boolean } | null>(null);
   const [sheet, setSheet] = useState<string | null>(null);
-  const startKpis = useRef<Kpis>(kpis(progress, today));
+  // The numbers are the learner's own, even while every term counts as met here (Open everything).
+  const own = useOwnProgress(progress);
+  const ownRef = useRef(own);
+  ownRef.current = own;
+  const startKpis = useRef<Kpis>(kpis(own, today));
   const progressRef = useRef(progress);
   progressRef.current = progress;
   const { canOpen } = useModeAccess();
@@ -148,7 +152,7 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
   };
 
   const again = () => {
-    startKpis.current = kpis(progressRef.current, today);
+    startKpis.current = kpis(ownRef.current, today);
     setSeed((s) => s + 1);
   };
 
@@ -239,7 +243,7 @@ export function Finnections({ progress, today, onProgress, onMode }: Props) {
           </div>
           <KpiDelta
             before={startKpis.current}
-            after={kpis(progress, today)}
+            after={kpis(own, today)}
             note="Each group you found counts like picking a meaning, so it can clear a due review. A group you missed brings its terms back tomorrow."
           />
           <div className={`grid gap-3 ${canOpen('headline') && access('headline').open ? 'grid-cols-2' : ''}`}>

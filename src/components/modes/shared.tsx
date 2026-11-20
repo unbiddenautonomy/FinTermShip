@@ -15,6 +15,7 @@ import { isCore } from '../../lib/content';
 import type { Progress } from '../../lib/types';
 import { Cross, Lock } from '../icons';
 import { MODE_INFO, ModeBar } from './ModeBar';
+import { useOwnProgress } from './modeAccess';
 import { Bar, TermDetails } from '../ui';
 
 /**
@@ -80,9 +81,10 @@ export function ModeFrame({
   aside?: ReactNode;
   children: ReactNode;
 }) {
+  const own = useOwnProgress(progress);
   return (
     <div className="mx-auto max-w-xl space-y-5 px-4 pb-32 pt-5 lg:max-w-4xl lg:px-8 lg:pb-12 lg:pt-8">
-      <ModeBar progress={progress} today={today} mode={mode} onMode={onMode} />
+      <ModeBar progress={own} today={today} mode={mode} onMode={onMode} />
       <header className="flex items-end justify-between gap-3 border-b border-line pb-3">
         <div className="min-w-0">
           <h1 className="font-display text-2xl font-semibold tracking-tight text-ink">{title}</h1>

@@ -17,7 +17,7 @@ import { Confetti } from '../Confetti';
 import { Check, Cross, Flame } from '../icons';
 import { Button } from '../ui';
 import { KpiDelta } from './KpiDelta';
-import { useModeAccess } from './modeAccess';
+import { useModeAccess, useOwnProgress } from './modeAccess';
 import { ModeFrame, TermDot, TermSheet } from './shared';
 
 interface Props {
@@ -62,7 +62,11 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   /** Recent pointer positions, to tell how fast the card was moving when let go. */
   const trail = useRef<{ x: number; t: number }[]>([]);
   const pastFlick = useRef(false);
-  const startKpis = useRef<Kpis>(kpis(progress, today));
+  // The numbers are the learner's own, even while every term counts as met here (Open everything).
+  const own = useOwnProgress(progress);
+  const ownRef = useRef(own);
+  ownRef.current = own;
+  const startKpis = useRef<Kpis>(kpis(own, today));
   const progressRef = useRef(progress);
   progressRef.current = progress;
 
@@ -146,7 +150,7 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
   }, [answered, leaving, advance, calls, index]);
 
   const again = () => {
-    startKpis.current = kpis(progressRef.current, today);
+    startKpis.current = kpis(ownRef.current, today);
     setSeed((s) => s + 1);
     setIndex(0);
     setCalls([]);
@@ -238,7 +242,7 @@ export function CallIt({ progress, today, onProgress, onMode }: Props) {
             {record.bestRun && bestRun >= record.bestRun ? ' · your best yet' : ''}
           </p>
         </div>
-        <KpiDelta before={startKpis.current} after={kpis(progress, today)} note="Calls are practice: a wrong one brings the term back tomorrow, a right one doesn't count as its review. To clear Due or move a term up, answer it in Path, Lines, the Exchange, Headline Desk or Finnections." />
+        <KpiDelta before={startKpis.current} after={kpis(own, today)} note="Calls are practice: a wrong one brings the term back tomorrow, a right one doesn't count as its review. To clear Due or move a term up, answer it in Path, Lines, the Exchange, Headline Desk or Finnections." />
         {missed.length > 0 && (
           <section>
             <h2 className="mb-2 px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-violet-ink">Worth another look</h2>
