@@ -184,7 +184,7 @@
   --violet-soft: 255 226 198;
   --violet-ink: 146 60 0;
 }
-/* Christmas, evergreen and cranberry: snow cream paper, pine text and buttons, cranberry accents, gold. */
+/* Christmas, cranberry and evergreen: snow cream paper, pine text, cranberry red buttons, evergreen tabs and accents, gold. */
 :root[data-theme='seasonal'][data-season='christmas'] {
   --bg: 246 242 234;
   --surface: 255 253 248;
@@ -193,16 +193,16 @@
   --ink: 20 44 32;
   --ink-2: 56 80 66;
   --ink-3: 78 98 86;
-  --brand: 22 86 54;
-  --brand-strong: 10 54 32;
-  --brand-soft: 224 240 229;
-  --brand-ink: 20 84 52;
+  --brand: 178 28 44;
+  --brand-strong: 120 14 26;
+  --brand-soft: 250 224 226;
+  --brand-ink: 158 24 40;
   --amber: 192 150 48;
   --amber-soft: 248 238 208;
   --amber-ink: 120 88 10;
-  --violet: 166 24 42;
-  --violet-soft: 248 222 224;
-  --violet-ink: 140 20 36;
+  --violet: 22 92 58;
+  --violet-soft: 222 240 228;
+  --violet-ink: 20 84 52;
 }
 /* Spring, blossom: fresh leaf paper, moss text, leaf green buttons, blossom pink accents. */
 :root[data-theme='seasonal'][data-season='spring'] {
@@ -224,7 +224,7 @@
   --violet-soft: 252 229 238;
   --violet-ink: 160 44 90;
 }
-/* Halloween, pumpkin and plum: parchment paper, deep plum text and buttons, pumpkin accents. */
+/* Halloween, pumpkin and plum: parchment paper, deep plum text, pumpkin buttons, plum tabs and accents. */
 :root[data-theme='seasonal'][data-season='halloween'] {
   --bg: 249 237 220;
   --surface: 255 248 238;
@@ -233,16 +233,16 @@
   --ink: 42 20 52;
   --ink-2: 80 50 88;
   --ink-3: 100 72 98;
-  --brand: 84 40 128;
-  --brand-strong: 54 22 90;
-  --brand-soft: 236 226 246;
-  --brand-ink: 84 40 128;
+  --brand: 178 70 8;
+  --brand-strong: 118 42 0;
+  --brand-soft: 254 228 202;
+  --brand-ink: 150 58 0;
   --amber: 214 140 20;
   --amber-soft: 252 232 196;
   --amber-ink: 136 74 0;
-  --violet: 214 98 18;
-  --violet-soft: 254 224 196;
-  --violet-ink: 148 60 0;
+  --violet: 92 44 138;
+  --violet-soft: 236 226 246;
+  --violet-ink: 84 40 128;
 }
 /* Autumn, harvest: toasted oat paper, walnut text, rust buttons, mustard accents. */
 :root[data-theme='seasonal'][data-season='autumn'] {
