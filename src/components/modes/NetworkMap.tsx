@@ -109,11 +109,8 @@ const colourOf = (id: string) => areas[id]?.colour ?? '#777';
 export function NetworkMap({ progress, today, onLine }: { progress: Progress; today: string; onLine: (id: string) => void }) {
   const H = TOP + rows.length * ROW - ROW / 2 + 2;
   return (
-    <figure className="-mx-4 overflow-hidden border-y-2 border-[#111] bg-white text-[#111] sm:mx-0 sm:rounded-xl sm:border-2">
-      <figcaption className="flex items-baseline justify-between bg-[#111] px-4 py-2 text-white">
-        <span className="text-sm font-extrabold tracking-wide">Network map</span>
-        <span className="text-xs text-white/70">Tap a line to ride it</span>
-      </figcaption>
+    <figure className="overflow-hidden rounded-xl border border-line bg-white text-[#111]">
+      <figcaption className="sr-only">Network map. Tap a line to ride it.</figcaption>
       <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-label="Every area as a metro line, with interchanges where terms on two lines are easily mixed up">
         {rows.map((l, row) => {
           const y = TOP + row * ROW;
@@ -168,6 +165,7 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
           </rect>
         ))}
       </svg>
+      <p className="border-t border-line px-3 py-2 text-xs text-[#555]">Tap a line to ride it.</p>
     </figure>
   );
 }
