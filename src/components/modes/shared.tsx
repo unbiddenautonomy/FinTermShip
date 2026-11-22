@@ -18,27 +18,30 @@ import { Cross, Lock } from '../icons';
 import { MODE_INFO, ModeBar } from './ModeBar';
 import { useOwnProgress } from './modeAccess';
 import { Bar, TermDetails } from '../ui';
+import { metal, metalRing } from './metal';
 
 /**
  * The term glyph. Hollow: not met. Filled in the area colour: learning. White core: known.
  * Pulsing ring: due today. Dashed: not open yet.
  */
-export function TermDot({ status, colour, size = 14, className = '' }: { status: TermStatus; colour: string; size?: number; className?: string }) {
+export function TermDot({ status, colour, size = 14, className = '', metallic = false }: { status: TermStatus; colour: string; size?: number; className?: string; metallic?: boolean }) {
   const ring = Math.max(2, Math.round(size / 5));
   const base = { width: size, height: size, borderWidth: ring, borderColor: colour } as const;
+  const filled = status === 'due' || status === 'met' || status === 'known';
   // Due keeps the line colour but gains an amber halo, so it reads apart from Learning even when still (the ping is easy to miss).
-  const fill =
-    status === 'due'
-      ? { background: colour, boxShadow: `0 0 0 ${ring}px rgb(var(--surface)), 0 0 0 ${ring * 2}px rgb(var(--amber))` }
-      : status === 'met'
-        ? { background: colour }
-      : status === 'known'
-        ? { background: colour }
-        : { background: 'rgb(var(--surface))' };
+  const halo = status === 'due' ? `0 0 0 ${ring}px rgb(var(--surface)), 0 0 0 ${ring * 2}px rgb(var(--amber))` : undefined;
+  const fill = halo ? { background: colour, boxShadow: halo } : filled ? { background: colour } : { background: 'rgb(var(--surface))' };
   return (
     <span className={`relative inline-block shrink-0 ${className}`} style={{ width: size, height: size }} aria-hidden="true">
       {status === 'due' && <span className="absolute inset-0 animate-ping rounded-full opacity-60" style={{ background: colour }} />}
-      <span className={`relative block rounded-full ${status === 'locked' ? 'border-dashed opacity-60' : ''}`} style={{ ...base, ...fill }} />
+      {metallic && status !== 'locked' ? (
+        // A ring of polished metal, filled with a glossy bead once the term is met.
+        <span className="relative block rounded-full" style={{ width: size, height: size, padding: ring, background: metalRing(colour), boxShadow: halo }}>
+          <span className="block h-full w-full rounded-full" style={{ background: filled ? metal(colour, '160deg') : 'rgb(var(--surface))' }} />
+        </span>
+      ) : (
+        <span className={`relative block rounded-full ${status === 'locked' ? 'border-dashed opacity-60' : ''}`} style={{ ...base, ...fill }} />
+      )}
       {/* Known is filled like Learning, with a tick, so it never reads as an empty station. */}
       {status === 'known' && (
         <svg viewBox="0 0 12 12" className="absolute inset-0 h-full w-full" fill="none" stroke="#fff" strokeWidth={2.2} strokeLinecap="round" strokeLinejoin="round">

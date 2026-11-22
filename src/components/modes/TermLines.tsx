@@ -17,6 +17,7 @@ import type { PracticeKind, Progress } from '../../lib/types';
 import { ArrowLeft, ChevronDown, LinesIcon, Lock } from '../icons';
 import { Button } from '../ui';
 import { NetworkMap } from './NetworkMap';
+import { dashMask, glow, metal, metalRing } from './metal';
 import { ModeFrame, TermDot, TermSheet } from './shared';
 
 interface Props {
@@ -73,16 +74,16 @@ function Network({ progress, today, onLine, onMode }: { progress: Progress; toda
       <li key={l.id} className="border-b border-line lg:border-r lg:even:border-r-0">
         <button type="button" onClick={() => onLine(l.id)} className={`group flex w-full items-center gap-3.5 px-4 py-3.5 text-left transition hover:bg-sunken/60 ${locked ? 'opacity-60' : ''}`}>
           {/* A metro roundel in the line's colour. */}
-          <span className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-[5px] bg-surface" style={{ borderColor: colour }} aria-hidden="true">
-            {locked && <Lock className="h-3 w-3 text-ink-3" />}
+          <span className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full p-[5px]" style={{ background: metalRing(colour), boxShadow: glow(colour) }} aria-hidden="true">
+            <span className="flex h-full w-full items-center justify-center rounded-full bg-surface shadow-[inset_0_1px_2px_rgb(0_0_0/0.18)]">{locked && <Lock className="h-2.5 w-2.5 text-ink-3" />}</span>
           </span>
           <span className="min-w-0 flex-1">
             <span className="block font-semibold leading-tight text-ink">{l.name}</span>
             {/* How far along the line: known solid, still learning lighter, the rest a faint track. */}
-            <span className="relative mt-2 block h-1.5 overflow-hidden rounded-full" aria-hidden="true">
+            <span className="relative mt-2 block h-2 overflow-hidden rounded-full shadow-[inset_0_1px_2px_rgb(0_0_0/0.12)]" aria-hidden="true">
               <span className="absolute inset-0 opacity-15" style={{ background: colour }} />
-              <span className="absolute inset-y-0 left-0 opacity-45" style={{ width: pct(met), background: colour }} />
-              <span className="absolute inset-y-0 left-0" style={{ width: pct(known), background: colour }} />
+              <span className="absolute inset-y-0 left-0 rounded-full opacity-50" style={{ width: pct(met), background: metal(colour) }} />
+              <span className="absolute inset-y-0 left-0 rounded-full" style={{ width: pct(known), background: metal(colour), boxShadow: glow(colour) }} />
             </span>
             <span className="mt-1.5 block text-xs text-ink-3">
               <span className="num">
@@ -187,7 +188,7 @@ function LineView({
           <button type="button" onClick={onBack} className="-ml-2 rounded-xl p-1.5 text-ink-3 hover:bg-sunken" aria-label="All lines">
             <ArrowLeft className="h-5 w-5" />
           </button>
-          <span className="h-3.5 w-3.5 shrink-0 rounded-full" style={{ background: colour }} aria-hidden="true" />
+          <span className="h-3.5 w-3.5 shrink-0 rounded-full" style={{ background: metal(colour, '160deg'), boxShadow: glow(colour) }} aria-hidden="true" />
           <span className="min-w-0">{line.name}</span>
         </span>
       }
@@ -257,12 +258,14 @@ function LineView({
           const last = u === line.units.length - 1;
           const dashed = line.phase === 3 || locked;
           const railStyle = (faded: boolean) => ({
-            background: dashed ? `repeating-linear-gradient(180deg, ${colour} 0 7px, transparent 7px 12px)` : colour,
+            background: metal(colour, '90deg'),
+            boxShadow: faded ? undefined : glow(colour),
             opacity: faded ? 0.35 : 1,
+            ...(dashed ? dashMask('180deg') : {}),
           });
           // The rail through a row: from the row above to the row below, cut short at the line's two ends.
           const rail = (top: boolean, bottom: boolean, faded = locked) => (
-            <span className={`absolute left-[26px] w-1 ${top ? 'top-0' : 'top-1/2'} ${bottom ? 'bottom-0' : 'bottom-1/2'}`} style={railStyle(faded)} aria-hidden="true" />
+            <span className={`absolute left-[25px] w-1.5 ${top ? 'top-0' : 'top-1/2'} ${bottom ? 'bottom-0' : 'bottom-1/2'}`} style={railStyle(faded)} aria-hidden="true" />
           );
           const termRows = isOpen && !depot ? runs(stops, unit.from) : [];
           return (
@@ -274,7 +277,7 @@ function LineView({
                     <span className="h-4 w-4 rotate-45 rounded-[3px] border-[3px]" style={{ borderColor: colour, background: progress.drills?.[unit.id]?.passed ? colour : 'rgb(var(--surface))' }} />
                   ) : (
                     <span className="rounded-full bg-surface p-[3px]">
-                      <TermDot status={unitStatus(progress, unit.id, ids, today, size)} colour={colour} size={unit.core ? 20 : 16} />
+                      <TermDot status={unitStatus(progress, unit.id, ids, today, size)} colour={colour} size={unit.core ? 20 : 16} metallic />
                     </span>
                   )}
                 </span>
@@ -331,7 +334,7 @@ function LineView({
                           {endRail}
                           <div className="relative flex w-full items-center gap-3 py-1.5 pl-[14px] pr-3">
                             <span className="flex w-7 shrink-0 justify-center">
-                              <TermDot status={unitOpen(progress, unit.id) ? 'unmet' : 'locked'} colour={colour} size={12} />
+                              <TermDot status={unitOpen(progress, unit.id) ? 'unmet' : 'locked'} colour={colour} size={12} metallic />
                             </span>
                             <span className="min-w-0 flex-1 truncate text-sm text-ink-3">
                               {n} station{n === 1 ? '' : 's'} not met yet
@@ -350,7 +353,7 @@ function LineView({
                         {endRail}
                         <button type="button" onClick={() => setSheet(t.id)} className={`relative flex w-full items-center gap-3 py-1.5 pl-[14px] pr-3 text-left hover:bg-sunken/60 ${i === here ? 'bg-sunken' : ''}`}>
                           <span className="flex w-7 shrink-0 justify-center">
-                            <TermDot status={status} colour={colour} size={12} />
+                            <TermDot status={status} colour={colour} size={12} metallic />
                           </span>
                           <span className={`min-w-0 flex-1 truncate text-[15px] ${faint ? 'text-ink-3' : 'text-ink'}`}>{t.term}</span>
                           {i === here && <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}

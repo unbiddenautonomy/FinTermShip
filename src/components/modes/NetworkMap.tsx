@@ -118,6 +118,16 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
           return (
             <g key={l.id} opacity={locked ? 0.4 : 1}>
               <line x1={LEFT} x2={W - RIGHT} y1={y} y2={y} stroke={colourOf(l.id)} strokeWidth={6} strokeLinecap="round" strokeDasharray={l.phase === 3 && locked ? '10 6' : undefined} />
+              {/* A polished-metal sheen over the line: light along the top edge, shade along the bottom. */}
+              <defs>
+                <linearGradient id={`sheen-${l.id}`} gradientUnits="userSpaceOnUse" x1={0} x2={0} y1={y - 3} y2={y + 3}>
+                  <stop offset="0" stopColor="#fff" stopOpacity={0.6} />
+                  <stop offset="0.4" stopColor="#fff" stopOpacity={0.12} />
+                  <stop offset="0.6" stopColor="#fff" stopOpacity={0} />
+                  <stop offset="1" stopColor="#000" stopOpacity={0.25} />
+                </linearGradient>
+              </defs>
+              <line x1={LEFT} x2={W - RIGHT} y1={y} y2={y} stroke={`url(#sheen-${l.id})`} strokeWidth={6} strokeLinecap="round" strokeDasharray={l.phase === 3 && locked ? '10 6' : undefined} />
             </g>
           );
         })}
