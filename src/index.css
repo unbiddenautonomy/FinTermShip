@@ -121,170 +121,214 @@
   --ink-3: 100 106 102;
   --brand-soft: 232 242 236;
 }
-/* Diwali: marigold, diya flame and rangoli pink. */
+/* Diwali, saffron and gold: warm gold paper, deep maroon text and buttons, marigold accents. */
 :root[data-theme='seasonal'][data-season='diwali'] {
-  --bg: 255 248 236;
-  --surface: 255 253 248;
-  --sunken: 252 238 214;
-  --line: 240 221 190;
-  --ink: 52 32 18;
-  --ink-2: 94 64 40;
-  --ink-3: 118 84 54;
-  --amber: 232 142 28;
-  --amber-soft: 255 234 196;
-  --amber-ink: 150 80 8;
-  --violet: 196 58 116;
-  --violet-soft: 252 228 238;
-  --violet-ink: 150 34 86;
+  --bg: 252 241 220;
+  --surface: 255 249 237;
+  --sunken: 247 229 199;
+  --line: 233 210 172;
+  --ink: 70 20 24;
+  --ink-2: 108 50 42;
+  --ink-3: 126 72 54;
+  --brand: 128 26 42;
+  --brand-strong: 86 14 26;
+  --brand-soft: 248 226 212;
+  --brand-ink: 124 24 40;
+  --amber: 214 150 30;
+  --amber-soft: 252 236 196;
+  --amber-ink: 134 82 0;
+  --violet: 218 108 20;
+  --violet-soft: 253 226 190;
+  --violet-ink: 146 58 0;
 }
-/* Holi: gulal pink, turmeric yellow and sky blue on a clean page. */
+/* Holi, gulal: rose pink paper, plum text, magenta buttons, turquoise accents. */
 :root[data-theme='seasonal'][data-season='holi'] {
-  --bg: 254 247 251;
-  --surface: 255 255 255;
-  --sunken: 247 233 243;
-  --line: 238 216 232;
-  --ink: 48 30 52;
-  --ink-2: 86 64 92;
-  --ink-3: 108 86 112;
-  --amber: 238 172 24;
-  --amber-soft: 255 242 200;
-  --amber-ink: 140 92 0;
-  --violet: 218 62 150;
-  --violet-soft: 252 226 242;
-  --violet-ink: 162 28 110;
-  --sky: 36 136 208;
-  --sky-soft: 222 238 252;
-  --sky-ink: 22 92 156;
+  --bg: 253 239 246;
+  --surface: 255 250 252;
+  --sunken: 249 224 237;
+  --line: 238 205 222;
+  --ink: 60 16 52;
+  --ink-2: 98 52 88;
+  --ink-3: 118 74 108;
+  --brand: 172 30 110;
+  --brand-strong: 118 14 74;
+  --brand-soft: 252 224 240;
+  --brand-ink: 156 24 98;
+  --amber: 232 168 16;
+  --amber-soft: 255 240 196;
+  --amber-ink: 130 86 0;
+  --violet: 22 132 170;
+  --violet-soft: 218 240 248;
+  --violet-ink: 10 94 126;
+  --sky: 40 120 200;
+  --sky-soft: 222 236 252;
+  --sky-ink: 24 88 150;
 }
-/* Navratri: chunri red and saffron. */
+/* Navratri, chunri: blush paper, oxblood text, crimson buttons, saffron accents. */
 :root[data-theme='seasonal'][data-season='navratri'] {
-  --bg: 255 246 242;
-  --surface: 255 253 251;
-  --sunken: 251 231 224;
-  --line: 240 212 202;
-  --ink: 52 24 22;
-  --ink-2: 96 56 50;
-  --ink-3: 118 78 70;
-  --amber: 236 124 28;
-  --amber-soft: 255 232 206;
-  --amber-ink: 156 72 6;
-  --violet: 204 40 62;
-  --violet-soft: 252 224 228;
-  --violet-ink: 158 26 46;
+  --bg: 254 237 231;
+  --surface: 255 248 245;
+  --sunken: 249 219 209;
+  --line: 237 196 183;
+  --ink: 70 14 20;
+  --ink-2: 108 46 46;
+  --ink-3: 126 70 66;
+  --brand: 172 22 40;
+  --brand-strong: 116 10 24;
+  --brand-soft: 252 222 222;
+  --brand-ink: 156 20 36;
+  --amber: 224 150 20;
+  --amber-soft: 254 236 196;
+  --amber-ink: 132 80 0;
+  --violet: 212 98 10;
+  --violet-soft: 255 226 198;
+  --violet-ink: 146 60 0;
 }
-/* Christmas: snow white with holly red and gold beside the green. */
+/* Christmas, evergreen and cranberry: snow cream paper, pine text and buttons, cranberry accents, gold. */
 :root[data-theme='seasonal'][data-season='christmas'] {
-  --bg: 250 249 247;
-  --surface: 255 255 255;
-  --sunken: 239 241 238;
-  --line: 222 227 222;
-  --ink: 28 40 34;
-  --ink-2: 66 78 72;
-  --ink-3: 92 102 96;
-  --amber: 204 160 56;
-  --amber-soft: 250 240 212;
-  --amber-ink: 130 94 14;
-  --violet: 192 42 52;
-  --violet-soft: 251 228 228;
-  --violet-ink: 152 28 38;
+  --bg: 246 242 234;
+  --surface: 255 253 248;
+  --sunken: 235 229 218;
+  --line: 219 211 196;
+  --ink: 20 44 32;
+  --ink-2: 56 80 66;
+  --ink-3: 78 98 86;
+  --brand: 22 86 54;
+  --brand-strong: 10 54 32;
+  --brand-soft: 224 240 229;
+  --brand-ink: 20 84 52;
+  --amber: 192 150 48;
+  --amber-soft: 248 238 208;
+  --amber-ink: 120 88 10;
+  --violet: 166 24 42;
+  --violet-soft: 248 222 224;
+  --violet-ink: 140 20 36;
 }
-/* Spring: blossom pink and new leaves. */
+/* Spring, blossom: fresh leaf paper, moss text, leaf green buttons, blossom pink accents. */
 :root[data-theme='seasonal'][data-season='spring'] {
-  --bg: 250 251 245;
-  --surface: 255 255 252;
-  --sunken: 238 244 231;
-  --line: 222 232 212;
-  --ink: 30 44 32;
-  --ink-2: 68 82 70;
-  --ink-3: 90 104 90;
-  --brand-soft: 226 242 224;
-  --amber: 214 176 50;
-  --amber-soft: 248 242 208;
-  --amber-ink: 120 92 10;
-  --violet: 222 116 150;
-  --violet-soft: 252 234 240;
-  --violet-ink: 168 56 94;
+  --bg: 247 250 238;
+  --surface: 255 255 249;
+  --sunken: 233 242 220;
+  --line: 212 227 196;
+  --ink: 30 48 28;
+  --ink-2: 64 84 60;
+  --ink-3: 84 102 78;
+  --brand: 58 124 66;
+  --brand-strong: 34 86 42;
+  --brand-soft: 224 242 220;
+  --brand-ink: 42 102 50;
+  --amber: 206 168 40;
+  --amber-soft: 248 242 204;
+  --amber-ink: 116 88 0;
+  --violet: 212 94 134;
+  --violet-soft: 252 229 238;
+  --violet-ink: 160 44 90;
 }
-/* Halloween: pumpkin and dusk purple. */
+/* Halloween, pumpkin and plum: parchment paper, deep plum text and buttons, pumpkin accents. */
 :root[data-theme='seasonal'][data-season='halloween'] {
-  --bg: 252 246 238;
-  --surface: 255 252 248;
-  --sunken: 244 232 218;
-  --line: 232 214 194;
-  --ink: 40 28 44;
-  --ink-2: 78 62 82;
-  --ink-3: 104 86 100;
-  --amber: 234 116 22;
-  --amber-soft: 254 230 204;
-  --amber-ink: 158 70 6;
-  --violet: 112 62 164;
-  --violet-soft: 238 230 248;
-  --violet-ink: 90 44 142;
+  --bg: 249 237 220;
+  --surface: 255 248 238;
+  --sunken: 241 221 196;
+  --line: 225 199 168;
+  --ink: 42 20 52;
+  --ink-2: 80 50 88;
+  --ink-3: 100 72 98;
+  --brand: 84 40 128;
+  --brand-strong: 54 22 90;
+  --brand-soft: 236 226 246;
+  --brand-ink: 84 40 128;
+  --amber: 214 140 20;
+  --amber-soft: 252 232 196;
+  --amber-ink: 136 74 0;
+  --violet: 214 98 18;
+  --violet-soft: 254 224 196;
+  --violet-ink: 148 60 0;
 }
-/* Autumn: rust leaves and harvest gold. */
+/* Autumn, harvest: toasted oat paper, walnut text, rust buttons, mustard accents. */
 :root[data-theme='seasonal'][data-season='autumn'] {
-  --bg: 250 245 237;
-  --surface: 255 252 247;
-  --sunken: 241 231 215;
-  --line: 229 215 194;
-  --ink: 44 32 22;
-  --ink-2: 84 68 54;
-  --ink-3: 106 88 70;
-  --amber: 206 142 40;
-  --amber-soft: 249 236 210;
-  --amber-ink: 136 86 12;
-  --violet: 186 86 40;
-  --violet-soft: 247 228 212;
-  --violet-ink: 142 60 22;
+  --bg: 245 236 221;
+  --surface: 252 247 238;
+  --sunken: 235 221 198;
+  --line: 219 201 174;
+  --ink: 52 32 20;
+  --ink-2: 88 64 46;
+  --ink-3: 104 80 60;
+  --brand: 154 64 26;
+  --brand-strong: 104 40 12;
+  --brand-soft: 246 225 208;
+  --brand-ink: 138 56 22;
+  --amber: 196 140 30;
+  --amber-soft: 246 234 202;
+  --amber-ink: 118 80 0;
+  --violet: 168 120 28;
+  --violet-soft: 243 232 198;
+  --violet-ink: 112 76 0;
 }
-/* Winter: frost blue. */
+/* Winter, frost: icy blue paper, midnight text, navy buttons, glacier teal accents. */
 :root[data-theme='seasonal'][data-season='winter'] {
-  --bg: 244 248 251;
-  --surface: 255 255 255;
-  --sunken: 232 239 245;
-  --line: 214 225 235;
-  --ink: 24 36 48;
-  --ink-2: 60 74 88;
-  --ink-3: 84 98 112;
+  --bg: 235 242 249;
+  --surface: 250 252 255;
+  --sunken: 221 232 243;
+  --line: 201 217 232;
+  --ink: 20 38 60;
+  --ink-2: 54 74 98;
+  --ink-3: 72 92 116;
+  --brand: 30 64 112;
+  --brand-strong: 16 40 76;
+  --brand-soft: 221 233 248;
+  --brand-ink: 30 64 112;
+  --amber: 170 150 104;
+  --amber-soft: 236 234 224;
+  --amber-ink: 100 84 46;
+  --violet: 48 126 156;
+  --violet-soft: 218 237 244;
+  --violet-ink: 24 92 120;
   --sky: 66 128 182;
-  --sky-soft: 224 237 248;
+  --sky-soft: 222 236 248;
   --sky-ink: 36 88 138;
-  --amber: 168 150 110;
-  --amber-soft: 238 236 228;
-  --amber-ink: 104 88 52;
-  --violet: 92 132 176;
-  --violet-soft: 226 236 248;
-  --violet-ink: 46 86 132;
 }
-/* Olympics: white with the colours of the rings. */
+/* Olympics, podium: clean white, navy text, Olympic blue buttons, gold medal accents. */
 :root[data-theme='seasonal'][data-season='olympics'] {
-  --sunken: 243 245 248;
-  --line: 226 229 234;
+  --bg: 245 247 250;
+  --surface: 255 255 255;
+  --sunken: 233 237 243;
+  --line: 215 221 230;
+  --ink: 16 28 52;
+  --ink-2: 50 62 88;
+  --ink-3: 70 82 106;
+  --brand: 0 96 168;
+  --brand-strong: 0 64 118;
+  --brand-soft: 221 236 250;
+  --brand-ink: 0 86 152;
+  --amber: 190 142 20;
+  --amber-soft: 250 238 200;
+  --amber-ink: 118 84 0;
+  --violet: 190 142 20;
+  --violet-soft: 250 238 200;
+  --violet-ink: 118 84 0;
   --sky: 0 129 200;
   --sky-soft: 222 239 250;
   --sky-ink: 0 92 150;
-  --amber: 244 172 40;
-  --amber-soft: 254 242 212;
-  --amber-ink: 140 90 0;
-  --violet: 232 50 76;
-  --violet-soft: 253 228 232;
-  --violet-ink: 170 24 46;
 }
-/* F1: pit-lane grey and racing red. */
+/* F1, pit lane: tarmac grey paper, carbon text, racing red buttons and accents. */
 :root[data-theme='seasonal'][data-season='f1'] {
-  --bg: 248 248 249;
+  --bg: 238 238 241;
   --surface: 255 255 255;
-  --sunken: 236 237 239;
-  --line: 219 220 224;
-  --ink: 22 22 26;
-  --ink-2: 62 62 70;
-  --ink-3: 88 88 96;
-  --amber: 236 176 20;
-  --amber-soft: 254 244 206;
-  --amber-ink: 132 92 0;
-  --violet: 222 18 12;
-  --violet-soft: 252 226 224;
-  --violet-ink: 170 14 10;
+  --sunken: 226 226 231;
+  --line: 208 208 215;
+  --ink: 18 18 22;
+  --ink-2: 56 56 64;
+  --ink-3: 78 78 88;
+  --brand: 196 16 24;
+  --brand-strong: 134 8 14;
+  --brand-soft: 252 226 226;
+  --brand-ink: 170 14 20;
+  --amber: 224 168 10;
+  --amber-soft: 254 242 200;
+  --amber-ink: 124 88 0;
+  --violet: 196 16 24;
+  --violet-soft: 252 226 226;
+  --violet-ink: 166 14 20;
 }
 
 body {
