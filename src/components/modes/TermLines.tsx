@@ -14,9 +14,10 @@ import { areaOf, areas, STATUS_LABEL, termStatus, unitStatus, type TermStatus } 
 import { interchangesAt } from '../../lib/modes/transfer';
 import type { Recipe } from '../../lib/session';
 import type { PracticeKind, Progress } from '../../lib/types';
-import { ArrowLeft, ChevronDown, Lock } from '../icons';
+import { ArrowLeft, ChevronDown, LinesIcon, Lock } from '../icons';
 import { Button } from '../ui';
 import { NetworkMap } from './NetworkMap';
+import { dashMask, glow, metal, metalRing } from './metal';
 import { ModeFrame, TermDot, TermSheet } from './shared';
 
 interface Props {
@@ -56,52 +57,74 @@ export function TermLines({ progress, today, area, onArea, onMode, onRun, onDepo
 
 function Network({ progress, today, onLine, onMode }: { progress: Progress; today: string; onLine: (id: string) => void; onMode: (m: ModeId) => void }) {
   const stats = new Map(areaKpis(progress, today).map((a) => [a.id, a]));
+  const isLocked = (l: Line) => l.units.every((u) => !unitOpen(progress, u.id));
+  const open = lines.filter((l) => !isLocked(l));
+  const shut = lines.filter(isLocked);
+  const row = (l: Line) => {
+    const colour = colourOf(l.id);
+    const terms = stationCount(l.stops);
+    const ids = namedTerms(l.stops);
+    const st = ids.map((id) => termStatus(progress, id, today));
+    const known = st.filter((s) => s === 'known').length;
+    const met = stats.get(l.id)?.met ?? ids.filter((id) => progress.terms[id]).length;
+    const due = st.filter((s) => s === 'due').length;
+    const locked = isLocked(l);
+    const pct = (n: number) => `${terms ? Math.min(100, (n / terms) * 100) : 0}%`;
+    return (
+      <li key={l.id} className="border-b border-line lg:border-r lg:even:border-r-0">
+        <button type="button" onClick={() => onLine(l.id)} className={`group flex w-full items-center gap-3.5 px-4 py-3.5 text-left transition hover:bg-sunken/60 ${locked ? 'opacity-60' : ''}`}>
+          {/* A metro roundel in the line's colour. */}
+          <span className="relative flex h-7 w-7 shrink-0 items-center justify-center rounded-full p-[5px]" style={{ background: metalRing(colour), boxShadow: glow(colour) }} aria-hidden="true">
+            <span className="flex h-full w-full items-center justify-center rounded-full bg-surface shadow-[inset_0_1px_2px_rgb(0_0_0/0.18)]">{locked && <Lock className="h-2.5 w-2.5 text-ink-3" />}</span>
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-semibold leading-tight text-ink">{l.name}</span>
+            {/* How far along the line: known solid, still learning lighter, the rest a faint track. */}
+            <span className="relative mt-2 block h-2 overflow-hidden rounded-full shadow-[inset_0_1px_2px_rgb(0_0_0/0.12)]" aria-hidden="true">
+              <span className="absolute inset-0 opacity-15" style={{ background: colour }} />
+              <span className="absolute inset-y-0 left-0 rounded-full opacity-50" style={{ width: pct(met), background: metal(colour) }} />
+              <span className="absolute inset-y-0 left-0 rounded-full" style={{ width: pct(known), background: metal(colour), boxShadow: glow(colour) }} />
+            </span>
+            <span className="mt-1.5 block text-xs text-ink-3">
+              <span className="num">
+                {met} of {terms} met
+              </span>
+              {due > 0 && <span className="num font-semibold text-amber-ink"> · {due} due</span>}
+            </span>
+          </span>
+          <ChevronDown className="h-4 w-4 shrink-0 -rotate-90 text-ink-3 transition group-hover:translate-x-0.5" />
+        </button>
+      </li>
+    );
+  };
   return (
     <ModeFrame progress={progress} today={today} mode="lines" onMode={onMode} title="Term Lines">
-      <NetworkMap progress={progress} today={today} onLine={onLine} />
-      <LinesKey />
-      <ul className="space-y-2">
-        {lines.map((l) => {
-          const colour = colourOf(l.id);
-          const terms = stationCount(l.stops);
-          const s = stats.get(l.id);
-          const locked = l.units.every((u) => !unitOpen(progress, u.id));
-          const due = namedTerms(l.stops).filter((id) => termStatus(progress, id, today) === 'due').length;
-          return (
-            <li key={l.id}>
-              <button type="button" onClick={() => onLine(l.id)} className="w-full rounded-2xl border border-line bg-surface px-4 py-3 text-left shadow-card transition hover:bg-sunken">
-                <div className="flex items-center gap-2">
-                  <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: colour }} aria-hidden="true" />
-                  <span className="min-w-0 flex-1 font-bold leading-tight text-ink">{l.name}</span>
-                  {locked && <Lock className="h-4 w-4 text-ink-3" />}
-                  {due > 0 && <span className="num rounded-full bg-amber-soft px-2 py-0.5 font-mono text-xs font-semibold text-amber-ink">{due} due</span>}
-                  <span className="num font-mono text-xs text-ink-3">
-                    {s?.met ?? 0}/{terms}
-                  </span>
-                </div>
-                {/* The strip: one station per unit, spaced by its size; a square for a depot. */}
-                <div className="relative mt-3 flex h-4 items-center">
-                  <span className={`absolute inset-x-0 top-1/2 h-1 -translate-y-1/2 rounded-full ${l.phase === 3 && locked ? 'opacity-40' : ''}`} style={{ background: l.phase === 3 && locked ? `repeating-linear-gradient(90deg, ${colour} 0 6px, transparent 6px 10px)` : colour }} />
-                  <span className="relative flex w-full items-center justify-between">
-                    {l.units.map((u) => {
-                      const depot = l.stops[u.from] && 'depot' in l.stops[u.from];
-                      const stops = l.stops.slice(u.from, u.to + 1);
-                      const st = unitStatus(progress, u.id, namedTerms(stops), today, stationCount(stops));
-                      return depot ? (
-                        <span key={u.id} title={u.name} className={`h-3 w-3 rotate-45 border-2 ${st === 'locked' ? 'border-dashed opacity-60' : ''}`} style={{ borderColor: colour, background: st === 'known' || st === 'met' ? colour : 'rgb(var(--surface))' }} />
-                      ) : (
-                        <span key={u.id} title={u.name}>
-                          <TermDot status={st} colour={colour} size={u.core ? 14 : 11} />
-                        </span>
-                      );
-                    })}
-                  </span>
-                </div>
-              </button>
-            </li>
-          );
-        })}
-      </ul>
+      <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+        <ul className="-mb-px grid lg:grid-cols-2">{open.map(row)}</ul>
+      </div>
+      {shut.length > 0 && (
+        <section className="space-y-2">
+          <h2 className="px-1 text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">Opens after the phase 3 test</h2>
+          <div className="overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+            <ul className="-mb-px grid lg:grid-cols-2">{shut.map(row)}</ul>
+          </div>
+        </section>
+      )}
+      {/* The whole network, with interchanges, for those who want it. Shut by default so the list stays calm. */}
+      <details className="group/map overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
+        <summary className="flex cursor-pointer list-none items-center gap-3 px-4 py-3.5 hover:bg-sunken/60 [&::-webkit-details-marker]:hidden">
+          <LinesIcon className="h-5 w-5 shrink-0 text-ink-3" />
+          <span className="min-w-0 flex-1">
+            <span className="block font-semibold leading-tight text-ink">Network map</span>
+            <span className="block text-xs text-ink-3">Every line at once, and where their terms get mixed up</span>
+          </span>
+          <ChevronDown className="h-4 w-4 shrink-0 text-ink-3 transition group-open/map:rotate-180" />
+        </summary>
+        <div className="space-y-4 border-t border-line p-3 sm:p-4">
+          <NetworkMap progress={progress} today={today} onLine={onLine} />
+          <LinesKey />
+        </div>
+      </details>
     </ModeFrame>
   );
 }
@@ -165,7 +188,7 @@ function LineView({
           <button type="button" onClick={onBack} className="-ml-2 rounded-xl p-1.5 text-ink-3 hover:bg-sunken" aria-label="All lines">
             <ArrowLeft className="h-5 w-5" />
           </button>
-          <span className="h-3.5 w-3.5 shrink-0 rounded-full" style={{ background: colour }} aria-hidden="true" />
+          <span className="h-3.5 w-3.5 shrink-0 rounded-full" style={{ background: metal(colour, '160deg'), boxShadow: glow(colour) }} aria-hidden="true" />
           <span className="min-w-0">{line.name}</span>
         </span>
       }
@@ -175,7 +198,7 @@ function LineView({
         </span>
       }
     >
-      <div className="sticky top-2 z-20 space-y-2 rounded-2xl border border-line bg-surface/95 p-3 shadow-card backdrop-blur">
+      <div className="sticky top-2 z-20 space-y-2 rounded-2xl border border-line border-t-4 bg-surface/95 p-3 shadow-card backdrop-blur" style={{ borderTopColor: colour }}>
         <div className="flex items-center gap-3">
           <div className="min-w-0 flex-1 text-sm">
             {preview ? (
@@ -218,8 +241,10 @@ function LineView({
 
       <LinesKey compact colour={colour} />
 
-      <div className="space-y-2">
-        {line.units.map((unit) => {
+      {/* The line as one strip map: a single rail runs down through every unit, each unit a big
+          station with its terms as small stations beneath it while it is open. */}
+      <ol className="overflow-hidden rounded-2xl border border-line bg-surface py-1 shadow-card">
+        {line.units.map((unit, u) => {
           const isOpen = openUnits.has(unit.id);
           const stops = line.stops.slice(unit.from, unit.to + 1);
           const ids = namedTerms(stops);
@@ -229,47 +254,72 @@ function LineView({
           const unitDue = ids.filter((id) => termStatus(progress, id, today) === 'due').length;
           const locked = !unitOpen(progress, unit.id);
           const hasNext = here >= unit.from && here <= unit.to;
+          const first = u === 0;
+          const last = u === line.units.length - 1;
+          const dashed = line.phase === 3 || locked;
+          const railStyle = (faded: boolean) => ({
+            background: metal(colour, '90deg'),
+            boxShadow: faded ? undefined : glow(colour),
+            opacity: faded ? 0.35 : 1,
+            ...(dashed ? dashMask('180deg') : {}),
+          });
+          // The rail through a row: from the row above to the row below, cut short at the line's two ends.
+          const rail = (top: boolean, bottom: boolean, faded = locked) => (
+            <span className={`absolute left-[25px] w-1.5 ${top ? 'top-0' : 'top-1/2'} ${bottom ? 'bottom-0' : 'bottom-1/2'}`} style={railStyle(faded)} aria-hidden="true" />
+          );
+          const termRows = isOpen && !depot ? runs(stops, unit.from) : [];
           return (
-            <section key={unit.id} id={`unit-${unit.id}`} className="scroll-mt-40 overflow-hidden rounded-2xl border border-line bg-surface shadow-card">
-              <button type="button" onClick={() => toggle(unit.id)} aria-expanded={isOpen} className="flex w-full items-center gap-3 px-3 py-2.5 text-left hover:bg-sunken/60">
-                <span className="flex w-[30px] shrink-0 justify-center">
+            <li key={unit.id} id={`unit-${unit.id}`} className="scroll-mt-40">
+              <button type="button" onClick={() => toggle(unit.id)} aria-expanded={isOpen} className="relative flex w-full items-center gap-3 py-3 pl-[14px] pr-3 text-left hover:bg-sunken/60">
+                {rail(!first, !last || termRows.length > 0)}
+                <span className="relative flex w-7 shrink-0 justify-center">
                   {depot ? (
-                    <span className="h-3.5 w-3.5 rotate-45 border-[3px]" style={{ borderColor: colour, background: progress.drills?.[unit.id]?.passed ? colour : 'rgb(var(--surface))' }} />
+                    <span className="h-4 w-4 rotate-45 rounded-[3px] border-[3px]" style={{ borderColor: colour, background: progress.drills?.[unit.id]?.passed ? colour : 'rgb(var(--surface))' }} />
                   ) : (
-                    <TermDot status={unitStatus(progress, unit.id, ids, today, size)} colour={colour} size={unit.core ? 16 : 13} />
+                    <span className="rounded-full bg-surface p-[3px]">
+                      <TermDot status={unitStatus(progress, unit.id, ids, today, size)} colour={colour} size={unit.core ? 20 : 16} metallic />
+                    </span>
                   )}
                 </span>
                 <span className="min-w-0 flex-1">
-                  <span className="block truncate font-bold leading-tight text-ink">{unit.name}</span>
+                  <span className={`block truncate font-semibold leading-tight ${locked ? 'text-ink-3' : 'text-ink'}`}>{unit.name}</span>
                   <span className="block text-xs text-ink-3">
                     {depot
                       ? `Depot · ${KIND_LABEL[(stops[0] as { kind: string }).kind as PracticeKind] ?? 'practice'}`
-                      : `${unitMet}/${size} met${unit.core ? '' : ' · later'}`}
+                      : `${unitMet} of ${size} met${unit.core ? '' : ' · later'}`}
                   </span>
                 </span>
-                {hasNext && <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}
-                {unitDue > 0 && <span className="num rounded-full bg-amber-soft px-2 py-0.5 font-mono text-xs font-semibold text-amber-ink">{unitDue} due</span>}
+                {hasNext && !isOpen && <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}
+                {unitDue > 0 && <span className="num rounded-full bg-amber-soft px-2 py-0.5 font-mono text-[11px] font-semibold text-amber-ink">{unitDue} due</span>}
                 {locked && <Lock className="h-4 w-4 shrink-0 text-ink-3" />}
                 <ChevronDown className={`h-4 w-4 shrink-0 text-ink-3 transition ${isOpen ? 'rotate-180' : ''}`} />
               </button>
-              {isOpen && (
-                <ol className="relative max-h-[60vh] overflow-y-auto border-t border-line px-1 py-1">
-                  {runs(stops, unit.from).map(({ stop, i, n }) => {
-                    const rail = (
-                      <span className="absolute bottom-0 left-[13px] top-0 w-1" style={{ background: line.phase === 3 ? `repeating-linear-gradient(180deg, ${colour} 0 8px, transparent 8px 12px)` : colour }} aria-hidden="true" />
-                    );
+              {isOpen && depot && (
+                <div className="relative pb-3 pl-[56px] pr-3">
+                  {rail(true, !last)}
+                  <Button variant="secondary" disabled={!unitOpen(progress, unit.id)} onClick={() => onDepot(unit.id)} className="!px-4 !py-2 text-sm">
+                    {unitOpen(progress, unit.id) ? 'Open the depot' : 'Opens with its unit'}
+                  </Button>
+                </div>
+              )}
+              {termRows.length > 0 && (
+                <ol className="pb-1">
+                  {termRows.map(({ stop, i, n }, r) => {
+                    const endRail = rail(true, !(last && r === termRows.length - 1));
                     if ('depot' in stop) {
-                      const u = unitById.get(stop.depot);
-                      const open = unitOpen(progress, stop.depot);
+                      const du = unitById.get(stop.depot);
+                      const dOpen = unitOpen(progress, stop.depot);
                       const passed = !!progress.drills?.[stop.depot]?.passed;
                       return (
                         <li key={i} className="relative">
-                          {rail}
-                          <button type="button" disabled={!open} onClick={() => onDepot(stop.depot)} className="relative flex w-full items-center gap-3 py-2 text-left disabled:opacity-60">
-                            <span className="ml-[5px] flex h-5 w-5 shrink-0 rotate-45 items-center justify-center border-[3px]" style={{ borderColor: colour, background: passed ? colour : 'rgb(var(--surface))' }} />
-                            <span className="min-w-0 flex-1 rounded-xl border border-dashed px-3 py-2" style={{ borderColor: colour }}>
-                              <span className="block text-[10px] font-extrabold uppercase tracking-[0.12em] text-ink-3">{open ? 'Open the depot' : 'Opens with its unit'}</span>
-                              <span className="block font-bold text-ink">{u?.name ?? stop.depot}</span>
+                          {endRail}
+                          <button type="button" disabled={!dOpen} onClick={() => onDepot(stop.depot)} className="relative flex w-full items-center gap-3 py-2 pl-[14px] pr-3 text-left hover:bg-sunken/60 disabled:opacity-60">
+                            <span className="flex w-7 shrink-0 justify-center">
+                              <span className="h-3 w-3 rotate-45 rounded-[2px] border-[2.5px]" style={{ borderColor: colour, background: passed ? colour : 'rgb(var(--surface))' }} />
+                            </span>
+                            <span className="min-w-0 flex-1 text-sm">
+                              <span className="font-semibold text-ink">{du?.name ?? stop.depot}</span>
+                              <span className="text-ink-3"> · {dOpen ? 'depot' : 'opens with its unit'}</span>
                             </span>
                           </button>
                         </li>
@@ -281,52 +331,53 @@ function LineView({
                       const next = here >= i && here < i + n;
                       return (
                         <li key={i} className="relative">
-                          {rail}
-                          <div className={`relative flex w-full items-center gap-3 rounded-xl py-1.5 ${next ? 'bg-sunken' : ''}`}>
-                            <span className="flex w-[30px] shrink-0 justify-center">
-                              <TermDot status={unitOpen(progress, unit.id) ? 'unmet' : 'locked'} colour={colour} size={14} />
+                          {endRail}
+                          <div className="relative flex w-full items-center gap-3 py-1.5 pl-[14px] pr-3">
+                            <span className="flex w-7 shrink-0 justify-center">
+                              <TermDot status={unitOpen(progress, unit.id) ? 'unmet' : 'locked'} colour={colour} size={12} metallic />
                             </span>
-                            <span className="min-w-0 flex-1 truncate text-ink-3">
+                            <span className="min-w-0 flex-1 truncate text-sm text-ink-3">
                               {n} station{n === 1 ? '' : 's'} not met yet
                             </span>
-                            {next && <span className="mr-2 rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}
+                            {next && <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}
                           </div>
                         </li>
                       );
                     }
                     const status = termStatus(progress, t.id, today);
-                    // One chip per other line, however many of its terms meet here.
+                    const faint = status === 'unmet' || status === 'locked';
+                    // One mark per other line, however many of its terms meet here.
                     const twinLines = [...new Map(interchangesAt(t.id).map((id) => [areaOf(id)?.id, id])).values()].filter((id) => areaOf(id)?.id !== line.id).slice(0, 2);
                     return (
                       <li key={i} className="relative">
-                        {rail}
-                        <button type="button" onClick={() => setSheet(t.id)} className={`relative flex w-full items-center gap-3 rounded-xl py-1.5 text-left hover:bg-sunken/60 ${i === here ? 'bg-sunken' : ''}`}>
-                          <span className="flex w-[30px] shrink-0 justify-center">
-                            <TermDot status={status} colour={colour} size={status === 'unmet' || status === 'locked' ? 14 : 16} />
+                        {endRail}
+                        <button type="button" onClick={() => setSheet(t.id)} className={`relative flex w-full items-center gap-3 py-1.5 pl-[14px] pr-3 text-left hover:bg-sunken/60 ${i === here ? 'bg-sunken' : ''}`}>
+                          <span className="flex w-7 shrink-0 justify-center">
+                            <TermDot status={status} colour={colour} size={12} metallic />
                           </span>
-                          <span className={`min-w-0 flex-1 truncate ${status === 'unmet' || status === 'locked' ? 'text-ink-3' : 'font-bold text-ink'}`}>{t.term}</span>
+                          <span className={`min-w-0 flex-1 truncate text-[15px] ${faint ? 'text-ink-3' : 'text-ink'}`}>{t.term}</span>
                           {i === here && <span className="rounded-full bg-ink px-2 py-0.5 text-[10px] font-extrabold uppercase tracking-wider text-bg">Next</span>}
-                          <span className="flex shrink-0 gap-1 pr-2">
-                            {twinLines.map((id) => {
-                              const a = areaOf(id);
-                              return (
-                                <span key={id} title={`Easily mixed up with ${termById.get(id)?.term ?? 'a term'} on the ${a?.name} line`} className="inline-flex max-w-[7.5rem] items-center gap-1 rounded-full border px-1.5 py-px text-[11px] font-bold text-ink-2" style={{ borderColor: a?.colour }}>
-                                  <span className="h-1.5 w-1.5 shrink-0 rounded-full" style={{ background: a?.colour }} aria-hidden="true" />
-                                  <span className="truncate">{a?.short}</span>
+                          {twinLines.length > 0 && (
+                            <span className="flex shrink-0 items-center gap-1" title={twinLines.map((id) => `Easily mixed up with ${termById.get(id)?.term ?? 'a term'} on the ${areaOf(id)?.name} line`).join('\n')}>
+                              <span className="sr-only">Often mixed up with a term on</span>
+                              {twinLines.map((id) => (
+                                <span key={id} className="inline-flex items-center gap-1 text-[11px] font-semibold text-ink-3">
+                                  <span className="h-2 w-2 shrink-0 rounded-full" style={{ background: areaOf(id)?.colour }} aria-hidden="true" />
+                                  <span className="max-w-[6.5rem] truncate">{areaOf(id)?.short}</span>
                                 </span>
-                              );
-                            })}
-                          </span>
+                              ))}
+                            </span>
+                          )}
                         </button>
                       </li>
                     );
                   })}
                 </ol>
               )}
-            </section>
+            </li>
           );
         })}
-      </div>
+      </ol>
 
       {sheet && (
         <TermSheet
@@ -383,14 +434,11 @@ function LinesKey({ compact = false, colour = 'rgb(var(--brand))' }: { compact?:
   );
   if (compact)
     return (
-      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 rounded-2xl border border-line bg-surface px-4 py-2.5 text-xs font-bold text-ink-3">
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1.5 px-1 text-xs font-semibold text-ink-3">
         {states}
         <span className="inline-flex items-center gap-1.5">
-          <span className="inline-flex items-center gap-1 rounded-full border border-ink-3 px-1.5 py-px text-[11px] text-ink-2">
-            <span className="h-1.5 w-1.5 rounded-full bg-ink-3" />
-            Line
-          </span>
-          Often mixed up with a term on that line
+          <span className="h-2 w-2 rounded-full bg-ink-3" aria-hidden="true" />
+          Line name: often mixed up with a term there
         </span>
       </div>
     );
@@ -400,7 +448,7 @@ function LinesKey({ compact = false, colour = 'rgb(var(--brand))' }: { compact?:
     </svg>
   );
   return (
-    <section className="rounded-2xl border border-line bg-surface p-4 text-sm text-ink-2 shadow-card" aria-label="Map key">
+    <section className="px-1 text-sm text-ink-2" aria-label="Map key">
       <h2 className="mb-3 text-xs font-extrabold uppercase tracking-[0.12em] text-ink-3">How to read the map</h2>
       <div className="grid gap-x-6 gap-y-4 sm:grid-cols-3">
         <div>
