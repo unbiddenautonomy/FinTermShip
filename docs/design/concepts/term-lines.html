@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>*{box-sizing:border-box}body{margin:0}</style>
+<title>Term Lines</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&display=swap">
+<style>
+/* Layout: the syllabus is a transit map. Categories are lines, terms are stations, terms that get confused are interchanges. Signage look, single theme. */
+:root{
+  --bg:#FFFFFF; --ink:#111418; --muted:#6A717B; --rule:#E3E6EA;
+  --opt:#C3176F; --basic:#E8A400; --desk:#1D5AA6; --quant:#6B3FA0; --sign:#111418;
+  --sans:"Overpass","Helvetica Neue",Arial,sans-serif;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;max-width:480px;margin:0 auto;display:flex;flex-direction:column}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{background:var(--sign);color:#fff;padding-block:12px;display:flex;justify-content:space-between;align-items:center}
+.top b{font-weight:800;font-size:17px;letter-spacing:.01em}
+.top span{font-size:12px;opacity:.75}
+.legend{display:flex;gap:6px;padding-block:10px;overflow-x:auto;border-bottom:1px solid var(--rule)}
+.legend button{font:inherit;font-size:12px;font-weight:600;border:0;border-radius:3px;padding:5px 8px 3px;color:#fff;white-space:nowrap;cursor:pointer}
+.legend button.off{opacity:.25}
+.map{flex:1;min-height:0;position:relative}
+svg{width:100%;height:100%;display:block}
+.ln{fill:none;stroke-width:9;stroke-linecap:round;stroke-linejoin:round}
+.st{cursor:pointer}
+.st text{font-family:var(--sans);font-size:10.5px;font-weight:600;fill:var(--ink)}
+.st text.dim{fill:var(--muted);font-weight:400}
+.pulse{animation:p 1.6s ease-out infinite;transform-box:fill-box;transform-origin:center}
+@keyframes p{from{opacity:.7;transform:scale(1)}to{opacity:0;transform:scale(2.4)}}
+.board{border-top:4px solid var(--opt);padding-block:14px calc(14px + env(safe-area-inset-bottom,0px));display:grid;gap:10px;background:var(--bg)}
+.board small{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.board h2{margin:0;font-size:24px;font-weight:800;line-height:1.1}
+.board p{margin:0;color:var(--muted);line-height:1.45}
+.board .xfer{display:inline-flex;gap:6px;align-items:center;font-weight:600;color:var(--ink)}
+.board .xfer i{width:12px;height:12px;border-radius:50%;border:3px solid var(--ink);background:#fff;display:inline-block}
+.go{font:inherit;font-weight:800;font-size:15px;background:var(--opt);color:#fff;border:0;border-radius:4px;padding:12px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+</style>
+<div class="top pad"><b>Term Lines</b><span>Zone 1 · interview core</span></div>
+<div class="legend pad" id="legend"></div>
+<div class="map"><svg id="svg" viewBox="0 0 390 470" preserveAspectRatio="xMidYMid meet"></svg></div>
+<div class="board pad" id="board"></div>
+<script>
+const L={opt:{n:'Options',c:'#C3176F',p:[[30,80],[200,80],[300,180],[300,430]],k:'14/51'},
+ basic:{n:'Basics',c:'#E8A400',p:[[25,290],[365,290]],k:'38/52'},
+ desk:{n:'Desk talk',c:'#1D5AA6',p:[[120,30],[120,240],[220,340],[220,450]],k:'22/52'},
+ quant:{n:'Quant',c:'#6B3FA0',p:[[25,395],[365,395]],k:'6/51'}};
+// [name,x,y,line(s),state 2=done 1=next 0=ahead, label side]
+const S=[
+ ['option',40,80,'opt',2,'b'],['two-way price',120,80,'opt desk',2,'tr'],['strike',165,80,'opt',2,'b'],['call / put',225,105,'opt',2,'r'],['delta',265,145,'opt',2,'r'],['gamma',300,215,'opt',2,'l'],['theta',300,250,'opt',1,'l'],['underlying',300,290,'opt basic',0,'tr'],['vega',300,340,'opt',0,'l'],['implied vol',300,395,'opt quant',0,'tr'],
+ ['bid',40,290,'basic',2,'b'],['ask',80,290,'basic',2,'b'],['spread',170,290,'basic desk',2,'bl'],['liquidity',245,290,'basic',2,'t'],
+ ['hit the bid',120,130,'desk',2,'r'],['size',120,180,'desk',2,'r'],['print',220,375,'desk',0,'r'],['flow',220,440,'desk',0,'r'],['slippage',220,395,'desk quant',0,'tl'],
+ ['std dev',50,395,'quant',2,'b'],['variance',110,395,'quant',0,'b'],['Sharpe',160,395,'quant',0,'b'],['Sortino',350,395,'quant',0,'b']];
+const svg=document.getElementById('svg'),ns='http://www.w3.org/2000/svg';
+let off=new Set();
+function el(t,a,p=svg){const e=document.createElementNS(ns,t);for(const k in a)e.setAttribute(k,a[k]);p.appendChild(e);return e}
+function draw(){svg.innerHTML='';
+ for(const id in L){const l=L[id];el('polyline',{class:'ln',stroke:l.c,points:l.p.join(' '),opacity:off.has(id)?.12:1})}
+ S.forEach(s=>{const [n,x,y,ls,st,side]=s;const lines=ls.split(' ');const dim=lines.every(l=>off.has(l));const g=el('g',{class:'st',opacity:dim?.2:1,tabindex:0});
+  const col=L[lines[0]].c;
+  if(lines.length>1){el('circle',{cx:x,cy:y,r:8.5,fill:'#fff',stroke:'#111418','stroke-width':3.5},g)}
+  else el('circle',{cx:x,cy:y,r:5.5,fill:st==2?'#fff':'#fff',stroke:st==2?'#fff':col,'stroke-width':st==2?0:2.5},g);
+  if(st==2&&lines.length==1)el('circle',{cx:x,cy:y,r:2.5,fill:'#fff'},g);
+  if(st==1){el('circle',{cx:x,cy:y,r:9,fill:'none',stroke:col,'stroke-width':2,class:'pulse'},g);el('circle',{cx:x,cy:y,r:6,fill:col,stroke:'#fff','stroke-width':2},g)}
+  const off2={r:[12,4,'start'],l:[-12,4,'end'],t:[0,-12,'middle'],b:[0,19,'middle'],tr:[11,-11,'start'],tl:[-11,-11,'end'],bl:[-11,19,'end']}[side];
+  const t=el('text',{x:x+off2[0],y:y+off2[1],'text-anchor':off2[2],class:st==0?'dim':''},g);t.textContent=n;
+  g.onclick=()=>board(s);g.onkeydown=e=>{if(e.key==='Enter')board(s)};
+ })}
+function board(s){const [n,,,ls,st]=s;const lines=ls.split(' ');const l=L[lines[0]];const b=document.getElementById('board');b.style.borderTopColor=l.c;
+ const xfer=lines.length>1?`<span class="xfer"><i></i>Interchange: easy to mix up with the ${L[lines[1]].n} line</span>`:'';
+ b.innerHTML=`<small>${st==1?'Next stop':st==2?'Visited':'Further down the line'} · ${l.n} line</small><h2>${n}</h2><p>${st==1?'Value lost as each day passes. 4 stops to Implied vol, where you change for the Quant line.':st==2?'You know this one. Revisit it on the way back.':'Ride the stops before it first.'}</p>${xfer}<button class="go" style="background:${l.c}">${st==1?'Ride 4 stops · about 6 min':st==2?'Quick revisit · 1 min':'Jump ahead with a test'}</button>`}
+const lg=document.getElementById('legend');
+for(const id in L){const b=document.createElement('button');b.style.background=L[id].c;b.textContent=`${L[id].n} ${L[id].k}`;b.onclick=()=>{off.has(id)?off.delete(id):off.add(id);b.classList.toggle('off');draw()};lg.appendChild(b)}
+draw();board(S[6]);
+</script>
+
+</html>

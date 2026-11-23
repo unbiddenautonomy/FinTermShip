@@ -1,5 +1,7 @@
 # fintermship
 
+New here, or a new Claude session? Start with [docs/BRIEF.md](docs/BRIEF.md): what this is, the standing rules, design rules, decisions and open items.
+
 A Duolingo-style web app for learning and remembering trading and market terms, tailored to the Indian market.
 
 What it has now:

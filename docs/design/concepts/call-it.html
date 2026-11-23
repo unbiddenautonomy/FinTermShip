@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>*{box-sizing:border-box}body{margin:0}</style>
+<title>Call It</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=DM+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one physical card, one claim, one thumb flick. Risograph two-ink print: fluoro pink and blue on cool paper, misregistered on purpose. Single theme. */
+:root{
+  --paper:#ECEEF0; --card:#FBFBFA; --blue:#2348B8; --pink:#FF4F9A; --ink:#14151A; --muted:#6A6E78;
+  --disp:"Bricolage Grotesque","Arial Black",sans-serif; --mono:"DM Mono",ui-monospace,monospace;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--paper);color:var(--ink);font-family:var(--mono);font-size:14px;max-width:480px;margin:0 auto;display:flex;flex-direction:column;overflow:hidden;
+ background-image:radial-gradient(rgba(35,72,184,.07) 1px,transparent 1.2px);background-size:5px 5px}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.top{display:flex;justify-content:space-between;align-items:flex-end;padding-block:16px 8px}
+.logo{font-family:var(--disp);font-weight:800;font-size:30px;line-height:.9;color:var(--blue);text-shadow:3px 2px 0 var(--pink);letter-spacing:-.02em}
+.meta{text-align:right;font-size:12px;line-height:1.5}
+.meta b{color:var(--pink);font-weight:500}
+.bar{display:flex;gap:3px;padding-block:6px 0}
+.bar i{flex:1;height:6px;background:rgba(35,72,184,.15)}
+.bar i.y{background:var(--blue)}.bar i.n{background:var(--pink)}
+.stage{flex:1;position:relative;display:grid;place-items:center;padding-block:10px}
+.card{position:absolute;width:min(330px,calc(100% - 40px));aspect-ratio:3/4;max-height:calc(100% - 20px);background:var(--card);border:2px solid var(--ink);padding:22px;display:flex;flex-direction:column;justify-content:space-between;touch-action:none;user-select:none;box-shadow:7px 7px 0 var(--blue);transition:transform .3s}
+.card.back{transform:rotate(-4deg) translate(-6px,8px);box-shadow:7px 7px 0 var(--pink)}
+.card.back2{transform:rotate(3deg) translate(6px,14px);box-shadow:none;background:var(--pink)}
+.card .cat{font-size:11.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.card h1{font-family:var(--disp);font-weight:800;font-size:clamp(26px,7.4vw,33px);line-height:1.04;margin:0;letter-spacing:-.015em;text-wrap:balance}
+.card h1 em{font-style:normal;color:var(--blue);text-shadow:2px 1px 0 var(--pink)}
+.card .hint{display:flex;justify-content:space-between;font-size:12px;color:var(--muted)}
+.stamp{position:absolute;top:30px;font-family:var(--disp);font-weight:800;font-size:34px;border:4px solid;padding:0 10px;opacity:0;transform:rotate(-10deg)}
+.stamp.t{right:20px;color:var(--blue)}.stamp.f{left:20px;color:var(--pink);transform:rotate(10deg)}
+.card.flip{box-shadow:7px 7px 0 var(--ink)}
+.card.flip p{margin:0;font-size:13.5px;line-height:1.55}
+.card.flip .verdict{font-family:var(--disp);font-weight:800;font-size:40px;line-height:1}
+.btns{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding-block:10px calc(18px + env(safe-area-inset-bottom,0px))}
+.btns button{font-family:var(--disp);font-weight:800;font-size:22px;padding:14px;border:2px solid var(--ink);cursor:pointer;color:#fff}
+.btns .no{background:var(--pink);box-shadow:4px 4px 0 var(--ink)}.btns .yes{background:var(--blue);box-shadow:4px 4px 0 var(--ink)}
+.btns button:active{transform:translate(3px,3px);box-shadow:1px 1px 0 var(--ink)}
+.btns button:focus-visible{outline:3px solid var(--ink);outline-offset:3px}
+@media (prefers-reduced-motion:reduce){.card{transition:none}}
+</style>
+<div class="top pad"><div class="logo">CALL<br>IT.</div><div class="meta">Card <span id="k">4</span> / 12<br><b id="streak">3 in a row</b></div></div>
+<div class="bar pad" id="bar"></div>
+<div class="stage" id="stage"></div>
+<div class="btns pad"><button class="no" id="no">← FALSE</button><button class="yes" id="yes">TRUE →</button></div>
+<script>
+const D=[
+ ['Options and Greeks','A put option has a <em>negative delta</em>.',true,'Puts gain when the underlying falls, so their delta runs from 0 to −1.'],
+ ['Options and Greeks','The buyer of an option can lose <em>more than the premium</em>.',false,'The buyer\'s loss is capped at the premium. The seller carries the open-ended risk.'],
+ ['Indian market essentials','Equity trades on NSE settle <em>T+1</em>.',true,'India moved fully to T+1 in January 2023. Buy Monday, shares arrive Tuesday.'],
+ ['Desk talk','To <em>lift the offer</em> is to sell to the best bid.',false,'Lifting the offer is buying at the seller\'s price. Selling to the bid is hitting it.'],
+ ['Quant and risk','The Sortino ratio penalises <em>only downside</em> volatility.',true,'Sortino swaps standard deviation for downside deviation, so upside swings don\'t count against you.'],
+];
+let i=0,hist=['y','y','n','y'],streak=3;const stage=document.getElementById('stage');
+function bar(){document.getElementById('bar').innerHTML=Array.from({length:12},(_,k)=>`<i class="${hist[k]||''}"></i>`).join('');document.getElementById('k').textContent=hist.length+1;document.getElementById('streak').textContent=streak?streak+' in a row':'Fresh start'}
+function deal(){stage.innerHTML='<div class="card back2"></div><div class="card back"></div>';const d=D[i%D.length];const c=document.createElement('div');c.className='card';
+ c.innerHTML=`<span class="stamp t">TRUE</span><span class="stamp f">FALSE</span><div class="cat">${d[0]}</div><h1>${d[1]}</h1><div class="hint"><span>← false</span><span>flick</span><span>true →</span></div>`;stage.appendChild(c);drag(c);bar()}
+function drag(c){let x0=null,dx=0;const st=c.querySelectorAll('.stamp');
+ c.onpointerdown=e=>{x0=e.clientX;c.setPointerCapture(e.pointerId);c.style.transition='none'};
+ c.onpointermove=e=>{if(x0==null)return;dx=e.clientX-x0;c.style.transform=`translateX(${dx}px) rotate(${dx/14}deg)`;st[0].style.opacity=Math.max(0,dx/90);st[1].style.opacity=Math.max(0,-dx/90)};
+ c.onpointerup=()=>{c.style.transition='';if(Math.abs(dx)>90)answer(dx>0);else{c.style.transform='';st.forEach(s=>s.style.opacity=0)}x0=null;dx=0}}
+function answer(v){const c=stage.querySelector('.card:last-child');if(c.classList.contains('flip')){i++;deal();return}const d=D[i%D.length];const ok=v===d[2];
+ hist.push(ok?'y':'n');streak=ok?streak+1:0;
+ c.style.transform=`translateX(${v?1:-1}*0px)`;c.classList.add('flip');c.style.transform='';
+ c.innerHTML=`<div class="cat">${ok?'Called it':'Not quite'} · it\'s ${d[2]?'true':'false'}</div><div class="verdict" style="color:${ok?'var(--blue)':'var(--pink)'}">${ok?'Yes.':'Nope.'}</div><p>${d[3]}</p><div class="hint"><span>${ok?'Back in 7 days':'Back tomorrow'}</span><span>any button: next</span></div>`;bar()}
+document.getElementById('yes').onclick=()=>answer(true);document.getElementById('no').onclick=()=>answer(false);
+addEventListener('keydown',e=>{if(e.key==='ArrowRight')answer(true);if(e.key==='ArrowLeft')answer(false)});
+deal();
+</script>
+
+</html>
