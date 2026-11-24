@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>*{box-sizing:border-box}body{margin:0}</style>
+<title>Interview Room</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: the whole app is one conversation with a desk head. No tabs, no lesson tiles. Single deliberate dark-ink-on-fog look. */
+:root{
+  --fog:#E4EAEE; --paper:#F7F9FA; --ink:#15233A; --muted:#5B6B7E; --rule:#C9D3DB;
+  --them:#FFFFFF; --you:#15233A; --you-fg:#F2F5F7; --mark:#C7792A; --ok:#2F7A55;
+  --sans:"IBM Plex Sans",system-ui,sans-serif; --mono:"IBM Plex Mono",ui-monospace,monospace;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--fog);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.45;display:flex;flex-direction:column;max-width:480px;margin:0 auto}
+header{padding:14px max(16px,env(safe-area-inset-right,0px)) 12px max(16px,env(safe-area-inset-left,0px));border-bottom:1px solid var(--rule);background:var(--paper);display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center}
+.av{width:40px;height:40px;border-radius:50%;background:var(--ink);color:var(--paper);display:grid;place-items:center;font-weight:600;font-size:14px;letter-spacing:.02em}
+.who b{display:block;font-weight:600}
+.who span{font-size:12.5px;color:var(--muted)}
+.clock{font-family:var(--mono);font-size:13px;color:var(--mark);text-align:right;line-height:1.2}
+.clock small{display:block;color:var(--muted);font-size:10.5px;letter-spacing:.08em;text-transform:uppercase}
+.rounds{display:flex;gap:6px;padding:10px max(16px,env(safe-area-inset-right,0px)) 10px max(16px,env(safe-area-inset-left,0px));font-family:var(--mono);font-size:11px;color:var(--muted);overflow-x:auto;background:var(--paper);border-bottom:1px solid var(--rule)}
+.rounds span{white-space:nowrap;padding:3px 8px;border:1px solid var(--rule);border-radius:3px}
+.rounds .on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.rounds .done{text-decoration:line-through}
+main{flex:1;overflow-y:auto;padding:18px max(16px,env(safe-area-inset-right,0px)) 18px max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:10px}
+.m{max-width:84%;padding:10px 13px;border-radius:14px;animation:in .25s ease-out both}
+.t{background:var(--them);align-self:flex-start;border-bottom-left-radius:4px;box-shadow:0 1px 0 var(--rule)}
+.y{background:var(--you);color:var(--you-fg);align-self:flex-end;border-bottom-right-radius:4px}
+.note{align-self:center;font-family:var(--mono);font-size:11.5px;color:var(--muted);text-align:center;max-width:90%}
+.term{font-family:var(--mono);font-size:13px;background:var(--fog);padding:1px 5px;border-radius:3px}
+.grade{font-family:var(--mono);font-size:11.5px;color:var(--ok);display:block;margin-top:6px}
+.grade.miss{color:var(--mark)}
+.typing{display:flex;gap:4px;padding:14px}
+.typing i{width:6px;height:6px;border-radius:50%;background:var(--muted);animation:b 1s infinite}
+.typing i:nth-child(2){animation-delay:.15s}.typing i:nth-child(3){animation-delay:.3s}
+@keyframes b{50%{opacity:.25}}
+@keyframes in{from{transform:translateY(6px);opacity:.3}}
+footer{background:var(--paper);border-top:1px solid var(--rule);padding:12px max(16px,env(safe-area-inset-right,0px)) calc(12px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px));display:flex;flex-direction:column;gap:8px}
+footer .lbl{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-direction:column;gap:6px}
+.chips button{font:inherit;text-align:left;background:var(--paper);color:var(--ink);border:1px solid var(--rule);border-radius:10px;padding:10px 12px;cursor:pointer}
+.chips button:hover,.chips button:focus-visible{border-color:var(--ink);outline:none}
+.row{display:flex;gap:8px;align-items:center}
+.row input{flex:1;font:inherit;border:1px solid var(--rule);border-radius:20px;padding:9px 14px;background:var(--fog);color:var(--ink);min-width:0}
+.mic{width:40px;height:40px;border-radius:50%;border:0;background:var(--mark);color:#fff;font-size:16px;cursor:pointer}
+@media (prefers-reduced-motion:reduce){*{animation:none!important}}
+</style>
+<header>
+  <div class="av">RK</div>
+  <div class="who"><b>Rohan, Options desk</b><span>Mock second round · asks like a real trader</span></div>
+  <div class="clock">11:42<small>left</small></div>
+</header>
+<div class="rounds"><span class="done">HR screen</span><span class="done">Market basics</span><span class="on">Options desk</span><span>Risk</span><span>Case study</span></div>
+<main id="log"></main>
+<footer>
+  <span class="lbl">Your answer</span>
+  <div class="chips" id="chips"></div>
+  <div class="row"><input id="free" placeholder="Or answer in your own words…" aria-label="Answer in your own words"><button class="mic" aria-label="Answer out loud">●</button></div>
+</footer>
+<script>
+const log=document.getElementById('log'),chips=document.getElementById('chips');
+const script=[
+ {say:['Okay, let\'s talk Greeks. We\'re long 10 lots of 0.4 <span class="term">delta</span> Nifty calls.','How many lots of Nifty does that behave like?'],
+  opts:[['4 lots',1,'Right. 10 × 0.4. Desk calls that "4 lots of delta".'],['10 lots',0,'That\'s the option count, not the exposure. 10 × 0.4 = 4 lots of delta.'],['0.4 lots',0,'Close on the number, wrong scale. 10 × 0.4 = 4 lots.']]},
+ {say:['Good. Nifty does nothing for three days. What hurts us?'],
+  opts:[['Theta. We pay time decay every day.',1,'Yes. Long options, negative <span class="term">theta</span>. Being right but slow still costs money.'],['Vega, because volatility drops',0,'Could happen, but you said nothing moved. That\'s <span class="term">theta</span>.'],['Gamma, because delta changes',0,'Gamma needs the price to move. Flat market means <span class="term">theta</span>.']]},
+ {say:['Last one. Why would a trader sell those calls to us instead?'],opts:[['They collect theta and think IV is rich',1,'That\'s how a seller thinks. You\'d pass this round.'],['Sellers have unlimited upside',0,'Other way round: the seller\'s gain is capped at the premium.']]}
+];
+let i=0;
+const add=(cls,html)=>{const d=document.createElement('div');d.className='m '+cls;d.innerHTML=html;log.appendChild(d);log.scrollTop=log.scrollHeight;return d};
+function ask(){
+  const s=script[i];chips.innerHTML='';
+  s.say.forEach(t=>add('t',t));
+  s.opts.forEach(([txt,ok,reply])=>{const b=document.createElement('button');b.textContent=txt;b.onclick=()=>answer(txt,ok,reply);chips.appendChild(b)});
+}
+function answer(txt,ok,reply){
+  chips.innerHTML='';add('y',txt);
+  const ty=add('t','<div class="typing"><i></i><i></i><i></i></div>');ty.style.padding='0';
+  setTimeout(()=>{ty.remove();add('t',reply+`<span class="grade ${ok?'':'miss'}">${ok?'✓ Logged: you know this':'↻ Rohan will come back to this'}</span>`);
+    i++; if(i<script.length) setTimeout(ask,500); else add('note','Round done · 2 terms to revisit tomorrow before Risk round');},700);
+}
+add('note','Wed 13 Nov · Your interview: Fri 22 Nov, 9 days');
+add('t','Morning. I\'ll ask the way I would on the desk. Short answers are fine.');
+ask();
+</script>
+
+</html>

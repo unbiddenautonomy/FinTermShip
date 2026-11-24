@@ -1,0 +1,63 @@
+<title>FinTermShip Directions</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;700&display=swap">
+<style>
+/* Layout: short diagnosis, then four live phone mockups side by side, each with its idea, its bet, and its risk. */
+:root{--bg:#F4F5F7;--panel:#FFFFFF;--fg:#16181D;--muted:#5E6470;--rule:#DCDFE5;--accent:#2348B8;--sans:"Inter Tight",system-ui,sans-serif}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#121418;--panel:#1B1E24;--fg:#ECEEF2;--muted:#9AA1AD;--rule:#2C3038;--accent:#8EA8FF;color-scheme:dark}}
+:root[data-theme="dark"]{--bg:#121418;--panel:#1B1E24;--fg:#ECEEF2;--muted:#9AA1AD;--rule:#2C3038;--accent:#8EA8FF;color-scheme:dark}
+body{background:var(--bg);color:var(--fg);font-family:var(--sans);font-size:15px;line-height:1.55;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1240px;margin:0 auto;padding-block:40px 64px;display:grid;gap:36px}
+h1{font-size:clamp(28px,4vw,40px);line-height:1.1;margin:0;letter-spacing:-.02em;text-wrap:balance}
+.why{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:24px;max-width:1000px}
+.why p{margin:0;color:var(--muted)}
+.why b{color:var(--fg)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(290px,1fr));gap:28px}
+article{display:grid;gap:12px;align-content:start;min-width:0}
+.phone{border:1px solid var(--rule);border-radius:28px;overflow:hidden;background:var(--panel);aspect-ratio:390/780;max-width:100%}
+.phone iframe{width:100%;height:100%;border:0;display:block}
+h2{margin:0;font-size:20px;letter-spacing:-.01em}
+.idea{margin:0}
+dl{margin:0;display:grid;gap:6px;font-size:13.5px}
+dt{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:700}
+dd{margin:0 0 6px}
+a{color:var(--accent)}
+.foot{color:var(--muted);font-size:13.5px;max-width:70ch}
+</style>
+<div class="wrap">
+  <header style="display:grid;gap:14px">
+    <h1>Four directions that change how FinTermShip works, not just how it's coloured</h1>
+    <div class="why">
+      <p><b>Why every version looked the same.</b> The brief was "Duolingo-like", so the skeleton was copied first: a path of lessons, a five-tab bottom bar, streak and XP chips, rounded cards. Every revision after that only changed the paint (copper, green, soft colours, textures).</p>
+      <p><b>Why it reads as AI slop.</b> Rounded cards everywhere, pill buttons, a warm cream background with a serif wordmark and one earthy accent is the default look AI tools produce. Nothing in it comes from finance or from interviews.</p>
+      <p><b>What these try instead.</b> Each one starts from a metaphor out of the learner's real world and lets that decide navigation, interaction and type. Each is live: tap, answer, swipe.</p>
+    </div>
+  </header>
+  <section class="grid">
+    <article>
+      <div class="phone"><iframe src="interview-room.html" title="Interview Room mockup" loading="lazy"></iframe></div>
+      <h2>Interview Room</h2>
+      <p class="idea">The app is a conversation with a desk head who asks questions the way a real interviewer does, follows up, and pushes back.</p>
+      <dl><dt>The bet</dt><dd>Your users are prepping for interviews, so practise the actual interview. Rounds replace units, the interview date replaces the streak.</dd><dt>The risk</dt><dd>Needs follow-up questions written per term, and a free-text answer needs grading.</dd></dl>
+    </article>
+    <article>
+      <div class="phone"><iframe src="recall-exchange.html" title="Recall Exchange mockup" loading="lazy"></iframe></div>
+      <h2>Recall Exchange</h2>
+      <p class="idea">Every term is a listed stock whose price is how well you remember it. Prices decay daily; answering defends them.</p>
+      <dl><dt>The bet</dt><dd>Spaced repetition you can see. The scheduler you already have becomes the market, and the user learns to read a watchlist while they study.</dd><dt>The risk</dt><dd>Dense screens can feel like work. Needs care so it stays a game, not a terminal.</dd></dl>
+    </article>
+    <article>
+      <div class="phone"><iframe src="term-lines.html" title="Term Lines mockup" loading="lazy"></iframe></div>
+      <h2>Term Lines</h2>
+      <p class="idea">The syllabus is a metro map. Categories are lines, terms are stations, and terms people confuse are interchanges.</p>
+      <dl><dt>The bet</dt><dd>Uses the <code>confusables</code> data you already have to show how ideas connect. Lessons become rides of a few stops.</dd><dt>The risk</dt><dd>Hand-laying 400 terms on a map is real work; would need an auto-layout per zone.</dd></dl>
+    </article>
+    <article>
+      <div class="phone"><iframe src="call-it.html" title="Call It mockup" loading="lazy"></iframe></div>
+      <h2>Call It</h2>
+      <p class="idea">One loud printed card, one claim, flick right for true or left for false. Built for 30 seconds in a queue.</p>
+      <dl><dt>The bet</dt><dd>Speed and feel over structure. Risograph two-ink print gives it a look nothing else in finance has.</dd><dt>The risk</dt><dd>True/false alone is shallow; it works as the quick mode beside one of the others.</dd></dl>
+    </article>
+  </section>
+  <p class="foot">These are samples only. Nothing in the app or repository was changed. The ideas also combine well: for example Interview Room as the main mode with Call It as the quick daily habit.</p>
+</div>
