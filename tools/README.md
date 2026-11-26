@@ -9,3 +9,7 @@ Rules:
 - Anything that becomes a real build check moves to `scripts/` and gets an `npm run` entry.
 
 Pushes that only touch `tools/` or `docs/` shouldn't deploy: see "Deploy" in `docs/BRIEF.md`.
+
+## Tools
+
+- `build-glossary.mjs`: builds the complete glossary (every term with its explanation, formula, notes, examples and mix-ups) as a searchable page plus a Markdown copy: `node tools/build-glossary.mjs [out-dir]` (default `glossary-out/`, gitignored). The page template is `glossary-page.html`. The output is the whole syllabus, which the app never sends to a browser, so keep it out of the repo and `public/`.
