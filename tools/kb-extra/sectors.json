@@ -1,0 +1,199 @@
+{
+  "id": "sectors",
+  "name": "Indian market sectors",
+  "order": 102,
+  "units": [
+    { "id": "ks1", "name": "Financial sectors" },
+    { "id": "ks2", "name": "Consumer and healthcare" },
+    { "id": "ks3", "name": "Technology and telecom" },
+    { "id": "ks4", "name": "Industry, energy and materials" }
+  ],
+  "terms": [
+    {
+      "id": "sector",
+      "term": "sector",
+      "aliases": ["industry sector", "sectoral index"],
+      "unit": "ks1",
+      "short": "Group of companies in the same line of business",
+      "definition": "A group of companies that earn money in similar ways, such as banks, IT services or cement makers, so the same things tend to move their profits and share prices. NSE publishes sectoral indices such as Nifty Bank, Nifty IT, Nifty FMCG, Nifty Pharma, Nifty Auto and Nifty Metal to track them. Knowing a company's sector tells you which numbers to watch and what news matters to it.",
+      "examples": ["Banks and other financial companies make up the biggest share of the Nifty 50."],
+      "confusables": ["sector-rotation", "sectoral-fund"]
+    },
+    {
+      "id": "banking-sector",
+      "term": "banking sector",
+      "aliases": ["banks", "bank stocks", "PSU banks", "private banks"],
+      "unit": "ks1",
+      "short": "Banks: earn the gap between lending and deposit rates",
+      "definition": "Banks take deposits and lend them out, earning the difference between the interest on loans and the interest paid on deposits, plus fees. India has large private banks (such as HDFC Bank and ICICI Bank) and public sector banks owned mainly by the government (such as SBI). Banks are the largest sector in the Nifty 50, so they move the whole market.",
+      "examples": ["Bank stocks fell after the results showed bad loans rising in the small-business book."],
+      "note": "What to watch: loan growth, net interest margin, gross and net NPA (bad loans), CASA ratio (cheap deposits), credit cost and return on assets. Rate changes by the RBI, the economy's health and asset quality drive the sector.",
+      "confusables": ["nbfc-sector", "insurance-sector"]
+    },
+    {
+      "id": "nbfc-sector",
+      "term": "NBFC sector",
+      "aliases": ["NBFC", "non-banking financial company", "finance companies"],
+      "unit": "ks1",
+      "short": "Lenders that aren't banks: consumer, vehicle, gold, housing loans",
+      "definition": "Non-Banking Financial Companies lend money like banks but can't take ordinary savings or current account deposits, so they borrow from banks, bond markets and fixed deposits instead. They often serve customers banks find harder to reach: consumer durables loans, vehicle and tractor loans, gold loans, microfinance and housing finance. Bajaj Finance is the best-known listed example. The RBI regulates them.",
+      "examples": ["When bond markets froze in 2018, NBFCs that relied on short-term borrowing were hit hardest."],
+      "note": "What to watch: loan growth, cost of borrowing, net interest margin, bad loans and credit cost, and how well the maturity of their borrowing matches the maturity of their loans.",
+      "confusables": ["banking-sector"]
+    },
+    {
+      "id": "insurance-sector",
+      "term": "insurance sector",
+      "aliases": ["insurance companies", "life insurers", "general insurers"],
+      "unit": "ks1",
+      "short": "Life and general insurers: earn on premiums and investments",
+      "definition": "Insurers collect premiums, pay claims and invest the money in between. Life insurers (such as LIC, HDFC Life and SBI Life) sell protection and savings policies; general insurers cover health, motor, property and travel. IRDAI regulates them. Their profits come slowly over the life of each policy, so analysts value life insurers on embedded value rather than just yearly profit.",
+      "examples": ["Life insurers rallied after strong growth in new protection policies."],
+      "note": "What to watch: growth in new premiums, value of new business margin for life insurers, claims ratio and combined ratio for general insurers, and persistency (how many customers keep paying).",
+      "confusables": ["banking-sector"]
+    },
+    {
+      "id": "fmcg-sector",
+      "term": "FMCG sector",
+      "aliases": ["FMCG", "fast-moving consumer goods", "consumer staples"],
+      "unit": "ks2",
+      "short": "Everyday products: soap, food, toothpaste, biscuits",
+      "definition": "Fast-moving consumer goods: everyday items people buy again and again, such as soap, shampoo, packaged food, biscuits and tea. Hindustan Unilever, ITC, Nestlé India and Britannia are large examples. Demand stays steady in good and bad times, so FMCG stocks are seen as defensive and often trade at high price-to-earnings multiples.",
+      "examples": ["FMCG stocks held up in the sell-off because people keep buying soap and biscuits in a downturn."],
+      "note": "What to watch: volume growth (more items sold, not just higher prices), rural versus urban demand, the monsoon, raw-material costs such as palm oil, milk and wheat, and gross margin.",
+      "confusables": ["consumer-durables-sector", "defensive-stocks"]
+    },
+    {
+      "id": "consumer-durables-sector",
+      "term": "consumer durables sector",
+      "aliases": ["consumer durables", "consumer discretionary"],
+      "unit": "ks2",
+      "short": "Things people buy now and then: ACs, fridges, TVs, paints",
+      "definition": "Companies that sell goods people buy occasionally and keep for years, such as air conditioners, fridges, fans, electrical wiring and paints, along with other discretionary spending like retail and travel. Unlike FMCG, people can postpone these purchases, so demand rises and falls with incomes, interest rates and confidence.",
+      "examples": ["A hot summer lifted AC makers' sales well above forecasts."],
+      "note": "What to watch: demand growth, seasonality (summer for cooling products), raw-material costs such as copper, steel and crude-linked chemicals, and competition.",
+      "confusables": ["fmcg-sector", "cyclical-stocks"]
+    },
+    {
+      "id": "pharma-sector",
+      "term": "pharma sector",
+      "aliases": ["pharmaceuticals", "pharma stocks", "healthcare sector"],
+      "unit": "ks2",
+      "short": "Drug makers, selling in India and abroad",
+      "definition": "Companies that make and sell medicines. Indian pharma firms such as Sun Pharma, Dr. Reddy's and Cipla sell branded generics in India and generic drugs abroad, especially in the US, where they compete on price once patents expire. The broader healthcare sector also includes hospitals and diagnostics. Demand doesn't depend much on the economy, so pharma is often seen as defensive.",
+      "examples": ["The stock fell after a US FDA inspection flagged problems at its main plant."],
+      "note": "What to watch: India sales growth, US generic prices and new launches, US FDA inspection results at plants, research spending, and the rupee (a weaker rupee raises export earnings).",
+      "confusables": ["defensive-stocks"]
+    },
+    {
+      "id": "it-services-sector",
+      "term": "IT services sector",
+      "aliases": ["IT sector", "IT stocks", "information technology sector", "tech services"],
+      "unit": "ks3",
+      "short": "Software and outsourcing firms earning mostly in dollars",
+      "definition": "Companies such as TCS, Infosys, HCLTech and Wipro that build and run software and technology systems for large clients, mostly in the US and Europe. They earn most of their revenue in foreign currency and their main cost is staff in India, so a weaker rupee helps margins. One of the biggest sectors in the Nifty 50.",
+      "examples": ["IT stocks fell after US banks said they would cut technology spending."],
+      "note": "What to watch: revenue growth in constant currency, deal wins (total contract value), operating margin, attrition and hiring, client spending in the US and Europe, and the rupee-dollar rate.",
+      "confusables": ["telecom-sector"]
+    },
+    {
+      "id": "telecom-sector",
+      "term": "telecom sector",
+      "aliases": ["telecom", "telcos"],
+      "unit": "ks3",
+      "short": "Mobile and broadband operators",
+      "definition": "Companies that provide mobile, broadband and related services. India's market is dominated by a few operators: Reliance Jio, Bharti Airtel and Vodafone Idea. Building networks and buying spectrum costs a lot, so the business is capital-heavy and debt matters; profits rise mainly when operators raise tariffs.",
+      "examples": ["Telecom stocks jumped after the operators announced tariff hikes."],
+      "note": "What to watch: ARPU (average revenue per user), subscriber additions, tariff changes, capex on networks and spectrum, and debt.",
+      "confusables": ["it-services-sector"]
+    },
+    {
+      "id": "auto-sector",
+      "term": "auto sector",
+      "aliases": ["automobiles", "auto stocks", "auto ancillaries"],
+      "unit": "ks4",
+      "short": "Car, two-wheeler, truck and tractor makers and their suppliers",
+      "definition": "Makers of cars, two-wheelers, commercial vehicles and tractors, such as Maruti Suzuki, Mahindra & Mahindra, Bajaj Auto and Hero MotoCorp, plus the parts suppliers known as auto ancillaries. Sales are cyclical: they rise with incomes and cheap loans and fall when rates or fuel prices rise. Companies report sales volumes on the first day of each month.",
+      "examples": ["Two-wheeler sales picked up after a good monsoon lifted rural incomes."],
+      "note": "What to watch: monthly sales volumes, the mix between segments, electric vehicle shift, raw-material costs such as steel and aluminium, interest rates, rural demand and exports.",
+      "confusables": ["cyclical-stocks", "consumer-durables-sector"]
+    },
+    {
+      "id": "metals-sector",
+      "term": "metals and mining sector",
+      "aliases": ["metal stocks", "steel stocks", "metals sector"],
+      "unit": "ks4",
+      "short": "Steel, aluminium, zinc and copper producers and miners",
+      "definition": "Companies that mine and process metals, such as Tata Steel, JSW Steel, Hindalco, Vedanta and Coal India. Their selling prices are set by global markets, so profits swing sharply with world metal prices, which depend heavily on demand from China. Among the most cyclical sectors.",
+      "examples": ["Metal stocks rallied when China announced new infrastructure spending."],
+      "note": "What to watch: global metal prices, Chinese demand and exports, input costs such as coking coal and power, the rupee, import duties and debt.",
+      "confusables": ["cyclical-stocks", "base-metals"]
+    },
+    {
+      "id": "oil-gas-sector",
+      "term": "oil and gas sector",
+      "aliases": ["energy sector", "oil marketing companies", "OMCs"],
+      "unit": "ks4",
+      "short": "Explorers, refiners and fuel retailers",
+      "definition": "Companies that find and produce oil and gas (such as ONGC and Oil India), refine it (such as Reliance Industries), sell fuel at pumps (the oil marketing companies: Indian Oil, BPCL and HPCL) and distribute gas (such as GAIL). A rise in crude oil prices helps producers but can hurt fuel retailers when pump prices are not raised to match.",
+      "examples": ["Oil marketing companies fell as crude rose while pump prices stayed unchanged."],
+      "note": "What to watch: crude oil prices, refining margins (gross refining margin), marketing margins on petrol and diesel, government pricing decisions and taxes, and gas prices.",
+      "confusables": ["energy-futures", "power-sector"]
+    },
+    {
+      "id": "power-sector",
+      "term": "power and utilities sector",
+      "aliases": ["power stocks", "utilities", "renewables"],
+      "unit": "ks4",
+      "short": "Electricity generation, transmission and distribution",
+      "definition": "Companies that generate electricity (such as NTPC, Tata Power and Adani Power), carry it over long distances (such as Power Grid) or supply it to homes and businesses. Much of the business earns regulated returns, so profits are steady, but renewable energy and new demand have made it a growth sector too. Building plants needs heavy borrowing.",
+      "examples": ["Power stocks rose as peak electricity demand hit a record during the heat wave."],
+      "note": "What to watch: electricity demand, plant utilisation (plant load factor), new capacity added, especially solar and wind, fuel costs, regulated return rates and debt.",
+      "confusables": ["oil-gas-sector", "capital-goods-sector"]
+    },
+    {
+      "id": "cement-sector",
+      "term": "cement sector",
+      "aliases": ["cement stocks"],
+      "unit": "ks4",
+      "short": "Cement makers, tied to building and infrastructure",
+      "definition": "Companies that make cement, such as UltraTech, Ambuja Cements and Shree Cement. Demand comes from housing, roads and other infrastructure, so the sector follows government spending and the property cycle. Cement is heavy and costly to transport, so companies sell mostly within their own region and prices differ across India.",
+      "examples": ["Cement stocks gained after the Budget raised infrastructure spending."],
+      "note": "What to watch: volume growth, price per tonne, EBITDA per tonne, fuel costs (coal and petcoke), freight costs, capacity additions and monsoon (construction slows in the rains).",
+      "confusables": ["real-estate-sector", "capital-goods-sector"]
+    },
+    {
+      "id": "real-estate-sector",
+      "term": "real estate sector",
+      "aliases": ["realty", "real estate stocks", "property developers"],
+      "unit": "ks4",
+      "short": "Property developers selling homes and offices",
+      "definition": "Developers that build and sell homes or build and lease offices and malls, such as DLF, Godrej Properties and Macrotech (Lodha). It is highly cyclical and sensitive to interest rates, because buyers depend on home loans. Investors can also get rental property income through REITs instead of developer shares.",
+      "examples": ["Realty stocks rallied after the RBI cut rates, expecting cheaper home loans to lift sales."],
+      "note": "What to watch: pre-sales (bookings), collections, new launches, unsold inventory, debt, and interest rates.",
+      "confusables": ["reit", "cement-sector"]
+    },
+    {
+      "id": "capital-goods-sector",
+      "term": "capital goods sector",
+      "aliases": ["capital goods", "infrastructure stocks", "industrials", "defence stocks"],
+      "unit": "ks4",
+      "short": "Makers of machinery and builders of large projects",
+      "definition": "Companies that build infrastructure and make the equipment other industries use: engineering and construction (such as Larsen & Toubro), power and electrical equipment (such as Siemens and BHEL), and defence makers (such as Hindustan Aeronautics and Bharat Electronics). They win large multi-year orders, so the order book shows future revenue. Government and private investment drives demand.",
+      "examples": ["The company's order backlog is now four times its yearly revenue."],
+      "note": "What to watch: order inflow, order backlog, execution speed, margins, working capital, and government capex in the Budget.",
+      "confusables": ["power-sector", "cement-sector"]
+    },
+    {
+      "id": "chemicals-sector",
+      "term": "chemicals sector",
+      "aliases": ["specialty chemicals", "chemical stocks"],
+      "unit": "ks4",
+      "short": "Makers of chemicals for other industries",
+      "definition": "Companies that make chemicals used by other industries, from bulk chemicals made in large volumes to specialty chemicals made for specific uses in pharma, agriculture, paints and electronics. Many Indian firms export, and their fortunes depend on demand from global customers and competition from Chinese producers.",
+      "examples": ["Chemical stocks slid as cheap Chinese supply pushed export prices down."],
+      "note": "What to watch: volumes and prices, export demand, Chinese competition and pricing, raw-material costs linked to crude oil, and new capacity.",
+      "confusables": ["pharma-sector"]
+    }
+  ]
+}

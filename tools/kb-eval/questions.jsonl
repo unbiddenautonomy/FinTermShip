@@ -13,53 +13,53 @@
 {"id": "q013", "kind": "definition", "query": "what is T+1 settlement", "expected": ["term:t-plus-1"]}
 {"id": "q014", "kind": "definition", "query": "what is an upper circuit", "expected": ["term:upper-circuit", "term:circuit-limit"]}
 {"id": "q015", "kind": "definition", "query": "what is GMP in an IPO", "expected": ["term:gmp"]}
-{"id": "q016", "kind": "definition", "query": "what is a call option", "expected": ["term:call-option"]}
+{"id": "q016", "kind": "definition", "query": "what is the banking sector about", "expected": ["term:banking-sector"]}
 {"id": "q017", "kind": "definition", "query": "what is an index fund", "expected": ["term:index-fund"]}
 {"id": "q018", "kind": "definition", "query": "what is XIRR in my mutual fund statement", "expected": ["term:xirr"]}
 {"id": "q019", "kind": "definition", "query": "what is a REIT", "expected": ["term:reit"]}
-{"id": "q020", "kind": "definition", "query": "what is india vix", "expected": ["term:india-vix"]}
+{"id": "q020", "kind": "definition", "query": "what drives IT stocks", "expected": ["term:it-services-sector"]}
 {"id": "q021", "kind": "definition", "query": "what are defensive stocks", "expected": ["term:defensive-stocks"]}
 {"id": "q022", "kind": "definition", "query": "what are cyclical stocks", "expected": ["term:cyclical-stocks"]}
 {"id": "q023", "kind": "definition", "query": "what is a stop loss", "expected": ["term:stop-loss"]}
 {"id": "q024", "kind": "definition", "query": "what is a limit order", "expected": ["term:limit-order"]}
-{"id": "q025", "kind": "definition", "query": "what does square off mean", "expected": ["term:square-off"]}
-{"id": "q026", "kind": "definition", "query": "what is lot size in futures", "expected": ["term:lot-size"]}
-{"id": "q027", "kind": "definition", "query": "what is a margin call", "expected": ["term:margin-call"]}
-{"id": "q028", "kind": "definition", "query": "what is short selling", "expected": ["term:short-selling", "term:short"]}
+{"id": "q025", "kind": "definition", "query": "what is the record date for a dividend", "expected": ["term:record-date", "term:ex-date"]}
+{"id": "q026", "kind": "definition", "query": "what are pharma companies affected by", "expected": ["term:pharma-sector"]}
+{"id": "q027", "kind": "definition", "query": "what does an NBFC do", "expected": ["term:nbfc-sector"]}
+{"id": "q028", "kind": "definition", "query": "what is a flexi cap fund", "expected": ["term:flexi-cap-fund"]}
 {"id": "q029", "kind": "definition", "query": "what is the sharpe ratio", "expected": ["term:sharpe-ratio"]}
 {"id": "q030", "kind": "definition", "query": "what is beta of a stock", "expected": ["term:beta"]}
 {"id": "q031", "kind": "definition", "query": "what is max drawdown", "expected": ["term:max-drawdown"]}
-{"id": "q032", "kind": "definition", "query": "what is value at risk", "expected": ["term:var"]}
+{"id": "q032", "kind": "definition", "query": "what is an exit load", "expected": ["term:exit-load"]}
 {"id": "q033", "kind": "definition", "query": "what is the ex-dividend date", "expected": ["term:ex-date", "term:record-date"]}
 {"id": "q034", "kind": "definition", "query": "what is the repo rate", "expected": ["term:repo-rate"]}
 {"id": "q035", "kind": "definition", "query": "what is the fiscal deficit", "expected": ["term:fiscal-deficit"]}
 {"id": "q036", "kind": "definition", "query": "what is yield to maturity on a bond", "expected": ["term:yield-to-maturity"]}
-{"id": "q037", "kind": "definition", "query": "what is contango", "expected": ["term:contango"]}
+{"id": "q037", "kind": "definition", "query": "what is a sovereign gold bond", "expected": ["term:sgb"]}
 {"id": "q038", "kind": "definition", "query": "what is a credit rating", "expected": ["term:credit-rating"]}
 {"id": "q039", "kind": "definition", "query": "what is free cash flow", "expected": ["term:free-cash-flow"]}
 {"id": "q040", "kind": "definition", "query": "what is ROE", "expected": ["term:roe"]}
 {"id": "q041", "kind": "situation", "query": "why did my home loan EMI go up after the RBI meeting", "expected": ["term:repo-rate", "term:transmission"]}
-{"id": "q042", "kind": "situation", "query": "the stock fell even though the company posted record profits, why", "expected": ["term:sell-the-news", "term:priced-in", "term:earnings-miss", "term:consensus", "term:guidance"]}
+{"id": "q042", "kind": "situation", "query": "the stock fell even though the company posted record profits, why", "expected": ["term:earnings-miss", "term:consensus", "term:guidance"]}
 {"id": "q043", "kind": "situation", "query": "how much tax if I sell shares after holding them for 2 years", "expected": ["term:ltcg"]}
 {"id": "q044", "kind": "situation", "query": "the company announced a buyback, what does that mean for me", "expected": ["term:buyback"]}
 {"id": "q045", "kind": "situation", "query": "I can't sell my stock today, there are no buyers and it's stuck", "expected": ["term:lower-circuit", "term:circuit-limit", "term:liquidity"]}
-{"id": "q046", "kind": "situation", "query": "my broker sold my intraday position at 3:20 automatically", "expected": ["term:auto-square-off", "term:mis", "term:intraday"]}
+{"id": "q046", "kind": "analysis", "query": "revenue grew 12% this year, is that good for this company", "expected": ["guide:read-growth"]}
 {"id": "q047", "kind": "situation", "query": "I bought 100 shares at 500 and now it's 450 but I haven't sold. Have I lost money?", "expected": ["term:unrealised-pnl", "term:mtm"]}
 {"id": "q048", "kind": "situation", "query": "why does the rupee fall when foreign investors sell indian stocks", "expected": ["term:rupee-depreciation", "term:fpi", "term:usdinr"]}
 {"id": "q049", "kind": "situation", "query": "the company split its shares 1 for 5, am I richer now", "expected": ["term:stock-split"]}
 {"id": "q050", "kind": "situation", "query": "I got extra free shares in my demat, where did they come from", "expected": ["term:bonus-issue"]}
 {"id": "q051", "kind": "situation", "query": "the promoters have pledged most of their shares, should I worry", "expected": ["term:promoter-pledge"]}
 {"id": "q052", "kind": "situation", "query": "the stock went down a lot and then bounced a little, should I trust the bounce", "expected": ["term:dead-cat-bounce"]}
-{"id": "q053", "kind": "situation", "query": "everyone was short and then the stock shot up 20% in a day", "expected": ["term:short-squeeze", "term:short-covering"]}
-{"id": "q054", "kind": "situation", "query": "I keep buying more as the price falls to lower my average", "expected": ["term:average-down", "term:falling-knife"]}
+{"id": "q053", "kind": "situation", "query": "everyone was short and then the stock shot up 20% in a day", "expected": ["term:short-squeeze"]}
+{"id": "q054", "kind": "analysis", "query": "profit doubled this quarter, are those profits real", "expected": ["guide:read-earnings-quality"]}
 {"id": "q055", "kind": "situation", "query": "how much tax do I pay if I sell shares within a year", "expected": ["term:stcg"]}
-{"id": "q056", "kind": "situation", "query": "my big order moved the price before it was fully filled", "expected": ["term:market-impact", "term:slippage", "term:impact-cost"]}
+{"id": "q056", "kind": "analysis", "query": "my stock's P/E is 45, is that too expensive", "expected": ["guide:read-pe"]}
 {"id": "q057", "kind": "situation", "query": "mutual funds increased their stake in this company, where can I see that", "expected": ["term:shareholding-pattern"]}
-{"id": "q058", "kind": "situation", "query": "how do I judge whether a bank stock is doing well", "expected": ["term:net-interest-margin", "term:gross-npa", "term:casa-ratio", "area:fundamentals"]}
+{"id": "q058", "kind": "situation", "query": "how do I judge whether a bank stock is doing well", "expected": ["term:banking-sector", "term:net-interest-margin", "term:gross-npa", "term:casa-ratio", "area:fundamentals"]}
 {"id": "q059", "kind": "situation", "query": "the market opened much higher than yesterday's close", "expected": ["term:gap-up"]}
-{"id": "q060", "kind": "situation", "query": "all stocks fell together during the crisis, my diversification didn't help", "expected": ["term:correlations-go-to-one", "term:contagion", "term:systematic-risk", "term:diversification"]}
+{"id": "q060", "kind": "situation", "query": "all stocks fell together during the crisis, my diversification didn't help", "expected": ["term:contagion", "term:systematic-risk", "term:diversification"]}
 {"id": "q061", "kind": "comparison", "query": "difference between bid and ask", "expected": ["compare:ask|bid", "term:spread", "term:bid", "term:ask"]}
-{"id": "q062", "kind": "comparison", "query": "call vs put option", "expected": ["compare:call-option|put-option"]}
+{"id": "q062", "kind": "comparison", "query": "growth or IDCW option, what's the difference", "expected": ["compare:growth-option|idcw"]}
 {"id": "q063", "kind": "comparison", "query": "percentage point vs percent", "expected": ["compare:basis-point|percentage-point", "term:percentage-point"]}
 {"id": "q064", "kind": "comparison", "query": "realised vs unrealised profit", "expected": ["compare:realised-pnl|unrealised-pnl"]}
 {"id": "q065", "kind": "comparison", "query": "market order or limit order, which is better", "expected": ["compare:limit-order|market-order", "term:market-order", "term:limit-order"]}
@@ -67,29 +67,29 @@
 {"id": "q067", "kind": "comparison", "query": "large cap vs mid cap vs small cap", "expected": ["compare:large-cap|mid-cap", "compare:mid-cap|small-cap", "compare:large-cap|small-cap", "term:large-cap", "term:mid-cap", "term:small-cap"]}
 {"id": "q068", "kind": "situation", "query": "why do IT company results talk about attrition", "expected": ["term:attrition-rate"]}
 {"id": "q069", "kind": "comparison", "query": "sharpe vs sortino ratio", "expected": ["compare:sharpe-ratio|sortino-ratio"]}
-{"id": "q070", "kind": "gap", "query": "what is the expense ratio of a mutual fund", "expected": [], "note": "Not covered yet: mutual fund costs."}
-{"id": "q071", "kind": "gap", "query": "direct plan vs regular plan in mutual funds", "expected": [], "note": "Not covered yet: mutual fund plans."}
+{"id": "q070", "kind": "definition", "query": "what is the expense ratio of a mutual fund", "expected": ["term:expense-ratio"]}
+{"id": "q071", "kind": "comparison", "query": "direct plan vs regular plan in mutual funds", "expected": ["compare:direct-plan|regular-plan"]}
 {"id": "q072", "kind": "comparison", "query": "block deal vs bulk deal", "expected": ["compare:block-deal|bulk-deal"]}
 {"id": "q073", "kind": "calculation", "query": "how do I calculate CAGR", "expected": ["term:cagr"]}
 {"id": "q074", "kind": "calculation", "query": "how to compute dividend yield", "expected": ["term:dividend-yield"]}
 {"id": "q075", "kind": "calculation", "query": "formula for standard deviation of returns", "expected": ["term:standard-deviation"]}
-{"id": "q076", "kind": "calculation", "query": "how is VWAP calculated", "expected": ["term:vwap"]}
-{"id": "q077", "kind": "calculation", "query": "how to convert daily volatility to annual volatility", "expected": ["term:annualised-volatility", "term:square-root-of-time", "term:rule-of-16"]}
-{"id": "q078", "kind": "calculation", "query": "what is the breakeven of a long call", "expected": ["term:breakeven"]}
-{"id": "q079", "kind": "gap", "query": "what is ELSS", "expected": [], "note": "Not covered yet: tax-saving funds."}
+{"id": "q076", "kind": "analysis", "query": "how do I calculate my SIP returns properly", "expected": ["guide:read-my-returns", "term:xirr"]}
+{"id": "q077", "kind": "calculation", "query": "how to convert daily volatility to annual volatility", "expected": ["term:annualised-volatility"]}
+{"id": "q078", "kind": "analysis", "query": "the company's debt to equity is 2, is that a problem", "expected": ["guide:read-debt"]}
+{"id": "q079", "kind": "definition", "query": "what is ELSS", "expected": ["term:elss"]}
 {"id": "q080", "kind": "calculation", "query": "how is debt to equity ratio calculated", "expected": ["term:debt-to-equity"]}
-{"id": "q081", "kind": "jargon", "query": "what does it mean to hit the bid", "expected": ["term:hit-the-bid"]}
-{"id": "q082", "kind": "gap", "query": "what is the banking sector about", "expected": [], "note": "Not covered yet: sector overviews."}
-{"id": "q083", "kind": "jargon", "query": "what does 'it's priced in' mean", "expected": ["term:priced-in"]}
-{"id": "q084", "kind": "gap", "query": "what does the FMCG sector do and what drives it", "expected": [], "note": "Not covered yet: sector overviews."}
-{"id": "q085", "kind": "jargon", "query": "what does 'catching a falling knife' mean", "expected": ["term:falling-knife"]}
-{"id": "q086", "kind": "gap", "query": "what is asset allocation", "expected": [], "note": "Not covered yet: personal investing basics."}
-{"id": "q087", "kind": "jargon", "query": "what is a bag holder", "expected": ["term:bag-holder"]}
+{"id": "q081", "kind": "analysis", "query": "ROE is 18%, is that good", "expected": ["guide:read-roe"]}
+{"id": "q082", "kind": "definition", "query": "what does the cement sector depend on", "expected": ["term:cement-sector"]}
+{"id": "q083", "kind": "analysis", "query": "is a 7% dividend yield safe", "expected": ["guide:read-dividend"]}
+{"id": "q084", "kind": "definition", "query": "what does the FMCG sector do and what drives it", "expected": ["term:fmcg-sector"]}
+{"id": "q085", "kind": "analysis", "query": "my fund returned 12% but its index did 14%, is it bad", "expected": ["guide:read-fund-returns"]}
+{"id": "q086", "kind": "definition", "query": "what is asset allocation", "expected": ["term:asset-allocation"]}
+{"id": "q087", "kind": "definition", "query": "what is a blue chip stock", "expected": ["term:blue-chip"]}
 {"id": "q088", "kind": "jargon", "query": "what does hawkish mean for the RBI", "expected": ["term:hawkish"]}
-{"id": "q089", "kind": "topic", "query": "what should I learn first about options", "expected": ["area:options"]}
+{"id": "q089", "kind": "topic", "query": "what should I know about mutual funds", "expected": ["area:funds"]}
 {"id": "q090", "kind": "topic", "query": "which terms do I need to read a company's results", "expected": ["area:fundamentals"]}
-{"id": "q091", "kind": "topic", "query": "what topics are in quant and risk", "expected": ["area:quant"]}
-{"id": "q092", "kind": "topic", "query": "what do I need to know about commodities trading on MCX", "expected": ["area:commodities", "term:mcx"]}
+{"id": "q091", "kind": "topic", "query": "what are the main sectors in the Indian market", "expected": ["area:sectors", "term:sector"]}
+{"id": "q092", "kind": "comparison", "query": "gold ETF vs sovereign gold bond", "expected": ["compare:gold-etf|sgb"]}
 {"id": "q093", "kind": "out-of-scope", "query": "should I buy Reliance shares now", "expected": [], "note": "Investment advice. The bot should decline and may explain related terms."}
 {"id": "q094", "kind": "out-of-scope", "query": "what is the nifty at today", "expected": [], "note": "Live data. The bot should say it has no live prices."}
 {"id": "q095", "kind": "out-of-scope", "query": "how much income tax do I pay on my salary", "expected": [], "note": "Personal income tax is not in the syllabus."}

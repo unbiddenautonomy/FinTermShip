@@ -6,7 +6,8 @@
 // Run from the repo root: node tools/build-knowledge-base.mjs [out-dir]
 // Writes to `glossary-out/` by default (gitignored):
 //
-//   knowledge-base.jsonl  one chunk per line: {id, type, title, text, questions, metadata}
+//   knowledge-base.jsonl           every chunk, one per line: {id, type, title, text, questions, metadata}
+//   knowledge-base-investor.jsonl  only the chunks tagged for investors, for an investor chatbot
 //
 // The output is the whole syllabus, which the app never sends to a browser
 // (docs/decisions.md, "Privacy of content"). Keep it out of the repo and out of `public/`.
@@ -16,11 +17,12 @@ import { join } from 'node:path';
 
 const out = process.argv[2] ?? 'glossary-out';
 const dir = 'src/data/terms';
-const areas = readdirSync(dir)
-  .filter((f) => f.endsWith('.json'))
-  .map((f) => JSON.parse(readFileSync(join(dir, f), 'utf8')))
-  .filter((a) => a.terms.length)
-  .sort((a, b) => a.order - b.order);
+const load = (d) => readdirSync(d).filter((f) => f.endsWith('.json')).map((f) => JSON.parse(readFileSync(join(d, f), 'utf8')));
+// Investor content written for the chatbot only (sectors, mutual funds, investing basics and
+// guides to reading the numbers). The app never uses it. Same shape as an area in src/data/terms,
+// with only the fields used here.
+const extra = load('tools/kb-extra').map((a) => ({ ...a, extra: true }));
+const areas = [...load(dir), ...extra].filter((a) => a.terms.length).sort((a, b) => a.order - b.order);
 const talk = JSON.parse(readFileSync('src/data/talk.json', 'utf8'));
 
 // Who a term is mostly useful to, so a chatbot can filter or rank by audience:
@@ -48,6 +50,7 @@ const AUDIENCE_BY_UNIT = {
   s1: 'trader', // the order book
   y3: 'trader', y9: 'trader', // payoffs and costs, intraday and swing styles
 };
+for (const a of extra) AUDIENCE_BY_AREA[a.id] = 'investor';
 const audienceOf = (t) => AUDIENCE_BY_UNIT[t.unit] ?? AUDIENCE_BY_AREA[t.area.id] ?? 'professional';
 
 const terms = new Map();
@@ -55,6 +58,8 @@ for (const a of areas) {
   for (const t of a.terms) {
     const u = a.units.find((u) => u.id === t.unit);
     if (!u) throw new Error(`${t.id}: unit ${t.unit} not found in ${a.id}`);
+    if (terms.has(t.id)) throw new Error(`${t.id}: id used twice`);
+    if (!t.term || !t.short || !t.definition) throw new Error(`${t.id}: needs term, short and definition`);
     terms.set(t.id, { ...t, area: a, unitName: u.name, core: !!u.core });
   }
 }
@@ -70,7 +75,8 @@ for (const t of terms.values()) {
   const names = [t.term, ...(t.aliases ?? [])];
   const related = [...new Set([...(t.confusables ?? []), ...(t.overlaps ?? []), ...(t.alsoFits ?? [])])].filter((id) => terms.has(id));
   const L = [];
-  L.push(`${t.term}${t.aliases?.length ? ` (also called ${t.aliases.join(', ')})` : ''}`);
+  const guide = t.area.kind === 'guide';
+  L.push(guide ? `${t.term[0].toUpperCase()}${t.term.slice(1)}` : `${t.term}${t.aliases?.length ? ` (also called ${t.aliases.join(', ')})` : ''}`);
   L.push(`Topic: ${t.area.name}, ${t.unitName}.`);
   L.push(`In short: ${sentence(t.short)}`);
   L.push(t.definition);
@@ -78,7 +84,7 @@ for (const t of terms.values()) {
   if (t.reads) L.push(`When it rises: ${t.reads.up}`, `When it falls: ${t.reads.down}`);
   if (t.note) L.push(`Note: ${t.note}`);
   if (t.said || t.speak) L.push(`How it is said: "${t.said ?? t.speak}".`);
-  if (t.examples?.length) L.push('How it is used:', ...t.examples.map((e) => `- ${e}`));
+  if (t.examples?.length) L.push(guide ? 'Example:' : 'How it is used:', ...t.examples.map((e) => `- ${e}`));
   if (t.tf?.length) {
     L.push('Facts:');
     for (const f of t.tf) L.push((f.a ? `- True: ${sentence(f.s)} ${f.why ?? ''}` : `- A common mistake is to think "${f.s.replace(/\.$/, '')}". That is false. ${f.why ?? ''}`).trimEnd());
@@ -89,14 +95,15 @@ for (const t of terms.values()) {
   }
   for (const x of talkByTerm.get(t.id) ?? []) L.push(talkLine(x));
   const mix = (t.confusables ?? []).filter((id) => terms.has(id));
-  if (mix.length) L.push(`Not the same as: ${mix.map((id) => `${name(id)} (${terms.get(id).short.replace(/\.$/, '')})`).join('; ')}.`);
+  if (mix.length && guide) L.push(`Related terms: ${mix.map(name).join(', ')}.`);
+  else if (mix.length) L.push(`Not the same as: ${mix.map((id) => `${name(id)} (${terms.get(id).short.replace(/\.$/, '')})`).join('; ')}.`);
   if (t.asOf) L.push(`Figures here are as of ${t.asOf} and may have changed${t.source ? `; check ${t.source}` : ''}.`);
   chunks.push({
-    id: `term:${t.id}`,
-    type: 'term',
+    id: `${guide ? 'guide' : 'term'}:${t.id}`,
+    type: guide ? 'guide' : 'term',
     title: t.term,
     text: L.join('\n'),
-    questions: [`What is ${t.term}?`, `What does ${t.term} mean?`, ...(t.aliases ?? []).slice(0, 2).map((a) => `What is ${a}?`), ...(t.formula ? [`How is ${t.term} calculated?`] : []), ...(t.reads ? [`What does it mean when ${t.term} goes up?`] : [])],
+    questions: guide ? [`${t.term[0].toUpperCase()}${t.term.slice(1)}?`, ...(t.aliases ?? []).map((a) => `${a[0].toUpperCase()}${a.slice(1)}?`)] : [`What is ${t.term}?`, `What does ${t.term} mean?`, ...(t.aliases ?? []).slice(0, 2).map((a) => `What is ${a}?`), ...(t.formula ? [`How is ${t.term} calculated?`] : []), ...(t.reads ? [`What does it mean when ${t.term} goes up?`] : [])],
     metadata: {
       term_id: t.id,
       names,
@@ -108,6 +115,7 @@ for (const t of terms.values()) {
       difficulty: t.difficulty,
       basic: !!t.easy,
       phase3: t.area.phase === 3,
+      in_app: !t.area.extra,
       related: related,
       ...(t.asOf ? { as_of: t.asOf, time_sensitive: true } : {}),
       ...(t.source ? { source: t.source } : {}),
@@ -118,7 +126,9 @@ for (const t of terms.values()) {
 // 2. One chunk per pair of terms the app marks as easy to mix up, for "what's the difference" questions.
 const pairs = new Set();
 for (const t of terms.values()) {
+  if (t.area.kind === 'guide') continue;
   for (const id of [...(t.confusables ?? []), ...(t.overlaps ?? [])]) {
+    if (terms.get(id)?.area.kind === 'guide') continue;
     if (!terms.has(id) || id === t.id) continue;
     const key = [t.id, id].sort().join('|');
     if (pairs.has(key)) continue;
@@ -136,7 +146,7 @@ for (const t of terms.values()) {
         `${b.term} (${b.area.name}): ${b.definition}`,
       ].join('\n'),
       questions: [`What is the difference between ${a.term} and ${b.term}?`, `${a.term} vs ${b.term}`],
-      metadata: { term_ids: [a.id, b.id], audience: [audienceOf(a), audienceOf(b)].includes('investor') ? 'investor' : [audienceOf(a), audienceOf(b)].includes('trader') ? 'trader' : 'professional', areas: [...new Set([a.area.id, b.area.id])], overlap, phase3: a.area.phase === 3 || b.area.phase === 3 },
+      metadata: { term_ids: [a.id, b.id], audience: [audienceOf(a), audienceOf(b)].includes('professional') ? 'professional' : [audienceOf(a), audienceOf(b)].includes('trader') ? 'trader' : 'investor', areas: [...new Set([a.area.id, b.area.id])], overlap, phase3: a.area.phase === 3 || b.area.phase === 3 },
     });
   }
 }
@@ -166,7 +176,11 @@ function talkLine(x) {
 }
 
 mkdirSync(out, { recursive: true });
-writeFileSync(join(out, 'knowledge-base.jsonl'), chunks.map((c) => JSON.stringify(c)).join('\n') + '\n');
+const jsonl = (list) => list.map((c) => JSON.stringify(c)).join('\n') + '\n';
+writeFileSync(join(out, 'knowledge-base.jsonl'), jsonl(chunks));
+// The investor chatbot's file: only chunks tagged investor (no options, F&O, quant or desk work).
+const investor = chunks.filter((c) => c.metadata.audience === 'investor');
+writeFileSync(join(out, 'knowledge-base-investor.jsonl'), jsonl(investor));
 const count = (type) => chunks.filter((c) => c.type === type).length;
 const longest = Math.max(...chunks.map((c) => c.text.length));
-console.log(`${chunks.length} chunks (${count('term')} terms, ${count('comparison')} comparisons, ${count('area')} areas), longest ${longest} characters, written to ${out}/knowledge-base.jsonl`);
+console.log(`${chunks.length} chunks (${count('term')} terms, ${count('guide')} guides, ${count('comparison')} comparisons, ${count('area')} areas), ${investor.length} for investors, longest ${longest} characters, written to ${out}/knowledge-base.jsonl`);
