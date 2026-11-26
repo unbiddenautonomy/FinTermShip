@@ -114,7 +114,7 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
 
       {/* On a phone these flow around the path; on a laptop they sit in a column beside it. */}
       <aside className="contents lg:sticky lg:top-8 lg:col-start-2 lg:flex lg:flex-col lg:gap-6">
-      <Card className="order-1 space-y-5 lg:order-none">
+      <Card className="season-hero relative order-1 space-y-5 lg:order-none">
         <div className="flex items-center gap-5">
           <Ring value={todayStats.newTerms} max={goal} size={92} stroke={9} tone="violet" label={`${todayStats.newTerms} of ${goal} new terms today`}>
             <div className="text-center leading-none">
@@ -152,6 +152,8 @@ export function Home({ progress, today, onStart, onPractice, onWeak, onFocus, on
             </Button>
           )
         )}
+        {/* Seasonal theme only: the season's sprite hangs off this card's top-right corner. Last, so it doesn't shift the spacing between the others. */}
+        <span className="season-sprite" aria-hidden="true" />
       </Card>
 
 

@@ -8,6 +8,8 @@ import { CardsGate, CardsToast } from './components/CardsGate';
 import { useGameKeys, useSlashKey } from './components/useKeys';
 import { BookIcon, ChartIcon, ChatIcon, GearIcon, Logo, PathIcon } from './components/icons';
 import { withFocus } from './lib/choose';
+import { seasonFor, seasonGreeting } from './lib/seasons';
+import { getTheme } from './lib/theme';
 import { snoozeDrill } from './lib/drills';
 import { getCardsVersion, practiceKind } from './lib/content';
 import { gameOf } from './lib/games';
@@ -575,6 +577,7 @@ export default function App() {
             <div className="mb-4 flex items-center gap-2.5 lg:hidden">
               <Logo className="h-8 w-8" />
               <span className="font-wordmark text-[23px] font-light tracking-[0.04em] text-ink">fintermship</span>
+              <SeasonBadge className="ml-auto" />
             </div>
             <ModeBar progress={progress} today={today} mode="path" onMode={goMode} />
           </div>
@@ -647,6 +650,18 @@ const TABS: { id: Tab; label: string; icon: typeof PathIcon }[] = [
   { id: 'settings', label: 'Settings', icon: GearIcon },
 ];
 
+/** With the seasonal theme on, a small badge by the name says which season it is. */
+function SeasonBadge({ className = '' }: { className?: string }) {
+  const season = getTheme() === 'seasonal' ? seasonFor() : null;
+  if (!season) return null;
+  return (
+    <span className={`flex items-center gap-1.5 rounded-full bg-violet-soft py-1 pl-1.5 pr-2.5 text-xs font-extrabold text-violet-ink ${className}`}>
+      <img src={`/seasons/${season}-icon.svg`} alt="" className="h-4 w-4" />
+      {seasonGreeting(season)}
+    </span>
+  );
+}
+
 function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void; children: ReactNode }) {
   return (
     <>
@@ -656,6 +671,7 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
           <Logo className="h-9 w-9" />
           <span className="font-wordmark text-[23px] font-light tracking-[0.04em] text-ink">fintermship</span>
         </div>
+        <SeasonBadge className="-mt-5 mb-6 ml-2 self-start" />
         <nav className="space-y-1" aria-label="Main">
           {TABS.map(({ id, label, icon: Icon }) => {
             const active = id === tab;
@@ -673,6 +689,8 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
             );
           })}
         </nav>
+        {/* With the seasonal theme on, the empty part of the sidebar shows the season's motifs. */}
+        <div className="season-art my-6 flex-1" aria-hidden="true" />
         <div className="mt-auto space-y-3 px-2 text-xs leading-relaxed text-ink-3">
           <p>
             Keys: <Kbd>1</Kbd>–<Kbd>4</Kbd> answer, <Kbd>Enter</Kbd> go on, <Kbd>/</Kbd> search.
@@ -680,7 +698,9 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
           <p>Indian markets, trading and quant terms, a few minutes a day.</p>
         </div>
       </aside>
-      <main className="lg:pl-60">
+      <main className="relative lg:pl-60">
+        {/* With the seasonal theme on, a garland runs along the top of the page (and scrolls away with it). */}
+        <div className="season-garland" aria-hidden="true" />
         <ErrorBoundary resetKey={tab}>
           <Suspense fallback={<Spinner />}>{children}</Suspense>
         </ErrorBoundary>

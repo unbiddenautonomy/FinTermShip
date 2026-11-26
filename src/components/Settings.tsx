@@ -3,6 +3,7 @@ import type { AccountState, Me } from '../lib/account';
 import { exportProgress, readBackupFile } from '../lib/storage';
 import { newProgress } from '../lib/scheduler';
 import { canSpeak, speak } from '../lib/speech';
+import { seasonFor, seasonLabel } from '../lib/seasons';
 import { getTexture, getTheme, setTexture, setTheme, THEMES, type Theme } from '../lib/theme';
 import type { Progress } from '../lib/types';
 import { landingMode } from '../lib/modes/knowledge';
@@ -36,6 +37,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
   const [pasted, setPasted] = useState('');
   const [askPassword, setAskPassword] = useState(false);
   const [theme, pickTheme] = useState<Theme>(getTheme);
+  const season = theme === 'seasonal' ? seasonFor() : null;
   const [texture, pickTexture] = useState(getTexture);
   const s = progress.settings;
   const minutes = s.newPerDay;
@@ -70,7 +72,7 @@ export function Settings({ progress, today, persisted, onChange, account, sync, 
             <p className="font-bold text-ink" id="theme-label">
               Theme
             </p>
-            <p className="mb-3 text-sm text-ink-3">Auto switches between Light and Dark with your device. White is plain and bright. Saved on this device.</p>
+            <p className="mb-3 text-sm text-ink-3">Auto switches between Light and Dark with your device. Seasonal is bright and changes with the date{season ? `, and right now it is ${seasonLabel(season)}` : ''}. Saved on this device.</p>
             <div className="grid grid-cols-4 gap-1 rounded-xl bg-sunken p-1" role="radiogroup" aria-labelledby="theme-label">
               {THEMES.map((t) => (
                 <button

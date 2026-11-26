@@ -2,7 +2,7 @@
 
 From Nachi, 20 and 22 November 2026.
 
-**Status (23 November 2026):** built in PR 87 (branch `claude/project-thread-ob4347`), open and not merged. Nachi said "this works for now" and will send changes after using it. On `main`, Settings still offers Auto, Light, White and Dark.
+**Status (26 November 2026):** merged in PR 87. Nachi approved it after the decorations pass.
 
 ## Rules
 
@@ -20,8 +20,12 @@ From Nachi, 20 and 22 November 2026.
 - Other Hindu festivals may be added, major ones only (Holi and Navratri were added, right after Diwali).
 - Each season is a full, classy palette, not just a tint and a "Happy X" badge: page and card backgrounds, text colour, buttons and the active tab all change. The Term Lines colours and the right/wrong green and red stay the same.
 - Text must stay easy to read in every theme.
-- Christmas needs red (cranberry buttons, evergreen tabs). Halloween: pumpkin buttons, plum tabs.
-- Motifs only in empty space (the laptop sidebar), never under text.
+- Christmas is red, white and green: white page and cards, evergreen borders and tabs, cranberry buttons. Halloween: pumpkin buttons, plum tabs.
+- Decoration is part of each theme, in relevant, non-intrusive places, never under text (26 November):
+  - a garland along the top of every tabbed screen (marigold toran for Diwali, fairy lights for Christmas, colour sprays for Holi, bandhani bunting for Navratri, pennants for Halloween, leaves for Autumn, icicles for Winter, blossom for Spring, the ring colours for the Olympics, a chequered strip for F1);
+  - a sprite hanging off the Today card's top-right corner (mistletoe, fireworks, a colour splash, dandiya sticks, a spider and bat, falling leaves, snowflakes, a blossom sprig, the rings, chequered flags), plus a strip in the season's colours on that card's top edge and a border in its accent colour;
+  - faint motifs in the empty middle of the laptop sidebar, and an icon in the badge.
+- The art is drawn by `scripts/season-art.py` into `public/seasons/`; edit the script and re-run it rather than editing the SVGs.
 
 ## Choices made in PR 87 that Nachi hasn't overruled
 

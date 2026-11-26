@@ -19,7 +19,10 @@
     <script>
       try {
         var t = localStorage.getItem('fintermship-theme');
-        if (t === 'light' || t === 'white' || t === 'dark') document.documentElement.dataset.theme = t;
+        if (t === 'white') t = 'seasonal';
+        if (t === 'light' || t === 'seasonal' || t === 'dark') document.documentElement.dataset.theme = t;
+        var s = localStorage.getItem('fintermship-season');
+        if (t === 'seasonal' && s && /^[a-z0-9]+$/.test(s)) document.documentElement.dataset.season = s;
         if (localStorage.getItem('fintermship-texture') === 'off') document.documentElement.dataset.texture = 'off';
       } catch (e) {}
     </script>
