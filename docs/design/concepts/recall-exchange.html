@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><style>*{box-sizing:border-box}body{margin:0}</style>
+<title>Recall Exchange</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;600;800&family=JetBrains+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: your vocabulary is a listed market. Every term trades at a "recall price" that decays until you defend it. Daylight exchange screen, single look. */
+:root{
+  --bg:#F3F5F8; --panel:#FFFFFF; --ink:#0C1A2B; --muted:#66748A; --line:#DDE3EB;
+  --up:#0E8A5F; --down:#CC3B3B; --blue:#1E48C8; --wash:#E8EEFB;
+  --sans:"Archivo",system-ui,sans-serif; --mono:"JetBrains Mono",ui-monospace,monospace;
+  color-scheme:light;
+}
+html,body{height:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--sans);font-size:14px;max-width:480px;margin:0 auto;display:flex;flex-direction:column}
+.pad{padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.tape{background:var(--ink);color:#E8EEF6;font-family:var(--mono);font-size:11.5px;white-space:nowrap;overflow:hidden;padding-block:6px}
+.tape div{display:inline-block;animation:scroll 28s linear infinite}
+.tape b{font-weight:600;margin-left:14px}.tape .u{color:#5FD3A4}.tape .d{color:#FF8A8A}
+@keyframes scroll{to{transform:translateX(-50%)}}
+.idx{background:var(--panel);border-bottom:1px solid var(--line);padding-block:14px}
+.idx small{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);font-weight:600}
+.idx .big{display:flex;align-items:baseline;gap:10px;font-family:var(--mono)}
+.idx .big strong{font-size:38px;font-weight:600;letter-spacing:-.02em}
+.idx .big span{color:var(--up);font-weight:600}
+.idx canvas{width:100%;height:56px;display:block;margin-top:6px}
+.idx .stats{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px;font-family:var(--mono);font-size:12px}
+.idx .stats div{display:flex;flex-direction:column;gap:2px}
+.idx .stats em{font-style:normal;font-family:var(--sans);font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em}
+.bell{background:var(--wash);color:var(--blue);font-weight:600;padding-block:10px;display:flex;justify-content:space-between;align-items:center;gap:12px}
+.bell button{font:inherit;font-weight:800;background:var(--blue);color:#fff;border:0;border-radius:4px;padding:8px 12px;cursor:pointer;white-space:nowrap}
+.hd{display:grid;grid-template-columns:1fr 70px 64px 58px;gap:8px;font-size:10.5px;color:var(--muted);text-transform:uppercase;letter-spacing:.08em;padding-block:10px 6px}
+.hd span:not(:first-child){text-align:right}
+ul{list-style:none;margin:0;padding:0;flex:1;overflow-y:auto}
+li{display:grid;grid-template-columns:1fr 70px 64px 58px;gap:8px;align-items:center;padding-block:10px;border-top:1px solid var(--line);background:var(--panel);cursor:pointer}
+li:hover{background:var(--wash)}
+li .n b{display:block;font-family:var(--mono);font-weight:600;font-size:13px;letter-spacing:.02em}
+li .n span{font-size:11.5px;color:var(--muted)}
+li svg{width:70px;height:24px}
+li .p{font-family:var(--mono);text-align:right;font-weight:600}
+li .c{font-family:var(--mono);text-align:right;font-size:12px;padding:3px 0;border-radius:3px;color:#fff}
+.flash{animation:fl .8s}
+@keyframes fl{0%{background:#D3F3E5}}
+.sheet{position:fixed;left:50%;transform:translate(-50%,0);bottom:0;width:100%;max-width:480px;background:var(--panel);border-top:2px solid var(--ink);padding-block:16px calc(16px + env(safe-area-inset-bottom,0px));box-shadow:0 -10px 30px rgba(12,26,43,.15);transition:transform .25s}
+.sheet[hidden]{display:block!important;transform:translate(-50%,110%)}
+.sheet .tk{font-family:var(--mono);font-size:12px;color:var(--down);font-weight:600}
+.sheet h2{margin:4px 0 12px;font-size:17px;line-height:1.35;font-weight:600;text-wrap:balance}
+.sheet .opts{display:grid;gap:6px}
+.sheet .opts button{font:inherit;text-align:left;border:1px solid var(--line);background:var(--bg);border-radius:4px;padding:10px 12px;cursor:pointer;color:var(--ink)}
+.sheet .opts button.right{background:var(--up);color:#fff;border-color:var(--up)}
+.sheet .opts button.wrong{background:var(--down);color:#fff;border-color:var(--down)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<div class="tape"><div id="tape"></div></div>
+<section class="idx pad">
+  <small>Your recall index · 214 terms listed</small>
+  <div class="big"><strong id="ix">61.4</strong><span id="ixc">▲ 1.2 today</span></div>
+  <canvas id="spark" width="900" height="112"></canvas>
+  <div class="stats"><div><em>Falling</em>12 terms</div><div><em>Blue chips</em>48 held &gt;30d</div><div><em>IPOs today</em>5 new</div></div>
+</section>
+<div class="bell pad"><span>Market open. 12 terms are below their buy price.</span><button id="defend">Defend all</button></div>
+<div class="hd pad"><span>Term</span><span>30 days</span><span>Recall</span><span>Chg</span></div>
+<ul id="list"></ul>
+<div class="sheet pad" id="sheet" hidden>
+  <div class="tk" id="sk"></div><h2 id="sq"></h2><div class="opts" id="so"></div>
+</div>
+<script>
+const T=[
+ ['THETA','Options and Greeks',41,-6.2,'Which Greek eats a long option buyer\'s value when the market goes nowhere?',['Theta','Vega','Gamma','Rho'],0],
+ ['IMPLVOL','Options and Greeks',48,-3.9,'An option gets pricier with no move in the stock. What rose?',['Implied volatility','Delta','Open interest','Lot size'],0],
+ ['T+1','Indian market essentials',53,-2.1,'You buy Infosys on Monday on NSE. When do the shares land in your demat?',['Tuesday','Monday','Wednesday','Friday'],0],
+ ['SHARPE','Quant and risk',57,-1.4,'Sharpe ratio divides excess return by what?',['Standard deviation','Downside deviation','Beta','Max drawdown'],0],
+ ['DELTA','Options and Greeks',82,+2.4,'A call has delta 0.6 and Nifty rises 50. Roughly what does the call gain?',['30 points','50 points','60 points','3 points'],0],
+ ['HITBID','Desk talk',88,+0.8,'"I\'ll hit the bid" means you are doing what?',['Selling at the buyer\'s price','Buying at the seller\'s price','Placing a limit order','Cancelling'],0],
+ ['LAKH','Money basics',97,0.0,'How many lakh in one crore?',['100','10','1,000','12'],0],
+];
+const tape=document.getElementById('tape');
+const tt=T.map(t=>`<b class="${t[3]<0?'d':'u'}">${t[0]} ${t[2]} ${t[3]<0?'▼':'▲'}${Math.abs(t[3]).toFixed(1)}</b>`).join('');tape.innerHTML=tt+tt;
+function walk(seed,end,n=30){let r=seed,a=[];let v=end;for(let i=0;i<n;i++){r=(r*9301+49297)%233280;a.unshift(v);v+= (r/233280-.5)*8 - (end<60?-1.2:.6)}return a}
+function spark(a,col){const mn=Math.min(...a),mx=Math.max(...a),pts=a.map((v,i)=>`${(i/(a.length-1)*70).toFixed(1)},${(22-(v-mn)/(mx-mn||1)*20).toFixed(1)}`).join(' ');return `<svg viewBox="0 0 70 24"><polyline fill="none" stroke="${col}" stroke-width="1.5" points="${pts}"/><circle cx="70" cy="${pts.split(' ').pop().split(',')[1]}" r="2" fill="${col}"/></svg>`}
+const list=document.getElementById('list');
+function render(){list.innerHTML='';T.forEach((t,i)=>{const li=document.createElement('li');li.className='pad';li.tabIndex=0;const col=t[3]<0?'var(--down)':'var(--up)';
+ li.innerHTML=`<div class="n"><b>${t[0]}</b><span>${t[1]}</span></div>${spark(walk(i+3,t[2]),t[3]<0?'#CC3B3B':'#0E8A5F')}<div class="p">${t[2].toFixed(1)}</div><div class="c" style="background:${t[3]<0?'#CC3B3B':t[3]>0?'#0E8A5F':'#8892A0'}">${t[3]>0?'+':''}${t[3].toFixed(1)}</div>`;
+ li.onclick=()=>open(i);li.onkeydown=e=>{if(e.key==='Enter')open(i)};list.appendChild(li);if(t.fl){li.classList.add('flash');t.fl=0}})}
+const sheet=document.getElementById('sheet');
+function open(i){const t=T[i];document.getElementById('sk').textContent=`${t[0]} · ${t[2].toFixed(1)} · defend to stop the slide`;document.getElementById('sq').textContent=t[4];
+ const so=document.getElementById('so');so.innerHTML='';t[5].forEach((o,k)=>{const b=document.createElement('button');b.textContent=o;b.onclick=()=>{b.classList.add(k===t[6]?'right':'wrong');
+ setTimeout(()=>{if(k===t[6]){t[3]=+(Math.abs(t[3])+4.5).toFixed(1);t[2]=Math.min(99,t[2]+9)}else{t[3]=+(t[3]-2).toFixed(1);t[2]-=3}t.fl=1;sheet.hidden=true;render()},600)};so.appendChild(b)});sheet.hidden=false}
+document.getElementById('defend').onclick=()=>open(0);
+render();
+const c=document.getElementById('spark'),g=c.getContext('2d'),a=walk(11,61.4,60);const mn=Math.min(...a)-2,mx=Math.max(...a)+2;
+g.strokeStyle='#DDE3EB';g.lineWidth=1;for(let y=0;y<4;y++){g.beginPath();g.moveTo(0,y*36+4);g.lineTo(900,y*36+4);g.stroke()}
+g.beginPath();a.forEach((v,i)=>{const x=i/(a.length-1)*894,y=108-(v-mn)/(mx-mn)*104;i?g.lineTo(x,y):g.moveTo(x,y)});g.strokeStyle='#1E48C8';g.lineWidth=3;g.stroke();
+g.lineTo(894,112);g.lineTo(0,112);g.fillStyle='rgba(30,72,200,.08)';g.fill();
+</script>
+
+</html>
