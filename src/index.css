@@ -184,25 +184,25 @@
   --violet-soft: 255 226 198;
   --violet-ink: 146 60 0;
 }
-/* Christmas, cranberry and evergreen: snow cream paper, pine text, cranberry red buttons, evergreen tabs and accents, gold. */
+/* Christmas, red, white and green: snow white page and cards with evergreen borders, pine text, cranberry red buttons, evergreen tabs, gold. */
 :root[data-theme='seasonal'][data-season='christmas'] {
-  --bg: 246 242 234;
-  --surface: 255 253 248;
-  --sunken: 235 229 218;
-  --line: 219 211 196;
-  --ink: 20 44 32;
-  --ink-2: 56 80 66;
-  --ink-3: 78 98 86;
-  --brand: 178 28 44;
-  --brand-strong: 120 14 26;
-  --brand-soft: 250 224 226;
-  --brand-ink: 158 24 40;
+  --bg: 248 249 246;
+  --surface: 255 255 255;
+  --sunken: 236 243 238;
+  --line: 208 226 214;
+  --ink: 18 46 32;
+  --ink-2: 52 80 64;
+  --ink-3: 74 98 84;
+  --brand: 182 26 42;
+  --brand-strong: 122 12 24;
+  --brand-soft: 251 226 228;
+  --brand-ink: 160 22 38;
   --amber: 192 150 48;
   --amber-soft: 248 238 208;
   --amber-ink: 120 88 10;
-  --violet: 22 92 58;
-  --violet-soft: 222 240 228;
-  --violet-ink: 20 84 52;
+  --violet: 22 104 62;
+  --violet-soft: 220 240 227;
+  --violet-ink: 18 90 52;
 }
 /* Spring, blossom: fresh leaf paper, moss text, leaf green buttons, blossom pink accents. */
 :root[data-theme='seasonal'][data-season='spring'] {
@@ -419,42 +419,192 @@ body {
 }
 
 /*
- * Seasonal motifs (public/seasons/*.svg): a few faint diyas, snowflakes, leaves
- * and so on, in the empty middle of the laptop sidebar, fading out at the ends.
- * They stay off the page itself, where they would run under text.
+ * Seasonal decoration (public/seasons/, drawn by scripts/season-art.py). Each season has:
+ * - a garland along the top of every tabbed screen, above the content's own top padding;
+ * - a sprite hanging off the Today card's top-right corner, in the card's empty corner,
+ *   and a strip in the season's colours along that card's top edge;
+ * - faint motifs in the empty middle of the laptop sidebar.
+ * None of it sits under text or takes clicks.
  */
+.season-garland,
+.season-sprite {
+  display: none;
+}
+:root[data-theme='seasonal'][data-season] .season-garland {
+  display: block;
+  pointer-events: none;
+  position: absolute;
+  inset: 0 0 auto 0;
+  height: 22px;
+  background-repeat: repeat-x;
+  background-position: center top;
+  z-index: 1;
+}
+:root[data-theme='seasonal'][data-season] .season-sprite {
+  display: block;
+  pointer-events: none;
+  position: absolute;
+  top: -14px;
+  right: 10px;
+  width: 72px;
+  height: 56px;
+  margin: 0;
+  background: center / contain no-repeat;
+}
+:root[data-theme='seasonal'][data-season] .season-hero {
+  border-color: rgb(var(--violet) / 0.35);
+}
+:root[data-theme='seasonal'][data-season] .season-hero::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 28px;
+  right: 28px;
+  height: 3px;
+  border-radius: 0 0 3px 3px;
+}
 .season-art {
   background-size: 180px;
   background-position: center top;
   -webkit-mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent);
   mask-image: linear-gradient(transparent, #000 20%, #000 80%, transparent);
 }
+:root[data-theme='seasonal'][data-season='diwali'] .season-garland {
+  height: 18px;
+  background-image: url('/seasons/diwali-garland.svg');
+  background-size: auto 18px;
+}
+:root[data-theme='seasonal'][data-season='diwali'] .season-sprite {
+  background-image: url('/seasons/diwali-corner.svg');
+}
+:root[data-theme='seasonal'][data-season='diwali'] .season-hero::before {
+  background: linear-gradient(90deg, #f6b020, #e8741a 30%, #8a1a2a 50%, #e8741a 70%, #f6b020);
+}
 :root[data-theme='seasonal'][data-season='diwali'] .season-art {
   background-image: url('/seasons/diwali.svg');
+}
+:root[data-theme='seasonal'][data-season='holi'] .season-garland {
+  height: 20px;
+  background-image: url('/seasons/holi-garland.svg');
+  background-size: auto 20px;
+}
+:root[data-theme='seasonal'][data-season='holi'] .season-sprite {
+  background-image: url('/seasons/holi-corner.svg');
+}
+:root[data-theme='seasonal'][data-season='holi'] .season-hero::before {
+  background: linear-gradient(90deg, #e0409a, #8a4fd0, #2a8ad8, #28a860, #f2b600, #f0702a);
 }
 :root[data-theme='seasonal'][data-season='holi'] .season-art {
   background-image: url('/seasons/holi.svg');
 }
+:root[data-theme='seasonal'][data-season='navratri'] .season-garland {
+  height: 20px;
+  background-image: url('/seasons/navratri-garland.svg');
+  background-size: auto 20px;
+}
+:root[data-theme='seasonal'][data-season='navratri'] .season-sprite {
+  background-image: url('/seasons/navratri-corner.svg');
+}
+:root[data-theme='seasonal'][data-season='navratri'] .season-hero::before {
+  background: repeating-linear-gradient(90deg, #c8142e 0 12px, #ee7a10 12px 24px, #f6b020 24px 30px);
+}
 :root[data-theme='seasonal'][data-season='navratri'] .season-art {
   background-image: url('/seasons/navratri.svg');
+}
+:root[data-theme='seasonal'][data-season='christmas'] .season-garland {
+  height: 18px;
+  background-image: url('/seasons/christmas-garland.svg');
+  background-size: auto 18px;
+}
+:root[data-theme='seasonal'][data-season='christmas'] .season-sprite {
+  background-image: url('/seasons/christmas-corner.svg');
+}
+:root[data-theme='seasonal'][data-season='christmas'] .season-hero::before {
+  background: repeating-linear-gradient(90deg, #c8202f 0 10px, #fff 10px 14px, #1f7a46 14px 24px, #fff 24px 28px);
 }
 :root[data-theme='seasonal'][data-season='christmas'] .season-art {
   background-image: url('/seasons/christmas.svg');
 }
+:root[data-theme='seasonal'][data-season='spring'] .season-garland {
+  height: 18px;
+  background-image: url('/seasons/spring-garland.svg');
+  background-size: auto 18px;
+}
+:root[data-theme='seasonal'][data-season='spring'] .season-sprite {
+  background-image: url('/seasons/spring-corner.svg');
+}
+:root[data-theme='seasonal'][data-season='spring'] .season-hero::before {
+  background: linear-gradient(90deg, #f2a1bb, #fbe0e8 40%, #b8dca0 60%, #6fae5a);
+}
 :root[data-theme='seasonal'][data-season='spring'] .season-art {
   background-image: url('/seasons/spring.svg');
+}
+:root[data-theme='seasonal'][data-season='halloween'] .season-garland {
+  height: 18px;
+  background-image: url('/seasons/halloween-garland.svg');
+  background-size: auto 18px;
+}
+:root[data-theme='seasonal'][data-season='halloween'] .season-sprite {
+  background-image: url('/seasons/halloween-corner.svg');
+}
+:root[data-theme='seasonal'][data-season='halloween'] .season-hero::before {
+  background: repeating-linear-gradient(90deg, #e8741a 0 14px, #5c2c8a 14px 28px);
 }
 :root[data-theme='seasonal'][data-season='halloween'] .season-art {
   background-image: url('/seasons/halloween.svg');
 }
+:root[data-theme='seasonal'][data-season='autumn'] .season-garland {
+  height: 18px;
+  background-image: url('/seasons/autumn-garland.svg');
+  background-size: auto 18px;
+}
+:root[data-theme='seasonal'][data-season='autumn'] .season-sprite {
+  background-image: url('/seasons/autumn-corner.svg');
+}
+:root[data-theme='seasonal'][data-season='autumn'] .season-hero::before {
+  background: linear-gradient(90deg, #a8401a, #c0501e 30%, #d49428 70%, #8a6a2a);
+}
 :root[data-theme='seasonal'][data-season='autumn'] .season-art {
   background-image: url('/seasons/autumn.svg');
+}
+:root[data-theme='seasonal'][data-season='winter'] .season-garland {
+  height: 20px;
+  background-image: url('/seasons/winter-garland.svg');
+  background-size: auto 20px;
+}
+:root[data-theme='seasonal'][data-season='winter'] .season-sprite {
+  background-image: url('/seasons/winter-corner.svg');
+}
+:root[data-theme='seasonal'][data-season='winter'] .season-hero::before {
+  background: linear-gradient(90deg, #b8d6ee, #ffffff 50%, #b8d6ee);
 }
 :root[data-theme='seasonal'][data-season='winter'] .season-art {
   background-image: url('/seasons/winter.svg');
 }
+:root[data-theme='seasonal'][data-season='olympics'] .season-garland {
+  height: 5px;
+  background-image: url('/seasons/olympics-garland.svg');
+  background-size: 100px 5px;
+}
+:root[data-theme='seasonal'][data-season='olympics'] .season-sprite {
+  background-image: url('/seasons/olympics-corner.svg');
+}
+:root[data-theme='seasonal'][data-season='olympics'] .season-hero::before {
+  background: linear-gradient(90deg, #0081c8 0 20%, #fcb131 20% 40%, #16161a 40% 60%, #00a651 60% 80%, #ee334e 80%);
+}
 :root[data-theme='seasonal'][data-season='olympics'] .season-art {
   background-image: url('/seasons/olympics.svg');
+}
+:root[data-theme='seasonal'][data-season='f1'] .season-garland {
+  height: 12px;
+  background-image: url('/seasons/f1-garland.svg');
+  background-size: 12px 12px;
+}
+:root[data-theme='seasonal'][data-season='f1'] .season-sprite {
+  background-image: url('/seasons/f1-corner.svg');
+}
+:root[data-theme='seasonal'][data-season='f1'] .season-hero::before {
+  background: repeating-conic-gradient(#16161a 0 25%, #fff 0 50%) 0 0 / 6px 6px;
 }
 :root[data-theme='seasonal'][data-season='f1'] .season-art {
   background-image: url('/seasons/f1.svg');

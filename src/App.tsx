@@ -698,7 +698,9 @@ function WithTabs({ tab, onTab, children }: { tab: Tab; onTab: (t: Tab) => void;
           <p>Indian markets, trading and quant terms, a few minutes a day.</p>
         </div>
       </aside>
-      <main className="lg:pl-60">
+      <main className="relative lg:pl-60">
+        {/* With the seasonal theme on, a garland runs along the top of the page (and scrolls away with it). */}
+        <div className="season-garland" aria-hidden="true" />
         <ErrorBoundary resetKey={tab}>
           <Suspense fallback={<Spinner />}>{children}</Suspense>
         </ErrorBoundary>
