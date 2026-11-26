@@ -68,6 +68,6 @@ Cloudflare Workers Builds is connected to the repo: a push to `main` deploys pro
 - `README.md`: features, how content is stored and checked, who sees what, accounts, deploy setup.
 - `CLAUDE.md`: rules for Claude sessions.
 - `docs/decisions.md`: decision log. `docs/specs/`: specs (seasonal themes). `docs/plans/`: plans (UI plan). `docs/analysis/`: the 18 November analysis. `docs/design/concepts/`: the four original design concept mockups (open the HTML in a browser).
-- `scripts/`: build-time checks and generators (`validate-terms`, `build-outline`, `build-modes`, `check-bundle`, `hash-password`). `tools/`: rough one-off tools kept out of the build; `build-glossary.mjs` makes the complete glossary (all terms with explanations) as a page and Markdown, outside the app.
+- `scripts/`: build-time checks and generators (`validate-terms`, `build-outline`, `build-modes`, `check-bundle`, `hash-password`). `tools/`: rough one-off tools kept out of the build; `build-glossary.mjs` makes the complete glossary (all terms with explanations) as a page and Markdown, and `build-knowledge-base.mjs` makes the same content as chunks for a vector database (`docs/knowledge-base.md`); both run outside the app.
 - Content: `src/data/` (terms, talk, cases, meetings, fermi, backtests, careers, modes). Worker: `worker/`. Tests sit next to the code (`*.test.ts`).
 - Kept outside the repo, in the project's shared files: screenshots, videos, the old source zips (v0.1 to v0.4), uploaded logo images.
