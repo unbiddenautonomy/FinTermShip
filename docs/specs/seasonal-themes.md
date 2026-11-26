@@ -2,7 +2,7 @@
 
 From Nachi, 20 and 22 November 2026.
 
-**Status (26 November 2026):** built in PR 87 (branch `claude/project-thread-ob4347`), open and not merged. Nachi said "this works for now" and will send changes after using it. On `main`, Settings still offers Auto, Light, White and Dark.
+**Status (26 November 2026):** merged in PR 87. Nachi approved it after the decorations pass.
 
 ## Rules
 

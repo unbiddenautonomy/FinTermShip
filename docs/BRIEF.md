@@ -35,7 +35,7 @@ A Duolingo-style web app for learning and remembering trading, market and quant 
 ## Design rules
 
 - **Brand:** Nachi's bull-and-bear medallion logo; the theme comes from its two colours, deep green (`--brand`) and copper. Wordmark is lowercase "fintermship" in Outfit Light. Body text Manrope, headings Fraunces, numbers JetBrains Mono. Right and wrong stay a soft green and red in every theme.
-- **Themes:** Auto, Light (ivory), White, Dark today; Seasonal replaces White when PR 87 merges (`docs/specs/seasonal-themes.md`). A texture switch adds the brushed texture sampled from the logo itself, never generated noise.
+- **Themes:** Auto, Light (ivory), Seasonal, Dark. Seasonal replaced White (PR 87): its palette, garland, Today-card sprite and badge follow the date, from Diwali to F1 (`docs/specs/seasonal-themes.md`; art drawn by `scripts/season-art.py`). A texture switch adds the brushed texture sampled from the logo itself, never generated noise.
 - **Not generic.** Avoid the default "AI app" look (beige cards everywhere, pill buttons, one earthy accent). Each mode keeps its own visual language: Path trail, metro map, card deck, trading board, newspaper, tile grid. Don't copy another app's look.
 - **Menus:** one current-mode button that opens a picker of cards, each drawn in its mode's own look, with a lock and "N terms to go" when closed. No rows of mode tabs.
 - **Backdrops and popups:** sheets and popups cover the whole page (laptop included); closing returns you exactly where you were (career map, Guide, glossary scroll). The glossary page scrolls as a whole.
@@ -49,7 +49,7 @@ The full log with reasons is `docs/decisions.md`. In short: the browser gets onl
 
 ## Open items
 
-1. **PR 87, seasonal themes:** open, awaiting Nachi's use and feedback. Check the 2028 to 2030 Navratri dates.
+1. **Seasonal themes:** merged (PR 87). Check the 2028 to 2030 Navratri dates; Hindu festival dates run out after 2030.
 2. **Cloudflare Build watch paths:** Nachi to set them in the dashboard (below). Until then docs pushes still deploy.
 3. **Approved modes not yet built:** QuantWord (crossword), Chart Tag, Shock Desk, Name the Regime, Limit Breach, Factor Sort. Squawk Box is parked for much later. Hand-naming the Exchange tickers is scheduled last.
 4. **UI plan** (`docs/plans/ui-plan.md`): mostly not built (Path in area colours, lesson screen, copy cuts, week strip, mode accents, locked-mode art).
