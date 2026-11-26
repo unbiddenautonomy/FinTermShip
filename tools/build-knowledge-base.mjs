@@ -23,6 +23,33 @@ const areas = readdirSync(dir)
   .sort((a, b) => a.order - b.order);
 const talk = JSON.parse(readFileSync('src/data/talk.json', 'utf8'));
 
+// Who a term is mostly useful to, so a chatbot can filter or rank by audience:
+//   investor      someone buying shares or funds: basics, Indian market, company results, macro news
+//   trader        someone placing orders, trading F&O or commodities
+//   professional  desk, quant, execution and strategy work
+// Set by area, with unit overrides. Reviewed by hand in November 2026; change it here.
+const AUDIENCE_BY_AREA = {
+  basics: 'investor', india: 'investor', fundamentals: 'investor', conditions: 'investor',
+  macro: 'professional', credit: 'professional', instruments: 'trader', desk: 'professional',
+  commodities: 'trader', trading: 'trader', options: 'trader', quant: 'professional',
+  micro: 'professional', execution: 'professional', strategies: 'professional', systematic: 'professional',
+};
+const AUDIENCE_BY_UNIT = {
+  c6: 'trader', // price, OI and positioning
+  m1: 'investor', m3: 'investor', m6: 'investor', // RBI and policy rates, the rupee, data and events
+  r1: 'investor', r2: 'investor', // credit basics, credit markets in India (credit risk funds, NCDs)
+  f4: 'investor', // bonds and yields
+  d2: 'investor', d3: 'investor', // market players, research and ratings
+  d5: 'trader', d6: 'trader', // desk phrases, managing a trade
+  t1: 'investor', // order types
+  o4: 'professional', o6: 'professional', // higher-order Greeks, pricing and parity trades
+  q1: 'investor', q4: 'investor', // return and risk statistics, factors (fund factsheets, smart beta)
+  s4: 'investor', // market abuse
+  s1: 'trader', // the order book
+  y3: 'trader', y9: 'trader', // payoffs and costs, intraday and swing styles
+};
+const audienceOf = (t) => AUDIENCE_BY_UNIT[t.unit] ?? AUDIENCE_BY_AREA[t.area.id] ?? 'professional';
+
 const terms = new Map();
 for (const a of areas) {
   for (const t of a.terms) {
@@ -73,6 +100,7 @@ for (const t of terms.values()) {
     metadata: {
       term_id: t.id,
       names,
+      audience: audienceOf(t),
       area: t.area.id,
       area_name: t.area.name,
       unit: t.unitName,
@@ -108,7 +136,7 @@ for (const t of terms.values()) {
         `${b.term} (${b.area.name}): ${b.definition}`,
       ].join('\n'),
       questions: [`What is the difference between ${a.term} and ${b.term}?`, `${a.term} vs ${b.term}`],
-      metadata: { term_ids: [a.id, b.id], areas: [...new Set([a.area.id, b.area.id])], overlap, phase3: a.area.phase === 3 || b.area.phase === 3 },
+      metadata: { term_ids: [a.id, b.id], audience: [audienceOf(a), audienceOf(b)].includes('investor') ? 'investor' : [audienceOf(a), audienceOf(b)].includes('trader') ? 'trader' : 'professional', areas: [...new Set([a.area.id, b.area.id])], overlap, phase3: a.area.phase === 3 || b.area.phase === 3 },
     });
   }
 }
@@ -126,7 +154,7 @@ for (const a of areas) {
     title: a.name,
     text: L.join('\n'),
     questions: [`What should I learn about ${a.name.toLowerCase()}?`, `Which terms are part of ${a.name.toLowerCase()}?`],
-    metadata: { area: a.id, area_name: a.name, term_count: a.terms.length, phase3: a.phase === 3 },
+    metadata: { area: a.id, area_name: a.name, audience: AUDIENCE_BY_AREA[a.id], term_count: a.terms.length, phase3: a.phase === 3 },
   });
 }
 
