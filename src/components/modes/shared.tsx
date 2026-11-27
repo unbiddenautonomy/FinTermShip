@@ -18,7 +18,7 @@ import { Cross, Lock } from '../icons';
 import { MODE_INFO, ModeBar } from './ModeBar';
 import { useOwnProgress } from './modeAccess';
 import { Bar, TermDetails } from '../ui';
-import { bead, metalRing } from './metal';
+import { metal, metalRing } from './metal';
 
 /**
  * The term glyph. Hollow: not met. Filled in the area colour: learning. White core: known.
@@ -36,8 +36,8 @@ export function TermDot({ status, colour, size = 14, className = '', metallic = 
       {status === 'due' && <span className="absolute inset-0 animate-ping rounded-full opacity-60" style={{ background: colour }} />}
       {metallic && status !== 'locked' ? (
         // A ring of polished metal, filled with a glossy bead once the term is met.
-        <span className="relative block rounded-full" style={{ width: size, height: size, padding: ring, background: metalRing(colour), boxShadow: halo ?? '0 1px 1.5px rgb(0 0 0 / 0.2)' }}>
-          <span className="block h-full w-full rounded-full" style={{ background: filled ? bead(colour) : 'rgb(var(--surface))', boxShadow: filled ? undefined : 'inset 0 1px 1.5px rgb(0 0 0 / 0.25)' }} />
+        <span className="relative block rounded-full" style={{ width: size, height: size, padding: ring, background: metalRing(colour), boxShadow: halo }}>
+          <span className="block h-full w-full rounded-full" style={{ background: filled ? metal(colour, '160deg') : 'rgb(var(--surface))' }} />
         </span>
       ) : (
         <span className={`relative block rounded-full ${status === 'locked' ? 'border-dashed opacity-60' : ''}`} style={{ ...base, ...fill }} />

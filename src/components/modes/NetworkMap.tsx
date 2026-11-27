@@ -8,7 +8,6 @@ import network from '../../data/modes/network.json';
 import { unitOpen } from '../../lib/choose';
 import { lines, namedTerms, stationCount } from '../../lib/modes/plans';
 import { areas, unitStatus } from '../../lib/modes/status';
-import { PIPE_STOPS, shade } from './metal';
 import type { Progress } from '../../lib/types';
 
 /** Links with at least this many mixed-up pairs are drawn; every interchange is still listed on each line. */
@@ -17,9 +16,7 @@ const MAP_MIN_LINK = 6;
 const W = 360;
 const LEFT = 10;
 const RIGHT = 14;
-const ROW = 40;
-/** How thick a line's pipe is. */
-const PIPE = 4.5;
+const ROW = 46;
 const TOP = 30;
 
 interface Station {
@@ -98,67 +95,51 @@ rows.forEach((l, row) => {
 const links = allLinks.filter((k) => k.n >= MAP_MIN_LINK && stations.has(k.a) && stations.has(k.b));
 const linked = new Set(links.flatMap((k) => [k.a, k.b]));
 
-/** A smooth S-curve between two stations on different lines, leaving and arriving straight up and down. */
+/** A transit-style connector: straight down (or up) the map, then a 45° run into the other station. */
 function connector(a: Station, b: Station): string {
   const [p, q] = a.y < b.y ? [a, b] : [b, a];
-  const bend = (q.y - p.y) * 0.55;
-  return `M${p.x},${p.y} C${p.x},${p.y + bend} ${q.x},${q.y - bend} ${q.x},${q.y}`;
+  const dx = q.x - p.x;
+  const dy = q.y - p.y;
+  const run = Math.min(Math.abs(dx), dy - 8);
+  return `M${p.x},${p.y} L${p.x},${q.y - run} L${q.x},${q.y}`;
 }
 
 const colourOf = (id: string) => areas[id]?.colour ?? '#777';
-const SURFACE = 'rgb(var(--surface))';
-const INK = 'rgb(var(--ink))';
-const INK3 = 'rgb(var(--ink-3))';
 
 export function NetworkMap({ progress, today, onLine }: { progress: Progress; today: string; onLine: (id: string) => void }) {
   const H = TOP + rows.length * ROW - ROW / 2 + 2;
   return (
-    <figure className="overflow-hidden rounded-xl border border-line bg-surface">
+    <figure className="overflow-hidden rounded-xl border border-line bg-white text-[#111]">
       <figcaption className="sr-only">Network map. Tap a line to ride it.</figcaption>
-      <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto block w-full max-w-2xl" role="img" aria-label="Every area as a metro line, with interchanges where terms on two lines are easily mixed up">
-        <defs>
-          {rows.map((l, row) => {
-            const y = TOP + row * ROW;
-            const c = colourOf(l.id);
-            return (
-              <g key={l.id}>
-                {/* The line as a slim metal pipe: lit along the top, shaded underneath. */}
-                <linearGradient id={`pipe-${l.id}`} gradientUnits="userSpaceOnUse" x1={0} x2={0} y1={y - PIPE / 2} y2={y + PIPE / 2}>
-                  {PIPE_STOPS.map((st) => (
-                    <stop key={st.at} offset={st.at} style={{ stopColor: shade(c, st.mix) }} />
-                  ))}
-                </linearGradient>
-                {/* A met station as a metal bead, lit from the top left. */}
-                <radialGradient id={`bead-${l.id}`} cx="0.5" cy="0.5" r="0.5" fx="0.34" fy="0.3">
-                  <stop offset="0" style={{ stopColor: shade(c, 0.7) }} />
-                  <stop offset="0.3" style={{ stopColor: shade(c, 0.15) }} />
-                  <stop offset="0.55" style={{ stopColor: c }} />
-                  <stop offset="1" style={{ stopColor: shade(c, -0.45) }} />
-                </radialGradient>
-              </g>
-            );
-          })}
-        </defs>
+      <svg viewBox={`0 0 ${W} ${H}`} className="block w-full" role="img" aria-label="Every area as a metro line, with interchanges where terms on two lines are easily mixed up">
         {rows.map((l, row) => {
           const y = TOP + row * ROW;
           const locked = l.units.every((u) => !unitOpen(progress, u.id));
           return (
-            <g key={l.id} opacity={locked ? 0.3 : 1}>
-              {/* The shadow the pipe casts on the page. */}
-              <line x1={LEFT} x2={W - RIGHT} y1={y + 1.3} y2={y + 1.3} stroke="#000" strokeOpacity={0.16} strokeWidth={PIPE} strokeLinecap="round" />
-              <line x1={LEFT} x2={W - RIGHT} y1={y} y2={y} stroke={`url(#pipe-${l.id})`} strokeWidth={PIPE} strokeLinecap="round" />
+            <g key={l.id} opacity={locked ? 0.4 : 1}>
+              <line x1={LEFT} x2={W - RIGHT} y1={y} y2={y} stroke={colourOf(l.id)} strokeWidth={6} strokeLinecap="round" strokeDasharray={l.phase === 3 && locked ? '10 6' : undefined} />
+              {/* A polished-metal sheen over the line: light along the top edge, shade along the bottom. */}
+              <defs>
+                <linearGradient id={`sheen-${l.id}`} gradientUnits="userSpaceOnUse" x1={0} x2={0} y1={y - 3} y2={y + 3}>
+                  <stop offset="0" stopColor="#fff" stopOpacity={0.6} />
+                  <stop offset="0.4" stopColor="#fff" stopOpacity={0.12} />
+                  <stop offset="0.6" stopColor="#fff" stopOpacity={0} />
+                  <stop offset="1" stopColor="#000" stopOpacity={0.25} />
+                </linearGradient>
+              </defs>
+              <line x1={LEFT} x2={W - RIGHT} y1={y} y2={y} stroke={`url(#sheen-${l.id})`} strokeWidth={6} strokeLinecap="round" strokeDasharray={l.phase === 3 && locked ? '10 6' : undefined} />
             </g>
           );
         })}
-        {/* Interchanges: fine curves with a casing in the page colour, so where one crosses a line it reads as a bridge, not a stop. */}
-        <g fill="none" strokeLinecap="round">
+        {/* Each interchange gets a white casing, so where it crosses another line it reads as a bridge, not a stop. */}
+        <g fill="none" strokeLinejoin="round" strokeLinecap="round">
           {links.map((k) => {
             const d = connector(stations.get(k.a)!, stations.get(k.b)!);
-            const width = Math.min(2, 1 + k.n / 10);
+            const width = Math.min(4, 1.5 + k.n / 5);
             return (
               <g key={`${k.a}|${k.b}`}>
-                <path d={d} stroke={SURFACE} strokeWidth={width + 3} />
-                <path d={d} stroke={INK} strokeWidth={width} strokeOpacity={0.28} />
+                <path d={d} stroke="#fff" strokeWidth={width + 4} />
+                <path d={d} stroke="#111" strokeWidth={width} strokeOpacity={0.45} />
               </g>
             );
           })}
@@ -168,33 +149,23 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
           const st = unitStatus(progress, id, namedTerms(stops), today, stationCount(stops));
           const c = colourOf(s.line);
           const hub = linked.has(id);
-          const filled = st === 'met' || st === 'due' || st === 'known';
-          if (s.depot) {
-            const d = 3.2;
-            return <rect key={id} x={s.x - d} y={s.y - d} width={d * 2} height={d * 2} rx={0.8} transform={`rotate(45 ${s.x} ${s.y})`} fill={filled ? `url(#bead-${s.line})` : SURFACE} stroke={st === 'locked' ? INK3 : shade(c, -0.2)} strokeOpacity={st === 'locked' ? 0.5 : 1} strokeWidth={1.6} />;
-          }
-          const r = hub ? 4 : s.core ? 3.4 : 2.8;
+          const r = hub ? 6 : s.core ? 5 : 4;
+          if (s.depot) return <rect key={id} x={s.x - 4.5} y={s.y - 4.5} width={9} height={9} transform={`rotate(45 ${s.x} ${s.y})`} fill={st === 'known' || st === 'met' ? c : '#fff'} stroke={c} strokeWidth={2.5} />;
           return (
             <g key={id}>
-              {st === 'due' && <circle cx={s.x} cy={s.y} r={r + 2.4} fill="none" stroke="rgb(var(--amber))" strokeWidth={1.6} />}
-              {/* An interchange is a bead with a fine dark rim; any other station a bead in its line's colour. */}
-              <circle cx={s.x} cy={s.y + 0.8} r={r + 0.4} fill="#000" fillOpacity={0.14} />
-              <circle cx={s.x} cy={s.y} r={r} fill={filled ? `url(#bead-${s.line})` : SURFACE} stroke={st === 'locked' ? INK3 : hub ? INK : shade(c, -0.2)} strokeOpacity={st === 'locked' ? 0.5 : 1} strokeWidth={hub ? 1.6 : 1.2} />
+              {st === 'due' && <circle cx={s.x} cy={s.y} r={r + 3.5} fill="none" stroke="#D4932F" strokeWidth={2.5} />}
+              <circle cx={s.x} cy={s.y} r={r} fill={st === 'met' || st === 'due' || st === 'known' ? c : '#fff'} stroke={st === 'locked' ? '#A3A3A3' : hub ? '#111' : c} strokeWidth={hub ? 3 : 2.5} strokeDasharray={st === 'locked' ? '2 2' : undefined} />
+              {st === 'known' && <path d={`M${s.x - r * 0.45},${s.y + r * 0.05} l${r * 0.3},${r * 0.32} l${r * 0.6},${r * -0.66}`} fill="none" stroke="#fff" strokeWidth={1.8} strokeLinecap="round" strokeLinejoin="round" />}
             </g>
           );
         })}
-        {/* Each line is named above its left end, with a halo so links passing under stay readable. */}
+        {/* Each line is named in words above its left end, with a halo so links passing under stay readable. */}
         {rows.map((l, row) => {
           const locked = l.units.every((u) => !unitOpen(progress, u.id));
           return (
-            <text key={l.id} x={LEFT - 1} y={TOP + row * ROW - 8} fontSize={9.5} fontWeight={700} letterSpacing={0.2} fill={colourOf(l.id)} stroke={SURFACE} strokeWidth={3} paintOrder="stroke" strokeLinejoin="round" opacity={locked ? 0.55 : 1}>
+            <text key={l.id} x={LEFT - 2} y={TOP + row * ROW - 9} fontSize={11} fontWeight={800} fill={colourOf(l.id)} stroke="#fff" strokeWidth={3} paintOrder="stroke" strokeLinejoin="round" opacity={locked ? 0.6 : 1}>
               {areas[l.id]?.short ?? l.name}
-              {locked && (
-                <tspan fill={INK3} fontWeight={500}>
-                  {' '}
-                  · opens later
-                </tspan>
-              )}
+              {locked && <tspan fill="#777" fontWeight={600}> · locked</tspan>}
             </text>
           );
         })}
@@ -204,7 +175,7 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
           </rect>
         ))}
       </svg>
-      <p className="border-t border-line px-3 py-2 text-xs text-ink-3">Tap a line to ride it.</p>
+      <p className="border-t border-line px-3 py-2 text-xs text-[#555]">Tap a line to ride it.</p>
     </figure>
   );
 }
