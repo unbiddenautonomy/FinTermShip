@@ -425,7 +425,7 @@ function LinesKey({ compact = false, colour = 'rgb(var(--brand))' }: { compact?:
             {STATUS_LABEL[s]}
           </li>
         ) : (
-          <KeyItem key={s} glyph={<TermDot status={s} colour={colour} size={14} />}>
+          <KeyItem key={s} glyph={<TermDot status={s} colour={colour} size={11} metallic />}>
             {STATUS_LABEL[s]}
           </KeyItem>
         ),
@@ -444,7 +444,7 @@ function LinesKey({ compact = false, colour = 'rgb(var(--brand))' }: { compact?:
     );
   const rail = (dashed: boolean) => (
     <svg viewBox="0 0 28 8" className="h-2 w-7" aria-hidden="true">
-      <line x1={2} x2={26} y1={4} y2={4} stroke={colour} strokeWidth={5} strokeLinecap="round" strokeDasharray={dashed ? '6 4' : undefined} />
+      <line x1={2} x2={26} y1={4} y2={4} stroke={colour} strokeWidth={4} strokeLinecap="round" opacity={dashed ? 0.3 : 1} />
     </svg>
   );
   return (
@@ -458,10 +458,10 @@ function LinesKey({ compact = false, colour = 'rgb(var(--brand))' }: { compact?:
         <div>
           <h3 className="mb-1.5 text-xs font-bold text-ink-3">Station shape</h3>
           <ul className="space-y-1.5">
-            <KeyItem glyph={<TermDot status="met" colour={colour} size={16} />}>Big circle: a core unit, taught first</KeyItem>
-            <KeyItem glyph={<TermDot status="met" colour={colour} size={11} />}>Small circle: a later unit</KeyItem>
-            <KeyItem glyph={<span className="block h-3 w-3 rotate-45 border-[2.5px]" style={{ borderColor: colour }} />}>Diamond: a drill, game or desk case</KeyItem>
-            <KeyItem glyph={<span className="block h-4 w-4 rounded-full border-[3px] border-[#111] bg-white" />}>Black ring: has terms often mixed up with another line</KeyItem>
+            <KeyItem glyph={<TermDot status="met" colour={colour} size={12} metallic />}>Bigger bead: a core unit, taught first</KeyItem>
+            <KeyItem glyph={<TermDot status="met" colour={colour} size={9} metallic />}>Smaller bead: a later unit</KeyItem>
+            <KeyItem glyph={<span className="block h-2.5 w-2.5 rotate-45 rounded-[1px] border-[1.5px] bg-surface" style={{ borderColor: colour }} />}>Diamond: a drill, game or desk case</KeyItem>
+            <KeyItem glyph={<span className="block h-3.5 w-3.5 rounded-full border-[1.5px] border-ink bg-surface" />}>Dark rim: has terms often mixed up with another line</KeyItem>
           </ul>
         </div>
         <div>
@@ -471,13 +471,13 @@ function LinesKey({ compact = false, colour = 'rgb(var(--brand))' }: { compact?:
             <KeyItem
               glyph={
                 <svg viewBox="0 0 28 16" className="h-4 w-7" aria-hidden="true">
-                  <path d="M6,2 L6,6 L22,14" fill="none" stroke="#111" strokeOpacity={0.45} strokeWidth={2.5} strokeLinecap="round" strokeLinejoin="round" />
+                  <path d="M6,2 C6,10 22,6 22,14" fill="none" stroke="rgb(var(--ink))" strokeOpacity={0.35} strokeWidth={1.6} strokeLinecap="round" />
                 </svg>
               }
             >
-              Grey link: two units whose terms get mixed up a lot
+              Fine curve: two units whose terms get mixed up a lot
             </KeyItem>
-            <KeyItem glyph={rail(true)}>Dashed: opens after the phase 3 test</KeyItem>
+            <KeyItem glyph={rail(true)}>Faded: opens after the phase 3 test</KeyItem>
           </ul>
         </div>
       </div>
