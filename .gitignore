@@ -26,3 +26,12 @@ dist-ssr
 # Wrangler local state
 .wrangler
 glossary-out
+
+# Glossary and chatbot knowledge-base tools: not part of the FinTermShip app.
+# Kept outside the repo (project files: glossary/source/).
+tools/build-glossary.mjs
+tools/glossary-page.html
+tools/build-knowledge-base.mjs
+tools/kb-eval/
+tools/kb-extra/
+docs/knowledge-base.md
