@@ -8,6 +8,7 @@ import network from '../../data/modes/network.json';
 import { unitOpen } from '../../lib/choose';
 import { lines, namedTerms, stationCount } from '../../lib/modes/plans';
 import { areas, unitStatus } from '../../lib/modes/status';
+import { PIPE_STOPS, shade } from './metal';
 import type { Progress } from '../../lib/types';
 
 /** Links with at least this many mixed-up pairs are drawn; every interchange is still listed on each line. */
@@ -17,6 +18,8 @@ const W = 360;
 const LEFT = 10;
 const RIGHT = 14;
 const ROW = 40;
+/** How thick a line's pipe is. */
+const PIPE = 4.5;
 const TOP = 30;
 
 interface Station {
@@ -114,16 +117,25 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
       <figcaption className="sr-only">Network map. Tap a line to ride it.</figcaption>
       <svg viewBox={`0 0 ${W} ${H}`} className="mx-auto block w-full max-w-2xl" role="img" aria-label="Every area as a metro line, with interchanges where terms on two lines are easily mixed up">
         <defs>
-          {/* One polished-metal sheen per line: light along the top edge, shade along the bottom. */}
           {rows.map((l, row) => {
             const y = TOP + row * ROW;
+            const c = colourOf(l.id);
             return (
-              <linearGradient key={l.id} id={`sheen-${l.id}`} gradientUnits="userSpaceOnUse" x1={0} x2={0} y1={y - 2} y2={y + 2}>
-                <stop offset="0" stopColor="#fff" stopOpacity={0.6} />
-                <stop offset="0.45" stopColor="#fff" stopOpacity={0.1} />
-                <stop offset="0.6" stopColor="#fff" stopOpacity={0} />
-                <stop offset="1" stopColor="#000" stopOpacity={0.22} />
-              </linearGradient>
+              <g key={l.id}>
+                {/* The line as a slim metal pipe: lit along the top, shaded underneath. */}
+                <linearGradient id={`pipe-${l.id}`} gradientUnits="userSpaceOnUse" x1={0} x2={0} y1={y - PIPE / 2} y2={y + PIPE / 2}>
+                  {PIPE_STOPS.map((st) => (
+                    <stop key={st.at} offset={st.at} style={{ stopColor: shade(c, st.mix) }} />
+                  ))}
+                </linearGradient>
+                {/* A met station as a metal bead, lit from the top left. */}
+                <radialGradient id={`bead-${l.id}`} cx="0.5" cy="0.5" r="0.5" fx="0.34" fy="0.3">
+                  <stop offset="0" style={{ stopColor: shade(c, 0.7) }} />
+                  <stop offset="0.3" style={{ stopColor: shade(c, 0.15) }} />
+                  <stop offset="0.55" style={{ stopColor: c }} />
+                  <stop offset="1" style={{ stopColor: shade(c, -0.45) }} />
+                </radialGradient>
+              </g>
             );
           })}
         </defs>
@@ -132,8 +144,9 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
           const locked = l.units.every((u) => !unitOpen(progress, u.id));
           return (
             <g key={l.id} opacity={locked ? 0.3 : 1}>
-              <line x1={LEFT} x2={W - RIGHT} y1={y} y2={y} stroke={colourOf(l.id)} strokeWidth={4} strokeLinecap="round" />
-              <line x1={LEFT} x2={W - RIGHT} y1={y} y2={y} stroke={`url(#sheen-${l.id})`} strokeWidth={4} strokeLinecap="round" />
+              {/* The shadow the pipe casts on the page. */}
+              <line x1={LEFT} x2={W - RIGHT} y1={y + 1.3} y2={y + 1.3} stroke="#000" strokeOpacity={0.16} strokeWidth={PIPE} strokeLinecap="round" />
+              <line x1={LEFT} x2={W - RIGHT} y1={y} y2={y} stroke={`url(#pipe-${l.id})`} strokeWidth={PIPE} strokeLinecap="round" />
             </g>
           );
         })}
@@ -158,15 +171,15 @@ export function NetworkMap({ progress, today, onLine }: { progress: Progress; to
           const filled = st === 'met' || st === 'due' || st === 'known';
           if (s.depot) {
             const d = 3.2;
-            return <rect key={id} x={s.x - d} y={s.y - d} width={d * 2} height={d * 2} rx={0.8} transform={`rotate(45 ${s.x} ${s.y})`} fill={filled ? c : SURFACE} stroke={st === 'locked' ? INK3 : c} strokeOpacity={st === 'locked' ? 0.5 : 1} strokeWidth={1.6} />;
+            return <rect key={id} x={s.x - d} y={s.y - d} width={d * 2} height={d * 2} rx={0.8} transform={`rotate(45 ${s.x} ${s.y})`} fill={filled ? `url(#bead-${s.line})` : SURFACE} stroke={st === 'locked' ? INK3 : shade(c, -0.2)} strokeOpacity={st === 'locked' ? 0.5 : 1} strokeWidth={1.6} />;
           }
           const r = hub ? 4 : s.core ? 3.4 : 2.8;
           return (
             <g key={id}>
               {st === 'due' && <circle cx={s.x} cy={s.y} r={r + 2.4} fill="none" stroke="rgb(var(--amber))" strokeWidth={1.6} />}
               {/* An interchange is a bead with a fine dark rim; any other station a bead in its line's colour. */}
-              <circle cx={s.x} cy={s.y} r={r} fill={filled ? c : SURFACE} stroke={st === 'locked' ? INK3 : hub ? INK : c} strokeOpacity={st === 'locked' ? 0.5 : 1} strokeWidth={hub ? 1.6 : 1.4} />
-              {filled && <circle cx={s.x - r * 0.3} cy={s.y - r * 0.35} r={r * 0.35} fill="#fff" fillOpacity={0.45} />}
+              <circle cx={s.x} cy={s.y + 0.8} r={r + 0.4} fill="#000" fillOpacity={0.14} />
+              <circle cx={s.x} cy={s.y} r={r} fill={filled ? `url(#bead-${s.line})` : SURFACE} stroke={st === 'locked' ? INK3 : hub ? INK : shade(c, -0.2)} strokeOpacity={st === 'locked' ? 0.5 : 1} strokeWidth={hub ? 1.6 : 1.2} />
             </g>
           );
         })}
