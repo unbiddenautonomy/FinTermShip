@@ -40,7 +40,7 @@ A Duolingo-style web app for learning and remembering trading, market and quant 
 - **Not generic.** Avoid the default "AI app" look (beige cards everywhere, pill buttons, one earthy accent). Each mode keeps its own visual language: Path trail, metro map, card deck, trading board, newspaper, tile grid. Don't copy another app's look.
 - **Menus:** one current-mode button that opens a picker of cards, each drawn in its mode's own look, with a lock and "N terms to go" when closed. No rows of mode tabs.
 - **Backdrops and popups:** sheets and popups cover the whole page (laptop included); closing returns you exactly where you were (career map, Guide, glossary scroll). The glossary page scrolls as a whole.
-- **Term Lines:** lines named in words, a list overview with progress bars, the network map folded away until tapped, each line a continuous strip; rails and stations in a smooth polished-metal finish (`src/components/modes/metal.ts`).
+- **Term Lines:** lines named in words, a list overview with progress bars, the network map folded away until tapped, each line a continuous strip; rails and stations in a smooth polished-metal finish, flat rather than 3D (`src/components/modes/metal.ts`); the network map uses fine lines, small bead stations and smooth curves for interchanges, in theme colours.
 - **Art and motion:** seasonal motifs only in empty space, never under text. Motion is subtle (card tilt and flip, a glow on right, a short shake on wrong) and off under reduced motion.
 - **Laptop gets its own layout** (sidebar), not a stretched phone screen.
 
